@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 110"><rect width="160" height="110" fill="#eaf2fb"/><ellipse cx="54" cy="38" rx="16" ry="9" fill="#cfe6ff" stroke="#8fb3d9" transform="rotate(-25 54 38)"/><ellipse cx="72" cy="36" rx="16" ry="9" fill="#cfe6ff" stroke="#8fb3d9" transform="rotate(25 72 36)"/>
+ <ellipse cx="60" cy="56" rx="17" ry="11" fill="#333"/><circle cx="80" cy="54" r="8" fill="#333"/><circle cx="83" cy="51" r="3" fill="#c0392b"/>
+ <path d="M50 66 l-5 8 M60 67 v9 M70 66 l5 8" stroke="#333" stroke-width="2"/>
+ <path d="M20 42 q-6 10 0 20 M12 38 q-8 14 0 28" stroke="#9aa8c4" stroke-width="2" fill="none"/>
+ <text x="94" y="30" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#e05a5a">BZZZ!</text>
+ <circle cx="128" cy="78" r="18" fill="#f7d14b"/><path d="M118 70 l8 4 M138 70 l-8 4" stroke="#333" stroke-width="2.5" stroke-linecap="round"/><circle cx="122" cy="78" r="2" fill="#333"/><circle cx="134" cy="78" r="2" fill="#333"/><path d="M121 89 q7 -5 14 0" stroke="#333" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>

@@ -1,0 +1,280 @@
+{
+  "id": "2026-10-12",
+  "label": "Week of October 12–16",
+  "newsletter": "images/newsletters/2026-10-12.jpg",
+  "learning": [
+    [
+      "Math",
+      "Properties of Multiplication"
+    ],
+    [
+      "Reading",
+      "Novel Study: Because of Winn-Dixie"
+    ],
+    [
+      "Writing",
+      "Narrative"
+    ],
+    [
+      "Spelling",
+      "-ed"
+    ],
+    [
+      "ELA",
+      "Figurative Language"
+    ],
+    [
+      "Science",
+      "Georgia Habitats"
+    ]
+  ],
+  "tests": [
+    {
+      "date": "2026-10-16",
+      "kind": "vocab",
+      "title": "Vocabulary Quiz",
+      "detail": "Green cards on the back"
+    },
+    {
+      "date": "2026-10-16",
+      "kind": "spelling",
+      "title": "Spelling Test",
+      "detail": "-ed words"
+    }
+  ],
+  "events": [
+    {
+      "date": "Oct 12",
+      "text": "No School (Federal Holiday)"
+    },
+    {
+      "date": "Oct 13",
+      "text": "GA Habitat Project letter goes home"
+    },
+    {
+      "date": "Oct 19–23",
+      "text": "Book Fair"
+    },
+    {
+      "date": "Oct 29",
+      "text": "BOOnanza"
+    }
+  ],
+  "homework": [
+    {
+      "title": "Reading Log",
+      "due": "Every Monday"
+    },
+    {
+      "title": "Homework packet",
+      "due": "Sent home Monday, due Friday"
+    },
+    {
+      "title": "3 spelling activities",
+      "due": "Turned in with the packet"
+    }
+  ],
+  "spelling": {
+    "pattern": "-ed",
+    "rules": {
+      "t": "-ed sounds like /t/",
+      "d": "-ed sounds like /d/",
+      "ed": "-ed sounds like /ed/ (an extra beat)"
+    },
+    "ruleHelp": {
+      "t": "rush → rushed",
+      "d": "open → opened",
+      "ed": "land → landed"
+    },
+    "words": [
+      {
+        "word": "rushed",
+        "base": "rush",
+        "rule": "t",
+        "sentence": "We rushed to catch the school bus.",
+        "img": "rushed"
+      },
+      {
+        "word": "blasted",
+        "base": "blast",
+        "rule": "ed",
+        "sentence": "The rocket blasted off into space.",
+        "img": "blasted"
+      },
+      {
+        "word": "washed",
+        "base": "wash",
+        "rule": "t",
+        "sentence": "Dad washed the dishes after dinner.",
+        "img": "washed"
+      },
+      {
+        "word": "winked",
+        "base": "wink",
+        "rule": "t",
+        "sentence": "Grandma winked at me and smiled.",
+        "img": "winked"
+      },
+      {
+        "word": "opened",
+        "base": "open",
+        "rule": "d",
+        "sentence": "She opened the door for her friend.",
+        "img": "opened"
+      },
+      {
+        "word": "buzzed",
+        "base": "buzz",
+        "rule": "d",
+        "sentence": "A bee buzzed around the flowers.",
+        "img": "buzzed"
+      },
+      {
+        "word": "asked",
+        "base": "ask",
+        "rule": "t",
+        "sentence": "I asked my teacher a question.",
+        "img": "asked"
+      },
+      {
+        "word": "called",
+        "base": "call",
+        "rule": "d",
+        "sentence": "Mom called me in for dinner.",
+        "img": "called"
+      },
+      {
+        "word": "lifted",
+        "base": "lift",
+        "rule": "ed",
+        "sentence": "He lifted the heavy box.",
+        "img": "lifted"
+      },
+      {
+        "word": "landed",
+        "base": "land",
+        "rule": "ed",
+        "sentence": "The plane landed safely at the airport.",
+        "img": "landed"
+      },
+      {
+        "word": "hunted",
+        "base": "hunt",
+        "rule": "ed",
+        "sentence": "The owl hunted for food at night.",
+        "img": "hunted"
+      },
+      {
+        "word": "screamed",
+        "base": "scream",
+        "rule": "d",
+        "sentence": "The fans screamed when their team scored.",
+        "img": "screamed"
+      },
+      {
+        "word": "stepped",
+        "base": "step",
+        "rule": "t",
+        "sentence": "I stepped over the puddle.",
+        "img": "stepped"
+      },
+      {
+        "word": "handed",
+        "base": "hand",
+        "rule": "ed",
+        "sentence": "The coach handed me the ball.",
+        "img": "handed"
+      },
+      {
+        "word": "crashed",
+        "base": "crash",
+        "rule": "t",
+        "sentence": "The waves crashed on the beach.",
+        "img": "crashed"
+      }
+    ]
+  },
+  "vocab": {
+    "title": "Because of Winn-Dixie",
+    "quiz": "Friday, Oct 16",
+    "groupsNote": "The quiz covers the green words (green cards on the back).",
+    "words": [
+      {
+        "word": "Produce",
+        "def": "Fresh fruits and vegetables",
+        "sentence": "We bought bananas and tomatoes from the produce stand at the farmers market.",
+        "fill": "Mom bought apples, carrots, and lettuce in the ___ section of the grocery store.",
+        "group": "green"
+      },
+      {
+        "word": "Exception",
+        "def": "A case where a rule does not apply",
+        "sentence": "Our class has no recess on rainy days, but Friday was an exception because we went to the gym.",
+        "fill": "Everyone has to wear sneakers in gym class. The only ___ is a student with a broken foot.",
+        "group": "green"
+      },
+      {
+        "word": "Installment",
+        "def": "When money is paid over a length of time",
+        "sentence": "My aunt is paying for her new laptop in installments of $50 each month.",
+        "fill": "Dad pays for the new couch a little bit every month. Each payment is called an ___.",
+        "group": "green"
+      },
+      {
+        "word": "Peculiar",
+        "def": "Strange or unusual",
+        "sentence": "The peculiar cat liked to sleep in the bathtub instead of its bed.",
+        "fill": "The dog made a ___ noise that none of us had ever heard before.",
+        "group": "green"
+      },
+      {
+        "word": "Employee",
+        "def": "Someone who works for money",
+        "sentence": "The employee at the shoe store helped me find my size.",
+        "fill": "My aunt is an ___ at the bank, and she gets paid every two weeks."
+      },
+      {
+        "word": "Fortunate",
+        "def": "favored by or involving good luck or fortune",
+        "sentence": "I was fortunate to find my lost lunchbox before lunch time.",
+        "fill": "We were ___ that the rain stopped right before the baseball game."
+      },
+      {
+        "word": "Ignorant",
+        "def": "lacking knowledge or awareness in general",
+        "sentence": "I was ignorant about how bees make honey until we read about it in science.",
+        "fill": "Before he read the book, my brother was ___ about how sharks live."
+      },
+      {
+        "word": "Melancholy",
+        "def": "A sad or gloomy condition",
+        "sentence": "The gray, rainy day gave the whole house a melancholy feeling.",
+        "fill": "After her best friend moved away, my sister felt a deep ___ for weeks."
+      },
+      {
+        "word": "Trustworthy",
+        "def": "The ability to keep promises",
+        "sentence": "My best friend is trustworthy because he always keeps his promises.",
+        "fill": "My neighbor always does what he says he will do. He is very ___."
+      },
+      {
+        "word": "Constellations",
+        "def": "A group of stars in the night sky that make up a picture or a pattern",
+        "sentence": "Grandpa showed me the Big Dipper and other constellations in the night sky.",
+        "fill": "On a clear night, we used a star map to find ___ like Orion."
+      },
+      {
+        "word": "Irritating",
+        "def": "To anger or bother",
+        "sentence": "My little cousin kept tapping the table, and the noise was irritating.",
+        "fill": "The buzzing fly in the classroom was very ___."
+      },
+      {
+        "word": "Distracted",
+        "def": "To prevent something from continuing as usual",
+        "sentence": "The fire drill distracted our class from the spelling lesson.",
+        "fill": "The loud music ___ me, and I could not finish my homework."
+      }
+    ]
+  }
+}

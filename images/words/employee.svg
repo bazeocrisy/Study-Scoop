@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 110"><rect width="160" height="110" fill="#eaf2fb"/><rect x="0" y="86" width="160" height="24" fill="#b07a46"/>
+ <circle cx="70" cy="30" r="14" fill="#8d5a3b"/><path d="M56 26 q14 -16 28 0" fill="#2b1a10"/>
+ <circle cx="65" cy="30" r="1.8" fill="#222"/><circle cx="75" cy="30" r="1.8" fill="#222"/><path d="M65 36 q5 4 10 0" stroke="#222" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+ <rect x="48" y="46" width="44" height="42" rx="12" fill="#2f5fd0"/><rect x="58" y="50" width="24" height="38" rx="3" fill="#f2b705"/>
+ <rect x="74" y="54" width="14" height="9" rx="1.5" fill="#fff" stroke="#9db4cc"/><path d="M76 58.5 h10" stroke="#2f5fd0" stroke-width="1.5"/>
+ <circle cx="124" cy="56" r="16" fill="#f2c230" stroke="#c48a00" stroke-width="2"/><text x="124" y="63" font-family="Arial,sans-serif" font-size="19" font-weight="700" fill="#8a5a00" text-anchor="middle">$</text></svg>

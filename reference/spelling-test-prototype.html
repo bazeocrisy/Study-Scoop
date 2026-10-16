@@ -1,0 +1,254 @@
+<title>-ed Spelling Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;800&display=swap">
+<style>
+/* Layout: one centered test card like a sheet of primary writing paper; the answer line is the hero. */
+:root{
+  --bg:#eef3f8; --paper:#ffffff; --ink:#1d2b4a; --muted:#5d6b86; --line:#c9d6e8;
+  --rule:#e05a5a; --accent:#f2b705; --accent-ink:#1d2b4a; --blue:#2f5fd0;
+  --good:#1f8a4c; --good-bg:#e3f4ea; --bad:#c23b3b; --bad-bg:#fbe7e7;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1626; --paper:#18223a; --ink:#e8eefb; --muted:#9aa8c4; --line:#33415f;
+  --rule:#ff7b7b; --accent:#f5c431; --accent-ink:#1a1400; --blue:#7fa2ff;
+  --good:#5fd38f; --good-bg:#16352a; --bad:#ff8a8a; --bad-bg:#3d1d24; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1626; --paper:#18223a; --ink:#e8eefb; --muted:#9aa8c4; --line:#33415f;
+  --rule:#ff7b7b; --accent:#f5c431; --accent-ink:#1a1400; --blue:#7fa2ff;
+  --good:#5fd38f; --good-bg:#16352a; --bad:#ff8a8a; --bad-bg:#3d1d24; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:24px 48px;display:grid;gap:16px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--display);font-weight:800;font-size:2rem;line-height:1.1;margin:0;text-wrap:balance}
+h1 span{color:var(--blue)}
+.sub{color:var(--muted);font-size:.95rem;margin:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;gap:18px;box-shadow:0 2px 0 var(--line)}
+.label{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+.progress{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.count{font-family:var(--display);font-weight:800;font-size:1.4rem;font-variant-numeric:tabular-nums}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.done{background:var(--blue)}.dot.now{background:var(--accent);outline:2px solid var(--ink);outline-offset:1px}
+.dot.ok{background:var(--good)}.dot.no{background:var(--bad)}
+.listen{display:flex;gap:10px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer;border-radius:12px;border:2px solid var(--ink);padding:10px 16px;background:var(--paper);color:var(--ink);font-weight:700}
+button:focus-visible,input:focus-visible,label:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:2px}
+button.big{background:var(--accent);color:var(--accent-ink);font-size:1.15rem;padding:14px 22px;display:inline-flex;align-items:center;gap:10px}
+button.primary{background:var(--ink);color:var(--paper)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.spk{width:22px;height:22px;flex:none}
+/* primary writing paper: top line, dashed midline, red baseline */
+.paper{position:relative;border-radius:10px;padding:0 6px;
+  background:
+    linear-gradient(var(--line),var(--line)) 0 14% /100% 2px no-repeat,
+    repeating-linear-gradient(90deg,var(--line) 0 10px,transparent 10px 18px) 0 52% /100% 2px no-repeat,
+    linear-gradient(var(--rule),var(--rule)) 0 86% /100% 2px no-repeat}
+#answer{width:100%;box-sizing:border-box;border:0;background:transparent;color:var(--ink);font-family:var(--body);font-size:2.6rem;font-weight:700;letter-spacing:.06em;padding:10px 4px 14px;outline:none}
+#answer::placeholder{color:var(--muted);opacity:.5;font-weight:400;letter-spacing:0;font-size:1.3rem}
+.actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.feedback{border-radius:12px;padding:12px 16px;font-weight:700}
+.feedback.ok{background:var(--good-bg);color:var(--good)}.feedback.no{background:var(--bad-bg);color:var(--bad)}
+.opts{display:flex;gap:18px;flex-wrap:wrap}
+.opts label{display:flex;gap:8px;align-items:center;font-size:.95rem;cursor:pointer;border-radius:6px}
+.opts input{width:20px;height:20px;accent-color:var(--blue)}
+.score{font-family:var(--display);font-weight:800;font-size:3.4rem;line-height:1;font-variant-numeric:tabular-nums}
+.score small{font-size:1.4rem;color:var(--muted)}
+.results{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.results li{display:grid;grid-template-columns:2em 1fr 1fr;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;font-variant-numeric:tabular-nums}
+.results li.ok{background:var(--good-bg)}.results li.no{background:var(--bad-bg)}
+.results .typed{min-width:0;overflow-wrap:anywhere}
+.results li.no .typed{color:var(--bad);text-decoration:line-through}
+.results .right{font-weight:700;min-width:0}
+.results .mark{font-weight:800}.results li.ok .mark{color:var(--good)}.results li.no .mark{color:var(--bad)}
+.warn{background:var(--bad-bg);color:var(--bad);border-radius:12px;padding:12px 16px;margin:0}
+.last{color:var(--muted);font-size:.9rem;margin:0}
+@media (max-width:440px){#answer{font-size:2rem}.card{padding:18px}h1{font-size:1.7rem}}
+@media (prefers-reduced-motion:no-preference){.pop{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1><span>-ed</span> Spelling Test</h1>
+    <p class="sub">Week of Oct 12–16 · 15 words</p>
+  </header>
+
+  <section class="card" id="start">
+    <div>
+      <div class="label">How it works</div>
+      <p style="margin:.3em 0 0">Press <b>Say the word</b>. Listen to the word and the sentence, then type the word and press <b>Enter</b>. You can hear each word as many times as you need.</p>
+    </div>
+    <div class="opts">
+      <label for="optShuffle"><input type="checkbox" id="optShuffle" checked> Mix up the order</label>
+      <label for="optPractice"><input type="checkbox" id="optPractice"> Practice mode (show right or wrong after each word)</label>
+    </div>
+    <p class="warn" id="noVoice" hidden>This browser can't speak the words. Try Chrome, Edge, or Safari, or have a grown-up read each word.</p>
+    <p class="last" id="last" hidden></p>
+    <div><button class="big" id="begin" type="button">Start the test</button></div>
+  </section>
+
+  <section class="card" id="test" hidden>
+    <div class="progress">
+      <div class="count" id="count">Word 1 of 15</div>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+    </div>
+    <div class="listen">
+      <button class="big" id="say" type="button"><svg class="spk" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M18 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>Say the word</button>
+      <button id="slow" type="button">Say it slowly</button>
+    </div>
+    <form id="form" autocomplete="off">
+      <label for="answer" class="label">Type the word</label>
+      <div class="paper"><input id="answer" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="type here"></div>
+    </form>
+    <div class="feedback" id="feedback" hidden></div>
+    <div class="actions">
+      <p class="hint" id="hint">Press Enter when you're done.</p>
+      <button class="primary" id="next" type="button">Next word</button>
+    </div>
+  </section>
+
+  <section class="card pop" id="done" hidden>
+    <div>
+      <div class="label">Your score</div>
+      <div class="score" id="score"></div>
+      <p id="msg" style="margin:.4em 0 0"></p>
+    </div>
+    <ul class="results" id="results"></ul>
+    <div class="actions">
+      <button class="big" id="retry" type="button">Practice the missed words</button>
+      <button id="again" type="button">Take the whole test again</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const WORDS = [
+  ["rushed","We rushed to catch the school bus."],
+  ["blasted","The rocket blasted off into space."],
+  ["washed","Dad washed the dishes after dinner."],
+  ["winked","Grandma winked at me and smiled."],
+  ["opened","She opened the door for her friend."],
+  ["buzzed","A bee buzzed around the flowers."],
+  ["asked","I asked my teacher a question."],
+  ["called","Mom called me in for dinner."],
+  ["lifted","He lifted the heavy box."],
+  ["landed","The plane landed safely at the airport."],
+  ["hunted","The owl hunted for food at night."],
+  ["screamed","The fans screamed when their team scored."],
+  ["stepped","I stepped over the puddle."],
+  ["handed","The coach handed me the ball."],
+  ["crashed","The waves crashed on the beach."]
+];
+const $ = id => document.getElementById(id);
+const synth = window.speechSynthesis;
+let voice = null, list = [], i = 0, answers = [], checked = false;
+
+function pickVoice(){
+  if(!synth) return;
+  const vs = synth.getVoices();
+  voice = vs.find(v=>/en-US/i.test(v.lang) && /Samantha|Google US|Aria|Jenny|Natural/i.test(v.name))
+       || vs.find(v=>/en-US/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || null;
+}
+if(synth){ pickVoice(); synth.onvoiceschanged = pickVoice; } else { $('noVoice').hidden = false; }
+
+function speak(parts, rate){
+  if(!synth) return;
+  synth.cancel();
+  parts.forEach(text=>{
+    const u = new SpeechSynthesisUtterance(text);
+    if(voice) u.voice = voice;
+    u.lang = 'en-US'; u.rate = rate; u.pitch = 1;
+    synth.speak(u);
+  });
+}
+// Normal: number, word, sentence, word. Slow: the word twice, slowly (never spelled out).
+function sayWord(slow){
+  const [w,s] = list[i];
+  if(slow) speak([w + '.', w + '.'], .55);
+  else speak([`Number ${i+1}.`, w + '.', s, w + '.'], .85);
+}
+
+function shuffle(a){ a=a.slice(); for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];} return a; }
+
+function start(words){
+  list = $('optShuffle').checked ? shuffle(words) : words.slice();
+  i = 0; answers = [];
+  $('start').hidden = true; $('done').hidden = true; $('test').hidden = false;
+  show();
+}
+function dots(){
+  $('dots').innerHTML = list.map((_,k)=>{
+    let c='dot';
+    if(k<i){ c += $('optPractice').checked ? (answers[k].ok?' ok':' no') : ' done'; }
+    else if(k===i) c+=' now';
+    return `<span class="${c}"></span>`;
+  }).join('');
+}
+function show(){
+  checked = false;
+  $('count').textContent = `Word ${i+1} of ${list.length}`;
+  $('answer').value = ''; $('answer').disabled = false;
+  $('feedback').hidden = true;
+  $('hint').textContent = "Press Enter when you're done.";
+  $('next').textContent = i === list.length-1 ? 'Finish' : 'Next word';
+  dots();
+  $('answer').focus();
+  sayWord(false);
+}
+function norm(s){ return s.trim().toLowerCase().replace(/\s+/g,''); }
+function submit(){
+  const typed = $('answer').value;
+  if(!norm(typed)){ $('hint').textContent = 'Type the word first. Press "Say the word" to hear it again.'; $('answer').focus(); return; }
+  const word = list[i][0];
+  if($('optPractice').checked && !checked){
+    const ok = norm(typed) === word;
+    answers[i] = {word, typed: typed.trim(), ok};
+    checked = true;
+    $('answer').disabled = true;
+    const f = $('feedback'); f.hidden = false;
+    f.className = 'feedback pop ' + (ok?'ok':'no');
+    f.textContent = ok ? `Correct! "${word}"` : `Not quite. It's spelled ${word.toUpperCase().split('').join(' - ')}.`;
+    $('hint').textContent = 'Press Enter or Next to keep going.';
+    dots();
+    $('next').focus();
+    return;
+  }
+  if(!checked) answers[i] = {word, typed: typed.trim(), ok: norm(typed) === word};
+  i++;
+  if(i < list.length) show(); else finish();
+}
+function finish(){
+  if(synth) synth.cancel();
+  $('test').hidden = true; $('done').hidden = false;
+  const right = answers.filter(a=>a.ok).length, total = answers.length;
+  $('score').innerHTML = `${right}<small> / ${total}</small>`;
+  const pct = right/total;
+  $('msg').textContent = pct===1 ? 'Perfect score! Every word spelled right.'
+    : pct>=.8 ? 'Great job! Practice the few you missed.'
+    : pct>=.6 ? 'Good work. Study the red words and try again.'
+    : 'Keep practicing. Look at the red words, then take it again.';
+  $('results').innerHTML = answers.map((a,k)=>`<li class="${a.ok?'ok':'no'}"><span class="mark">${a.ok?'✓':'✗'}</span><span class="typed">${esc(a.typed)}</span><span class="right">${a.ok?'':a.word}</span></li>`).join('');
+  const missed = answers.filter(a=>!a.ok);
+  $('retry').hidden = missed.length === 0;
+  if(total === WORDS.length){
+    try{ localStorage.setItem('edTestLast', JSON.stringify({right,total,at:new Date().toLocaleDateString()})); }catch(e){}
+  }
+}
+function esc(s){ return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+$('begin').onclick = ()=>start(WORDS);
+$('say').onclick = ()=>{ sayWord(false); $('answer').focus(); };
+$('slow').onclick = ()=>{ sayWord(true); $('answer').focus(); };
+$('form').onsubmit = e=>{ e.preventDefault(); submit(); };
+$('next').onclick = submit;
+document.addEventListener('keydown', e=>{ if(e.key==='Enter' && checked && !['INPUT','BUTTON'].includes(document.activeElement.tagName)){ e.preventDefault(); submit(); } });
+$('retry').onclick = ()=>{ const miss = answers.filter(a=>!a.ok).map(a=>WORDS.find(w=>w[0]===a.word)); start(miss); };
+$('again').onclick = ()=>start(WORDS);
+
+try{
+  const last = JSON.parse(localStorage.getItem('edTestLast')||'null');
+  if(last){ $('last').hidden = false; $('last').textContent = `Last full test: ${last.right} out of ${last.total} on ${last.at}.`; }
+}catch(e){}
+</script>

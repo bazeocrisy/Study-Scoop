@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Study Scoop</title>
+<meta name="description" content="Weekly spelling, vocabulary, multiplication, and homework practice for our 3rd grade class.">
+<link rel="icon" href="images/cone.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@600;800&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="drips" aria-hidden="true">
+  <svg viewBox="0 0 1200 60" preserveAspectRatio="xMidYMin slice">
+    <path class="back" d="M0 0H1200V26c-12 0-16 4-16 12v10a9 9 0 0 1-18 0V34c0-6-4-8-10-8H930c-6 0-10 2-10 8v18a9 9 0 0 1-18 0V34c0-6-4-8-10-8H640c-6 0-10 2-10 8v16a9 9 0 0 1-18 0V34c0-6-4-8-10-8H360c-6 0-10 2-10 8v20a9 9 0 0 1-18 0V34c0-6-4-8-10-8H70c-6 0-10 2-10 8v14a9 9 0 0 1-18 0V34c0-6-4-8-10-8H0Z"/>
+    <path class="front" d="M0 0H1200V14c-12 0-16 3-16 9v6a8 8 0 0 1-16 0v-6c0-6-4-9-10-9H1010c-6 0-10 3-10 9v14a8 8 0 0 1-16 0V23c0-6-4-9-10-9H712c-6 0-10 3-10 9v20a8 8 0 0 1-16 0V23c0-6-4-9-10-9H420c-6 0-10 3-10 9v16a8 8 0 0 1-16 0V23c0-6-4-9-10-9H130c-6 0-10 3-10 9v12a8 8 0 0 1-16 0V23c0-6-4-9-10-9H0Z"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#week">
+      <img src="images/cone.svg" alt="" width="40" height="52">
+      <span>
+        <span class="name">Study <b>Scoop</b></span>
+        <span class="sub" id="weekLabel">3rd grade</span>
+      </span>
+    </a>
+    <label class="weekpick" for="weekSelect">Week
+      <select id="weekSelect"></select>
+    </label>
+  </header>
+
+  <nav class="tabs" aria-label="Sections">
+    <a href="#week" data-tab="week">This Week</a>
+    <a href="#spelling" data-tab="spelling">Spelling</a>
+    <a href="#vocab" data-tab="vocab">Vocabulary</a>
+    <a href="#math" data-tab="math">Multiplication</a>
+    <a href="#homework" data-tab="homework">Homework</a>
+    <a href="#newsletter" data-tab="newsletter">Newsletter</a>
+  </nav>
+
+  <main id="app" tabindex="-1">
+    <p class="loading">Loading this week's words…</p>
+  </main>
+
+  <footer class="foot">Study Scoop · No sign-in, nothing saved. Just practice.</footer>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
