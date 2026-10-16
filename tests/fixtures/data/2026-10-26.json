@@ -1,0 +1,33 @@
+{
+  "id": "2026-10-26",
+  "label": "Sample test week <not real> & October 26–30",
+  "learning": [
+    ["Math", "Sample topic"],
+    ["Reading", "Sample reading topic"]
+  ],
+  "tests": [
+    { "date": "2026-10-30", "kind": "spelling", "title": "Sample Spelling Test", "detail": "-s and -es words" }
+  ],
+  "events": [],
+  "homework": [
+    { "title": "Sample reading log", "due": "Every Monday" }
+  ],
+  "spelling": {
+    "pattern": "-s and -es",
+    "rules": { "s": "Just add -s", "es": "Add -es after s, x, z, ch or sh" },
+    "ruleHelp": { "s": "cat → cats", "es": "box → boxes" },
+    "words": [
+      { "word": "cats", "base": "cat", "rule": "s", "sentence": "Two cats sat on the porch." },
+      { "word": "boxes", "base": "box", "rule": "es", "sentence": "We stacked the boxes in the closet." }
+    ]
+  },
+  "vocab": {
+    "title": "Sample <b>book</b> title",
+    "quiz": "Friday, Oct 30",
+    "groupsNote": "Sample note with symbols: < > & \" '",
+    "words": [
+      { "word": "Sample", "def": "a small part that shows what the whole is like <with symbols & \"quotes\">", "sentence": "The store gave us a sample of the new cheese.", "fill": "I tried a ___ of the soup before I bought it.", "group": "purple" },
+      { "word": "Gather", "def": "To bring together", "sentence": "We gather the leaves into a big pile.", "fill": "Please ___ your crayons and put them in the box." }
+    ]
+  }
+}
