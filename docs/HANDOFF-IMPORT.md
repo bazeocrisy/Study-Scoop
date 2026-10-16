@@ -55,3 +55,12 @@ Friday newsletters and Monday homework are supplied to ChatGPT by the owner for 
 This Markdown is an overview of the handoff, **not the complete original archive**. The archive includes source code, 27 SVG drawings, prototypes, mockups, two JSON weekly datasets and newsletter photos which are not yet present in GitHub. Do not treat this branch as a working website.
 
 Public repository: do not add unreviewed classroom newsletter images, personal student information or textbook scans. Publishing remains owner-approved only.
+
+## Import status (Assignment 002)
+
+Imported on `feature/foundation`, unchanged except the name review in `docs/DECISIONS.md` (D2):
+`index.html` (since updated for seven sections), `data/weeks.json`, `data/2026-10-12.json`, `data/2026-10-19.json`, `images/cone.svg`, `images/words/*.svg` (27), `reference/vocabulary-prototype.html`, `reference/spelling-test-prototype.html`, and the original `HANDOFF.md`, `CLAUDE.md`, `README.md` under `docs/original-handoff/`.
+
+**Held back, kept private:** `images/newsletters/*.jpg` (privacy) and `reference/design-mockup/*` (contains a first name; shows out-of-scope features). Not imported: the duplicate `1_START_HERE_Handoff.md`.
+
+The original handoff instruction to publish with GitHub Pages is superseded: publishing needs Product Owner approval.

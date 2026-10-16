@@ -3,7 +3,7 @@
 A free third-grade learning hub for weekly classroom topics and original practice activities.
 
 ## Status
-**Planning / foundation.** The site is not released. GitHub Pages should stay disabled until the owner approves publication.
+**Foundation built, not released.** The seven sections, weekly data loading and baseline tests are on the `feature/foundation` branch for review. GitHub Pages stays off until the owner approves publication. See `STATUS.md`.
 
 ## Planned areas
 - This Week: topics, announcements and assessments
@@ -20,7 +20,8 @@ The product owner supplies Friday newsletters and Monday homework through ChatGP
 ## Safety and publishing
 This repository is public. **Do not commit unreviewed school newsletters, student names, personal information, textbook scans, or answer keys copied from copyrighted materials.** Original examples and practice must be validated. No student accounts, tracking, analytics, paid services, or persistent storage in v1.
 
-## Next steps
-1. Import and audit safe assets from the Study Scoop handoff.
-2. Implement the foundation on a feature branch.
-3. Review and test before enabling GitHub Pages.
+## Working on it
+- Preview: `npm run serve`, then open the address it prints (the site must be served; opening `index.html` as a file will not work).
+- Tests: `npm test` and `npm run test:browser` (no packages to install). See `docs/TESTING.md`.
+- Adding a week: `docs/CONTENT-GUIDE.md`.
+- Decisions: `docs/DECISIONS.md`.
