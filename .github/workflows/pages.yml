@@ -1,0 +1,67 @@
+# Study Scoop: check every pull request, and publish to GitHub Pages ONLY when the owner runs this by hand.
+# See docs/DEPLOYMENT.md and docs/DECISIONS.md D11.
+#
+# - Pull requests: run all tests and build/verify the site. Nothing is uploaded or published.
+# - Publishing: Actions -> "Study Scoop site" -> Run workflow, on main, typing "publish". There is no automatic
+#   publishing on push or merge. It also needs GitHub Pages enabled with Source "GitHub Actions" (owner setting).
+# Only the allowlisted runtime files built by scripts/build-site.js are published; the rest of the repository never is.
+name: Study Scoop site
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "publish" to publish main to the live website'
+        required: true
+        default: ''
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.event_name == 'workflow_dispatch' && 'pages' || format('check-{0}', github.ref) }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Test, build and verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - name: Unit tests
+        run: npm test
+      - name: Browser tests (repository)
+        run: npm run test:browser
+      - name: Build and verify the publishable site (allowlist only)
+        run: node scripts/build-site.js _site
+      - name: Browser tests (built site, as published)
+        run: node tests/browser.test.js --site _site
+      - name: Upload the site for publishing
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.confirm == 'publish'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+  deploy:
+    name: Publish to GitHub Pages
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.confirm == 'publish'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
