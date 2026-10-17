@@ -1,7 +1,7 @@
 # Study Scoop — Project Status
 
 ## Current phase
-Assignment 002 + 002B (foundation, safe publishing) complete on `feature/foundation` (PR #1), awaiting Product Architect review. Not merged. GitHub Pages is off; no site has been published.
+Foundation merged into `main` (PR #1, `62720ef`). Preview-first publishing (D15): production https://bazeocrisy.github.io/Study-Scoop/ from `main`, live preview https://bazeocrisy.github.io/Study-Scoop/preview/ from `develop`. Image PRs #2 (spelling) and #3 (vocabulary) are open, unmerged.
 
 ## Completed
 - GitHub repository created by owner; README.md and CLAUDE.md added

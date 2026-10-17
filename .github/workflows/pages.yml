@@ -1,30 +1,31 @@
-# Study Scoop: check every pull request, and publish to GitHub Pages ONLY when the owner runs this by hand.
-# See docs/DEPLOYMENT.md and docs/DECISIONS.md D11.
+# Study Scoop: one GitHub Pages site with two versions (docs/DEPLOYMENT.md, DECISIONS D15).
+#
+#   Production  https://bazeocrisy.github.io/Study-Scoop/          built from main
+#   Preview     https://bazeocrisy.github.io/Study-Scoop/preview/  built from develop
 #
 # - Pull requests: run all tests and build/verify the site. Nothing is uploaded or published.
-# - Publishing: Actions -> "Study Scoop site" -> Run workflow, on main, typing "publish". There is no automatic
-#   publishing on push or merge. It also needs GitHub Pages enabled with Source "GitHub Actions" (owner setting).
-# Only the allowlisted runtime files built by scripts/build-site.js are published; the rest of the repository never is.
+# - Push to main or develop: test BOTH branches, build each from the allowlist (scripts/build-site.js), test the
+#   built sites in a browser, then publish them together. If any test fails, nothing is published.
+# - Run workflow (manual): rebuilds and republishes both, e.g. after a GitHub outage.
+# Merging into main still needs the owner's approval of each pull request; this file never merges anything.
 name: Study Scoop site
 
 on:
   pull_request:
+  push:
+    branches: [main, develop]
   workflow_dispatch:
-    inputs:
-      confirm:
-        description: 'Type "publish" to publish main to the live website'
-        required: true
-        default: ''
 
 permissions: {}
 
 concurrency:
-  group: ${{ github.event_name == 'workflow_dispatch' && 'pages' || format('check-{0}', github.ref) }}
+  group: ${{ github.event_name == 'pull_request' && format('check-{0}', github.ref) || 'pages' }}
   cancel-in-progress: false
 
 jobs:
-  build:
+  check:
     name: Test, build and verify
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -44,8 +45,50 @@ jobs:
         run: node scripts/build-site.js _site
       - name: Browser tests (built site, as published)
         run: node tests/browser.test.js --site _site
+
+  build:
+    name: Test and build production + preview
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          path: main
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: develop
+          path: develop
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - name: Unit tests (main)
+        working-directory: main
+        run: npm test
+      - name: Unit tests (develop)
+        working-directory: develop
+        run: npm test
+      - name: Build production from main (allowlist only, verified)
+        run: node main/scripts/build-site.js "$GITHUB_WORKSPACE/_site"
+      - name: Build preview from develop (allowlist only, verified)
+        run: node develop/scripts/build-site.js "$GITHUB_WORKSPACE/_preview"
+      - name: Browser tests (production, as published)
+        working-directory: main
+        run: node tests/browser.test.js --site "$GITHUB_WORKSPACE/_site"
+      - name: Browser tests (preview, as published)
+        working-directory: develop
+        run: node tests/browser.test.js --site "$GITHUB_WORKSPACE/_preview"
+      - name: Put the preview under /preview/
+        run: |
+          mv "$GITHUB_WORKSPACE/_preview" "$GITHUB_WORKSPACE/_site/preview"
+          test -f "$GITHUB_WORKSPACE/_site/index.html" && test -f "$GITHUB_WORKSPACE/_site/preview/index.html"
+          echo "Publishing $(find "$GITHUB_WORKSPACE/_site" -type f | wc -l) files (production + preview)"
       - name: Upload the site for publishing
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.confirm == 'publish'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: _site
@@ -53,7 +96,6 @@ jobs:
   deploy:
     name: Publish to GitHub Pages
     needs: build
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.confirm == 'publish'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
