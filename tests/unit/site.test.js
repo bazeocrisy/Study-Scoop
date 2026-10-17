@@ -35,14 +35,15 @@ const caught = (problems, pattern) => assert.ok(problems.some((p) => pattern.tes
 
 test('the built site passes verification', () => {
   assert.deepEqual(verifySite(SITE), []);
-  assert.deepEqual(skipped, []);
+  // Only the spelling study cards (PNG, not yet used by the site, DECISIONS D13) are left out.
+  assert.deepEqual(skipped, repoFiles('images/words').filter((f) => f.endsWith('.png')).map((f) => `${f} (not on the allowlist)`));
   assert.deepEqual([...copied].sort(), PUBLISHED);
 });
 
 test('the built site is exactly the page, styles, modules, listed weeks and pictures', () => {
   const weeks = JSON.parse(fs.readFileSync(path.join(REPO, 'data/weeks.json'), 'utf8')).weeks.map((w) => `data/${w.id}.json`);
   const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', ...weeks, 'images/cone.svg',
-    ...repoFiles('images/words')];
+    ...repoFiles('images/words').filter((f) => f.endsWith('.svg'))];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
   assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'images', 'index.html', 'js']);
@@ -69,7 +70,8 @@ test('the build leaves out anything not on the allowlist, even inside approved f
   const out = tmp('out');
   const result = buildSite(out, src);
   assert.deepEqual(files(out), PUBLISHED);
-  assert.deepEqual(result.skipped.sort(), [
+  // Ignore what the real repository build already leaves out (the study cards); check only the planted files.
+  assert.deepEqual(result.skipped.filter((s) => !skipped.includes(s)).sort(), [
     'css/draft.css.bak (not on the allowlist)', 'data/2026-11-02.json (not listed in data/weeks.json)', 'data/notes.json (not on the allowlist)',
     'images/mockup.svg (not on the allowlist)', 'images/newsletters/2026-10-12.jpg (not on the allowlist)',
     'images/words/scan.png (not on the allowlist)', 'js/.secret.js (not on the allowlist)', 'js/notes.md (not on the allowlist)']);
