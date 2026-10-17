@@ -14,7 +14,7 @@ Foundation merged into `main` (PR #1, `62720ef`). Preview-first publishing (D15)
   - 66 unit tests + 45 browser checks, all passing (`docs/TESTING.md`)
 - Assignment 002B (`docs/DEPLOYMENT.md`, DECISIONS D11):
   - Allowlist build `scripts/build-site.js`: publishes only the page, styles, modules, listed weeks and pictures, and verifies the result
-  - Workflow `.github/workflows/pages.yml`: checks every pull request; publishes only when the owner runs it by hand on `main`
+  - Workflow `.github/workflows/pages.yml`: checks every pull request; superseded by preview-first publishing (D15): pushes to `main`/`develop` test and publish production and preview
   - 76 unit tests, 45 browser checks on the repository, 47 on the built site, all passing
 - Owner feedback (light theme, D12): vanilla background, white cards, softer sprinkles; light on every device. 76 unit, 46 browser, 48 built-site checks passing
 
@@ -34,7 +34,7 @@ Foundation merged into `main` (PR #1, `62720ef`). Preview-first publishing (D15)
 - B6–B8: Find My Factors rules, Lesson 5-1/5-2 objectives, Quick Math specification
 
 ## Next
-Product Architect reviews PR #1. No merge, Pages setting change, publishing or Assignment 003 work until approved. Release steps: `docs/DEPLOYMENT.md`.
+New work goes to `develop` and appears on the live preview. The owner tests it there; each merge into `main` needs the owner's explicit approval of that pull request. Do not merge image PRs #2 and #3 until approved. Release steps: `docs/DEPLOYMENT.md`.
 
 ## Privacy note
 The repository is public. Never add newsletter photos, homework packet scans, textbook pages, student names or other personal information.

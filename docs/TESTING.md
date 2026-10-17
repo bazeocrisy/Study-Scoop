@@ -31,7 +31,7 @@ On Windows PowerShell use `npm.cmd` if `npm` is blocked.
 
 The browser tests were checked against deliberate breakage (low-contrast text, a no-wrap nav, a storage write): each was caught. A prototype planted in `_site` was caught by both the verifier and the "not served" browser check.
 
-The same steps run on GitHub for every pull request (`.github/workflows/pages.yml`); that run publishes nothing.
+The same steps run on GitHub for every pull request (`.github/workflows/pages.yml`); that run publishes nothing. A push to `main` or `develop` runs them for both branches before publishing production and preview (`docs/DEPLOYMENT.md`).
 
 ## Manual checks still needed before release
 
