@@ -22,7 +22,7 @@ On Windows PowerShell use `npm.cmd` if `npm` is blocked.
 | Validator | 25 deliberate mistakes are each caught (bad dates, unknown rule, missing blank, wrong product, duplicate words…) | — |
 | Routing | Parse/build round trip for every section × week; unknown weeks fall back | Deep links, unknown section/week fixed in the address, week picker both ways, Back button |
 | Dates | Real-date check, countdown across midnight, daylight-saving change and year end; weekday names | Countdown with "today" frozen at Fri Oct 16, 2026 |
-| Accessibility | One h1, no skipped heading levels, labelled checkboxes | Tab order, visible focus, Enter opens a section and moves focus, skip link, Space ticks a checkbox, labels/alt text, touch targets ≥ 44 px, WCAG AA text contrast in light and dark |
+| Accessibility | One h1, no skipped heading levels, labelled checkboxes | Tab order, visible focus, Enter opens a section and moves focus, skip link, Space ticks a checkbox, labels/alt text, touch targets ≥ 44 px, WCAG AA text contrast in the light theme and in the opt-in dark palette; a device set to dark mode still gets the light theme |
 | Responsive | — | 360×740, 768×1024, 1366×768, 1920×1080: no sideways scroll, all seven links on screen |
 | Print | — | Navigation hidden; no large colour fills; white page |
 | Privacy | No storage/analytics APIs or external URLs in app code; strict CSP; no photos, mockups or personal names published; no credentials | After a full run: no localStorage, sessionStorage, cookies or IndexedDB; every request same-site; none failed; no newsletter photo requests; no console errors |

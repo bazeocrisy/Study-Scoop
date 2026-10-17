@@ -8,7 +8,7 @@ Assignment 002 + 002B (foundation, safe publishing) complete on `feature/foundat
 - Assignment 001: read-only audit (`docs/STUDY-SCOOP-AUDIT-REPORT.md`)
 - Assignment 002:
   - Reviewed original files imported (`docs/HANDOFF-IMPORT.md`, `docs/DECISIONS.md` D1–D2)
-  - Seven sections with responsive layout, week picker, shareable week links, dark mode and print styles
+  - Seven sections with responsive layout, week picker, shareable week links, light "vanilla" theme on every device (D12) and print styles
   - Real data shown: This Week (test countdowns, learning, dates, homework), spelling words by rule, vocabulary cards with exact definitions and pictures, the week's math words, homework checklist (not saved), newsletter from data with all weeks
   - "Coming soon" panels for every unbuilt activity
   - 66 unit tests + 45 browser checks, all passing (`docs/TESTING.md`)
@@ -16,6 +16,7 @@ Assignment 002 + 002B (foundation, safe publishing) complete on `feature/foundat
   - Allowlist build `scripts/build-site.js`: publishes only the page, styles, modules, listed weeks and pictures, and verifies the result
   - Workflow `.github/workflows/pages.yml`: checks every pull request; publishes only when the owner runs it by hand on `main`
   - 76 unit tests, 45 browser checks on the repository, 47 on the built site, all passing
+- Owner feedback (light theme, D12): vanilla background, white cards, softer sprinkles; light on every device. 76 unit, 46 browser, 48 built-site checks passing
 
 ## Not yet implemented
 - Spelling practice, flash cards, tests, Practice My Misses, print sheet

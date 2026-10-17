@@ -223,21 +223,27 @@ async function main() {
         eq(r, { h1: 1, skips: 0, unlabelled: [], noAlt: 0, emptyLinks: 0, small: [], lang: 'en' }, 'structure');
       });
     }
-    for (const scheme of ['light', 'dark']) {
-      await check(`text contrast meets WCAG AA in ${scheme} mode on every section`, async () => {
+    // The light theme is used on every device (DECISIONS D12); the dark palette is an opt-in (<html data-theme="dark">).
+    const DARK = 'document.documentElement.dataset.theme = "dark";';
+    for (const [name, scheme, optIn] of [['the light theme', 'light', false], ['the dark palette (opt-in)', 'light', true]]) {
+      await check(`text contrast meets WCAG AA in ${name} on every section`, async () => {
         await b.media('', [{ name: 'prefers-color-scheme', value: scheme }]);
         const problems = [];
-        for (const [id] of SECTIONS) {
-          await b.load(url(`#${id}`));
+        for (const h of [...SECTIONS.map(([id]) => `#${id}`), '#vocab?week=2026-10-12']) {
+          await b.load(url(h));
+          if (optIn) await b.js(DARK);
           await helpers(b);
-          for (const p of await b.js('return __t.contrastFailures();')) problems.push(`#${id} ${p}`);
+          for (const p of await b.js('return __t.contrastFailures();')) problems.push(`${h} ${p}`);
         }
-        await b.load(url('#vocab?week=2026-10-12'));
-        await helpers(b);
-        for (const p of await b.js('return __t.contrastFailures();')) problems.push(`#vocab (Oct 12) ${p}`);
         eq(problems, [], 'contrast');
       });
     }
+    await check('a device set to dark mode still gets the light theme', async () => {
+      await b.media('', [{ name: 'prefers-color-scheme', value: 'dark' }]);
+      await b.load(url('#week'));
+      eq(await b.js('return [getComputedStyle(document.body).backgroundColor, getComputedStyle(document.querySelector(".card")).backgroundColor];'),
+        ['rgb(255, 248, 236)', 'rgb(255, 255, 255)'], 'page and card colours');
+    });
     await b.media('', [{ name: 'prefers-color-scheme', value: 'light' }]);
 
     console.log('Responsive layout');
@@ -321,9 +327,9 @@ async function main() {
       await b.viewport(360, 740);
       for (const id of ['week', 'vocab', 'math']) { await b.load(url(`#${id}`)); await b.shot(path.join(SHOTS, `phone-${id}.png`)); }
       await b.viewport(1366, 900, false);
-      await b.media('', [{ name: 'prefers-color-scheme', value: 'dark' }]);
-      await b.load(url('#week')); await b.shot(path.join(SHOTS, 'desktop-dark-week.png'));
-      await b.load(url('#vocab?week=2026-10-12')); await b.shot(path.join(SHOTS, 'desktop-dark-vocab-oct12.png'));
+      // The opt-in dark palette (not switched on anywhere yet).
+      await b.load(url('#week')); await b.js(DARK); await b.shot(path.join(SHOTS, 'desktop-dark-week.png'));
+      await b.load(url('#vocab?week=2026-10-12')); await b.js(DARK); await b.shot(path.join(SHOTS, 'desktop-dark-vocab-oct12.png'));
       await b.media('print', LIGHT);
       await b.load(url('#vocab')); await b.shot(path.join(SHOTS, 'print-vocab.png'));
       await b.media('');

@@ -15,6 +15,7 @@ Decisions that shape the code or content, newest last. Each lists who decided it
 | D9 | All data is escaped before it is shown (a `<` or `&` in the data is shown as text). A strict Content Security Policy blocks inline scripts and other sites | Developer | `js/lib/html.js`, `index.html`, tests |
 | D10 | Unfinished activities show a "Coming soon" panel with no buttons or form fields, so nothing looks usable that isn't | Product Architect ("placeholders for unfinished activities") | `tests/unit/views.test.js` |
 | D11 | Publish only an allowlisted, verified copy of the runtime files, through a GitHub Actions workflow the owner runs by hand on `main` (details below) | Product Architect (Assignment 002B) | `scripts/build-site.js`, `tests/unit/site.test.js`, `npm run test:site` |
+| D12 | Light "vanilla" theme on every device: cream background, white cards, softer sprinkles, drip header kept. The site no longer follows the device's dark-mode setting; the dark palette stays in `css/style.css` as an opt-in (`<html data-theme="dark">`) that nothing switches on yet | Product Owner feedback ("too dark"), Assignment 002 review | `css/style.css`, browser contrast + "dark-mode device gets light theme" checks |
 
 ## D2: Name review (exact substitutions)
 
