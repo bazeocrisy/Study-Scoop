@@ -1,5 +1,6 @@
 // Browser tests: headless Chrome against the site served under /Study-Scoop/ (like GitHub Pages).
 // Run: npm run test:browser   (SCREENSHOTS=1 also writes docs/screenshots/assignment-002/*.png)
+//      npm run test:site      (builds _site, then runs every check against the published files only)
 import fs from 'node:fs';
 import path from 'node:path';
 import { BASE, ROOT, startBrowser, startServer } from './lib/harness.js';
@@ -9,7 +10,11 @@ const INDEX = readJSON('data/weeks.json');
 const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['math', 'Math'],
   ['quickmath', 'Quick Math'], ['homework', 'Homework'], ['newsletter', 'Newsletter']];
 const VIEWPORTS = [[360, 740], [768, 1024], [1366, 768], [1920, 1080]];
-const SHOTS = process.env.SCREENSHOTS ? path.join(ROOT, 'docs/screenshots/assignment-002') : null;
+// `--site <folder>` serves a built site (scripts/build-site.js) instead of the repository, exactly as GitHub Pages would.
+const siteArg = process.argv.indexOf('--site');
+const SITE = siteArg > 0 ? path.resolve(process.argv[siteArg + 1] || '_site') : null;
+if (SITE && !fs.existsSync(path.join(SITE, 'index.html'))) throw new Error(`No built site in ${SITE}. Run: node scripts/build-site.js`);
+const SHOTS = process.env.SCREENSHOTS && !SITE ? path.join(ROOT, 'docs/screenshots/assignment-002') : null;
 // "Today" is frozen at Friday, October 16, 2026 (noon, local time) so countdowns are deterministic.
 const FREEZE_DATE = `(() => { const R = Date; const t = new R(2026, 9, 16, 12, 0, 0).getTime();
   class D extends R { constructor(...a) { if (a.length) super(...a); else super(t); } static now() { return t; } }
@@ -57,7 +62,8 @@ const PAGE_HELPERS = `
 async function helpers(b) { await b.js(PAGE_HELPERS); }
 
 async function main() {
-  const server = await startServer();
+  if (SITE) console.log(`Serving the built site: ${SITE}`);
+  const server = await startServer({ root: SITE || ROOT });
   const b = await startBrowser();
   const url = (h = '') => `${server.origin}${BASE}${h}`;
   try {
@@ -283,6 +289,26 @@ async function main() {
     });
     await check('no script errors or warnings during the whole run', async () => eq(b.errors, [], 'console'));
 
+    if (SITE) {
+      console.log('Published site contents');
+      const status = async (rel) => (await fetch(url(rel))).status;
+      await check('development files are not served (requested directly, each is "not found")', async () => {
+        const paths = ['reference/vocabulary-prototype.html', 'reference/spelling-test-prototype.html', 'reference/README.md',
+          'tests/browser.test.js', 'tests/fixtures/data/weeks.json', 'docs/STUDY-SCOOP-AUDIT-REPORT.md', 'docs/DECISIONS.md',
+          'docs/original-handoff/HANDOFF.md', 'scripts/build-site.js', 'package.json', 'README.md', 'STATUS.md', 'CLAUDE.md',
+          '.gitignore', '.github/workflows/pages.yml', 'images/newsletters/2026-10-12.jpg'];
+        const served = [];
+        for (const p of paths) if (await status(p) !== 404) served.push(p);
+        eq(served, [], 'served development files');
+      });
+      await check('every published runtime file is served', async () => {
+        const bad = [];
+        for (const p of ['', 'index.html', 'css/style.css', 'js/app.js', 'js/views/vocab.js', 'data/weeks.json',
+          `data/${INDEX.current}.json`, 'images/cone.svg', 'images/words/produce.svg']) if (await status(p) !== 200) bad.push(p);
+        eq(bad, [], 'missing runtime files');
+      });
+    }
+
     if (SHOTS) {
       console.log('Screenshots');
       fs.rmSync(SHOTS, { recursive: true, force: true });
@@ -309,7 +335,7 @@ async function main() {
   }
 
   console.log('Adding a week (sample third week, no code changes)');
-  const fx = await startServer({ overlay: {
+  const fx = await startServer({ root: SITE || ROOT, overlay: {
     'data/weeks.json': 'tests/fixtures/data/weeks.json',
     'data/2026-10-26.json': 'tests/fixtures/data/2026-10-26.json',
   } });

@@ -1,7 +1,7 @@
 # Study Scoop — Project Status
 
 ## Current phase
-Assignment 002 (foundation) complete on `feature/foundation`, awaiting Product Architect review. Not merged. GitHub Pages is off; no site has been published.
+Assignment 002 + 002B (foundation, safe publishing) complete on `feature/foundation` (PR #1), awaiting Product Architect review. Not merged. GitHub Pages is off; no site has been published.
 
 ## Completed
 - GitHub repository created by owner; README.md and CLAUDE.md added
@@ -12,6 +12,10 @@ Assignment 002 (foundation) complete on `feature/foundation`, awaiting Product A
   - Real data shown: This Week (test countdowns, learning, dates, homework), spelling words by rule, vocabulary cards with exact definitions and pictures, the week's math words, homework checklist (not saved), newsletter from data with all weeks
   - "Coming soon" panels for every unbuilt activity
   - 66 unit tests + 45 browser checks, all passing (`docs/TESTING.md`)
+- Assignment 002B (`docs/DEPLOYMENT.md`, DECISIONS D11):
+  - Allowlist build `scripts/build-site.js`: publishes only the page, styles, modules, listed weeks and pictures, and verifies the result
+  - Workflow `.github/workflows/pages.yml`: checks every pull request; publishes only when the owner runs it by hand on `main`
+  - 76 unit tests, 45 browser checks on the repository, 47 on the built site, all passing
 
 ## Not yet implemented
 - Spelling practice, flash cards, tests, Practice My Misses, print sheet
@@ -29,7 +33,7 @@ Assignment 002 (foundation) complete on `feature/foundation`, awaiting Product A
 - B6–B8: Find My Factors rules, Lesson 5-1/5-2 objectives, Quick Math specification
 
 ## Next
-Product Architect reviews the Assignment 002 pull request. No merge, deployment or Assignment 003 work until approved.
+Product Architect reviews PR #1. No merge, Pages setting change, publishing or Assignment 003 work until approved. Release steps: `docs/DEPLOYMENT.md`.
 
 ## Privacy note
 The repository is public. Never add newsletter photos, homework packet scans, textbook pages, student names or other personal information.

@@ -12,15 +12,20 @@ export const BASE = '/Study-Scoop/';
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml',
   '.json': 'application/json', '.png': 'image/png' };
 
-/** `overlay` maps a path under BASE (e.g. "data/weeks.json") to a file that replaces it. */
-export async function startServer({ overlay = {} } = {}) {
+/**
+ * `root` is the folder served at BASE: the repository by default, or a built site folder (scripts/build-site.js).
+ * `overlay` maps a path under BASE (e.g. "data/weeks.json") to a repository file that replaces it.
+ */
+export async function startServer({ overlay = {}, root = ROOT } = {}) {
+  root = path.resolve(root);
   const missing = [];
   const server = http.createServer((req, res) => {
     const url = decodeURIComponent(req.url.split('?')[0]);
     if (!url.startsWith(BASE)) { missing.push(url); res.writeHead(404).end(); return; }
     const rel = url.slice(BASE.length) || 'index.html';
-    let file = overlay[rel] ? path.join(ROOT, overlay[rel]) : path.join(ROOT, rel);
-    if (!file.startsWith(ROOT)) { res.writeHead(403).end(); return; }
+    const base = overlay[rel] ? ROOT : root;
+    let file = path.join(base, overlay[rel] || rel);
+    if (!file.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
     if (!fs.existsSync(file)) { missing.push(url); res.writeHead(404).end(); return; }
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });

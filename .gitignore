@@ -6,6 +6,9 @@ images/newsletters/
 # Test output
 tests/output/
 
+# Built website (npm run build); published only by the owner-run workflow
+_site/
+
 node_modules/
 .DS_Store
 Thumbs.db

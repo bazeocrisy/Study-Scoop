@@ -14,6 +14,7 @@ Decisions that shape the code or content, newest last. Each lists who decided it
 | D8 | The Newsletter section is built from the weekly JSON, not from photos. The `newsletter` image field stays allowed in the data format but is not displayed | Developer, following D1 | `js/views/newsletter.js` |
 | D9 | All data is escaped before it is shown (a `<` or `&` in the data is shown as text). A strict Content Security Policy blocks inline scripts and other sites | Developer | `js/lib/html.js`, `index.html`, tests |
 | D10 | Unfinished activities show a "Coming soon" panel with no buttons or form fields, so nothing looks usable that isn't | Product Architect ("placeholders for unfinished activities") | `tests/unit/views.test.js` |
+| D11 | Publish only an allowlisted, verified copy of the runtime files, through a GitHub Actions workflow the owner runs by hand on `main` (details below) | Product Architect (Assignment 002B) | `scripts/build-site.js`, `tests/unit/site.test.js`, `npm run test:site` |
 
 ## D2: Name review (exact substitutions)
 
@@ -30,3 +31,18 @@ Teacher definitions were **not** changed. Only our own example sentences, protot
 | `docs/original-handoff/HANDOFF.md` | "From: [owner's full name]" | "From: the Product Owner" |
 
 The replacements keep each sentence's grammar and its article ("an ___" still precedes *employee*), so a future quiz built on them behaves the same.
+
+## D11: Publishing architecture
+
+- **Why:** "Deploy from a branch" would publish every file in the repository, including the unfinished prototypes in `reference/`, the tests and the internal documents.
+- **How it builds:** `scripts/build-site.js` copies an explicit allowlist into `_site` and verifies it. The verifier checks that:
+  - forbidden paths are absent
+  - every reference resolves with a relative path
+  - no module is unused
+  - the data is valid
+  - pictures contain no scripts
+  - no personal names appear
+- **No code transformation:** the build copies files without changing them. The site still runs as plain modules with no compile step, so D7 still holds.
+- **Approval:** publishing happens only through `.github/workflows/pages.yml`, started by hand on `main` with the word `publish`. Pull requests are checked but never published. Pages must be set to Source "GitHub Actions" by the owner after release approval. See `docs/DEPLOYMENT.md`.
+- **Drafts stay off the site:** a week file is published only once it is listed in `data/weeks.json`.
+- **Smallest change:** to test the built site, the test server can now serve a folder other than the repository (`root` option in `tests/lib/harness.js`, `--site` in `tests/browser.test.js`). No app code changed.

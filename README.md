@@ -22,6 +22,7 @@ This repository is public. **Do not commit unreviewed school newsletters, studen
 
 ## Working on it
 - Preview: `npm run serve`, then open the address it prints (the site must be served; opening `index.html` as a file will not work).
-- Tests: `npm test` and `npm run test:browser` (no packages to install). See `docs/TESTING.md`.
+- Tests: `npm test`, `npm run test:browser` and `npm run test:site` (no packages to install). See `docs/TESTING.md`.
+- Publishing: only an allowlisted copy of the site, and only when the owner runs it. See `docs/DEPLOYMENT.md`.
 - Adding a week: `docs/CONTENT-GUIDE.md`.
 - Decisions: `docs/DECISIONS.md`.
