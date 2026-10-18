@@ -366,8 +366,9 @@ async function main() {
           return [c.querySelector('h3').textContent, c.querySelector('.def')?.textContent, c.querySelector('.kid-words').textContent.replace('In other words', ''),
             c.querySelector('.fact').textContent, c.querySelectorAll('.m-plate').length, c.querySelectorAll('circle.m-dot').length,
             [...c.querySelectorAll('.model-svg')].map((s) => s.querySelectorAll('.m-dot, .m-star').length),
-            c.querySelectorAll('.pic-card .m-dot.m-a').length, c.querySelectorAll('.pic-card .m-dot.m-b').length,
-            c.querySelectorAll('.teacher-ex .m-dot.m-a').length, c.querySelectorAll('.teacher-ex .m-dot.m-b').length];`));
+            c.querySelectorAll('.prop-learn:not(.second-ex) .pic-card .m-dot.m-a').length, c.querySelectorAll('.prop-learn:not(.second-ex) .pic-card .m-dot.m-b').length,
+            c.querySelectorAll('.second-ex .pic-card .m-dot.m-a').length, c.querySelectorAll('.second-ex .pic-card .m-dot.m-b').length,
+            c.querySelector('.second-ex .fact')?.textContent];`));
         if (k < 3) await press('[data-act="card-next"]');
       }
       const def = (n) => W.math.words.find((w) => w.word.startsWith(n)).def;
@@ -375,12 +376,13 @@ async function main() {
         ['Identity Property', def('Identity'), 'Any number multiplied by 1 stays the same.', '7 × 1 = 7'],
         ['Zero Property', def('Zero'), 'Any number multiplied by 0 equals 0.', '9 × 0 = 0'],
         ['Commutative Property', def('Commutative'), 'Changing the order of the factors does not change the product.', '4 × 2 = 2 × 4 = 8'],
-        ['Distributive Property', def('Distributive'), 'You can break apart a factor, multiply the smaller parts, and add their products.', '6 × 7 = (3 × 7) + (3 × 7)']], 'words and equations');
+        ['Distributive Property', def('Distributive'), 'You can break apart a factor, multiply the smaller parts, and add their products.', '6 × 3 = (5 × 3) + (1 × 3)']], 'words and equations');
       eq([seen[0][4], seen[0][5]], [7, 7], 'identity: 7 groups of 1');
       eq([seen[1][4], seen[1][5]], [9, 0], 'zero: 9 empty groups');
       eq(seen[2][6], [8, 8], 'commutative: 4 rows of 2 and 2 rows of 4');
-      eq([seen[3][7], seen[3][8]], [21, 21], 'distributive: 3 rows of 7 and 3 rows of 7');
-      eq([seen[3][9], seen[3][10]], [15, 3], "the teacher's example: 5 rows of 3 and 1 row of 3");
+      eq([seen[3][7], seen[3][8]], [15, 3], "distributive leads with the teacher's example: 5 rows of 3 and 1 row of 3");
+      eq([seen[3][9], seen[3][10], seen[3][11]], [21, 21, '6 × 7 = (3 × 7) + (3 × 7)'], 'second example: 3 rows of 7 and 3 rows of 7');
+      eq(seen[0][9] + seen[1][9] + seen[2][9], 0, 'only the Distributive card has a second example');
       eq(await b.js('return document.querySelector(".stage-nav .btn-primary").getAttribute("href");'), '#math?act=practice', 'then Practice Problems');
       await press('[data-act="card-prev"]');
       eq(await b.js('return document.getElementById("stage-h").textContent;'), 'Property 3 of 4', 'Previous Property');
@@ -736,6 +738,14 @@ async function main() {
       eq(await b.js('return document.querySelectorAll(".flashcard .flash-word").length;'), 1, 'Space: back again');
       await press('.flip-btn');
       eq(await b.js('return [document.querySelectorAll(".flashcard .flash-clue").length, document.activeElement.textContent];'), [1, 'Flip Card'], 'the Flip Card button works too');
+      before = await rendered();
+      await b.key('Enter');
+      await afterAction(before);
+      eq(await b.js('return [document.querySelectorAll(".flashcard .flash-word").length, document.activeElement.textContent];'), [1, 'Flip Card'], 'Enter on Flip Card turns the card over');
+      before = await rendered();
+      await b.key(' ');
+      await afterAction(before);
+      eq(await b.js('return document.querySelectorAll(".flashcard .flash-clue").length;'), 1, 'Space on Flip Card turns it back');
       expect(await b.js('const x = document.querySelector(".flip-btn"); const s = getComputedStyle(x); return s.color !== s.backgroundColor;'), 'the button text is readable');
       await press('[data-act="card-next"]');
       eq(await progress(), 'Card 2 of 15', 'next card');
@@ -856,6 +866,21 @@ async function main() {
       eq(await progress(), 'Question 1 of 1', 'the missed problem');
       await b.hash('#math?act=practice');
       eq(await b.js('return document.querySelector(".menu-card.misses .count-badge").textContent;'), '1 to practice', 'misses counted on the menu');
+    });
+    await check('phones: the week picker is hidden only inside activities, tests and lessons; Home shows its icon and the word', async () => {
+      await b.viewport(390, 844, true);
+      const shown = () => b.js('return getComputedStyle(document.querySelector(".weekpick")).display !== "none";');
+      for (const h of ['#week', '#spelling', '#math', '#math?act=practice', '#spelling?act=learn', '#tests']) {
+        await b.load(url(h));
+        expect(await shown(), h + ': week picker shown');
+      }
+      for (const h of ['#spelling?act=flash', '#math?act=split', '#tests?test=spelling', '#math?lesson=5-1&stage=together']) {
+        await b.load(url(h + '&week=2026-10-12'.replace(/^&/, h.includes('?') ? '&' : '?')));
+        expect(!(await shown()), h + ': week picker hidden');
+        eq(await b.js('const a = document.querySelector(".bar-btns a.home"); return [a.textContent.trim(), getComputedStyle(a.querySelector("span")).display !== "none", !!a.querySelector("svg"), a.getAttribute("href")];'),
+          ['Home', true, true, '#week?week=2026-10-12'], h + ': Home with icon and word, keeping the week');
+      }
+      await b.viewport(1366, 900, false);
     });
     await check('Math > Math Lessons: both lessons with every step; a lesson has Back to Lessons, Back to Math and Home', async () => {
       await b.load(url('#math'));

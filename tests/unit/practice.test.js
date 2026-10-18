@@ -114,10 +114,13 @@ test('Learn the Properties: each picture matches its equation, and every written
   assert.equal(counts(zero.model).dots, 0);
   assert.equal(comm.model.left.rows * comm.model.left.cols, 8);
   assert.deepEqual([comm.model.right.rows, comm.model.right.cols], [comm.model.left.cols, comm.model.left.rows]);
-  assert.equal(modelEquation(dist.model), '6 × 7 = 3 × 7 + 3 × 7');
-  assert.equal(counts(dist.model).total, 42);
+  assert.equal(modelEquation(dist.model), '6 × 3 = 5 × 3 + 1 × 3');
+  assert.equal(counts(dist.model).total, 18);
+  assert.equal(modelEquation(dist.second.model), '6 × 7 = 3 × 7 + 3 × 7');
+  assert.equal(counts(dist.second.model).total, 42);
+  assert.equal(propertyOf(dist.second.eq), 'Distributive');
   assert.equal(modelEquation(GUIDE_STEPS.splitModel), '5 × 6 = 2 × 6 + 3 × 6');
-  const text = [...PROPERTIES.flatMap((p) => [p.eq, p.kid, p.caption, ...p.steps]), ...GUIDE_WORDS.flat(), ...Object.values(GUIDE_STEPS).filter(Array.isArray).flat()];
+  const text = [...PROPERTIES.flatMap((p) => [p.eq, p.kid, p.caption, ...p.steps, ...(p.second ? [p.second.eq, p.second.caption, ...p.second.steps] : [])]), ...GUIDE_WORDS.flat(), ...Object.values(GUIDE_STEPS).filter(Array.isArray).flat()];
   for (const s of text) assert.deepEqual(wrongFactsInText(s), [], s);
   // Each example shows its own property (the turn-around example is checked without its "= 8").
   assert.deepEqual([id.eq, zero.eq, comm.eq.replace(/ = 8$/, ''), dist.eq].map(propertyOf), ['Identity', 'Zero', 'Commutative', 'Distributive']);

@@ -21,9 +21,15 @@ export const PROPERTIES = [
   },
   {
     key: 'distributive', name: 'Distributive Property', kid: 'You can break apart a factor, multiply the smaller parts, and add their products.',
-    eq: '6 × 7 = (3 × 7) + (3 × 7)', model: { type: 'array', rows: 6, cols: 7, cut: { by: 'rows', at: 3 }, labels: 'facts' },
-    caption: '6 rows of 7, split into 3 rows of 7 and 3 rows of 7',
-    steps: ['Break apart the 6 into 3 + 3.', 'Multiply each part: 3 × 7 = 21 and 3 × 7 = 21.', 'Add the products: 21 + 21 = 42.', 'So 6 × 7 = 42.'],
+    eq: '6 × 3 = (5 × 3) + (1 × 3)', model: { type: 'array', rows: 6, cols: 3, cut: { by: 'rows', at: 5 }, labels: 'facts' },
+    caption: '6 rows of 3, split into 5 rows of 3 and 1 row of 3',
+    steps: ['Break apart the 6 into 5 + 1.', 'Multiply each part: 5 × 3 = 15 and 1 × 3 = 3.', 'Add the products: 15 + 3 = 18.', 'So 6 × 3 = 18.'],
+    // A second example: the same idea with two equal parts.
+    second: {
+      eq: '6 × 7 = (3 × 7) + (3 × 7)', model: { type: 'array', rows: 6, cols: 7, cut: { by: 'rows', at: 3 }, labels: 'facts' },
+      caption: '6 rows of 7, split into 3 rows of 7 and 3 rows of 7',
+      steps: ['Break apart the 6 into 3 + 3.', 'Multiply each part: 3 × 7 = 21 and 3 × 7 = 21.', 'Add the products: 21 + 21 = 42.', 'So 6 × 7 = 42.'],
+    },
   },
 ];
 

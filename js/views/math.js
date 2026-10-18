@@ -82,6 +82,7 @@ function studyGuide(ctx) {
             ${tw ? html`<p class="teacher-line"><span class="label">Teacher's words</span> <span class="def">${tw.def}</span></p>` : ''}
             <p><span class="label">In other words</span> ${p.kid}</p>
             <p class="equation">${facts(p.eq)}</p>
+            ${p.second ? html`<p class="equation">${facts(p.second.eq)}</p>` : ''}
           </li>`;
         })}
       </ul>

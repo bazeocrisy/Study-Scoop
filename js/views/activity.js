@@ -269,8 +269,6 @@ function studyCards(ctx, run) {
     </div>`;
 }
 
-/** Pictures for the teacher's distributive examples, drawn from the same numbers as the sentence. */
-const TEACHER_SPLIT = { 'Breaking 6 × 3 into (5 × 3) + (1 × 3) uses the ___.': { type: 'array', rows: 6, cols: 3, cut: { by: 'rows', at: 5 }, labels: 'facts' } };
 
 /** Math > Learn the Properties: one property at a time, with the teacher's words, a picture and a worked example. */
 function propertyCards(ctx, run) {
@@ -289,11 +287,22 @@ function propertyCards(ctx, run) {
         <div class="instruct-head"><h3>${p.name}</h3>${readButton([p.name, tw ? `Teacher's words: ${tw.def}` : '', `In other words: ${p.kid}`, ...p.steps], 'this property')}</div>
         ${tw ? html`<blockquote class="teacher-words"><span class="label">Teacher's words</span><span class="def">${tw.def}</span></blockquote>` : ''}
         <p class="kid-words"><span class="label">In other words</span>${p.kid}</p>
-        <h4 class="label">Example: ${p.eq}</h4>
+        <h4 class="label">${p.second ? 'Example 1' : 'Example'}: ${facts(p.eq)}</h4>
         <ol class="steps">${p.steps.map((s, k) => html`<li><span class="sn" aria-hidden="true">${k + 1}</span><span>${facts(s)}</span></li>`)}</ol>
-        ${p.key === 'distributive' && teacherExample(tw) ? html`<div class="pairs teacher-ex"><p><span class="label">Your teacher's example</span> ${facts(teacherExample(tw))}</p>${TEACHER_SPLIT[tw.fill] ? modelFigure(TEACHER_SPLIT[tw.fill]) : ''}</div>` : ''}
+        ${p.key === 'distributive' && teacherExample(tw) ? html`<p class="pairs"><span class="label">Your teacher's example</span> ${facts(teacherExample(tw))}</p>` : ''}
       </div>
     </div>
+    ${p.second ? html`<div class="work has-pic prop-learn second-ex">
+      <div class="card pic-card">
+        <div class="models">${modelFigure(p.second.model, p.second.caption)}</div>
+        <p class="equation fact">${facts(p.second.eq)}</p>
+      </div>
+      <div class="card">
+        <div class="instruct-head"><h4 class="ex2">Example 2: ${facts(p.second.eq)}</h4>${readButton(p.second.steps, 'example 2')}</div>
+        <p>The same idea with two equal parts.</p>
+        <ol class="steps">${p.second.steps.map((s, k) => html`<li><span class="sn" aria-hidden="true">${k + 1}</span><span>${facts(s)}</span></li>`)}</ol>
+      </div>
+    </div>` : ''}
     <div class="stage-nav">
       ${f.i > 0 ? html`<button type="button" class="btn" data-act="card-prev">‹ Previous Property</button>` : html`<span></span>`}
       ${last ? html`<a class="btn btn-primary" href="${ctx.actLink('math', 'practice')}">Next: Practice Problems ›</a>`

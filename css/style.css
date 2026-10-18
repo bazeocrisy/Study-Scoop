@@ -728,3 +728,7 @@ button.flashcard .face { min-height: min(360px, 38vh); }
 .crumbs a { min-height: 44px; }
 .act-bar h1:focus { outline: none; }
 .act-bar h1:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* PO decisions: the Distributive card's second example; on phones the week picker is hidden inside activities, tests and lessons (the week stays in the address). */
+.second-ex { margin-top: 14px; }
+.second-ex .ex2 { margin: 0; font-size: 1.15rem; }
+@media (max-width: 640px) { body.in-activity .weekpick { display: none; } }
