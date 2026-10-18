@@ -10,7 +10,7 @@
   ],
   "events": [],
   "homework": [
-    { "title": "Sample reading log", "due": "Every Monday" }
+    { "title": "Sample reading log", "due": "Every Monday", "source": "newsletter" }
   ],
   "spelling": {
     "pattern": "-s and -es",

@@ -138,6 +138,8 @@ function sayItem(item) {
   if (item.lines) parts.push(item.lines.join(' '));
   if (item.type === 'decompose') parts.push(`${item.fact[0]} × ${item.fact[1]} = [p] × [q] + [r] × [s] = [t]`);
   if (item.options) item.options.forEach((o, k) => parts.push(`Choice ${k + 1}: ${o.text}`));
+  if (item.context) parts.push(item.context.replace(/_+/g, 'blank'));
+  if (item.bank) parts.push(`Word bank: ${item.bank.join(', ')}`);
   return parts;
 }
 
@@ -155,7 +157,7 @@ export function itemCard(lesson, item, stage, state) {
     <div class="work${pics.length ? ' has-pic' : ''}">
       ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m))}</div></div>` : ''}
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
-        <div class="instruct-head">${item.type === 'choice' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${item.prompt}</p>`}${readButton(sayItem(item), 'the question')}</div>
+        <div class="instruct-head">${item.type === 'choice' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${item.prompt}</p>`}${item.type === 'spell' ? '' : readButton(sayItem(item), 'the question')}</div>
         ${answerArea(item, resp, st, test, done)}
         ${test ? '' : html`
           <div class="btn-row">
@@ -231,6 +233,35 @@ function answerArea(item, resp, st, test, done) {
       ${VJOIN}
       <span class="eqline"><span>=</span>${box(item, 't', `Total ${where}`, resp, st, done)}</span>
     </div>`;
+  }
+  if (item.type === 'word' || item.type === 'spell') {
+    // Typed words: no spell-check, autocorrect or suggestions, so the browser never gives the spelling away.
+    const marked = (st.status === 'notyet' || st.status === 'empty') && st.wrong?.includes('text');
+    const label = item.type === 'spell' ? 'Type the word you hear' : 'Type the missing word';
+    return html`
+      ${item.type === 'spell' ? html`<div class="dictate">
+        <button type="button" class="btn btn-primary" data-act="dictate">${ICON_SPEAK} Hear the word and sentence</button>
+        <button type="button" class="btn" data-act="say-word">${ICON_SPEAK} Replay word</button>
+      </div>
+      <p class="dictate-fallback" hidden><span class="label">Sound is not working on this device. Read this instead:</span> ${item.fallback}</p>` : ''}
+      ${item.bank ? html`<p class="bank" role="group" aria-label="Word bank: press a word to put it in the answer box"><span class="label" aria-hidden="true">Word bank</span> ${item.bank.map((w) => html`<button type="button" class="chip bank-word" data-act="bank" data-word="${w}"${done ? ' disabled' : ''}>${w}</button>`)}</p>` : ''}
+      <p class="word-answer"><label for="${item.id}-text">${label}</label>
+        <input class="box text${done ? ' is-right' : ''}" name="text" id="${item.id}-text" type="text" autocomplete="off" autocapitalize="off"
+          autocorrect="off" spellcheck="false" maxlength="30" value="${val(resp, 'text')}"${marked ? html` aria-invalid="true"` : ''}${done ? ' readonly' : ''}></p>`;
+  }
+  if (item.type === 'letters') {
+    const spoken = [...item.word].map((ch, k) => (item.blanks.includes(k) ? 'blank' : ch)).join(', ');
+    const n = item.blanks.length;
+    return html`
+      ${item.context ? html`<p class="context">${item.context}</p>` : ''}
+      <p class="letters" role="group" aria-label="The word: ${spoken}">${[...item.word].map((ch, k) => {
+        const at = item.blanks.indexOf(k);
+        if (at < 0) return html`<span class="lt" aria-hidden="true">${ch}</span>`;
+        const name = `l${at}`;
+        const marked = (st.status === 'notyet' || st.status === 'empty') && st.wrong?.includes(name);
+        return html`<input class="box letter${done ? ' is-right' : ''}" name="${name}" id="${item.id}-${name}" type="text" maxlength="1" autocomplete="off"
+          autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Missing letter ${at + 1} of ${n}" value="${val(resp, name)}"${marked ? html` aria-invalid="true"` : ''}${done ? ' readonly' : ''}>`;
+      })}</p>`;
   }
   if (item.type === 'table') {
     return html`<div class="table-scroll"><table class="table-item"><thead><tr>${item.headers.map((h) => html`<th scope="col">${h}</th>`)}</tr></thead>

@@ -22,7 +22,8 @@ export function weekView(ctx) {
                 <h3>${t.title}</h3>
                 <p class="date">${formatLongDate(t.date)}</p>
                 ${t.detail ? html`<p>${t.detail}</p>` : ''}
-                ${section ? html`<a class="action" href="${ctx.link(section)}">Study in ${sectionLabel(section)}</a>` : ''}
+                <p class="links">${section ? html`<a class="action" href="${ctx.link(section)}">Study in ${sectionLabel(section)}</a>` : ''}
+                  <a class="action" href="${ctx.link('tests')}">Practice test</a></p>
               </li>`;
           })}
         </ul>` : html`<p class="card">No quizzes or tests are listed for this week.</p>`}

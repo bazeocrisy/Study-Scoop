@@ -22,9 +22,9 @@
     {"date": "Nov 20", "text": "Early Release"}
   ],
   "homework": [
-    {"title": "Reading Log", "due": "Every Monday"},
-    {"title": "Homework packet", "due": "Sent home Monday, due Friday"},
-    {"title": "3 spelling activities", "due": "Turned in with the packet"}
+    {"title": "Reading Log", "due": "Every Monday", "source": "newsletter"},
+    {"title": "Homework packet", "due": "Sent home Monday, due Friday", "source": "newsletter"},
+    {"title": "3 spelling activities", "due": "Turned in with the packet", "source": "newsletter"}
   ],
   "spelling": {
     "pattern": "-ing",

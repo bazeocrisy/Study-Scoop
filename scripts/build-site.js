@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { validateIndex, validateWeek } from '../js/lib/validate.js';
 import { validateLesson, validateLessonIndex } from '../js/lib/lessons.js';
+import { validateTests } from '../js/lib/activities.js';
 import { pictureName } from '../js/lib/data.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -17,6 +18,7 @@ export const ALLOW = [
   /^js\/(?:(?:lib|views)\/)?[a-z0-9-]+\.js$/,
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
   /^data\/lessons\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/,
+  /^data\/tests\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
   /^images\/cone\.svg$/,
   /^images\/words\/[a-z0-9-]+\.(?:svg|webp)$/,
   /^fonts\/[a-z0-9-]+\.woff2$/,
@@ -60,12 +62,15 @@ export function buildSite(out, src = REPO) {
   const listed = new Set(readJSON(path.join(src, 'data/weeks.json')).weeks.map((w) => `data/${w.id}.json`));
   const lessonIndex = path.join(src, 'data/lessons/index.json');
   const lessons = new Set(fs.existsSync(lessonIndex) ? readJSON(lessonIndex).lessons.map((l) => `data/lessons/${l.id}.json`) : []);
+  const testIndex = path.join(src, 'data/tests/index.json');
+  const testWeeks = new Set(fs.existsSync(testIndex) ? readJSON(testIndex).weeks.filter((id) => listed.has(`data/${id}.json`)).map((id) => `data/tests/${id}.json`) : []);
   const copied = [], skipped = [];
   for (const rel of SOURCES.flatMap((s) => walk(src, s))) {
     let why = null;
     if (!isAllowed(rel)) why = 'not on the allowlist';
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
     else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';
+    else if (/^data\/tests\/(?!index\.json$)/.test(rel) && !testWeeks.has(rel)) why = 'not listed in data/tests/index.json (or its week is not published)';
     if (why) { skipped.push(`${rel} (${why})`); continue; }
     fs.mkdirSync(path.dirname(path.join(out, rel)), { recursive: true });
     fs.copyFileSync(path.join(src, rel), path.join(out, rel));
@@ -147,6 +152,21 @@ export function verifySite(dir) {
       const rel = `data/lessons/${id}.json`;
       if (!has(rel)) { problems.push(`${rel} is listed in data/lessons/index.json but missing`); continue; }
       problems.push(...validateLesson(readJSON(path.join(dir, rel)), id).map((p) => `${rel}: ${p}`));
+    }
+  }
+  // Practice tests: each listed week's tests are published, belong to a published week, and pass every check
+  // (answer keys, pictures, teacher definitions). Nothing unlisted is published.
+  if (has('data/tests/index.json')) {
+    const weeks = readJSON(path.join(dir, 'data/tests/index.json')).weeks;
+    if (!Array.isArray(weeks)) problems.push('data/tests/index.json: "weeks" must be a list');
+    for (const rel of files.filter((f) => /^data\/tests\/(?!index\.json$)/.test(f))) {
+      if (!(weeks || []).includes(rel.slice('data/tests/'.length, -'.json'.length))) problems.push(`${rel} is published but not listed in data/tests/index.json`);
+    }
+    for (const id of weeks || []) {
+      const rel = `data/tests/${id}.json`;
+      if (!has(rel)) { problems.push(`${rel} is listed in data/tests/index.json but missing`); continue; }
+      if (!has(`data/${id}.json`)) { problems.push(`${rel} is for a week that is not published`); continue; }
+      problems.push(...validateTests(readJSON(path.join(dir, rel)), readJSON(path.join(dir, `data/${id}.json`))));
     }
   }
   // The picture list must match the published pictures exactly (pages use it so they never ask for a missing file).

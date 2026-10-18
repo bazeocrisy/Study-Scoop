@@ -58,14 +58,14 @@ test('lesson code has no eval, inline styles or lesson-specific branches (one en
   }
 });
 
-test('index.html has a strict Content Security Policy and seven sections', () => {
+test('index.html has a strict Content Security Policy and eight sections', () => {
   const page = read('index.html');
   const csp = /Content-Security-Policy" content="([^"]+)"/.exec(page)?.[1] || '';
   assert.match(csp, /default-src 'self'/);
   assert.match(csp, /script-src 'self'(;|$)/);
   assert.match(csp, /connect-src 'self'/);
   refute(/unsafe-inline|unsafe-eval|\*/, csp, 'CSP');
-  assert.equal((page.match(/data-tab="/g) || []).length, 7);
+  assert.equal((page.match(/data-tab="/g) || []).length, 8);
   assert.match(page, /<html lang="en">/);
   assert.match(page, /<script type="module" src="js\/app\.js"><\/script>/);
   refute(/\son[a-z]+=/i, page, 'index.html inline event handler');

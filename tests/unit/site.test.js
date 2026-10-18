@@ -42,11 +42,12 @@ test('the built site passes verification', () => {
   assert.deepEqual([...copied].sort(), PUBLISHED);
 });
 
-test('the built site is exactly the page, styles, modules, fonts, listed weeks, lessons and pictures', () => {
+test('the built site is exactly the page, styles, modules, fonts, listed weeks, lessons, practice tests and pictures', () => {
   const weeks = JSON.parse(fs.readFileSync(path.join(REPO, 'data/weeks.json'), 'utf8')).weeks.map((w) => `data/${w.id}.json`);
   const lessons = JSON.parse(fs.readFileSync(path.join(REPO, 'data/lessons/index.json'), 'utf8')).lessons.map((l) => `data/lessons/${l.id}.json`);
   const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
     'data/lessons/index.json', ...lessons, 'images/cone.svg',
+    'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
     ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2'))];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
@@ -140,6 +141,26 @@ test('the verifier checks the weekly data and its pictures', () => {
   caught(brokenSite((d) => put(d, `data/${first.id}.json`, '{"id":"x"}')), new RegExp(`^data/${first.id}\\.json: `));
   caught(brokenSite((d) => fs.rmSync(path.join(d, 'images/words/rushed.svg'))), /names picture images\/words\/rushed\.svg, which is missing/);
   caught(brokenSite((d) => fs.rmSync(path.join(d, 'images/words'), { recursive: true })), /no vocabulary pictures were published/);
+});
+
+test('a draft practice test (not listed) is left out, and a wrong answer key fails verification', () => {
+  const src = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-src-'));
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  put(src, 'data/tests/2026-10-12.json', '{"id":"2026-10-12"}');
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-out-'));
+  const result = buildSite(out, src);
+  assert.ok(result.skipped.some((s) => s.startsWith('data/tests/2026-10-12.json (not listed')), 'draft test left out');
+  // A wrong answer key, a split array whose answer does not match its picture, and a changed teacher definition.
+  const broken = (change) => brokenSite((d) => {
+    const f = path.join(d, 'data/tests/2026-10-19.json');
+    const t = JSON.parse(fs.readFileSync(f, 'utf8'));
+    change(t);
+    fs.writeFileSync(f, JSON.stringify(t));
+  });
+  caught(broken((t) => { t.math.items.find((i) => i.id === 'm2').answer = '1'; }), /prompt says 6 × 0 but the answer is 1/);
+  caught(broken((t) => { const it = t.math.items.find((i) => i.id === 'm10'); it.model.cut.at = 4; }), /does not match the picture|also matches the picture/);
+  caught(broken((t) => { const it = t.vocab.items.find((i) => i.kind === 'meaning'); it.options.find((o) => o.correct).text = 'Something else'; }), /teacher's definition/);
+  caught(broken((t) => { t.math.items[0].hints = ['a hint']; }), /cannot have hints/);
 });
 
 test('the verifier rejects pictures with scripts or outside links, and personal names', () => {

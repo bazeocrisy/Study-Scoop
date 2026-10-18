@@ -1,9 +1,11 @@
 // Hash routes: "#<section>" for this week, "#<section>?week=YYYY-MM-DD" for another week.
 // Lessons live under Math: "#math?lesson=5-1&stage=watch" (DECISIONS D17).
+// Activities: "#vocab?act=choice", "#spelling?act=listen"; practice tests: "#tests?test=math" (DECISIONS D18).
 // The week lives in the address (not in storage), so links can be shared and nothing is saved.
 
 export const DEFAULT_SECTION = 'week';
 const LESSON_ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const WORD = /^[a-z]+$/;
 
 /** Reads a location hash. `known` is false when the section name was not recognised. */
 export function parseHash(hash, sectionIds) {
@@ -19,6 +21,8 @@ export function parseHash(hash, sectionIds) {
     week: params.get('week') || null,
     lesson,
     stage: lesson ? params.get('stage') || null : null,
+    act: ['spelling', 'vocab'].includes(section) && WORD.test(params.get('act') || '') ? params.get('act') : null,
+    test: section === 'tests' && WORD.test(params.get('test') || '') ? params.get('test') : null,
     known,
   };
 }
@@ -31,6 +35,8 @@ export function buildHash(section, weekId, currentWeekId, extra = {}) {
     params.push(`lesson=${encodeURIComponent(extra.lesson)}`);
     if (extra.stage) params.push(`stage=${encodeURIComponent(extra.stage)}`);
   }
+  if (['spelling', 'vocab'].includes(section) && extra.act) params.push(`act=${encodeURIComponent(extra.act)}`);
+  if (section === 'tests' && extra.test) params.push(`test=${encodeURIComponent(extra.test)}`);
   return params.length ? `#${section}?${params.join('&')}` : `#${section}`;
 }
 

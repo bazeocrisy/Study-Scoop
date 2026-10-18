@@ -1,8 +1,11 @@
 import { html } from '../lib/html.js';
 import { pictureName } from '../lib/data.js';
-import { comingSoon, pageHead, wordPicture } from './common.js';
+import { pageHead, wordPicture } from './common.js';
+import { ACTIVITIES } from '../lib/activities.js';
+import { activityMenu, activityView } from './activity.js';
 
 export function spellingView(ctx) {
+  if (ctx.run) return activityView(ctx);
   const sp = ctx.week.spelling;
   const groups = Object.keys(sp.rules).map((id) => ({
     id, label: sp.rules[id], help: sp.ruleHelp[id], words: sp.words.filter((w) => w.rule === id),
@@ -26,6 +29,8 @@ export function spellingView(ctx) {
         </section>`)}
     </div>
 
+    ${activityMenu(ctx, 'spelling', ACTIVITIES.spelling)}
+
     ${cards.length ? html`
       <section aria-labelledby="h-study">
         <h2 id="h-study">Study cards</h2>
@@ -40,11 +45,5 @@ export function spellingView(ctx) {
         </ul>
       </section>` : ''}
 
-    ${comingSoon('Spelling practice', [
-      'Hear each word and type it',
-      'Flash cards',
-      'Practice test and spelling test',
-      'Practice My Misses',
-      'Printable study sheet',
-    ])}`;
+`;
 }

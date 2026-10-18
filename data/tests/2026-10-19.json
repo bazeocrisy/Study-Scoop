@@ -1,0 +1,871 @@
+{
+  "id": "2026-10-19",
+  "math": {
+    "topic": "Multiplication Properties",
+    "coverage": "The Identity, Zero, Commutative and Distributive Properties, rows and columns, and split arrays. These match the class test topic in the Oct 19–23 newsletter and the Distributive Property homework. Other Chapter 5 strategies are not included, because the test topic does not list them.",
+    "instructions": "Answer each question. There are no hints during the test. You can go back and change an answer before you finish.",
+    "pass": 16,
+    "items": [
+      {
+        "id": "m1",
+        "type": "choice",
+        "prompt": "Which property does 8 × 1 = 8 show?",
+        "options": [
+          {
+            "text": "Identity Property",
+            "correct": true
+          },
+          {
+            "text": "Zero Property",
+            "why": "The Zero Property is about multiplying by 0."
+          },
+          {
+            "text": "Commutative Property",
+            "why": "The Commutative Property is about changing the order of the factors."
+          },
+          {
+            "text": "Distributive Property",
+            "why": "The Distributive Property breaks a fact into two easier facts."
+          }
+        ],
+        "explain": "Any number times 1 is that number: 8 × 1 = 8. That is the Identity Property."
+      },
+      {
+        "id": "m2",
+        "type": "number",
+        "prompt": "6 × 0 = ?",
+        "answer": "6 × 0",
+        "mistakes": [
+          {
+            "when": {
+              "answer": 6
+            },
+            "say": "Times 0 always makes 0."
+          }
+        ],
+        "explain": "6 groups of 0 is 0. Any number times 0 is 0."
+      },
+      {
+        "id": "m3",
+        "type": "choice",
+        "prompt": "Which property does 0 × 12 = 0 show?",
+        "options": [
+          {
+            "text": "Identity Property",
+            "why": "The Identity Property is about multiplying by 1."
+          },
+          {
+            "text": "Zero Property",
+            "correct": true
+          },
+          {
+            "text": "Commutative Property",
+            "why": "The Commutative Property is about changing the order of the factors."
+          },
+          {
+            "text": "Distributive Property",
+            "why": "The Distributive Property breaks a fact into two easier facts."
+          }
+        ],
+        "explain": "Any number times 0 is 0. That is the Zero Property."
+      },
+      {
+        "id": "m4",
+        "type": "choice",
+        "prompt": "Which property does 5 × 4 = 4 × 5 show?",
+        "options": [
+          {
+            "text": "Identity Property",
+            "why": "The Identity Property is about multiplying by 1."
+          },
+          {
+            "text": "Zero Property",
+            "why": "The Zero Property is about multiplying by 0."
+          },
+          {
+            "text": "Commutative Property",
+            "correct": true
+          },
+          {
+            "text": "Distributive Property",
+            "why": "The Distributive Property breaks a fact into two easier facts."
+          }
+        ],
+        "explain": "The factors changed order and the product stayed 20. That is the Commutative Property."
+      },
+      {
+        "id": "m5",
+        "type": "number",
+        "prompt": "9 × 1 = ?",
+        "answer": "9 × 1",
+        "mistakes": [
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "9 + 1 is 10. Times 1 keeps the number the same."
+          }
+        ],
+        "explain": "Any number times 1 is that number: 9 × 1 = 9."
+      },
+      {
+        "id": "m6",
+        "type": "fill",
+        "prompt": "What number goes in the box?",
+        "lines": [
+          "8 × 7 = 7 × [a]"
+        ],
+        "answer": {
+          "a": 8
+        },
+        "explain": "Changing the order of the factors keeps the product the same: 8 × 7 = 7 × 8."
+      },
+      {
+        "id": "m7",
+        "type": "number",
+        "prompt": "How many rows are in this array?",
+        "model": {
+          "type": "array",
+          "rows": 4,
+          "cols": 6,
+          "alt": "An array of dots. Count the rows in the picture."
+        },
+        "answer": "4",
+        "mistakes": [
+          {
+            "when": {
+              "answer": 6
+            },
+            "say": "That is how many dots are in each row."
+          }
+        ],
+        "explain": "Rows go across. This array has 4 rows of 6 dots."
+      },
+      {
+        "id": "m8",
+        "type": "number",
+        "prompt": "How many columns are in this array?",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 5,
+          "alt": "An array of dots. Count the columns in the picture."
+        },
+        "answer": "5",
+        "mistakes": [
+          {
+            "when": {
+              "answer": 3
+            },
+            "say": "That is how many rows there are."
+          }
+        ],
+        "explain": "Columns go up and down. This array has 3 rows and 5 columns."
+      },
+      {
+        "id": "m9",
+        "type": "choice",
+        "prompt": "Which multiplication fact does this array show?",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 8,
+          "alt": "An array of dots in rows."
+        },
+        "target": "3 × 8",
+        "options": [
+          {
+            "text": "3 + 8",
+            "why": "Adding the numbers does not count the dots."
+          },
+          {
+            "text": "3 × 8",
+            "correct": true
+          },
+          {
+            "text": "4 × 8",
+            "why": "Count the rows again."
+          },
+          {
+            "text": "3 × 5",
+            "why": "Count the dots in each row again."
+          }
+        ],
+        "explain": "There are 3 rows with 8 dots in each row: 3 × 8."
+      },
+      {
+        "id": "m10",
+        "type": "choice",
+        "prompt": "A line splits this array. Which expression matches the two parts?",
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 4,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          }
+        },
+        "pictureMatch": true,
+        "options": [
+          {
+            "text": "(4 × 4) + (3 × 4)",
+            "why": "Count the rows above the line again."
+          },
+          {
+            "text": "(7 × 2) + (7 × 2)",
+            "why": "This line goes between rows, not between columns."
+          },
+          {
+            "text": "(5 × 4) + (2 × 4)",
+            "correct": true
+          },
+          {
+            "text": "(5 × 4) + (2 × 2)",
+            "why": "Each row below the line still has 4 dots."
+          }
+        ],
+        "explain": "The line is under row 5: 5 rows of 4 above it and 2 rows of 4 below it."
+      },
+      {
+        "id": "m11",
+        "type": "choice",
+        "prompt": "A line splits this array. Which expression matches the two parts?",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 8,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          }
+        },
+        "pictureMatch": true,
+        "options": [
+          {
+            "text": "(6 × 5) + (6 × 3)",
+            "correct": true
+          },
+          {
+            "text": "(6 × 5) + (6 × 8)",
+            "why": "The right part has 3 columns, not 8."
+          },
+          {
+            "text": "(3 × 5) + (3 × 3)",
+            "why": "Each part still has all 6 rows."
+          },
+          {
+            "text": "(6 × 4) + (6 × 4)",
+            "why": "Count the columns left of the line again."
+          }
+        ],
+        "explain": "The line is after column 5: 6 rows of 5 on the left and 6 rows of 3 on the right."
+      },
+      {
+        "id": "m12",
+        "type": "choice",
+        "prompt": "A line splits this array. Which expression matches the two parts?",
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          }
+        },
+        "pictureMatch": true,
+        "options": [
+          {
+            "text": "(4 × 3) + (2 × 3)",
+            "why": "Count the rows below the line again."
+          },
+          {
+            "text": "(5 × 3) + (3 × 3)",
+            "why": "Count the rows above the line again."
+          },
+          {
+            "text": "(8 × 1) + (8 × 2)",
+            "why": "This line goes between rows. Each part keeps 3 dots in a row."
+          },
+          {
+            "text": "(4 × 3) + (4 × 3)",
+            "correct": true
+          }
+        ],
+        "explain": "The line is under row 4: 4 rows of 3 above it and 4 rows of 3 below it."
+      },
+      {
+        "id": "m13",
+        "type": "choice",
+        "prompt": "A line splits this array. Which expression matches the two parts?",
+        "model": {
+          "type": "array",
+          "rows": 4,
+          "cols": 9,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          }
+        },
+        "pictureMatch": true,
+        "options": [
+          {
+            "text": "(2 × 9) + (2 × 9)",
+            "why": "This line goes between columns, not between rows."
+          },
+          {
+            "text": "(4 × 5) + (4 × 4)",
+            "correct": true
+          },
+          {
+            "text": "(5 × 5) + (4 × 4)",
+            "why": "Both parts have 4 rows."
+          },
+          {
+            "text": "(4 × 5) + (4 × 5)",
+            "why": "Count the columns right of the line again."
+          }
+        ],
+        "explain": "The line is after column 5: 4 rows of 5 on the left and 4 rows of 4 on the right."
+      },
+      {
+        "id": "m14",
+        "type": "choice",
+        "prompt": "Which equation shows the Distributive Property?",
+        "options": [
+          {
+            "text": "7 × 3 = 3 × 7",
+            "why": "That shows the Commutative Property."
+          },
+          {
+            "text": "7 × 1 = 7",
+            "why": "That shows the Identity Property."
+          },
+          {
+            "text": "7 × 3 = (5 × 3) + (2 × 3)",
+            "correct": true
+          },
+          {
+            "text": "7 × 0 = 0",
+            "why": "That shows the Zero Property."
+          }
+        ],
+        "explain": "7 × 3 is broken apart into 5 × 3 and 2 × 3. That is the Distributive Property."
+      },
+      {
+        "id": "m15",
+        "type": "fill",
+        "prompt": "Find the two parts. Then add.",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 7,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          }
+        },
+        "lines": [
+          "6 × 7 = 5 × 7 + 1 × 7",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 35,
+          "q": 7,
+          "t": 42
+        },
+        "accept": [
+          {
+            "p": 7,
+            "q": 35,
+            "t": 42
+          }
+        ],
+        "explain": "5 × 7 = 35 and 1 × 7 = 7. 35 + 7 = 42."
+      },
+      {
+        "id": "m16",
+        "type": "fill",
+        "prompt": "Finish breaking apart 9 × 4.",
+        "lines": [
+          "9 × 4 = 5 × 4 + [a] × 4",
+          "= 20 + [b]",
+          "= [t]"
+        ],
+        "answer": {
+          "a": 4,
+          "b": 16,
+          "t": 36
+        },
+        "explain": "9 is 5 + 4. 5 × 4 = 20 and 4 × 4 = 16. 20 + 16 = 36."
+      },
+      {
+        "id": "m17",
+        "type": "decompose",
+        "prompt": "Break apart 8 × 6 into two easier facts. Then find the product.",
+        "fact": [
+          8,
+          6
+        ],
+        "answer": {
+          "p": 5,
+          "q": 6,
+          "r": 3,
+          "s": 6,
+          "t": 48
+        },
+        "explain": "One way: 8 is 5 + 3, so 8 × 6 = 5 × 6 + 3 × 6 = 30 + 18 = 48. Any correct way to break it apart counts."
+      },
+      {
+        "id": "m18",
+        "type": "number",
+        "prompt": "5 × 6 = 30 and 1 × 6 = 6. Use them to find 6 × 6. What is 6 × 6?",
+        "answer": "6 × 6",
+        "mistakes": [
+          {
+            "when": {
+              "answer": 30
+            },
+            "say": "That is only the 5 × 6 part."
+          }
+        ],
+        "explain": "6 is 5 + 1, so 6 × 6 = 30 + 6 = 36."
+      },
+      {
+        "id": "m19",
+        "type": "choice",
+        "prompt": "A student broke 6 × 4 into 3 × 4 and 3 × 4. Is that a correct way to find 6 × 4?",
+        "options": [
+          {
+            "text": "No. You can only break 6 into 5 and 1.",
+            "why": "You can break a factor into any two parts."
+          },
+          {
+            "text": "Yes. 3 + 3 = 6, so 12 + 12 = 24.",
+            "correct": true
+          },
+          {
+            "text": "No. The two parts must be different numbers.",
+            "why": "The parts can be the same. 3 + 3 = 6."
+          },
+          {
+            "text": "Yes, and the answer is 12.",
+            "why": "Each part is 12. Add both parts: 12 + 12 = 24."
+          }
+        ],
+        "explain": "3 + 3 = 6, so 6 × 4 = 3 × 4 + 3 × 4 = 12 + 12 = 24."
+      },
+      {
+        "id": "m20",
+        "type": "choice",
+        "quotesMistake": true,
+        "prompt": "A student wrote 6 × 3 = (5 × 3) + 1. What went wrong?",
+        "options": [
+          {
+            "text": "5 × 3 is not 15.",
+            "why": "5 × 3 really is 15. That part is right."
+          },
+          {
+            "text": "Nothing. It is correct.",
+            "why": "(5 × 3) + 1 makes 16, but 6 × 3 makes 18."
+          },
+          {
+            "text": "The 1 should be 1 × 3.",
+            "correct": true
+          },
+          {
+            "text": "The 6 must be broken into 4 and 2.",
+            "why": "5 and 1 is a fine way to break apart 6. The problem is the second part."
+          }
+        ],
+        "explain": "6 is 5 + 1, so both parts are times 3: (5 × 3) + (1 × 3) = 15 + 3 = 18."
+      }
+    ]
+  },
+  "vocab": {
+    "topic": "Because of Winn-Dixie vocabulary",
+    "coverage": "Covers the 12 words on this week's vocabulary list. The newsletter also mentions purple words; they have not been provided yet, so they are not on this test.",
+    "instructions": "Read each question carefully. There are no hints during the test. You can go back and change an answer before you finish.",
+    "pass": 13,
+    "items": [
+      {
+        "id": "v1",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Exception",
+        "prompt": "What does the word \"Exception\" mean?",
+        "options": [
+          {
+            "text": "Strange or unusual",
+            "why": "That is what \"Peculiar\" means."
+          },
+          {
+            "text": "A case where a rule does not apply",
+            "correct": true
+          },
+          {
+            "text": "Fresh fruits and vegetables",
+            "why": "That is what \"Produce\" means."
+          },
+          {
+            "text": "When money is paid over a length of time",
+            "why": "That is what \"Installment\" means."
+          }
+        ],
+        "explain": "\"Exception\" means: A case where a rule does not apply."
+      },
+      {
+        "id": "v2",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Fortunate",
+        "prompt": "True or false? \"Fortunate\" means \"favored by or involving good luck or fortune\".",
+        "options": [
+          {
+            "text": "True",
+            "correct": true
+          },
+          {
+            "text": "False",
+            "why": "It is true."
+          }
+        ],
+        "explain": "True. \"Fortunate\" means: favored by or involving good luck or fortune."
+      },
+      {
+        "id": "v3",
+        "type": "word",
+        "kind": "fill",
+        "word": "Produce",
+        "prompt": "The farmer sells fresh ___ like corn, peaches, and beans.",
+        "answer": "produce",
+        "bank": [
+          "constellations",
+          "distracted",
+          "employee",
+          "exception",
+          "fortunate",
+          "ignorant",
+          "installment",
+          "irritating",
+          "melancholy",
+          "peculiar",
+          "produce",
+          "trustworthy"
+        ],
+        "retry": "Not yet.",
+        "explain": "\"Produce\" means: Fresh fruits and vegetables."
+      },
+      {
+        "id": "v4",
+        "type": "choice",
+        "kind": "context",
+        "word": "Ignorant",
+        "prompt": "Read the sentence: \"Before the field trip, I was ignorant about how farmers grow corn.\" What does \"ignorant\" mean in this sentence?",
+        "options": [
+          {
+            "text": "A sad or gloomy condition",
+            "why": "That is what \"Melancholy\" means."
+          },
+          {
+            "text": "favored by or involving good luck or fortune",
+            "why": "That is what \"Fortunate\" means."
+          },
+          {
+            "text": "To anger or bother",
+            "why": "That is what \"Irritating\" means."
+          },
+          {
+            "text": "lacking knowledge or awareness in general",
+            "correct": true
+          }
+        ],
+        "explain": "\"Ignorant\" means: lacking knowledge or awareness in general."
+      },
+      {
+        "id": "v5",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Peculiar",
+        "prompt": "What does the word \"Peculiar\" mean?",
+        "options": [
+          {
+            "text": "Strange or unusual",
+            "correct": true
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is what \"Distracted\" means."
+          },
+          {
+            "text": "The ability to keep promises",
+            "why": "That is what \"Trustworthy\" means."
+          },
+          {
+            "text": "A case where a rule does not apply",
+            "why": "That is what \"Exception\" means."
+          }
+        ],
+        "explain": "\"Peculiar\" means: Strange or unusual."
+      },
+      {
+        "id": "v6",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Ignorant",
+        "prompt": "True or false? \"Ignorant\" means \"A sad or gloomy condition\".",
+        "options": [
+          {
+            "text": "True",
+            "why": "It is false. That is what \"Melancholy\" means."
+          },
+          {
+            "text": "False",
+            "correct": true
+          }
+        ],
+        "explain": "False. \"Ignorant\" means: lacking knowledge or awareness in general."
+      },
+      {
+        "id": "v7",
+        "type": "word",
+        "kind": "fill",
+        "word": "Employee",
+        "prompt": "The ___ at the pet store showed us how to feed the fish.",
+        "answer": "employee",
+        "bank": [
+          "constellations",
+          "distracted",
+          "employee",
+          "exception",
+          "fortunate",
+          "ignorant",
+          "installment",
+          "irritating",
+          "melancholy",
+          "peculiar",
+          "produce",
+          "trustworthy"
+        ],
+        "retry": "Not yet.",
+        "explain": "\"Employee\" means: Someone who works for money."
+      },
+      {
+        "id": "v8",
+        "type": "choice",
+        "kind": "context",
+        "word": "Exception",
+        "prompt": "Read the sentence: \"Everyone in my family likes spicy food. My little brother is the only exception.\" What does \"exception\" mean in this sentence?",
+        "options": [
+          {
+            "text": "Someone who works for money",
+            "why": "That is what \"Employee\" means."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is what \"Constellations\" means."
+          },
+          {
+            "text": "A case where a rule does not apply",
+            "correct": true
+          },
+          {
+            "text": "lacking knowledge or awareness in general",
+            "why": "That is what \"Ignorant\" means."
+          }
+        ],
+        "explain": "\"Exception\" means: A case where a rule does not apply."
+      },
+      {
+        "id": "v9",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Melancholy",
+        "prompt": "What does the word \"Melancholy\" mean?",
+        "options": [
+          {
+            "text": "To anger or bother",
+            "why": "That is what \"Irritating\" means."
+          },
+          {
+            "text": "Fresh fruits and vegetables",
+            "why": "That is what \"Produce\" means."
+          },
+          {
+            "text": "A sad or gloomy condition",
+            "correct": true
+          },
+          {
+            "text": "favored by or involving good luck or fortune",
+            "why": "That is what \"Fortunate\" means."
+          }
+        ],
+        "explain": "\"Melancholy\" means: A sad or gloomy condition."
+      },
+      {
+        "id": "v10",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Trustworthy",
+        "prompt": "True or false? \"Trustworthy\" means \"The ability to keep promises\".",
+        "options": [
+          {
+            "text": "True",
+            "correct": true
+          },
+          {
+            "text": "False",
+            "why": "It is true."
+          }
+        ],
+        "explain": "True. \"Trustworthy\" means: The ability to keep promises."
+      },
+      {
+        "id": "v11",
+        "type": "word",
+        "kind": "fill",
+        "word": "Installment",
+        "prompt": "Mom paid the first ___ for my piano lessons today, and she will pay the rest a little at a time.",
+        "answer": "installment",
+        "bank": [
+          "constellations",
+          "distracted",
+          "employee",
+          "exception",
+          "fortunate",
+          "ignorant",
+          "installment",
+          "irritating",
+          "melancholy",
+          "peculiar",
+          "produce",
+          "trustworthy"
+        ],
+        "retry": "Not yet.",
+        "explain": "\"Installment\" means: When money is paid over a length of time."
+      },
+      {
+        "id": "v12",
+        "type": "choice",
+        "kind": "context",
+        "word": "Installment",
+        "prompt": "Read the sentence: \"Grandma is paying for her new couch in small installments every month.\" What does \"installments\" mean in this sentence?",
+        "options": [
+          {
+            "text": "Someone who works for money",
+            "why": "That is what \"Employee\" means."
+          },
+          {
+            "text": "A case where a rule does not apply",
+            "why": "That is what \"Exception\" means."
+          },
+          {
+            "text": "Fresh fruits and vegetables",
+            "why": "That is what \"Produce\" means."
+          },
+          {
+            "text": "When money is paid over a length of time",
+            "correct": true
+          }
+        ],
+        "explain": "\"Installment\" means: When money is paid over a length of time."
+      },
+      {
+        "id": "v13",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Constellations",
+        "prompt": "What does the word \"Constellations\" mean?",
+        "options": [
+          {
+            "text": "Strange or unusual",
+            "why": "That is what \"Peculiar\" means."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "correct": true
+          },
+          {
+            "text": "A sad or gloomy condition",
+            "why": "That is what \"Melancholy\" means."
+          },
+          {
+            "text": "Someone who works for money",
+            "why": "That is what \"Employee\" means."
+          }
+        ],
+        "explain": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
+      },
+      {
+        "id": "v14",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Irritating",
+        "prompt": "True or false? \"Irritating\" means \"Fresh fruits and vegetables\".",
+        "options": [
+          {
+            "text": "True",
+            "why": "It is false. That is what \"Produce\" means."
+          },
+          {
+            "text": "False",
+            "correct": true
+          }
+        ],
+        "explain": "False. \"Irritating\" means: To anger or bother."
+      },
+      {
+        "id": "v15",
+        "type": "word",
+        "kind": "fill",
+        "word": "Distracted",
+        "prompt": "A squirrel outside the window ___ me during the math lesson.",
+        "answer": "distracted",
+        "bank": [
+          "constellations",
+          "distracted",
+          "employee",
+          "exception",
+          "fortunate",
+          "ignorant",
+          "installment",
+          "irritating",
+          "melancholy",
+          "peculiar",
+          "produce",
+          "trustworthy"
+        ],
+        "retry": "Not yet.",
+        "explain": "\"Distracted\" means: To prevent something from continuing as usual."
+      },
+      {
+        "id": "v16",
+        "type": "choice",
+        "kind": "context",
+        "word": "Melancholy",
+        "prompt": "Read the sentence: \"The song was slow and melancholy, and it made me want to cry.\" What does \"melancholy\" mean in this sentence?",
+        "options": [
+          {
+            "text": "A sad or gloomy condition",
+            "correct": true
+          },
+          {
+            "text": "favored by or involving good luck or fortune",
+            "why": "That is what \"Fortunate\" means."
+          },
+          {
+            "text": "The ability to keep promises",
+            "why": "That is what \"Trustworthy\" means."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is what \"Distracted\" means."
+          }
+        ],
+        "explain": "\"Melancholy\" means: A sad or gloomy condition."
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 # Study Scoop — Project Status
 
 ## Current phase
-Assignment 004 (implementation) on `develop`: redesigned site (D16), interactive Lessons 5-1 and 5-2 on a shared lesson engine (D17), spelling and vocabulary pictures integrated. Preview: https://bazeocrisy.github.io/Study-Scoop/preview/ · production (unchanged until the owner approves a merge): https://bazeocrisy.github.io/Study-Scoop/. Image PRs #2 and #3: their files are included on `develop`; the PRs themselves are not merged.
+Assignment 005 (implementation) on `develop`: eighth section **Tests** (weekly Study Scoop practice tests for Math, Spelling and Vocabulary), Spelling and Vocabulary practice activities with Practice My Misses, and homework entries that say what was received (D18). Before that, Assignment 004: redesigned site (D16), interactive Lessons 5-1 and 5-2 on a shared lesson engine (D17), spelling and vocabulary pictures integrated. Preview: https://bazeocrisy.github.io/Study-Scoop/preview/ · production (unchanged until the owner approves a merge): https://bazeocrisy.github.io/Study-Scoop/. Image PRs #2 and #3: their files are included on `develop`; the PRs themselves are not merged.
 
 ## Completed
 - GitHub repository created by owner; README.md and CLAUDE.md added
@@ -19,9 +19,10 @@ Assignment 004 (implementation) on `develop`: redesigned site (D16), interactive
 - Owner feedback (light theme, D12): vanilla background, white cards, softer sprinkles; light on every device. 76 unit, 46 browser, 48 built-site checks passing
 
 ## Not yet implemented
-- Spelling practice, flash cards, tests, Practice My Misses, print sheet
-- Vocabulary practice, quizzes, tests, Practice My Misses, print sheet
-- Math Chapters Lessons 5-1 and 5-2 (Learn, Practice, Study Guide, Test)
+- Printable study sheets (spelling, vocabulary)
+- Lessons 5-3 to 5-7 (not approved yet)
+- Practice for multiplying multiples of 10 (homework topic, Oct 12–16)
+- Vocabulary "purple words" for Oct 19–23 (not provided yet; the tests say so)
 - Multiplication Mastery and Find My Factors
 - Quick Math (six levels)
 - Optional timers

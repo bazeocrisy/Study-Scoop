@@ -62,16 +62,39 @@
   ],
   "homework": [
     {
+      "title": "Distributive Property worksheet",
+      "due": "Week of Oct 12–16",
+      "subject": "Math",
+      "source": "received",
+      "description": "Arrays split by a line across or down, with multiple-choice questions about which multiplication expression matches each split.",
+      "status": "The worksheet itself is kept private and is not shown on this website.",
+      "practice": {
+        "lesson": "5-1",
+        "label": "Practise with Lesson 5-1: Understand the Distributive Property"
+      }
+    },
+    {
+      "title": "Multiplying multiples of 10 worksheet",
+      "due": "Week of Oct 12–16",
+      "subject": "Math",
+      "source": "received",
+      "description": "Multiplying a one-digit number by a multiple of 10, in problems such as 40 × 6.",
+      "status": "The worksheet itself is kept private and is not shown on this website. Study Scoop does not have practice for this topic yet."
+    },
+    {
       "title": "Reading Log",
-      "due": "Every Monday"
+      "due": "Every Monday",
+      "source": "newsletter"
     },
     {
       "title": "Homework packet",
-      "due": "Sent home Monday, due Friday"
+      "due": "Sent home Monday, due Friday",
+      "source": "newsletter"
     },
     {
       "title": "3 spelling activities",
-      "due": "Turned in with the packet"
+      "due": "Turned in with the packet",
+      "source": "newsletter"
     }
   ],
   "spelling": {

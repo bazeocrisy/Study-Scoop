@@ -13,11 +13,12 @@ import { mathView } from '../../js/views/math.js';
 import { quickmathView } from '../../js/views/quickmath.js';
 import { homeworkView } from '../../js/views/homework.js';
 import { newsletterView } from '../../js/views/newsletter.js';
+import { testsView } from '../../js/views/tests.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const VIEWS = { week: weekView, spelling: spellingView, vocab: vocabView, math: mathView,
-  quickmath: quickmathView, homework: homeworkView, newsletter: newsletterView };
+  quickmath: quickmathView, homework: homeworkView, newsletter: newsletterView, tests: testsView };
 
 const LESSONS = readJSON('data/lessons/index.json');
 const PICTURES = readJSON('data/pictures.json');
@@ -25,6 +26,9 @@ function ctxFor(index, weekId, section, week) {
   return { week, index, weekId, section, isCurrent: weekId === index.current, today: new Date(2026, 9, 16, 12),
     link: (s, id = weekId) => buildHash(s, id, index.current),
     lessonLink: (id, stage) => buildHash('math', weekId, index.current, { lesson: id, stage }),
+    actLink: (s, act) => buildHash(s, weekId, index.current, { act }),
+    testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
+    tests: weekId === '2026-10-19' ? readJSON('data/tests/2026-10-19.json') : null, misses: { vocab: 0, spelling: 0 },
     lessons: LESSONS, pictures: PICTURES };
 }
 
@@ -74,7 +78,7 @@ test('This Week counts down to each test from a fixed date', () => {
 
 test('unfinished activities are labelled "Coming soon" and have no buttons or form fields', () => {
   const week = readJSON('data/2026-10-19.json');
-  for (const section of ['spelling', 'vocab', 'math', 'quickmath']) {
+  for (const section of ['math', 'quickmath']) {
     const out = VIEWS[section](ctxFor(realIndex, '2026-10-19', section, week)).s;
     assert.match(out, /Coming soon/, section);
     assert.doesNotMatch(out, /<button|<input|<select/, section);
@@ -106,5 +110,5 @@ test('homework checkboxes are labelled', () => {
   const out = homeworkView(ctxFor(realIndex, '2026-10-19', 'homework', week)).s;
   const inputs = [...out.matchAll(/<input type="checkbox" id="(hw-\d+)">/g)].map((m) => m[1]);
   assert.equal(inputs.length, week.homework.length);
-  for (const id of inputs) assert.ok(out.includes(`<label for="${id}">`), id);
+  for (const id of inputs) assert.ok(out.includes(`<label class="hw-check" for="${id}">`), id);
 });

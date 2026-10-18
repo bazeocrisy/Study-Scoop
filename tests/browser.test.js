@@ -10,13 +10,17 @@ import { pictureName } from '../js/lib/data.js';
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const INDEX = readJSON('data/weeks.json');
 const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['math', 'Math'],
-  ['quickmath', 'Quick Math'], ['homework', 'Homework'], ['newsletter', 'Newsletter']];
+  ['quickmath', 'Quick Math'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
 const L51 = readJSON('data/lessons/5-1.json');
 const L52 = readJSON('data/lessons/5-2.json');
 const LESSON_STAGES = ['learn', 'watch', 'together', 'try', 'test', 'parent'];
 const lessonHash = (id, stage) => `#math?lesson=${id}&stage=${stage}`;
 const LESSON_ROUTES = ['5-1', '5-2'].flatMap((id) => LESSON_STAGES.map((s) => lessonHash(id, s)));
+// Activities and practice tests (Assignment 005), plus an earlier week's homework and Test Center.
+const ACTIVITY_ROUTES = ['#vocab?act=cards', '#vocab?act=choice', '#vocab?act=truefalse', '#vocab?act=fill', '#vocab?act=misses',
+  '#spelling?act=flash', '#spelling?act=letters', '#spelling?act=listen', '#spelling?act=misses',
+  '#tests?test=math', '#tests?test=spelling', '#tests?test=vocab', '#tests?week=2026-10-12', '#homework?week=2026-10-12'];
 // `--site <folder>` serves a built site (scripts/build-site.js) instead of the repository, exactly as GitHub Pages would.
 const siteArg = process.argv.indexOf('--site');
 const SITE = siteArg > 0 ? path.resolve(process.argv[siteArg + 1] || '_site') : null;
@@ -84,7 +88,7 @@ async function main() {
       eq(await b.js('return location.hash;'), '', 'hash untouched on first load');
       eq(b.errors, [], 'console errors');
     });
-    await check('navigation lists the seven sections in order', async () => {
+    await check('navigation lists the eight sections in order', async () => {
       const labels = await b.js('return [...document.querySelectorAll("nav.tabs a")].map((a) => a.textContent.trim());');
       eq(labels, SECTIONS.map((s) => s[1]), 'nav labels');
       eq(await b.js('return document.querySelector("nav.tabs").getAttribute("aria-label");'), 'Sections', 'nav label');
@@ -94,7 +98,7 @@ async function main() {
       eq(cards, ['In 5 days | Math Test | Wednesday, October 21', 'In 7 days | Vocabulary Quiz | Friday, October 23',
         'In 7 days | Spelling Test | Friday, October 23'], 'test cards');
       eq(await b.js('return [...document.querySelectorAll(".test .action")].map((a) => a.getAttribute("href"));'),
-        ['#math', '#vocab', '#spelling'], 'study links');
+        ['#math', '#tests', '#vocab', '#tests', '#spelling', '#tests'], 'study and practice-test links');
     });
     for (const [id, label] of SECTIONS) {
       await check(`#${id} shows ${label} with the right tab marked`, async () => {
@@ -180,11 +184,11 @@ async function main() {
     });
 
     console.log('Keyboard and accessibility');
-    await check('Tab order: skip link, logo, week picker, then the seven sections', async () => {
+    await check('Tab order: skip link, logo, week picker, then the eight sections', async () => {
       await b.load(url('#week'));
       // fresh load: focus starts at the top of the page
       const order = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 3 + SECTIONS.length; i++) {
         await b.key('Tab');
         order.push(await b.js('const e = document.activeElement; return e.id || e.dataset.tab || e.className || e.tagName;'));
       }
@@ -217,7 +221,7 @@ async function main() {
       await b.hash('#homework');
       eq(await b.js('return document.getElementById("hw-0").checked;'), false, 'cleared after leaving the page');
     });
-    for (const route of [...SECTIONS.map(([id]) => `#${id}`), ...LESSON_ROUTES]) {
+    for (const route of [...SECTIONS.map(([id]) => `#${id}`), ...LESSON_ROUTES, ...ACTIVITY_ROUTES]) {
       await check(`${route}: headings, labels, alt text and touch targets`, async () => {
         await b.load(url(route));
         const r = await b.js(`
@@ -240,7 +244,7 @@ async function main() {
       await check(`text contrast meets WCAG AA in ${name} on every section`, async () => {
         await b.media('', [{ name: 'prefers-color-scheme', value: scheme }]);
         const problems = [];
-        for (const h of [...SECTIONS.map(([id]) => `#${id}`), '#vocab?week=2026-10-12', ...LESSON_ROUTES]) {
+        for (const h of [...SECTIONS.map(([id]) => `#${id}`), '#vocab?week=2026-10-12', ...LESSON_ROUTES, ...ACTIVITY_ROUTES]) {
           await b.load(url(h));
           if (optIn) await b.js(DARK);
           await helpers(b);
@@ -262,7 +266,7 @@ async function main() {
       await check(`${w}×${h}: no sideways scrolling, nothing past the edge, all seven sections and every lesson screen`, async () => {
         await b.viewport(w, h);
         const problems = [];
-        for (const route of [...SECTIONS.map(([id]) => `#${id}`), ...LESSON_ROUTES]) {
+        for (const route of [...SECTIONS.map(([id]) => `#${id}`), ...LESSON_ROUTES, ...ACTIVITY_ROUTES]) {
           await b.load(url(route));
           const r = await b.js(`return { sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
             nav: [...document.querySelectorAll('nav.tabs a')].filter((a) => { const r = a.getBoundingClientRect(); return r.left < 0 || r.right > innerWidth; }).length,
@@ -282,14 +286,14 @@ async function main() {
       await b.media('print');
       await helpers(b);
       const r = await b.js(`
-        const hidden = ['.drips', 'nav.tabs', '.weekpick', '.foot', '.soon'].every((s) => getComputedStyle(document.querySelector(s)).display === 'none');
+        const hidden = ['.drips', 'nav.tabs', '.weekpick', '.foot', '.activities'].every((s) => getComputedStyle(document.querySelector(s)).display === 'none');
         const fills = [...document.querySelectorAll('body *')].filter((el) => {
           const c = __t.parse(getComputedStyle(el).backgroundColor); const r = el.getBoundingClientRect();
           return c && c.a > 0.1 && r.width * r.height > 5000 && __t.lum(c) < 0.85 && !el.closest('.pic');
         }).map((el) => el.tagName + '.' + el.className);
         return { hidden, fills, body: getComputedStyle(document.body).backgroundColor };`);
-      eq(r, { hidden: true, fills: [], body: 'rgb(255, 255, 255)' }, 'print');
       await b.media('');
+      eq(r, { hidden: true, fills: [], body: 'rgb(255, 255, 255)' }, 'print');
     });
 
     console.log('Pictures');
@@ -515,6 +519,265 @@ async function main() {
       await b.load(url(lessonHash('5-1', 'together')));
       const says = await b.js('return [...document.querySelectorAll("[data-act=read]")].map((x) => x.dataset.say);');
       expect(says.length && says.every((s) => s && !/parenthes|[×=]/.test(s)), `read-aloud text is spoken words: ${says.join(' / ')}`);
+    });
+
+    console.log('Activities and practice tests');
+    const W19 = readJSON('data/2026-10-19.json');
+    const T19 = readJSON('data/tests/2026-10-19.json');
+    const DEF = new Map(W19.vocab.words.map((w) => [w.word, w.def]));
+    const SP = new Map(W19.spelling.words.map((w) => [w.word, w]));
+    const formId = () => b.js('return document.querySelector("#act-stage form[data-item]")?.dataset.item || null;');
+    const actFb = () => b.js('return document.querySelector("#act-stage .feedback:not(.info)")?.textContent.replace(/\\s+/g, " ").trim() || "";');
+    const qPrompt = () => b.js('const f = document.querySelector("#act-stage form[data-item]"); return (f.querySelector(".prompt, legend")?.textContent || "").trim();');
+    const optionTexts = () => b.js('return [...document.querySelectorAll("#act-stage .choice span")].map((s) => s.textContent);');
+    const pickText = async (text) => {
+      const i = (await optionTexts()).indexOf(text);
+      expect(i >= 0, 'option ' + text);
+      await b.js('document.querySelectorAll("#act-stage input[name=choice]")[' + i + '].click();');
+    };
+    const typeIn = (text, name = 'text') => b.js('const el = document.querySelector(\'#act-stage input[name="' + name + '"]\'); el.value = ' + JSON.stringify(text) + '; el.dispatchEvent(new Event("input", { bubbles: true }));');
+    const checkIt = () => press('#act-stage button[type=submit]');
+    const nextQ = () => press('#act-stage [data-act="next"]');
+    const progress = () => b.js('return document.querySelector("#act-stage .stage-title .progress")?.textContent;');
+    const stageText = () => b.js('return document.getElementById("act-stage").textContent;');
+    // Speech is replaced by a recorder, so the test hears exactly what would be said (and nothing is spoken).
+    const STUB_SPEECH = 'window.__spoken = []; speechSynthesis.speak = (u) => { __spoken.push([u.text, Math.round(u.rate * 10) / 10]); setTimeout(() => u.onend && u.onend(), 0); };';
+    /** The right answer to a generated vocabulary question, worked out from the teacher's definitions. */
+    const vocabAnswer = (p) => {
+      let m = /^What does the word "(.+)" mean\?$/.exec(p); if (m) return DEF.get(m[1]);
+      m = /^Which word means "(.+)"\?$/.exec(p); if (m) return [...DEF].find(([, d]) => d === m[1])[0];
+      m = /^True or false\? "(.+)" means "(.+)"\.$/.exec(p); if (m) return DEF.get(m[1]) === m[2] ? 'True' : 'False';
+      throw new Error('unknown prompt ' + p);
+    };
+
+    await check('Vocabulary Multiple Choice: one right answer per question, feedback, results and Practice My Misses', async () => {
+      await b.load(url('#vocab?act=choice'));
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Multiple Choice', 'title');
+      const seen = new Set();
+      for (let k = 0; k < W19.vocab.words.length; k++) {
+        eq(await progress(), 'Question ' + (k + 1) + ' of 12', 'progress');
+        const p = await qPrompt();
+        const right = vocabAnswer(p);
+        const opts = await optionTexts();
+        eq([opts.length, opts.filter((o) => o === right).length], [4, 1], p + ': four options, exactly one right');
+        seen.add(p);
+        if (k === 0) {
+          await pickText(opts.find((o) => o !== right));
+          await checkIt();
+          expect((await actFb()).startsWith('Not yet'), 'a wrong choice says Not yet');
+          eq(await b.js('return document.querySelector("#act-stage [data-act=next]").disabled;'), true, 'cannot go on before answering');
+        }
+        await pickText(right);
+        await checkIt();
+        expect((await actFb()).startsWith('Yes!'), 'right answer: ' + await actFb());
+        await nextQ();
+      }
+      eq(seen.size, 12, 'every word asked once');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '11 out of 12 right on the first try', 'summary');
+      eq(await b.js('return document.querySelectorAll(".review li").length;'), 1, 'one question to look at again');
+      await b.hash('#vocab?act=misses');
+      eq(await progress(), 'Question 1 of 1', 'Practice My Misses has the missed question');
+      await pickText(vocabAnswer(await qPrompt()));
+      await checkIt();
+      await nextQ();
+      await b.hash('#vocab');
+      expect((await b.js('return document.querySelector(".activity.misses").textContent;')).includes('No misses yet'), 'a miss answered right is removed');
+    });
+    await check('Vocabulary True or False: half true and half false, explanations after a wrong answer', async () => {
+      await b.load(url('#vocab?act=truefalse'));
+      const truth = [];
+      for (let k = 0; k < 12; k++) {
+        const right = vocabAnswer(await qPrompt());
+        truth.push(right);
+        if (k < 2) {
+          await pickText(right === 'True' ? 'False' : 'True');
+          await checkIt();
+          const said = await actFb();
+          expect(said.includes(right === 'True' ? 'It is true.' : 'It is false.') && said.includes('means:'), 'explanation: ' + said);
+        }
+        await pickText(right);
+        await checkIt();
+        await nextQ();
+      }
+      eq([truth.filter((t) => t === 'True').length, truth.filter((t) => t === 'False').length], [6, 6], 'balanced');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '10 out of 12 right on the first try', 'summary');
+    });
+    await check('Vocabulary Fill in the Blank: capitals and spaces are ignored, the word bank fills the box, no spell-check', async () => {
+      await b.load(url('#vocab?act=fill'));
+      eq(await b.js('const i = document.querySelector("#act-stage input[name=text]"); return [i.spellcheck, i.getAttribute("autocorrect"), i.labels[0].textContent];'),
+        [false, 'off', 'Type the missing word'], 'answer box');
+      for (let k = 0; k < 12; k++) {
+        const p = await qPrompt();
+        const w = W19.vocab.words.find((x) => x.fill === p);
+        expect(w, 'sentence is one of the week\'s: ' + p);
+        expect(!p.toLowerCase().includes(w.word.toLowerCase()), 'the sentence does not show its answer');
+        if (k === 0) { await typeIn('melancoly'); await checkIt(); expect((await actFb()).startsWith('Not yet'), 'a wrong word'); }
+        if (k === 1) await b.js('[...document.querySelectorAll("#act-stage .bank-word")].find((x) => x.dataset.word === ' + JSON.stringify(w.word.toLowerCase()) + ').click();');
+        else await typeIn('  ' + w.word.toUpperCase() + ' ');
+        await checkIt();
+        expect((await actFb()).startsWith('Yes!'), w.word + ': ' + await actFb());
+        await nextQ();
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '11 out of 12 right on the first try', 'summary');
+    });
+    const { lettersItem, spellItem } = await import('../js/lib/activities.js');
+    await check('Spelling Missing Letters: the word is never shown, wrong letters are marked, right letters are accepted', async () => {
+      await b.load(url('#spelling?act=letters'));
+      for (let k = 0; k < 15; k++) {
+        const id = await formId();
+        const w = W19.spelling.words[Number(id.slice(3)) - 1];
+        const item = lettersItem(w, W19.spelling);
+        expect(!(await stageText()).includes(w.word), w.word + ' is not shown before it is answered');
+        eq(await b.js('return document.querySelectorAll("#act-stage img").length;'), 0, 'no picture (it would show the word)');
+        const sol = solution(item);
+        if (k === 0) {
+          await answer(item, Object.fromEntries(Object.keys(sol).map((n) => [n, 'x'])));
+          await checkIt();
+          eq(await b.js('return document.querySelectorAll("#act-stage input[aria-invalid=true]").length;'), Object.keys(sol).length, 'wrong letters marked');
+        }
+        await answer(item, Object.fromEntries(Object.entries(sol).map(([n, v]) => [n, v.toUpperCase()])));
+        await checkIt();
+        expect((await actFb()).startsWith('Yes!'), w.word + ': ' + await actFb());
+        await nextQ();
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '14 out of 15 right on the first try', 'summary');
+    });
+    await check('Spelling Hear and Spell: says the word, the sentence and the word again; replay; typed answers checked', async () => {
+      await b.load(url('#spelling?act=listen'));
+      await b.js(STUB_SPEECH);
+      eq(await b.js('return [document.querySelector(".dictate").hidden, document.querySelector(".dictate-fallback").hidden];'), [false, true], 'sound buttons shown');
+      const id = await formId();
+      const w = W19.spelling.words[Number(id.slice(3)) - 1];
+      expect(!(await stageText()).includes(w.word), 'the word is not on the screen');
+      await b.js('document.querySelector("[data-act=dictate]").click();');
+      await b.js('document.querySelector("[data-act=say-word]").click();');
+      eq(await b.js('return __spoken;'), [[w.word, 0.8], [w.sentence, 0.8], [w.word, 0.8], [w.word, 0.8]], 'spoken');
+      await typeIn(w.word.slice(0, -1) + 'x');
+      await checkIt();
+      expect((await actFb()).startsWith('Not yet'), 'a misspelling is caught');
+      await typeIn(' ' + w.word[0].toUpperCase() + w.word.slice(1) + ' ');
+      await checkIt();
+      expect((await actFb()).startsWith('Yes!'), 'right spelling accepted');
+    });
+    await check('Spelling Hear and Spell without sound: a written clue appears instead, and a sound failure shows it too', async () => {
+      await b.load(url('#spelling?act=listen'));
+      await b.js('speechSynthesis.speak = (u) => setTimeout(() => u.onerror && u.onerror({ error: "synthesis-failed" }), 0);');
+      await b.js('document.querySelector("[data-act=dictate]").click();');
+      await b.waitFor('!document.querySelector(".dictate-fallback").hidden');
+      await b.waitFor('document.getElementById("live").textContent.includes("Sound is not working")');
+      await b.js('Object.defineProperty(window, "speechSynthesis", { value: undefined, configurable: true });');
+      await b.hash('#spelling');
+      await b.hash('#spelling?act=listen');
+      const r = await b.js('return [document.querySelector(".dictate").hidden, document.querySelector(".dictate-fallback").hidden, document.querySelector(".dictate-fallback").textContent, document.querySelector("#act-stage form").dataset.item];');
+      eq([r[0], r[1]], [true, false], 'clue shown instead of sound buttons');
+      const w = W19.spelling.words[Number(r[3].slice(3)) - 1].word;
+      expect(!r[2].includes(w) && r[2].includes(SP.get(w).base), 'the clue gives the sentence and base word, never the answer: ' + r[2]);
+    });
+    await check('Spelling Flashcards: flip, next, shuffle and marks (a word to practise goes to Practice My Misses)', async () => {
+      await b.load(url('#spelling?act=flash'));
+      eq(await b.js('return [document.querySelector(".flash-word").textContent, document.querySelectorAll(".flashcard img").length];'), [W19.spelling.words[0].word, 0], 'front: the word');
+      await press('[data-act="flip"]');
+      eq(await b.js('return [document.querySelectorAll(".flashcard img").length, document.querySelector("[data-act=flip]").getAttribute("aria-pressed"), document.querySelector(".flashcard .sentence").textContent];'),
+        [1, 'true', W19.spelling.words[0].sentence], 'back: picture and sentence');
+      await press('[data-act="card-next"]');
+      eq(await progress(), 'Card 2 of 15', 'next card');
+      await press('[data-mark="again"]');
+      eq(await b.js('return document.querySelector(".tally").textContent.includes("To practise: 1");'), true, 'tally');
+      await press('[data-act="shuffle"]');
+      eq([await progress(), await b.js('return document.querySelector("[data-act=card-prev]").disabled;')], ['Card 1 of 15', true], 'shuffled, back to card 1');
+      await b.hash('#spelling?act=misses');
+      expect(await b.js('return [...document.querySelectorAll("#act-stage form")].length === 1;'), 'Practice My Misses runs');
+    });
+    await check('Test Center: three practice tests this week; an earlier week shows only the tests that exist', async () => {
+      await b.load(url('#tests'));
+      eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".facts div:last-child dd")?.textContent, !!c.querySelector("a.btn")]);'),
+        [['Math Practice Test', '20', true], ['Spelling Practice Test', '15', true], ['Vocabulary Practice Test', '16', true]], 'cards');
+      expect((await b.js('return document.querySelector(".test-vocab").textContent;')).includes('purple words'), 'vocabulary coverage names the missing purple words');
+      await b.hash('#tests?week=2026-10-12');
+      eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [!!c.querySelector("a.btn"), !!c.querySelector(".unavailable")]);'),
+        [[false, true], [true, false], [false, true]], 'Oct 12: only the spelling test can start');
+      await b.hash('#tests?week=2026-10-12&test=math');
+      eq(await b.js('return location.hash;'), '#tests?week=2026-10-12', 'a test that does not exist goes back to the Test Center');
+    });
+    await check('Math practice test: no hints or answers, answers kept when moving around, unanswered warning, score, review, restart', async () => {
+      await b.load(url('#tests?test=math'));
+      const items = T19.math.items;
+      for (const [k, item] of items.entries()) {
+        eq(await b.js('return [...document.querySelectorAll("#act-stage [data-act=hint], #act-stage [data-act=show], #act-stage button[type=submit], #act-stage .feedback")].length;'), 0, 'no help or feedback on ' + item.id);
+        if (item.id === 'm2') await answer(item, { answer: 6 });
+        else if (item.id !== 'm17') await answer(item, solution(item));
+        if (k === 0) {
+          await press('[data-act="next"]');
+          await press('[data-act="back"]');
+          eq(await b.js('return document.querySelector("#act-stage input[name=choice]:checked")?.value;'), String(solution(item).choice), 'answer kept after Back');
+        }
+        if (k < items.length - 1) await press('[data-act="next"]');
+      }
+      await b.js('document.querySelector("[data-act=submit]").click();');
+      await b.waitFor('document.getElementById("live").textContent.includes("no answer")');
+      eq(await b.js('return [document.querySelector("[data-act=submit]").textContent, document.activeElement.id, [...document.querySelectorAll("[data-act=goto]")].map((x) => x.textContent)];'),
+        ['Finish anyway', 'test-warning', ['Go to question 17']], 'unanswered warning');
+      await press('[data-act="submit"]');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '18 out of 20', 'score');
+      expect(await b.js('return document.body.textContent.includes("You passed!");'), '16 or more passes');
+      eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".qnum").textContent, l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
+        [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 8 × 6 = 5 × 6 + 3 × 6 = 48']], 'review');
+      expect(await b.js('return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href=\'#math\']");'), 'print and practise links');
+      await press('[data-act="restart"]');
+      eq([await progress(), await b.js('return document.querySelectorAll("#act-stage input:checked").length;')], ['Question 1 of 20', 0], 'a fresh test');
+    });
+    await check('Spelling practice test: every word exactly once, read aloud, never shown, typed answers scored', async () => {
+      await b.load(url('#tests?test=spelling'));
+      await b.js(STUB_SPEECH);
+      const asked = [];
+      for (let k = 0; k < 15; k++) {
+        const w = W19.spelling.words[Number((await formId()).slice(3)) - 1].word;
+        expect(!(await b.js('return document.getElementById("app").innerHTML;')).includes(w), w + ' is not even in the page source');
+        asked.push(w);
+        expect(!(await b.js('return document.getElementById("app").textContent;')).includes(w), w + ' is never on the screen');
+        eq(await b.js('return [document.querySelectorAll("#app img").length, document.querySelectorAll("#act-stage [data-act=hint], #act-stage .feedback").length];'), [0, 0], 'no picture, hint or feedback');
+        await b.js('document.querySelector("[data-act=dictate]").click();');
+        await typeIn(k === 3 ? w.toUpperCase() : w);
+        if (k < 14) await press('[data-act="next"]');
+      }
+      eq([...asked].sort(), [...SP.keys()].sort(), 'all 15 words, each once');
+      eq(await b.js('return __spoken.length;'), 45, 'word, sentence, word for each');
+      await press('[data-act="submit"]');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '15 out of 15', 'score');
+    });
+    await check('Vocabulary practice test: all 12 words covered, scored without hints, and refreshing starts again', async () => {
+      await b.load(url('#tests?test=vocab'));
+      const items = T19.vocab.items;
+      for (const [k, item] of items.entries()) {
+        await answer(item, item.type === 'word' ? { text: item.answer } : solution(item));
+        if (k < items.length - 1) await press('[data-act="next"]');
+      }
+      await press('[data-act="submit"]');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '16 out of 16', 'score');
+      await b.load(url('#tests?test=vocab'));
+      eq([await progress(), await b.js('return document.querySelectorAll("#act-stage input:checked").length;')], ['Question 1 of 16', 0], 'refresh starts again');
+    });
+    await check('weeks never mix: changing the week leaves the activity, and homework shows only that week\'s work', async () => {
+      await b.load(url('#vocab?act=choice'));
+      await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-12"; s.dispatchEvent(new Event("change"));');
+      await b.waitFor('location.hash === "#vocab?week=2026-10-12" && document.querySelector("#app h1")?.textContent === "Vocabulary"');
+      await b.hash('#homework?week=2026-10-12');
+      eq(await b.js('return [...document.querySelectorAll(".hw-received strong")].map((s) => s.textContent);'),
+        ['Distributive Property worksheet', 'Multiplying multiples of 10 worksheet'], 'Oct 12 received work');
+      await b.hash('#homework');
+      eq(await b.js('return [document.querySelectorAll(".hw-received").length, document.querySelector(".page-head .intro").textContent];'),
+        [0, 'No classroom worksheets have been received for this week yet.'], 'Oct 19 has none received');
+    });
+
+    await check('printed test results show the score and review, without buttons', async () => {
+      await b.load(url('#tests?test=vocab'));
+      for (let k = 0; k < 15; k++) await press('[data-act="next"]');
+      await press('[data-act="submit"]');
+      await press('[data-act="submit"]');
+      await b.media('print');
+      const r = await b.js('return [getComputedStyle(document.querySelector(".summary-score")).display, getComputedStyle(document.querySelector(".print-only")).display, [...document.querySelectorAll("#act-stage .btn")].every((x) => getComputedStyle(x).display === "none")];');
+      await b.media('');
+      eq(r, ['block', 'block', true], 'print');
     });
 
     console.log('Privacy and security');

@@ -19,6 +19,8 @@ const BOX = /\[([a-z][a-z0-9]*)\]/g;
 /** Names of the answer boxes in an item, in reading order. */
 export function boxes(item) {
   if (item.type === 'number') return ['answer'];
+  if (item.type === 'word' || item.type === 'spell') return ['text'];
+  if (item.type === 'letters') return (item.blanks || []).map((_, k) => `l${k}`);
   if (item.type === 'decompose') return ['p', 'q', 'r', 's', 't'];
   if (item.type === 'fill') return [...item.lines.join(' ').matchAll(BOX)].map((m) => m[1]);
   if (item.type === 'table') return item.rows.flatMap((row, i) => row.map((c, j) => (typeof c === 'object' ? `r${i}c${j}` : null))).filter(Boolean);
@@ -35,8 +37,13 @@ export function solution(item) {
     return out;
   }
   if (item.type === 'choice') return { choice: item.options.findIndex((o) => o.correct) };
+  if (item.type === 'word' || item.type === 'spell') return { text: item.answer };
+  if (item.type === 'letters') return Object.fromEntries(item.blanks.map((b, k) => [`l${k}`, item.word[b]]));
   return {};
 }
+
+/** Typed words are compared without capitals or extra spaces ("  Heating " is "heating"). */
+export const normWord = (t) => String(t ?? '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[‘’]/g, "'");
 
 const fill = (text, values) => String(text).replace(BOX, (_, k) => (values[k] === undefined ? '□' : String(values[k])));
 
@@ -44,6 +51,8 @@ const fill = (text, values) => String(text).replace(BOX, (_, k) => (values[k] ==
 export function answerText(item) {
   const s = solution(item);
   if (item.type === 'choice') return item.options[s.choice].text;
+  if (item.type === 'word' || item.type === 'spell') return item.answer;
+  if (item.type === 'letters') return item.word;
   if (item.type === 'number') return String(s.answer);
   if (item.type === 'fill') return item.lines.map((l) => fill(l, s)).join(' ');
   if (item.type === 'decompose') return `${item.fact[0]} × ${item.fact[1]} = ${s.p} × ${s.q} + ${s.r} × ${s.s} = ${s.t}`;
@@ -100,6 +109,22 @@ export function check(item, response, lesson = {}) {
     const o = item.options[Number(i)];
     if (!o) return { status: 'empty', say: 'Choose an answer first.' };
     return o.correct ? { status: 'correct', say: item.yes || 'Yes!' } : { status: 'notyet', say: o.why || catchAll };
+  }
+  if (item.type === 'word' || item.type === 'spell') {
+    const typed = normWord(response?.text);
+    if (!typed) return { status: 'empty', say: 'Type the word first.', wrong: ['text'] };
+    if ([item.answer, ...(item.accept || [])].some((a) => normWord(a) === typed)) return { status: 'correct', say: item.yes || 'Yes!' };
+    return { status: 'notyet', say: item.retry || catchAll, wrong: ['text'] };
+  }
+  if (item.type === 'letters') {
+    const names = boxes(item);
+    const sol = solution(item);
+    const got = names.map((n) => normWord(response?.[n]));
+    const blank = names.filter((n, k) => !got[k]);
+    if (blank.length) return { status: 'empty', say: names.length > 1 ? 'Type a letter in every box first.' : 'Type a letter first.', wrong: blank };
+    const wrong = names.filter((n, k) => got[k] !== sol[n]);
+    if (!wrong.length) return { status: 'correct', say: item.yes || 'Yes!' };
+    return { status: 'notyet', say: item.retry || catchAll, wrong };
   }
   const read = readAll(item, response);
   // Empty or unreadable boxes are marked so the child can find them (never counted as a try).
@@ -218,6 +243,14 @@ export function modelEquation(m) {
     : `${m.rows} × ${m.cols} = ${m.rows} × ${m.cut.at} + ${m.rows} × ${m.cols - m.cut.at}`;
 }
 
+/** "(5 × 3) + (1 × 3)" -> a key for its two facts, ignoring order inside and between facts; null if not two facts. */
+function factsKey(text) {
+  const m = /^\s*\(?\s*(\d+)\s*[×x]\s*(\d+)\s*\)?\s*\+\s*\(?\s*(\d+)\s*[×x]\s*(\d+)\s*\)?\s*$/.exec(String(text));
+  if (!m) return null;
+  const f = (a, b) => [Number(a), Number(b)].sort((x, y) => x - y).join('x');
+  return [f(m[1], m[2]), f(m[3], m[4])].sort().join('+');
+}
+
 function validateItem(item, where, err, ids) {
   if (!isText(item.id)) err(`${where}: id is missing`);
   else if (ids.has(item.id)) err(`${where}: id ${item.id} is used twice`);
@@ -247,6 +280,20 @@ function validateItem(item, where, err, ids) {
         if (!o.correct && !isText(o.why)) err(`${where}: wrong option ${i + 1} needs a "why" message`);
         if (o.model) validateModel(o.model, `${where} option ${i + 1}`, err);
       });
+      // "Which expression matches this split array?": exactly the correct option names the picture's two facts
+      // (turned-around facts count as the same facts, so they can never be a wrong option).
+      if (item.pictureMatch) {
+        const m = item.model;
+        if (!m || m.type !== 'array' || !m.cut) err(`${where}: pictureMatch needs a cut array`);
+        else {
+          const want = factsKey(modelEquation(m).split('=')[1]);
+          item.options.forEach((o, i) => {
+            const got = factsKey(o.text);
+            if (!got) err(`${where}: option ${i + 1} must be two facts like (5 × 3) + (1 × 3)`);
+            else if ((got === want) !== Boolean(o.correct)) err(`${where}: option ${i + 1} (${o.text}) ${o.correct ? 'does not match' : 'also matches'} the picture (${modelEquation(m)})`);
+          });
+        }
+      }
       if (item.target) {
         const want = evaluate(item.target);
         item.options.forEach((o, i) => {
@@ -254,6 +301,26 @@ function validateItem(item, where, err, ids) {
           if (val !== null && (val === want) !== Boolean(o.correct)) err(`${where}: option ${i + 1} (${o.text} = ${val}) is ${o.correct ? 'marked correct but is not' : 'also equal to ' + item.target}`);
         });
       }
+      break;
+    }
+    case 'word':
+    case 'spell': {
+      if (!isText(item.answer) || !/^[a-z' -]+$/i.test(item.answer)) err(`${where}: answer must be a word`);
+      if (item.type === 'word' && item.blank !== false && !/___/.test(item.prompt || '')) err(`${where}: a fill-in-the-blank prompt needs ___`);
+      if (item.type === 'word' && item.bank && !item.bank.some((w) => normWord(w) === normWord(item.answer))) err(`${where}: the word bank must include the answer`);
+      if (item.type === 'spell' && (!Array.isArray(item.say) || !item.say.length || !item.say.every(isText))) err(`${where}: dictation needs what to say`);
+      if (item.type === 'spell' && item.say?.some((s) => !normWord(s).includes(normWord(item.answer)))) err(`${where}: every spoken part must contain the word`);
+      // Nothing written on the screen may give the spelling away.
+      for (const k of ['prompt', 'fallback']) if (item.type === 'spell' && normWord(item[k]).includes(normWord(item.answer))) err(`${where}: ${k} shows the answer`);
+      if (item.type === 'word' && normWord(item.prompt).includes(normWord(item.answer))) err(`${where}: the prompt shows the answer`);
+      if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not accepted`);
+      break;
+    }
+    case 'letters': {
+      const w = String(item.word || '');
+      if (!/^[a-z]+$/.test(w)) { err(`${where}: word must be lowercase letters`); break; }
+      if (!Array.isArray(item.blanks) || !item.blanks.length || item.blanks.some((b) => !isInt(b, 0, w.length - 1)) || new Set(item.blanks).size !== item.blanks.length) err(`${where}: blanks must be different letter positions in the word`);
+      if (normWord(item.prompt).includes(w) || normWord(item.context).includes(w)) err(`${where}: the question shows the answer`);
       break;
     }
     case 'fill': {
@@ -358,14 +425,30 @@ export function validateLesson(lesson, expectedId) {
   }
   if (!Array.isArray(lesson.parent?.sections) || !lesson.parent.sections.length) err('parent.sections is missing');
 
-  // Every other sum written anywhere (steps, hints, messages, Show me how) must be true. Lines with answer
-  // boxes are skipped here: they are proven true with their answers above.
-  // An item marked "quotesMistake" shows a child's wrong sum on purpose (error analysis); only its prompt is exempt.
-  const scanned = JSON.parse(JSON.stringify(lesson, (k, v) => (v && typeof v === 'object' && v.quotesMistake ? { ...v, prompt: '' } : v)));
+  proseScan(lesson, err);
+  return errors;
+}
+
+// Every other sum written anywhere (steps, hints, messages, Show me how) must be true. Lines with answer
+// boxes are skipped here: they are proven true with their answers above.
+// An item marked "quotesMistake" shows a child's wrong sum on purpose (error analysis); only its prompt is exempt.
+function proseScan(data, err) {
+  const scanned = JSON.parse(JSON.stringify(data, (k, v) => (v && typeof v === 'object' && v.quotesMistake ? { ...v, prompt: '' } : v)));
   for (const s of strings(scanned)) {
     if (/\[[a-z][a-z0-9]*\]/.test(s)) continue;
     for (const bad of wrongFactsInText(s)) err(`wrong arithmetic in text: "${bad}"`);
   }
+}
+
+/** Problems with a list of questions outside a lesson (a practice test); an empty list means it is safe to show. */
+export function validateQuiz(items, pass, label = 'quiz') {
+  const errors = [];
+  const err = (msg) => errors.push(`${label}: ${msg}`);
+  if (!Array.isArray(items) || !items.length) return [`${label}: there are no questions`];
+  const ids = new Set();
+  items.forEach((it, i) => validateItem(it, `items[${i}] (${it?.id})`, err, ids));
+  if (!isInt(pass, 1, items.length)) err(`pass must be between 1 and ${items.length}`);
+  proseScan(items, err);
   return errors;
 }
 

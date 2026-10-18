@@ -1,4 +1,4 @@
-// Study Scoop: one-page app. Reads data/weeks.json and data/<week>.json and shows one of seven sections.
+// Study Scoop: one-page app. Reads data/weeks.json and data/<week>.json and shows one of eight sections.
 // Nothing is stored: no localStorage, cookies, accounts or analytics. The chosen week lives in the address.
 
 import { html } from './lib/html.js';
@@ -7,6 +7,9 @@ import { buildHash, parseHash, resolveWeek } from './lib/router.js';
 import { validateIndex, validateWeek } from './lib/validate.js';
 import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
 import { mountLesson, stateFor, visitedStages } from './lesson-player.js';
+import { ACTIVITIES, TEST_KINDS, validateTests } from './lib/activities.js';
+import { missCounts, mountActivity, runFor } from './activity-player.js';
+import { testsView } from './views/tests.js';
 import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
 import { weekView } from './views/week.js';
 import { spellingView } from './views/spelling.js';
@@ -18,7 +21,7 @@ import { newsletterView } from './views/newsletter.js';
 
 const VIEWS = {
   week: weekView, spelling: spellingView, vocab: vocabView, math: mathView,
-  quickmath: quickmathView, homework: homeworkView, newsletter: newsletterView,
+  quickmath: quickmathView, homework: homeworkView, newsletter: newsletterView, tests: testsView,
 };
 
 const app = document.getElementById('app');
@@ -30,7 +33,7 @@ const brand = document.querySelector('.brand');
 let index = null;
 let pictures = { photos: [], drawings: [] };
 let renderCount = 0;
-let mounted = null; // removes the lesson controls of the previous page
+let mounted = null; // removes the lesson or activity controls of the previous page
 
 async function start() {
   try {
@@ -72,14 +75,19 @@ async function render() {
       if (lp.length) { if (n === renderCount) showProblem('This lesson has a problem.', lp); return; }
     }
   }
+  // Practice tests written for this week (Tests only). data/tests/index.json lists the weeks that have them;
+  // another week simply has no math or vocabulary test (the spelling test is made from the week's list).
+  let tests = null, testsProblem = false;
+  if (route.section === 'tests') {
+    try {
+      const list = await loadJSON('data/tests/index.json');
+      if (list.weeks?.includes(weekId)) tests = await loadJSON(`data/tests/${weekId}.json`);
+    } catch { testsProblem = true; }
+  }
   if (n !== renderCount) return; // a newer navigation started while lessons were loading (keep its address)
   const stage = lesson ? (STAGE_IDS.includes(route.stage) ? route.stage : 'learn') : null;
-  const canonical = buildHash(route.section, weekId, index.current, lesson ? { lesson: lesson.id, stage } : {});
-  // Fix unknown sections and unknown weeks in the address without adding a history entry.
-  if (location.hash && location.hash !== canonical) {
-    history.replaceState(null, '', canonical);
-  }
-
+  const act = route.act && ACTIVITIES[route.section]?.some((a) => a.id === route.act) ? route.act : null;
+  const testKind = route.test && TEST_KINDS.includes(route.test) ? route.test : null;
   let week;
   try {
     week = await loadWeek(weekId);
@@ -90,6 +98,11 @@ async function render() {
   if (n !== renderCount) return; // a newer navigation started while this week was loading
   const problems = validateWeek(week, weekId);
   if (problems.length) return showProblem('This week\'s information has a problem.', problems);
+  if (tests) {
+    let tp;
+    try { tp = validateTests(tests, week); } catch (e) { tp = [String(e.message || e)]; }
+    if (tp.length) { tests = null; testsProblem = true; }
+  }
 
   const entry = index.weeks.find((w) => w.id === weekId);
   select.value = weekId;
@@ -107,18 +120,27 @@ async function render() {
     lessonLink: (id, st) => buildHash('math', weekId, index.current, { lesson: id, stage: st }),
     pictures, lessons, lesson, stage, lessonState: lesson ? stateFor(lesson.id, stage) : null,
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
+    actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
+    testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
+    tests, testsProblem, misses: missCounts(weekId),
   };
+  ctx.run = act ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
+  // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.
+  const canonical = buildHash(route.section, weekId, index.current, lesson ? { lesson: lesson.id, stage }
+    : ctx.run ? (ctx.run.mode === 'test' ? { test: testKind } : { act }) : {});
+  if (location.hash && location.hash !== canonical) history.replaceState(null, '', canonical);
   mounted?.abort();
   mounted = null;
   document.body.dataset.section = route.section;
   document.body.classList.toggle('in-lesson', Boolean(lesson));
+  document.body.classList.toggle('in-activity', Boolean(ctx.run));
   app.innerHTML = VIEWS[route.section](ctx).s;
   document.title = lesson
     ? `${stageLabel(stage)} · Lesson ${lesson.id}: ${lesson.title} · Study Scoop`
-    : `${sectionLabel(route.section)} · Study Scoop`;
-  if (lesson) {
+    : ctx.run ? `${ctx.run.title} · ${sectionLabel(route.section)} · Study Scoop` : `${sectionLabel(route.section)} · Study Scoop`;
+  if (lesson || ctx.run) {
     mounted = new AbortController();
-    mountLesson(app, ctx, mounted.signal);
+    (lesson ? mountLesson : mountActivity)(app, ctx, mounted.signal);
   }
 
   // Word pictures are optional: drop the frame when a picture file does not exist.
@@ -130,7 +152,7 @@ async function render() {
   if (n > 1 && document.activeElement !== select) {
     window.scrollTo(0, 0);
     // In a lesson, land on the stage heading; elsewhere on the page content.
-    (lesson ? app.querySelector('#stage-h') || app : app).focus({ preventScroll: true });
+    (lesson || ctx.run ? app.querySelector('#stage-h') || app : app).focus({ preventScroll: true });
   }
   app.dataset.ready = String(n);
 }
