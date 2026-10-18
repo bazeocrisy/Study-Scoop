@@ -253,7 +253,32 @@ test('question pictures never say the answer', () => {
     for (const [, item] of allItems(lesson)) {
       if (item.type !== 'number' || !item.model) continue;
       const label = /aria-label="([^"]+)"/.exec(modelFigure(item.model).s)[1];
-      assert.ok(!new RegExp(`\b${solution(item).answer}\b`).test(label), `${lesson.id} ${item.id}: "${label}"`);
+      assert.ok(!new RegExp(`\\b${solution(item).answer}\\b`).test(label), `${lesson.id} ${item.id}: "${label}"`);
     }
   }
+});
+
+test('a wrong answer key or a false allowed alternative is caught by the validator', () => {
+  const bad = JSON.parse(JSON.stringify(LESSONS[0]));
+  bad.together.items.find((i) => i.id === 'g1').answer.t = 29;
+  assert.ok(validateLesson(bad, '5-1').some((p) => p.includes('does not make')));
+  const alt = JSON.parse(JSON.stringify(LESSONS[0]));
+  alt.try.items.find((i) => i.id === 't4').accept.push({ p: 20, q: 15, t: 35 });
+  assert.ok(validateLesson(alt, '5-1').some((p) => p.includes('does not make')));
+});
+
+test('"Read to me" buttons are named with their visible words first (WCAG 2.5.3)', () => {
+  for (const lesson of LESSONS) {
+    for (const stage of STAGE_IDS) {
+      for (const m of lessonView(ctx(lesson, stage)).s.matchAll(/data-act="read"[^>]*aria-label="([^"]+)"/g)) assert.match(m[1], /^Read to me\b/, m[1]);
+    }
+  }
+});
+
+test('the stepper marks only stages opened during this visit as done', () => {
+  const l = LESSONS[0];
+  const done = (visited) => [...lessonView({ ...ctx(l, 'try', { i: 0, items: {}, steps: {} }), lessonVisited: new Set(visited) }).s
+    .matchAll(/<li class="done"><a href="[^"]*stage=(\w+)/g)].map((m) => m[1]);
+  assert.deepEqual(done([]), []);
+  assert.deepEqual(done(['learn', 'try']), ['learn']);
 });

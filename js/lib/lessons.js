@@ -126,14 +126,14 @@ export function check(item, response, lesson = {}) {
     // Strict by default: the boxes must hold the answer (or an allowed alternative in "accept"). Only items marked
     // "open" accept any values that make every line true (e.g. any way to decompose 3 into two parts of at least 1).
     const ok = item.open
-      ? holds(item.lines.map((l) => fill(l, v)).join(' ')) && boxes(item).every((b) => v[b] >= (item.min ?? 0))
+      ? holds(item.lines.map((l) => fill(l, v)).join(' ')) && boxes(item).every((b) => v[b] >= (item.min ?? 1))
       : matches(sol) || (item.accept || []).some(matches);
     if (ok) return { status: 'correct', say: item.yes || 'Yes!' };
     // Mark only the boxes that need another look. In an open item whose first line is already true, that is the rest.
     let wrong = boxes(item).filter((b) => v[b] !== sol[b]);
     if (item.open) {
       const firstBoxes = boxes({ type: 'fill', lines: [item.lines[0]] });
-      const firstOk = holds(fill(item.lines[0], v)) && firstBoxes.every((b) => v[b] >= (item.min ?? 0));
+      const firstOk = holds(fill(item.lines[0], v)) && firstBoxes.every((b) => v[b] >= (item.min ?? 1));
       wrong = firstOk ? boxes(item).filter((b) => !firstBoxes.includes(b)) : firstBoxes;
     }
     return { status: 'notyet', say: mistake?.say || item.retry || catchAll, wrong: wrong.length ? wrong : undefined };
@@ -264,6 +264,15 @@ function validateItem(item, where, err, ids) {
       if (!names.length) err(`${where}: fill has no [boxes]`);
       if (names.some((n) => sol[n] === undefined)) err(`${where}: answer must give a value for every box`);
       else if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not accepted (${item.lines.join(' ')})`);
+      else {
+        // The answer, and every allowed alternative, must make the whole chain true (and respect "min").
+        for (const alt of [sol, ...(item.accept || [])]) {
+          const vals = { ...sol, ...alt };
+          let ok = false;
+          try { ok = chainHolds(item.lines.map((l) => fill(l, vals)).join(' ')); } catch { ok = false; }
+          if (!ok || names.some((n) => vals[n] < (item.min ?? 0))) err(`${where}: ${JSON.stringify(alt)} does not make "${item.lines.join(' ')}" true`);
+        }
+      }
       break;
     }
     case 'decompose': {

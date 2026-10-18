@@ -447,7 +447,14 @@
           "Bottom part: 3 × 3 = 9.",
           "15 + 9 = 24."
         ],
-        "yes": "Yes! 15 + 9 = 24. You used the 5s fact!"
+        "yes": "Yes! 15 + 9 = 24. You used the 5s fact!",
+        "accept": [
+          {
+            "p": 9,
+            "q": 15,
+            "t": 24
+          }
+        ]
       },
       {
         "id": "g3",
@@ -606,7 +613,14 @@
           "Right part: 5 × 3 = 15.",
           "20 + 15 = 35."
         ],
-        "yes": "Yes! 20 + 15 = 35 squares."
+        "yes": "Yes! 20 + 15 = 35 squares.",
+        "accept": [
+          {
+            "p": 15,
+            "q": 20,
+            "t": 35
+          }
+        ]
       },
       {
         "id": "g6",
@@ -786,7 +800,14 @@
           "4 × 5 = 20 and 4 × 4 = 16.",
           "20 + 16 = 36."
         ],
-        "yes": "Yes! 20 + 16 = 36 squares."
+        "yes": "Yes! 20 + 16 = 36 squares.",
+        "accept": [
+          {
+            "p": 16,
+            "q": 20,
+            "t": 36
+          }
+        ]
       },
       {
         "id": "t5",
@@ -832,7 +853,7 @@
             "why": "Both make 40: 20 + 20 = 40 and 25 + 15 = 40."
           }
         ],
-        "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Any cut gives the same product."
+        "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Cutting a different way gives the same product."
       },
       {
         "id": "t6",
@@ -1017,6 +1038,13 @@
         "show": [
           "3 × 4 = 12 and 3 × 2 = 6.",
           "12 + 6 = 18."
+        ],
+        "accept": [
+          {
+            "p": 6,
+            "q": 12,
+            "t": 18
+          }
         ]
       },
       {

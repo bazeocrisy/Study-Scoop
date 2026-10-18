@@ -5,6 +5,11 @@ import { cardsOf, stageInner, stageOf, unanswered } from './views/lesson.js';
 
 const progress = new Map(); // "5-1:try" -> { i, items: { id: { resp, status, say, tries, first, hints, shown } }, steps, streak, submitted }
 
+/** The stages of a lesson opened during this visit (the stepper marks only these as done). */
+export function visitedStages(lessonId) {
+  return new Set([...progress.keys()].filter((k) => k.startsWith(`${lessonId}:`)).map((k) => k.slice(lessonId.length + 1)));
+}
+
 export function stateFor(lessonId, stage) {
   const key = `${lessonId}:${stageOf(stage)}`;
   if (!progress.has(key)) progress.set(key, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false });
@@ -174,6 +179,9 @@ export function mountLesson(app, ctx, signal) {
       const steps = cards[state.i].steps.length;
       state.steps[state.i] = Math.max(1, Math.min(steps, n + (act === 'step-next' ? 1 : -1)));
       rerender(state.steps[state.i] >= steps ? '.choices input, [data-act="step-back"]' : `[data-act="${act}"]:not([disabled]), [data-act="step-back"]`);
+      // A11Y-21: say the step that is now showing (the list itself is rebuilt, so it cannot be a live region).
+      const s = cards[state.i].steps[state.steps[state.i] - 1];
+      announce(`Step ${state.steps[state.i]} of ${steps}. ${s.say}${s.eq ? ` ${s.eq}` : ''}`);
       return;
     }
     if (act === 'next' || act === 'back' || act === 'goto') {

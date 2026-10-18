@@ -6,7 +6,7 @@ import { loadIndex, loadJSON, loadWeek } from './lib/data.js';
 import { buildHash, parseHash, resolveWeek } from './lib/router.js';
 import { validateIndex, validateWeek } from './lib/validate.js';
 import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
-import { mountLesson, stateFor } from './lesson-player.js';
+import { mountLesson, stateFor, visitedStages } from './lesson-player.js';
 import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
 import { weekView } from './views/week.js';
 import { spellingView } from './views/spelling.js';
@@ -106,6 +106,7 @@ async function render() {
     link: (section, id = weekId) => buildHash(section, id, index.current),
     lessonLink: (id, st) => buildHash('math', weekId, index.current, { lesson: id, stage: st }),
     pictures, lessons, lesson, stage, lessonState: lesson ? stateFor(lesson.id, stage) : null,
+    lessonVisited: lesson ? visitedStages(lesson.id) : null,
   };
   mounted?.abort();
   mounted = null;

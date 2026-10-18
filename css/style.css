@@ -418,3 +418,24 @@ body.in-lesson .tabs a { min-height: 44px; }
 @media (max-width: 380px) { .tabs a { font-size: .78rem; } }
 .nl-spelling { grid-column: 1 / -1; }
 @media (min-width: 768px) { .nl-spelling .spelling-list { columns: 3; } }
+
+/* Assignment 004 re-review fixes */
+/* Design R-1: study-card and vocabulary pictures sit whole in a square frame (the word printed on a card is never cut). */
+.vocab-card .pic, .study-card .pic { aspect-ratio: 1; display: block; position: relative; }
+.vocab-card .pic img, .study-card .pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* Design R-6: the "Your teacher writes it like this" line is styled like the other teacher's-words labels. */
+.property .pairs { display: block; padding: 10px 14px; border-radius: var(--r-sm); background: var(--sunk); font-weight: 700; }
+.property .pairs .label { display: block; font-size: .9rem; font-weight: 700; color: var(--muted); }
+/* Design R-5: on a question card without a written prompt, "Read to me" sits at the right of the card, not on a row of its own. */
+.instruct-head > span:empty { display: none; }
+.instruct-head:has(> span:empty) { justify-content: flex-end; margin-bottom: -6px; }
+@media (max-width: 640px) {
+  /* A11Y-25: inside a lesson the section tabs keep their names on phones (two compact rows, as on other pages). */
+  body.in-lesson .tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  body.in-lesson .tabs a span { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; }
+  body.in-lesson .tabs a { min-height: 46px; padding: 4px 2px; font-size: .8rem; gap: 0; }
+  body.in-lesson .tabs .ico { width: 18px; height: 18px; }
+  /* Design R-4: a question's picture is kept short on phones so the answer boxes are on the first screen. */
+  body.in-lesson .question .model-pic svg, body.in-lesson .work.has-pic:has(form) .pic-card svg { max-height: 26vh; }
+  body.in-lesson .work.has-pic:has(form) > .pic-card { order: 2; }
+}

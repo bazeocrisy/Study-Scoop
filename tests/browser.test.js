@@ -403,6 +403,8 @@ async function main() {
         for (let s = 1; s < ex.steps.length; s++) await press('[data-act="step-next"]');
         eq(await b.js('return document.querySelector(".progress:not(.stage-title .progress)")?.textContent || [...document.querySelectorAll(".progress")].pop().textContent;'),
           `Step ${ex.steps.length} of ${ex.steps.length}`, 'all steps shown');
+        // A11Y-21: each new step is announced to screen readers.
+        await b.waitFor(`document.querySelector('#live').textContent.startsWith('Step ${ex.steps.length} of ${ex.steps.length}. ')`);
         const eqs = await b.js('return [...document.querySelectorAll(".steps .eq")].map((e) => e.textContent);');
         expect(eqs.includes(ex.steps.find((s) => s.pictured).eq), `${ex.title} shows its equation`);
         // A wrong "why" choice explains; the right one unlocks the next example.

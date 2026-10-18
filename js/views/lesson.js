@@ -14,7 +14,7 @@ const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page
 export const stageOf = (stage) => (STAGE_IDS.includes(stage) ? stage : 'learn');
 
 /** "Read to me": reads the text aloud with the device's own voice (the player hides it where speech is unavailable). */
-export const readButton = (parts, what = 'this') => html`<button type="button" class="read" data-act="read" data-say="${speak([].concat(parts).filter(Boolean).join('. '))}" data-label="Read to me" aria-label="Read ${what} to me">${ICON_SPEAK}<span class="read-label">Read to me</span></button>`;
+export const readButton = (parts, what = 'this') => html`<button type="button" class="read" data-act="read" data-say="${speak([].concat(parts).filter(Boolean).join('. '))}" data-label="Read to me" aria-label="Read to me: ${what}">${ICON_SPEAK}<span class="read-label">Read to me</span></button>`;
 
 /** The cards (screens) a stage steps through. */
 export function cardsOf(lesson, stage) {
@@ -51,7 +51,7 @@ function lessonBar(ctx, lesson, stage) {
         ${stage === 'learn' ? html`<p class="goal">${lesson.goal}</p>` : ''}
       </div>
       <nav class="stepper" aria-label="Lesson steps">
-        <ol>${STAGES.map((s, i) => html`<li class="${i < at ? 'done' : ''}"><a href="${ctx.lessonLink(lesson.id, s.id)}"${s.id === stage ? html` aria-current="step"` : ''}><span class="n">${i + 1}</span> <span class="name">${s.label}</span></a></li>`)}</ol>
+        <ol>${STAGES.map((s, i) => html`<li class="${s.id !== stage && ctx.lessonVisited?.has(s.id) ? 'done' : ''}"><a href="${ctx.lessonLink(lesson.id, s.id)}"${s.id === stage ? html` aria-current="step"` : ''}><span class="n">${i + 1}</span> <span class="name">${s.label}</span></a></li>`)}</ol>
       </nav>
     </div>`;
 }
@@ -111,7 +111,7 @@ function exampleCard(lesson, ex, idx, state) {
       <div class="card pic-card">${modelFigure(pic)}</div>
       <div class="card">
         <div class="instruct-head"><h3>${ex.title}</h3>${readButton([ex.title, ...ex.steps.slice(0, shown).map((s) => (s.eq ? `${s.say} ${s.eq}` : s.say))], 'these steps')}</div>
-        <ol class="steps" aria-live="polite">
+        <ol class="steps">
           ${ex.steps.slice(0, shown).map((s, k) => html`
             <li class="${k === shown - 1 ? 'now' : ''}"><span class="sn" aria-hidden="true">${k + 1}</span>
               <span>${s.say}${s.eq ? html`<span class="eq">${s.eq}</span>` : ''}</span></li>`)}
@@ -346,13 +346,18 @@ function testResults(ctx, lesson, state) {
     </div>`;
 }
 
+/** Keeps each written fact such as "7 × 4 = 28" on one line (design re-review R-2). */
+function keepFacts(text) {
+  return String(text).split(/(d+(?:s*[×+=−-]s*d+)+)/).map((p, k) => (k % 2 ? html`<span class="term">${p}</span>` : p));
+}
+
 function parentGuide(ctx, lesson) {
   return html`
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Parent Guide</h2></div>
     <div class="card parent-guide">
       ${lesson.parent.sections.map((s) => html`<section><h3>${s.heading}</h3>
-        ${s.text ? html`<p>${s.text}</p>` : ''}
-        ${s.list ? html`<ul>${s.list.map((x) => html`<li>${x}</li>`)}</ul>` : ''}</section>`)}
+        ${s.text ? html`<p>${keepFacts(s.text)}</p>` : ''}
+        ${s.list ? html`<ul>${s.list.map((x) => html`<li>${keepFacts(x)}</li>`)}</ul>` : ''}</section>`)}
       <section><h3>About "Read to me"</h3><p>Read to me uses your device's own voice when it has one. Some browsers use an online voice instead; nothing else is sent by Study Scoop.</p></section>
     </div>
     <div class="stage-nav"><a class="btn" href="${ctx.lessonLink(lesson.id, 'learn')}">‹ Back to the lesson</a><span></span></div>`;
