@@ -724,7 +724,7 @@ async function main() {
       await afterAction(before);
       eq(await b.js('return [document.querySelector(".flash-word").textContent, document.querySelectorAll(".flashcard img").length, document.querySelector(".flashcard .sentence").textContent, document.activeElement.classList.contains("flashcard")];'),
         [w0.word, 1, w0.sentence, true], 'back: word, picture and sentence; focus on the card');
-      await b.waitFor('document.getElementById("live").textContent.startsWith("Back of the card: ' + w0.word + '.")');
+      eq(await b.js('return document.querySelector(".flashcard").getAttribute("aria-label").split(". ")[0];'), 'Back of the card: ' + w0.word, 'the focused card is named by its new side (no second announcement)');
       // Enter and Space turn it over again.
       before = await rendered();
       await b.key('Enter');

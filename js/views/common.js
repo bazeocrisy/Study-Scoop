@@ -84,7 +84,7 @@ export function subBar(ctx, { tone, trail, title, goal, eyebrow, back = [] }) {
       <div class="lb-title">
         ${crumbs(ctx, trail)}
         ${eyebrow ? html`<p class="eyebrow">${eyebrow}</p>` : ''}
-        <h1>${title}</h1>
+        <h1 tabindex="-1">${title}</h1>
         ${goal ? html`<p class="goal">${goal}</p>` : ''}
       </div>
       <p class="bar-btns">

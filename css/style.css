@@ -712,8 +712,7 @@ button.flashcard .pic { width: min(100%, 220px); }
   .bar-btns { gap: 6px; }
   .bar-btns .btn { min-height: 44px; padding: 4px 12px; font-size: .95rem; }
   /* UX-4: the question comes first and its picture is kept short, so Check Answer is near the top. */
-  body.in-activity .work.has-pic:has(form) > .pic-card { order: 2; }
-  body.in-activity .work.has-pic:has(form) .pic-card svg { max-height: 26vh; }
+  body.in-activity .work.has-pic:has(form) .pic-card svg { max-height: 30vh; }
 }
 /* UX-5, UX-6: Practice My Misses spans the last row of a five-card menu; titles line up across a row. */
 @media (min-width: 700px) { .menu-grid.count-5 .menu-card.misses { grid-column: 1 / -1; } .menu-grid.count-5 li:has(.misses) { grid-column: 1 / -1; } }
@@ -724,3 +723,8 @@ button.flashcard .pic { width: min(100%, 220px); }
 .test-card .btn { margin: 4px 0; }
 button.flashcard .face { min-height: min(360px, 38vh); }
 .flash-clue { font-size: clamp(1.6rem, 6vw, 2.4rem); }
+/* Accessibility review: a pressed mark shows a tick (not colour alone); crumb links are 44px tall; a focused page heading has no box. */
+.marks .btn[aria-pressed="true"]::before { content: "✓"; font-weight: 800; }
+.crumbs a { min-height: 44px; }
+.act-bar h1:focus { outline: none; }
+.act-bar h1:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

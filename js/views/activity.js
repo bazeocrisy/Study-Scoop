@@ -208,7 +208,7 @@ function flashcards(ctx, run) {
   return html`
     ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
     <button type="button" class="flashcard${f.flipped ? ' is-flipped' : ''}" data-act="flip" aria-describedby="flip-help"
-      aria-label="${f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : `Front of the card. ${blankSentence(w.sentence, w.word).replace(/_+/g, 'blank')} Press Hear the word, spell it out loud, then turn the card over.`}">
+      aria-label="${f.flipped ? `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}` : `Front of the card. ${blankSentence(w.sentence, w.word).replace(/_+/g, 'blank')} Press Hear the word, spell it out loud, then turn the card over.`}">
       ${f.flipped ? html`
         <span class="face back">
           <span class="side-label">Back of the card</span>

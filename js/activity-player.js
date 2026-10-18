@@ -239,7 +239,7 @@ export function mountActivity(app, ctx, signal) {
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     rerender(r.status === 'correct'
       ? '[data-act="next"]:not([disabled])'
-      : `form[data-item="${item.id}"] input[aria-invalid="true"], form[data-item="${item.id}"] input:not([disabled])`);
+      : `form[data-item="${item.id}"] input[name=choice]:checked, form[data-item="${item.id}"] input[aria-invalid="true"], form[data-item="${item.id}"] input:not([disabled])`);
   }
 
   app.addEventListener('submit', (e) => {
@@ -355,7 +355,7 @@ export function mountActivity(app, ctx, signal) {
     if (act === 'flip') {
       f.flipped = !f.flipped;
       const w = cardWord();
-      announce(f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : 'Front of the card.');
+      if (!btn.classList.contains('flashcard')) announce(f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : 'Front of the card.');
       // Keep focus where it was: on the card itself, or on the Flip Card button.
       rerender(btn.classList.contains('flashcard') ? '.flashcard' : '.flip-btn');
       area().querySelector('.flashcard')?.classList.add('flip-anim');
