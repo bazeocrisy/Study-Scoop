@@ -23,7 +23,7 @@ export const ACTIVITIES = {
     { id: 'misses', label: 'Practice My Misses', about: 'Practice only the questions you missed.', icon: 'redo' },
   ],
   math: [
-    { id: 'learn', label: 'Learn the Properties', about: 'Meet the four multiplication properties, one at a time.', icon: 'book' },
+    { id: 'learn', label: 'Learn the Properties', about: 'Meet the four multiplication properties, one at a time.', icon: 'book', start: true },
     { id: 'practice', label: 'Practice Problems', about: 'Answer problems. Get a hint when you need one.', icon: 'pencil', page: true },
     { id: 'lessons', label: 'Math Lessons', about: 'Lessons 5-1 and 5-2, step by step.', icon: 'steps', page: true },
     { id: 'guide', label: 'Study Guide', about: 'A short review for the Multiplication Properties test.', icon: 'list', page: true },
@@ -325,11 +325,11 @@ export const PROPERTY_NAMES = ['Identity', 'Zero', 'Commutative', 'Distributive'
 export const PRACTICE_SETS = { props: ['props'], split: ['split'], breakapart: ['breakapart'], mixed: ['props', 'split', 'breakapart', 'facts'] };
 const MIXED_EACH = 3;
 
-/** The questions for one Math practice activity, in a shuffled order. */
+/** The questions for one Math practice activity: easy to hard in its written order; Mixed Practice is shuffled. */
 export function mathItems(practice, act, rand = Math.random) {
   const sets = PRACTICE_SETS[act];
   if (!sets || !practice?.sets) return [];
-  if (act !== 'mixed') return shuffle(practice.sets[act] || [], rand);
+  if (act !== 'mixed') return [...(practice.sets[act] || [])];
   return shuffle(sets.flatMap((s) => shuffle(practice.sets[s] || [], rand).slice(0, MIXED_EACH)), rand);
 }
 
@@ -406,6 +406,12 @@ export function validateMathPractice(practice) {
         if (p && correct !== `${p} Property`) err(`${where}: "${it.eq}" shows the ${p} Property, but the key says ${correct}`);
         const pair = it.model?.type === 'pair' ? it.model : null;
         if (pair && `${pair.left.rows} × ${pair.left.cols} = ${pair.right.rows} × ${pair.right.cols}` !== it.eq) err(`${where}: the picture does not show ${it.eq}`);
+      }
+      // A wrong choice that says it "also makes N" must really make N.
+      for (const o of it.options || []) {
+        const said = /also makes (\d+)/.exec(o.why || '');
+        const f = said && twoFacts(o.text);
+        if (said && (!f || f[0] * f[1] + f[2] * f[3] !== Number(said[1]))) err(`${where}: option "${o.text}" does not make ${said[1]}`);
       }
       if (k === 'split' && !it.pictureMatch) err(`${where}: a split-array question must be checked against its picture (pictureMatch)`);
       if (k === 'breakapart' && it.type === 'choice' && it.split) {

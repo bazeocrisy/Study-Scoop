@@ -46,6 +46,12 @@ test('a wrong property key, a split that does not match its picture, or the wron
   b.sets.split[0].model.cut.at += 1;
   assert.ok(validateMathPractice(b).some((m) => m.includes(b.sets.split[0].id)));
 
+  const d = copy();
+  const s = d.sets.split[0];
+  const w = s.options.find((o) => !o.correct);
+  w.why = 'That also makes 99, but it does not match where the line is.';
+  assert.ok(validateMathPractice(d).some((m) => m.includes('does not make 99')), 'a false also-makes claim');
+
   const c = copy();
   const b1 = c.sets.breakapart.find((x) => x.id === 'b1');
   b1.split = 'first';

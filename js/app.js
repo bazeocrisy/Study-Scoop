@@ -165,7 +165,8 @@ async function render() {
   // After a navigation, move keyboard and screen-reader focus to the new content (not on first load,
   // and not while the week picker is being used).
   if (n > 1 && document.activeElement !== select) {
-    window.scrollTo(0, 0);
+    const below = lesson || ctx.run || ctx.page || window.innerWidth < 700;
+    window.scrollTo(0, below ? Math.max(0, app.getBoundingClientRect().top + window.scrollY - 8) : 0);
     // In a lesson, land on the stage heading; elsewhere on the page content.
     (lesson || ctx.run ? app.querySelector('#stage-h') || app : app).focus({ preventScroll: true });
   }
@@ -173,6 +174,9 @@ async function render() {
 }
 
 function showProblem(message, details) {
+  // The old page's controls (e.g. a test's "Leave the test?" check) must not outlive it.
+  mounted?.abort();
+  mounted = null;
   app.innerHTML = html`
     <div class="card problem" role="alert">
       <h1>Sorry!</h1>

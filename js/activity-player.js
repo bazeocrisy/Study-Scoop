@@ -28,6 +28,8 @@ function addMiss(weekId, subject, item, fromMark = false) {
 }
 
 const seed = () => (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
+/** A choice question with its options in a new order (True/False stays in order). */
+const reshuffle = (item, rand) => (item.type === 'choice' && item.options.length > 2 ? { ...item, options: shuffle(item.options, rand) } : item);
 /** What the cards of a card activity show: spelling words, vocabulary words, or the four math properties. */
 const cardsFor = (ctx, subject) => (subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
 
@@ -43,7 +45,7 @@ function newRun(ctx, section, act) {
   const run = { ...base, subject: section, act, mode: 'practice', title: info.label, goal: info.about };
   const cards = cardsFor(ctx, section);
   if (act === 'learn' || act === 'flash') run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} };
-  else if (act === 'misses') run.items = [...missMap(ctx.weekId, section).values()].map((e) => e.item);
+  else if (act === 'misses') run.items = [...missMap(ctx.weekId, section).values()].map((e) => reshuffle(e.item, rand));
   else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
   else if (section === 'vocab') run.items = shuffle(vocabItems(ctx.week, act, rand), rand);
   else run.items = shuffle(spellingItems(ctx.week, act), rand);
@@ -55,7 +57,7 @@ export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
-  const stale = old?.act === 'misses' && (old.finished || !Object.keys(old.items_).length);
+  const stale = (old?.act === 'misses' && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && ctx.practice);
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
     if (old.act === 'misses') {
@@ -152,7 +154,7 @@ export function mountActivity(app, ctx, signal) {
   // stays open, so coming back carries on where the child left off.
   if (run.mode === 'test') {
     document.addEventListener('click', (e) => {
-      const a = e.target.closest('a[href^="#"]');
+      const a = e.target.closest('a[href^="#"]:not(.skip)');
       if (!a || e.target.closest('#leave-dialog') || run.submitted || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (unanswered(run.items, { items: run.items_ }).length === run.items.length) return; // nothing answered yet
       e.preventDefault();
@@ -160,6 +162,10 @@ export function mountActivity(app, ctx, signal) {
     }, { signal, capture: true });
   }
   function confirmLeave(href) {
+    if (typeof HTMLDialogElement !== 'function') {
+      if (window.confirm('Leave the test? You have not finished. Your answers are kept while this page stays open.')) location.hash = href;
+      return;
+    }
     document.getElementById('leave-dialog')?.remove();
     const dlg = document.createElement('dialog');
     dlg.id = 'leave-dialog';
@@ -376,7 +382,7 @@ export function mountActivity(app, ctx, signal) {
       const practice = spellItem(w, ctx.week.spelling);
       if (f.marks[w.word] === 'again') addMiss(ctx.weekId, 'spelling', practice, true);
       else if (m.get(missKey(practice))?.fromMark) m.delete(missKey(practice)); // a mark never removes a real miss
-      announce(f.marks[w.word] === 'again' ? `${w.word} is added to Practice My Misses.` : f.marks[w.word] === 'known' ? 'Marked as known.' : 'Mark removed.');
+      announce(f.marks[w.word] === 'again' ? 'This word is added to Practice My Misses.' : f.marks[w.word] === 'known' ? 'Marked as known.' : 'Mark removed.');
       return rerender(`[data-mark="${mark}"]`);
     }
   }, { signal });

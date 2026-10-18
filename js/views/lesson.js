@@ -4,7 +4,7 @@ import { html } from '../lib/html.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { STAGES, STAGE_IDS, answerText, boxes, score, showSteps, stageLabel } from '../lib/lessons.js';
-import { subBar } from './common.js';
+import { facts, subBar } from './common.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
 const ICON_NOT = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>`;
@@ -175,7 +175,7 @@ export function itemCard(lesson, item, stage, state) {
 /** A written blank ("___") drawn as a line; screen readers say "blank" instead of a row of underscores. */
 export function blanks(text) {
   return String(text).split(/(_{3,})/).map((p, k) => (k % 2
-    ? html`<span class="blank"><span aria-hidden="true">${p}</span><span class="sr-only">blank</span></span>` : p));
+    ? html`<span class="blank"><span aria-hidden="true">${p}</span><span class="sr-only">blank</span></span>` : facts(p)));
 }
 
 /** A button that speaks (dictation and the word in Missing Letters); its label turns into "Stop" while it speaks. */
@@ -221,7 +221,7 @@ function answerArea(item, resp, st, test, done) {
       ${item.options.map((o, k) => {
         const chosen = String(resp.choice) === String(k);
         const cls = !test && chosen && st.status === 'correct' ? ' is-right' : !test && chosen && st.status === 'notyet' ? ' is-wrong' : '';
-        return html`<label class="choice${cls}"><input type="radio" name="choice" value="${k}"${chosen ? ' checked' : ''}${done ? ' disabled' : ''}> <span>${o.text}</span></label>`;
+        return html`<label class="choice${cls}"><input type="radio" name="choice" value="${k}"${chosen ? ' checked' : ''}${done ? ' disabled' : ''}> <span>${facts(o.text)}</span></label>`;
       })}</fieldset>`;
   }
   if (item.type === 'number') {

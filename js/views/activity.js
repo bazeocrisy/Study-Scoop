@@ -78,7 +78,7 @@ function emptyRun(ctx, run) {
   }
   return html`
     ${stageTitle('Nothing to practice yet')}
-    <div class="card empty-state"><p><strong>Nothing to practice yet. Good news!</strong></p>
+    <div class="card empty-state"><p><strong>Good news!</strong></p>
       <p>When you miss a question in another activity, it shows up here so you can practice it again. Try an activity first.</p></div>
     ${endNav(ctx, run, { again: '' })}`;
 }
@@ -202,17 +202,17 @@ function flashcards(ctx, run) {
   const mark = f.marks[w.word];
   const known = Object.values(f.marks).filter((m) => m === 'known').length;
   const again = Object.values(f.marks).filter((m) => m === 'again').length;
-  const ending = String(sp.pattern).replace(/^-/, '');
   const rule = sp.rules[w.rule] || '';
   // The whole card is one button: click, tap, Enter or Space turns it over. Only one side is ever on the page,
   // and the front never shows the spelling (base word + ending and the sentence with a blank).
   return html`
     ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
-    <button type="button" class="flashcard${f.flipped ? ' is-flipped' : ''}" data-act="flip" aria-describedby="flip-help">
+    <button type="button" class="flashcard${f.flipped ? ' is-flipped' : ''}" data-act="flip" aria-describedby="flip-help"
+      aria-label="${f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : `Front of the card. ${blankSentence(w.sentence, w.word).replace(/_+/g, 'blank')} Press Hear the word, spell it out loud, then turn the card over.`}">
       ${f.flipped ? html`
         <span class="face back">
           <span class="side-label">Back of the card</span>
-          ${wordPicture(ctx, [w.word, w.img], `Study card for the word "${w.word}"`)}
+          ${wordPicture(ctx, [w.word, w.img], '')}
           <span class="flash-word">${w.word}</span>
           ${rule ? html`<span class="flash-rule">${rule}${sp.ruleHelp?.[w.rule] ? html`<span class="rule-help">${sp.ruleHelp[w.rule]}</span>` : ''}</span>` : ''}
           <span class="sentence">${w.sentence}</span>
@@ -220,9 +220,9 @@ function flashcards(ctx, run) {
         : html`
         <span class="face front">
           <span class="side-label">Front of the card</span>
-          <span class="flash-clue">${w.base} + ${ending}</span>
+          <span class="flash-clue">Which word fits?</span>
           <span class="sentence">${blanks(blankSentence(w.sentence, w.word))}</span>
-          <span class="tap">Think of the word. Then tap the card to see it.</span>
+          <span class="tap">Press Hear the word. Spell it out loud. Then tap the card to check.</span>
         </span>`}
     </button>
     <p class="sr-only" id="flip-help">Press Enter or Space to turn the card over.</p>
@@ -231,10 +231,10 @@ function flashcards(ctx, run) {
       ${soundButton('say-card', 'Hear the word')}
       <button type="button" class="btn" data-act="shuffle">Shuffle</button>
     </div>
-    <div class="btn-row center marks" role="group" aria-label="How well do you know this word?">
+    ${f.flipped || mark ? html`<div class="btn-row center marks" role="group" aria-label="Did you spell it right?">
       <button type="button" class="btn mark-known" data-act="mark" data-mark="known" aria-pressed="${mark === 'known' ? 'true' : 'false'}">I know it</button>
       <button type="button" class="btn mark-again" data-act="mark" data-mark="again" aria-pressed="${mark === 'again' ? 'true' : 'false'}">Practice again</button>
-    </div>
+    </div>` : html`<p class="hint center">Turn the card over to check your spelling. Then mark it.</p>`}
     <p class="tally">Known: ${known} · To practice: ${again}${again ? html` · <a href="${ctx.actLink('spelling', 'misses')}">Practice My Misses</a>` : ''}</p>
     <div class="stage-nav">
       <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
@@ -269,6 +269,9 @@ function studyCards(ctx, run) {
     </div>`;
 }
 
+/** Pictures for the teacher's distributive examples, drawn from the same numbers as the sentence. */
+const TEACHER_SPLIT = { 'Breaking 6 × 3 into (5 × 3) + (1 × 3) uses the ___.': { type: 'array', rows: 6, cols: 3, cut: { by: 'rows', at: 5 }, labels: 'facts' } };
+
 /** Math > Learn the Properties: one property at a time, with the teacher's words, a picture and a worked example. */
 function propertyCards(ctx, run) {
   const f = run.flash;
@@ -288,7 +291,7 @@ function propertyCards(ctx, run) {
         <p class="kid-words"><span class="label">In other words</span>${p.kid}</p>
         <h4 class="label">Example: ${p.eq}</h4>
         <ol class="steps">${p.steps.map((s, k) => html`<li><span class="sn" aria-hidden="true">${k + 1}</span><span>${facts(s)}</span></li>`)}</ol>
-        ${p.key === 'distributive' && teacherExample(tw) ? html`<p class="pairs"><span class="label">Your teacher's example</span> ${teacherExample(tw)}</p>` : ''}
+        ${p.key === 'distributive' && teacherExample(tw) ? html`<div class="pairs teacher-ex"><p><span class="label">Your teacher's example</span> ${facts(teacherExample(tw))}</p>${TEACHER_SPLIT[tw.fill] ? modelFigure(TEACHER_SPLIT[tw.fill]) : ''}</div>` : ''}
       </div>
     </div>
     <div class="stage-nav">
@@ -311,15 +314,15 @@ export function testCenter(ctx, catalog) {
             <p class="subject">${c.subject}</p>
             <h3>${c.title}</h3>
             ${c.topic ? html`<p class="topic">${c.topic}</p>` : ''}
+            ${c.available
+              ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
+              : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
             <dl class="facts">
               <div><dt>Class test</dt><dd>${c.date ? formatLongDate(c.date) : 'No date given'}</dd></div>
               <div><dt>Questions</dt><dd>${c.available ? c.count : '—'}</dd></div>
             </dl>
             ${c.coverage ? html`<p class="coverage">${c.coverage}</p>` : ''}
             ${c.note ? html`<p class="grownups">${c.note}</p>` : ''}
-            ${c.available
-              ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
-              : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
           </li>`)}
       </ul>
     </section>`;

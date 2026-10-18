@@ -27,7 +27,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the factors. What is special about one of them?"
     ],
     "show": [
@@ -62,7 +62,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the factors. What is special about one of them?"
     ],
     "show": [
@@ -97,7 +97,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at both sides of the = sign. Are the same numbers there in a different order?"
     ],
     "show": [
@@ -132,7 +132,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the right side of the = sign. How many facts are added there?"
     ],
     "show": [
@@ -167,7 +167,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the factors. What is special about one of them?"
     ],
     "show": [
@@ -202,7 +202,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the factors. What is special about one of them?"
     ],
     "show": [
@@ -237,7 +237,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at both sides of the = sign. Are the same numbers there in a different order?"
     ],
     "show": [
@@ -283,7 +283,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the right side of the = sign. How many facts are added there?"
     ],
     "show": [
@@ -318,7 +318,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the factors. What is special about one of them?"
     ],
     "show": [
@@ -353,7 +353,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the factors. What is special about one of them?"
     ],
     "show": [
@@ -388,7 +388,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at both sides of the = sign. Are the same numbers there in a different order?"
     ],
     "show": [
@@ -423,7 +423,7 @@
      }
     ],
     "hints": [
-     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look for a 1, a 0, a turn-around, or a + sign.",
      "Look at the right side of the = sign. How many facts are added there?"
     ],
     "show": [
@@ -469,7 +469,7 @@
      }
     ],
     "hints": [
-     "Count the rows above the line. Then count the rows below it.",
+     "Put your finger on each row above the dashed line and count. Then do the same below it.",
      "Every row has 6 dots."
     ],
     "show": [
@@ -514,7 +514,7 @@
      }
     ],
     "hints": [
-     "Count the rows above the line. Then count the rows below it.",
+     "Put your finger on each row above the dashed line and count. Then do the same below it.",
      "Every row has 4 dots."
     ],
     "show": [
@@ -525,51 +525,6 @@
     ],
     "yes": "Yes! 6 × 4 = 24 and 2 × 4 = 8. 24 + 8 = 32.",
     "explain": "(6 × 4) + (2 × 4) = 24 + 8 = 32."
-   },
-   {
-    "id": "s3",
-    "type": "choice",
-    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
-    "model": {
-     "type": "array",
-     "rows": 3,
-     "cols": 9,
-     "cut": {
-      "by": "cols",
-      "at": 4
-     }
-    },
-    "pictureMatch": true,
-    "options": [
-     {
-      "text": "(3 × 4) + (3 × 5)",
-      "correct": true
-     },
-     {
-      "text": "(3 × 4) + (3 × 6)",
-      "why": "Count the columns right of the line again."
-     },
-     {
-      "text": "(3 × 4) + (4 × 5)",
-      "why": "Each part still has all 3 rows."
-     },
-     {
-      "text": "(3 × 3) + (3 × 6)",
-      "why": "That also makes 27, but it does not match where the line is. Count the columns left of the line again."
-     }
-    ],
-    "hints": [
-     "Count the columns left of the line. Then count the columns right of it.",
-     "Both parts have all 3 rows."
-    ],
-    "show": [
-     "The line is after column 4.",
-     "Left of the line: 3 rows of 4, so 3 × 4.",
-     "Right of the line: 3 rows of 5, so 3 × 5.",
-     "So the answer is (3 × 4) + (3 × 5)."
-    ],
-    "yes": "Yes! 3 × 4 = 12 and 3 × 5 = 15. 12 + 15 = 27.",
-    "explain": "(3 × 4) + (3 × 5) = 12 + 15 = 27."
    },
    {
     "id": "s4",
@@ -587,24 +542,24 @@
     "pictureMatch": true,
     "options": [
      {
-      "text": "(6 × 3) + (3 × 3)",
-      "why": "That also makes 27, but it does not match where the line is. Count the rows above the line again."
-     },
-     {
-      "text": "(5 × 3) + (4 × 5)",
-      "why": "Each row below the line still has 3 dots."
+      "text": "(5 × 3) + (4 × 3)",
+      "correct": true
      },
      {
       "text": "(5 × 3) + (5 × 3)",
       "why": "Count the rows below the line again."
      },
      {
-      "text": "(5 × 3) + (4 × 3)",
-      "correct": true
+      "text": "(5 × 3) + (4 × 5)",
+      "why": "Each row below the line still has 3 dots."
+     },
+     {
+      "text": "(6 × 3) + (3 × 3)",
+      "why": "That also makes 27, but it does not match where the line is. Count the rows above the line again."
      }
     ],
     "hints": [
-     "Count the rows above the line. Then count the rows below it.",
+     "Put your finger on each row above the dashed line and count. Then do the same below it.",
      "Every row has 3 dots."
     ],
     "show": [
@@ -615,51 +570,6 @@
     ],
     "yes": "Yes! 5 × 3 = 15 and 4 × 3 = 12. 15 + 12 = 27.",
     "explain": "(5 × 3) + (4 × 3) = 15 + 12 = 27."
-   },
-   {
-    "id": "s5",
-    "type": "choice",
-    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
-    "model": {
-     "type": "array",
-     "rows": 4,
-     "cols": 8,
-     "cut": {
-      "by": "cols",
-      "at": 6
-     }
-    },
-    "pictureMatch": true,
-    "options": [
-     {
-      "text": "(4 × 7) + (4 × 1)",
-      "why": "That also makes 32, but it does not match where the line is. Count the columns left of the line again."
-     },
-     {
-      "text": "(4 × 6) + (4 × 2)",
-      "correct": true
-     },
-     {
-      "text": "(4 × 6) + (6 × 2)",
-      "why": "Each part still has all 4 rows."
-     },
-     {
-      "text": "(4 × 6) + (4 × 3)",
-      "why": "Count the columns right of the line again."
-     }
-    ],
-    "hints": [
-     "Count the columns left of the line. Then count the columns right of it.",
-     "Both parts have all 4 rows."
-    ],
-    "show": [
-     "The line is after column 6.",
-     "Left of the line: 4 rows of 6, so 4 × 6.",
-     "Right of the line: 4 rows of 2, so 4 × 2.",
-     "So the answer is (4 × 6) + (4 × 2)."
-    ],
-    "yes": "Yes! 4 × 6 = 24 and 4 × 2 = 8. 24 + 8 = 32.",
-    "explain": "(4 × 6) + (4 × 2) = 24 + 8 = 32."
    },
    {
     "id": "s6",
@@ -681,20 +591,20 @@
       "why": "That also makes 35, but it does not match where the line is. Count the rows above the line again."
      },
      {
-      "text": "(4 × 5) + (3 × 5)",
-      "correct": true
-     },
-     {
       "text": "(4 × 5) + (3 × 4)",
       "why": "Each row below the line still has 5 dots."
      },
      {
       "text": "(7 × 4) + (7 × 1)",
       "why": "That also makes 35, but it does not match where the line is. This line goes between rows, not between columns."
+     },
+     {
+      "text": "(4 × 5) + (3 × 5)",
+      "correct": true
      }
     ],
     "hints": [
-     "Count the rows above the line. Then count the rows below it.",
+     "Put your finger on each row above the dashed line and count. Then do the same below it.",
      "Every row has 5 dots."
     ],
     "show": [
@@ -705,51 +615,6 @@
     ],
     "yes": "Yes! 4 × 5 = 20 and 3 × 5 = 15. 20 + 15 = 35.",
     "explain": "(4 × 5) + (3 × 5) = 20 + 15 = 35."
-   },
-   {
-    "id": "s7",
-    "type": "choice",
-    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
-    "model": {
-     "type": "array",
-     "rows": 5,
-     "cols": 7,
-     "cut": {
-      "by": "cols",
-      "at": 2
-     }
-    },
-    "pictureMatch": true,
-    "options": [
-     {
-      "text": "(5 × 3) + (5 × 4)",
-      "why": "That also makes 35, but it does not match where the line is. Count the columns left of the line again."
-     },
-     {
-      "text": "(2 × 7) + (3 × 7)",
-      "why": "That also makes 35, but it does not match where the line is. This line goes between columns, not between rows."
-     },
-     {
-      "text": "(5 × 2) + (5 × 5)",
-      "correct": true
-     },
-     {
-      "text": "(5 × 2) + (2 × 5)",
-      "why": "Each part still has all 5 rows."
-     }
-    ],
-    "hints": [
-     "Count the columns left of the line. Then count the columns right of it.",
-     "Both parts have all 5 rows."
-    ],
-    "show": [
-     "The line is after column 2.",
-     "Left of the line: 5 rows of 2, so 5 × 2.",
-     "Right of the line: 5 rows of 5, so 5 × 5.",
-     "So the answer is (5 × 2) + (5 × 5)."
-    ],
-    "yes": "Yes! 5 × 2 = 10 and 5 × 5 = 25. 10 + 25 = 35.",
-    "explain": "(5 × 2) + (5 × 5) = 10 + 25 = 35."
    },
    {
     "id": "s8",
@@ -767,24 +632,24 @@
     "pictureMatch": true,
     "options": [
      {
-      "text": "(6 × 3) + (6 × 6)",
-      "why": "That also makes 54, but it does not match where the line is. This line goes between rows, not between columns."
-     },
-     {
       "text": "(4 × 9) + (2 × 9)",
       "why": "That also makes 54, but it does not match where the line is. Count the rows above the line again."
+     },
+     {
+      "text": "(3 × 9) + (3 × 9)",
+      "correct": true
      },
      {
       "text": "(3 × 9) + (3 × 3)",
       "why": "Each row below the line still has 9 dots."
      },
      {
-      "text": "(3 × 9) + (3 × 9)",
-      "correct": true
+      "text": "(6 × 3) + (6 × 6)",
+      "why": "That also makes 54, but it does not match where the line is. This line goes between rows, not between columns."
      }
     ],
     "hints": [
-     "Count the rows above the line. Then count the rows below it.",
+     "Put your finger on each row above the dashed line and count. Then do the same below it.",
      "Every row has 9 dots."
     ],
     "show": [
@@ -795,51 +660,6 @@
     ],
     "yes": "Yes! 3 × 9 = 27 and 3 × 9 = 27. 27 + 27 = 54.",
     "explain": "(3 × 9) + (3 × 9) = 27 + 27 = 54."
-   },
-   {
-    "id": "s9",
-    "type": "choice",
-    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
-    "model": {
-     "type": "array",
-     "rows": 8,
-     "cols": 5,
-     "cut": {
-      "by": "cols",
-      "at": 3
-     }
-    },
-    "pictureMatch": true,
-    "options": [
-     {
-      "text": "(3 × 5) + (5 × 5)",
-      "why": "That also makes 40, but it does not match where the line is. This line goes between columns, not between rows."
-     },
-     {
-      "text": "(8 × 4) + (8 × 1)",
-      "why": "That also makes 40, but it does not match where the line is. Count the columns left of the line again."
-     },
-     {
-      "text": "(8 × 3) + (8 × 2)",
-      "correct": true
-     },
-     {
-      "text": "(8 × 3) + (3 × 2)",
-      "why": "Each part still has all 8 rows."
-     }
-    ],
-    "hints": [
-     "Count the columns left of the line. Then count the columns right of it.",
-     "Both parts have all 8 rows."
-    ],
-    "show": [
-     "The line is after column 3.",
-     "Left of the line: 8 rows of 3, so 8 × 3.",
-     "Right of the line: 8 rows of 2, so 8 × 2.",
-     "So the answer is (8 × 3) + (8 × 2)."
-    ],
-    "yes": "Yes! 8 × 3 = 24 and 8 × 2 = 16. 24 + 16 = 40.",
-    "explain": "(8 × 3) + (8 × 2) = 24 + 16 = 40."
    },
    {
     "id": "s10",
@@ -857,37 +677,319 @@
     "pictureMatch": true,
     "options": [
      {
-      "text": "(1 × 8) + (2 × 8)",
-      "correct": true
-     },
-     {
-      "text": "(3 × 1) + (3 × 7)",
-      "why": "That also makes 24, but it does not match where the line is. This line goes between rows, not between columns."
-     },
-     {
       "text": "(1 × 8) + (3 × 8)",
       "why": "Count the rows below the line again."
      },
      {
+      "text": "(1 × 8) + (2 × 8)",
+      "correct": true
+     },
+     {
       "text": "(1 × 8) + (2 × 1)",
       "why": "Each row below the line still has 8 dots."
+     },
+     {
+      "text": "(3 × 1) + (3 × 7)",
+      "why": "That also makes 24, but it does not match where the line is. This line goes between rows, not between columns."
      }
     ],
     "hints": [
-     "Count the rows above the line. Then count the rows below it.",
+     "Put your finger on each row above the dashed line and count. Then do the same below it.",
      "Every row has 8 dots."
     ],
     "show": [
      "The line is under row 1.",
-     "Above the line: 1 rows of 8, so 1 × 8.",
+     "Above the line: 1 row of 8, so 1 × 8.",
      "Below the line: 2 rows of 8, so 2 × 8.",
      "So the answer is (1 × 8) + (2 × 8)."
     ],
     "yes": "Yes! 1 × 8 = 8 and 2 × 8 = 16. 8 + 16 = 24.",
     "explain": "(1 × 8) + (2 × 8) = 8 + 16 = 24."
+   },
+   {
+    "id": "s3",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 3,
+     "cols": 9,
+     "cut": {
+      "by": "cols",
+      "at": 4
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(3 × 3) + (3 × 6)",
+      "why": "That also makes 27, but it does not match where the line is. Count the columns left of the line again."
+     },
+     {
+      "text": "(3 × 4) + (3 × 6)",
+      "why": "Count the columns right of the line again."
+     },
+     {
+      "text": "(3 × 4) + (3 × 5)",
+      "correct": true
+     },
+     {
+      "text": "(3 × 4) + (4 × 5)",
+      "why": "Each part still has all 3 rows."
+     }
+    ],
+    "hints": [
+     "Put your finger on each column left of the dashed line and count. Then do the same on the right.",
+     "Both parts have all 3 rows."
+    ],
+    "show": [
+     "The line is after column 4.",
+     "Left of the line: 3 rows of 4, so 3 × 4.",
+     "Right of the line: 3 rows of 5, so 3 × 5.",
+     "So the answer is (3 × 4) + (3 × 5)."
+    ],
+    "yes": "Yes! 3 × 4 = 12 and 3 × 5 = 15. 12 + 15 = 27.",
+    "explain": "(3 × 4) + (3 × 5) = 12 + 15 = 27."
+   },
+   {
+    "id": "s5",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 4,
+     "cols": 8,
+     "cut": {
+      "by": "cols",
+      "at": 6
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(4 × 6) + (4 × 3)",
+      "why": "Count the columns right of the line again."
+     },
+     {
+      "text": "(4 × 7) + (4 × 1)",
+      "why": "That also makes 32, but it does not match where the line is. Count the columns left of the line again."
+     },
+     {
+      "text": "(4 × 6) + (6 × 2)",
+      "why": "Each part still has all 4 rows."
+     },
+     {
+      "text": "(4 × 6) + (4 × 2)",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Put your finger on each column left of the dashed line and count. Then do the same on the right.",
+     "Both parts have all 4 rows."
+    ],
+    "show": [
+     "The line is after column 6.",
+     "Left of the line: 4 rows of 6, so 4 × 6.",
+     "Right of the line: 4 rows of 2, so 4 × 2.",
+     "So the answer is (4 × 6) + (4 × 2)."
+    ],
+    "yes": "Yes! 4 × 6 = 24 and 4 × 2 = 8. 24 + 8 = 32.",
+    "explain": "(4 × 6) + (4 × 2) = 24 + 8 = 32."
+   },
+   {
+    "id": "s7",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 5,
+     "cols": 7,
+     "cut": {
+      "by": "cols",
+      "at": 2
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(2 × 7) + (3 × 7)",
+      "why": "That also makes 35, but it does not match where the line is. This line goes between columns, not between rows."
+     },
+     {
+      "text": "(5 × 3) + (5 × 4)",
+      "why": "That also makes 35, but it does not match where the line is. Count the columns left of the line again."
+     },
+     {
+      "text": "(5 × 2) + (5 × 5)",
+      "correct": true
+     },
+     {
+      "text": "(5 × 2) + (2 × 5)",
+      "why": "Each part still has all 5 rows."
+     }
+    ],
+    "hints": [
+     "Put your finger on each column left of the dashed line and count. Then do the same on the right.",
+     "Both parts have all 5 rows."
+    ],
+    "show": [
+     "The line is after column 2.",
+     "Left of the line: 5 rows of 2, so 5 × 2.",
+     "Right of the line: 5 rows of 5, so 5 × 5.",
+     "So the answer is (5 × 2) + (5 × 5)."
+    ],
+    "yes": "Yes! 5 × 2 = 10 and 5 × 5 = 25. 10 + 25 = 35.",
+    "explain": "(5 × 2) + (5 × 5) = 10 + 25 = 35."
+   },
+   {
+    "id": "s9",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 8,
+     "cols": 5,
+     "cut": {
+      "by": "cols",
+      "at": 3
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(8 × 3) + (8 × 2)",
+      "correct": true
+     },
+     {
+      "text": "(3 × 5) + (5 × 5)",
+      "why": "That also makes 40, but it does not match where the line is. This line goes between columns, not between rows."
+     },
+     {
+      "text": "(8 × 4) + (8 × 1)",
+      "why": "That also makes 40, but it does not match where the line is. Count the columns left of the line again."
+     },
+     {
+      "text": "(8 × 3) + (3 × 2)",
+      "why": "Each part still has all 8 rows."
+     }
+    ],
+    "hints": [
+     "Put your finger on each column left of the dashed line and count. Then do the same on the right.",
+     "Both parts have all 8 rows."
+    ],
+    "show": [
+     "The line is after column 3.",
+     "Left of the line: 8 rows of 3, so 8 × 3.",
+     "Right of the line: 8 rows of 2, so 8 × 2.",
+     "So the answer is (8 × 3) + (8 × 2)."
+    ],
+    "yes": "Yes! 8 × 3 = 24 and 8 × 2 = 16. 24 + 16 = 40.",
+    "explain": "(8 × 3) + (8 × 2) = 24 + 16 = 40."
    }
   ],
   "breakapart": [
+   {
+    "id": "b8",
+    "type": "number",
+    "prompt": "5 × 4 = 20 and 3 × 4 = 12. Use them to find 8 × 4. What is 8 × 4?",
+    "answer": "8 × 4",
+    "mistakes": [
+     {
+      "when": {
+       "answer": 20
+      },
+      "say": "That is only the 5 × 4 part. Add the 3 × 4 part too."
+     }
+    ],
+    "hints": [
+     "8 is 5 + 3.",
+     "Add the two products: 20 + 12."
+    ],
+    "show": [
+     "8 is 5 + 3.",
+     "5 × 4 = 20 and 3 × 4 = 12.",
+     "20 + 12 = 32. So 8 × 4 = 32."
+    ],
+    "yes": "Yes! 20 + 12 = 32.",
+    "explain": "8 is 5 + 3, so 8 × 4 = 20 + 12 = 32."
+   },
+   {
+    "id": "b9",
+    "type": "number",
+    "prompt": "Break apart 6 into 3 + 3. 3 × 5 = 15 and 3 × 5 = 15. What is 6 × 5?",
+    "answer": "6 × 5",
+    "mistakes": [
+     {
+      "when": {
+       "answer": 15
+      },
+      "say": "That is only one part. There are two parts of 15."
+     }
+    ],
+    "hints": [
+     "There are two parts. Each part is 15.",
+     "Add 15 + 15."
+    ],
+    "show": [
+     "6 is 3 + 3.",
+     "3 × 5 = 15 and 3 × 5 = 15.",
+     "15 + 15 = 30. So 6 × 5 = 30."
+    ],
+    "yes": "Yes! 15 + 15 = 30.",
+    "explain": "6 is 3 + 3, so 6 × 5 = 15 + 15 = 30."
+   },
+   {
+    "id": "b6",
+    "type": "fill",
+    "prompt": "Finish breaking apart 9 × 5.",
+    "lines": [
+     "9 × 5 = 5 × 5 + [a] × 5",
+     "= 25 + [b]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 4,
+     "b": 20,
+     "t": 45
+    },
+    "hints": [
+     "5 and what number add up to 9?",
+     "Find 4 × 5. Then add it to 25."
+    ],
+    "show": [
+     "9 is 5 + 4, so the missing factor is 4.",
+     "4 × 5 = 20.",
+     "25 + 20 = 45."
+    ],
+    "yes": "Yes! 9 × 5 = 25 + 20 = 45.",
+    "explain": "9 is 5 + 4. 5 × 5 = 25 and 4 × 5 = 20. 25 + 20 = 45."
+   },
+   {
+    "id": "b7",
+    "type": "fill",
+    "prompt": "Finish breaking apart 3 × 9.",
+    "lines": [
+     "3 × 9 = 3 × 5 + 3 × [a]",
+     "= 15 + [b]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 4,
+     "b": 12,
+     "t": 27
+    },
+    "hints": [
+     "5 and what number add up to 9?",
+     "Find 3 × 4. Then add it to 15."
+    ],
+    "show": [
+     "9 is 5 + 4, so the missing factor is 4.",
+     "3 × 4 = 12.",
+     "15 + 12 = 27."
+    ],
+    "yes": "Yes! 3 × 9 = 15 + 12 = 27.",
+    "explain": "9 is 5 + 4. 3 × 5 = 15 and 3 × 4 = 12. 15 + 12 = 27."
+   },
    {
     "id": "b1",
     "type": "choice",
@@ -973,198 +1075,40 @@
     "type": "choice",
     "fact": [
      8,
-     6
+     5
     ],
     "split": "any",
-    "prompt": "Which is a correct way to break apart 8 × 6?",
+    "prompt": "Which is a correct way to break apart 8 × 5?",
     "options": [
      {
-      "text": "(4 × 6) + (3 × 6)",
+      "text": "(4 × 5) + (3 × 5)",
       "why": "4 + 3 is 7, not 8."
      },
      {
-      "text": "(8 × 3) + (8 × 2)",
-      "why": "3 + 2 is 5, not 6."
+      "text": "(8 × 3) + (8 × 1)",
+      "why": "3 + 1 is 4, not 5."
      },
      {
-      "text": "(5 × 6) + (3 × 6)",
+      "text": "(5 × 5) + (3 × 5)",
       "correct": true
      },
      {
-      "text": "(5 × 3) + (3 × 3)",
-      "why": "Each fact must keep one of the factors, 8 or 6."
+      "text": "(4 × 3) + (4 × 2)",
+      "why": "Each fact must keep one of the factors, 8 or 5."
      }
     ],
     "hints": [
      "The two smaller numbers must add up to the factor you break apart.",
-     "Check each choice: do the parts add up to 8 or to 6?"
+     "Check each choice: do the parts add up to 8 or to 5?"
     ],
     "show": [
-     "8 is 5 + 3, so keep the 6.",
-     "5 × 6 = 30 and 3 × 6 = 18.",
-     "30 + 18 = 48, and 8 × 6 = 48.",
-     "So the answer is (5 × 6) + (3 × 6)."
+     "8 is 5 + 3, so keep the 5.",
+     "5 × 5 = 25 and 3 × 5 = 15.",
+     "25 + 15 = 40, and 8 × 5 = 40.",
+     "So the answer is (5 × 5) + (3 × 5)."
     ],
-    "yes": "Yes! 5 + 3 = 8, so 8 × 6 = (5 × 6) + (3 × 6) = 30 + 18 = 48.",
-    "explain": "5 + 3 = 8, so 8 × 6 = (5 × 6) + (3 × 6) = 30 + 18 = 48."
-   },
-   {
-    "id": "b4",
-    "type": "decompose",
-    "fact": [
-     3,
-     8
-    ],
-    "prompt": "Break apart 3 × 8 into two easier facts. Then find the product.",
-    "answer": {
-     "p": 3,
-     "q": 5,
-     "r": 3,
-     "s": 3,
-     "t": 24
-    },
-    "hints": [
-     "Keep the 3 and break apart the 8, or keep the 8 and break apart the 3.",
-     "One way: 8 is 5 + 3."
-    ],
-    "show": [
-     "8 is 5 + 3, so keep the 3.",
-     "3 × 5 = 15 and 3 × 3 = 9.",
-     "15 + 9 = 24.",
-     "So 3 × 8 = 3 × 5 + 3 × 3 = 24. Other correct ways count too."
-    ],
-    "yes": "Yes! 3 × 8 = 24.",
-    "explain": "One way: 8 is 5 + 3, so 3 × 8 = 3 × 5 + 3 × 3 = 15 + 9 = 24."
-   },
-   {
-    "id": "b5",
-    "type": "decompose",
-    "fact": [
-     7,
-     8
-    ],
-    "prompt": "Break apart 7 × 8 into two easier facts. Then find the product.",
-    "answer": {
-     "p": 5,
-     "q": 8,
-     "r": 2,
-     "s": 8,
-     "t": 56
-    },
-    "hints": [
-     "Keep the 8 and break apart the 7, or keep the 7 and break apart the 8.",
-     "One way: 7 is 5 + 2."
-    ],
-    "show": [
-     "7 is 5 + 2, so keep the 8.",
-     "5 × 8 = 40 and 2 × 8 = 16.",
-     "40 + 16 = 56.",
-     "So 7 × 8 = 5 × 8 + 2 × 8 = 56. Other correct ways count too."
-    ],
-    "yes": "Yes! 7 × 8 = 56.",
-    "explain": "One way: 7 is 5 + 2, so 7 × 8 = 5 × 8 + 2 × 8 = 40 + 16 = 56."
-   },
-   {
-    "id": "b6",
-    "type": "fill",
-    "prompt": "Finish breaking apart 6 × 9.",
-    "lines": [
-     "6 × 9 = 5 × 9 + [a] × 9",
-     "= 45 + [b]",
-     "= [t]"
-    ],
-    "answer": {
-     "a": 1,
-     "b": 9,
-     "t": 54
-    },
-    "hints": [
-     "5 and what number add up to 6?",
-     "Find 1 × 9. Then add it to 45."
-    ],
-    "show": [
-     "6 is 5 + 1, so the missing factor is 1.",
-     "1 × 9 = 9.",
-     "45 + 9 = 54."
-    ],
-    "yes": "Yes! 6 × 9 = 45 + 9 = 54.",
-    "explain": "6 is 5 + 1. 5 × 9 = 45 and 1 × 9 = 9. 45 + 9 = 54."
-   },
-   {
-    "id": "b7",
-    "type": "fill",
-    "prompt": "Finish breaking apart 3 × 9.",
-    "lines": [
-     "3 × 9 = 3 × 5 + 3 × [a]",
-     "= 15 + [b]",
-     "= [t]"
-    ],
-    "answer": {
-     "a": 4,
-     "b": 12,
-     "t": 27
-    },
-    "hints": [
-     "5 and what number add up to 9?",
-     "Find 3 × 4. Then add it to 15."
-    ],
-    "show": [
-     "9 is 5 + 4, so the missing factor is 4.",
-     "3 × 4 = 12.",
-     "15 + 12 = 27."
-    ],
-    "yes": "Yes! 3 × 9 = 15 + 12 = 27.",
-    "explain": "9 is 5 + 4. 3 × 5 = 15 and 3 × 4 = 12. 15 + 12 = 27."
-   },
-   {
-    "id": "b8",
-    "type": "number",
-    "prompt": "5 × 4 = 20 and 3 × 4 = 12. Use them to find 8 × 4. What is 8 × 4?",
-    "answer": "8 × 4",
-    "mistakes": [
-     {
-      "when": {
-       "answer": 20
-      },
-      "say": "That is only the 5 × 4 part. Add the 3 × 4 part too."
-     }
-    ],
-    "hints": [
-     "8 is 5 + 3.",
-     "Add the two products: 20 + 12."
-    ],
-    "show": [
-     "8 is 5 + 3.",
-     "5 × 4 = 20 and 3 × 4 = 12.",
-     "20 + 12 = 32. So 8 × 4 = 32."
-    ],
-    "yes": "Yes! 20 + 12 = 32.",
-    "explain": "8 is 5 + 3, so 8 × 4 = 20 + 12 = 32."
-   },
-   {
-    "id": "b9",
-    "type": "number",
-    "prompt": "Break apart 6 into 3 + 3. 3 × 5 = 15 and 3 × 5 = 15. What is 6 × 5?",
-    "answer": "6 × 5",
-    "mistakes": [
-     {
-      "when": {
-       "answer": 15
-      },
-      "say": "That is only one part. There are two parts of 15."
-     }
-    ],
-    "hints": [
-     "There are two parts. Each part is 15.",
-     "Add 15 + 15."
-    ],
-    "show": [
-     "6 is 3 + 3.",
-     "3 × 5 = 15 and 3 × 5 = 15.",
-     "15 + 15 = 30. So 6 × 5 = 30."
-    ],
-    "yes": "Yes! 15 + 15 = 30.",
-    "explain": "6 is 3 + 3, so 6 × 5 = 15 + 15 = 30."
+    "yes": "Yes! 5 + 3 = 8, so 8 × 5 = (5 × 5) + (3 × 5) = 25 + 15 = 40.",
+    "explain": "5 + 3 = 8, so 8 × 5 = (5 × 5) + (3 × 5) = 25 + 15 = 40."
    },
    {
     "id": "b10",
@@ -1201,6 +1145,62 @@
     ],
     "yes": "Yes! 8 × 3 = (5 × 3) + (3 × 3) = 15 + 9 = 24.",
     "explain": "8 is 5 + 3, so 8 × 3 = (5 × 3) + (3 × 3) = 15 + 9 = 24."
+   },
+   {
+    "id": "b4",
+    "type": "decompose",
+    "fact": [
+     3,
+     6
+    ],
+    "prompt": "Break apart 3 × 6 into two easier facts. Then find the product.",
+    "answer": {
+     "p": 3,
+     "q": 5,
+     "r": 3,
+     "s": 1,
+     "t": 18
+    },
+    "hints": [
+     "Keep the 3 and break apart the 6, or keep the 6 and break apart the 3.",
+     "One way: 6 is 5 + 1."
+    ],
+    "show": [
+     "6 is 5 + 1, so keep the 3.",
+     "3 × 5 = 15 and 3 × 1 = 3.",
+     "15 + 3 = 18.",
+     "So 3 × 6 = 3 × 5 + 3 × 1 = 18. Other correct ways count too."
+    ],
+    "yes": "Yes! 3 × 6 = 18.",
+    "explain": "One way: 6 is 5 + 1, so 3 × 6 = 3 × 5 + 3 × 1 = 15 + 3 = 18."
+   },
+   {
+    "id": "b5",
+    "type": "decompose",
+    "fact": [
+     8,
+     8
+    ],
+    "prompt": "Break apart 8 × 8 into two easier facts. Then find the product.",
+    "answer": {
+     "p": 5,
+     "q": 8,
+     "r": 3,
+     "s": 8,
+     "t": 64
+    },
+    "hints": [
+     "Keep one 8 and break apart the other 8.",
+     "One way: 8 is 5 + 3."
+    ],
+    "show": [
+     "8 is 5 + 3, so keep the other 8.",
+     "5 × 8 = 40 and 3 × 8 = 24.",
+     "40 + 24 = 64.",
+     "So 8 × 8 = 5 × 8 + 3 × 8 = 64. Other correct ways count too."
+    ],
+    "yes": "Yes! 8 × 8 = 64.",
+    "explain": "One way: 8 is 5 + 3, so 8 × 8 = 5 × 8 + 3 × 8 = 40 + 24 = 64."
    }
   ],
   "facts": [

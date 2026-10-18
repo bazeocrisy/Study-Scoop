@@ -366,7 +366,8 @@ async function main() {
           return [c.querySelector('h3').textContent, c.querySelector('.def')?.textContent, c.querySelector('.kid-words').textContent.replace('In other words', ''),
             c.querySelector('.fact').textContent, c.querySelectorAll('.m-plate').length, c.querySelectorAll('circle.m-dot').length,
             [...c.querySelectorAll('.model-svg')].map((s) => s.querySelectorAll('.m-dot, .m-star').length),
-            c.querySelectorAll('.m-dot.m-a').length, c.querySelectorAll('.m-dot.m-b').length];`));
+            c.querySelectorAll('.pic-card .m-dot.m-a').length, c.querySelectorAll('.pic-card .m-dot.m-b').length,
+            c.querySelectorAll('.teacher-ex .m-dot.m-a').length, c.querySelectorAll('.teacher-ex .m-dot.m-b').length];`));
         if (k < 3) await press('[data-act="card-next"]');
       }
       const def = (n) => W.math.words.find((w) => w.word.startsWith(n)).def;
@@ -379,6 +380,7 @@ async function main() {
       eq([seen[1][4], seen[1][5]], [9, 0], 'zero: 9 empty groups');
       eq(seen[2][6], [8, 8], 'commutative: 4 rows of 2 and 2 rows of 4');
       eq([seen[3][7], seen[3][8]], [21, 21], 'distributive: 3 rows of 7 and 3 rows of 7');
+      eq([seen[3][9], seen[3][10]], [15, 3], "the teacher's example: 5 rows of 3 and 1 row of 3");
       eq(await b.js('return document.querySelector(".stage-nav .btn-primary").getAttribute("href");'), '#math?act=practice', 'then Practice Problems');
       await press('[data-act="card-prev"]');
       eq(await b.js('return document.getElementById("stage-h").textContent;'), 'Property 3 of 4', 'Previous Property');
@@ -558,7 +560,7 @@ async function main() {
     const actFb = () => b.js('return document.querySelector("#act-stage .feedback:not(.info)")?.textContent.replace(/\\s+/g, " ").trim() || "";');
     // The question as written on screen (a blank's hidden "blank" word for screen readers is left out).
     const qPrompt = () => b.js('const p = document.querySelector("#act-stage form[data-item]").querySelector(".prompt, legend")?.cloneNode(true); p?.querySelectorAll(".sr-only").forEach((x) => x.remove()); return (p?.textContent || "").trim();');
-    const optionTexts = () => b.js('return [...document.querySelectorAll("#act-stage .choice span")].map((s) => s.textContent);');
+    const optionTexts = () => b.js('return [...document.querySelectorAll("#act-stage .choice > span")].map((s) => s.textContent);');
     const pickText = async (text) => {
       const i = (await optionTexts()).indexOf(text);
       expect(i >= 0, 'option ' + text);
@@ -713,7 +715,8 @@ async function main() {
       const w0 = W19.spelling.words[0];
       // Front: base word + ending and the sentence with a blank; never the word itself (not even in the page source).
       eq(await b.js('return [document.querySelector(".flashcard").tagName, document.querySelector(".flash-clue").textContent, document.querySelectorAll(".flashcard img, .flashcard .flash-word").length];'),
-        ['BUTTON', w0.base + ' + ing', 0], 'front: a clue, no picture and no word');
+        ['BUTTON', 'Which word fits?', 0], 'front: a clue, no picture and no word');
+      expect(!new RegExp('\\b' + w0.base + '\\b', 'i').test(await b.js('return document.querySelector(".flashcard").textContent + document.querySelector(".flashcard").getAttribute("aria-label");')), 'the front does not name the base word either');
       expect(!(await b.js('return document.getElementById("act-stage").innerHTML;')).includes(w0.word), 'the front never contains the word');
       // A real click on the card turns it over, and focus stays on the card.
       let before = await rendered();
@@ -736,6 +739,8 @@ async function main() {
       expect(await b.js('const x = document.querySelector(".flip-btn"); const s = getComputedStyle(x); return s.color !== s.backgroundColor;'), 'the button text is readable');
       await press('[data-act="card-next"]');
       eq(await progress(), 'Card 2 of 15', 'next card');
+      eq(await b.js('return document.querySelectorAll("[data-mark]").length;'), 0, 'marks wait until the card is turned over');
+      await press('.flip-btn');
       await press('[data-mark="again"]');
       eq(await b.js('return document.querySelector(".tally").textContent.includes("To practice: 1");'), true, 'tally');
       await press('[data-act="shuffle"]');
@@ -868,6 +873,8 @@ async function main() {
       await b.hash('#tests?test=vocab');
       const first = T19.vocab.items[0];
       await answer(first, solution(first));
+      await b.js('document.querySelector(".skip").click();');
+      eq(await b.js('return [!!document.getElementById("leave-dialog"), location.hash];'), [false, "#tests?test=vocab"], "Skip to main content is not leaving");
       await b.js('document.querySelector(".bar-btns a.home").click();');
       eq(await b.js('const d = document.getElementById("leave-dialog"); return [!!d?.open, document.activeElement.textContent, location.hash];'), [true, 'Keep working', '#tests?test=vocab'], 'asks first');
       await b.js('document.querySelector("[data-choice=stay]").click();');
@@ -879,6 +886,11 @@ async function main() {
       eq(await b.js('return document.querySelector("#act-stage input[name=choice]:checked")?.value;'), String(solution(first).choice), 'the answer is kept');
     });
     await check('Test Center: three practice tests this week; an earlier week shows only the tests that exist', async () => {
+      await b.viewport(1366, 768, false);
+      await b.load(url('#week'));
+      await go('nav.tabs a[data-tab=tests]');
+      expect(await b.js('return [...document.querySelectorAll(".test-card a.btn")].every((a) => a.getBoundingClientRect().bottom <= innerHeight);'), 'every Start test button is on the first screen at 1366 x 768');
+      await b.viewport(1366, 900, false);
       await b.load(url('#tests'));
       eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".facts div:last-child dd")?.textContent, !!c.querySelector("a.btn")]);'),
         [['Math Practice Test', '20', true], ['Spelling Practice Test', '15', true], ['Vocabulary Practice Test', '16', true]], 'cards');
