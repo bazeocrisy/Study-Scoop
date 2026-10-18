@@ -282,3 +282,12 @@ test('the stepper marks only stages opened during this visit as done', () => {
   assert.deepEqual(done([]), []);
   assert.deepEqual(done(['learn', 'try']), ['learn']);
 });
+
+test('the Parent Guide keeps each written fact on one line', () => {
+  for (const lesson of LESSONS) {
+    const out = lessonView(ctx(lesson, 'parent')).s;
+    const facts = lesson.parent.sections.flatMap((s) => [s.text, ...(s.list || [])]).filter(Boolean).join(' ').match(/\d+(?:\s*[×+=−-]\s*\d+)+/g) || [];
+    assert.ok(facts.length, `${lesson.id} has facts to check`);
+    for (const f of facts) assert.ok(out.includes(`<span class="term">${f}</span>`), `${lesson.id}: "${f}" is not kept together`);
+  }
+});

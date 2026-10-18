@@ -348,7 +348,7 @@ function testResults(ctx, lesson, state) {
 
 /** Keeps each written fact such as "7 × 4 = 28" on one line (design re-review R-2). */
 function keepFacts(text) {
-  return String(text).split(/(d+(?:s*[×+=−-]s*d+)+)/).map((p, k) => (k % 2 ? html`<span class="term">${p}</span>` : p));
+  return String(text).split(/(\d+(?:\s*[×+=−-]\s*\d+)+)/).map((p, k) => (k % 2 ? html`<span class="term">${p}</span>` : p));
 }
 
 function parentGuide(ctx, lesson) {

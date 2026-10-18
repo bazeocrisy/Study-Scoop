@@ -439,3 +439,9 @@ body.in-lesson .tabs a { min-height: 44px; }
   body.in-lesson .question .model-pic svg, body.in-lesson .work.has-pic:has(form) .pic-card svg { max-height: 26vh; }
   body.in-lesson .work.has-pic:has(form) > .pic-card { order: 2; }
 }
+@media (min-width: 641px) {
+  /* Design R-5: when the question is the fieldset legend or the equation itself, "Read to me" sits beside it, top right. */
+  .card.question { position: relative; }
+  .card.question > .instruct-head:has(> span:empty) { position: absolute; top: 14px; right: 18px; margin: 0; }
+  .card.question:has(> .instruct-head > span:empty) > .instruct-head + * { padding-right: 150px; }
+}
