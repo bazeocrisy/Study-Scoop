@@ -157,7 +157,11 @@ const ruleQuestion = (sp) => `Which rule does this word follow: ${Object.values(
 /** "Show me how" for a spelling word: base word, rule, word. */
 function spellSteps(entry, sp) {
   const help = sp.ruleHelp?.[entry.rule];
-  return [`Start with ${q(entry.base)} and the ending ${q(suffixOf(sp))}.`,
+  const w = entry.word.toLowerCase(), b = entry.base.toLowerCase();
+  const stem = w.slice(0, w.length - suffixOf(sp).length);
+  const change = stem === b ? '' : stem === b + b.slice(-1) ? `Double the last letter: ${b} becomes ${stem}.`
+    : b.endsWith('e') && stem === b.slice(0, -1) ? `Drop the e: ${b} becomes ${stem}.` : '';
+  return [`Start with ${q(entry.base)} and the ending ${q(suffixOf(sp))}.`, ...(change ? [change] : []),
     `${rulePhrase(sp, entry)}${help ? ` (${help})` : ''}.`, `So the word is ${q(entry.word)}.`];
 }
 
@@ -167,7 +171,7 @@ const wordNo = (entry, sp) => sp.words.indexOf(entry) + 1;
 export function lettersItem(entry, sp) {
   return {
     id: `ml-${wordNo(entry, sp)}`, n: wordNo(entry, sp), type: 'letters', word: entry.word.toLowerCase(), blanks: missingLetters(entry, sp),
-    prompt: 'Listen to the word. Type the missing letters.', context: blankSentence(entry.sentence, entry.word), say: [entry.word],
+    prompt: 'Listen to the word. Type the missing letters.', context: blankSentence(entry.sentence, entry.word), say: [entry.word, entry.sentence],
     hints: [ruleQuestion(sp), `This word comes from ${q(entry.base)}.`],
     retry: `Check the boxes with a dashed border. Remember: ${rulePhrase(sp, entry)}.`,
     yes: `Yes! ${entry.word}.`, explain: `${entry.word}: ${rulePhrase(sp, entry)}.`, show: spellSteps(entry, sp),
@@ -178,9 +182,9 @@ export function spellItem(entry, sp, { test = false, id } = {}) {
   const item = {
     id: id || `sp-${wordNo(entry, sp)}`, n: wordNo(entry, sp), type: 'spell', answer: entry.word.toLowerCase(), base: entry.base,
     say: [entry.word, entry.sentence, entry.word],
-    prompt: 'Press "Hear the word and sentence." Then type the word you hear.',
+    prompt: 'Listen to the word and the sentence. Then type the word.',
     // Without sound, a grown-up reads the word: the screen never gives the spelling (or the base word) away.
-    fallback: `No sound? Have a grown-up say the word for you. The sentence is: ${blankSentence(entry.sentence, entry.word)}`,
+    fallback: `Have a grown-up say the word for you. The sentence is: ${blankSentence(entry.sentence, entry.word)}`,
     retry: 'Listen again, then check each letter.',
     yes: `Yes! ${entry.word}.`, explain: `${entry.word}: ${rulePhrase(sp, entry)}.`,
   };
@@ -276,6 +280,10 @@ function vocabTestProblems(t, week) {
       for (const o of it.options || []) if (!o.correct && o.text === w.def) out.push(`${it.id}: a wrong option is the right definition`);
     }
     if (it.kind === 'meaning' && !it.prompt.includes(`"${w.word}"`)) out.push(`${it.id}: the question must name ${w.word}`);
+    if (it.kind === 'meaning' || it.kind === 'tf') {
+      for (const x of week.vocab.words) if (x !== w && it.prompt.includes(`"${x.word}"`)) out.push(`${it.id}: the question also names ${x.word}`);
+    }
+    if (it.kind === 'word' && !it.prompt.includes(`"${w.def}"`)) out.push(`${it.id}: the question must quote the definition of ${w.word}`);
     if (it.kind === 'context' && !normWord(it.prompt).includes(normWord(w.word))) out.push(`${it.id}: the sentence must use ${w.word}`);
     if (it.kind === 'word' && normWord(correct) !== normWord(w.word)) out.push(`${it.id}: the correct answer must be ${w.word}`);
     if (it.kind === 'tf') {

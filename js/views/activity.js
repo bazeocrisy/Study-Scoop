@@ -29,7 +29,7 @@ function activityBar(ctx, run) {
   return html`
     <div class="lesson-bar act-bar ${run.mode === 'test' ? 'subject-tests' : `subject-${run.subject}`}">
       <div class="lb-title">
-        <p class="lb-nav"><a class="back" href="${back.href}">‹ ${back.label}</a><span class="eyebrow">${run.mode === 'test' ? 'Study Scoop practice test' : SUBJECT[run.subject]} · ${ctx.week.label.replace(/^Week of /, '')}</span></p>
+        <p class="lb-nav"><a class="back" href="${back.href}">‹ ${back.label}</a><span class="eyebrow">${run.mode === 'test' ? 'Study Scoop practice test' : SUBJECT[run.subject]} · <span class="nowrap">${ctx.week.label.replace(/^Week of /, '')}</span></span></p>
         <h1>${run.title}</h1>
         ${run.goal ? html`<p class="goal">${run.goal}</p>` : ''}
       </div>
@@ -116,7 +116,7 @@ function testQuestion(ctx, run) {
   return html`
     ${stageTitle(`Question ${i + 1} of ${run.items.length}`)}
     ${i === 0 ? html`<div class="notice test-intro"><p>${run.instructions}</p><p class="coverage">This test covers: ${run.coverage}</p></div>` : ''}
-    ${half ? html`<p class="notice break-note">Halfway there! Take a short break if you need one. Your answers are kept.</p>` : ''}
+    ${half ? html`<p class="notice break-note">Halfway there! Take a short break if you need one. Your answers are kept while this page stays open.</p>` : ''}
     ${itemCard(CHECK, item, 'test', { items: run.items_ })}
     ${blankList.length ? html`<div class="notice" id="test-warning" tabindex="-1"><p><strong>${blankList.length === 1 ? '1 question has' : `${blankList.length} questions have`} no answer.</strong> Go back to ${blankList.length === 1 ? 'it' : 'them'}, or finish anyway.</p>
       <p class="goto-list"><span>Questions with no answer:</span> ${blankList.map((k) => html`<button type="button" class="btn goto" data-act="goto" data-to="${k}" aria-label="Go to question ${k + 1}">${k + 1}</button>`)}</p></div>` : ''}
@@ -244,7 +244,7 @@ export function activityMenu(ctx, subject, list) {
       <ul class="activity-grid">
         ${list.map((a) => html`
           <li class="card activity${a.id === 'misses' ? ' misses' : ''}">
-            <h3>${a.label}${a.id === 'misses' && misses ? html` <span class="count-badge">${misses}</span>` : ''}</h3>
+            <h3>${a.label}${a.id === 'misses' && misses ? html` <span class="count-badge">${misses}<span class="sr-only"> missed</span></span>` : ''}</h3>
             <p>${a.about}</p>
             ${a.id === 'misses' && !misses
               ? html`<p class="soon-note">No misses yet. Questions you miss in this visit show up here.</p>`

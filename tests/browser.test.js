@@ -753,7 +753,7 @@ async function main() {
       eq(await b.js('return document.querySelector(".summary-score").textContent;'), '18 out of 20', 'score');
       expect(await b.js('return document.body.textContent.includes("You passed!");'), '16 or more passes');
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".qnum").textContent, l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
-        [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 7 × 8 = 5 × 8 + 2 × 8 = 56']], 'review');
+        [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 7 × 8 = 7 × 4 + 7 × 4 = 56']], 'review');
       eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => r.lastElementChild.textContent);'), ['4 of 4', '2 of 3', '7 of 7', '5 of 6'], 'score per skill');
       expect(await b.js('return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href=\'#math\']");'), 'print and practise links');
       await press('[data-act="restart"]');

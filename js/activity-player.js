@@ -54,8 +54,8 @@ export function runFor(ctx, section, act) {
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
     if (old.act === 'misses') {
-      const have = new Set(old.items.map((it) => it.id));
-      old.items.push(...[...missMap(ctx.weekId, section).values()].map((e) => e.item).filter((it) => !have.has(it.id)));
+      const have = new Set(old.items.map(missKey));
+      old.items.push(...[...missMap(ctx.weekId, section).values()].map((e) => e.item).filter((it) => !have.has(missKey(it))));
     }
     return old;
   }
@@ -163,7 +163,9 @@ export function mountActivity(app, ctx, signal) {
 
   // Misses: a question missed on the first try (or shown) is added; in Practice My Misses, a first-try right answer removes it.
   const noteFirst = (item, first) => {
-    if (first === 'correct') { if (run.act === 'misses') missMap(ctx.weekId, run.subject).delete(missKey(item)); } else addMiss(ctx.weekId, run.subject, item);
+    const m = missMap(ctx.weekId, run.subject);
+    if (first !== 'correct') addMiss(ctx.weekId, run.subject, item);
+    else if (run.act === 'misses' && m.get(missKey(item))?.item.id === item.id) m.delete(missKey(item));
   };
 
   function onCheck(form) {

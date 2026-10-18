@@ -376,31 +376,31 @@
         "prompt": "Find the two parts. Then add.",
         "model": {
           "type": "array",
-          "rows": 6,
-          "cols": 9,
+          "rows": 8,
+          "cols": 7,
           "cut": {
             "by": "rows",
             "at": 5
           }
         },
         "lines": [
-          "6 × 9 = 5 × 9 + 1 × 9",
+          "8 × 7 = 5 × 7 + 3 × 7",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 45,
-          "q": 9,
-          "t": 54
+          "p": 35,
+          "q": 21,
+          "t": 56
         },
         "accept": [
           {
-            "p": 9,
-            "q": 45,
-            "t": 54
+            "p": 21,
+            "q": 35,
+            "t": 56
           }
         ],
-        "explain": "5 × 9 = 45 and 1 × 9 = 9. 45 + 9 = 54.",
+        "explain": "5 × 7 = 35 and 3 × 7 = 21. 35 + 21 = 56.",
         "skill": "breaking"
       },
       {
@@ -429,13 +429,13 @@
           8
         ],
         "answer": {
-          "p": 5,
-          "q": 8,
-          "r": 2,
-          "s": 8,
+          "p": 7,
+          "q": 4,
+          "r": 7,
+          "s": 4,
           "t": 56
         },
-        "explain": "One way: 7 is 5 + 2, so 7 × 8 = 5 × 8 + 2 × 8 = 40 + 16 = 56. Any correct way to break it apart counts.",
+        "explain": "One way: 8 is 4 + 4, so 7 × 8 = 7 × 4 + 7 × 4 = 28 + 28 = 56. Any correct way to break it apart counts.",
         "skill": "breaking"
       },
       {

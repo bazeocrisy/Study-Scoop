@@ -157,7 +157,7 @@ export function itemCard(lesson, item, stage, state) {
     <div class="work${pics.length ? ' has-pic' : ''}">
       ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m))}</div></div>` : ''}
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
-        <div class="instruct-head">${item.type === 'choice' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' ? '' : readButton(sayItem(item), 'the question')}</div>
+        <div class="instruct-head">${item.type === 'choice' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' || item.type === 'letters' ? '' : readButton(sayItem(item), 'the question')}</div>
         ${answerArea(item, resp, st, test, done)}
         ${test ? '' : html`
           <div class="btn-row">
@@ -323,7 +323,7 @@ function stageNav(ctx, lesson, stage, state, i, cards) {
       : html`<button type="button" class="btn btn-primary" disabled${descr}>Next: ${nextStage.label} ›</button>`;
   }
   const streak = stage === 'together' && state.streak >= 3 && !last
-    ? html`<p class="feedback ok">${ICON_OK}<span class="fb-title">3 in a row! You can keep practising, or go on to <a href="${ctx.lessonLink(lesson.id, 'try')}">Try It Yourself</a>.</span></p>` : '';
+    ? html`<p class="feedback ok">${ICON_OK}<span class="fb-title">3 in a row! You can keep practicing, or go on to <a href="${ctx.lessonLink(lesson.id, 'try')}">Try It Yourself</a>.</span></p>` : '';
   const blanks = stage === 'test' && state.warned ? unanswered(cards, state) : [];
   return html`${streak}
     ${blanks.length ? html`<div class="notice" id="test-warning" tabindex="-1"><p><strong>${blanks.length === 1 ? '1 question has' : `${blanks.length} questions have`} no answer.</strong> You can go back to ${blanks.length === 1 ? 'it' : 'them'}, or finish anyway.</p>

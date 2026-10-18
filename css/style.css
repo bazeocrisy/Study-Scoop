@@ -569,3 +569,8 @@ section > .hint, .stage > .hint { margin-top: 8px; }
 .break-note { font-weight: 700; }
 /* UX: tab labels fit at tablet widths. */
 @media (min-width: 641px) and (max-width: 1060px) { .tabs a { font-size: .8rem; padding: 6px 2px; } }
+/* Final review leftovers: spelling flashcards are peach on both faces; Start test buttons line up; a date never breaks. */
+.flashcard, .flashcard.is-flipped { border-top-color: var(--peach); }
+.test-card { display: flex; flex-direction: column; }
+.test-card > .btn, .test-card > .unavailable { margin-top: auto; }
+.nowrap { white-space: nowrap; }
