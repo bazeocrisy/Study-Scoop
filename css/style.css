@@ -724,7 +724,7 @@ button.flashcard .pic { width: min(100%, 220px); }
 button.flashcard .face { min-height: min(360px, 38vh); }
 .flash-clue { font-size: clamp(1.6rem, 6vw, 2.4rem); }
 /* Accessibility review: a pressed mark shows a tick (not colour alone); crumb links are 44px tall; a focused page heading has no box. */
-.marks .btn[aria-pressed="true"]::before { content: "✓"; font-weight: 800; }
+.marks .btn[aria-pressed="true"]::before { content: "✓" / ""; font-weight: 800; }
 .crumbs a { min-height: 44px; }
 .act-bar h1:focus { outline: none; }
 .act-bar h1:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
@@ -733,3 +733,19 @@ button.flashcard .face { min-height: min(360px, 38vh); }
 .second-ex .ex2 { margin: 0; font-size: 1.15rem; }
 @media (max-width: 640px) { body.in-activity .weekpick { display: none; } }
 .prop-learn .teacher-line { margin-top: 10px; padding: 10px 14px; border-radius: var(--r-sm); background: var(--sunk); }
+/* Design re-review R2-1, R2-2, R2-4: on phones the crumbs show the parent and the page, Back and Home share one row,
+   the flashcard tools fit one row, and the lesson label is not repeated (the crumbs name it). */
+@media (max-width: 640px) {
+  .crumbs li:not(:nth-last-child(-n+2)) { display: none; }
+  .crumbs li:nth-last-child(2)::before { content: none; }
+  .bar-btns { flex-wrap: nowrap; }
+  .bar-btns .btn.back { white-space: normal; text-align: left; line-height: 1.2; }
+  .bar-btns .btn.home { flex: none; }
+}
+@media (max-width: 480px) {
+  .act-bar .eyebrow { display: none; }
+  .act-bar h1 { font-size: 1.15rem; }
+  .flash-tools .btn, .flash-tools .read, .flash-tools .sound { padding: 6px 12px; font-size: .95rem; }
+  .flash-tools { gap: 6px; }
+}
+h1[tabindex="-1"]:focus { outline: none; } h1[tabindex="-1"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

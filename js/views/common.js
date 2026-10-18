@@ -5,7 +5,7 @@ import { pictureName } from '../lib/data.js';
 export function pageHead(title, ctx, intro, actions) {
   return html`
     <div class="page-head">
-      <h1>${title}</h1>
+      <h1 tabindex="-1">${title}</h1>
       <p class="week-of">${ctx.week.label}</p>
       ${intro ? html`<p class="intro">${intro}</p>` : ''}
       ${actions ? html`<div class="btn-row">${actions}</div>` : ''}
@@ -114,7 +114,7 @@ export function menuPage(ctx, subject, { title, context, items, misses, after = 
   return html`
     <div class="page-head menu-head subject-${subject}">
       ${crumbs(ctx, [{ label: title }])}
-      <h1>${title}</h1>
+      <h1 tabindex="-1">${title}</h1>
       <p class="week-of">${ctx.week.label}</p>
       ${context ? html`<p class="intro">${context}</p>` : ''}
     </div>

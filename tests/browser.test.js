@@ -204,7 +204,7 @@ async function main() {
       const before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.key('Enter');
       await b.ready(before);
-      eq(await b.js('return [document.querySelector("#app h1").textContent, document.activeElement.id];'), ['Spelling', 'app'], 'after Enter');
+      eq(await b.js('return [document.querySelector("#app h1").textContent, document.activeElement === document.querySelector("#app h1")];'), ['Spelling', true], 'after Enter: focus on the page heading');
     });
     await check('skip link moves focus to the content without changing the section', async () => {
       await b.js('document.querySelector(".skip").focus();');
@@ -595,9 +595,11 @@ async function main() {
         eq([opts.length, opts.filter((o) => o === right).length], [4, 1], p + ': four options, exactly one right');
         seen.add(p);
         if (k === 0) {
-          await pickText(opts.find((o) => o !== right));
+          // The last wrong option, so focus on the first option would be a mistake.
+          await pickText(opts.filter((o) => o !== right).pop());
           await checkIt();
           expect((await actFb()).startsWith('Not yet'), 'a wrong choice says Not yet');
+          eq(await b.js('const e = document.activeElement; return [e.name, e.checked];'), ['choice', true], 'focus returns to the choice the child picked');
           eq(await b.js('return document.querySelector("#act-stage [data-act=next]").disabled;'), true, 'cannot go on before answering');
         }
         await pickText(right);
@@ -818,11 +820,11 @@ async function main() {
       let before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');
       await b.ready(before);
-      eq(await b.js('return location.hash;'), '#math?act=guide', 'browser Back');
+      eq(await b.js('return [location.hash, document.activeElement.tagName];'), ['#math?act=guide', 'H1'], 'browser Back (focus on the heading)');
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.forward();');
       await b.ready(before);
-      eq(await b.js('return location.hash;'), '#week', 'browser Forward');
+      eq(await b.js('return [location.hash, document.activeElement.tagName, document.activeElement.textContent];'), ['#week', 'H1', 'This Week'], 'browser Forward (focus on the heading)');
     });
     await check('Math > Practice Problems > Match the Split Array: from the menu, right and wrong answers, hint, Show me how, results, misses', async () => {
       const PRACTICE = readJSON('data/practice/math.json');

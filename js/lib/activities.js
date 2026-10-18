@@ -413,6 +413,24 @@ export function validateMathPractice(practice) {
         const f = said && twoFacts(o.text);
         if (said && (!f || f[0] * f[1] + f[2] * f[3] !== Number(said[1]))) err(`${where}: option "${o.text}" does not make ${said[1]}`);
       }
+      // "A student wrote … What went wrong?": the quoted work must really be wrong, so "It is correct" can never be the key,
+      // and the keyed fix must make the work true ("The second part should be 3 × 3").
+      if (it.quotesMistake) {
+        const m = /wrote (\d+) × (\d+) = (.+?)\. What went wrong\?$/.exec(it.prompt || '');
+        const parts = m && twoFacts(m[3]);
+        if (!parts) err(`${where}: a "what went wrong" question must quote a × b = (c × d) + (e × f)`);
+        else {
+          const want = Number(m[1]) * Number(m[2]);
+          if (parts[0] * parts[1] + parts[2] * parts[3] === want) err(`${where}: the quoted work is not wrong`);
+          if (/^Nothing/.test(correct || '')) err(`${where}: the key says the wrong work is correct`);
+          const fix = /^The (first|second) part should be (\d+) × (\d+)\.$/.exec(correct || '');
+          if (fix) {
+            const fixed = [...parts];
+            fixed.splice(fix[1] === 'first' ? 0 : 2, 2, Number(fix[2]), Number(fix[3]));
+            if (fixed[0] * fixed[1] + fixed[2] * fixed[3] !== want) err(`${where}: the keyed fix does not make ${m[1]} × ${m[2]}`);
+          }
+        }
+      }
       if (k === 'split' && !it.pictureMatch) err(`${where}: a split-array question must be checked against its picture (pictureMatch)`);
       if (k === 'breakapart' && it.type === 'choice' && it.split) {
         // "Break apart the 7 in 3 × 7": only options that break apart that factor are right.

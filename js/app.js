@@ -168,7 +168,7 @@ async function render() {
     const below = lesson || ctx.run || ctx.page || window.innerWidth < 700;
     window.scrollTo(0, below ? Math.max(0, app.getBoundingClientRect().top + window.scrollY - 8) : 0);
     // In a lesson, land on the stage heading; elsewhere on the page content.
-    (lesson || ctx.run ? app.querySelector('#stage-h') || app : ctx.page ? app.querySelector('h1') || app : app).focus({ preventScroll: true });
+    (lesson || ctx.run ? app.querySelector('#stage-h') || app : app.querySelector('h1[tabindex]') || app).focus({ preventScroll: true });
   }
   app.dataset.ready = String(n);
 }

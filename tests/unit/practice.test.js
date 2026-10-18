@@ -52,6 +52,11 @@ test('a wrong property key, a split that does not match its picture, or the wron
   w.why = 'That also makes 99, but it does not match where the line is.';
   assert.ok(validateMathPractice(d).some((m) => m.includes('does not make 99')), 'a false also-makes claim');
 
+  const e = copy();
+  const b10 = Object.values(e.sets).flat().find((x) => x.id === 'b10');
+  b10.options.forEach((o) => { if (o.text.startsWith('Nothing')) { o.correct = true; delete o.why; } else if (o.correct) { delete o.correct; o.why = 'x'; } });
+  assert.ok(validateMathPractice(e).some((m) => m.includes('b10: the key says the wrong work is correct')), 'a swapped what-went-wrong key');
+
   const c = copy();
   const b1 = c.sets.breakapart.find((x) => x.id === 'b1');
   b1.split = 'first';

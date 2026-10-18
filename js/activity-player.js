@@ -195,7 +195,7 @@ export function mountActivity(app, ctx, signal) {
     area().innerHTML = activityInner({ ...ctx, run }).s;
     prepare();
     app.dataset.rendered = String(Number(app.dataset.rendered || 0) + 1);
-    const el = focus && area().querySelector(focus);
+    const el = focus && [].concat(focus).map((s) => area().querySelector(s)).find(Boolean);
     if (el) el.focus({ preventScroll: false });
   };
   const itemState = (id) => (run.items_[id] ||= { resp: {}, tries: 0, hints: 0 });
@@ -239,7 +239,7 @@ export function mountActivity(app, ctx, signal) {
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     rerender(r.status === 'correct'
       ? '[data-act="next"]:not([disabled])'
-      : `form[data-item="${item.id}"] input[name=choice]:checked, form[data-item="${item.id}"] input[aria-invalid="true"], form[data-item="${item.id}"] input:not([disabled])`);
+      : [`form[data-item="${item.id}"] input[name=choice]:checked`, `form[data-item="${item.id}"] input[aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`]);
   }
 
   app.addEventListener('submit', (e) => {
@@ -355,7 +355,8 @@ export function mountActivity(app, ctx, signal) {
     if (act === 'flip') {
       f.flipped = !f.flipped;
       const w = cardWord();
-      if (!btn.classList.contains('flashcard')) announce(f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : 'Front of the card.');
+      const rule = ctx.week.spelling.rules?.[w.rule];
+      if (!btn.classList.contains('flashcard')) announce(f.flipped ? `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}` : 'Front of the card.');
       // Keep focus where it was: on the card itself, or on the Flip Card button.
       rerender(btn.classList.contains('flashcard') ? '.flashcard' : '.flip-btn');
       area().querySelector('.flashcard')?.classList.add('flip-anim');
