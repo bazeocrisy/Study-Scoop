@@ -1,12 +1,12 @@
 // Activity player: the DOM code for Spelling and Vocabulary practice and for the practice tests (DECISIONS D18).
 // Progress, misses and test answers live in memory for this visit only (never stored), keyed by week, so weeks never mix.
 import { check, solution, showSteps } from './lib/lessons.js';
-import { ACTIVITIES, rng, shuffle, spellItem, spellingItems, testFor, vocabItems } from './lib/activities.js';
+import { ACTIVITIES, rng, shuffle, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { activityInner } from './views/activity.js';
 import { unanswered } from './views/lesson.js';
 
 const runs = new Map();    // "week:section:act" -> run
-const misses = new Map();  // "week:subject" -> Map(item id -> item)
+const misses = new Map();  // "week:subject" -> Map(key -> { item, fromMark })
 
 const missMap = (weekId, subject) => {
   const k = `${weekId}:${subject}`;
@@ -15,11 +15,21 @@ const missMap = (weekId, subject) => {
 };
 export const missCounts = (weekId) => ({ vocab: missMap(weekId, 'vocab').size, spelling: missMap(weekId, 'spelling').size });
 
+/** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
+const missKey = (item) => (item.n ? `word-${item.n}` : item.id);
+function addMiss(weekId, subject, item, fromMark = false) {
+  const m = missMap(weekId, subject);
+  const old = m.get(missKey(item));
+  // Keep the harder form of a spelling word (Hear and Spell over Missing Letters); a real miss outranks a mark.
+  if (old && old.item.type === 'spell' && item.type === 'letters') { old.fromMark = old.fromMark && fromMark; return; }
+  m.set(missKey(item), { item, fromMark: Boolean(old ? old.fromMark && fromMark : fromMark) });
+}
+
 const seed = () => (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
 
 function newRun(ctx, section, act) {
   const rand = rng(seed());
-  const base = { items: [], items_: {}, i: 0, finished: false, submitted: false, warned: false };
+  const base = { items: [], items_: {}, i: 0, finished: false, submitted: false, warned: false, noSound: false };
   if (section === 'tests') {
     const t = testFor(act, ctx.week, ctx.tests, rand);
     if (!t) return null;
@@ -29,7 +39,7 @@ function newRun(ctx, section, act) {
   const run = { ...base, subject: section, act, mode: 'practice', title: info.label, goal: info.about };
   const words = section === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words;
   if (act === 'cards' || act === 'flash') run.flash = { order: words.map((_, k) => k), i: 0, flipped: false, marks: {} };
-  else if (act === 'misses') run.items = [...missMap(ctx.weekId, section).values()];
+  else if (act === 'misses') run.items = [...missMap(ctx.weekId, section).values()].map((e) => e.item);
   else if (section === 'vocab') run.items = shuffle(vocabItems(ctx.week, act, rand), rand);
   else run.items = shuffle(spellingItems(ctx.week, act), rand);
   return run;
@@ -39,8 +49,16 @@ function newRun(ctx, section, act) {
 export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
-  // Practice My Misses always starts from the current list of misses.
-  if (old && !(old.act === 'misses' && old.finished)) return old;
+  // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
+  const stale = old?.act === 'misses' && (old.finished || !Object.keys(old.items_).length);
+  if (old && !stale) {
+    // A misses run in progress also gets the questions missed since it started (QA5-1).
+    if (old.act === 'misses') {
+      const have = new Set(old.items.map((it) => it.id));
+      old.items.push(...[...missMap(ctx.weekId, section).values()].map((e) => e.item).filter((it) => !have.has(it.id)));
+    }
+    return old;
+  }
   const run = newRun(ctx, section, act);
   if (run) runs.set(key, run);
   return run;
@@ -51,30 +69,38 @@ const synth = () => globalThis.speechSynthesis;
 let speakingBtn = null;
 function stopSpeech() {
   synth()?.cancel();
-  if (speakingBtn) setReadLabel(speakingBtn, false);
+  if (speakingBtn) setSpeaking(speakingBtn, false);
   speakingBtn = null;
 }
-function setReadLabel(btn, on) {
+/** While a button speaks, its label says "Stop" (pressing it again stops); its name is restored afterwards. */
+function setSpeaking(btn, on) {
   const label = btn.querySelector('.read-label');
-  if (!label) return;
-  label.textContent = on ? 'Stop' : btn.dataset.label;
-  btn.dataset.aria ||= btn.getAttribute('aria-label');
-  btn.setAttribute('aria-label', on ? 'Stop reading' : btn.dataset.aria);
+  if (label) label.textContent = on ? 'Stop' : btn.dataset.label;
+  if (!btn.dataset.named) btn.dataset.named = btn.hasAttribute('aria-label') ? btn.getAttribute('aria-label') : '';
+  if (on) btn.setAttribute('aria-label', 'Stop reading');
+  else if (btn.dataset.named) btn.setAttribute('aria-label', btn.dataset.named);
+  else btn.removeAttribute('aria-label');
   btn.classList.toggle('is-reading', on);
 }
-/** Says each part in turn with the device's own voice when it has one. Calls onfail if speech fails. */
+/** Says each part in turn with the device's own voice when it has one. Calls onfail once if speech fails. */
 function speak(parts, { rate = 0.9, btn = null, onfail = () => {} } = {}) {
   stopSpeech();
   const local = synth().getVoices().filter((v) => v.localService && /^en/i.test(v.lang));
+  let failed = false;
   parts.forEach((text, k) => {
     const u = new SpeechSynthesisUtterance(text);
     if (local.length) u.voice = local[0];
     u.rate = rate;
-    if (k === parts.length - 1) u.onend = () => { if (btn && speakingBtn === btn) { setReadLabel(btn, false); speakingBtn = null; } };
-    u.onerror = (e) => { if (e.error !== 'canceled' && e.error !== 'interrupted') onfail(); };
+    if (k === parts.length - 1) u.onend = () => { if (btn && speakingBtn === btn) { setSpeaking(btn, false); speakingBtn = null; } };
+    u.onerror = (e) => {
+      if (e.error === 'canceled' || e.error === 'interrupted' || failed) return;
+      failed = true;
+      if (btn && speakingBtn === btn) { setSpeaking(btn, false); speakingBtn = null; }
+      onfail();
+    };
     synth().speak(u);
   });
-  if (btn) { setReadLabel(btn, true); speakingBtn = btn; }
+  if (btn) { setSpeaking(btn, true); speakingBtn = btn; }
 }
 
 // ---------------------------------------------------------------- mount
@@ -92,16 +118,26 @@ export function mountActivity(app, ctx, signal) {
     live.textContent = '';
     announceTimer = setTimeout(() => { live.textContent = text; }, 60);
   };
-  const showFallback = (scope, say = true) => {
-    scope.querySelectorAll('.dictate').forEach((d) => { d.hidden = true; });
-    scope.querySelectorAll('.dictate-fallback').forEach((p) => { p.hidden = false; });
-    if (say) announce('Sound is not working. Read the sentence on the screen instead.');
+  // No sound (no speech on this device, a speech error, or "I can't hear it"): the written clue replaces the sound
+  // buttons for the rest of this activity or test.
+  const showFallback = () => {
+    app.querySelectorAll('.dictate').forEach((d) => { if (d.querySelector('[data-act=no-sound]')) d.hidden = true; });
+    app.querySelectorAll('.dictate-fallback').forEach((p) => { p.hidden = false; });
+  };
+  const soundOff = (why) => {
+    if (!run.noSound) announce(why);
+    run.noSound = true;
+    showFallback();
+    area().querySelector('.dictate-fallback')?.setAttribute('tabindex', '-1');
+    area().querySelector('.dictate-fallback')?.focus();
   };
   const prepare = () => {
     if (!synth()) {
-      app.querySelectorAll('.read').forEach((b) => b.remove());
-      showFallback(app, false);
+      app.querySelectorAll('.read, .sound').forEach((b) => b.remove());
+      app.querySelectorAll('.dictate').forEach((d) => { if (!d.querySelector('button')) d.remove(); });
+      run.noSound = run.noSound || app.querySelector('.dictate-fallback') !== null;
     }
+    if (run.noSound) showFallback();
   };
   prepare();
   synth()?.getVoices();
@@ -127,8 +163,7 @@ export function mountActivity(app, ctx, signal) {
 
   // Misses: a question missed on the first try (or shown) is added; in Practice My Misses, a first-try right answer removes it.
   const noteFirst = (item, first) => {
-    const m = missMap(ctx.weekId, run.subject);
-    if (first === 'correct') { if (run.act === 'misses') m.delete(item.id); } else m.set(item.id, item);
+    if (first === 'correct') { if (run.act === 'misses') missMap(ctx.weekId, run.subject).delete(missKey(item)); } else addMiss(ctx.weekId, run.subject, item);
   };
 
   function onCheck(form) {
@@ -138,7 +173,7 @@ export function mountActivity(app, ctx, signal) {
     st.resp = readForm(form);
     const keyed = JSON.stringify(st.resp);
     if (keyed === st.lastChecked && st.status !== 'empty') return; // a double click is not a new try
-    const r = check(item, st.resp, { catchAll: 'Not yet. Try again.' });
+    const r = check(item, st.resp, { catchAll: 'Try again.' });
     st.say = r.say;
     st.wrong = r.wrong;
     if (r.status === 'empty') {
@@ -177,11 +212,13 @@ export function mountActivity(app, ctx, signal) {
       return speak([btn.dataset.say], { btn });
     }
     if (act === 'dictate' || act === 'say-word') {
+      if (speakingBtn === btn) return stopSpeech();
       const item = byId().get(form?.dataset.item);
       if (!item || !synth()) return;
       const parts = act === 'dictate' ? item.say : [item.say[0]];
-      return speak(parts, { rate: 0.8, onfail: () => showFallback(form) });
+      return speak(parts, { rate: 0.8, btn, onfail: () => soundOff('Sound is not working. Read the sentence on the screen and ask a grown-up to say the word.') });
     }
+    if (act === 'no-sound') return soundOff('No sound. Read the sentence on the screen and ask a grown-up to say the word.');
     if (act === 'bank' && form) {
       const input = form.querySelector('input[name="text"]');
       input.value = btn.dataset.word;
@@ -226,19 +263,21 @@ export function mountActivity(app, ctx, signal) {
     }
     if (act === 'submit') {
       saveForm(form);
-      const blanks = unanswered(run.items, { items: run.items_ });
-      if (blanks.length && !run.warned) {
+      const blankList = unanswered(run.items, { items: run.items_ });
+      if (blankList.length && !run.warned) {
         run.warned = true;
-        announce(`${blanks.length} question${blanks.length === 1 ? ' has' : 's have'} no answer. Go back to ${blanks.length === 1 ? 'it' : 'them'}, or press Finish anyway.`);
+        announce(`${blankList.length} question${blankList.length === 1 ? ' has' : 's have'} no answer. Go back to ${blankList.length === 1 ? 'it' : 'them'}, or press Finish anyway.`);
         return rerender('#test-warning');
       }
       for (const it of run.items) {
         const st = itemState(it.id);
         st.status = check(it, st.resp, {}).status === 'correct' ? 'correct' : 'notyet';
-        // Missed spelling and vocabulary test questions can be practised afterwards (with hints) in Practice My Misses.
-        if (st.status !== 'correct' && run.subject !== 'math') {
-          const practice = it.type === 'spell' ? spellItem(ctx.week.spelling.words.find((w) => w.word.toLowerCase() === it.answer), ctx.week.spelling) : it;
-          missMap(ctx.weekId, run.subject).set(practice.id, practice);
+        // Missed spelling and vocabulary test questions go to Practice My Misses in their practice form (with hints).
+        if (st.status !== 'correct' && run.subject === 'spelling') {
+          addMiss(ctx.weekId, 'spelling', spellItem(ctx.week.spelling.words[it.n - 1], ctx.week.spelling));
+        } else if (st.status !== 'correct' && run.subject === 'vocab') {
+          const w = ctx.week.vocab.words.find((x) => x.word === it.word);
+          if (w) addMiss(ctx.weekId, 'vocab', vocabPractice({ ...it, id: `test-${it.id}` }, w));
         }
       }
       run.submitted = true;
@@ -256,31 +295,36 @@ export function mountActivity(app, ctx, signal) {
     const f = run.flash;
     if (!f) return;
     const words = run.subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words;
-    if (act === 'flip') { f.flipped = !f.flipped; announce(f.flipped ? 'Back of the card.' : 'Front of the card.'); return rerender('[data-act="flip"]'); }
+    const cardWord = () => words[f.order[f.i]];
+    if (act === 'flip') {
+      f.flipped = !f.flipped;
+      const w = cardWord();
+      announce(f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : `Front of the card: ${w.word}.`);
+      return rerender('[data-act="flip"]');
+    }
     if (act === 'card-next' || act === 'card-prev') {
       f.i = Math.max(0, Math.min(words.length - 1, f.i + (act === 'card-next' ? 1 : -1)));
       f.flipped = false;
-      announce(`Card ${f.i + 1} of ${words.length}.`);
+      announce(`Card ${f.i + 1} of ${words.length}: ${cardWord().word}.`);
       return rerender(`[data-act="${act}"]:not([disabled]), [data-act="card-prev"]:not([disabled]), [data-act="card-next"]:not([disabled])`);
     }
     if (act === 'shuffle') {
       f.order = shuffle(f.order, rng(seed()));
       f.i = 0;
       f.flipped = false;
-      announce('The cards are shuffled. Card 1.');
+      announce(`The cards are shuffled. Card 1: ${cardWord().word}.`);
       return rerender('[data-act="shuffle"]');
     }
     if (act === 'mark') {
-      const w = words[f.order[f.i]];
+      const w = cardWord();
       const mark = btn.dataset.mark;
       f.marks[w.word] = f.marks[w.word] === mark ? undefined : mark;
       const m = missMap(ctx.weekId, 'spelling');
       const practice = spellItem(w, ctx.week.spelling);
-      if (f.marks[w.word] === 'again') m.set(practice.id, practice);
-      else m.delete(practice.id);
+      if (f.marks[w.word] === 'again') addMiss(ctx.weekId, 'spelling', practice, true);
+      else if (m.get(missKey(practice))?.fromMark) m.delete(missKey(practice)); // a mark never removes a real miss
       announce(f.marks[w.word] === 'again' ? `${w.word} is added to Practice My Misses.` : f.marks[w.word] === 'known' ? 'Marked as known.' : 'Mark removed.');
       return rerender(`[data-mark="${mark}"]`);
     }
   }, { signal });
 }
-

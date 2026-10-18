@@ -2,13 +2,15 @@
 // Questions use the same question card as the Math lessons; the activity player keeps progress for this visit only.
 import { html } from '../lib/html.js';
 import { answerText, score } from '../lib/lessons.js';
-import { SUBJECT, activityLabel } from '../lib/activities.js';
+import { SKILL_LABEL, SUBJECT, MATH_SKILLS } from '../lib/activities.js';
 import { formatLongDate } from '../lib/dates.js';
-import { itemCard, readButton, unanswered } from './lesson.js';
+import { blanks, itemCard, readButton, unanswered } from './lesson.js';
 import { wordPicture } from './common.js';
 
 const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page, this activity starts again.';
-const CHECK = { catchAll: 'Not yet. Try again.' };
+const CHECK = { catchAll: 'Try again.' };
+/** Tests longer than this get a "take a break" note halfway through. */
+const BREAK_AFTER = 12;
 
 /** The page for an activity or a test: a title bar and the area the player redraws. */
 export function activityView(ctx) {
@@ -25,7 +27,7 @@ function activityBar(ctx, run) {
     ? { href: ctx.link('tests'), label: 'All tests' }
     : { href: ctx.link(run.subject), label: `All of ${SUBJECT[run.subject]}` };
   return html`
-    <div class="lesson-bar act-bar">
+    <div class="lesson-bar act-bar ${run.mode === 'test' ? 'subject-tests' : `subject-${run.subject}`}">
       <div class="lb-title">
         <p class="lb-nav"><a class="back" href="${back.href}">‹ ${back.label}</a><span class="eyebrow">${run.mode === 'test' ? 'Study Scoop practice test' : SUBJECT[run.subject]} · ${ctx.week.label.replace(/^Week of /, '')}</span></p>
         <h1>${run.title}</h1>
@@ -33,6 +35,9 @@ function activityBar(ctx, run) {
       </div>
     </div>`;
 }
+
+/** The heading the keyboard focus lands on: it says where the child is ("Question 3 of 12"). */
+const stageTitle = (text) => html`<div class="stage-title"><h2 id="stage-h" tabindex="-1">${text}</h2></div>`;
 
 /** Just the area below the title bar (redrawn in place after each action). */
 export function activityInner(ctx) {
@@ -46,8 +51,8 @@ export function activityInner(ctx) {
 
 function emptyRun(ctx, run) {
   return html`
-    <div class="stage-title"><h2 id="stage-h" tabindex="-1">Nothing to practise yet</h2></div>
-    <div class="card"><p>You have no missed questions to practise. Try an activity first. Anything you miss shows up here.</p></div>
+    ${stageTitle('Nothing to practice yet')}
+    <div class="card"><p>You have no missed questions to practice. Try an activity first. Anything you miss shows up here.</p></div>
     <div class="stage-nav"><a class="btn" href="${ctx.link(run.subject)}">‹ Back to ${SUBJECT[run.subject]}</a><span></span></div>`;
 }
 
@@ -61,10 +66,7 @@ function practiceQuestion(ctx, run) {
   const last = i === run.items.length - 1;
   const fb = st.status === 'correct' ? html` aria-describedby="fb-${item.id}"` : '';
   return html`
-    <div class="stage-title">
-      <h2 id="stage-h" tabindex="-1">${activityLabel(run.subject, run.act)}</h2>
-      <p class="progress">Question ${i + 1} of ${run.items.length}</p>
-    </div>
+    ${stageTitle(`Question ${i + 1} of ${run.items.length}`)}
     ${itemCard(CHECK, item, 'together', { items: run.items_ })}
     <div class="stage-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>` : html`<span></span>`}
@@ -77,11 +79,14 @@ function practiceQuestion(ctx, run) {
 function practiceSummary(ctx, run) {
   const first = run.items.filter((it) => run.items_[it.id]?.first === 'correct').length;
   const missed = run.items.filter((it) => run.items_[it.id]?.first !== 'correct');
+  const praise = !missed.length ? 'Every answer was right on the first try. Great work!'
+    : first * 2 >= run.items.length ? 'Good work! The questions below are saved in Practice My Misses for this visit.'
+      : 'Nice effort. Let\'s practice the ones below. They are saved in Practice My Misses for this visit.';
   return html`
-    <div class="stage-title"><h2 id="stage-h" tabindex="-1">Your results</h2></div>
+    ${stageTitle('Your results')}
     <div class="card results">
       <p class="summary-score">${first} out of ${run.items.length} right on the first try</p>
-      <p>${missed.length ? 'Good work! The questions below are saved in Practice My Misses for this visit.' : 'Every answer was right on the first try. Great work!'}</p>
+      <p>${praise}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => html`<li>${reviewPrompt(it)}<span class="right">Answer: ${answerText(it)}</span>${it.explain ? html`<span>${it.explain}</span>` : ''}</li>`)}</ul>` : ''}
     </div>
     <div class="stage-nav">
@@ -95,9 +100,9 @@ function practiceSummary(ctx, run) {
 
 /** The question as it is shown in a review list (a spelling word is named by its sentence, never by itself). */
 function reviewPrompt(it) {
-  if (it.type === 'spell') return html`<span>${it.fallback.replace(/\s*\([^)]*\)\s*$/, '')}</span>`;
-  if (it.type === 'letters') return html`<span>${it.context}</span>`;
-  return html`<span>${it.prompt}</span>`;
+  if (it.type === 'spell') return html`<span>${blanks(it.fallback.replace(/^.*The sentence is: /, ''))}</span>`;
+  if (it.type === 'letters') return html`<span>${blanks(it.context)}</span>`;
+  return html`<span>${blanks(it.prompt)}</span>`;
 }
 
 // ---------------------------------------------------------------- tests
@@ -106,16 +111,15 @@ function testQuestion(ctx, run) {
   const i = Math.min(run.i, run.items.length - 1);
   const item = run.items[i];
   const last = i === run.items.length - 1;
-  const blanks = run.warned ? unanswered(run.items, { items: run.items_ }) : [];
+  const blankList = run.warned ? unanswered(run.items, { items: run.items_ }) : [];
+  const half = run.items.length > BREAK_AFTER && i === Math.ceil(run.items.length / 2);
   return html`
-    <div class="stage-title">
-      <h2 id="stage-h" tabindex="-1">${run.title}</h2>
-      <p class="progress">Question ${i + 1} of ${run.items.length}</p>
-    </div>
-    ${i === 0 ? html`<div class="notice test-intro"><p>${run.instructions}</p><p class="coverage">${run.coverage}</p></div>` : ''}
+    ${stageTitle(`Question ${i + 1} of ${run.items.length}`)}
+    ${i === 0 ? html`<div class="notice test-intro"><p>${run.instructions}</p><p class="coverage">This test covers: ${run.coverage}</p></div>` : ''}
+    ${half ? html`<p class="notice break-note">Halfway there! Take a short break if you need one. Your answers are kept.</p>` : ''}
     ${itemCard(CHECK, item, 'test', { items: run.items_ })}
-    ${blanks.length ? html`<div class="notice" id="test-warning" tabindex="-1"><p><strong>${blanks.length === 1 ? '1 question has' : `${blanks.length} questions have`} no answer.</strong> You can go back to ${blanks.length === 1 ? 'it' : 'them'}, or finish anyway.</p>
-      <p class="btn-row">${blanks.map((k) => html`<button type="button" class="btn" data-act="goto" data-to="${k}">Go to question ${k + 1}</button>`)}</p></div>` : ''}
+    ${blankList.length ? html`<div class="notice" id="test-warning" tabindex="-1"><p><strong>${blankList.length === 1 ? '1 question has' : `${blankList.length} questions have`} no answer.</strong> Go back to ${blankList.length === 1 ? 'it' : 'them'}, or finish anyway.</p>
+      <p class="goto-list"><span>Questions with no answer:</span> ${blankList.map((k) => html`<button type="button" class="btn goto" data-act="goto" data-to="${k}" aria-label="Go to question ${k + 1}">${k + 1}</button>`)}</p></div>` : ''}
     <div class="stage-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>` : html`<span></span>`}
       ${last ? html`<button type="button" class="btn btn-primary" data-act="submit">${run.warned ? 'Finish anyway' : 'Finish the test'}</button>`
@@ -133,20 +137,26 @@ function given(it, st) {
   return vals.length ? vals.join(', ') : 'No answer';
 }
 
+/** Why the chosen option was wrong (each wrong option carries its own reason). */
+const whyChosen = (it, st) => (it.type === 'choice' && st?.resp?.choice !== undefined ? it.options[Number(st.resp.choice)]?.why : '');
+
 function testResults(ctx, run) {
   const s = score(run.items, run.items_, run.pass);
-  const back = run.subject === 'math' ? 'Math' : SUBJECT[run.subject];
+  const skills = MATH_SKILLS.map((k) => [k, run.items.filter((it) => it.skill === k)]).filter(([, list]) => list.length);
   return html`
-    <div class="stage-title"><h2 id="stage-h" tabindex="-1">${run.title}: your score</h2></div>
+    ${stageTitle(`${run.title}: your score`)}
     <div class="card results">
       <p class="summary-score">${s.right} out of ${s.total}</p>
-      <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${run.pass} or more right means you passed. Look at the answers below, then practise and try again.`}</p>
+      <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${run.pass} or more right means you passed. Look at the answers below, then practice and try again.`}</p>
+      ${run.noSound ? html`<p class="notice">The sound was off for some words, so a grown-up read them. That is fine for practice.</p>` : ''}
+      ${skills.length > 1 ? html`<table class="skills"><caption>Your score in each part</caption><tbody>${skills.map(([k, list]) => html`<tr><th scope="row">${SKILL_LABEL[k]}</th><td>${list.filter((it) => run.items_[it.id]?.status === 'correct').length} of ${list.length}</td></tr>`)}</tbody></table>` : ''}
       <p class="print-only">${ctx.week.label} · Study Scoop practice test (not the teacher's test)</p>
       ${s.missed.length ? html`<h3>Questions to look at again</h3>
         <ol class="review">${s.missed.map((it) => html`<li>
           <span class="qnum">Question ${run.items.indexOf(it) + 1}</span>
           ${reviewPrompt(it)}
           <span class="you">Your answer: ${given(it, run.items_[it.id])}</span>
+          ${whyChosen(it, run.items_[it.id]) ? html`<span>${whyChosen(it, run.items_[it.id])}</span>` : ''}
           <span class="right">Correct answer: ${answerText(it)}</span>
           ${it.explain ? html`<span>${it.explain}</span>` : ''}
         </li>`)}</ol>` : html`<p>You got every question right!</p>`}
@@ -156,7 +166,7 @@ function testResults(ctx, run) {
         <button type="button" class="btn" data-act="restart">Take the test again</button>
         <button type="button" class="btn" data-act="print">Print my results</button>
       </span>
-      <a class="btn btn-primary" href="${ctx.link(run.subject)}">Practise in ${back}</a>
+      <a class="btn btn-primary" href="${ctx.link(run.subject)}">Practice ${SUBJECT[run.subject]}</a>
     </div>`;
 }
 
@@ -170,11 +180,9 @@ function flashcards(ctx, run) {
   const known = Object.values(f.marks).filter((m) => m === 'known').length;
   const again = Object.values(f.marks).filter((m) => m === 'again').length;
   return html`
-    <div class="stage-title">
-      <h2 id="stage-h" tabindex="-1">Flashcards</h2>
-      <p class="progress">Card ${f.i + 1} of ${words.length}</p>
-    </div>
+    ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
     <div class="card flashcard${f.flipped ? ' is-flipped' : ''}">
+      <div class="face">
       ${f.flipped ? html`
         <p class="side-label">Back of the card</p>
         ${wordPicture(ctx, [w.word, w.img], `Study card for the word "${w.word}"`)}
@@ -183,20 +191,21 @@ function flashcards(ctx, run) {
         : html`
         <p class="side-label">Front of the card</p>
         <p class="flash-word">${w.word}</p>
-        <p class="hint">Say the word. Spell it out loud. Then flip the card.</p>`}
+        <p class="hint">Say the word. Spell it out loud. Then turn the card over.</p>`}
+      </div>
       <div class="btn-row center">
-        <button type="button" class="btn btn-primary" data-act="flip" aria-pressed="${f.flipped ? 'true' : 'false'}">Flip card</button>
+        <button type="button" class="btn btn-primary" data-act="flip">${f.flipped ? 'Show the front' : 'Turn the card over'}</button>
         ${readButton([w.word], 'the word')}
+        <button type="button" class="btn" data-act="shuffle">Shuffle the cards</button>
       </div>
       <div class="btn-row center marks" role="group" aria-label="How well do you know this word?">
         <button type="button" class="btn mark-known" data-act="mark" data-mark="known" aria-pressed="${mark === 'known' ? 'true' : 'false'}">I know it</button>
-        <button type="button" class="btn mark-again" data-act="mark" data-mark="again" aria-pressed="${mark === 'again' ? 'true' : 'false'}">Practise again</button>
+        <button type="button" class="btn mark-again" data-act="mark" data-mark="again" aria-pressed="${mark === 'again' ? 'true' : 'false'}">Practice again</button>
       </div>
     </div>
-    <p class="tally">Known: ${known} · To practise: ${again}${again ? html` · <a href="${ctx.actLink('spelling', 'misses')}">Practice My Misses</a>` : ''}</p>
+    <p class="tally">Known: ${known} · To practice: ${again}${again ? html` · <a href="${ctx.actLink('spelling', 'misses')}">Practice My Misses</a>` : ''}</p>
     <div class="stage-nav">
       <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
-      <button type="button" class="btn" data-act="shuffle">Shuffle</button>
       <button type="button" class="btn btn-primary" data-act="card-next"${f.i === words.length - 1 ? ' disabled' : ''}>Next ›</button>
     </div>
     <p class="hint">Marks are not saved. They clear when you close or refresh this page.</p>`;
@@ -207,10 +216,7 @@ function studyCards(ctx, run) {
   const words = ctx.week.vocab.words;
   const w = words[f.order[f.i]];
   return html`
-    <div class="stage-title">
-      <h2 id="stage-h" tabindex="-1">Study Cards</h2>
-      <p class="progress">Card ${f.i + 1} of ${words.length}</p>
-    </div>
+    ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
     <div class="card study-one">
       ${wordPicture(ctx, w.word, `Picture showing what "${w.word}" means`)}
       <div class="study-text">
@@ -233,19 +239,19 @@ function studyCards(ctx, run) {
 export function activityMenu(ctx, subject, list) {
   const misses = ctx.misses?.[subject] || 0;
   return html`
-    <section class="activities" aria-labelledby="h-act-${subject}">
+    <section class="activities subject-${subject}" aria-labelledby="h-act-${subject}">
       <h2 id="h-act-${subject}">Practice activities</h2>
       <ul class="activity-grid">
         ${list.map((a) => html`
           <li class="card activity${a.id === 'misses' ? ' misses' : ''}">
-            <h3>${a.label}</h3>
+            <h3>${a.label}${a.id === 'misses' && misses ? html` <span class="count-badge">${misses}</span>` : ''}</h3>
             <p>${a.about}</p>
             ${a.id === 'misses' && !misses
               ? html`<p class="soon-note">No misses yet. Questions you miss in this visit show up here.</p>`
-              : html`<a class="btn btn-primary" href="${ctx.actLink(subject, a.id)}">${a.id === 'misses' ? `Practise ${misses} missed` : 'Start'}<span class="sr-only">: ${a.label}</span></a>`}
+              : html`<a class="btn btn-primary" href="${ctx.actLink(subject, a.id)}">Start<span class="sr-only">: ${a.label}</span></a>`}
           </li>`)}
       </ul>
-      <p class="hint">Weekly tests are in <a href="${ctx.link('tests')}">Tests</a>.</p>
+      <p class="hint">Weekly practice tests are in <a href="${ctx.link('tests')}">Tests</a>.</p>
     </section>`;
 }
 
@@ -265,6 +271,7 @@ export function testCenter(ctx, catalog) {
               <div><dt>Questions</dt><dd>${c.available ? c.count : '—'}</dd></div>
             </dl>
             ${c.coverage ? html`<p class="coverage">${c.coverage}</p>` : ''}
+            ${c.note ? html`<p class="grownups">${c.note}</p>` : ''}
             ${c.available
               ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
               : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}

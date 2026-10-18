@@ -59,9 +59,12 @@ test('true or false: half true, half false, and each answer key matches its stat
   }
 });
 
-test('fill in the blank ignores capitals and extra spaces, and rejects a wrong word', () => {
+test('fill in the blank ignores capitals, extra spaces and a full stop, and rejects a wrong word', () => {
   const it = vocabItems(W19, 'fill', rng(1)).find((i) => i.word === 'Produce');
   assert.equal(check(it, { text: '  PRODUCE ' }).status, 'correct');
+  assert.equal(check(it, { text: 'produce.' }).status, 'correct');
+  assert.equal(it.bank.length, 4);
+  assert.ok(it.bank.includes('produce'));
   assert.equal(check(it, { text: 'produc' }).status, 'notyet');
   assert.equal(check(it, { text: '   ' }).status, 'empty');
 });
@@ -76,7 +79,7 @@ test('missing letters hide the first vowel and the pattern letter, and never sho
   assert.equal(shown('heating'), 'h_at_ng');
   assert.equal(shown('skipping'), 'sk_p_ing');   // the doubled letter
   assert.equal(shown('dancing'), 'd_nc_ng');
-  assert.equal(shown('flying'), 'fl__ng');
+  assert.equal(shown('flying'), 'fl_ing');     // never two blanks side by side
   for (const e of sp.words) {
     const it = lettersItem(e, sp);
     assert.ok(it.blanks.length >= 1);
@@ -94,6 +97,7 @@ test('dictation says the word, the sentence and the word; nothing on screen give
       assert.deepEqual(it.say, [e.word, e.sentence, e.word]);
       assert.equal(it.hints, undefined, 'no hints in a test');
       for (const k of ['prompt', 'fallback']) assert.ok(!it[k].toLowerCase().includes(e.word.toLowerCase()), `${e.word} ${k}`);
+      assert.ok(!new RegExp(`\\b${e.base}\\b`, 'i').test(it.fallback), `${e.word}: the no-sound clue does not name the base word`);
       assert.equal(check(it, { text: e.word.toUpperCase() }).status, 'correct');
     }
   }
@@ -120,7 +124,7 @@ test('the authored practice tests are valid: every answer key, picture, decompos
   }
   // Every vocabulary word is tested; the purple words (not provided) are named as missing.
   assert.deepEqual([...new Set(T19.vocab.items.map((i) => i.word))].sort(), W19.vocab.words.map((w) => w.word).sort());
-  assert.match(T19.vocab.coverage, /purple words/);
+  assert.match(T19.vocab.note, /purple words/);
 });
 
 test('the validator catches wrong answer keys, mismatched split arrays and changed definitions', () => {
@@ -136,6 +140,11 @@ test('the validator catches wrong answer keys, mismatched split arrays and chang
   caught(broken((t) => { t.vocab.items = t.vocab.items.filter((i) => i.word !== 'Trustworthy'); }), /no question is about Trustworthy/);
   caught(broken((t) => { t.vocab.items[0].hints = ['x']; }), /cannot have hints/);
   caught(validateTests({ ...T19, id: '2026-10-12' }, W19), /"id" must be/);
+  caught(broken((t) => { t.math.items.find((i) => i.id === 'm7').model.rows = 5; }), /the picture has 5 rows, but the answer is 4/);
+  caught(broken((t) => { t.math.items.find((i) => i.id === 'm9').model.cols = 7; }), /the picture shows 3 × 7, but the target is 3 × 8/);
+  caught(broken((t) => { t.vocab.items.find((i) => i.kind === 'tf').word = 'Produce'; }), /must be about Produce/);
+  caught(broken((t) => { const it = t.vocab.items.find((i) => i.kind === 'meaning'); it.prompt = 'What does the word "Peculiar" mean?'; }), /must name/);
+  caught(broken((t) => { t.math.items[0].skill = 'other'; }), /skill must be one of/);
 });
 
 test('Test Center: three cards per week, and no test is offered without its questions', () => {

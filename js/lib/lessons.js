@@ -42,8 +42,8 @@ export function solution(item) {
   return {};
 }
 
-/** Typed words are compared without capitals or extra spaces ("  Heating " is "heating"). */
-export const normWord = (t) => String(t ?? '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[‘’]/g, "'");
+/** Typed words are compared without capitals, extra spaces or a full stop at the end ("  Heating. " is "heating"). */
+export const normWord = (t) => String(t ?? '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[‘’]/g, "'").replace(/^["']+|[.,!?;:"']+$/g, '');
 
 const fill = (text, values) => String(text).replace(BOX, (_, k) => (values[k] === undefined ? '□' : String(values[k])));
 
@@ -270,6 +270,13 @@ function validateItem(item, where, err, ids) {
       // A bare fact prompt ("8 × 3 = ?") must agree with its answer.
       const m = /^\s*(\d+\s*[×x]\s*\d+)\s*=\s*\?\s*$/.exec(item.prompt || '');
       if (m && evaluate(m[1]) !== sol.answer) err(`${where}: the prompt says ${m[1]} but the answer is ${sol.answer}`);
+      // "How many rows / columns?" about a picture: the answer must be what the picture shows.
+      if (item.asks) {
+        const pic = item.model;
+        const want = pic?.type === 'array' ? { rows: pic.rows, cols: pic.cols, dots: pic.rows * pic.cols }[item.asks] : undefined;
+        if (want === undefined) err(`${where}: "asks" must be rows, cols or dots, about an array picture`);
+        else if (want !== sol.answer) err(`${where}: the picture has ${want} ${item.asks}, but the answer is ${sol.answer}`);
+      }
       break;
     }
     case 'choice': {
@@ -294,6 +301,10 @@ function validateItem(item, where, err, ids) {
           });
         }
       }
+      // "Which fact does this array show?": the target must be the picture's own rows × columns.
+      if (item.target && item.model?.type === 'array' && !item.model.cut && item.target.replace(/\s+/g, ' ').trim() !== `${item.model.rows} × ${item.model.cols}`) {
+        err(`${where}: the picture shows ${item.model.rows} × ${item.model.cols}, but the target is ${item.target}`);
+      }
       if (item.target) {
         const want = evaluate(item.target);
         item.options.forEach((o, i) => {
@@ -312,6 +323,8 @@ function validateItem(item, where, err, ids) {
       if (item.type === 'spell' && item.say?.some((s) => !normWord(s).includes(normWord(item.answer)))) err(`${where}: every spoken part must contain the word`);
       // Nothing written on the screen may give the spelling away.
       for (const k of ['prompt', 'fallback']) if (item.type === 'spell' && normWord(item[k]).includes(normWord(item.answer))) err(`${where}: ${k} shows the answer`);
+      // The no-sound clue may not name the base word either ("heat" + "ing" would spell "heating").
+      if (item.type === 'spell' && item.base && new RegExp(`\\b${normWord(item.base)}\\b`).test(normWord(item.fallback))) err(`${where}: fallback names the base word ${item.base}`);
       if (item.type === 'word' && normWord(item.prompt).includes(normWord(item.answer))) err(`${where}: the prompt shows the answer`);
       if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not accepted`);
       break;

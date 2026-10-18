@@ -16,7 +16,7 @@ export function homeworkView(ctx) {
       : 'No classroom worksheets have been received for this week yet.')}
 
     <section aria-labelledby="h-due">
-      <h2 id="h-due">This week's homework</h2>
+      <h2 id="h-due">${ctx.isCurrent ? 'This week\'s homework' : `Homework for ${ctx.week.label.replace(/^Week of /, '')}`}</h2>
       ${items.length ? html`
         <ul class="hw-list">
           ${items.map((h, i) => {

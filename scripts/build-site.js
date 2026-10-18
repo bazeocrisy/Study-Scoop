@@ -162,10 +162,10 @@ export function verifySite(dir) {
     for (const rel of files.filter((f) => /^data\/tests\/(?!index\.json$)/.test(f))) {
       if (!(weeks || []).includes(rel.slice('data/tests/'.length, -'.json'.length))) problems.push(`${rel} is published but not listed in data/tests/index.json`);
     }
-    for (const id of weeks || []) {
+    // A test listed for a week that is not published (a draft week) is simply left out, like the week itself.
+    for (const id of (weeks || []).filter((w) => has(`data/${w}.json`))) {
       const rel = `data/tests/${id}.json`;
       if (!has(rel)) { problems.push(`${rel} is listed in data/tests/index.json but missing`); continue; }
-      if (!has(`data/${id}.json`)) { problems.push(`${rel} is for a week that is not published`); continue; }
       problems.push(...validateTests(readJSON(path.join(dir, rel)), readJSON(path.join(dir, `data/${id}.json`))));
     }
   }

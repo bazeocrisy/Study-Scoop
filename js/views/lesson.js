@@ -157,7 +157,7 @@ export function itemCard(lesson, item, stage, state) {
     <div class="work${pics.length ? ' has-pic' : ''}">
       ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m))}</div></div>` : ''}
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
-        <div class="instruct-head">${item.type === 'choice' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${item.prompt}</p>`}${item.type === 'spell' ? '' : readButton(sayItem(item), 'the question')}</div>
+        <div class="instruct-head">${item.type === 'choice' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' ? '' : readButton(sayItem(item), 'the question')}</div>
         ${answerArea(item, resp, st, test, done)}
         ${test ? '' : html`
           <div class="btn-row">
@@ -170,6 +170,17 @@ export function itemCard(lesson, item, stage, state) {
         ${!test && st.shown ? html`<div class="showme"><strong>Here's how:</strong><ol>${showSteps(item).map((s) => html`<li>${s}</li>`)}</ol></div>` : ''}
       </form>
     </div>`;
+}
+
+/** A written blank ("___") drawn as a line; screen readers say "blank" instead of a row of underscores. */
+export function blanks(text) {
+  return String(text).split(/(_{3,})/).map((p, k) => (k % 2
+    ? html`<span class="blank"><span aria-hidden="true">${p}</span><span class="sr-only">blank</span></span>` : p));
+}
+
+/** A button that speaks (dictation and the word in Missing Letters); its label turns into "Stop" while it speaks. */
+function soundButton(act, label, primary = false) {
+  return html`<button type="button" class="btn${primary ? ' btn-primary' : ''} sound" data-act="${act}" data-label="${label}">${ICON_SPEAK}<span class="read-label">${label}</span></button>`;
 }
 
 function feedbackPanel(item, st) {
@@ -206,7 +217,7 @@ function eqLine(item, line, resp, st, done, n) {
 function answerArea(item, resp, st, test, done) {
   const n = boxes(item).length;
   if (item.type === 'choice') {
-    return html`<fieldset class="choices"><legend id="q-${item.id}">${item.prompt}</legend>
+    return html`<fieldset class="choices"><legend id="q-${item.id}">${blanks(item.prompt)}</legend>
       ${item.options.map((o, k) => {
         const chosen = String(resp.choice) === String(k);
         const cls = !test && chosen && st.status === 'correct' ? ' is-right' : !test && chosen && st.status === 'notyet' ? ' is-wrong' : '';
@@ -240,10 +251,11 @@ function answerArea(item, resp, st, test, done) {
     const label = item.type === 'spell' ? 'Type the word you hear' : 'Type the missing word';
     return html`
       ${item.type === 'spell' ? html`<div class="dictate">
-        <button type="button" class="btn btn-primary" data-act="dictate">${ICON_SPEAK} Hear the word and sentence</button>
-        <button type="button" class="btn" data-act="say-word">${ICON_SPEAK} Replay word</button>
+        ${soundButton('dictate', 'Hear the word and sentence', true)}
+        ${soundButton('say-word', 'Replay word')}
+        <button type="button" class="btn" data-act="no-sound">I can't hear it</button>
       </div>
-      <p class="dictate-fallback" hidden><span class="label">Sound is not working on this device. Read this instead:</span> ${item.fallback}</p>` : ''}
+      <p class="dictate-fallback" hidden><span class="label">No sound</span> ${blanks(item.fallback)}</p>` : ''}
       ${item.bank ? html`<p class="bank" role="group" aria-label="Word bank: press a word to put it in the answer box"><span class="label" aria-hidden="true">Word bank</span> ${item.bank.map((w) => html`<button type="button" class="chip bank-word" data-act="bank" data-word="${w}"${done ? ' disabled' : ''}>${w}</button>`)}</p>` : ''}
       <p class="word-answer"><label for="${item.id}-text">${label}</label>
         <input class="box text${done ? ' is-right' : ''}" name="text" id="${item.id}-text" type="text" autocomplete="off" autocapitalize="off"
@@ -253,7 +265,8 @@ function answerArea(item, resp, st, test, done) {
     const spoken = [...item.word].map((ch, k) => (item.blanks.includes(k) ? 'blank' : ch)).join(', ');
     const n = item.blanks.length;
     return html`
-      ${item.context ? html`<p class="context">${item.context}</p>` : ''}
+      ${item.say ? html`<div class="dictate">${soundButton('say-word', 'Hear the word', true)}</div>` : ''}
+      ${item.context ? html`<p class="context">${blanks(item.context)}</p>` : ''}
       <p class="letters" role="group" aria-label="The word: ${spoken}">${[...item.word].map((ch, k) => {
         const at = item.blanks.indexOf(k);
         if (at < 0) return html`<span class="lt" aria-hidden="true">${ch}</span>`;
@@ -340,7 +353,7 @@ function trySummary(ctx, lesson, state) {
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Try It Yourself: your results</h2></div>
     <div class="card">
       <p class="summary-score">${first} out of ${items.length} right on the first try</p>
-      <p>${passed ? 'Great work! You are ready for the test.' : `Practise a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
+      <p>${passed ? 'Great work! You are ready for the test.' : `Practice a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => html`<li><span>${it.prompt}</span><span class="right">Answer: ${answerText(it)}</span></li>`)}</ul>` : ''}
     </div>
     <div class="stage-nav">

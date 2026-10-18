@@ -460,8 +460,8 @@ section > .hint, .stage > .hint { margin-top: 8px; }
 /* Test Center */
 .test-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr)); }
 .test-card { display: grid; gap: 10px; align-content: start; border-top: 6px solid var(--berry); }
-.test-card.test-spelling { border-top-color: var(--teal); }
-.test-card.test-vocab { border-top-color: var(--honey); }
+.test-card.test-spelling { border-top-color: var(--peach); }
+.test-card.test-vocab { border-top-color: var(--teal); }
 .test-card .subject { font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-size: .85rem; }
 .test-card .topic { font-weight: 700; }
 .test-card .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; }
@@ -535,3 +535,37 @@ section > .hint, .stage > .hint { margin-top: 8px; }
 .activity-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr)); }
 .bank .bank-word { min-height: 44px; cursor: pointer; font: inherit; color: var(--ink); }
 .bank .bank-word:hover { background: var(--sunk); }
+
+/* Assignment 005 review fixes */
+/* UX5-1: right and wrong choices keep their colours after Check (they were hidden by the "checked" style), lessons too. */
+.choice.is-right:has(input:checked) { border-color: var(--ok); background: var(--ok-tint); }
+.choice.is-wrong:has(input:checked) { border-color: var(--notyet); background: var(--notyet-tint); }
+.choice input:disabled { opacity: 1; }
+/* A11Y5-1: a pressed toggle keeps dark, readable text. */
+.btn[aria-pressed="true"] { color: var(--ink); }
+/* UX5-2: section colours as on the section pages: Spelling peach, Vocabulary teal, tests berry. */
+.act-bar.subject-spelling { background: var(--peach-tint); border-left-color: var(--peach); }
+.act-bar.subject-vocab { background: var(--teal-tint); border-left-color: var(--teal); }
+.activities.subject-spelling .activity { border-top-color: var(--peach); }
+.activities.subject-vocab .activity { border-top-color: var(--teal); }
+.activities .activity.misses { border-top-color: var(--honey); }
+/* UX: Start buttons line up at the bottom of each activity card. */
+.activity { display: flex; flex-direction: column; }
+.activity .btn, .activity .soon-note { margin-top: auto; }
+.count-badge { display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; padding: 0 6px; border-radius: 999px; background: var(--honey); color: #fff; font-size: .9rem; vertical-align: middle; }
+/* UX5-3: both faces of a flashcard are the same height, so the buttons do not jump. */
+.flashcard .face { display: grid; gap: 12px; justify-items: center; align-content: center; min-height: 420px; width: 100%; }
+/* UX5-4: unanswered questions as a compact row of numbers. */
+.goto-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn.goto { min-width: 48px; padding: 6px 10px; }
+/* A11Y5-6: a written blank. */
+.blank { white-space: nowrap; }
+/* INS5-7: score per skill on math test results. */
+.skills { border-collapse: collapse; width: min(100%, 34rem); }
+.skills caption { text-align: left; font-weight: 700; margin-bottom: 6px; }
+.skills th, .skills td { border-top: 1px solid var(--line); padding: 8px 10px; text-align: left; font-weight: 400; }
+.skills td { font-weight: 700; white-space: nowrap; }
+.grownups { font-size: .95rem; color: var(--muted); border-left: 4px solid var(--line); padding-left: 10px; }
+.break-note { font-weight: 700; }
+/* UX: tab labels fit at tablet widths. */
+@media (min-width: 641px) and (max-width: 1060px) { .tabs a { font-size: .8rem; padding: 6px 2px; } }

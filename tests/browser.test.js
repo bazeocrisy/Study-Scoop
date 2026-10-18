@@ -231,7 +231,7 @@ async function main() {
             !(el.labels && el.labels.length) && !el.getAttribute('aria-label')).map((el) => el.id || el.tagName);
           const noAlt = [...document.querySelectorAll('img')].filter((i) => !i.hasAttribute('alt')).length;
           const emptyLinks = [...document.querySelectorAll('a')].filter((a) => !a.textContent.trim() && !a.getAttribute('aria-label')).length;
-          const small = [...document.querySelectorAll('nav.tabs a, #weekSelect, .brand, .action, .btn, .read, .choice, .box, .stepper a, .archive a, .checklist label')]
+          const small = [...document.querySelectorAll('nav.tabs a, #weekSelect, .brand, .action, .btn, .read, .choice, .box, .stepper a, .archive a, .checklist label, .bank-word, .hw-check')]
             .map((el) => [el, el.getBoundingClientRect()]).filter(([, rect]) => (rect.width || rect.height) && (rect.width < 44 || rect.height < 44))
             .map(([el, rect]) => (el.id || el.textContent.trim().slice(0, 20)) + ' ' + Math.round(rect.width) + 'x' + Math.round(rect.height));
           return { h1: levels.filter((l) => l === 1).length, skips, unlabelled, noAlt, emptyLinks, small, lang: document.documentElement.lang };`);
@@ -528,7 +528,8 @@ async function main() {
     const SP = new Map(W19.spelling.words.map((w) => [w.word, w]));
     const formId = () => b.js('return document.querySelector("#act-stage form[data-item]")?.dataset.item || null;');
     const actFb = () => b.js('return document.querySelector("#act-stage .feedback:not(.info)")?.textContent.replace(/\\s+/g, " ").trim() || "";');
-    const qPrompt = () => b.js('const f = document.querySelector("#act-stage form[data-item]"); return (f.querySelector(".prompt, legend")?.textContent || "").trim();');
+    // The question as written on screen (a blank's hidden "blank" word for screen readers is left out).
+    const qPrompt = () => b.js('const p = document.querySelector("#act-stage form[data-item]").querySelector(".prompt, legend")?.cloneNode(true); p?.querySelectorAll(".sr-only").forEach((x) => x.remove()); return (p?.textContent || "").trim();');
     const optionTexts = () => b.js('return [...document.querySelectorAll("#act-stage .choice span")].map((s) => s.textContent);');
     const pickText = async (text) => {
       const i = (await optionTexts()).indexOf(text);
@@ -538,7 +539,7 @@ async function main() {
     const typeIn = (text, name = 'text') => b.js('const el = document.querySelector(\'#act-stage input[name="' + name + '"]\'); el.value = ' + JSON.stringify(text) + '; el.dispatchEvent(new Event("input", { bubbles: true }));');
     const checkIt = () => press('#act-stage button[type=submit]');
     const nextQ = () => press('#act-stage [data-act="next"]');
-    const progress = () => b.js('return document.querySelector("#act-stage .stage-title .progress")?.textContent;');
+    const progress = () => b.js('return document.querySelector("#act-stage #stage-h")?.textContent;');
     const stageText = () => b.js('return document.getElementById("act-stage").textContent;');
     // Speech is replaced by a recorder, so the test hears exactly what would be said (and nothing is spoken).
     const STUB_SPEECH = 'window.__spoken = []; speechSynthesis.speak = (u) => { __spoken.push([u.text, Math.round(u.rate * 10) / 10]); setTimeout(() => u.onend && u.onend(), 0); };';
@@ -671,22 +672,53 @@ async function main() {
       const r = await b.js('return [document.querySelector(".dictate").hidden, document.querySelector(".dictate-fallback").hidden, document.querySelector(".dictate-fallback").textContent, document.querySelector("#act-stage form").dataset.item];');
       eq([r[0], r[1]], [true, false], 'clue shown instead of sound buttons');
       const w = W19.spelling.words[Number(r[3].slice(3)) - 1].word;
-      expect(!r[2].includes(w) && r[2].includes(SP.get(w).base), 'the clue gives the sentence and base word, never the answer: ' + r[2]);
+      expect(!r[2].includes(w) && !new RegExp('\\b' + SP.get(w).base + '\\b').test(r[2]) && r[2].includes('grown-up'), 'the clue gives the sentence, never the word or its base word: ' + r[2]);
+      await b.load(url('#spelling?act=listen'));
+      await b.js('document.querySelector("[data-act=no-sound]").click();');
+      eq(await b.js('return [document.querySelector(".dictate-fallback").hidden, document.activeElement.className];'), [false, 'dictate-fallback'], '"I can\'t hear it" shows the clue and moves focus to it');
+      await press('#act-stage [data-act="next"]:not([disabled]), #act-stage button[type=submit]');
+      eq(await b.js('return document.querySelector(".dictate-fallback").hidden;'), false, 'the clue stays for the rest of the activity');
     });
     await check('Spelling Flashcards: flip, next, shuffle and marks (a word to practise goes to Practice My Misses)', async () => {
       await b.load(url('#spelling?act=flash'));
       eq(await b.js('return [document.querySelector(".flash-word").textContent, document.querySelectorAll(".flashcard img").length];'), [W19.spelling.words[0].word, 0], 'front: the word');
       await press('[data-act="flip"]');
-      eq(await b.js('return [document.querySelectorAll(".flashcard img").length, document.querySelector("[data-act=flip]").getAttribute("aria-pressed"), document.querySelector(".flashcard .sentence").textContent];'),
-        [1, 'true', W19.spelling.words[0].sentence], 'back: picture and sentence');
+      eq(await b.js('return [document.querySelectorAll(".flashcard img").length, document.querySelector("[data-act=flip]").textContent, document.querySelector(".flashcard .sentence").textContent];'),
+        [1, 'Show the front', W19.spelling.words[0].sentence], 'back: picture and sentence');
+      await b.waitFor('document.getElementById("live").textContent.startsWith("Back of the card: ' + W19.spelling.words[0].word + '.")');
+      expect(await b.js('const x = document.querySelector("[data-act=flip]"); const s = getComputedStyle(x); return s.color !== s.backgroundColor;'), 'the button text is readable');
       await press('[data-act="card-next"]');
       eq(await progress(), 'Card 2 of 15', 'next card');
       await press('[data-mark="again"]');
-      eq(await b.js('return document.querySelector(".tally").textContent.includes("To practise: 1");'), true, 'tally');
+      eq(await b.js('return document.querySelector(".tally").textContent.includes("To practice: 1");'), true, 'tally');
       await press('[data-act="shuffle"]');
       eq([await progress(), await b.js('return document.querySelector("[data-act=card-prev]").disabled;')], ['Card 1 of 15', true], 'shuffled, back to card 1');
       await b.hash('#spelling?act=misses');
       expect(await b.js('return [...document.querySelectorAll("#act-stage form")].length === 1;'), 'Practice My Misses runs');
+    });
+    await check('Practice My Misses always matches the menu: opened empty, or left half done, it picks up new misses', async () => {
+      await b.load(url('#vocab?act=misses'));
+      eq(await progress(), 'Nothing to practice yet', 'empty at first');
+      const missOne = async () => {
+        const right = vocabAnswer(await qPrompt());
+        await pickText(right === 'True' ? 'False' : 'True');
+        await checkIt();
+        await pickText(right);
+        await checkIt();
+        await nextQ();
+      };
+      await b.hash('#vocab?act=truefalse');
+      await missOne();
+      await b.hash('#vocab');
+      expect((await b.js('return document.querySelector(".activity.misses").textContent;')).includes('1'), 'the menu counts 1 miss');
+      await b.hash('#vocab?act=misses');
+      eq(await progress(), 'Question 1 of 1', 'the miss is there');
+      await pickText(vocabAnswer(await qPrompt()) === 'True' ? 'False' : 'True');
+      await checkIt();
+      await b.hash('#vocab?act=truefalse');
+      await missOne();
+      await b.hash('#vocab?act=misses');
+      eq(await progress(), 'Question 1 of 2', 'the new miss joins the run in progress');
     });
     await check('Test Center: three practice tests this week; an earlier week shows only the tests that exist', async () => {
       await b.load(url('#tests'));
@@ -715,13 +747,14 @@ async function main() {
       }
       await b.js('document.querySelector("[data-act=submit]").click();');
       await b.waitFor('document.getElementById("live").textContent.includes("no answer")');
-      eq(await b.js('return [document.querySelector("[data-act=submit]").textContent, document.activeElement.id, [...document.querySelectorAll("[data-act=goto]")].map((x) => x.textContent)];'),
-        ['Finish anyway', 'test-warning', ['Go to question 17']], 'unanswered warning');
+      eq(await b.js('return [document.querySelector("[data-act=submit]").textContent, document.activeElement.id, [...document.querySelectorAll("[data-act=goto]")].map((x) => [x.textContent, x.getAttribute("aria-label")])];'),
+        ['Finish anyway', 'test-warning', [['17', 'Go to question 17']]], 'unanswered warning');
       await press('[data-act="submit"]');
       eq(await b.js('return document.querySelector(".summary-score").textContent;'), '18 out of 20', 'score');
       expect(await b.js('return document.body.textContent.includes("You passed!");'), '16 or more passes');
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".qnum").textContent, l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
-        [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 8 × 6 = 5 × 6 + 3 × 6 = 48']], 'review');
+        [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 7 × 8 = 5 × 8 + 2 × 8 = 56']], 'review');
+      eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => r.lastElementChild.textContent);'), ['4 of 4', '2 of 3', '7 of 7', '5 of 6'], 'score per skill');
       expect(await b.js('return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href=\'#math\']");'), 'print and practise links');
       await press('[data-act="restart"]');
       eq([await progress(), await b.js('return document.querySelectorAll("#act-stage input:checked").length;')], ['Question 1 of 20', 0], 'a fresh test');
@@ -731,13 +764,14 @@ async function main() {
       await b.js(STUB_SPEECH);
       const asked = [];
       for (let k = 0; k < 15; k++) {
-        const w = W19.spelling.words[Number((await formId()).slice(3)) - 1].word;
+        eq(await formId(), 'q' + (k + 1), 'test question ids are positions');
+        await b.js('document.querySelector("[data-act=dictate]").click();');
+        const w = await b.js('return __spoken[__spoken.length - 1][0];');
         expect(!(await b.js('return document.getElementById("app").innerHTML;')).includes(w), w + ' is not even in the page source');
         asked.push(w);
         expect(!(await b.js('return document.getElementById("app").textContent;')).includes(w), w + ' is never on the screen');
         eq(await b.js('return [document.querySelectorAll("#app img").length, document.querySelectorAll("#act-stage [data-act=hint], #act-stage .feedback").length];'), [0, 0], 'no picture, hint or feedback');
-        await b.js('document.querySelector("[data-act=dictate]").click();');
-        await typeIn(k === 3 ? w.toUpperCase() : w);
+        await typeIn(k === 3 ? w.toUpperCase() : k === 5 ? w + '.' : w);
         if (k < 14) await press('[data-act="next"]');
       }
       eq([...asked].sort(), [...SP.keys()].sort(), 'all 15 words, each once');
@@ -769,6 +803,25 @@ async function main() {
         [0, 'No classroom worksheets have been received for this week yet.'], 'Oct 19 has none received');
     });
 
+    await check('contrast and touch targets also hold after feedback, on a flipped and marked card, with the unanswered warning and on results', async () => {
+      const states = [
+        ['#vocab?act=truefalse', async () => { await pickText('True'); await checkIt(); }],
+        ['#vocab?act=fill', async () => { await typeIn('x'); await checkIt(); await press('[data-act="hint"]'); }],
+        ['#spelling?act=letters', async () => { await b.js('document.querySelectorAll("#act-stage input.letter").forEach((el) => { el.value = "x"; }); document.querySelector("#act-stage form").dispatchEvent(new Event("input", { bubbles: true }));'); await checkIt(); }],
+        ['#spelling?act=flash', async () => { await press('[data-act="flip"]'); await press('[data-mark="known"]'); }],
+        ['#tests?test=vocab', async () => { for (let k = 0; k < 15; k++) await press('[data-act="next"]'); await press('[data-act="submit"]'); }],
+        ['#tests?test=math', async () => { for (let k = 0; k < 19; k++) await press('[data-act="next"]'); await press('[data-act="submit"]'); await press('[data-act="submit"]'); }],
+      ];
+      const problems = [];
+      for (const [route, act] of states) {
+        await b.load(url(route));
+        await act();
+        await helpers(b);
+        for (const p of await b.js('return __t.contrastFailures();')) problems.push(route + ' ' + p);
+        for (const p of await b.js('return [...document.querySelectorAll(".btn, .choice, .box, .bank-word, .read")].map((el) => [el, el.getBoundingClientRect()]).filter(([, r]) => (r.width || r.height) && (r.width < 44 || r.height < 44)).map(([el, r]) => (el.textContent.trim().slice(0, 20) || el.name) + " " + Math.round(r.width) + "x" + Math.round(r.height));')) problems.push(route + ' small: ' + p);
+      }
+      eq(problems, [], 'contrast and targets in these states');
+    });
     await check('printed test results show the score and review, without buttons', async () => {
       await b.load(url('#tests?test=vocab'));
       for (let k = 0; k < 15; k++) await press('[data-act="next"]');

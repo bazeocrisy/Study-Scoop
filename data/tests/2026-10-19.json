@@ -2,13 +2,15 @@
   "id": "2026-10-19",
   "math": {
     "topic": "Multiplication Properties",
-    "coverage": "The Identity, Zero, Commutative and Distributive Properties, rows and columns, and split arrays. These match the class test topic in the Oct 19–23 newsletter and the Distributive Property homework. Other Chapter 5 strategies are not included, because the test topic does not list them.",
+    "coverage": "Times 1, times 0, turn-around facts, arrays, and breaking apart facts.",
+    "note": "For grown-ups: this matches the class test topic in the Oct 19–23 newsletter (Multiplication Properties, Wednesday, Oct 21) and the Distributive Property homework. Other Topic 5 strategies are not included, because the test topic does not list them.",
     "instructions": "Answer each question. There are no hints during the test. You can go back and change an answer before you finish.",
     "pass": 16,
     "items": [
       {
         "id": "m1",
         "type": "choice",
+        "skill": "names",
         "prompt": "Which property does 8 × 1 = 8 show?",
         "options": [
           {
@@ -43,11 +45,13 @@
             "say": "Times 0 always makes 0."
           }
         ],
-        "explain": "6 groups of 0 is 0. Any number times 0 is 0."
+        "explain": "6 groups of 0 is 0. Any number times 0 is 0.",
+        "skill": "facts"
       },
       {
         "id": "m3",
         "type": "choice",
+        "skill": "names",
         "prompt": "Which property does 0 × 12 = 0 show?",
         "options": [
           {
@@ -72,6 +76,7 @@
       {
         "id": "m4",
         "type": "choice",
+        "skill": "names",
         "prompt": "Which property does 5 × 4 = 4 × 5 show?",
         "options": [
           {
@@ -106,7 +111,8 @@
             "say": "9 + 1 is 10. Times 1 keeps the number the same."
           }
         ],
-        "explain": "Any number times 1 is that number: 9 × 1 = 9."
+        "explain": "Any number times 1 is that number: 9 × 1 = 9.",
+        "skill": "facts"
       },
       {
         "id": "m6",
@@ -118,7 +124,8 @@
         "answer": {
           "a": 8
         },
-        "explain": "Changing the order of the factors keeps the product the same: 8 × 7 = 7 × 8."
+        "explain": "Changing the order of the factors keeps the product the same: 8 × 7 = 7 × 8.",
+        "skill": "facts"
       },
       {
         "id": "m7",
@@ -139,7 +146,9 @@
             "say": "That is how many dots are in each row."
           }
         ],
-        "explain": "Rows go across. This array has 4 rows of 6 dots."
+        "explain": "Rows go across. This array has 4 rows of 6 dots.",
+        "skill": "arrays",
+        "asks": "rows"
       },
       {
         "id": "m8",
@@ -160,7 +169,9 @@
             "say": "That is how many rows there are."
           }
         ],
-        "explain": "Columns go up and down. This array has 3 rows and 5 columns."
+        "explain": "Columns go up and down. This array has 3 rows and 5 columns.",
+        "skill": "arrays",
+        "asks": "cols"
       },
       {
         "id": "m9",
@@ -191,11 +202,13 @@
             "why": "Count the dots in each row again."
           }
         ],
-        "explain": "There are 3 rows with 8 dots in each row: 3 × 8."
+        "explain": "There are 3 rows with 8 dots in each row: 3 × 8.",
+        "skill": "arrays"
       },
       {
         "id": "m10",
         "type": "choice",
+        "skill": "arrays",
         "prompt": "A line splits this array. Which expression matches the two parts?",
         "model": {
           "type": "array",
@@ -210,11 +223,11 @@
         "options": [
           {
             "text": "(4 × 4) + (3 × 4)",
-            "why": "Count the rows above the line again."
+            "why": "That also makes 28, but it does not match where the line is. Count the rows above the line again."
           },
           {
             "text": "(7 × 2) + (7 × 2)",
-            "why": "This line goes between rows, not between columns."
+            "why": "That also makes 28, but it does not match where the line is. This line goes between rows, not between columns."
           },
           {
             "text": "(5 × 4) + (2 × 4)",
@@ -230,6 +243,7 @@
       {
         "id": "m11",
         "type": "choice",
+        "skill": "arrays",
         "prompt": "A line splits this array. Which expression matches the two parts?",
         "model": {
           "type": "array",
@@ -256,7 +270,7 @@
           },
           {
             "text": "(6 × 4) + (6 × 4)",
-            "why": "Count the columns left of the line again."
+            "why": "That also makes 48, but it does not match where the line is. Count the columns left of the line again."
           }
         ],
         "explain": "The line is after column 5: 6 rows of 5 on the left and 6 rows of 3 on the right."
@@ -264,6 +278,7 @@
       {
         "id": "m12",
         "type": "choice",
+        "skill": "arrays",
         "prompt": "A line splits this array. Which expression matches the two parts?",
         "model": {
           "type": "array",
@@ -282,11 +297,11 @@
           },
           {
             "text": "(5 × 3) + (3 × 3)",
-            "why": "Count the rows above the line again."
+            "why": "That also makes 24, but it does not match where the line is. Count the rows above the line again."
           },
           {
             "text": "(8 × 1) + (8 × 2)",
-            "why": "This line goes between rows. Each part keeps 3 dots in a row."
+            "why": "That also makes 24, but it does not match where the line is. This line goes between rows. Each part keeps 3 dots in a row."
           },
           {
             "text": "(4 × 3) + (4 × 3)",
@@ -298,6 +313,7 @@
       {
         "id": "m13",
         "type": "choice",
+        "skill": "arrays",
         "prompt": "A line splits this array. Which expression matches the two parts?",
         "model": {
           "type": "array",
@@ -312,7 +328,7 @@
         "options": [
           {
             "text": "(2 × 9) + (2 × 9)",
-            "why": "This line goes between columns, not between rows."
+            "why": "That also makes 36, but it does not match where the line is. This line goes between columns, not between rows."
           },
           {
             "text": "(4 × 5) + (4 × 4)",
@@ -351,7 +367,8 @@
             "why": "That shows the Zero Property."
           }
         ],
-        "explain": "7 × 3 is broken apart into 5 × 3 and 2 × 3. That is the Distributive Property."
+        "explain": "7 × 3 is broken apart into 5 × 3 and 2 × 3. That is the Distributive Property.",
+        "skill": "names"
       },
       {
         "id": "m15",
@@ -360,30 +377,31 @@
         "model": {
           "type": "array",
           "rows": 6,
-          "cols": 7,
+          "cols": 9,
           "cut": {
             "by": "rows",
             "at": 5
           }
         },
         "lines": [
-          "6 × 7 = 5 × 7 + 1 × 7",
+          "6 × 9 = 5 × 9 + 1 × 9",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 35,
-          "q": 7,
-          "t": 42
+          "p": 45,
+          "q": 9,
+          "t": 54
         },
         "accept": [
           {
-            "p": 7,
-            "q": 35,
-            "t": 42
+            "p": 9,
+            "q": 45,
+            "t": 54
           }
         ],
-        "explain": "5 × 7 = 35 and 1 × 7 = 7. 35 + 7 = 42."
+        "explain": "5 × 9 = 45 and 1 × 9 = 9. 45 + 9 = 54.",
+        "skill": "breaking"
       },
       {
         "id": "m16",
@@ -399,24 +417,26 @@
           "b": 16,
           "t": 36
         },
-        "explain": "9 is 5 + 4. 5 × 4 = 20 and 4 × 4 = 16. 20 + 16 = 36."
+        "explain": "9 is 5 + 4. 5 × 4 = 20 and 4 × 4 = 16. 20 + 16 = 36.",
+        "skill": "breaking"
       },
       {
         "id": "m17",
         "type": "decompose",
-        "prompt": "Break apart 8 × 6 into two easier facts. Then find the product.",
+        "prompt": "Break apart 7 × 8 into two easier facts. Then find the product.",
         "fact": [
-          8,
-          6
+          7,
+          8
         ],
         "answer": {
           "p": 5,
-          "q": 6,
-          "r": 3,
-          "s": 6,
-          "t": 48
+          "q": 8,
+          "r": 2,
+          "s": 8,
+          "t": 56
         },
-        "explain": "One way: 8 is 5 + 3, so 8 × 6 = 5 × 6 + 3 × 6 = 30 + 18 = 48. Any correct way to break it apart counts."
+        "explain": "One way: 7 is 5 + 2, so 7 × 8 = 5 × 8 + 2 × 8 = 40 + 16 = 56. Any correct way to break it apart counts.",
+        "skill": "breaking"
       },
       {
         "id": "m18",
@@ -431,7 +451,8 @@
             "say": "That is only the 5 × 6 part."
           }
         ],
-        "explain": "6 is 5 + 1, so 6 × 6 = 30 + 6 = 36."
+        "explain": "6 is 5 + 1, so 6 × 6 = 30 + 6 = 36.",
+        "skill": "breaking"
       },
       {
         "id": "m19",
@@ -455,7 +476,8 @@
             "why": "Each part is 12. Add both parts: 12 + 12 = 24."
           }
         ],
-        "explain": "3 + 3 = 6, so 6 × 4 = 3 × 4 + 3 × 4 = 12 + 12 = 24."
+        "explain": "3 + 3 = 6, so 6 × 4 = 3 × 4 + 3 × 4 = 12 + 12 = 24.",
+        "skill": "breaking"
       },
       {
         "id": "m20",
@@ -480,13 +502,14 @@
             "why": "5 and 1 is a fine way to break apart 6. The problem is the second part."
           }
         ],
-        "explain": "6 is 5 + 1, so both parts are times 3: (5 × 3) + (1 × 3) = 15 + 3 = 18."
+        "explain": "6 is 5 + 1, so both parts are times 3: (5 × 3) + (1 × 3) = 15 + 3 = 18.",
+        "skill": "breaking"
       }
     ]
   },
   "vocab": {
     "topic": "Because of Winn-Dixie vocabulary",
-    "coverage": "Covers the 12 words on this week's vocabulary list. The newsletter also mentions purple words; they have not been provided yet, so they are not on this test.",
+    "coverage": "All 12 words on this week's vocabulary list.",
     "instructions": "Read each question carefully. There are no hints during the test. You can go back and change an answer before you finish.",
     "pass": 13,
     "items": [
@@ -542,20 +565,13 @@
         "prompt": "The farmer sells fresh ___ like corn, peaches, and beans.",
         "answer": "produce",
         "bank": [
-          "constellations",
-          "distracted",
           "employee",
           "exception",
           "fortunate",
-          "ignorant",
           "installment",
-          "irritating",
-          "melancholy",
           "peculiar",
-          "produce",
-          "trustworthy"
+          "produce"
         ],
-        "retry": "Not yet.",
         "explain": "\"Produce\" means: Fresh fruits and vegetables."
       },
       {
@@ -637,19 +653,12 @@
         "answer": "employee",
         "bank": [
           "constellations",
-          "distracted",
           "employee",
-          "exception",
           "fortunate",
           "ignorant",
-          "installment",
-          "irritating",
           "melancholy",
-          "peculiar",
-          "produce",
           "trustworthy"
         ],
-        "retry": "Not yet.",
         "explain": "\"Employee\" means: Someone who works for money."
       },
       {
@@ -730,20 +739,13 @@
         "prompt": "Mom paid the first ___ for my piano lessons today, and she will pay the rest a little at a time.",
         "answer": "installment",
         "bank": [
-          "constellations",
-          "distracted",
           "employee",
-          "exception",
           "fortunate",
           "ignorant",
           "installment",
-          "irritating",
           "melancholy",
-          "peculiar",
-          "produce",
-          "trustworthy"
+          "peculiar"
         ],
-        "retry": "Not yet.",
         "explain": "\"Installment\" means: When money is paid over a length of time."
       },
       {
@@ -824,20 +826,13 @@
         "prompt": "A squirrel outside the window ___ me during the math lesson.",
         "answer": "distracted",
         "bank": [
-          "constellations",
           "distracted",
           "employee",
           "exception",
-          "fortunate",
-          "ignorant",
           "installment",
-          "irritating",
-          "melancholy",
           "peculiar",
-          "produce",
-          "trustworthy"
+          "produce"
         ],
-        "retry": "Not yet.",
         "explain": "\"Distracted\" means: To prevent something from continuing as usual."
       },
       {
@@ -845,7 +840,7 @@
         "type": "choice",
         "kind": "context",
         "word": "Melancholy",
-        "prompt": "Read the sentence: \"The song was slow and melancholy, and it made me want to cry.\" What does \"melancholy\" mean in this sentence?",
+        "prompt": "Read the sentence: \"On the last day of summer camp, a feeling of melancholy came over everyone.\" What does \"melancholy\" mean in this sentence?",
         "options": [
           {
             "text": "A sad or gloomy condition",
@@ -866,6 +861,7 @@
         ],
         "explain": "\"Melancholy\" means: A sad or gloomy condition."
       }
-    ]
+    ],
+    "note": "For grown-ups: the newsletter also mentions purple words. They have not been provided yet, so they are not on this test."
   }
 }
