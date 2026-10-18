@@ -695,7 +695,8 @@ async function main() {
       expect((await actFb()).startsWith('Yes!'), 'right spelling accepted');
     });
     await check('on a phone, the answer box does not move while a word is read aloud', async () => {
-      await b.viewport(390, 844, true);
+      // 360 px: the long label wraps onto two lines there, so height matters as well as width.
+      await b.viewport(360, 740, true);
       await b.load(url('#spelling?act=listen'));
       await b.js('window.__u = []; speechSynthesis.speak = (u) => { __u.push(u); };');
       const top = () => b.js('return Math.round(document.querySelector("#act-stage input[name=text]").getBoundingClientRect().top + scrollY);');

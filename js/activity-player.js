@@ -84,8 +84,14 @@ function setSpeaking(btn, on) {
   const label = btn.querySelector('.read-label');
   // The button keeps its size while it says "Stop", so the answer box below never jumps (QA UAT-5).
   // (Set through the CSSOM, which the page's style-src policy allows; no style attribute is written in markup.)
-  if (on) btn.style.minWidth = `${btn.getBoundingClientRect().width}px`;
-  else btn.style.minWidth = '';
+  if (on) {
+    const r = btn.getBoundingClientRect();
+    btn.style.minWidth = `${r.width}px`;
+    btn.style.minHeight = `${r.height}px`;
+  } else {
+    btn.style.minWidth = '';
+    btn.style.minHeight = '';
+  }
   if (label) label.textContent = on ? 'Stop' : btn.dataset.label;
   if (!btn.dataset.named) btn.dataset.named = btn.hasAttribute('aria-label') ? btn.getAttribute('aria-label') : '';
   if (on) btn.setAttribute('aria-label', 'Stop reading');
