@@ -289,7 +289,7 @@ function propertyCards(ctx, run) {
         <p class="kid-words"><span class="label">In other words</span>${p.kid}</p>
         <h4 class="label">${p.second ? 'Example 1' : 'Example'}: ${facts(p.eq)}</h4>
         <ol class="steps">${p.steps.map((s, k) => html`<li><span class="sn" aria-hidden="true">${k + 1}</span><span>${facts(s)}</span></li>`)}</ol>
-        ${p.key === 'distributive' && teacherExample(tw) ? html`<p class="pairs"><span class="label">Your teacher's example</span> ${facts(teacherExample(tw))}</p>` : ''}
+        ${p.key === 'distributive' && teacherExample(tw) ? html`<p class="teacher-line"><span class="label">Your teacher's example</span> ${facts(teacherExample(tw))}</p>` : ''}
       </div>
     </div>
     ${p.second ? html`<div class="work has-pic prop-learn second-ex">

@@ -732,3 +732,4 @@ button.flashcard .face { min-height: min(360px, 38vh); }
 .second-ex { margin-top: 14px; }
 .second-ex .ex2 { margin: 0; font-size: 1.15rem; }
 @media (max-width: 640px) { body.in-activity .weekpick { display: none; } }
+.prop-learn .teacher-line { margin-top: 10px; padding: 10px 14px; border-radius: var(--r-sm); background: var(--sunk); }
