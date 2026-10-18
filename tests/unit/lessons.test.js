@@ -154,6 +154,7 @@ const ctx = (lesson, stage, lessonState) => ({
   lesson, stage, lessonState, isCurrent: true, weekId: '2026-10-19',
   link: (s) => buildHash(s, '2026-10-19', '2026-10-19'),
   lessonLink: (id, st) => buildHash('math', '2026-10-19', '2026-10-19', { lesson: id, stage: st }),
+  actLink: (s, act) => buildHash(s, '2026-10-19', '2026-10-19', { act }),
 });
 
 test('every stage of every lesson renders: one h1, no missing values, labelled answer boxes', () => {

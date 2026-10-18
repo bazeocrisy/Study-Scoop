@@ -2,25 +2,42 @@
 // Vocabulary and spelling questions are built from the week's verified data (teacher definitions are used
 // exactly as written); the math and vocabulary tests are authored in data/tests/<week>.json and checked here.
 
-import { normWord, validateQuiz } from './lessons.js';
+import { decompositionOf, normWord, validateQuiz } from './lessons.js';
 import { pictureName } from './data.js';
 
+// Each subject opens on a menu of these (menu-first navigation, DECISIONS D19). `page` marks a page to read
+// (no questions); `parent` puts an activity on a second menu (Math > Practice Problems).
 export const ACTIVITIES = {
-  vocab: [
-    { id: 'cards', label: 'Study Cards', about: 'See each word, its picture, what it means and a sentence.' },
-    { id: 'choice', label: 'Multiple Choice', about: 'Pick the meaning that matches the word, or the word that matches the meaning.' },
-    { id: 'truefalse', label: 'True or False', about: 'Decide if a sentence about a word is true.' },
-    { id: 'fill', label: 'Fill in the Blank', about: 'Type the word that fits the sentence.' },
-    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the questions you missed.' },
-  ],
   spelling: [
-    { id: 'flash', label: 'Flashcards', about: 'Flip each card, hear the word and mark the words to practice.' },
-    { id: 'letters', label: 'Missing Letters', about: 'Hear the word, then type the letters that are missing.' },
-    { id: 'listen', label: 'Hear and Spell', about: 'Listen to the word and a sentence, then type the word.' },
-    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the words you missed.' },
+    { id: 'learn', label: 'Learn My Words', about: 'See this week\'s words, pictures and spelling rules.', icon: 'book', page: true },
+    { id: 'flash', label: 'Flashcards', about: 'Tap a card to turn it over and see the word.', icon: 'cards' },
+    { id: 'letters', label: 'Missing Letters', about: 'Hear a word, then type the missing letters.', icon: 'puzzle' },
+    { id: 'listen', label: 'Listen & Spell', about: 'Hear a word and a sentence, then type the word.', icon: 'ear' },
+    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the words you missed.', icon: 'redo' },
+  ],
+  vocab: [
+    { id: 'learn', label: 'Learn My Words', about: 'See each word, its picture, what it means and a sentence.', icon: 'book' },
+    { id: 'choice', label: 'Multiple Choice', about: 'Pick the right meaning or the right word.', icon: 'choice' },
+    { id: 'truefalse', label: 'True or False', about: 'Read a sentence about a word. Is it true?', icon: 'truefalse' },
+    { id: 'fill', label: 'Fill in the Blank', about: 'Type the word that fits the sentence.', icon: 'pencil' },
+    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the questions you missed.', icon: 'redo' },
+  ],
+  math: [
+    { id: 'learn', label: 'Learn the Properties', about: 'Meet the four multiplication properties, one at a time.', icon: 'book' },
+    { id: 'practice', label: 'Practice Problems', about: 'Answer problems. Get a hint when you need one.', icon: 'pencil', page: true },
+    { id: 'lessons', label: 'Math Lessons', about: 'Lessons 5-1 and 5-2, step by step.', icon: 'steps', page: true },
+    { id: 'guide', label: 'Study Guide', about: 'A short review for the Multiplication Properties test.', icon: 'list', page: true },
+    { id: 'props', label: 'Identify the Property', about: 'Look at a fact. Which property does it show?', icon: 'choice', parent: 'practice' },
+    { id: 'split', label: 'Match the Split Array', about: 'A line splits an array. Pick the matching facts.', icon: 'grid', parent: 'practice' },
+    { id: 'breakapart', label: 'Break Apart a Factor', about: 'Break a fact into two easier facts.', icon: 'puzzle', parent: 'practice' },
+    { id: 'mixed', label: 'Mixed Practice', about: 'A mix of all four properties and arrays.', icon: 'mix', parent: 'practice' },
+    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the problems you missed.', icon: 'redo', parent: 'practice' },
   ],
 };
-export const activityLabel = (subject, id) => ACTIVITIES[subject]?.find((a) => a.id === id)?.label || '';
+export const activityInfo = (subject, id) => ACTIVITIES[subject]?.find((a) => a.id === id) || null;
+export const activityLabel = (subject, id) => activityInfo(subject, id)?.label || '';
+/** The choices on a menu: the subject's own menu, or a second menu such as Math > Practice Problems. */
+export const menuItems = (subject, parent = null) => (ACTIVITIES[subject] || []).filter((a) => (a.parent || null) === parent);
 
 export const TEST_KINDS = ['math', 'spelling', 'vocab'];
 export const SUBJECT = { math: 'Math', spelling: 'Spelling', vocab: 'Vocabulary' };
@@ -297,4 +314,113 @@ function vocabTestProblems(t, week) {
   }
   for (const w of week.vocab.words) if (!used.has(w)) out.push(`no question is about ${w.word}`);
   return out;
+}
+
+// ---------------------------------------------------------------- math practice (Math > Practice Problems)
+// The questions are authored in data/practice/math.json (original problems, not the textbook's) and checked here.
+// They belong to the topic, not to one week, like the lessons.
+
+export const PROPERTY_NAMES = ['Identity', 'Zero', 'Commutative', 'Distributive'];
+/** The sets a practice activity draws from. Mixed Practice takes a few from every set. */
+export const PRACTICE_SETS = { props: ['props'], split: ['split'], breakapart: ['breakapart'], mixed: ['props', 'split', 'breakapart', 'facts'] };
+const MIXED_EACH = 3;
+
+/** The questions for one Math practice activity, in a shuffled order. */
+export function mathItems(practice, act, rand = Math.random) {
+  const sets = PRACTICE_SETS[act];
+  if (!sets || !practice?.sets) return [];
+  if (act !== 'mixed') return shuffle(practice.sets[act] || [], rand);
+  return shuffle(sets.flatMap((s) => shuffle(practice.sets[s] || [], rand).slice(0, MIXED_EACH)), rand);
+}
+
+const FACT = String.raw`\(?\s*(\d+)\s*×\s*(\d+)\s*\)?`;
+const oneFact = (s) => { const m = new RegExp(`^${FACT}$`).exec(s.trim()); return m ? [Number(m[1]), Number(m[2])] : null; };
+/** "(5 × 4) + (3 × 4)" -> [5, 4, 3, 4]; null when the text is not two facts added. */
+export function twoFacts(s) {
+  const m = new RegExp(String.raw`^${FACT}\s*\+\s*${FACT}$`).exec(String(s).trim());
+  return m ? m.slice(1, 5).map(Number) : null;
+}
+
+/**
+ * The one property an equation shows, worked out from its numbers: "6 × 1 = 6" is Identity, "0 × 8 = 0" Zero,
+ * "3 × 6 = 6 × 3" Commutative, "8 × 4 = (5 × 4) + (3 × 4)" Distributive. Null when it is false, unclear, or
+ * shows more than one (1 × 0, or a turn-around with a 1 or a 0), so such a question can never be published.
+ */
+export function propertyOf(eq) {
+  const sides = String(eq).split('=').map((s) => s.trim());
+  if (sides.length !== 2) return null;
+  const left = oneFact(sides[0]);
+  if (!left) return null;
+  const [a, b] = left;
+  const found = [];
+  if (/^\d+$/.test(sides[1])) {
+    if (a * b !== Number(sides[1])) return null;
+    if (a === 1 || b === 1) found.push('Identity');
+    if (a === 0 || b === 0) found.push('Zero');
+  }
+  const turned = oneFact(sides[1]);
+  if (turned && turned[0] === b && turned[1] === a && a !== b && Math.min(a, b) > 1) found.push('Commutative');
+  const split = twoFacts(sides[1]);
+  if (split && decompositionOf(a, b, ...split)) found.push('Distributive');
+  return found.length === 1 ? found[0] : null;
+}
+
+/** Which factor of a × b an option such as "(3 × 2) + (3 × 5)" breaks apart: a set of 'first' and/or 'second'. */
+export function splitsOf(a, b, option) {
+  const f = twoFacts(option);
+  const out = new Set();
+  if (!f) return out;
+  const [p, q, r, s] = f;
+  for (const [K, other, which] of [[b, a, 'first'], [a, b, 'second']]) {
+    const f1 = p === K ? q : q === K ? p : null;
+    const f2 = r === K ? s : s === K ? r : null;
+    if (f1 !== null && f2 !== null && f1 >= 1 && f2 >= 1 && f1 + f2 === other) out.add(which);
+  }
+  return out;
+}
+
+/** Problems with data/practice/math.json; an empty list means it is safe to show. */
+export function validateMathPractice(practice) {
+  const errors = [];
+  const err = (m) => errors.push(`practice/math.json: ${m}`);
+  if (!practice || typeof practice !== 'object' || !practice.sets) return ['practice/math.json: "sets" is missing'];
+  const sets = ['props', 'split', 'breakapart', 'facts'];
+  for (const k of Object.keys(practice.sets)) if (!sets.includes(k)) err(`unknown set "${k}"`);
+  const all = [];
+  for (const k of sets) {
+    const list = practice.sets[k];
+    if (!Array.isArray(list) || list.length < 6) { err(`${k} needs at least 6 questions`); continue; }
+    all.push(...list);
+    for (const it of list) {
+      const where = `${k} ${it.id}`;
+      if (!Array.isArray(it.hints) || !it.hints.length) err(`${where}: needs at least one hint`);
+      if (!Array.isArray(it.show) || !it.show.length) err(`${where}: needs Show me how steps`);
+      if (typeof it.explain !== 'string' || !it.explain.trim()) err(`${where}: needs an explanation for the results`);
+      const correct = it.options?.find((o) => o.correct)?.text;
+      if (k === 'props') {
+        // The answer key is checked against the equation's own numbers.
+        const p = propertyOf(it.eq);
+        if (!p) err(`${where}: "${it.eq}" must show exactly one property`);
+        if (!String(it.prompt).includes(it.eq)) err(`${where}: the question must show ${it.eq}`);
+        if (JSON.stringify((it.options || []).map((o) => o.text).sort()) !== JSON.stringify(PROPERTY_NAMES.map((n) => `${n} Property`).sort())) err(`${where}: the choices must be the four properties`);
+        if (p && correct !== `${p} Property`) err(`${where}: "${it.eq}" shows the ${p} Property, but the key says ${correct}`);
+        const pair = it.model?.type === 'pair' ? it.model : null;
+        if (pair && `${pair.left.rows} × ${pair.left.cols} = ${pair.right.rows} × ${pair.right.cols}` !== it.eq) err(`${where}: the picture does not show ${it.eq}`);
+      }
+      if (k === 'split' && !it.pictureMatch) err(`${where}: a split-array question must be checked against its picture (pictureMatch)`);
+      if (k === 'breakapart' && it.type === 'choice' && it.split) {
+        // "Break apart the 7 in 3 × 7": only options that break apart that factor are right.
+        const [a, b] = it.fact || [];
+        if (!(a > 1 && b > 1 && a !== b)) err(`${where}: fact must be two different numbers above 1`);
+        for (const o of it.options || []) {
+          const s = splitsOf(a, b, o.text);
+          const ok = it.split === 'any' ? s.size > 0 : s.has(it.split);
+          if (!twoFacts(o.text)) err(`${where}: option "${o.text}" must be two facts like (3 × 2) + (3 × 5)`);
+          else if (ok !== Boolean(o.correct)) err(`${where}: option "${o.text}" is ${o.correct ? 'marked right but does not' : 'marked wrong but does'} break apart ${it.split === 'first' ? a : it.split === 'second' ? b : 'a factor'} correctly`);
+        }
+      }
+    }
+  }
+  errors.push(...validateQuiz(all, 1, 'practice/math.json'));
+  return errors;
 }

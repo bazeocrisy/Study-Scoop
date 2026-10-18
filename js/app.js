@@ -7,7 +7,7 @@ import { buildHash, parseHash, resolveWeek } from './lib/router.js';
 import { validateIndex, validateWeek } from './lib/validate.js';
 import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
 import { mountLesson, stateFor, visitedStages } from './lesson-player.js';
-import { ACTIVITIES, TEST_KINDS, validateTests } from './lib/activities.js';
+import { TEST_KINDS, activityInfo, validateMathPractice, validateTests } from './lib/activities.js';
 import { missCounts, mountActivity, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
 import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
@@ -75,6 +75,14 @@ async function render() {
       if (lp.length) { if (n === renderCount) showProblem('This lesson has a problem.', lp); return; }
     }
   }
+  // Math practice problems (Math > Practice Problems): one checked question bank for the topic, like the lessons.
+  let practice = null;
+  if (route.section === 'math' && route.act) {
+    try {
+      practice = await loadJSON('data/practice/math.json');
+      if (validateMathPractice(practice).length) practice = null;
+    } catch { practice = null; }
+  }
   // Practice tests written for this week (Tests only). data/tests/index.json lists the weeks that have them;
   // another week simply has no math or vocabulary test (the spelling test is made from the week's list).
   let tests = null, testsProblem = false;
@@ -86,7 +94,9 @@ async function render() {
   }
   if (n !== renderCount) return; // a newer navigation started while lessons were loading (keep its address)
   const stage = lesson ? (STAGE_IDS.includes(route.stage) ? route.stage : 'learn') : null;
-  const act = route.act && ACTIVITIES[route.section]?.some((a) => a.id === route.act) ? route.act : null;
+  // An activity named in the address: a page to read (Learn My Words, a menu) or questions to answer (a run).
+  const info = route.act ? activityInfo(route.section, route.act) : null;
+  const act = info ? route.act : null;
   const testKind = route.test && TEST_KINDS.includes(route.test) ? route.test : null;
   let week;
   try {
@@ -122,12 +132,12 @@ async function render() {
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
-    tests, testsProblem, misses: missCounts(weekId),
+    tests, testsProblem, misses: missCounts(weekId), practice, page: info?.page ? act : null,
   };
-  ctx.run = act ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
+  ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
   // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.
   const canonical = buildHash(route.section, weekId, index.current, lesson ? { lesson: lesson.id, stage }
-    : ctx.run ? (ctx.run.mode === 'test' ? { test: testKind } : { act }) : {});
+    : ctx.run ? (ctx.run.mode === 'test' ? { test: testKind } : { act }) : ctx.page ? { act } : {});
   if (location.hash && location.hash !== canonical) history.replaceState(null, '', canonical);
   mounted?.abort();
   mounted = null;
@@ -137,10 +147,15 @@ async function render() {
   app.innerHTML = VIEWS[route.section](ctx).s;
   document.title = lesson
     ? `${stageLabel(stage)} · Lesson ${lesson.id}: ${lesson.title} · Study Scoop`
-    : ctx.run ? `${ctx.run.title} · ${sectionLabel(route.section)} · Study Scoop` : `${sectionLabel(route.section)} · Study Scoop`;
+    : ctx.run ? `${ctx.run.title} · ${sectionLabel(route.section)} · Study Scoop`
+      : ctx.page ? `${info.label} · ${sectionLabel(route.section)} · Study Scoop` : `${sectionLabel(route.section)} · Study Scoop`;
   if (lesson || ctx.run) {
     mounted = new AbortController();
     (lesson ? mountLesson : mountActivity)(app, ctx, mounted.signal);
+  } else if (ctx.page) {
+    // Pages to read only need their Print button (the Study Guide).
+    mounted = new AbortController();
+    app.addEventListener('click', (e) => { if (e.target.closest('[data-act="print"]')) window.print(); }, { signal: mounted.signal });
   }
 
   // Word pictures are optional: drop the frame when a picture file does not exist.

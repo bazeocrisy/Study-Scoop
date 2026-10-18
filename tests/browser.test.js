@@ -18,7 +18,8 @@ const LESSON_STAGES = ['learn', 'watch', 'together', 'try', 'test', 'parent'];
 const lessonHash = (id, stage) => `#math?lesson=${id}&stage=${stage}`;
 const LESSON_ROUTES = ['5-1', '5-2'].flatMap((id) => LESSON_STAGES.map((s) => lessonHash(id, s)));
 // Activities and practice tests (Assignment 005), plus an earlier week's homework and Test Center.
-const ACTIVITY_ROUTES = ['#vocab?act=cards', '#vocab?act=choice', '#vocab?act=truefalse', '#vocab?act=fill', '#vocab?act=misses',
+const ACTIVITY_ROUTES = ['#vocab?act=learn', '#spelling?act=learn', '#math?act=learn', '#math?act=practice', '#math?act=split', '#math?act=props', '#math?act=breakapart', '#math?act=mixed',
+  '#math?act=lessons', '#math?act=guide', '#vocab?act=choice', '#vocab?act=truefalse', '#vocab?act=fill', '#vocab?act=misses',
   '#spelling?act=flash', '#spelling?act=letters', '#spelling?act=listen', '#spelling?act=misses',
   '#tests?test=math', '#tests?test=spelling', '#tests?test=vocab', '#tests?week=2026-10-12', '#homework?week=2026-10-12'];
 // `--site <folder>` serves a built site (scripts/build-site.js) instead of the repository, exactly as GitHub Pages would.
@@ -110,7 +111,7 @@ async function main() {
     }
     await check('deep link to an earlier week opens that week', async () => {
       await b.load(url('#spelling?week=2026-10-12'));
-      eq(await b.js('return document.querySelector(".intro").textContent;'), "This week's pattern: -ed (15 words)", 'pattern');
+      eq(await b.js('return document.querySelector(".intro").textContent;'), "This week's pattern: -ed words (15 words)", 'pattern');
       eq(await b.js('return document.getElementById("weekSelect").value;'), '2026-10-12', 'picker');
       expect(await b.js('return !!document.querySelector(".notice");'), 'earlier-week notice shown');
       eq(await b.js('return document.querySelector("nav.tabs a[data-tab=vocab]").getAttribute("href");'), '#vocab?week=2026-10-12', 'nav keeps week');
@@ -128,15 +129,15 @@ async function main() {
       await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-12"; s.dispatchEvent(new Event("change"));');
       await b.ready(before);
       eq(await b.js('return location.hash;'), '#vocab?week=2026-10-12', 'hash');
-      eq(await b.js('return [...document.querySelectorAll(".vocab-card.group-green .vocab-word")].map((e) => e.textContent);'),
-        ['Produce', 'Exception', 'Installment', 'Peculiar'], 'Oct 12 green words');
+      const W12 = readJSON('data/2026-10-12.json');
+      eq(await b.js('return document.querySelector(".intro").textContent;'), `${W12.vocab.title} · ${W12.vocab.words.length} words · Quiz: ${W12.vocab.quiz}`, 'Oct 12 vocabulary');
       eq(await b.js('return document.getElementById("weekLabel").textContent;'), '3rd grade · Oct 12–16', 'header label');
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-19"; s.dispatchEvent(new Event("change"));');
       await b.ready(before);
       eq(await b.js('return location.hash;'), '#vocab', 'hash back to this week');
-      eq(await b.js('return [...document.querySelectorAll(".vocab-card.group-green .vocab-word")].map((e) => e.textContent);'),
-        ['Employee', 'Fortunate', 'Ignorant', 'Melancholy'], 'Oct 19 green words');
+      const W = readJSON('data/2026-10-19.json');
+      eq(await b.js('return document.querySelector(".intro").textContent;'), `${W.vocab.title} · ${W.vocab.words.length} words · Quiz: ${W.vocab.quiz}`, 'Oct 19 vocabulary');
     });
     await check('the Back button returns to the previous section', async () => {
       await b.load(url('#week'));
@@ -151,35 +152,35 @@ async function main() {
     for (const { id } of INDEX.weeks) {
       const week = readJSON(`data/${id}.json`);
       await check(`${id}: every vocabulary definition on screen matches the data exactly`, async () => {
-        await b.load(url(id === INDEX.current ? '#vocab' : `#vocab?week=${id}`));
-        eq(await b.js('return [...document.querySelectorAll(".vocab-card .def")].map((e) => e.textContent);'),
-          week.vocab.words.map((w) => w.def), 'definitions');
-        eq(await b.js('return [...document.querySelectorAll(".vocab-card .vocab-word")].map((e) => e.textContent);'),
-          week.vocab.words.map((w) => w.word), 'words');
+        await b.load(url(id === INDEX.current ? '#vocab?act=learn' : `#vocab?week=${id}&act=learn`));
+        const defs = [], words = [];
+        for (let k = 0; k < week.vocab.words.length; k++) {
+          defs.push(await b.js('return document.querySelector(".study-one .def").textContent;'));
+          words.push(await b.js('return document.querySelector(".study-one .vocab-word").textContent;'));
+          if (k < week.vocab.words.length - 1) await b.js('document.querySelector("[data-act=card-next]").click();');
+        }
+        eq(defs, week.vocab.words.map((w) => w.def), 'definitions');
+        eq(words, week.vocab.words.map((w) => w.word), 'words');
       });
       await check(`${id}: every spelling word is shown once`, async () => {
-        await b.hash(id === INDEX.current ? '#spelling' : `#spelling?week=${id}`);
+        await b.hash(id === INDEX.current ? '#spelling?act=learn' : `#spelling?week=${id}&act=learn`);
         const shown = await b.js('return [...document.querySelectorAll(".words .word")].map((e) => e.textContent).sort();');
         eq(shown, week.spelling.words.map((w) => w.word).sort(), 'spelling words');
       });
       if (week.math) {
         await check(`${id}: math words and examples match the data`, async () => {
-          await b.hash(id === INDEX.current ? '#math' : `#math?week=${id}`);
-          // Each card: the teacher's definition word for word, and an example that shows its property.
-          const shown = await b.js('return [...document.querySelectorAll(".math-words .property")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".def").textContent, c.querySelector(".fact").textContent]);');
-          const want = week.math.words.map((w) => {
-            const [x, y, p] = w.example;
-            return [w.word, w.def, /commutative/i.test(w.word) ? `${x} × ${y} = ${y} × ${x} = ${p}` : `${x} × ${y} = ${p}`];
-          });
-          eq([...shown].sort(), [...want].sort(), 'cards');
+          await b.hash(id === INDEX.current ? '#math?act=guide' : `#math?week=${id}&act=guide`);
+          // Study Guide: each property with the teacher's definition word for word.
+          const shown = await b.js('return [...document.querySelectorAll(".guide-prop")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".def").textContent]);');
+          eq([...shown].sort(), week.math.words.map((w) => [w.word, w.def]).sort(), 'cards');
         });
       }
     }
-    await check('all 12 word pictures load for the current week, even on a phone (for printing)', async () => {
+    await check('all 15 spelling study pictures load in Learn My Words, even on a phone (for printing)', async () => {
       await b.viewport(360, 740);
-      await b.load(url('#vocab'));
+      await b.load(url('#spelling?act=learn'));
       await b.wait(300);
-      eq(await b.js('return [...document.querySelectorAll(".vocab-card img")].filter((i) => i.complete && i.naturalWidth > 0).length;'), 12, 'loaded pictures');
+      eq(await b.js('return [...document.querySelectorAll(".study-card img")].filter((i) => i.complete && i.naturalWidth > 0).length;'), 15, 'loaded pictures');
       await b.viewport(1366, 900, false);
     });
 
@@ -282,11 +283,11 @@ async function main() {
 
     console.log('Print');
     await check('print view hides navigation and uses outlines instead of colour fills', async () => {
-      await b.load(url('#vocab'));
+      await b.load(url('#math?act=guide'));
       await b.media('print');
       await helpers(b);
       const r = await b.js(`
-        const hidden = ['.drips', 'nav.tabs', '.weekpick', '.foot', '.activities'].every((s) => getComputedStyle(document.querySelector(s)).display === 'none');
+        const hidden = ['.drips', 'nav.tabs', '.weekpick', '.foot', '.bar-btns', '.crumbs', '.stage-nav'].every((s) => getComputedStyle(document.querySelector(s)).display === 'none');
         const fills = [...document.querySelectorAll('body *')].filter((el) => {
           const c = __t.parse(getComputedStyle(el).backgroundColor); const r = el.getBoundingClientRect();
           return c && c.a > 0.1 && r.width * r.height > 5000 && __t.lum(c) < 0.85 && !el.closest('.pic');
@@ -298,24 +299,32 @@ async function main() {
 
     console.log('Pictures');
     await check('spelling study cards: the 15 approved pictures, each matched to its word, with a sentence', async () => {
-      await b.load(url('#spelling'));
+      await b.load(url('#spelling?act=learn'));
       await b.waitFor('[...document.querySelectorAll(".study-card img")].every((i) => i.complete && i.naturalWidth > 0)');
       const cards = await b.js('return [...document.querySelectorAll(".study-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector("img").getAttribute("src"), c.querySelector("img").alt, !!c.querySelector(".sentence")]);');
       const week = readJSON('data/2026-10-19.json');
       eq(cards, week.spelling.words.map((w) => [w.word, `images/words/${w.word}.webp`, `Study card for the word "${w.word}"`, true]), 'study cards');
     });
     await check('vocabulary: the approved illustrations, this week and in an earlier week with the same words', async () => {
-      await b.load(url('#vocab'));
-      await b.waitFor('[...document.querySelectorAll(".vocab-card img")].every((i) => i.complete && i.naturalWidth > 0)');
+      // Learn My Words shows one card at a time: collect each card's picture.
+      const allPics = async (n) => {
+        const out = [];
+        for (let k = 0; k < n; k++) {
+          await b.waitFor('[...document.querySelectorAll(".study-one img")].every((i) => i.complete && i.naturalWidth > 0)');
+          out.push(await b.js('const i = document.querySelector(".study-one img"); return [i.getAttribute("src"), i.alt];'));
+          if (k < n - 1) await b.js('document.querySelector("[data-act=card-next]").click();');
+        }
+        return out;
+      };
       const week = readJSON('data/2026-10-19.json');
-      eq(await b.js('return [...document.querySelectorAll(".vocab-card img")].map((i) => i.getAttribute("src"));'),
-        week.vocab.words.map((w) => `images/words/${pictureName(w.word)}.webp`), 'this week');
-      expect((await b.js('return [...document.querySelectorAll(".vocab-card img")].map((i) => i.alt);')).every((a) => a.startsWith('Picture showing')), 'alt text');
-      await b.hash('#vocab?week=2026-10-12');
-      await b.waitFor('[...document.querySelectorAll(".vocab-card img")].every((i) => i.complete && i.naturalWidth > 0)');
+      await b.load(url('#vocab?act=learn'));
+      const now = await allPics(12);
+      eq(now.map((x) => x[0]), week.vocab.words.map((w) => `images/words/${pictureName(w.word)}.webp`), 'this week');
+      expect(now.every((x) => x[1].startsWith('Picture showing')), 'alt text');
+      await b.load(url('#vocab?week=2026-10-12&act=learn'));
       // The same picture rule in every week: the approved illustration when one exists, otherwise the drawing.
       const pics = readJSON('data/pictures.json');
-      eq(await b.js('return [...document.querySelectorAll(".vocab-card img")].map((i) => i.getAttribute("src"));'),
+      eq((await allPics(12)).map((x) => x[0]),
         readJSON('data/2026-10-12.json').vocab.words.map((w) => { const n = pictureName(w.word); return `images/words/${n}.${pics.photos.includes(n) ? 'webp' : 'svg'}`; }),
         'earlier week');
     });
@@ -335,30 +344,49 @@ async function main() {
       await b.js(`document.querySelector(${JSON.stringify(selector)}).click();`);
       await afterAction(before);
     };
+    /** Follows a link the way a child would (a click), and waits for the new page. */
+    const go = async (selector) => {
+      const before = await b.js('return document.getElementById("app").dataset.ready;');
+      await b.js(`document.querySelector(${JSON.stringify(selector)}).click();`);
+      await b.ready(before);
+    };
     const checkAnswer = (item) => press(`form[data-item="${item.id}"] button[type=submit]`);
     const solve = async (item) => { await answer(item, solution(item)); await checkAnswer(item); };
     const fb = () => b.js('return document.querySelector("#lesson-stage .feedback:not(.info)")?.textContent.replace(/\\s+/g, " ").trim() || "";');
 
-    await check('Math page: four properties explained with pictures that match their numbers, and both lessons', async () => {
+    await check('Math > Learn the Properties: four cards, each picture matching its equation, with the teacher\'s words', async () => {
       await b.load(url('#math'));
-      const r = await b.js(`const card = (n) => [...document.querySelectorAll('.property')].find((c) => c.querySelector('h3').textContent.includes(n));
-        const dots = (c, cls = '') => c.querySelectorAll('circle.m-dot' + cls).length;
-        return {
-          identity: [card('Identity').querySelectorAll('.m-plate').length, dots(card('Identity'))],
-          zero: [card('Zero').querySelectorAll('.m-plate').length, dots(card('Zero')), !!card('Zero').querySelector('.m-none')],
-          commutative: [...card('Commutative').querySelectorAll('svg')].map((s) => s.querySelectorAll('.m-dot, .m-star').length),
-          examples: [...card('Distributive').querySelectorAll('.ex')].map((e) => [e.querySelectorAll('.m-dot.m-a').length, e.querySelectorAll('.m-dot.m-b').length,
-            [...e.querySelectorAll('.equation')].map((q) => q.textContent.replace(/\\s+/g, ' ').trim())]),
-          lessons: [...document.querySelectorAll('.lesson-card a.btn')].map((a) => a.getAttribute('href')),
-        };`);
-      eq(r.identity, [7, 7], '7 groups of 1');
-      eq(r.zero, [9, 0, true], '9 empty plates and no plates');
-      eq(r.commutative, [8, 8], '4 rows of 2 and 2 rows of 4');
-      eq(r.examples, [
-        [15, 3, ['6 × 3 = 5 × 3 + 1 × 3', '15 + 3 = 18']],
-        [12, 6, ['6 × 3 = 4 × 3 + 2 × 3', '12 + 6 = 18']],
-        [12, 6, ['6 × 3 = 6 × 2 + 6 × 1', '12 + 6 = 18']]], 'Examples A, B and C');
-      eq(r.lessons, ['#math?lesson=5-1&stage=learn', '#math?lesson=5-2&stage=learn'], 'lesson links');
+      eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
+        ['Learn the Properties', 'Practice Problems', 'Math Lessons', 'Study Guide'], 'four choices first');
+      await go('.menu-card[href="#math?act=learn"]');
+      const W = readJSON('data/2026-10-19.json');
+      const seen = [];
+      for (let k = 0; k < 4; k++) {
+        seen.push(await b.js(`const c = document.querySelector('#act-stage');
+          return [c.querySelector('h3').textContent, c.querySelector('.def')?.textContent, c.querySelector('.kid-words').textContent.replace('In other words', ''),
+            c.querySelector('.fact').textContent, c.querySelectorAll('.m-plate').length, c.querySelectorAll('circle.m-dot').length,
+            [...c.querySelectorAll('.model-svg')].map((s) => s.querySelectorAll('.m-dot, .m-star').length),
+            c.querySelectorAll('.m-dot.m-a').length, c.querySelectorAll('.m-dot.m-b').length];`));
+        if (k < 3) await press('[data-act="card-next"]');
+      }
+      const def = (n) => W.math.words.find((w) => w.word.startsWith(n)).def;
+      eq(seen.map((s) => s.slice(0, 4)), [
+        ['Identity Property', def('Identity'), 'Any number multiplied by 1 stays the same.', '7 × 1 = 7'],
+        ['Zero Property', def('Zero'), 'Any number multiplied by 0 equals 0.', '9 × 0 = 0'],
+        ['Commutative Property', def('Commutative'), 'Changing the order of the factors does not change the product.', '4 × 2 = 2 × 4 = 8'],
+        ['Distributive Property', def('Distributive'), 'You can break apart a factor, multiply the smaller parts, and add their products.', '6 × 7 = (3 × 7) + (3 × 7)']], 'words and equations');
+      eq([seen[0][4], seen[0][5]], [7, 7], 'identity: 7 groups of 1');
+      eq([seen[1][4], seen[1][5]], [9, 0], 'zero: 9 empty groups');
+      eq(seen[2][6], [8, 8], 'commutative: 4 rows of 2 and 2 rows of 4');
+      eq([seen[3][7], seen[3][8]], [21, 21], 'distributive: 3 rows of 7 and 3 rows of 7');
+      eq(await b.js('return document.querySelector(".stage-nav .btn-primary").getAttribute("href");'), '#math?act=practice', 'then Practice Problems');
+      await press('[data-act="card-prev"]');
+      eq(await b.js('return document.getElementById("stage-h").textContent;'), 'Property 3 of 4', 'Previous Property');
+      await b.js('document.querySelector(".bar-btns a.back").click();');
+      await b.waitFor('location.hash === "#math"');
+      // On a menu, Home is the first step of the crumbs.
+      await b.js('document.querySelector(".crumbs a").click();');
+      await b.waitFor('document.querySelector("#app h1")?.textContent === "This Week"');
     });
     await check('lesson addresses: unknown lessons go back to Math, unknown stages open Learn It, the stepper marks the stage', async () => {
       await b.load(url('#math?lesson=9-9&stage=watch'));
@@ -582,7 +610,7 @@ async function main() {
       await checkIt();
       await nextQ();
       await b.hash('#vocab');
-      expect((await b.js('return document.querySelector(".activity.misses").textContent;')).includes('No misses yet'), 'a miss answered right is removed');
+      eq(await b.js('return document.querySelector(".menu-card.misses .count-badge");'), null, 'a miss answered right is removed');
     });
     await check('Vocabulary True or False: half true and half false, explanations after a wrong answer', async () => {
       await b.load(url('#vocab?act=truefalse'));
@@ -680,19 +708,40 @@ async function main() {
       eq(await b.js('return document.querySelector(".dictate-fallback").hidden;'), false, 'the clue stays for the rest of the activity');
     });
     await check('Spelling Flashcards: flip, next, shuffle and marks (a word to practise goes to Practice My Misses)', async () => {
-      await b.load(url('#spelling?act=flash'));
-      eq(await b.js('return [document.querySelector(".flash-word").textContent, document.querySelectorAll(".flashcard img").length];'), [W19.spelling.words[0].word, 0], 'front: the word');
-      await press('[data-act="flip"]');
-      eq(await b.js('return [document.querySelectorAll(".flashcard img").length, document.querySelector("[data-act=flip]").textContent, document.querySelector(".flashcard .sentence").textContent];'),
-        [1, 'Show the front', W19.spelling.words[0].sentence], 'back: picture and sentence');
-      await b.waitFor('document.getElementById("live").textContent.startsWith("Back of the card: ' + W19.spelling.words[0].word + '.")');
-      expect(await b.js('const x = document.querySelector("[data-act=flip]"); const s = getComputedStyle(x); return s.color !== s.backgroundColor;'), 'the button text is readable');
+      await b.load(url('#spelling'));
+      await go('.menu-card[href="#spelling?act=flash"]');
+      const w0 = W19.spelling.words[0];
+      // Front: base word + ending and the sentence with a blank; never the word itself (not even in the page source).
+      eq(await b.js('return [document.querySelector(".flashcard").tagName, document.querySelector(".flash-clue").textContent, document.querySelectorAll(".flashcard img, .flashcard .flash-word").length];'),
+        ['BUTTON', w0.base + ' + ing', 0], 'front: a clue, no picture and no word');
+      expect(!(await b.js('return document.getElementById("act-stage").innerHTML;')).includes(w0.word), 'the front never contains the word');
+      // A real click on the card turns it over, and focus stays on the card.
+      let before = await rendered();
+      await b.clickAt('.flashcard');
+      await afterAction(before);
+      eq(await b.js('return [document.querySelector(".flash-word").textContent, document.querySelectorAll(".flashcard img").length, document.querySelector(".flashcard .sentence").textContent, document.activeElement.classList.contains("flashcard")];'),
+        [w0.word, 1, w0.sentence, true], 'back: word, picture and sentence; focus on the card');
+      await b.waitFor('document.getElementById("live").textContent.startsWith("Back of the card: ' + w0.word + '.")');
+      // Enter and Space turn it over again.
+      before = await rendered();
+      await b.key('Enter');
+      await afterAction(before);
+      eq(await b.js('return document.querySelectorAll(".flashcard .flash-clue").length;'), 1, 'Enter: front again');
+      before = await rendered();
+      await b.key(' ');
+      await afterAction(before);
+      eq(await b.js('return document.querySelectorAll(".flashcard .flash-word").length;'), 1, 'Space: back again');
+      await press('.flip-btn');
+      eq(await b.js('return [document.querySelectorAll(".flashcard .flash-clue").length, document.activeElement.textContent];'), [1, 'Flip Card'], 'the Flip Card button works too');
+      expect(await b.js('const x = document.querySelector(".flip-btn"); const s = getComputedStyle(x); return s.color !== s.backgroundColor;'), 'the button text is readable');
       await press('[data-act="card-next"]');
       eq(await progress(), 'Card 2 of 15', 'next card');
       await press('[data-mark="again"]');
       eq(await b.js('return document.querySelector(".tally").textContent.includes("To practice: 1");'), true, 'tally');
       await press('[data-act="shuffle"]');
       eq([await progress(), await b.js('return document.querySelector("[data-act=card-prev]").disabled;')], ['Card 1 of 15', true], 'shuffled, back to card 1');
+      await b.js('document.querySelector(".bar-btns a.back").click();');
+      await b.waitFor('location.hash === "#spelling" && !!document.querySelector(".menu-card")');
       await b.hash('#spelling?act=misses');
       expect(await b.js('return [...document.querySelectorAll("#act-stage form")].length === 1;'), 'Practice My Misses runs');
     });
@@ -710,7 +759,7 @@ async function main() {
       await b.hash('#vocab?act=truefalse');
       await missOne();
       await b.hash('#vocab');
-      expect((await b.js('return document.querySelector(".activity.misses").textContent;')).includes('1'), 'the menu counts 1 miss');
+      eq(await b.js('return document.querySelector(".menu-card.misses .count-badge").textContent;'), '1 to practice', 'the menu counts 1 miss');
       await b.hash('#vocab?act=misses');
       eq(await progress(), 'Question 1 of 1', 'the miss is there');
       await pickText(vocabAnswer(await qPrompt()) === 'True' ? 'False' : 'True');
@@ -719,6 +768,115 @@ async function main() {
       await missOne();
       await b.hash('#vocab?act=misses');
       eq(await progress(), 'Question 1 of 2', 'the new miss joins the run in progress');
+    });
+    await check('every subject opens on its menu, and every choice has Back to the menu and Home', async () => {
+      const MENUS = {
+        spelling: ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses'],
+        vocab: ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'],
+        math: ['Learn the Properties', 'Practice Problems', 'Math Lessons', 'Study Guide'],
+      };
+      const NAME = { spelling: 'Spelling', vocab: 'Vocabulary', math: 'Math' };
+      for (const [subject, labels] of Object.entries(MENUS)) {
+        await b.load(url('#week'));
+        await b.js(`document.querySelector('nav.tabs a[data-tab="${subject}"]').click();`);
+        await b.waitFor(`location.hash === "#${subject}" && document.querySelector("#app h1")?.textContent === ${JSON.stringify(NAME[subject])}`);
+        eq(await b.js('return [document.querySelector(".ask").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim())];'),
+          ['What would you like to do?', labels], subject + ' menu');
+        // The choices are on the first screen, even on a small laptop (no scrolling to find them).
+        expect(await b.js('return document.querySelector(".menu-card").getBoundingClientRect().bottom < innerHeight;'), subject + ': first choice visible without scrolling');
+        expect(!(await b.js('return !!document.querySelector(".words, .vocab-card, .property, .study-card");')), subject + ': no long content on the menu');
+        const hrefs = await b.js('return [...document.querySelectorAll(".menu-card")].map((a) => a.getAttribute("href"));');
+        for (const [k, href] of hrefs.entries()) {
+          await b.hash(href);
+          eq(await b.js('return document.querySelector("#app h1").textContent;'), labels[k], href + ' title');
+          eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', NAME[subject], labels[k]], href + ' crumbs');
+          eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => [a.textContent.trim(), a.getAttribute("href")]);'),
+            [[`‹ Back to ${NAME[subject]}`, `#${subject}`], ['Home', '#week']], href + ' Back and Home');
+        }
+      }
+      await b.js('document.querySelector(".bar-btns a.home").click();');
+      await b.waitFor('document.querySelector("#app h1")?.textContent === "This Week" && location.hash === "#week"');
+      // Browser Back returns to the menu, then Forward to Home again.
+      let before = await b.js('return document.getElementById("app").dataset.ready;');
+      await b.js('history.back();');
+      await b.ready(before);
+      eq(await b.js('return location.hash;'), '#math?act=guide', 'browser Back');
+      before = await b.js('return document.getElementById("app").dataset.ready;');
+      await b.js('history.forward();');
+      await b.ready(before);
+      eq(await b.js('return location.hash;'), '#week', 'browser Forward');
+    });
+    await check('Math > Practice Problems > Match the Split Array: from the menu, right and wrong answers, hint, Show me how, results, misses', async () => {
+      const PRACTICE = readJSON('data/practice/math.json');
+      const ITEM = new Map(Object.values(PRACTICE.sets).flat().map((it) => [it.id, it]));
+      await b.load(url('#math'));
+      await go('.menu-card[href="#math?act=practice"]');
+      eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'),
+        ['Identify the Property', 'Match the Split Array', 'Break Apart a Factor', 'Mixed Practice', 'Practice My Misses'], 'kinds of problems');
+      await go('.menu-card[href="#math?act=split"]');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Practice Problems', 'Match the Split Array'], 'crumbs');
+      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?act=practice', '#math', '#week'], 'Back to Practice Problems, Back to Math, Home');
+      for (let k = 0; k < PRACTICE.sets.split.length; k++) {
+        eq(await progress(), `Question ${k + 1} of ${PRACTICE.sets.split.length}`, 'progress');
+        const item = ITEM.get(await formId());
+        // The picture on the screen is the picture of the answer key: count its two parts.
+        const [a, bb] = await b.js('return [document.querySelectorAll("#act-stage .m-dot.m-a").length, document.querySelectorAll("#act-stage .m-dot.m-b").length];');
+        const right = item.options.find((o) => o.correct).text;
+        const [p, q, r, s] = right.match(/\d+/g).map(Number);
+        eq([a, bb], [p * q, r * s], item.id + ': the picture matches ' + right);
+        if (k === 1) {
+          await pickText(item.options.find((o) => !o.correct).text);
+          await checkIt();
+          expect((await actFb()).startsWith('Not yet'), 'a wrong choice');
+          await press('#act-stage [data-act="hint"]');
+          expect(await b.js('return !!document.querySelector("#act-stage .hints li");'), 'a hint');
+          await pickText(item.options.filter((o) => !o.correct)[1].text);
+          await checkIt();
+          await press('#act-stage [data-act="show"]');
+          expect((await b.js('return document.querySelector("#act-stage .showme").textContent;')).includes(right), 'Show me how ends with the answer');
+        } else {
+          await pickText(right);
+          await checkIt();
+          expect((await actFb()).startsWith('Yes!'), item.id + ': ' + await actFb());
+        }
+        await nextQ();
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '9 out of 10 right on the first try', 'summary');
+      eq(await b.js('return [...document.querySelectorAll(".end-nav a, .end-nav button")].map((x) => x.textContent.trim());'),
+        ['Try again', 'Practice My Misses', 'Home', 'Choose another activity'], 'what next');
+      await go('.end-nav a[href="#math?act=misses"]');
+      eq(await progress(), 'Question 1 of 1', 'the missed problem');
+      await b.hash('#math?act=practice');
+      eq(await b.js('return document.querySelector(".menu-card.misses .count-badge").textContent;'), '1 to practice', 'misses counted on the menu');
+    });
+    await check('Math > Math Lessons: both lessons with every step; a lesson has Back to Lessons, Back to Math and Home', async () => {
+      await b.load(url('#math'));
+      await go('.menu-card[href="#math?act=lessons"]');
+      eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => [...c.querySelectorAll(".stage-links a")].map((a) => a.textContent.trim().replace(/\\s+/g, " ")));').then((x) => x.map((l) => l.length)), [5, 5], 'five steps each');
+      await go('.stage-links a[href="#math?lesson=5-1&stage=together"]');
+      eq(await b.js('return [document.getElementById("stage-h").textContent, [...document.querySelectorAll(".bar-btns a")].map((a) => [a.textContent.trim(), a.getAttribute("href")])];'),
+        ['Practice Together', [['‹ Back to Lessons', '#math?act=lessons'], ['Back to Math', '#math'], ['Home', '#week']]], 'Practice Together, with Back and Home');
+      await b.js('document.querySelector(".bar-btns a.back").click();');
+      await b.waitFor('location.hash === "#math?act=lessons"');
+    });
+    await check('leaving an unfinished test asks first; the answers are kept', async () => {
+      await b.load(url('#tests'));
+      await go('a.btn[href="#tests?test=vocab"]');
+      // Nothing answered yet: Home just goes home.
+      await b.js('document.querySelector(".bar-btns a.home").click();');
+      await b.waitFor('location.hash === "#week"');
+      await b.hash('#tests?test=vocab');
+      const first = T19.vocab.items[0];
+      await answer(first, solution(first));
+      await b.js('document.querySelector(".bar-btns a.home").click();');
+      eq(await b.js('const d = document.getElementById("leave-dialog"); return [!!d?.open, document.activeElement.textContent, location.hash];'), [true, 'Keep working', '#tests?test=vocab'], 'asks first');
+      await b.js('document.querySelector("[data-choice=stay]").click();');
+      eq(await b.js('return [!!document.getElementById("leave-dialog"), location.hash];'), [false, '#tests?test=vocab'], 'Keep working stays');
+      await b.js('document.querySelector("nav.tabs a[data-tab=math]").click();');
+      await b.js('document.querySelector("[data-choice=go]").click();');
+      await b.waitFor('location.hash === "#math"');
+      await b.hash('#tests?test=vocab');
+      eq(await b.js('return document.querySelector("#act-stage input[name=choice]:checked")?.value;'), String(solution(first).choice), 'the answer is kept');
     });
     await check('Test Center: three practice tests this week; an earlier week shows only the tests that exist', async () => {
       await b.load(url('#tests'));
@@ -755,7 +913,7 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".qnum").textContent, l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
         [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 7 × 7 = 5 × 7 + 2 × 7 = 49']], 'review');
       eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => r.lastElementChild.textContent);'), ['4 of 4', '2 of 3', '7 of 7', '5 of 6'], 'score per skill');
-      expect(await b.js('return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href=\'#math\']");'), 'print and practise links');
+      expect(await b.js('return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href=\'#math\']") && !!document.querySelector(".stage-nav a[href=\'#tests\']");'), 'print, practise and Back to Tests');
       await press('[data-act="restart"]');
       eq([await progress(), await b.js('return document.querySelectorAll("#act-stage input:checked").length;')], ['Question 1 of 20', 0], 'a fresh test');
     });
@@ -916,15 +1074,16 @@ async function main() {
     });
     await check('symbols in the data are shown as text, never as page markup', async () => {
       await f.hash('#vocab');
+      expect((await f.js('return document.querySelector(".page-head .intro").textContent;')).startsWith('Sample <b>book</b> title · '), 'title text');
+      await f.hash('#vocab?act=learn');
       eq(await f.js('return [document.querySelector("#app b"), document.querySelector(".def").textContent];'),
         [null, 'a small part that shows what the whole is like <with symbols & "quotes">'], 'escaping');
-      eq(await f.js('return document.querySelector(".page-head .intro").textContent;'), 'Sample <b>book</b> title · Quiz: Friday, Oct 30', 'title text');
     });
     await check('a week without math or pictures still works (missing pictures are hidden)', async () => {
       await f.wait(300);
-      eq(await f.js('return document.querySelectorAll(".vocab-card .pic").length;'), 0, 'picture frames removed');
-      await f.hash('#math');
-      expect(await f.js('return document.body.textContent.includes("No math words are listed for this week.");'), 'no-math message');
+      eq(await f.js('return document.querySelectorAll(".study-one .pic").length;'), 0, 'picture frames removed');
+      await f.hash('#math?act=learn');
+      eq(await f.js('return [document.querySelector("#act-stage h3").textContent, document.body.textContent.includes("Teacher\'s words")];'), ['Identity Property', false], 'properties without teacher words');
       // Pictures come from data/pictures.json, so a word without a picture never causes a request for a missing file.
       eq([...new Set(fx.missing)], [], 'no requests for missing files');
       eq(f.errors, [], 'console');

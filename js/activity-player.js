@@ -1,7 +1,9 @@
-// Activity player: the DOM code for Spelling and Vocabulary practice and for the practice tests (DECISIONS D18).
+// Activity player: the DOM code for Spelling, Vocabulary and Math practice and for the practice tests (DECISIONS D18, D19).
 // Progress, misses and test answers live in memory for this visit only (never stored), keyed by week, so weeks never mix.
 import { check, solution, showSteps } from './lib/lessons.js';
-import { ACTIVITIES, rng, shuffle, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
+import { activityInfo, mathItems, rng, shuffle, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
+import { PROPERTIES } from './lib/mathlearn.js';
+import { html } from './lib/html.js';
 import { activityInner } from './views/activity.js';
 import { unanswered } from './views/lesson.js';
 
@@ -13,7 +15,7 @@ const missMap = (weekId, subject) => {
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
-export const missCounts = (weekId) => ({ vocab: missMap(weekId, 'vocab').size, spelling: missMap(weekId, 'spelling').size });
+export const missCounts = (weekId) => ({ vocab: missMap(weekId, 'vocab').size, spelling: missMap(weekId, 'spelling').size, math: missMap(weekId, 'math').size });
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
 const missKey = (item) => (item.n ? `word-${item.n}` : item.id);
@@ -26,6 +28,8 @@ function addMiss(weekId, subject, item, fromMark = false) {
 }
 
 const seed = () => (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
+/** What the cards of a card activity show: spelling words, vocabulary words, or the four math properties. */
+const cardsFor = (ctx, subject) => (subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
 
 function newRun(ctx, section, act) {
   const rand = rng(seed());
@@ -35,11 +39,12 @@ function newRun(ctx, section, act) {
     if (!t) return null;
     return { ...base, ...t, subject: act, act, mode: 'test', goal: `${t.topic} · ${t.items.length} questions` };
   }
-  const info = ACTIVITIES[section].find((a) => a.id === act);
+  const info = activityInfo(section, act);
   const run = { ...base, subject: section, act, mode: 'practice', title: info.label, goal: info.about };
-  const words = section === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words;
-  if (act === 'cards' || act === 'flash') run.flash = { order: words.map((_, k) => k), i: 0, flipped: false, marks: {} };
+  const cards = cardsFor(ctx, section);
+  if (act === 'learn' || act === 'flash') run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} };
   else if (act === 'misses') run.items = [...missMap(ctx.weekId, section).values()].map((e) => e.item);
+  else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
   else if (section === 'vocab') run.items = shuffle(vocabItems(ctx.week, act, rand), rand);
   else run.items = shuffle(spellingItems(ctx.week, act), rand);
   return run;
@@ -141,7 +146,43 @@ export function mountActivity(app, ctx, signal) {
   };
   prepare();
   synth()?.getVoices();
-  signal.addEventListener('abort', () => { stopSpeech(); clearTimeout(announceTimer); });
+  signal.addEventListener('abort', () => { stopSpeech(); clearTimeout(announceTimer); document.getElementById('leave-dialog')?.remove(); });
+
+  // Leaving an unfinished test (Home, Back to Tests, the tabs) asks first. The answers are kept while the page
+  // stays open, so coming back carries on where the child left off.
+  if (run.mode === 'test') {
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a || e.target.closest('#leave-dialog') || run.submitted || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (unanswered(run.items, { items: run.items_ }).length === run.items.length) return; // nothing answered yet
+      e.preventDefault();
+      confirmLeave(a.getAttribute('href'));
+    }, { signal, capture: true });
+  }
+  function confirmLeave(href) {
+    document.getElementById('leave-dialog')?.remove();
+    const dlg = document.createElement('dialog');
+    dlg.id = 'leave-dialog';
+    dlg.className = 'leave-dialog';
+    dlg.setAttribute('aria-labelledby', 'leave-h');
+    dlg.setAttribute('aria-describedby', 'leave-p');
+    dlg.innerHTML = html`<h2 id="leave-h">Leave the test?</h2>
+      <p id="leave-p">You have not finished. Your answers are kept while this page stays open, so you can come back and finish.</p>
+      <p class="btn-row"><button type="button" class="btn btn-primary" data-choice="stay">Keep working</button>
+        <button type="button" class="btn" data-choice="go">Leave the test</button></p>`.s;
+    dlg.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-choice]');
+      if (!b) return;
+      dlg.close();
+      dlg.remove();
+      if (b.dataset.choice === 'go') location.hash = href;
+      else area()?.querySelector('#stage-h')?.focus();
+    });
+    dlg.addEventListener('cancel', () => setTimeout(() => { dlg.remove(); area()?.querySelector('#stage-h')?.focus(); }, 0));
+    document.body.append(dlg);
+    dlg.showModal();
+    dlg.querySelector('[data-choice="stay"]').focus();
+  }
 
   const rerender = (focus) => {
     stopSpeech();
@@ -296,25 +337,35 @@ export function mountActivity(app, ctx, signal) {
     // Flashcards and study cards
     const f = run.flash;
     if (!f) return;
-    const words = run.subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words;
+    const words = cardsFor(ctx, run.subject);
     const cardWord = () => words[f.order[f.i]];
+    // A spelling card's front must not say the word (it is the answer); other cards name their word.
+    const cardName = () => (run.subject === 'spelling' ? '' : `: ${cardWord().word || cardWord().name}`);
+    // The spelling card's word is never in the page (it is the answer): the player says it from its own list.
+    if (act === 'say-card') {
+      if (speakingBtn === btn) return stopSpeech();
+      return speak([cardWord().word], { rate: 0.8, btn });
+    }
     if (act === 'flip') {
       f.flipped = !f.flipped;
       const w = cardWord();
-      announce(f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : `Front of the card: ${w.word}.`);
-      return rerender('[data-act="flip"]');
+      announce(f.flipped ? `Back of the card: ${w.word}. ${w.sentence}` : 'Front of the card.');
+      // Keep focus where it was: on the card itself, or on the Flip Card button.
+      rerender(btn.classList.contains('flashcard') ? '.flashcard' : '.flip-btn');
+      area().querySelector('.flashcard')?.classList.add('flip-anim');
+      return;
     }
     if (act === 'card-next' || act === 'card-prev') {
       f.i = Math.max(0, Math.min(words.length - 1, f.i + (act === 'card-next' ? 1 : -1)));
       f.flipped = false;
-      announce(`Card ${f.i + 1} of ${words.length}: ${cardWord().word}.`);
-      return rerender(`[data-act="${act}"]:not([disabled]), [data-act="card-prev"]:not([disabled]), [data-act="card-next"]:not([disabled])`);
+      announce(`${run.subject === 'math' ? 'Property' : 'Card'} ${f.i + 1} of ${words.length}${cardName()}.`);
+      return rerender(`[data-act="${act}"]:not([disabled]), [data-act="card-prev"]:not([disabled]), [data-act="card-next"]:not([disabled]), #stage-h`);
     }
     if (act === 'shuffle') {
       f.order = shuffle(f.order, rng(seed()));
       f.i = 0;
       f.flipped = false;
-      announce(`The cards are shuffled. Card 1: ${cardWord().word}.`);
+      announce(`The cards are shuffled. Card 1${cardName()}.`);
       return rerender('[data-act="shuffle"]');
     }
     if (act === 'mark') {

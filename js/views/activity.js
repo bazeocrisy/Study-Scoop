@@ -1,11 +1,13 @@
-// Practice activities (Spelling, Vocabulary) and Study Scoop practice tests (Tests section). DECISIONS D18.
+// Practice activities (Spelling, Vocabulary, Math) and Study Scoop practice tests (Tests section). DECISIONS D18, D19.
 // Questions use the same question card as the Math lessons; the activity player keeps progress for this visit only.
 import { html } from '../lib/html.js';
 import { answerText, score } from '../lib/lessons.js';
-import { SKILL_LABEL, SUBJECT, MATH_SKILLS } from '../lib/activities.js';
+import { SKILL_LABEL, SUBJECT, MATH_SKILLS, activityInfo, blankSentence } from '../lib/activities.js';
+import { modelFigure } from '../lib/models.js';
+import { PROPERTIES, teacherExample, teacherWord } from '../lib/mathlearn.js';
 import { formatLongDate } from '../lib/dates.js';
-import { blanks, itemCard, readButton, unanswered } from './lesson.js';
-import { wordPicture } from './common.js';
+import { blanks, itemCard, readButton, soundButton, unanswered } from './lesson.js';
+import { ICONS, facts, subBar, wordPicture } from './common.js';
 
 const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page, this activity starts again.';
 const CHECK = { catchAll: 'Try again.' };
@@ -23,16 +25,37 @@ export function activityView(ctx) {
 }
 
 function activityBar(ctx, run) {
-  const back = run.mode === 'test'
-    ? { href: ctx.link('tests'), label: 'All tests' }
-    : { href: ctx.link(run.subject), label: `All of ${SUBJECT[run.subject]}` };
+  if (run.mode === 'test') {
+    return subBar(ctx, {
+      tone: 'tests', title: run.title, goal: run.goal, eyebrow: `Study Scoop practice test · ${ctx.week.label.replace(/^Week of /, '')}`,
+      trail: [{ label: 'Tests', href: ctx.link('tests') }, { label: run.title }], back: [{ href: ctx.link('tests'), label: '‹ Back to Tests' }],
+    });
+  }
+  const parent = parentOf(run);
+  const subject = { label: SUBJECT[run.subject], href: ctx.link(run.subject) };
+  return subBar(ctx, {
+    tone: run.subject, title: run.title, goal: run.goal,
+    trail: [subject, ...(parent ? [{ label: parent.label, href: ctx.actLink(run.subject, parent.id) }] : []), { label: run.title }],
+    back: parent
+      ? [{ href: ctx.actLink(run.subject, parent.id), label: `‹ Back to ${parent.label}` }, { href: subject.href, label: `Back to ${subject.label}` }]
+      : [{ href: subject.href, label: `‹ Back to ${subject.label}` }],
+  });
+}
+
+/** The menu an activity was chosen from (Math > Practice Problems for the practice sets). */
+const parentOf = (run) => { const p = activityInfo(run.subject, run.act)?.parent; return p ? activityInfo(run.subject, p) : null; };
+/** "Choose another activity": back to the menu this activity was chosen from. */
+const menuLink = (ctx, run) => (parentOf(run) ? ctx.actLink(run.subject, parentOf(run).id) : ctx.link(run.subject));
+/** The buttons at the end of an activity: Try again, Practice My Misses, Choose another activity, Home. */
+function endNav(ctx, run, { missed = false, again = 'Try again' } = {}) {
   return html`
-    <div class="lesson-bar act-bar ${run.mode === 'test' ? 'subject-tests' : `subject-${run.subject}`}">
-      <div class="lb-title">
-        <p class="lb-nav"><a class="back" href="${back.href}">‹ ${back.label}</a><span class="eyebrow">${run.mode === 'test' ? 'Study Scoop practice test' : SUBJECT[run.subject]} · <span class="nowrap">${ctx.week.label.replace(/^Week of /, '')}</span></span></p>
-        <h1>${run.title}</h1>
-        ${run.goal ? html`<p class="goal">${run.goal}</p>` : ''}
-      </div>
+    <div class="stage-nav end-nav">
+      <span class="btn-row">
+        ${again ? html`<button type="button" class="btn" data-act="restart">${again}</button>` : ''}
+        ${missed ? html`<a class="btn" href="${ctx.actLink(run.subject, 'misses')}">Practice My Misses</a>` : ''}
+        <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
+      </span>
+      <a class="btn btn-primary" href="${menuLink(ctx, run)}">Choose another activity</a>
     </div>`;
 }
 
@@ -43,17 +66,21 @@ const stageTitle = (text) => html`<div class="stage-title"><h2 id="stage-h" tabi
 export function activityInner(ctx) {
   const run = ctx.run;
   if (run.act === 'flash') return flashcards(ctx, run);
-  if (run.act === 'cards') return studyCards(ctx, run);
+  if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
   if (!run.items.length) return emptyRun(ctx, run);
   if (run.mode === 'test') return run.submitted ? testResults(ctx, run) : testQuestion(ctx, run);
   return run.finished ? practiceSummary(ctx, run) : practiceQuestion(ctx, run);
 }
 
 function emptyRun(ctx, run) {
+  if (run.unavailable) {
+    return html`${stageTitle('Not available right now')}<div class="card"><p>The practice problems could not be loaded. Please try again later.</p></div>${endNav(ctx, run, { again: '' })}`;
+  }
   return html`
     ${stageTitle('Nothing to practice yet')}
-    <div class="card"><p>You have no missed questions to practice. Try an activity first. Anything you miss shows up here.</p></div>
-    <div class="stage-nav"><a class="btn" href="${ctx.link(run.subject)}">‹ Back to ${SUBJECT[run.subject]}</a><span></span></div>`;
+    <div class="card empty-state"><p><strong>Nothing to practice yet. Good news!</strong></p>
+      <p>When you miss a question in another activity, it shows up here so you can practice it again. Try an activity first.</p></div>
+    ${endNav(ctx, run, { again: '' })}`;
 }
 
 // ---------------------------------------------------------------- practice
@@ -89,13 +116,7 @@ function practiceSummary(ctx, run) {
       <p>${praise}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => html`<li>${reviewPrompt(it)}<span class="right">Answer: ${answerText(it)}</span>${it.explain ? html`<span>${it.explain}</span>` : ''}</li>`)}</ul>` : ''}
     </div>
-    <div class="stage-nav">
-      <span class="btn-row">
-        <button type="button" class="btn" data-act="restart">Start again</button>
-        ${missed.length ? html`<a class="btn" href="${ctx.actLink(run.subject, 'misses')}">Practice My Misses</a>` : ''}
-      </span>
-      <a class="btn btn-primary" href="${ctx.link(run.subject)}">Back to ${SUBJECT[run.subject]}</a>
-    </div>`;
+    ${endNav(ctx, run, { missed: missed.length > 0 })}`;
 }
 
 /** The question as it is shown in a review list (a spelling word is named by its sentence, never by itself). */
@@ -165,8 +186,9 @@ function testResults(ctx, run) {
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Take the test again</button>
         <button type="button" class="btn" data-act="print">Print my results</button>
+        <a class="btn" href="${ctx.link(run.subject)}">Practice ${SUBJECT[run.subject]}</a>
       </span>
-      <a class="btn btn-primary" href="${ctx.link(run.subject)}">Practice ${SUBJECT[run.subject]}</a>
+      <a class="btn btn-primary" href="${ctx.link('tests')}">Back to Tests</a>
     </div>`;
 }
 
@@ -174,39 +196,51 @@ function testResults(ctx, run) {
 
 function flashcards(ctx, run) {
   const f = run.flash;
-  const words = ctx.week.spelling.words;
+  const sp = ctx.week.spelling;
+  const words = sp.words;
   const w = words[f.order[f.i]];
   const mark = f.marks[w.word];
   const known = Object.values(f.marks).filter((m) => m === 'known').length;
   const again = Object.values(f.marks).filter((m) => m === 'again').length;
+  const ending = String(sp.pattern).replace(/^-/, '');
+  const rule = sp.rules[w.rule] || '';
+  // The whole card is one button: click, tap, Enter or Space turns it over. Only one side is ever on the page,
+  // and the front never shows the spelling (base word + ending and the sentence with a blank).
   return html`
     ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
-    <div class="card flashcard${f.flipped ? ' is-flipped' : ''}">
-      <div class="face">
+    <button type="button" class="flashcard${f.flipped ? ' is-flipped' : ''}" data-act="flip" aria-describedby="flip-help">
       ${f.flipped ? html`
-        <p class="side-label">Back of the card</p>
-        ${wordPicture(ctx, [w.word, w.img], `Study card for the word "${w.word}"`)}
-        <p class="flash-word small">${w.word}</p>
-        <p class="sentence">${w.sentence}</p>`
+        <span class="face back">
+          <span class="side-label">Back of the card</span>
+          ${wordPicture(ctx, [w.word, w.img], `Study card for the word "${w.word}"`)}
+          <span class="flash-word">${w.word}</span>
+          ${rule ? html`<span class="flash-rule">${rule}${sp.ruleHelp?.[w.rule] ? html`<span class="rule-help">${sp.ruleHelp[w.rule]}</span>` : ''}</span>` : ''}
+          <span class="sentence">${w.sentence}</span>
+        </span>`
         : html`
-        <p class="side-label">Front of the card</p>
-        <p class="flash-word">${w.word}</p>
-        <p class="hint">Say the word. Spell it out loud. Then turn the card over.</p>`}
-      </div>
-      <div class="btn-row center">
-        <button type="button" class="btn btn-primary" data-act="flip">${f.flipped ? 'Show the front' : 'Turn the card over'}</button>
-        ${readButton([w.word], 'the word')}
-        <button type="button" class="btn" data-act="shuffle">Shuffle the cards</button>
-      </div>
-      <div class="btn-row center marks" role="group" aria-label="How well do you know this word?">
-        <button type="button" class="btn mark-known" data-act="mark" data-mark="known" aria-pressed="${mark === 'known' ? 'true' : 'false'}">I know it</button>
-        <button type="button" class="btn mark-again" data-act="mark" data-mark="again" aria-pressed="${mark === 'again' ? 'true' : 'false'}">Practice again</button>
-      </div>
+        <span class="face front">
+          <span class="side-label">Front of the card</span>
+          <span class="flash-clue">${w.base} + ${ending}</span>
+          <span class="sentence">${blanks(blankSentence(w.sentence, w.word))}</span>
+          <span class="tap">Think of the word. Then tap the card to see it.</span>
+        </span>`}
+    </button>
+    <p class="sr-only" id="flip-help">Press Enter or Space to turn the card over.</p>
+    <div class="btn-row center flash-tools">
+      <button type="button" class="btn btn-primary flip-btn" data-act="flip">Flip Card</button>
+      ${soundButton('say-card', 'Hear the word')}
+      <button type="button" class="btn" data-act="shuffle">Shuffle</button>
+    </div>
+    <div class="btn-row center marks" role="group" aria-label="How well do you know this word?">
+      <button type="button" class="btn mark-known" data-act="mark" data-mark="known" aria-pressed="${mark === 'known' ? 'true' : 'false'}">I know it</button>
+      <button type="button" class="btn mark-again" data-act="mark" data-mark="again" aria-pressed="${mark === 'again' ? 'true' : 'false'}">Practice again</button>
     </div>
     <p class="tally">Known: ${known} · To practice: ${again}${again ? html` · <a href="${ctx.actLink('spelling', 'misses')}">Practice My Misses</a>` : ''}</p>
     <div class="stage-nav">
       <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
-      <button type="button" class="btn btn-primary" data-act="card-next"${f.i === words.length - 1 ? ' disabled' : ''}>Next ›</button>
+      ${f.i === words.length - 1
+        ? html`<a class="btn btn-primary" href="${menuLink(ctx, run)}">Done: choose another activity</a>`
+        : html`<button type="button" class="btn btn-primary" data-act="card-next">Next ›</button>`}
     </div>
     <p class="hint">Marks are not saved. They clear when you close or refresh this page.</p>`;
 }
@@ -215,8 +249,11 @@ function studyCards(ctx, run) {
   const f = run.flash;
   const words = ctx.week.vocab.words;
   const w = words[f.order[f.i]];
+  const last = f.i === words.length - 1;
+  const note = ctx.week.vocab.groupsNote;
   return html`
     ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
+    ${f.i === 0 && note.includes('purple') ? html`<p class="hint">${note} Only these ${words.length} words have been provided; the purple words are not on this list yet.</p>` : ''}
     <div class="card study-one">
       ${wordPicture(ctx, w.word, `Picture showing what "${w.word}" means`)}
       <div class="study-text">
@@ -227,33 +264,41 @@ function studyCards(ctx, run) {
     </div>
     <div class="stage-nav">
       <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
-      ${f.i === words.length - 1
-        ? html`<a class="btn btn-primary" href="${ctx.actLink('vocab', 'choice')}">Next: Multiple Choice ›</a>`
+      ${last ? html`<a class="btn btn-primary" href="${menuLink(ctx, run)}">Done: choose an activity</a>`
         : html`<button type="button" class="btn btn-primary" data-act="card-next">Next ›</button>`}
     </div>`;
 }
 
-// ---------------------------------------------------------------- menus
-
-/** The list of activities on the Spelling and Vocabulary pages. */
-export function activityMenu(ctx, subject, list) {
-  const misses = ctx.misses?.[subject] || 0;
+/** Math > Learn the Properties: one property at a time, with the teacher's words, a picture and a worked example. */
+function propertyCards(ctx, run) {
+  const f = run.flash;
+  const p = PROPERTIES[f.i];
+  const tw = teacherWord(ctx.week, p);
+  const last = f.i === PROPERTIES.length - 1;
   return html`
-    <section class="activities subject-${subject}" aria-labelledby="h-act-${subject}">
-      <h2 id="h-act-${subject}">Practice activities</h2>
-      <ul class="activity-grid">
-        ${list.map((a) => html`
-          <li class="card activity${a.id === 'misses' ? ' misses' : ''}">
-            <h3>${a.label}${a.id === 'misses' && misses ? html` <span class="count-badge">${misses}<span class="sr-only"> missed</span></span>` : ''}</h3>
-            <p>${a.about}</p>
-            ${a.id === 'misses' && !misses
-              ? html`<p class="soon-note">No misses yet. Questions you miss in this visit show up here.</p>`
-              : html`<a class="btn btn-primary" href="${ctx.actLink(subject, a.id)}">Start<span class="sr-only">: ${a.label}</span></a>`}
-          </li>`)}
-      </ul>
-      <p class="hint">Weekly practice tests are in <a href="${ctx.link('tests')}">Tests</a>.</p>
-    </section>`;
+    ${stageTitle(`Property ${f.i + 1} of ${PROPERTIES.length}`)}
+    <div class="work has-pic prop-learn">
+      <div class="card pic-card">
+        <div class="models">${modelFigure(p.model, p.caption)}</div>
+        <p class="equation fact">${facts(p.eq)}</p>
+      </div>
+      <div class="card">
+        <div class="instruct-head"><h3>${p.name}</h3>${readButton([p.name, tw ? `Teacher's words: ${tw.def}` : '', `In other words: ${p.kid}`, ...p.steps], 'this property')}</div>
+        ${tw ? html`<blockquote class="teacher-words"><span class="label">Teacher's words</span><span class="def">${tw.def}</span></blockquote>` : ''}
+        <p class="kid-words"><span class="label">In other words</span>${p.kid}</p>
+        <h4 class="label">Example: ${p.eq}</h4>
+        <ol class="steps">${p.steps.map((s, k) => html`<li><span class="sn" aria-hidden="true">${k + 1}</span><span>${facts(s)}</span></li>`)}</ol>
+        ${p.key === 'distributive' && teacherExample(tw) ? html`<p class="pairs"><span class="label">Your teacher's example</span> ${teacherExample(tw)}</p>` : ''}
+      </div>
+    </div>
+    <div class="stage-nav">
+      ${f.i > 0 ? html`<button type="button" class="btn" data-act="card-prev">‹ Previous Property</button>` : html`<span></span>`}
+      ${last ? html`<a class="btn btn-primary" href="${ctx.actLink('math', 'practice')}">Next: Practice Problems ›</a>`
+        : html`<button type="button" class="btn btn-primary" data-act="card-next">Next Property: ${PROPERTIES[f.i + 1].name.replace(' Property', '')} ›</button>`}
+    </div>`;
 }
+
+// ---------------------------------------------------------------- menus
 
 /** The Test Center: the three Study Scoop practice tests for the chosen week. */
 export function testCenter(ctx, catalog) {

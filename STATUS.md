@@ -1,6 +1,8 @@
 # Study Scoop — Project Status
 
 ## Current phase
+Assignment 005 user-acceptance corrections on `develop` (D19): Spelling, Vocabulary and Math open on an activity menu; every activity has crumbs, Back to Subject and Home; flashcards flip on click, tap, Enter or Space; Math has Learn the Properties, Practice Problems (38 checked original problems), Math Lessons and a Study Guide; leaving an unfinished test asks first. Production is unchanged.
+
 Assignment 005 (implementation) on `develop`: eighth section **Tests** (weekly Study Scoop practice tests for Math, Spelling and Vocabulary), Spelling and Vocabulary practice activities with Practice My Misses, and homework entries that say what was received (D18). Before that, Assignment 004: redesigned site (D16), interactive Lessons 5-1 and 5-2 on a shared lesson engine (D17), spelling and vocabulary pictures integrated. Preview: https://bazeocrisy.github.io/Study-Scoop/preview/ · production (unchanged until the owner approves a merge): https://bazeocrisy.github.io/Study-Scoop/. Image PRs #2 and #3: their files are included on `develop`; the PRs themselves are not merged.
 
 ## Completed

@@ -1,0 +1,1368 @@
+{
+ "topic": "Topic 5: Properties of Multiplication",
+ "note": "Study Scoop practice problems (original, not from the textbook). They match the Multiplication Properties test topic and the Distributive Property homework.",
+ "sets": {
+  "props": [
+   {
+    "id": "p1",
+    "type": "choice",
+    "eq": "6 × 1 = 6",
+    "prompt": "Which property does 6 × 1 = 6 show?",
+    "options": [
+     {
+      "text": "Identity Property",
+      "correct": true
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     },
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the factors. What is special about one of them?"
+    ],
+    "show": [
+     "One factor is 1.",
+     "Any number multiplied by 1 stays the same: 6 × 1 = 6.",
+     "So this is the Identity Property."
+    ],
+    "yes": "Yes! 6 × 1 = 6 shows the Identity Property.",
+    "explain": "6 × 1 = 6 shows the Identity Property. Any number multiplied by 1 stays the same: 6 × 1 = 6."
+   },
+   {
+    "id": "p2",
+    "type": "choice",
+    "eq": "4 × 0 = 0",
+    "prompt": "Which property does 4 × 0 = 0 show?",
+    "options": [
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     },
+     {
+      "text": "Zero Property",
+      "correct": true
+     },
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the factors. What is special about one of them?"
+    ],
+    "show": [
+     "One factor is 0.",
+     "Any number multiplied by 0 equals 0: 4 × 0 = 0.",
+     "So this is the Zero Property."
+    ],
+    "yes": "Yes! 4 × 0 = 0 shows the Zero Property.",
+    "explain": "4 × 0 = 0 shows the Zero Property. Any number multiplied by 0 equals 0: 4 × 0 = 0."
+   },
+   {
+    "id": "p3",
+    "type": "choice",
+    "eq": "3 × 6 = 6 × 3",
+    "prompt": "Which property does 3 × 6 = 6 × 3 show?",
+    "options": [
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     },
+     {
+      "text": "Commutative Property",
+      "correct": true
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at both sides of the = sign. Are the same numbers there in a different order?"
+    ],
+    "show": [
+     "The factors 3 and 6 changed places.",
+     "Both facts make 18. The order changed, but the product did not.",
+     "So this is the Commutative Property."
+    ],
+    "yes": "Yes! 3 × 6 = 6 × 3 shows the Commutative Property.",
+    "explain": "3 × 6 = 6 × 3 shows the Commutative Property. Both facts make 18. The order changed, but the product did not."
+   },
+   {
+    "id": "p4",
+    "type": "choice",
+    "eq": "8 × 4 = (5 × 4) + (3 × 4)",
+    "prompt": "Which property does 8 × 4 = (5 × 4) + (3 × 4) show?",
+    "options": [
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     },
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     },
+     {
+      "text": "Distributive Property",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the right side of the = sign. How many facts are added there?"
+    ],
+    "show": [
+     "The 8 is broken apart into 5 + 3.",
+     "5 × 4 = 20 and 3 × 4 = 12. 20 + 12 = 32, and 8 × 4 = 32.",
+     "So this is the Distributive Property."
+    ],
+    "yes": "Yes! 8 × 4 = (5 × 4) + (3 × 4) shows the Distributive Property.",
+    "explain": "8 × 4 = (5 × 4) + (3 × 4) shows the Distributive Property. 5 × 4 = 20 and 3 × 4 = 12. 20 + 12 = 32, and 8 × 4 = 32."
+   },
+   {
+    "id": "p5",
+    "type": "choice",
+    "eq": "1 × 9 = 9",
+    "prompt": "Which property does 1 × 9 = 9 show?",
+    "options": [
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Identity Property",
+      "correct": true
+     },
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the factors. What is special about one of them?"
+    ],
+    "show": [
+     "One factor is 1.",
+     "Any number multiplied by 1 stays the same: 1 × 9 = 9.",
+     "So this is the Identity Property."
+    ],
+    "yes": "Yes! 1 × 9 = 9 shows the Identity Property.",
+    "explain": "1 × 9 = 9 shows the Identity Property. Any number multiplied by 1 stays the same: 1 × 9 = 9."
+   },
+   {
+    "id": "p6",
+    "type": "choice",
+    "eq": "0 × 8 = 0",
+    "prompt": "Which property does 0 × 8 = 0 show?",
+    "options": [
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     },
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Zero Property",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the factors. What is special about one of them?"
+    ],
+    "show": [
+     "One factor is 0.",
+     "Any number multiplied by 0 equals 0: 0 × 8 = 0.",
+     "So this is the Zero Property."
+    ],
+    "yes": "Yes! 0 × 8 = 0 shows the Zero Property.",
+    "explain": "0 × 8 = 0 shows the Zero Property. Any number multiplied by 0 equals 0: 0 × 8 = 0."
+   },
+   {
+    "id": "p7",
+    "type": "choice",
+    "eq": "2 × 5 = 5 × 2",
+    "prompt": "These arrays show 2 × 5 = 5 × 2. Which property does 2 × 5 = 5 × 2 show?",
+    "options": [
+     {
+      "text": "Commutative Property",
+      "correct": true
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     },
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at both sides of the = sign. Are the same numbers there in a different order?"
+    ],
+    "show": [
+     "The picture shows 2 rows of 5 turned into 5 rows of 2.",
+     "Both arrays have 10 dots. The order changed, but the product did not.",
+     "So this is the Commutative Property."
+    ],
+    "yes": "Yes! 2 × 5 = 5 × 2 shows the Commutative Property.",
+    "explain": "2 × 5 = 5 × 2 shows the Commutative Property. Both arrays have 10 dots. The order changed, but the product did not.",
+    "model": {
+     "type": "pair",
+     "left": {
+      "rows": 2,
+      "cols": 5
+     },
+     "right": {
+      "rows": 5,
+      "cols": 2
+     }
+    }
+   },
+   {
+    "id": "p8",
+    "type": "choice",
+    "eq": "6 × 9 = (6 × 5) + (6 × 4)",
+    "prompt": "Which property does 6 × 9 = (6 × 5) + (6 × 4) show?",
+    "options": [
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     },
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     },
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Distributive Property",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the right side of the = sign. How many facts are added there?"
+    ],
+    "show": [
+     "The 9 is broken apart into 5 + 4.",
+     "6 × 5 = 30 and 6 × 4 = 24. 30 + 24 = 54, and 6 × 9 = 54.",
+     "So this is the Distributive Property."
+    ],
+    "yes": "Yes! 6 × 9 = (6 × 5) + (6 × 4) shows the Distributive Property.",
+    "explain": "6 × 9 = (6 × 5) + (6 × 4) shows the Distributive Property. 6 × 5 = 30 and 6 × 4 = 24. 30 + 24 = 54, and 6 × 9 = 54."
+   },
+   {
+    "id": "p9",
+    "type": "choice",
+    "eq": "5 × 0 = 0",
+    "prompt": "There are 5 boxes with 0 crayons in each box. 5 × 0 = 0. Which property does 5 × 0 = 0 show?",
+    "options": [
+     {
+      "text": "Zero Property",
+      "correct": true
+     },
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the factors. What is special about one of them?"
+    ],
+    "show": [
+     "5 boxes with 0 crayons in each box is 0 crayons.",
+     "Any number multiplied by 0 equals 0: 5 × 0 = 0.",
+     "So this is the Zero Property."
+    ],
+    "yes": "Yes! 5 × 0 = 0 shows the Zero Property.",
+    "explain": "5 × 0 = 0 shows the Zero Property. Any number multiplied by 0 equals 0: 5 × 0 = 0."
+   },
+   {
+    "id": "p10",
+    "type": "choice",
+    "eq": "7 × 1 = 7",
+    "prompt": "There are 7 vases with 1 flower in each vase. 7 × 1 = 7. Which property does 7 × 1 = 7 show?",
+    "options": [
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     },
+     {
+      "text": "Identity Property",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the factors. What is special about one of them?"
+    ],
+    "show": [
+     "7 vases with 1 flower in each vase is 7 flowers.",
+     "Any number multiplied by 1 stays the same: 7 × 1 = 7.",
+     "So this is the Identity Property."
+    ],
+    "yes": "Yes! 7 × 1 = 7 shows the Identity Property.",
+    "explain": "7 × 1 = 7 shows the Identity Property. Any number multiplied by 1 stays the same: 7 × 1 = 7."
+   },
+   {
+    "id": "p11",
+    "type": "choice",
+    "eq": "7 × 5 = 5 × 7",
+    "prompt": "Which property does 7 × 5 = 5 × 7 show?",
+    "options": [
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     },
+     {
+      "text": "Distributive Property",
+      "why": "The Distributive Property breaks a fact into two easier facts."
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     },
+     {
+      "text": "Commutative Property",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at both sides of the = sign. Are the same numbers there in a different order?"
+    ],
+    "show": [
+     "The factors 7 and 5 changed places.",
+     "Both facts make 35. The order changed, but the product did not.",
+     "So this is the Commutative Property."
+    ],
+    "yes": "Yes! 7 × 5 = 5 × 7 shows the Commutative Property.",
+    "explain": "7 × 5 = 5 × 7 shows the Commutative Property. Both facts make 35. The order changed, but the product did not."
+   },
+   {
+    "id": "p12",
+    "type": "choice",
+    "eq": "9 × 3 = (4 × 3) + (5 × 3)",
+    "prompt": "Which property does 9 × 3 = (4 × 3) + (5 × 3) show?",
+    "options": [
+     {
+      "text": "Commutative Property",
+      "why": "The Commutative Property is about changing the order of the factors."
+     },
+     {
+      "text": "Zero Property",
+      "why": "The Zero Property is about multiplying by 0."
+     },
+     {
+      "text": "Identity Property",
+      "why": "The Identity Property is about multiplying by 1."
+     },
+     {
+      "text": "Distributive Property",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Look at the numbers. Is a factor 1 or 0? Did the factors change places? Was a fact broken into two facts?",
+     "Look at the right side of the = sign. How many facts are added there?"
+    ],
+    "show": [
+     "The 9 is broken apart into 4 + 5.",
+     "4 × 3 = 12 and 5 × 3 = 15. 12 + 15 = 27, and 9 × 3 = 27.",
+     "So this is the Distributive Property."
+    ],
+    "yes": "Yes! 9 × 3 = (4 × 3) + (5 × 3) shows the Distributive Property.",
+    "explain": "9 × 3 = (4 × 3) + (5 × 3) shows the Distributive Property. 4 × 3 = 12 and 5 × 3 = 15. 12 + 15 = 27, and 9 × 3 = 27."
+   }
+  ],
+  "split": [
+   {
+    "id": "s1",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 5,
+     "cols": 6,
+     "cut": {
+      "by": "rows",
+      "at": 3
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(4 × 6) + (1 × 6)",
+      "why": "That also makes 30, but it does not match where the line is. Count the rows above the line again."
+     },
+     {
+      "text": "(3 × 6) + (2 × 3)",
+      "why": "Each row below the line still has 6 dots."
+     },
+     {
+      "text": "(5 × 3) + (5 × 3)",
+      "why": "That also makes 30, but it does not match where the line is. This line goes between rows, not between columns."
+     },
+     {
+      "text": "(3 × 6) + (2 × 6)",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Count the rows above the line. Then count the rows below it.",
+     "Every row has 6 dots."
+    ],
+    "show": [
+     "The line is under row 3.",
+     "Above the line: 3 rows of 6, so 3 × 6.",
+     "Below the line: 2 rows of 6, so 2 × 6.",
+     "So the answer is (3 × 6) + (2 × 6)."
+    ],
+    "yes": "Yes! 3 × 6 = 18 and 2 × 6 = 12. 18 + 12 = 30.",
+    "explain": "(3 × 6) + (2 × 6) = 18 + 12 = 30."
+   },
+   {
+    "id": "s2",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 8,
+     "cols": 4,
+     "cut": {
+      "by": "rows",
+      "at": 6
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(6 × 4) + (2 × 4)",
+      "correct": true
+     },
+     {
+      "text": "(6 × 4) + (2 × 6)",
+      "why": "Each row below the line still has 4 dots."
+     },
+     {
+      "text": "(6 × 4) + (3 × 4)",
+      "why": "Count the rows below the line again."
+     },
+     {
+      "text": "(7 × 4) + (1 × 4)",
+      "why": "That also makes 32, but it does not match where the line is. Count the rows above the line again."
+     }
+    ],
+    "hints": [
+     "Count the rows above the line. Then count the rows below it.",
+     "Every row has 4 dots."
+    ],
+    "show": [
+     "The line is under row 6.",
+     "Above the line: 6 rows of 4, so 6 × 4.",
+     "Below the line: 2 rows of 4, so 2 × 4.",
+     "So the answer is (6 × 4) + (2 × 4)."
+    ],
+    "yes": "Yes! 6 × 4 = 24 and 2 × 4 = 8. 24 + 8 = 32.",
+    "explain": "(6 × 4) + (2 × 4) = 24 + 8 = 32."
+   },
+   {
+    "id": "s3",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 3,
+     "cols": 9,
+     "cut": {
+      "by": "cols",
+      "at": 4
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(3 × 4) + (3 × 5)",
+      "correct": true
+     },
+     {
+      "text": "(3 × 4) + (3 × 6)",
+      "why": "Count the columns right of the line again."
+     },
+     {
+      "text": "(3 × 4) + (4 × 5)",
+      "why": "Each part still has all 3 rows."
+     },
+     {
+      "text": "(3 × 3) + (3 × 6)",
+      "why": "That also makes 27, but it does not match where the line is. Count the columns left of the line again."
+     }
+    ],
+    "hints": [
+     "Count the columns left of the line. Then count the columns right of it.",
+     "Both parts have all 3 rows."
+    ],
+    "show": [
+     "The line is after column 4.",
+     "Left of the line: 3 rows of 4, so 3 × 4.",
+     "Right of the line: 3 rows of 5, so 3 × 5.",
+     "So the answer is (3 × 4) + (3 × 5)."
+    ],
+    "yes": "Yes! 3 × 4 = 12 and 3 × 5 = 15. 12 + 15 = 27.",
+    "explain": "(3 × 4) + (3 × 5) = 12 + 15 = 27."
+   },
+   {
+    "id": "s4",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 9,
+     "cols": 3,
+     "cut": {
+      "by": "rows",
+      "at": 5
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(6 × 3) + (3 × 3)",
+      "why": "That also makes 27, but it does not match where the line is. Count the rows above the line again."
+     },
+     {
+      "text": "(5 × 3) + (4 × 5)",
+      "why": "Each row below the line still has 3 dots."
+     },
+     {
+      "text": "(5 × 3) + (5 × 3)",
+      "why": "Count the rows below the line again."
+     },
+     {
+      "text": "(5 × 3) + (4 × 3)",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Count the rows above the line. Then count the rows below it.",
+     "Every row has 3 dots."
+    ],
+    "show": [
+     "The line is under row 5.",
+     "Above the line: 5 rows of 3, so 5 × 3.",
+     "Below the line: 4 rows of 3, so 4 × 3.",
+     "So the answer is (5 × 3) + (4 × 3)."
+    ],
+    "yes": "Yes! 5 × 3 = 15 and 4 × 3 = 12. 15 + 12 = 27.",
+    "explain": "(5 × 3) + (4 × 3) = 15 + 12 = 27."
+   },
+   {
+    "id": "s5",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 4,
+     "cols": 8,
+     "cut": {
+      "by": "cols",
+      "at": 6
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(4 × 7) + (4 × 1)",
+      "why": "That also makes 32, but it does not match where the line is. Count the columns left of the line again."
+     },
+     {
+      "text": "(4 × 6) + (4 × 2)",
+      "correct": true
+     },
+     {
+      "text": "(4 × 6) + (6 × 2)",
+      "why": "Each part still has all 4 rows."
+     },
+     {
+      "text": "(4 × 6) + (4 × 3)",
+      "why": "Count the columns right of the line again."
+     }
+    ],
+    "hints": [
+     "Count the columns left of the line. Then count the columns right of it.",
+     "Both parts have all 4 rows."
+    ],
+    "show": [
+     "The line is after column 6.",
+     "Left of the line: 4 rows of 6, so 4 × 6.",
+     "Right of the line: 4 rows of 2, so 4 × 2.",
+     "So the answer is (4 × 6) + (4 × 2)."
+    ],
+    "yes": "Yes! 4 × 6 = 24 and 4 × 2 = 8. 24 + 8 = 32.",
+    "explain": "(4 × 6) + (4 × 2) = 24 + 8 = 32."
+   },
+   {
+    "id": "s6",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 7,
+     "cols": 5,
+     "cut": {
+      "by": "rows",
+      "at": 4
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(5 × 5) + (2 × 5)",
+      "why": "That also makes 35, but it does not match where the line is. Count the rows above the line again."
+     },
+     {
+      "text": "(4 × 5) + (3 × 5)",
+      "correct": true
+     },
+     {
+      "text": "(4 × 5) + (3 × 4)",
+      "why": "Each row below the line still has 5 dots."
+     },
+     {
+      "text": "(7 × 4) + (7 × 1)",
+      "why": "That also makes 35, but it does not match where the line is. This line goes between rows, not between columns."
+     }
+    ],
+    "hints": [
+     "Count the rows above the line. Then count the rows below it.",
+     "Every row has 5 dots."
+    ],
+    "show": [
+     "The line is under row 4.",
+     "Above the line: 4 rows of 5, so 4 × 5.",
+     "Below the line: 3 rows of 5, so 3 × 5.",
+     "So the answer is (4 × 5) + (3 × 5)."
+    ],
+    "yes": "Yes! 4 × 5 = 20 and 3 × 5 = 15. 20 + 15 = 35.",
+    "explain": "(4 × 5) + (3 × 5) = 20 + 15 = 35."
+   },
+   {
+    "id": "s7",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 5,
+     "cols": 7,
+     "cut": {
+      "by": "cols",
+      "at": 2
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(5 × 3) + (5 × 4)",
+      "why": "That also makes 35, but it does not match where the line is. Count the columns left of the line again."
+     },
+     {
+      "text": "(2 × 7) + (3 × 7)",
+      "why": "That also makes 35, but it does not match where the line is. This line goes between columns, not between rows."
+     },
+     {
+      "text": "(5 × 2) + (5 × 5)",
+      "correct": true
+     },
+     {
+      "text": "(5 × 2) + (2 × 5)",
+      "why": "Each part still has all 5 rows."
+     }
+    ],
+    "hints": [
+     "Count the columns left of the line. Then count the columns right of it.",
+     "Both parts have all 5 rows."
+    ],
+    "show": [
+     "The line is after column 2.",
+     "Left of the line: 5 rows of 2, so 5 × 2.",
+     "Right of the line: 5 rows of 5, so 5 × 5.",
+     "So the answer is (5 × 2) + (5 × 5)."
+    ],
+    "yes": "Yes! 5 × 2 = 10 and 5 × 5 = 25. 10 + 25 = 35.",
+    "explain": "(5 × 2) + (5 × 5) = 10 + 25 = 35."
+   },
+   {
+    "id": "s8",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 6,
+     "cols": 9,
+     "cut": {
+      "by": "rows",
+      "at": 3
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(6 × 3) + (6 × 6)",
+      "why": "That also makes 54, but it does not match where the line is. This line goes between rows, not between columns."
+     },
+     {
+      "text": "(4 × 9) + (2 × 9)",
+      "why": "That also makes 54, but it does not match where the line is. Count the rows above the line again."
+     },
+     {
+      "text": "(3 × 9) + (3 × 3)",
+      "why": "Each row below the line still has 9 dots."
+     },
+     {
+      "text": "(3 × 9) + (3 × 9)",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Count the rows above the line. Then count the rows below it.",
+     "Every row has 9 dots."
+    ],
+    "show": [
+     "The line is under row 3.",
+     "Above the line: 3 rows of 9, so 3 × 9.",
+     "Below the line: 3 rows of 9, so 3 × 9.",
+     "So the answer is (3 × 9) + (3 × 9)."
+    ],
+    "yes": "Yes! 3 × 9 = 27 and 3 × 9 = 27. 27 + 27 = 54.",
+    "explain": "(3 × 9) + (3 × 9) = 27 + 27 = 54."
+   },
+   {
+    "id": "s9",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 8,
+     "cols": 5,
+     "cut": {
+      "by": "cols",
+      "at": 3
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(3 × 5) + (5 × 5)",
+      "why": "That also makes 40, but it does not match where the line is. This line goes between columns, not between rows."
+     },
+     {
+      "text": "(8 × 4) + (8 × 1)",
+      "why": "That also makes 40, but it does not match where the line is. Count the columns left of the line again."
+     },
+     {
+      "text": "(8 × 3) + (8 × 2)",
+      "correct": true
+     },
+     {
+      "text": "(8 × 3) + (3 × 2)",
+      "why": "Each part still has all 8 rows."
+     }
+    ],
+    "hints": [
+     "Count the columns left of the line. Then count the columns right of it.",
+     "Both parts have all 8 rows."
+    ],
+    "show": [
+     "The line is after column 3.",
+     "Left of the line: 8 rows of 3, so 8 × 3.",
+     "Right of the line: 8 rows of 2, so 8 × 2.",
+     "So the answer is (8 × 3) + (8 × 2)."
+    ],
+    "yes": "Yes! 8 × 3 = 24 and 8 × 2 = 16. 24 + 16 = 40.",
+    "explain": "(8 × 3) + (8 × 2) = 24 + 16 = 40."
+   },
+   {
+    "id": "s10",
+    "type": "choice",
+    "prompt": "A dashed line splits this array. Which expression matches the two parts?",
+    "model": {
+     "type": "array",
+     "rows": 3,
+     "cols": 8,
+     "cut": {
+      "by": "rows",
+      "at": 1
+     }
+    },
+    "pictureMatch": true,
+    "options": [
+     {
+      "text": "(1 × 8) + (2 × 8)",
+      "correct": true
+     },
+     {
+      "text": "(3 × 1) + (3 × 7)",
+      "why": "That also makes 24, but it does not match where the line is. This line goes between rows, not between columns."
+     },
+     {
+      "text": "(1 × 8) + (3 × 8)",
+      "why": "Count the rows below the line again."
+     },
+     {
+      "text": "(1 × 8) + (2 × 1)",
+      "why": "Each row below the line still has 8 dots."
+     }
+    ],
+    "hints": [
+     "Count the rows above the line. Then count the rows below it.",
+     "Every row has 8 dots."
+    ],
+    "show": [
+     "The line is under row 1.",
+     "Above the line: 1 rows of 8, so 1 × 8.",
+     "Below the line: 2 rows of 8, so 2 × 8.",
+     "So the answer is (1 × 8) + (2 × 8)."
+    ],
+    "yes": "Yes! 1 × 8 = 8 and 2 × 8 = 16. 8 + 16 = 24.",
+    "explain": "(1 × 8) + (2 × 8) = 8 + 16 = 24."
+   }
+  ],
+  "breakapart": [
+   {
+    "id": "b1",
+    "type": "choice",
+    "fact": [
+     3,
+     7
+    ],
+    "split": "second",
+    "prompt": "Which shows a way to break apart the 7 in 3 × 7?",
+    "options": [
+     {
+      "text": "(3 × 3) + (3 × 3)",
+      "why": "3 + 3 is 6, not 7."
+     },
+     {
+      "text": "(3 × 2) + (3 × 5)",
+      "correct": true
+     },
+     {
+      "text": "(2 × 7) + (1 × 7)",
+      "why": "That is true, but it breaks apart the 3, not the 7."
+     },
+     {
+      "text": "(3 × 7) + (3 × 1)",
+      "why": "7 + 1 is 8, not 7."
+     }
+    ],
+    "hints": [
+     "The two smaller numbers must add up to the factor you break apart.",
+     "Keep the 3 in both facts. Which two numbers add up to 7?"
+    ],
+    "show": [
+     "Keep the 3. Break apart the 7 into 2 + 5.",
+     "3 × 2 = 6 and 3 × 5 = 15.",
+     "6 + 15 = 21, and 3 × 7 = 21.",
+     "So the answer is (3 × 2) + (3 × 5)."
+    ],
+    "yes": "Yes! 2 + 5 = 7, so 3 × 7 = (3 × 2) + (3 × 5) = 6 + 15 = 21.",
+    "explain": "2 + 5 = 7, so 3 × 7 = (3 × 2) + (3 × 5) = 6 + 15 = 21."
+   },
+   {
+    "id": "b2",
+    "type": "choice",
+    "fact": [
+     3,
+     7
+    ],
+    "split": "first",
+    "prompt": "Which shows a way to break apart the 3 in 3 × 7?",
+    "options": [
+     {
+      "text": "(3 × 2) + (3 × 5)",
+      "why": "That is true, but it breaks apart the 7, not the 3."
+     },
+     {
+      "text": "(1 × 7) + (1 × 7)",
+      "why": "1 + 1 is 2, not 3."
+     },
+     {
+      "text": "(2 × 7) + (2 × 7)",
+      "why": "2 + 2 is 4, not 3."
+     },
+     {
+      "text": "(2 × 7) + (1 × 7)",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "The two smaller numbers must add up to the factor you break apart.",
+     "Keep the 7 in both facts. Which two numbers add up to 3?"
+    ],
+    "show": [
+     "Keep the 7. Break apart the 3 into 2 + 1.",
+     "2 × 7 = 14 and 1 × 7 = 7.",
+     "14 + 7 = 21, and 3 × 7 = 21.",
+     "So the answer is (2 × 7) + (1 × 7)."
+    ],
+    "yes": "Yes! 2 + 1 = 3, so 3 × 7 = (2 × 7) + (1 × 7) = 14 + 7 = 21.",
+    "explain": "2 + 1 = 3, so 3 × 7 = (2 × 7) + (1 × 7) = 14 + 7 = 21."
+   },
+   {
+    "id": "b3",
+    "type": "choice",
+    "fact": [
+     8,
+     6
+    ],
+    "split": "any",
+    "prompt": "Which is a correct way to break apart 8 × 6?",
+    "options": [
+     {
+      "text": "(4 × 6) + (3 × 6)",
+      "why": "4 + 3 is 7, not 8."
+     },
+     {
+      "text": "(8 × 3) + (8 × 2)",
+      "why": "3 + 2 is 5, not 6."
+     },
+     {
+      "text": "(5 × 6) + (3 × 6)",
+      "correct": true
+     },
+     {
+      "text": "(5 × 3) + (3 × 3)",
+      "why": "Each fact must keep one of the factors, 8 or 6."
+     }
+    ],
+    "hints": [
+     "The two smaller numbers must add up to the factor you break apart.",
+     "Check each choice: do the parts add up to 8 or to 6?"
+    ],
+    "show": [
+     "8 is 5 + 3, so keep the 6.",
+     "5 × 6 = 30 and 3 × 6 = 18.",
+     "30 + 18 = 48, and 8 × 6 = 48.",
+     "So the answer is (5 × 6) + (3 × 6)."
+    ],
+    "yes": "Yes! 5 + 3 = 8, so 8 × 6 = (5 × 6) + (3 × 6) = 30 + 18 = 48.",
+    "explain": "5 + 3 = 8, so 8 × 6 = (5 × 6) + (3 × 6) = 30 + 18 = 48."
+   },
+   {
+    "id": "b4",
+    "type": "decompose",
+    "fact": [
+     3,
+     8
+    ],
+    "prompt": "Break apart 3 × 8 into two easier facts. Then find the product.",
+    "answer": {
+     "p": 3,
+     "q": 5,
+     "r": 3,
+     "s": 3,
+     "t": 24
+    },
+    "hints": [
+     "Keep the 3 and break apart the 8, or keep the 8 and break apart the 3.",
+     "One way: 8 is 5 + 3."
+    ],
+    "show": [
+     "8 is 5 + 3, so keep the 3.",
+     "3 × 5 = 15 and 3 × 3 = 9.",
+     "15 + 9 = 24.",
+     "So 3 × 8 = 3 × 5 + 3 × 3 = 24. Other correct ways count too."
+    ],
+    "yes": "Yes! 3 × 8 = 24.",
+    "explain": "One way: 8 is 5 + 3, so 3 × 8 = 3 × 5 + 3 × 3 = 15 + 9 = 24."
+   },
+   {
+    "id": "b5",
+    "type": "decompose",
+    "fact": [
+     7,
+     8
+    ],
+    "prompt": "Break apart 7 × 8 into two easier facts. Then find the product.",
+    "answer": {
+     "p": 5,
+     "q": 8,
+     "r": 2,
+     "s": 8,
+     "t": 56
+    },
+    "hints": [
+     "Keep the 8 and break apart the 7, or keep the 7 and break apart the 8.",
+     "One way: 7 is 5 + 2."
+    ],
+    "show": [
+     "7 is 5 + 2, so keep the 8.",
+     "5 × 8 = 40 and 2 × 8 = 16.",
+     "40 + 16 = 56.",
+     "So 7 × 8 = 5 × 8 + 2 × 8 = 56. Other correct ways count too."
+    ],
+    "yes": "Yes! 7 × 8 = 56.",
+    "explain": "One way: 7 is 5 + 2, so 7 × 8 = 5 × 8 + 2 × 8 = 40 + 16 = 56."
+   },
+   {
+    "id": "b6",
+    "type": "fill",
+    "prompt": "Finish breaking apart 6 × 9.",
+    "lines": [
+     "6 × 9 = 5 × 9 + [a] × 9",
+     "= 45 + [b]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 1,
+     "b": 9,
+     "t": 54
+    },
+    "hints": [
+     "5 and what number add up to 6?",
+     "Find 1 × 9. Then add it to 45."
+    ],
+    "show": [
+     "6 is 5 + 1, so the missing factor is 1.",
+     "1 × 9 = 9.",
+     "45 + 9 = 54."
+    ],
+    "yes": "Yes! 6 × 9 = 45 + 9 = 54.",
+    "explain": "6 is 5 + 1. 5 × 9 = 45 and 1 × 9 = 9. 45 + 9 = 54."
+   },
+   {
+    "id": "b7",
+    "type": "fill",
+    "prompt": "Finish breaking apart 3 × 9.",
+    "lines": [
+     "3 × 9 = 3 × 5 + 3 × [a]",
+     "= 15 + [b]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 4,
+     "b": 12,
+     "t": 27
+    },
+    "hints": [
+     "5 and what number add up to 9?",
+     "Find 3 × 4. Then add it to 15."
+    ],
+    "show": [
+     "9 is 5 + 4, so the missing factor is 4.",
+     "3 × 4 = 12.",
+     "15 + 12 = 27."
+    ],
+    "yes": "Yes! 3 × 9 = 15 + 12 = 27.",
+    "explain": "9 is 5 + 4. 3 × 5 = 15 and 3 × 4 = 12. 15 + 12 = 27."
+   },
+   {
+    "id": "b8",
+    "type": "number",
+    "prompt": "5 × 4 = 20 and 3 × 4 = 12. Use them to find 8 × 4. What is 8 × 4?",
+    "answer": "8 × 4",
+    "mistakes": [
+     {
+      "when": {
+       "answer": 20
+      },
+      "say": "That is only the 5 × 4 part. Add the 3 × 4 part too."
+     }
+    ],
+    "hints": [
+     "8 is 5 + 3.",
+     "Add the two products: 20 + 12."
+    ],
+    "show": [
+     "8 is 5 + 3.",
+     "5 × 4 = 20 and 3 × 4 = 12.",
+     "20 + 12 = 32. So 8 × 4 = 32."
+    ],
+    "yes": "Yes! 20 + 12 = 32.",
+    "explain": "8 is 5 + 3, so 8 × 4 = 20 + 12 = 32."
+   },
+   {
+    "id": "b9",
+    "type": "number",
+    "prompt": "Break apart 6 into 3 + 3. 3 × 5 = 15 and 3 × 5 = 15. What is 6 × 5?",
+    "answer": "6 × 5",
+    "mistakes": [
+     {
+      "when": {
+       "answer": 15
+      },
+      "say": "That is only one part. There are two parts of 15."
+     }
+    ],
+    "hints": [
+     "There are two parts. Each part is 15.",
+     "Add 15 + 15."
+    ],
+    "show": [
+     "6 is 3 + 3.",
+     "3 × 5 = 15 and 3 × 5 = 15.",
+     "15 + 15 = 30. So 6 × 5 = 30."
+    ],
+    "yes": "Yes! 15 + 15 = 30.",
+    "explain": "6 is 3 + 3, so 6 × 5 = 15 + 15 = 30."
+   },
+   {
+    "id": "b10",
+    "type": "choice",
+    "quotesMistake": true,
+    "prompt": "A student wrote 8 × 3 = (5 × 3) + (3 × 5). What went wrong?",
+    "options": [
+     {
+      "text": "Nothing. It is correct.",
+      "why": "(5 × 3) + (3 × 5) makes 30, but 8 × 3 makes 24."
+     },
+     {
+      "text": "8 cannot be broken into 5 and 3.",
+      "why": "5 + 3 = 8, so that part is fine."
+     },
+     {
+      "text": "The second part should be 3 × 3.",
+      "correct": true
+     },
+     {
+      "text": "The first part should be 5 × 5.",
+      "why": "The first part is right: 5 rows of 3 is 5 × 3."
+     }
+    ],
+    "hints": [
+     "Both parts must keep the factor 3.",
+     "Look at the second part. Does it keep the 3 and use the other part of 8?"
+    ],
+    "show": [
+     "8 is 5 + 3, and both parts keep the 3.",
+     "The parts are 5 × 3 and 3 × 3.",
+     "15 + 9 = 24, and 8 × 3 = 24.",
+     "So the second part should be 3 × 3."
+    ],
+    "yes": "Yes! 8 × 3 = (5 × 3) + (3 × 3) = 15 + 9 = 24.",
+    "explain": "8 is 5 + 3, so 8 × 3 = (5 × 3) + (3 × 3) = 15 + 9 = 24."
+   }
+  ],
+  "facts": [
+   {
+    "id": "f1",
+    "type": "number",
+    "prompt": "5 × 0 = ?",
+    "answer": "5 × 0",
+    "mistakes": [
+     {
+      "when": {
+       "answer": 5
+      },
+      "say": "Times 0 always makes 0."
+     }
+    ],
+    "hints": [
+     "5 × 0 means 5 groups of 0."
+    ],
+    "show": [
+     "5 × 0 means 5 groups of 0.",
+     "Every group is empty.",
+     "So 5 × 0 = 0. This is the Zero Property."
+    ],
+    "yes": "Yes! 5 × 0 = 0.",
+    "explain": "Any number multiplied by 0 equals 0: 5 × 0 = 0."
+   },
+   {
+    "id": "f2",
+    "type": "number",
+    "prompt": "1 × 8 = ?",
+    "answer": "1 × 8",
+    "mistakes": [
+     {
+      "when": {
+       "answer": 9
+      },
+      "say": "1 + 8 is 9. Times 1 keeps the number the same."
+     }
+    ],
+    "hints": [
+     "1 × 8 means 1 group of 8."
+    ],
+    "show": [
+     "1 × 8 means 1 group of 8.",
+     "One group of 8 is 8.",
+     "So 1 × 8 = 8. This is the Identity Property."
+    ],
+    "yes": "Yes! 1 × 8 = 8.",
+    "explain": "Any number multiplied by 1 stays the same: 1 × 8 = 8."
+   },
+   {
+    "id": "f3",
+    "type": "fill",
+    "prompt": "What number goes in the box?",
+    "lines": [
+     "9 × 2 = 2 × [a]"
+    ],
+    "answer": {
+     "a": 9
+    },
+    "hints": [
+     "Changing the order of the factors does not change the product."
+    ],
+    "show": [
+     "The factors are 9 and 2.",
+     "Turn them around: 2 × 9.",
+     "So the missing number is 9. This is the Commutative Property."
+    ],
+    "yes": "Yes! 9 × 2 = 2 × 9.",
+    "explain": "Changing the order of the factors does not change the product: 9 × 2 = 2 × 9 = 18."
+   },
+   {
+    "id": "f4",
+    "type": "fill",
+    "prompt": "What number goes in the box?",
+    "lines": [
+     "4 × 6 = [a] × 4"
+    ],
+    "answer": {
+     "a": 6
+    },
+    "hints": [
+     "Changing the order of the factors does not change the product."
+    ],
+    "show": [
+     "The factors are 4 and 6.",
+     "Turn them around: 6 × 4.",
+     "So the missing number is 6. This is the Commutative Property."
+    ],
+    "yes": "Yes! 4 × 6 = 6 × 4.",
+    "explain": "Changing the order of the factors does not change the product: 4 × 6 = 6 × 4 = 24."
+   },
+   {
+    "id": "f5",
+    "type": "choice",
+    "prompt": "Which multiplication fact does this array show?",
+    "model": {
+     "type": "array",
+     "rows": 5,
+     "cols": 3
+    },
+    "target": "5 × 3",
+    "options": [
+     {
+      "text": "5 + 3",
+      "why": "Adding the numbers does not count the dots."
+     },
+     {
+      "text": "5 × 3",
+      "correct": true
+     },
+     {
+      "text": "3 × 3",
+      "why": "Count the rows again."
+     },
+     {
+      "text": "5 × 4",
+      "why": "Count the dots in each row again."
+     }
+    ],
+    "hints": [
+     "Count the rows. Then count the dots in one row."
+    ],
+    "show": [
+     "There are 5 rows.",
+     "Each row has 3 dots.",
+     "So the array shows 5 × 3 = 15."
+    ],
+    "yes": "Yes! 5 rows of 3 is 5 × 3.",
+    "explain": "There are 5 rows with 3 dots in each row: 5 × 3 = 15."
+   },
+   {
+    "id": "f6",
+    "type": "number",
+    "prompt": "How many rows are in this array?",
+    "model": {
+     "type": "array",
+     "rows": 6,
+     "cols": 4
+    },
+    "asks": "rows",
+    "answer": "6",
+    "mistakes": [
+     {
+      "when": {
+       "answer": 4
+      },
+      "say": "That is how many dots are in each row. Rows go across."
+     }
+    ],
+    "hints": [
+     "Rows go across, from left to right."
+    ],
+    "show": [
+     "Rows go across.",
+     "Count them from top to bottom: there are 6.",
+     "This is 6 rows of 4: 6 × 4 = 24."
+    ],
+    "yes": "Yes! 6 rows.",
+    "explain": "Rows go across. This array has 6 rows of 4 dots."
+   }
+  ]
+ }
+}

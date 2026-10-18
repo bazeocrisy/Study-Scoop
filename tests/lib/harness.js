@@ -139,6 +139,13 @@ export async function startBrowser() {
       }
       throw new Error(`timed out waiting for ${expr} (last: ${JSON.stringify(last)})`);
     },
+    /** A real mouse click in the middle of an element (as a child's click or tap would land), not a script click. */
+    async clickAt(selector) {
+      const r = await b.js(`const el = document.querySelector(${JSON.stringify(selector)}); el.scrollIntoView({ block: 'center' }); const q = el.getBoundingClientRect(); return [q.x + q.width / 2, q.y + q.height / 2];`);
+      for (const type of ['mouseMoved', 'mousePressed', 'mouseReleased']) {
+        await send('Input.dispatchMouseEvent', { type, x: r[0], y: r[1], button: type === 'mouseMoved' ? 'none' : 'left', clickCount: type === 'mouseMoved' ? 0 : 1 });
+      }
+    },
     async key(key, shift = false) {
       const vk = { Tab: 9, Enter: 13, ' ': 32 }[key] || 0;
       const mods = shift ? 8 : 0;

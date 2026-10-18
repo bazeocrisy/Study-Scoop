@@ -1,103 +1,119 @@
-// Math: the week's property words, each explained with a picture drawn from its own numbers, then the lessons.
+// Math opens on its menu: Learn the Properties, Practice Problems, Math Lessons, Study Guide (DECISIONS D19).
 // When the address names a lesson (#math?lesson=5-1&stage=watch), the lesson view is shown instead.
 import { html } from '../lib/html.js';
 import { modelFigure } from '../lib/models.js';
 import { STAGES } from '../lib/lessons.js';
-import { comingSoon, pageHead } from './common.js';
+import { menuItems } from '../lib/activities.js';
+import { GUIDE_STEPS, GUIDE_WORDS, PROPERTIES, teacherExample, teacherWord } from '../lib/mathlearn.js';
+import { facts, menuPage, subBar, subjectMenu, testsNote } from './common.js';
 import { lessonView } from './lesson.js';
+import { activityView } from './activity.js';
+
+const MATH = (ctx) => ({ label: 'Math', href: ctx.link('math') });
+const BACK_MATH = (ctx) => ({ href: ctx.link('math'), label: '‹ Back to Math' });
 
 export function mathView(ctx) {
   if (ctx.lesson) return lessonView(ctx);
+  if (ctx.run) return activityView(ctx);
+  if (ctx.page === 'practice') return practiceMenu(ctx);
+  if (ctx.page === 'lessons') return lessonsMenu(ctx);
+  if (ctx.page === 'guide') return studyGuide(ctx);
   const m = ctx.week.math;
-  const lessons = ctx.lessons?.lessons || [];
-  const first = lessons[0];
-  // What the child is learning, how to start and when the test is: all in the page head (UX-6).
-  const actions = first || m?.test ? html`
-    ${first ? html`<a class="btn btn-primary" href="${ctx.lessonLink(first.id, 'learn')}">Start Lesson ${first.id}: ${first.title}</a>` : ''}
-    ${m?.test ? html`<span class="test-pill">Math test: ${m.test}</span>` : ''}` : null;
-  return html`
-    ${pageHead('Math', ctx, m ? m.title : null, actions)}
-
-    <section aria-labelledby="h-lessons">
-      <h2 id="h-lessons">Lessons</h2>
-      ${lessons.length ? html`
-        <ol class="lesson-list">
-          ${lessons.map((l) => html`
-            <li class="card lesson-card">
-              <span class="lesson-num">${l.id}</span>
-              <div>
-                <h3>Lesson ${l.id}: ${l.title}</h3>
-                <p>${l.summary}</p>
-                <ul class="stage-chips" aria-label="Steps">${STAGES.map((s) => html`<li>${s.label}</li>`)}</ul>
-              </div>
-              <a class="btn btn-primary" href="${ctx.lessonLink(l.id, 'learn')}">Start<span class="sr-only"> Lesson ${l.id}</span></a>
-            </li>`)}
-        </ol>` : html`<p class="card">The lessons could not be loaded. Please try again later.</p>`}
-    </section>
-
-    <section aria-labelledby="h-math-words">
-      <h2 id="h-math-words">${m ? 'The property words' : "This week's math words"}</h2>
-      ${m ? html`
-        <p class="convention"><span>6 × 3 means <strong>6 groups of 3</strong>. In a dot picture, each group is one row.</span></p>
-        <ul class="property-grid math-words">${[...m.words].sort((x, y) => isWide(x) - isWide(y)).map((w) => propertyCard(w))}</ul>`
-        : html`<p class="card">No math words are listed for this week.</p>`}
-    </section>
-
-    ${comingSoon('More math practice', ['Multiplication Mastery: tables 0 to 12', 'Find My Factors: My Table and All Factor Pairs'], { level: 2 })}`;
+  return menuPage(ctx, 'math', {
+    title: 'Math', context: m ? `${m.title}${m.test ? ` · Math test: ${m.test}` : ''}` : 'Topic 5: Properties of Multiplication',
+    items: menuItems('math'), after: testsNote(ctx, 'The weekly Math Test'),
+  });
 }
 
-// The Distributive card shows three examples, so it spans the full width and goes last (no half-empty rows).
-const isWide = (w) => (w.word.toLowerCase().includes('distributive') ? 1 : 0);
-const pl = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
-
-/** One property card: teacher's words (exact), a kid-friendly line, a picture that matches the numbers, the equation. */
-function propertyCard(w) {
-  const [a, b] = w.example;
-  const name = w.word.toLowerCase();
-  let kid, body;
-  if (name.includes('identity')) {
-    kid = 'Times 1 keeps a number the same.';
-    body = html`<div class="models">${modelFigure({ type: 'plates', plates: a, each: 1, perRow: Math.ceil(a / 2) }, `${pl(a, 'group')} of 1 = ${a}`)}</div>
-      <p class="equation fact">${a} × ${b} = ${a * b}</p>`;
-  } else if (name.includes('zero')) {
-    kid = 'Times 0 always makes 0.';
-    body = html`<div class="models">
-        ${modelFigure({ type: 'plates', plates: a, each: 0, perRow: 5 }, `${a} × 0: ${pl(a, 'group')} of 0`)}
-        ${modelFigure({ type: 'plates', plates: 0, each: 0 }, `0 × ${a}: 0 groups of ${a}`)}
-      </div>
-      <p class="equation fact">${a} × ${b} = ${a * b}</p>
-      <p class="equation">0 × ${a} = 0</p>`;
-  } else if (name.includes('commutative')) {
-    kid = 'Turn it around. The number of dots stays the same.';
-    body = html`<div class="models">${modelFigure({ type: 'pair', left: { rows: a, cols: b, star: [0, 0] }, right: { rows: b, cols: a, star: [0, a - 1] } },
-      `${pl(a, 'row')} of ${b} turns into ${pl(b, 'row')} of ${a}. The star shows the same dot.`)}</div>
-      <p class="equation fact">${a} × ${b} = ${b} × ${a} = ${a * b}</p>`;
-  } else if (name.includes('distributive') && a >= 3 && b >= 2) {
-    kid = 'Decompose one factor into two easier facts. Then add.';
-    const cutA = a > 5 ? 5 : a - 1;
-    const cutB = a - 2 >= 1 && a - 2 !== cutA ? a - 2 : null;
-    const ex = [{ by: 'rows', at: cutA }, cutB ? { by: 'rows', at: cutB } : null, { by: 'cols', at: b - 1 }].filter(Boolean);
-    body = html`<div class="example-set">${ex.map((cut, i) => {
-      const [p1, q1, p2, q2] = cut.by === 'rows' ? [cut.at, b, a - cut.at, b] : [a, cut.at, a, b - cut.at];
-      return html`<div class="ex">
-        <p class="ex-title">Example ${'ABC'[i]}: ${cut.by === 'rows' ? `cut under row ${cut.at}` : `cut after column ${cut.at}`}</p>
-        ${modelFigure({ type: 'array', rows: a, cols: b, cut, labels: 'facts' })}
-        <p class="equation">${a} × ${b} = <span class="a">${p1} × ${q1}</span> + <span class="b">${p2} × ${q2}</span></p>
-        <p class="equation"><span class="a">${p1 * q1}</span> + <span class="b">${p2 * q2}</span> = ${a * b}</p>
-      </div>`;
-    })}</div>
-      <p class="fact sr-only">${a} × ${b} = ${a * b}</p>
-      <p>Each way decomposes one factor, and each way makes ${a * b}. You can decompose either factor.</p>
-      ${w.fill?.includes('___') ? html`<p class="pairs"><span class="label">Your teacher writes it like this</span> ${w.fill.replace('___', w.word)}</p>` : ''}`;
-  } else {
-    kid = '';
-    body = html`<p class="equation fact">${a} × ${b} = ${a * b}</p>`;
-  }
+/** Math > Practice Problems: a second menu with the kinds of problems. */
+function practiceMenu(ctx) {
   return html`
-    <li class="card property${name.includes('distributive') ? ' wide' : ''}">
-      <h3>${w.word}</h3>
-      <blockquote class="teacher-words"><span class="label">Teacher's words</span><span class="def">${w.def}</span></blockquote>
-      ${kid ? html`<p class="kid-words"><span class="label">In other words</span>${kid}</p>` : ''}
-      ${body}
-    </li>`;
+    ${subBar(ctx, {
+      tone: 'math', title: 'Practice Problems', goal: 'Choose a kind of problem. You get hints and help while you practice.',
+      trail: [MATH(ctx), { label: 'Practice Problems' }], back: [BACK_MATH(ctx)],
+    })}
+    ${ctx.practice
+      ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to practice?</h2>
+          ${subjectMenu(ctx, 'math', menuItems('math', 'practice'), { misses: ctx.misses?.math })}</section>`
+      : html`<p class="card">The practice problems could not be loaded. Please try again later.</p>`}
+    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><a class="btn" href="${ctx.actLink('math', 'learn')}">Learn the Properties first</a></div>`;
+}
+
+/** Math > Math Lessons: each lesson with its steps as links, so Practice Together and Try It Yourself are easy to find. */
+function lessonsMenu(ctx) {
+  const lessons = ctx.lessons?.lessons || [];
+  return html`
+    ${subBar(ctx, {
+      tone: 'math', title: 'Math Lessons', goal: 'Each lesson has five steps. Start at Learn It, or jump to any step.',
+      trail: [MATH(ctx), { label: 'Math Lessons' }], back: [BACK_MATH(ctx)],
+    })}
+    ${lessons.length ? html`
+      <ol class="lesson-list">
+        ${lessons.map((l) => html`
+          <li class="card lesson-card">
+            <span class="lesson-num">${l.id}</span>
+            <div>
+              <h2 class="h3">Lesson ${l.id}: ${l.title}</h2>
+              <p>${l.summary}</p>
+              <ol class="stage-links" aria-label="Steps in Lesson ${l.id}">${STAGES.map((s, i) => html`<li><a href="${ctx.lessonLink(l.id, s.id)}"><span class="n" aria-hidden="true">${i + 1}</span> ${s.label}<span class="sr-only"> (Lesson ${l.id})</span></a></li>`)}</ol>
+            </div>
+            <a class="btn btn-primary" href="${ctx.lessonLink(l.id, 'learn')}">Start<span class="sr-only"> Lesson ${l.id}</span></a>
+          </li>`)}
+      </ol>` : html`<p class="card">The lessons could not be loaded. Please try again later.</p>`}
+    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><span></span></div>`;
+}
+
+/** Math > Study Guide: a short review of the four properties, the words, and breaking apart facts. Printable. */
+function studyGuide(ctx) {
+  const m = ctx.week.math;
+  return html`
+    ${subBar(ctx, {
+      tone: 'math', title: 'Study Guide', goal: m?.test ? `For the Multiplication Properties test: ${m.test}` : 'Multiplication Properties',
+      trail: [MATH(ctx), { label: 'Study Guide' }], back: [BACK_MATH(ctx)],
+    })}
+    <p class="print-only">${ctx.week.label} · Study Scoop study guide (Multiplication Properties)</p>
+    <section aria-labelledby="h-g-props">
+      <h2 id="h-g-props">1. The four properties</h2>
+      <ul class="guide-props">
+        ${PROPERTIES.map((p) => {
+          const tw = teacherWord(ctx.week, p);
+          return html`<li class="card guide-prop">
+            <h3>${p.name}</h3>
+            ${tw ? html`<p class="teacher-line"><span class="label">Teacher's words</span> <span class="def">${tw.def}</span></p>` : ''}
+            <p><span class="label">In other words</span> ${p.kid}</p>
+            <p class="equation">${facts(p.eq)}</p>
+          </li>`;
+        })}
+      </ul>
+    </section>
+    <div class="two-col">
+      <section class="card" aria-labelledby="h-g-break">
+        <h2 id="h-g-break">2. Break apart a factor</h2>
+        <ol class="guide-steps">${GUIDE_STEPS.breakApart.map((s) => html`<li>${s}</li>`)}</ol>
+        <p class="label">Two ways for 3 × 7</p>
+        <ul class="plain-list">${GUIDE_STEPS.breakExamples.map((s) => html`<li class="equation-line">${facts(s)}</li>`)}</ul>
+        <p>Both ways are right. If a question says which factor to break apart, break apart that one.</p>
+        ${teacherExample(teacherWord(ctx.week, PROPERTIES[3])) ? html`<p><span class="label">Your teacher's example</span> ${teacherExample(teacherWord(ctx.week, PROPERTIES[3]))}</p>` : ''}
+      </section>
+      <section class="card" aria-labelledby="h-g-split">
+        <h2 id="h-g-split">3. Read a split array</h2>
+        <div class="models">${modelFigure(GUIDE_STEPS.splitModel)}</div>
+        <ol class="guide-steps">${GUIDE_STEPS.split.map((s) => html`<li>${facts(s)}</li>`)}</ol>
+      </section>
+    </div>
+    <div class="two-col">
+      <section class="card" aria-labelledby="h-g-words">
+        <h2 id="h-g-words">4. Math words</h2>
+        <dl class="guide-words">${GUIDE_WORDS.map(([w, d]) => html`<div><dt>${w}</dt><dd>${facts(d)}</dd></div>`)}</dl>
+      </section>
+      <section class="card" aria-labelledby="h-g-ready">
+        <h2 id="h-g-ready">5. Am I ready?</h2>
+        <ul class="ready">${GUIDE_STEPS.ready.map((s) => html`<li>${s}</li>`)}</ul>
+        <p>Not sure yet? Try <a href="${ctx.actLink('math', 'practice')}">Practice Problems</a>. When you are ready, take the <a href="${ctx.testLink('math')}">Math Practice Test</a>.</p>
+      </section>
+    </div>
+    <div class="stage-nav">
+      <a class="btn" href="${ctx.link('math')}">‹ Back to Math</a>
+      <button type="button" class="btn btn-primary" data-act="print">Print the study guide</button>
+    </div>`;
 }

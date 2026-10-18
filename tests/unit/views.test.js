@@ -28,7 +28,8 @@ function ctxFor(index, weekId, section, week) {
     lessonLink: (id, stage) => buildHash('math', weekId, index.current, { lesson: id, stage }),
     actLink: (s, act) => buildHash(s, weekId, index.current, { act }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
-    tests: weekId === '2026-10-19' ? readJSON('data/tests/2026-10-19.json') : null, misses: { vocab: 0, spelling: 0 },
+    tests: weekId === '2026-10-19' ? readJSON('data/tests/2026-10-19.json') : null, misses: { vocab: 0, spelling: 0, math: 0 },
+    practice: readJSON('data/practice/math.json'),
     lessons: LESSONS, pictures: PICTURES };
 }
 
@@ -54,13 +55,22 @@ for (const [index, id, week] of cases) {
     });
   }
 
-  test(`${id} vocabulary shows every teacher definition exactly (escaped)`, () => {
-    const out = vocabView(ctxFor(index, id, 'vocab', week)).s;
-    for (const w of week.vocab.words) assert.ok(out.includes(`<p class="def">${esc(w.def)}</p>`), w.word);
+  test(`${id} vocabulary opens on its menu; Learn My Words shows every teacher definition exactly (escaped)`, () => {
+    const menu = vocabView(ctxFor(index, id, 'vocab', week)).s;
+    for (const w of week.vocab.words) assert.ok(!menu.includes(esc(w.def)), `the menu comes first: ${w.word}`);
+    for (const name of ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']) assert.ok(menu.includes(name), name);
+    week.vocab.words.forEach((w, i) => {
+      const ctx = { ...ctxFor(index, id, 'vocab', week) };
+      ctx.run = { subject: 'vocab', act: 'learn', mode: 'practice', title: 'Learn My Words', items: [], items_: {}, flash: { order: week.vocab.words.map((_, k) => k), i, flipped: false, marks: {} } };
+      assert.ok(vocabView(ctx).s.includes(`<span class="def">${esc(w.def)}</span>`), w.word);
+    });
   });
 
-  test(`${id} spelling lists every word once, under its rule`, () => {
-    const out = spellingView(ctxFor(index, id, 'spelling', week)).s;
+  test(`${id} spelling opens on its menu; Learn My Words lists every word once, under its rule`, () => {
+    const menu = spellingView(ctxFor(index, id, 'spelling', week)).s;
+    for (const name of ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen &amp; Spell', 'Practice My Misses']) assert.ok(menu.includes(name), name);
+    assert.ok(!menu.includes('<span class="word">'), 'the word list is not on the menu');
+    const out = spellingView({ ...ctxFor(index, id, 'spelling', week), page: 'learn' }).s;
     for (const w of week.spelling.words) {
       assert.equal(out.split(`<span class="word">${esc(w.word)}</span>`).length - 1, 1, w.word);
     }
@@ -78,7 +88,7 @@ test('This Week counts down to each test from a fixed date', () => {
 
 test('unfinished activities are labelled "Coming soon" and have no buttons or form fields', () => {
   const week = readJSON('data/2026-10-19.json');
-  for (const section of ['math', 'quickmath']) {
+  for (const section of ['quickmath']) {
     const out = VIEWS[section](ctxFor(realIndex, '2026-10-19', section, week)).s;
     assert.match(out, /Coming soon/, section);
     assert.doesNotMatch(out, /<button|<input|<select/, section);
@@ -87,15 +97,41 @@ test('unfinished activities are labelled "Coming soon" and have no buttons or fo
   for (const name of ['Make 10', 'Make 20', 'Make 50', 'Make 100', 'Make the Next 10', 'Mixed Mental Math']) {
     assert.ok(qm.includes(name), name);
   }
-  const math = mathView(ctxFor(realIndex, '2026-10-19', 'math', week)).s;
-  for (const name of ['Lesson 5-1', 'Lesson 5-2', 'Multiplication Mastery', 'Find My Factors', 'My Table', 'All Factor Pairs']) {
-    assert.ok(math.includes(name), name);
-  }
 });
 
-test('a week without math says so instead of showing an empty list', () => {
-  const week = readJSON('data/2026-10-12.json');
-  assert.match(mathView(ctxFor(realIndex, '2026-10-12', 'math', week)).s, /No math words are listed for this week/);
+test('Math opens on its four choices; Math Lessons links every lesson step', () => {
+  const week = readJSON('data/2026-10-19.json');
+  const math = mathView(ctxFor(realIndex, '2026-10-19', 'math', week)).s;
+  for (const [name, act] of [['Learn the Properties', 'learn'], ['Practice Problems', 'practice'], ['Math Lessons', 'lessons'], ['Study Guide', 'guide']]) {
+    assert.ok(math.includes(name), name);
+    assert.ok(math.includes(`href="#math?act=${act}"`), act);
+  }
+  assert.match(math, /What would you like to do\?/);
+  const lessons = mathView({ ...ctxFor(realIndex, '2026-10-19', 'math', week), page: 'lessons' }).s;
+  for (const id of ['5-1', '5-2']) {
+    for (const st of ['learn', 'watch', 'together', 'try', 'test']) assert.ok(lessons.includes(`href="#math?lesson=${id}&amp;stage=${st}"`), `${id} ${st}`);
+  }
+  const practice = mathView({ ...ctxFor(realIndex, '2026-10-19', 'math', week), page: 'practice' }).s;
+  for (const act of ['props', 'split', 'breakapart', 'mixed', 'misses']) assert.ok(practice.includes(`href="#math?act=${act}"`), act);
+});
+
+test('Learn the Properties uses the teacher\'s exact words when the week lists them, and works without them', () => {
+  const card = (weekId, i) => {
+    const week = readJSON(`data/${weekId}.json`);
+    const ctx = ctxFor(realIndex, weekId, 'math', week);
+    ctx.run = { subject: 'math', act: 'learn', mode: 'practice', title: 'Learn the Properties', items: [], items_: {}, flash: { order: [0, 1, 2, 3], i, flipped: false, marks: {} } };
+    return [week, mathView(ctx).s];
+  };
+  for (let i = 0; i < 4; i++) {
+    const [week, out] = card('2026-10-19', i);
+    const name = ['Identity', 'Zero', 'Commutative', 'Distributive'][i];
+    const w = week.math.words.find((x) => x.word.startsWith(name));
+    assert.ok(out.includes(`<span class="def">${esc(w.def)}</span>`), name);
+    assert.doesNotMatch(out, /undefined|NaN/);
+    const [, old] = card('2026-10-12', i);
+    assert.ok(!old.includes("Teacher's words"), `${name} without teacher words`);
+    assert.ok(old.includes(`${name} Property`), name);
+  }
 });
 
 test('newsletter lists every week with working links', () => {

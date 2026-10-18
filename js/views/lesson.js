@@ -4,6 +4,7 @@ import { html } from '../lib/html.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { STAGES, STAGE_IDS, answerText, boxes, score, showSteps, stageLabel } from '../lib/lessons.js';
+import { subBar } from './common.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
 const ICON_NOT = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>`;
@@ -30,7 +31,6 @@ export function lessonView(ctx) {
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   return html`
     ${lessonBar(ctx, lesson, stage)}
-    ${ctx.isCurrent ? '' : html`<p class="notice" role="note">You are looking at an earlier week. Lessons work the same in every week.</p>`}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">
       ${stageBody(ctx, lesson, stage, state)}
     </div>`;
@@ -44,12 +44,12 @@ export function stageInner(ctx) {
 function lessonBar(ctx, lesson, stage) {
   const at = STAGES.findIndex((s) => s.id === stage);
   return html`
-    <div class="lesson-bar">
-      <div class="lb-title">
-        <p class="lb-nav"><a class="back" href="${ctx.link('math')}">‹ All of Math</a><span class="eyebrow">Lesson ${lesson.id}</span></p>
-        <h1>${lesson.title}</h1>
-        ${stage === 'learn' ? html`<p class="goal">${lesson.goal}</p>` : ''}
-      </div>
+    ${subBar(ctx, {
+      tone: 'math', eyebrow: `Lesson ${lesson.id}`, title: lesson.title, goal: stage === 'learn' ? lesson.goal : '',
+      trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Math Lessons', href: ctx.actLink('math', 'lessons') }, { label: `Lesson ${lesson.id}` }],
+      back: [{ href: ctx.actLink('math', 'lessons'), label: '‹ Back to Lessons' }, { href: ctx.link('math'), label: 'Back to Math' }],
+    })}
+    <div class="lesson-steps">
       <nav class="stepper" aria-label="Lesson steps">
         <ol>${STAGES.map((s, i) => html`<li class="${s.id !== stage && ctx.lessonVisited?.has(s.id) ? 'done' : ''}"><a href="${ctx.lessonLink(lesson.id, s.id)}"${s.id === stage ? html` aria-current="step"` : ''}><span class="n">${i + 1}</span> <span class="name">${s.label}</span></a></li>`)}</ol>
       </nav>
@@ -179,7 +179,7 @@ export function blanks(text) {
 }
 
 /** A button that speaks (dictation and the word in Missing Letters); its label turns into "Stop" while it speaks. */
-function soundButton(act, label, primary = false) {
+export function soundButton(act, label, primary = false) {
   return html`<button type="button" class="btn${primary ? ' btn-primary' : ''} sound" data-act="${act}" data-label="${label}">${ICON_SPEAK}<span class="read-label">${label}</span></button>`;
 }
 

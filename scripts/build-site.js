@@ -6,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { validateIndex, validateWeek } from '../js/lib/validate.js';
 import { validateLesson, validateLessonIndex } from '../js/lib/lessons.js';
-import { validateTests } from '../js/lib/activities.js';
+import { validateMathPractice, validateTests } from '../js/lib/activities.js';
 import { pictureName } from '../js/lib/data.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -19,6 +19,7 @@ export const ALLOW = [
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
   /^data\/lessons\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/,
   /^data\/tests\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
+  /^data\/practice\/math\.json$/,
   /^images\/cone\.svg$/,
   /^images\/words\/[a-z0-9-]+\.(?:svg|webp)$/,
   /^fonts\/[a-z0-9-]+\.woff2$/,
@@ -169,6 +170,8 @@ export function verifySite(dir) {
       problems.push(...validateTests(readJSON(path.join(dir, rel)), readJSON(path.join(dir, `data/${id}.json`))));
     }
   }
+  // Math practice problems: every answer key, picture and property is checked before publishing.
+  if (has('data/practice/math.json')) problems.push(...validateMathPractice(readJSON(path.join(dir, 'data/practice/math.json'))));
   // The picture list must match the published pictures exactly (pages use it so they never ask for a missing file).
   if (has('data/pictures.json')) {
     const list = readJSON(path.join(dir, 'data/pictures.json'));
