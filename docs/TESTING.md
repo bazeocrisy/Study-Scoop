@@ -5,7 +5,7 @@ No packages to install. Needs Node 22 or newer and Chrome or Edge (set `CHROME_P
 | Command | What it runs | Time |
 |---|---|---|
 | `npm test` | Unit tests (`tests/unit/*.test.js`): data, validator, routing, dates, escaping, every section rendered for every week, privacy/security scans, publishing build and verifier | ~3 s |
-| `npm run test:browser` | Headless Chrome against the site served at `/Study-Scoop/` (like GitHub Pages) | ~20 s |
+| `npm run test:browser` | Headless Chrome against the site served at `/Study-Scoop/` (like GitHub Pages): every section and every lesson stage at six widths, keyboard lesson flows, feedback, hints, Show me how, scoring, pictures, contrast | ~5 min |
 | `npm run build` | Builds the publishable site into `_site` from the allowlist and verifies it (`docs/DEPLOYMENT.md`) | ~1 s |
 | `npm run test:site` | Builds `_site`, then runs every browser check against the built site only, plus checks that development files are not served | ~20 s |
 | `npm run test:all` | All three | |

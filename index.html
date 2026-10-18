@@ -34,19 +34,21 @@
   </header>
 
   <nav class="tabs" aria-label="Sections">
-    <a href="#week" data-tab="week">This Week</a>
-    <a href="#spelling" data-tab="spelling">Spelling</a>
-    <a href="#vocab" data-tab="vocab">Vocabulary</a>
-    <a href="#math" data-tab="math">Math</a>
-    <a href="#quickmath" data-tab="quickmath">Quick Math</a>
-    <a href="#homework" data-tab="homework">Homework</a>
-    <a href="#newsletter" data-tab="newsletter">Newsletter</a>
+    <a href="#week" data-tab="week"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>This Week</span></a>
+    <a href="#spelling" data-tab="spelling"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 18L7.5 6 12 18M4.7 14h5.6M14 10h4a2 2 0 0 1 0 4h-4v-4zm0 4h4.5a2 2 0 0 1 0 4H14z"/></svg><span>Spelling</span></a>
+    <a href="#vocab" data-tab="vocab"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 6c-2-1.5-5-2-8-1.5V19c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V4.5C17 4 14 4.5 12 6zM12 6v14.5"/></svg><span>Vocabulary</span></a>
+    <a href="#math" data-tab="math"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/></svg><span>Math</span></a>
+    <a href="#quickmath" data-tab="quickmath"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><span>Quick Math</span></a>
+    <a href="#homework" data-tab="homework"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 4h6M9 4a2 2 0 0 0-2 2H5v15h14V6h-2a2 2 0 0 0-2-2M9 12l2 2 4-4"/></svg><span>Homework</span></a>
+    <a href="#newsletter" data-tab="newsletter"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5h13v14H6a2 2 0 0 1-2-2zM17 9h3v8a2 2 0 0 1-2 2M7 9h7M7 12h7M7 15h4"/></svg><span>Newsletter</span></a>
   </nav>
 
   <main id="app" tabindex="-1">
     <p class="loading">Loading this week's words…</p>
     <noscript><p class="card">Study Scoop needs JavaScript turned on to show this week's practice.</p></noscript>
   </main>
+
+  <div id="live" class="sr-only" role="status" aria-live="polite"></div>
 
   <footer class="foot">Study Scoop · No sign-in, nothing saved. Just practice.</footer>
 </div>

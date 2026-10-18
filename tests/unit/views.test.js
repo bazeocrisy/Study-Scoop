@@ -19,9 +19,13 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const VIEWS = { week: weekView, spelling: spellingView, vocab: vocabView, math: mathView,
   quickmath: quickmathView, homework: homeworkView, newsletter: newsletterView };
 
+const LESSONS = readJSON('data/lessons/index.json');
+const PICTURES = readJSON('data/pictures.json');
 function ctxFor(index, weekId, section, week) {
   return { week, index, weekId, section, isCurrent: weekId === index.current, today: new Date(2026, 9, 16, 12),
-    link: (s, id = weekId) => buildHash(s, id, index.current) };
+    link: (s, id = weekId) => buildHash(s, id, index.current),
+    lessonLink: (id, stage) => buildHash('math', weekId, index.current, { lesson: id, stage }),
+    lessons: LESSONS, pictures: PICTURES };
 }
 
 const cases = [];

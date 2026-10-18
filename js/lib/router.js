@@ -1,7 +1,9 @@
 // Hash routes: "#<section>" for this week, "#<section>?week=YYYY-MM-DD" for another week.
+// Lessons live under Math: "#math?lesson=5-1&stage=watch" (DECISIONS D17).
 // The week lives in the address (not in storage), so links can be shared and nothing is saved.
 
 export const DEFAULT_SECTION = 'week';
+const LESSON_ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 /** Reads a location hash. `known` is false when the section name was not recognised. */
 export function parseHash(hash, sectionIds) {
@@ -10,16 +12,26 @@ export function parseHash(hash, sectionIds) {
   const name = q === -1 ? text : text.slice(0, q);
   const params = new URLSearchParams(q === -1 ? '' : text.slice(q + 1));
   const known = name === '' || sectionIds.includes(name);
+  const section = name && sectionIds.includes(name) ? name : DEFAULT_SECTION;
+  const lesson = section === 'math' && LESSON_ID.test(params.get('lesson') || '') ? params.get('lesson') : null;
   return {
-    section: name && sectionIds.includes(name) ? name : DEFAULT_SECTION,
+    section,
     week: params.get('week') || null,
+    lesson,
+    stage: lesson ? params.get('stage') || null : null,
     known,
   };
 }
 
-/** The canonical hash for a section and week. The current week is left out of the address. */
-export function buildHash(section, weekId, currentWeekId) {
-  return weekId && weekId !== currentWeekId ? `#${section}?week=${encodeURIComponent(weekId)}` : `#${section}`;
+/** The canonical hash for a section and week (plus an optional lesson and stage). The current week is left out. */
+export function buildHash(section, weekId, currentWeekId, extra = {}) {
+  const params = [];
+  if (weekId && weekId !== currentWeekId) params.push(`week=${encodeURIComponent(weekId)}`);
+  if (section === 'math' && extra.lesson) {
+    params.push(`lesson=${encodeURIComponent(extra.lesson)}`);
+    if (extra.stage) params.push(`stage=${encodeURIComponent(extra.stage)}`);
+  }
+  return params.length ? `#${section}?${params.join('&')}` : `#${section}`;
 }
 
 /** The week to show: the requested one when it is listed, otherwise the current week. */

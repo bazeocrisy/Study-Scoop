@@ -127,6 +127,18 @@ export async function startBrowser() {
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, Buffer.from(r.result.data, 'base64'));
     },
+    /** Types text into the focused field, like a keyboard would. */
+    async type(text) { await send('Input.insertText', { text }); },
+    /** Waits until a page condition is true (never a fixed delay); fails with the last value seen. */
+    async waitFor(expr, timeout = 5000) {
+      let last;
+      for (const end = Date.now() + timeout; Date.now() < end;) {
+        last = await b.js(`return (${expr});`);
+        if (last) return last;
+        await b.wait(40);
+      }
+      throw new Error(`timed out waiting for ${expr} (last: ${JSON.stringify(last)})`);
+    },
     async key(key, shift = false) {
       const vk = { Tab: 9, Enter: 13, ' ': 32 }[key] || 0;
       const mods = shift ? 8 : 0;

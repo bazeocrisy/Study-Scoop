@@ -1,7 +1,7 @@
 # Study Scoop — Project Status
 
 ## Current phase
-Foundation merged into `main` (PR #1, `62720ef`). Preview-first publishing (D15): production https://bazeocrisy.github.io/Study-Scoop/ from `main`, live preview https://bazeocrisy.github.io/Study-Scoop/preview/ from `develop`. Image PRs #2 (spelling) and #3 (vocabulary) are open, unmerged.
+Assignment 004 (implementation) on `develop`: redesigned site (D16), interactive Lessons 5-1 and 5-2 on a shared lesson engine (D17), spelling and vocabulary pictures integrated. Preview: https://bazeocrisy.github.io/Study-Scoop/preview/ · production (unchanged until the owner approves a merge): https://bazeocrisy.github.io/Study-Scoop/. Image PRs #2 and #3: their files are included on `develop`; the PRs themselves are not merged.
 
 ## Completed
 - GitHub repository created by owner; README.md and CLAUDE.md added

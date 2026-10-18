@@ -1,0 +1,1113 @@
+{
+  "id": "5-1",
+  "title": "Understand the Distributive Property",
+  "goal": "I can decompose a fact into two easier facts and add.",
+  "catchAll": "Find the first part and the second part. Then add them.",
+  "teacher": [
+    {
+      "term": "Distributive Property",
+      "def": "a multiplication fact can be broken apart into the sum of two other related facts"
+    }
+  ],
+  "glossary": {
+    "decompose": "break apart into smaller parts",
+    "sum": "the answer when you add",
+    "area": "how many squares cover a shape"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Ready? Warm-up",
+        "item": {
+          "id": "r1",
+          "type": "number",
+          "prompt": "How many dots?",
+          "model": {
+            "type": "array",
+            "rows": 5,
+            "cols": 3
+          },
+          "answer": "5 × 3",
+          "hints": [
+            "There are 5 rows. Each row has 3 dots.",
+            "Count by 3s: 3, 6, 9, 12, …"
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 8
+              },
+              "say": "5 + 3 is 8. Count the dots: 5 rows of 3."
+            }
+          ],
+          "yes": "Yes! 5 rows of 3 is 15."
+        }
+      },
+      {
+        "title": "Ready? One more",
+        "item": {
+          "id": "r2",
+          "type": "number",
+          "prompt": "1 × 3 = ?",
+          "answer": "1 × 3",
+          "hints": [
+            "1 × 3 means 1 group of 3."
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 4
+              },
+              "say": "1 + 3 is 4, but this is times. 1 group of 3 is 3."
+            }
+          ],
+          "yes": "Yes! 1 group of 3 is 3."
+        }
+      },
+      {
+        "title": "Decompose a fact",
+        "text": [
+          "6 × 3 means 6 groups of 3. We draw it as 6 rows of 3 dots.",
+          "That is a lot to count. So we decompose it: we break it into two smaller facts we already know.",
+          "Cut under row 5. The top part is 5 × 3. The bottom part is 1 × 3."
+        ],
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "caption": "6 × 3 = 5 × 3 + 1 × 3",
+        "words": [
+          "decompose"
+        ]
+      },
+      {
+        "title": "The Distributive Property",
+        "teacher": true,
+        "text": [
+          "Decompose one factor into two easy facts. Then add.",
+          "Sometimes ( ) go around each fact. It means the same thing."
+        ],
+        "pairs": [
+          "Breaking 6 × 3 into (5 × 3) + (1 × 3) uses the Distributive Property.",
+          "6 × 3 = 5 × 3 + 1 × 3"
+        ]
+      },
+      {
+        "title": "Check",
+        "item": {
+          "id": "l1",
+          "type": "choice",
+          "prompt": "Which one shows 6 × 3 decomposed?",
+          "target": "6 × 3",
+          "options": [
+            {
+              "text": "5 × 3 + 1",
+              "why": "The second part must be a whole fact: 1 × 3, not 1."
+            },
+            {
+              "text": "5 × 3 + 1 × 3",
+              "correct": true
+            },
+            {
+              "text": "6 + 3",
+              "why": "6 × 3 means 6 groups of 3, not 6 + 3."
+            }
+          ],
+          "yes": "Yes! 5 × 3 + 1 × 3 is 15 + 3. That is 18."
+        }
+      }
+    ]
+  },
+  "watch": {
+    "takeaway": "Cut between rows or between columns. The total stays 18.",
+    "examples": [
+      {
+        "title": "Example A: cut under row 5",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "6 × 3 means 6 rows of 3.",
+            "model": {
+              "type": "array",
+              "rows": 6,
+              "cols": 3
+            }
+          },
+          {
+            "say": "Decompose 6 into 5 and 1. Cut under row 5.",
+            "model": {
+              "type": "array",
+              "rows": 6,
+              "cols": 3,
+              "cut": {
+                "by": "rows",
+                "at": 5
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The top part is 5 × 3 = 15.",
+            "eq": "5 × 3 = 15"
+          },
+          {
+            "say": "The bottom part is 1 × 3 = 3.",
+            "eq": "1 × 3 = 3"
+          },
+          {
+            "say": "Add the two parts.",
+            "eq": "6 × 3 = 5 × 3 + 1 × 3 = 15 + 3 = 18",
+            "pictured": true,
+            "word": "sum"
+          },
+          {
+            "say": "So 6 × 3 = 18.",
+            "eq": "6 × 3 = 18"
+          }
+        ],
+        "why": {
+          "id": "wA",
+          "type": "choice",
+          "prompt": "Why did we cut after 5 rows?",
+          "options": [
+            {
+              "text": "5 is the answer.",
+              "why": "The answer is 18. We cut at 5 because 5s facts are easy."
+            },
+            {
+              "text": "5 + 3 = 8.",
+              "why": "We are not adding 5 and 3. We cut at 5 because 5s facts are easy."
+            },
+            {
+              "text": "5s facts are easy.",
+              "correct": true
+            }
+          ],
+          "yes": "Yes! 5s facts are easy, so 5 is a good place to cut."
+        }
+      },
+      {
+        "title": "Example B: cut under row 4",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "Let's try a different cut. Decompose 6 into 4 and 2.",
+            "model": {
+              "type": "array",
+              "rows": 6,
+              "cols": 3,
+              "cut": {
+                "by": "rows",
+                "at": 4
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The top part is 4 × 3 = 12.",
+            "eq": "4 × 3 = 12"
+          },
+          {
+            "say": "The bottom part is 2 × 3 = 6.",
+            "eq": "2 × 3 = 6"
+          },
+          {
+            "say": "Add the two parts. Same answer as before!",
+            "eq": "6 × 3 = 4 × 3 + 2 × 3 = 12 + 6 = 18",
+            "pictured": true
+          }
+        ],
+        "why": {
+          "id": "wB",
+          "type": "choice",
+          "prompt": "Both ways make 18. Why?",
+          "options": [
+            {
+              "text": "We added more dots.",
+              "why": "No dots were added. We only moved the cut."
+            },
+            {
+              "text": "We moved the cut. It's still 6 rows of 3.",
+              "correct": true
+            },
+            {
+              "text": "4 is bigger than 5.",
+              "why": "4 is smaller than 5. We only moved the cut, so the dots stay the same."
+            }
+          ],
+          "yes": "Yes! You can cut in a different place. The answer stays the same."
+        },
+        "another": {
+          "text": "You can cut in a different place. The answer stays the same.",
+          "models": [
+            {
+              "type": "array",
+              "rows": 6,
+              "cols": 3,
+              "cut": {
+                "by": "rows",
+                "at": 5
+              },
+              "labels": "facts"
+            },
+            {
+              "type": "array",
+              "rows": 6,
+              "cols": 3,
+              "cut": {
+                "by": "rows",
+                "at": 4
+              },
+              "labels": "facts"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Example C: cut the other way",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 3,
+          "cut": {
+            "by": "cols",
+            "at": 2
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "Now cut the other way. Decompose 3 into 2 and 1. The cut goes between two columns.",
+            "model": {
+              "type": "array",
+              "rows": 6,
+              "cols": 3,
+              "cut": {
+                "by": "cols",
+                "at": 2
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The left part is 6 × 2 = 12.",
+            "eq": "6 × 2 = 12"
+          },
+          {
+            "say": "The right part is 6 × 1 = 6.",
+            "eq": "6 × 1 = 6"
+          },
+          {
+            "say": "Add the two parts. Same 18 dots!",
+            "eq": "6 × 3 = 6 × 2 + 6 × 1 = 12 + 6 = 18",
+            "pictured": true
+          }
+        ],
+        "why": {
+          "id": "wC",
+          "type": "choice",
+          "prompt": "What did we decompose this time?",
+          "options": [
+            {
+              "text": "The 6",
+              "why": "Every part still has 6 rows. We split the 3 columns into 2 and 1."
+            },
+            {
+              "text": "The 3",
+              "correct": true
+            },
+            {
+              "text": "The 18",
+              "why": "18 is the product. We decomposed the 3 into 2 and 1."
+            }
+          ],
+          "yes": "Yes! We decomposed the 3. You can decompose either factor."
+        }
+      }
+    ]
+  },
+  "together": {
+    "intro": "Let's do some together. Use Hint if you get stuck.",
+    "items": [
+      {
+        "id": "g1",
+        "type": "fill",
+        "prompt": "Finish the last step.",
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 4,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "lines": [
+          "7 × 4 = 5 × 4 + 2 × 4",
+          "= 20 + 8",
+          "= [t]"
+        ],
+        "answer": {
+          "t": 28
+        },
+        "hints": [
+          "Look at the two products: 20 and 8.",
+          "Add them: 20 + 8."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 20
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 11
+            },
+            "say": "7 × 4 means 7 groups of 4, not 7 + 4. Add the two products."
+          }
+        ],
+        "show": [
+          "5 × 4 = 20 and 2 × 4 = 8.",
+          "20 + 8 = 28.",
+          "So 7 × 4 = 28."
+        ],
+        "yes": "Yes! 20 + 8 = 28. You used the 5s fact!"
+      },
+      {
+        "id": "g2",
+        "type": "fill",
+        "prompt": "Find each part. Then add.",
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "lines": [
+          "8 × 3 = 5 × 3 + 3 × 3",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 15,
+          "q": 9,
+          "t": 24
+        },
+        "hints": [
+          "The top part is 5 rows of 3.",
+          "The bottom part is 3 rows of 3. 3 × 3 = 9."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "q": 3
+            },
+            "say": "The bottom part is 3 × 3, not 3. Find 3 × 3."
+          },
+          {
+            "when": {
+              "t": 15
+            },
+            "say": "You found the first part! Now add the second part."
+          }
+        ],
+        "show": [
+          "Top part: 5 × 3 = 15.",
+          "Bottom part: 3 × 3 = 9.",
+          "15 + 9 = 24."
+        ],
+        "yes": "Yes! 15 + 9 = 24. You used the 5s fact!"
+      },
+      {
+        "id": "g3",
+        "type": "fill",
+        "prompt": "This cut goes between columns. Fill in the boxes.",
+        "model": {
+          "type": "array",
+          "rows": 5,
+          "cols": 6,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "lines": [
+          "5 × 6 = 5 × 5 + 5 × [d]",
+          "= 25 + 5",
+          "= [t]"
+        ],
+        "answer": {
+          "d": 1,
+          "t": 30
+        },
+        "min": 1,
+        "hints": [
+          "Count the columns to the right of the line.",
+          "The right part is 5 rows of 1."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "d": 5
+            },
+            "say": "That box needs a factor. How many columns are right of the line?"
+          },
+          {
+            "when": {
+              "t": 26
+            },
+            "say": "The second part is 5 × 1, not 1. Add 5."
+          }
+        ],
+        "show": [
+          "The right part has 1 column of 5 dots: 5 × 1 = 5.",
+          "25 + 5 = 30."
+        ],
+        "yes": "Yes! 25 + 5 = 30."
+      },
+      {
+        "id": "g4",
+        "type": "fill",
+        "prompt": "Look at the cut. Fill in the boxes.",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "lines": [
+          "6 × 3 = [a] × 3 + [b] × 3"
+        ],
+        "answer": {
+          "a": 5,
+          "b": 1
+        },
+        "min": 1,
+        "accept": [
+          {
+            "a": 5,
+            "b": 1
+          }
+        ],
+        "hints": [
+          "Count the rows above the line.",
+          "Count the rows below the line."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "a": 5,
+              "b": 2
+            },
+            "say": "5 + 2 is 7 rows. The picture has 6. Count the rows below the line."
+          },
+          {
+            "when": {
+              "a": 6
+            },
+            "say": "Count only the rows above the line. That is the top part."
+          },
+          {
+            "when": {
+              "a": 4,
+              "b": 2
+            },
+            "say": "That works for 6 × 3, but not for this picture. Count the rows above the line."
+          }
+        ],
+        "show": [
+          "5 rows are above the line.",
+          "1 row is below the line.",
+          "6 × 3 = 5 × 3 + 1 × 3."
+        ],
+        "yes": "Yes! 5 rows on top and 1 row below."
+      },
+      {
+        "id": "g5",
+        "type": "fill",
+        "prompt": "Each square is like a dot. Find the area (how many squares): 5 × 7.",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 5,
+          "cols": 7,
+          "cut": {
+            "by": "cols",
+            "at": 4
+          },
+          "sideLabels": true
+        },
+        "lines": [
+          "5 × 7 = 5 × 4 + 5 × 3",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 20,
+          "q": 15,
+          "t": 35
+        },
+        "hints": [
+          "The left part is 5 rows of 4 squares.",
+          "The right part is 5 rows of 3 squares."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 12
+            },
+            "say": "5 × 7 means 5 rows of 7, not 5 + 7. Count the squares."
+          },
+          {
+            "when": {
+              "t": 20
+            },
+            "say": "You found the first part! Now add the second part."
+          }
+        ],
+        "show": [
+          "Left part: 5 × 4 = 20.",
+          "Right part: 5 × 3 = 15.",
+          "20 + 15 = 35."
+        ],
+        "yes": "Yes! 20 + 15 = 35 squares."
+      },
+      {
+        "id": "g6",
+        "type": "decompose",
+        "prompt": "Your own cut! Decompose 6 × 3 any way you like.",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 3
+        },
+        "fact": [
+          6,
+          3
+        ],
+        "answer": {
+          "p": 5,
+          "q": 3,
+          "r": 1,
+          "s": 3,
+          "t": 18
+        },
+        "hints": [
+          "Pick one factor to break apart: the 6 or the 3.",
+          "Try 5 × 3 + 1 × 3. Then add."
+        ],
+        "show": [
+          "Decompose 6 into 5 and 1.",
+          "5 × 3 + 1 × 3 = 15 + 3 = 18."
+        ]
+      }
+    ]
+  },
+  "try": {
+    "pass": 7,
+    "items": [
+      {
+        "id": "t1",
+        "type": "decompose",
+        "prompt": "Decompose 9 × 4. Any way that works is fine.",
+        "model": {
+          "type": "array",
+          "rows": 9,
+          "cols": 4
+        },
+        "fact": [
+          9,
+          4
+        ],
+        "answer": {
+          "p": 5,
+          "q": 4,
+          "r": 4,
+          "s": 4,
+          "t": 36
+        },
+        "hints": [
+          "Try cutting under row 5.",
+          "5 × 4 + 4 × 4. Then add."
+        ],
+        "show": [
+          "Cut under row 5: 5 × 4 + 4 × 4.",
+          "20 + 16 = 36."
+        ]
+      },
+      {
+        "id": "t2",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "[a] × 4 = 5 × 4 + 2 × 4"
+        ],
+        "answer": {
+          "a": 7
+        },
+        "hints": [
+          "The 4 is in both facts. Which number was decomposed?",
+          "5 and 2 make the missing factor."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "a": 28
+            },
+            "say": "That box needs a factor, not the product. Which number was decomposed?"
+          },
+          {
+            "when": {
+              "a": 20
+            },
+            "say": "That box needs a factor. What do 5 and 2 make?"
+          }
+        ],
+        "show": [
+          "5 and 2 make 7.",
+          "7 × 4 = 5 × 4 + 2 × 4."
+        ],
+        "yes": "Yes! 5 + 2 = 7, so 7 × 4."
+      },
+      {
+        "id": "t3",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "4 × [b] = 4 × 5 + 4 × 3"
+        ],
+        "answer": {
+          "b": 8
+        },
+        "hints": [
+          "The 4 is in both facts. The other numbers are 5 and 3.",
+          "What do 5 and 3 make?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "b": 32
+            },
+            "say": "That box needs a factor, not the product. What do 5 and 3 make?"
+          },
+          {
+            "when": {
+              "b": 4
+            },
+            "say": "4 is the number in both facts. Add the other two: 5 and 3."
+          }
+        ],
+        "show": [
+          "5 and 3 make 8.",
+          "4 × 8 = 4 × 5 + 4 × 3."
+        ],
+        "yes": "Yes! 5 + 3 = 8."
+      },
+      {
+        "id": "t4",
+        "type": "fill",
+        "prompt": "Each square is like a dot. Find the area (how many squares): 4 × 9.",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 4,
+          "cols": 9,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "sideLabels": true
+        },
+        "lines": [
+          "4 × 9 = 4 × 5 + 4 × 4",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 20,
+          "q": 16,
+          "t": 36
+        },
+        "hints": [
+          "Left part: 4 rows of 5 squares.",
+          "Right part: 4 rows of 4 squares."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 13
+            },
+            "say": "4 × 9 means 4 rows of 9, not 4 + 9. Count the squares."
+          },
+          {
+            "when": {
+              "t": 20
+            },
+            "say": "You found the first part! Now add the second part."
+          }
+        ],
+        "show": [
+          "4 × 5 = 20 and 4 × 4 = 16.",
+          "20 + 16 = 36."
+        ],
+        "yes": "Yes! 20 + 16 = 36 squares."
+      },
+      {
+        "id": "t5",
+        "type": "choice",
+        "prompt": "Two friends decomposed 8 × 5. Friend 1 wrote 4 × 5 + 4 × 5. Friend 2 wrote 5 × 5 + 3 × 5. Who is right?",
+        "models": [
+          {
+            "type": "array",
+            "rows": 8,
+            "cols": 5,
+            "cut": {
+              "by": "rows",
+              "at": 4
+            },
+            "labels": "facts"
+          },
+          {
+            "type": "array",
+            "rows": 8,
+            "cols": 5,
+            "cut": {
+              "by": "rows",
+              "at": 5
+            },
+            "labels": "facts"
+          }
+        ],
+        "options": [
+          {
+            "text": "Only Friend 1",
+            "why": "Check Friend 2 too: 25 + 15 = 40."
+          },
+          {
+            "text": "Only Friend 2",
+            "why": "Check Friend 1 too: 20 + 20 = 40."
+          },
+          {
+            "text": "Both friends",
+            "correct": true
+          },
+          {
+            "text": "Neither",
+            "why": "Both make 40: 20 + 20 = 40 and 25 + 15 = 40."
+          }
+        ],
+        "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Any cut gives the same product."
+      },
+      {
+        "id": "t6",
+        "type": "decompose",
+        "prompt": "Decompose 4 × 7. Any way that works is fine.",
+        "fact": [
+          4,
+          7
+        ],
+        "answer": {
+          "p": 4,
+          "q": 5,
+          "r": 4,
+          "s": 2,
+          "t": 28
+        },
+        "hints": [
+          "Try decomposing the 7 into 5 and 2.",
+          "4 × 5 + 4 × 2. Then add."
+        ],
+        "show": [
+          "Decompose 7 into 5 and 2.",
+          "4 × 5 + 4 × 2 = 20 + 8 = 28."
+        ]
+      },
+      {
+        "id": "t7",
+        "type": "number",
+        "prompt": "8 × 1 = ?",
+        "answer": "8 × 1",
+        "hints": [
+          "8 groups of 1."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 9
+            },
+            "say": "8 + 1 is 9, but this is times 1. 8 groups of 1 is 8."
+          }
+        ],
+        "yes": "Yes! Times 1 keeps the number the same."
+      },
+      {
+        "id": "t8",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "6 × 4 = 4 × [x]"
+        ],
+        "answer": {
+          "x": 6
+        },
+        "hints": [
+          "Turn the fact around. Switch the two factors."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 4
+            },
+            "say": "Switch the two factors. Which number moved?"
+          },
+          {
+            "when": {
+              "x": 24
+            },
+            "say": "That box needs a factor. 4 × what makes 24?"
+          }
+        ],
+        "show": [
+          "Switch the factors: 6 × 4 = 4 × 6."
+        ],
+        "yes": "Yes! The order of the factors does not matter."
+      }
+    ]
+  },
+  "test": {
+    "pass": 7,
+    "items": [
+      {
+        "id": "x1",
+        "type": "choice",
+        "prompt": "Breaking 6 × 3 into (5 × 3) + (1 × 3) uses the ___.",
+        "options": [
+          {
+            "text": "Identity Property",
+            "why": "Identity is times 1. This sentence breaks a fact apart."
+          },
+          {
+            "text": "Zero Property",
+            "why": "Zero is times 0. This sentence breaks a fact apart."
+          },
+          {
+            "text": "Distributive Property",
+            "correct": true
+          },
+          {
+            "text": "Commutative Property",
+            "why": "Commutative turns a fact around. This sentence breaks a fact apart."
+          }
+        ]
+      },
+      {
+        "id": "x2",
+        "type": "fill",
+        "prompt": "Fill in the boxes.",
+        "lines": [
+          "8 × 4 = 5 × 4 + [b] × 4",
+          "= [t]"
+        ],
+        "answer": {
+          "b": 3,
+          "t": 32
+        },
+        "min": 1,
+        "show": [
+          "8 = 5 + 3.",
+          "5 × 4 + 3 × 4 = 20 + 12 = 32."
+        ]
+      },
+      {
+        "id": "x3",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "[a] × 6 = 4 × 6 + 3 × 6"
+        ],
+        "answer": {
+          "a": 7
+        },
+        "show": [
+          "4 and 3 make 7.",
+          "7 × 6 = 4 × 6 + 3 × 6."
+        ]
+      },
+      {
+        "id": "x4",
+        "type": "decompose",
+        "prompt": "Decompose 7 × 3. Any way that works is fine.",
+        "fact": [
+          7,
+          3
+        ],
+        "answer": {
+          "p": 5,
+          "q": 3,
+          "r": 2,
+          "s": 3,
+          "t": 21
+        },
+        "show": [
+          "Decompose 7 into 5 and 2.",
+          "5 × 3 + 2 × 3 = 15 + 6 = 21."
+        ]
+      },
+      {
+        "id": "x5",
+        "type": "fill",
+        "prompt": "Each square is like a dot. Find the area (how many squares): 3 × 6.",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 3,
+          "cols": 6,
+          "cut": {
+            "by": "cols",
+            "at": 4
+          },
+          "sideLabels": true
+        },
+        "lines": [
+          "3 × 6 = 3 × 4 + 3 × 2",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 12,
+          "q": 6,
+          "t": 18
+        },
+        "show": [
+          "3 × 4 = 12 and 3 × 2 = 6.",
+          "12 + 6 = 18."
+        ]
+      },
+      {
+        "id": "x6",
+        "type": "choice",
+        "prompt": "Which one is equal to 9 × 3?",
+        "target": "9 × 3",
+        "options": [
+          {
+            "text": "5 × 3 + 4",
+            "why": "The second part must be a whole fact: 4 × 3, not 4."
+          },
+          {
+            "text": "9 + 3",
+            "why": "9 × 3 means 9 groups of 3, not 9 + 3."
+          },
+          {
+            "text": "5 × 3 + 4 × 3",
+            "correct": true
+          },
+          {
+            "text": "5 × 3 + 3 × 3",
+            "why": "5 and 3 make 8, not 9."
+          }
+        ]
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "Do 5 × 4 + 2 × 4 and 7 × 2 + 7 × 2 make the same product?",
+        "options": [
+          {
+            "text": "No, the first one is bigger",
+            "why": "20 + 8 = 28 and 14 + 14 = 28. They are the same."
+          },
+          {
+            "text": "Yes, both make 28",
+            "correct": true
+          },
+          {
+            "text": "No, the second one is bigger",
+            "why": "20 + 8 = 28 and 14 + 14 = 28. They are the same."
+          }
+        ]
+      },
+      {
+        "id": "x8",
+        "type": "number",
+        "prompt": "A garden has 9 rows of 6 tomato plants. How many plants are there?",
+        "answer": "9 × 6",
+        "show": [
+          "9 × 6 = 5 × 6 + 4 × 6 = 30 + 24 = 54."
+        ]
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "To decompose (break apart) one factor of a multiplication fact into two easier facts, find each product, and add. Either factor can be decomposed: 6 × 3 = 5 × 3 + 1 × 3, or 6 × 3 = 6 × 2 + 6 × 1."
+      },
+      {
+        "heading": "Try it with real things",
+        "list": [
+          "Set out 6 cups with 3 beans in each. Slide 1 cup away: 15 + 3 = 18.",
+          "Now take 1 bean out of every cup into a second pile: 6 × 2 + 6 × 1 = 12 + 6 = 18."
+        ]
+      },
+      {
+        "heading": "Questions to ask",
+        "list": [
+          "What did you decompose?",
+          "Why is 5 a good place to cut?",
+          "Does a different cut change the answer?"
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Adding the leftover number instead of its fact: 15 + 1 = 16 instead of 15 + 3.",
+          "Stopping at the first part (15).",
+          "Adding the factors: 6 + 3 = 9.",
+          "Parts that don't add back to the factor, like 4 × 3 + 1 × 3 for 6 × 3.",
+          "Changing the kept factor, like 5 × 3 + 1 × 1."
+        ]
+      },
+      {
+        "heading": "A note on notation",
+        "text": "Your child's book writes the facts without ( ). The teacher's sentence uses ( ). Both mean the same thing. Study Scoop uses original practice questions; it never copies the textbook."
+      }
+    ]
+  }
+}

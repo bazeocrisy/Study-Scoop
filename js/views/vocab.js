@@ -1,6 +1,5 @@
 import { html } from '../lib/html.js';
-import { pictureName } from '../lib/data.js';
-import { comingSoon, pageHead } from './common.js';
+import { comingSoon, pageHead, wordPicture } from './common.js';
 
 const GROUP_LABEL = { green: 'Quiz word (green)', purple: 'Quiz word (purple)' };
 
@@ -13,7 +12,7 @@ export function vocabView(ctx) {
     <ul class="cards vocab">
       ${v.words.map((w) => html`
         <li class="card vocab-card${w.group ? ` group-${w.group}` : ''}">
-          <span class="pic"><img src="images/words/${pictureName(w.word)}.svg" alt="" width="160" height="110" data-optional></span>
+          ${wordPicture(ctx, w.word, `Picture showing what "${w.word}" means`)}
           <h2 class="vocab-word">${w.word}</h2>
           ${w.group ? html`<p class="badge badge-${w.group}">${GROUP_LABEL[w.group]}</p>` : ''}
           <p class="def">${w.def}</p>

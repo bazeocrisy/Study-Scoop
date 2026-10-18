@@ -2,9 +2,11 @@
 // Nothing is stored: no localStorage, cookies, accounts or analytics. The chosen week lives in the address.
 
 import { html } from './lib/html.js';
-import { loadIndex, loadWeek } from './lib/data.js';
+import { loadIndex, loadJSON, loadWeek } from './lib/data.js';
 import { buildHash, parseHash, resolveWeek } from './lib/router.js';
 import { validateIndex, validateWeek } from './lib/validate.js';
+import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
+import { mountLesson, stateFor } from './lesson-player.js';
 import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
 import { weekView } from './views/week.js';
 import { spellingView } from './views/spelling.js';
@@ -26,7 +28,9 @@ const nav = document.querySelector('nav.tabs');
 const brand = document.querySelector('.brand');
 
 let index = null;
+let pictures = { photos: [], drawings: [] };
 let renderCount = 0;
+let mounted = null; // removes the lesson controls of the previous page
 
 async function start() {
   try {
@@ -41,6 +45,8 @@ async function start() {
   select.addEventListener('change', () => {
     location.hash = buildHash(parseHash(location.hash, SECTION_IDS).section, select.value, index.current);
   });
+  // Which word pictures exist (so no page asks for a missing file). Pictures are optional: no list, no pictures.
+  try { pictures = await loadJSON('data/pictures.json'); } catch { /* keep the empty list */ }
   window.addEventListener('hashchange', render);
   await render();
 }
@@ -49,7 +55,26 @@ async function render() {
   const n = ++renderCount;
   const route = parseHash(location.hash, SECTION_IDS);
   const weekId = resolveWeek(route.week, index);
-  const canonical = buildHash(route.section, weekId, index.current);
+  // Lessons (Math only): the list, and the lesson named in the address. Unknown lessons fall back to the Math page.
+  let lessons = null, lesson = null;
+  if (route.section === 'math') {
+    try {
+      lessons = await loadJSON('data/lessons/index.json');
+      if (validateLessonIndex(lessons).length) lessons = null;
+    } catch { lessons = null; }
+    if (route.lesson && lessons?.lessons.some((l) => l.id === route.lesson)) {
+      try { lesson = await loadJSON(`data/lessons/${route.lesson}.json`); } catch (e) {
+        if (n === renderCount) showProblem('This lesson could not be loaded.', [String(e.message || e)]);
+        return;
+      }
+      let lp;
+      try { lp = validateLesson(lesson, route.lesson); } catch (e) { lp = [String(e.message || e)]; }
+      if (lp.length) { if (n === renderCount) showProblem('This lesson has a problem.', lp); return; }
+    }
+  }
+  if (n !== renderCount) return; // a newer navigation started while lessons were loading (keep its address)
+  const stage = lesson ? (STAGE_IDS.includes(route.stage) ? route.stage : 'learn') : null;
+  const canonical = buildHash(route.section, weekId, index.current, lesson ? { lesson: lesson.id, stage } : {});
   // Fix unknown sections and unknown weeks in the address without adding a history entry.
   if (location.hash && location.hash !== canonical) {
     history.replaceState(null, '', canonical);
@@ -79,9 +104,21 @@ async function render() {
   const ctx = {
     week, index, weekId, section: route.section, isCurrent: weekId === index.current, today: new Date(),
     link: (section, id = weekId) => buildHash(section, id, index.current),
+    lessonLink: (id, st) => buildHash('math', weekId, index.current, { lesson: id, stage: st }),
+    pictures, lessons, lesson, stage, lessonState: lesson ? stateFor(lesson.id, stage) : null,
   };
+  mounted?.abort();
+  mounted = null;
+  document.body.dataset.section = route.section;
+  document.body.classList.toggle('in-lesson', Boolean(lesson));
   app.innerHTML = VIEWS[route.section](ctx).s;
-  document.title = `${sectionLabel(route.section)} · Study Scoop`;
+  document.title = lesson
+    ? `${stageLabel(stage)} · Lesson ${lesson.id}: ${lesson.title} · Study Scoop`
+    : `${sectionLabel(route.section)} · Study Scoop`;
+  if (lesson) {
+    mounted = new AbortController();
+    mountLesson(app, ctx, mounted.signal);
+  }
 
   // Word pictures are optional: drop the frame when a picture file does not exist.
   for (const img of app.querySelectorAll('img[data-optional]')) {
@@ -91,7 +128,8 @@ async function render() {
   // and not while the week picker is being used).
   if (n > 1 && document.activeElement !== select) {
     window.scrollTo(0, 0);
-    app.focus({ preventScroll: true });
+    // In a lesson, land on the stage heading; elsewhere on the page content.
+    (lesson ? app.querySelector('#stage-h') || app : app).focus({ preventScroll: true });
   }
   app.dataset.ready = String(n);
 }

@@ -35,18 +35,39 @@ const caught = (problems, pattern) => assert.ok(problems.some((p) => pattern.tes
 
 test('the built site passes verification', () => {
   assert.deepEqual(verifySite(SITE), []);
-  // Only the spelling study cards (PNG, not yet used by the site, DECISIONS D13) are left out.
-  assert.deepEqual(skipped, repoFiles('images/words').filter((f) => f.endsWith('.png')).map((f) => `${f} (not on the allowlist)`));
+  // Only the full-size study-card originals (PNG; the site uses small WebP copies, DECISIONS D13, D14, D16)
+  // and the font licence note are left out.
+  assert.deepEqual(skipped.sort(), [...repoFiles('images/words').filter((f) => f.endsWith('.png')), 'fonts/README.md']
+    .map((f) => `${f} (not on the allowlist)`).sort());
   assert.deepEqual([...copied].sort(), PUBLISHED);
 });
 
-test('the built site is exactly the page, styles, modules, listed weeks and pictures', () => {
+test('the built site is exactly the page, styles, modules, fonts, listed weeks, lessons and pictures', () => {
   const weeks = JSON.parse(fs.readFileSync(path.join(REPO, 'data/weeks.json'), 'utf8')).weeks.map((w) => `data/${w.id}.json`);
-  const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', ...weeks, 'images/cone.svg',
-    ...repoFiles('images/words').filter((f) => f.endsWith('.svg'))];
+  const lessons = JSON.parse(fs.readFileSync(path.join(REPO, 'data/lessons/index.json'), 'utf8')).lessons.map((l) => `data/lessons/${l.id}.json`);
+  const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
+    'data/lessons/index.json', ...lessons, 'images/cone.svg',
+    ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2'))];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
-  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'images', 'index.html', 'js']);
+  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'fonts', 'images', 'index.html', 'js']);
+});
+
+test('a draft lesson (not listed) is left out, and a broken lesson fails verification', () => {
+  const src = tmp('lesson-src');
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  put(src, 'data/lessons/9-9.json', '{"id":"9-9"}');
+  const out = tmp('lesson-out');
+  const result = buildSite(out, src);
+  assert.ok(result.skipped.includes('data/lessons/9-9.json (not listed in data/lessons/index.json)'));
+  assert.deepEqual(verifySite(out), []);
+  // A wrong product in a worked example is caught before anything is published.
+  const f = path.join(out, 'data/lessons/5-1.json');
+  fs.writeFileSync(f, fs.readFileSync(f, 'utf8').replace('"6 × 3 = 5 × 3 + 1 × 3 = 15 + 3 = 18"', '"6 × 3 = 5 × 3 + 1 × 3 = 15 + 3 = 19"'));
+  caught(verifySite(out), /data\/lessons\/5-1\.json: 5-1: .*is not true/);
+  // The picture list must match the pictures that are really published.
+  fs.rmSync(path.join(out, 'images/words/produce.webp'));
+  caught(verifySite(out), /data\/pictures\.json: "photos" does not match/);
 });
 
 test('development files are absent from the built site, not merely unlinked', () => {
@@ -63,7 +84,7 @@ test('development files are absent from the built site, not merely unlinked', ()
 
 test('the build leaves out anything not on the allowlist, even inside approved folders', () => {
   const src = tmp('src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   for (const rel of ['reference/vocabulary-prototype.html', 'tests/browser.test.js', 'docs/notes.md', 'images/newsletters/2026-10-12.jpg',
     'images/words/scan.png', 'js/notes.md', 'js/.secret.js', 'css/draft.css.bak', 'data/2026-11-02.json', 'data/notes.json',
     'images/mockup.svg']) put(src, rel);

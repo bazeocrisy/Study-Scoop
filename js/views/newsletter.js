@@ -34,7 +34,7 @@ export function newsletterView(ctx) {
         ${homeworkList(week.homework)}
       </section>
 
-      <section class="card" aria-labelledby="h-nl-spelling">
+      <section class="card nl-spelling" aria-labelledby="h-nl-spelling">
         <h2 id="h-nl-spelling">Spelling words: ${week.spelling.pattern}</h2>
         <ol class="spelling-list">${week.spelling.words.map((w) => html`<li>${w.word}</li>`)}</ol>
       </section>

@@ -1,0 +1,947 @@
+{
+  "id": "5-2",
+  "title": "Use Properties to Multiply by 3",
+  "goal": "I can multiply by 3: the 2s fact plus the 1s fact.",
+  "catchAll": "Find the 3. Double the other number, then add it once more.",
+  "teacher": [
+    {
+      "term": "Distributive Property",
+      "def": "a multiplication fact can be broken apart into the sum of two other related facts"
+    },
+    {
+      "term": "Commutative Property",
+      "def": "the order of the factors does not matter. The product will stay the same"
+    }
+  ],
+  "glossary": {
+    "2s fact": "a fact times 2, like 2 × 8. It is a double.",
+    "1s fact": "a fact times 1, like 1 × 8",
+    "double": "add a number to itself"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Ready? Warm-up",
+        "item": {
+          "id": "r1",
+          "type": "number",
+          "prompt": "Double 6 = ?",
+          "answer": "6 + 6",
+          "hints": [
+            "Double means add a number to itself."
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 8
+              },
+              "say": "Double means add a number to itself: 6 + 6."
+            }
+          ],
+          "yes": "Yes! Double 6 is 12."
+        }
+      },
+      {
+        "title": "Ready? One more",
+        "item": {
+          "id": "r2",
+          "type": "number",
+          "prompt": "How many rows?",
+          "model": {
+            "type": "array",
+            "rows": 3,
+            "cols": 6,
+            "alt": "Rows of dots. Each row goes across."
+          },
+          "answer": "3",
+          "hints": [
+            "A row goes across, from left to right."
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 6
+              },
+              "say": "6 is how many dots are in each row. Count the rows going down."
+            }
+          ],
+          "yes": "Yes! 3 rows."
+        }
+      },
+      {
+        "title": "Decompose the 3",
+        "text": [
+          "3 × 8 means 3 rows of 8.",
+          "Decompose 3 into 2 and 1. The top 2 rows are the 2s fact: 2 × 8 = 16.",
+          "The bottom row is the 1s fact: 1 × 8 = 8.",
+          "Add them: 16 + 8 = 24."
+        ],
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 8,
+          "cut": {
+            "by": "rows",
+            "at": 2
+          },
+          "labels": "facts"
+        },
+        "caption": "3 × 8 = 2 × 8 + 1 × 8 = 16 + 8 = 24",
+        "words": [
+          "2s fact",
+          "1s fact",
+          "double"
+        ]
+      },
+      {
+        "title": "The 3s strategy",
+        "teacher": true,
+        "text": [
+          "Find the 3. Double the other number, then add it once more.",
+          "Double is the 2s fact. Once more is the 1s fact.",
+          "Turn-around: 6 × 3 = 3 × 6. The order changes, the product stays the same."
+        ],
+        "pairs": [
+          "3 × 7 = 2 × 7 + 1 × 7 = 14 + 7 = 21"
+        ]
+      },
+      {
+        "title": "Check",
+        "item": {
+          "id": "l1",
+          "type": "choice",
+          "prompt": "Which one is equal to 3 × 8?",
+          "target": "3 × 8",
+          "options": [
+            {
+              "text": "2 × 8 + 2 × 8",
+              "why": "That's 4 groups of 8. 3 is 2 and 1."
+            },
+            {
+              "text": "1 × 8 + 1 × 8",
+              "why": "That's only 2 groups of 8. 3 is 2 and 1."
+            },
+            {
+              "text": "2 × 8 + 1 × 8",
+              "correct": true
+            },
+            {
+              "text": "2 × 3 + 1 × 8",
+              "why": "Keep 8 in both facts."
+            }
+          ],
+          "yes": "Yes! 16 + 8 = 24."
+        }
+      }
+    ]
+  },
+  "watch": {
+    "takeaway": "3s facts: double the other number, then add it once more.",
+    "examples": [
+      {
+        "title": "Example 1: 3 × 6",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 6,
+          "cut": {
+            "by": "rows",
+            "at": 2
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "3 × 6 means 3 rows of 6.",
+            "model": {
+              "type": "array",
+              "rows": 3,
+              "cols": 6
+            }
+          },
+          {
+            "say": "Decompose 3 into 2 and 1. Cut under row 2.",
+            "model": {
+              "type": "array",
+              "rows": 3,
+              "cols": 6,
+              "cut": {
+                "by": "rows",
+                "at": 2
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The 2s fact: 2 × 6 = 12. That is double 6.",
+            "eq": "2 × 6 = 12",
+            "word": "2s fact"
+          },
+          {
+            "say": "The 1s fact: 1 × 6 = 6.",
+            "eq": "1 × 6 = 6",
+            "word": "1s fact"
+          },
+          {
+            "say": "Add them.",
+            "eq": "3 × 6 = 2 × 6 + 1 × 6 = 12 + 6 = 18",
+            "pictured": true
+          }
+        ],
+        "why": {
+          "id": "w1",
+          "type": "choice",
+          "prompt": "Why do we add 6 once more?",
+          "options": [
+            {
+              "text": "Because 6 is big.",
+              "why": "Double 6 is only 2 rows. We need 3 rows, so we add 1 more row of 6."
+            },
+            {
+              "text": "There are 3 rows. Double is only 2.",
+              "correct": true
+            },
+            {
+              "text": "To make it even.",
+              "why": "Double 6 is only 2 rows. We need 3 rows, so we add 1 more row of 6."
+            }
+          ],
+          "yes": "Yes! Double makes 2 rows. One more makes 3."
+        }
+      },
+      {
+        "title": "Example 2: 6 × 3",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 3,
+          "cut": {
+            "by": "cols",
+            "at": 2
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "Remember this from 5-1? 6 × 3 means 6 rows of 3. This time the 3 comes second.",
+            "model": {
+              "type": "array",
+              "rows": 6,
+              "cols": 3
+            }
+          },
+          {
+            "say": "Find the 3. Decompose it into 2 and 1. Cut between the columns.",
+            "model": {
+              "type": "array",
+              "rows": 6,
+              "cols": 3,
+              "cut": {
+                "by": "cols",
+                "at": 2
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "6 × 2 = 12. That is double 6.",
+            "eq": "6 × 2 = 12"
+          },
+          {
+            "say": "6 × 1 = 6.",
+            "eq": "6 × 1 = 6"
+          },
+          {
+            "say": "Add them.",
+            "eq": "6 × 3 = 6 × 2 + 6 × 1 = 12 + 6 = 18",
+            "pictured": true
+          }
+        ],
+        "another": {
+          "text": "Another way: turn it around. 6 × 3 = 3 × 6, and you already know 3 × 6 = 18.",
+          "model": {
+            "type": "pair",
+            "left": {
+              "rows": 6,
+              "cols": 3,
+              "star": [
+                0,
+                0
+              ]
+            },
+            "right": {
+              "rows": 3,
+              "cols": 6,
+              "star": [
+                0,
+                5
+              ]
+            }
+          }
+        },
+        "why": {
+          "id": "w2",
+          "type": "choice",
+          "prompt": "Which number did we double?",
+          "options": [
+            {
+              "text": "3",
+              "why": "We double the other number. Double 3 is only 6."
+            },
+            {
+              "text": "18",
+              "why": "18 is the product. We doubled the 6."
+            },
+            {
+              "text": "6, the number that isn't 3",
+              "correct": true
+            }
+          ],
+          "yes": "Yes! Find the 3, then double the other number."
+        }
+      }
+    ]
+  },
+  "together": {
+    "intro": "Let's do some together. Use Hint if you get stuck.",
+    "items": [
+      {
+        "id": "g1",
+        "type": "fill",
+        "prompt": "Finish the last step.",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 7,
+          "cut": {
+            "by": "rows",
+            "at": 2
+          },
+          "labels": "facts"
+        },
+        "lines": [
+          "3 × 7 = 2 × 7 + 1 × 7",
+          "= 14 + 7",
+          "= [t]"
+        ],
+        "answer": {
+          "t": 21
+        },
+        "hints": [
+          "Add the 2s fact and the 1s fact: 14 + 7."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 14
+            },
+            "say": "That's only double 7. Add 7 once more."
+          },
+          {
+            "when": {
+              "t": 17
+            },
+            "say": "Add the other number once more. Add 7, not 3."
+          },
+          {
+            "when": {
+              "t": 10
+            },
+            "say": "3 × 7 means 3 groups of 7. Double 7 first."
+          }
+        ],
+        "show": [
+          "2 × 7 = 14 and 1 × 7 = 7.",
+          "14 + 7 = 21."
+        ],
+        "yes": "Yes! Double 7 is 14. 14 + 7 = 21."
+      },
+      {
+        "id": "g3",
+        "type": "fill",
+        "prompt": "Double, then add once more.",
+        "lines": [
+          "3 × 5 = 2 × 5 + 1 × 5",
+          "= [p] + 5",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 10,
+          "t": 15
+        },
+        "hints": [
+          "Double 5 is 5 + 5.",
+          "Then add 5 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 10
+            },
+            "say": "That's only double 5. Add 5 once more."
+          },
+          {
+            "when": {
+              "t": 13
+            },
+            "say": "Add the other number once more. Add 5, not 3."
+          }
+        ],
+        "show": [
+          "Double 5 is 10.",
+          "10 + 5 = 15."
+        ],
+        "yes": "Yes! Double 5 is 10. 10 + 5 = 15."
+      },
+      {
+        "id": "g2",
+        "type": "fill",
+        "prompt": "The 3 comes second. Find each part, then add.",
+        "model": {
+          "type": "array",
+          "rows": 4,
+          "cols": 3,
+          "cut": {
+            "by": "cols",
+            "at": 2
+          },
+          "labels": "parts"
+        },
+        "lines": [
+          "4 × 3 = 4 × 2 + 4 × 1",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 8,
+          "q": 4,
+          "t": 12
+        },
+        "hints": [
+          "4 × 2 is double 4.",
+          "4 × 1 is 4."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 8
+            },
+            "say": "That's only double 4. Add 4 once more."
+          },
+          {
+            "when": {
+              "q": 1
+            },
+            "say": "The second part is 4 × 1, not 1. Find 4 × 1."
+          }
+        ],
+        "show": [
+          "4 × 2 = 8 (double 4).",
+          "4 × 1 = 4.",
+          "8 + 4 = 12."
+        ],
+        "yes": "Yes! 8 + 4 = 12."
+      },
+      {
+        "id": "g4",
+        "type": "fill",
+        "prompt": "Decompose the 3. Fill in the boxes.",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 4
+        },
+        "lines": [
+          "3 × 4 = [a] × 4 + [b] × 4",
+          "= [t]"
+        ],
+        "answer": {
+          "a": 2,
+          "b": 1,
+          "t": 12
+        },
+        "min": 1,
+        "hints": [
+          "3 is 2 and 1.",
+          "2 × 4 + 1 × 4. Then add."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "a": 2,
+              "b": 2
+            },
+            "say": "2 and 2 make 4. We need 3 rows."
+          },
+          {
+            "when": {
+              "a": 3
+            },
+            "say": "Decompose the 3 into two parts, like 2 and 1."
+          }
+        ],
+        "show": [
+          "3 = 2 + 1.",
+          "2 × 4 + 1 × 4 = 8 + 4 = 12."
+        ],
+        "yes": "Yes! 8 + 4 = 12.",
+        "open": true
+      },
+      {
+        "id": "g5",
+        "type": "number",
+        "prompt": "3 × 8 = ?",
+        "answer": "3 × 8",
+        "hints": [
+          "Find the 3. Double 8.",
+          "Double 8 is 16. Add 8 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 16
+            },
+            "say": "That's only double 8. Add 8 once more."
+          },
+          {
+            "when": {
+              "answer": 19
+            },
+            "say": "Add the other number once more. Add 8, not 3."
+          },
+          {
+            "when": {
+              "answer": 11
+            },
+            "say": "3 × 8 means 3 groups of 8. Double 8 first."
+          },
+          {
+            "when": {
+              "answer": 21
+            },
+            "say": "Count by 3s, 8 jumps."
+          },
+          {
+            "when": {
+              "answer": 27
+            },
+            "say": "Count by 3s, 8 jumps."
+          }
+        ],
+        "show": [
+          "Double 8 is 16.",
+          "16 + 8 = 24."
+        ],
+        "yes": "Yes! Double 8 is 16. 16 + 8 = 24."
+      }
+    ]
+  },
+  "try": {
+    "pass": 7,
+    "items": [
+      {
+        "id": "t1",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "3 × [x] = 27"
+        ],
+        "answer": {
+          "x": 9
+        },
+        "hints": [
+          "Count by 3s until you reach 27.",
+          "3, 6, 9, 12, 15, 18, 21, 24, 27. How many jumps?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 24
+            },
+            "say": "3 × 8 is 24. Count by 3s up to 27."
+          }
+        ],
+        "show": [
+          "3 × 9 = 27."
+        ],
+        "yes": "Yes! 3 × 9 = 27."
+      },
+      {
+        "id": "t2",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "[x] = 8 × 3"
+        ],
+        "answer": {
+          "x": 24
+        },
+        "hints": [
+          "Find the 3. Double 8, then add 8 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 16
+            },
+            "say": "That's only double 8. Add 8 once more."
+          },
+          {
+            "when": {
+              "x": 9
+            },
+            "say": "You made 3 groups of 3. Double the 8, then add 8."
+          },
+          {
+            "when": {
+              "x": 11
+            },
+            "say": "8 × 3 means 8 groups of 3, not 8 + 3."
+          }
+        ],
+        "show": [
+          "Double 8 is 16.",
+          "16 + 8 = 24."
+        ],
+        "yes": "Yes! 8 × 3 = 24."
+      },
+      {
+        "id": "t3",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "3 × 4 = 4 × [x]"
+        ],
+        "answer": {
+          "x": 3
+        },
+        "hints": [
+          "Turn the fact around. Switch the two factors."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 4
+            },
+            "say": "Switch the two factors. Which number moved?"
+          },
+          {
+            "when": {
+              "x": 12
+            },
+            "say": "That box needs a factor. 4 × what makes 12?"
+          }
+        ],
+        "show": [
+          "Switch the factors: 3 × 4 = 4 × 3."
+        ],
+        "yes": "Yes! The order of the factors does not matter."
+      },
+      {
+        "id": "t4",
+        "type": "choice",
+        "prompt": "Which one is equal to 3 × 7?",
+        "target": "3 × 7",
+        "options": [
+          {
+            "text": "2 × 7 + 2 × 7",
+            "why": "That's 4 groups of 7. 3 is 2 and 1."
+          },
+          {
+            "text": "1 × 7 + 1 × 7",
+            "why": "That's only 2 groups of 7. 3 is 2 and 1."
+          },
+          {
+            "text": "2 × 3 + 1 × 7",
+            "why": "Keep 7 in both facts."
+          },
+          {
+            "text": "2 × 7 + 1 × 7",
+            "correct": true
+          }
+        ],
+        "yes": "Yes! 14 + 7 = 21."
+      },
+      {
+        "id": "t5",
+        "type": "table",
+        "prompt": "Bicycles have 2 wheels. Tricycles have 3 wheels. Fill in the tricycle wheels.",
+        "headers": [
+          "How many",
+          "Bicycle wheels",
+          "Tricycle wheels"
+        ],
+        "rows": [
+          [
+            "7",
+            "14",
+            {
+              "answer": "3 × 7"
+            }
+          ],
+          [
+            "6",
+            "12",
+            {
+              "answer": "3 × 6"
+            }
+          ],
+          [
+            "9",
+            "18",
+            {
+              "answer": "3 × 9"
+            }
+          ]
+        ],
+        "hints": [
+          "Tricycle wheels are the bicycle wheels plus one more of the number.",
+          "For 7: 14 + 7."
+        ],
+        "retry": "Check each row: bicycle wheels plus one more of the number.",
+        "show": [
+          "7: 14 + 7 = 21.",
+          "6: 12 + 6 = 18.",
+          "9: 18 + 9 = 27."
+        ],
+        "yes": "Yes! Each 3s fact is the 2s fact plus one more."
+      },
+      {
+        "id": "t6",
+        "type": "number",
+        "prompt": "4 stools have 3 legs each. How many legs are there?",
+        "answer": "4 × 3",
+        "hints": [
+          "That is 4 groups of 3.",
+          "Double 4 is 8. Add 4 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 7
+            },
+            "say": "4 stools with 3 legs each is 4 groups of 3, not 4 + 3."
+          }
+        ],
+        "show": [
+          "4 × 3 = 4 × 2 + 4 × 1 = 8 + 4 = 12."
+        ],
+        "yes": "Yes! 12 legs."
+      },
+      {
+        "id": "t7",
+        "type": "number",
+        "prompt": "0 × 7 = ?",
+        "answer": "0 × 7",
+        "hints": [
+          "0 groups of 7. Is there anything at all?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 7
+            },
+            "say": "0 groups of 7 is nothing at all. Times 0 is always 0."
+          }
+        ],
+        "yes": "Yes! Times 0 is always 0."
+      },
+      {
+        "id": "t8",
+        "type": "number",
+        "prompt": "9 × 1 = ?",
+        "answer": "9 × 1",
+        "hints": [
+          "9 groups of 1."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "9 + 1 is 10, but this is times 1. 9 groups of 1 is 9."
+          }
+        ],
+        "yes": "Yes! Times 1 keeps the number the same."
+      }
+    ]
+  },
+  "test": {
+    "pass": 7,
+    "items": [
+      {
+        "id": "x1",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "3 × [x] = 21"
+        ],
+        "answer": {
+          "x": 7
+        },
+        "show": [
+          "3 × 7 = 21."
+        ]
+      },
+      {
+        "id": "x2",
+        "type": "choice",
+        "prompt": "Which one is equal to 3 × 5?",
+        "target": "3 × 5",
+        "options": [
+          {
+            "text": "2 × 5 + 2 × 5",
+            "why": "That's 4 groups of 5. 3 is 2 and 1."
+          },
+          {
+            "text": "2 × 5 + 1 × 5",
+            "correct": true
+          },
+          {
+            "text": "1 × 5 + 1 × 5",
+            "why": "That's only 2 groups of 5. 3 is 2 and 1."
+          },
+          {
+            "text": "2 × 3 + 1 × 5",
+            "why": "Keep 5 in both facts."
+          }
+        ]
+      },
+      {
+        "id": "x3",
+        "type": "fill",
+        "prompt": "A friend says 3 × 4 = 8 + 3. Fix the second part.",
+        "quotesMistake": true,
+        "lines": [
+          "3 × 4 = 8 + [x]",
+          "= [t]"
+        ],
+        "answer": {
+          "x": 4,
+          "t": 12
+        },
+        "show": [
+          "Double 4 is 8. Add 4 once more, not 3.",
+          "8 + 4 = 12."
+        ]
+      },
+      {
+        "id": "x4",
+        "type": "fill",
+        "prompt": "Fill in the boxes.",
+        "lines": [
+          "3 × 6 = [a] × 6 + 1 × 6",
+          "= [t]"
+        ],
+        "answer": {
+          "a": 2,
+          "t": 18
+        },
+        "min": 1,
+        "show": [
+          "3 = 2 + 1.",
+          "2 × 6 + 1 × 6 = 12 + 6 = 18."
+        ]
+      },
+      {
+        "id": "x5",
+        "type": "fill",
+        "prompt": "Fill in the boxes.",
+        "lines": [
+          "9 × 3 = 9 × 2 + 9 × [b]",
+          "= [t]"
+        ],
+        "answer": {
+          "b": 1,
+          "t": 27
+        },
+        "min": 1,
+        "show": [
+          "3 = 2 + 1.",
+          "9 × 2 + 9 × 1 = 18 + 9 = 27."
+        ]
+      },
+      {
+        "id": "x6",
+        "type": "number",
+        "prompt": "Each bench seats 3 kids. How many kids fit on 6 benches?",
+        "answer": "6 × 3",
+        "show": [
+          "6 × 3 = 6 × 2 + 6 × 1 = 12 + 6 = 18."
+        ]
+      },
+      {
+        "id": "x7",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "7 × 3 = 3 × [x]"
+        ],
+        "answer": {
+          "x": 7
+        },
+        "show": [
+          "Switch the factors: 7 × 3 = 3 × 7."
+        ]
+      },
+      {
+        "id": "x8",
+        "type": "choice",
+        "prompt": "To find 3 × 10, which two facts can you add?",
+        "options": [
+          {
+            "text": "2 × 3 and 1 × 3",
+            "why": "Keep 10 in both facts. Double the other number: 2 × 10."
+          },
+          {
+            "text": "3 × 3 and 1 × 10",
+            "why": "3 and 1 make 4. Decompose the 3 into 2 and 1."
+          },
+          {
+            "text": "10 and 3",
+            "why": "3 × 10 means 3 groups of 10, not 10 + 3."
+          },
+          {
+            "text": "2 × 10 and 1 × 10",
+            "correct": true
+          }
+        ]
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "To multiply by 3 using facts they already know: decompose 3 into 2 and 1. The 2s fact is a double; the 1s fact is the number itself. Add them. When the 3 comes second (8 × 3), decompose the 3 between the columns, or turn the fact around."
+      },
+      {
+        "heading": "Try it with real things",
+        "list": [
+          "Make 3 rows of 8 coins. Cover the bottom row: 2 rows is 16. Uncover it: 16 + 8 = 24."
+        ]
+      },
+      {
+        "heading": "Questions to ask",
+        "list": [
+          "Where is the 3?",
+          "What is the 2s fact?",
+          "What is the 1s fact?"
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Doubling the 3 when it comes second: 8 × 3 answered as 9.",
+          "Stopping at the double: 14 for 3 × 7.",
+          "Adding 3 instead of the number: 19 for 3 × 8.",
+          "Losing count when skip counting by 3s."
+        ]
+      },
+      {
+        "heading": "A note on the book",
+        "text": "The class book calls the two parts the \"2s fact\" and the \"1s fact\". Study Scoop uses original practice questions; it never copies the textbook."
+      }
+    ]
+  }
+}
