@@ -3,7 +3,7 @@
 A free third-grade learning hub for weekly classroom topics and original practice activities.
 
 ## Status
-**Foundation built, not released.** The seven sections, weekly data loading and baseline tests are on the `feature/foundation` branch for review. GitHub Pages stays off until the owner approves publication. See `STATUS.md`.
+**Foundation live.** Production: https://bazeocrisy.github.io/Study-Scoop/ · live preview of work in progress: https://bazeocrisy.github.io/Study-Scoop/preview/. See `STATUS.md`.
 
 ## Planned areas
 - This Week: topics, announcements and assessments
@@ -23,6 +23,6 @@ This repository is public. **Do not commit unreviewed school newsletters, studen
 ## Working on it
 - Preview: `npm run serve`, then open the address it prints (the site must be served; opening `index.html` as a file will not work).
 - Tests: `npm test`, `npm run test:browser` and `npm run test:site` (no packages to install). See `docs/TESTING.md`.
-- Publishing: only an allowlisted copy of the site, and only when the owner runs it. See `docs/DEPLOYMENT.md`.
+- Publishing: production https://bazeocrisy.github.io/Study-Scoop/ (from `main`), live preview https://bazeocrisy.github.io/Study-Scoop/preview/ (from `develop`). See `docs/DEPLOYMENT.md`.
 - Adding a week: `docs/CONTENT-GUIDE.md`.
 - Decisions: `docs/DECISIONS.md`.

@@ -14,8 +14,9 @@ Decisions that shape the code or content, newest last. Each lists who decided it
 | D8 | The Newsletter section is built from the weekly JSON, not from photos. The `newsletter` image field stays allowed in the data format but is not displayed | Developer, following D1 | `js/views/newsletter.js` |
 | D9 | All data is escaped before it is shown (a `<` or `&` in the data is shown as text). A strict Content Security Policy blocks inline scripts and other sites | Developer | `js/lib/html.js`, `index.html`, tests |
 | D10 | Unfinished activities show a "Coming soon" panel with no buttons or form fields, so nothing looks usable that isn't | Product Architect ("placeholders for unfinished activities") | `tests/unit/views.test.js` |
-| D11 | Publish only an allowlisted, verified copy of the runtime files, through a GitHub Actions workflow the owner runs by hand on `main` (details below) | Product Architect (Assignment 002B) | `scripts/build-site.js`, `tests/unit/site.test.js`, `npm run test:site` |
+| D11 | Publish only an allowlisted, verified copy of the runtime files, through `.github/workflows/pages.yml` (details below; the hand-run approval step is replaced by D15) | Product Architect (Assignment 002B) | `scripts/build-site.js`, `tests/unit/site.test.js`, `npm run test:site` |
 | D12 | Light "vanilla" theme on every device: cream background, white cards, softer sprinkles, drip header kept. The site no longer follows the device's dark-mode setting; the dark palette stays in `css/style.css` as an opt-in (`<html data-theme="dark">`) that nothing switches on yet | Product Owner feedback ("too dark"), Assignment 002 review | `css/style.css`, browser contrast + "dark-mode device gets light theme" checks |
+| D15 | Preview-first publishing replaces manual publishing (D11 approval step): one Pages site, production from `main` at `/Study-Scoop/`, live preview from `develop` at `/Study-Scoop/preview/`; every push to either branch tests both and republishes both. Merges into `main` still need the owner's explicit approval per pull request. The allowlist build and verifier (D11) are unchanged | Product Owner ("restore preview-first development") | `.github/workflows/pages.yml`, `docs/DEPLOYMENT.md`, `github-pages` environment branch rules (main, develop) |
 
 ## D2: Name review (exact substitutions)
 
@@ -44,6 +45,6 @@ The replacements keep each sentence's grammar and its article ("an ___" still pr
   - pictures contain no scripts
   - no personal names appear
 - **No code transformation:** the build copies files without changing them. The site still runs as plain modules with no compile step, so D7 still holds.
-- **Approval:** publishing happens only through `.github/workflows/pages.yml`, started by hand on `main` with the word `publish`. Pull requests are checked but never published. Pages must be set to Source "GitHub Actions" by the owner after release approval. See `docs/DEPLOYMENT.md`.
+- **Approval (superseded by D15):** publishing happens only through `.github/workflows/pages.yml`. Pushes to `main` and `develop` publish automatically (production and preview); pull requests are checked but never published. The owner approves each merge into `main`. See `docs/DEPLOYMENT.md`.
 - **Drafts stay off the site:** a week file is published only once it is listed in `data/weeks.json`.
 - **Smallest change:** to test the built site, the test server can now serve a folder other than the repository (`root` option in `tests/lib/harness.js`, `--site` in `tests/browser.test.js`). No app code changed.
