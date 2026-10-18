@@ -162,7 +162,7 @@ function spellSteps(entry, sp) {
   const change = stem === b ? '' : stem === b + b.slice(-1) ? `Double the last letter: ${b} becomes ${stem}.`
     : b.endsWith('e') && stem === b.slice(0, -1) ? `Drop the e: ${b} becomes ${stem}.` : '';
   return [`Start with ${q(entry.base)} and the ending ${q(suffixOf(sp))}.`, ...(change ? [change] : []),
-    `${rulePhrase(sp, entry)}${help ? ` (${help})` : ''}.`, `So the word is ${q(entry.word)}.`];
+    `${rulePhrase(sp, entry)}.`, ...(help ? [`Example: ${help}.`] : []), `So the word is ${q(entry.word)}.`];
 }
 
 // Practice question ids are numbers (the word's place in the list), so the page source never names the word.

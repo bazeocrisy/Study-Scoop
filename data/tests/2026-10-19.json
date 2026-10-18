@@ -423,19 +423,19 @@
       {
         "id": "m17",
         "type": "decompose",
-        "prompt": "Break apart 7 × 8 into two easier facts. Then find the product.",
+        "prompt": "Break apart 7 × 7 into two easier facts. Then find the product.",
         "fact": [
           7,
-          8
+          7
         ],
         "answer": {
-          "p": 7,
-          "q": 4,
-          "r": 7,
-          "s": 4,
-          "t": 56
+          "p": 5,
+          "q": 7,
+          "r": 2,
+          "s": 7,
+          "t": 49
         },
-        "explain": "One way: 8 is 4 + 4, so 7 × 8 = 7 × 4 + 7 × 4 = 28 + 28 = 56. Any correct way to break it apart counts.",
+        "explain": "One way: 7 is 5 + 2, so 7 × 7 = 5 × 7 + 2 × 7 = 35 + 14 = 49. Any correct way to break it apart counts.",
         "skill": "breaking"
       },
       {
