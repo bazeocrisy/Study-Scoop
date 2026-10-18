@@ -694,6 +694,18 @@ async function main() {
       await checkIt();
       expect((await actFb()).startsWith('Yes!'), 'right spelling accepted');
     });
+    await check('on a phone, the answer box does not move while a word is read aloud', async () => {
+      await b.viewport(390, 844, true);
+      await b.load(url('#spelling?act=listen'));
+      await b.js('window.__u = []; speechSynthesis.speak = (u) => { __u.push(u); };');
+      const top = () => b.js('return Math.round(document.querySelector("#act-stage input[name=text]").getBoundingClientRect().top + scrollY);');
+      const before = await top();
+      await b.js('document.querySelector("[data-act=dictate]").click();');
+      eq([await b.js('return document.querySelector("[data-act=dictate] .read-label").textContent;'), await top()], ['Stop', before], 'while speaking: Stop, and the box stays put');
+      await b.js('__u[__u.length - 1].onend();');
+      eq([await b.js('return document.querySelector("[data-act=dictate] .read-label").textContent;'), await top()], ['Hear the word and sentence', before], 'after speaking');
+      await b.viewport(1366, 900, false);
+    });
     await check('Spelling Hear and Spell without sound: a written clue appears instead, and a sound failure shows it too', async () => {
       await b.load(url('#spelling?act=listen'));
       await b.js('speechSynthesis.speak = (u) => setTimeout(() => u.onerror && u.onerror({ error: "synthesis-failed" }), 0);');
