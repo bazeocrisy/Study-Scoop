@@ -715,7 +715,7 @@ button.flashcard .pic { width: min(100%, 220px); }
   body.in-activity .work.has-pic:has(form) .pic-card svg { max-height: 30vh; }
 }
 /* UX-5, UX-6: Practice My Misses spans the last row of a five-card menu; titles line up across a row. */
-@media (min-width: 700px) { .menu-grid.count-5 .menu-card.misses { grid-column: 1 / -1; } .menu-grid.count-5 li:has(.misses) { grid-column: 1 / -1; } }
+/* (UAT-4: the misses card stays in the grid, so five choices fit two rows on a 768-high laptop.) */
 .menu-card { align-items: flex-start; }
 .mc-go { align-self: center; }
 .prop-learn .instruct-head h3 { font-size: 1.6rem; }

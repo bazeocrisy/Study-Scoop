@@ -789,6 +789,9 @@ async function main() {
           ['What would you like to do?', labels], subject + ' menu');
         // The choices are on the first screen, even on a small laptop (no scrolling to find them).
         expect(await b.js('return document.querySelector(".menu-card").getBoundingClientRect().bottom < innerHeight;'), subject + ': first choice visible without scrolling');
+        await b.viewport(1366, 768, false);
+        expect(await b.js('return [...document.querySelectorAll(".menu-card")].every((c) => c.getBoundingClientRect().bottom <= innerHeight);'), subject + ': every choice on the first screen at 1366 x 768');
+        await b.viewport(1366, 900, false);
         expect(!(await b.js('return !!document.querySelector(".words, .vocab-card, .property, .study-card");')), subject + ': no long content on the menu');
         const hrefs = await b.js('return [...document.querySelectorAll(".menu-card")].map((a) => a.getAttribute("href"));');
         for (const [k, href] of hrefs.entries()) {
