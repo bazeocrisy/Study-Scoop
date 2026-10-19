@@ -8,7 +8,7 @@ import { ACTIVITIES, mathItems, menuItems, propertyOf, rng, splitsOf, twoFacts, 
 import { check, solution, modelEquation } from '../../js/lib/lessons.js';
 import { counts } from '../../js/lib/models.js';
 import { wrongFactsInText } from '../../js/lib/arith.js';
-import { GUIDE_STEPS, GUIDE_WORDS, PROPERTIES } from '../../js/lib/mathlearn.js';
+import { GUIDE_STEPS, GUIDE_WORDS, PROPERTIES, UNIT5 } from '../../js/lib/mathlearn.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const PRACTICE = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/practice/math.json'), 'utf8'));
@@ -96,23 +96,30 @@ test('"break apart the 7" and "break apart the 3" accept only that factor', () =
 
 test('Mixed Practice takes questions from every kind; each kind has its own questions', () => {
   const mixed = mathItems(PRACTICE, 'mixed', rng(7));
-  assert.equal(mixed.length, 12);
-  for (const prefix of ['p', 's', 'b', 'f']) assert.equal(mixed.filter((it) => it.id.startsWith(prefix) && /^\w\d+$/.test(it.id)).length, 3, prefix);
-  assert.equal(new Set(mixed.map((it) => it.id)).size, 12);
+  assert.equal(mixed.length, 20);
+  for (const prefix of ['p', 's', 'b', 'f']) assert.equal(mixed.filter((it) => it.id.startsWith(prefix) && /^\w\d+$/.test(it.id)).length, 5, prefix);
+  assert.equal(new Set(mixed.map((it) => it.id)).size, 20);
+  // Every practice kind on the menu has 20 questions (Assignment: 20 per category).
+  for (const k of ['props', 'split', 'breakapart', 'mixed']) assert.equal(mathItems(PRACTICE, k, rng(3)).length, 20, k);
   assert.equal(mathItems(PRACTICE, 'split', rng(1)).length, PRACTICE.sets.split.length);
   assert.deepEqual(mathItems(null, 'split'), []);
 });
 
-test('Math menus: four choices first, five on Practice Problems', () => {
-  assert.deepEqual(menuItems('math').map((a) => a.id), ['learn', 'practice', 'lessons', 'guide']);
+test('Math menus: five choices first, five on Practice Problems, five on Math Vocabulary', () => {
+  assert.deepEqual(menuItems('math').map((a) => a.label), ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide']);
   assert.deepEqual(menuItems('math', 'practice').map((a) => a.id), ['props', 'split', 'breakapart', 'mixed', 'misses']);
+  assert.deepEqual(menuItems('math', 'words').map((a) => a.label), ['Review My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']);
   assert.deepEqual(menuItems('spelling').map((a) => a.label), ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses']);
   assert.deepEqual(menuItems('vocab').map((a) => a.label), ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']);
   assert.ok(Object.values(ACTIVITIES).flat().every((a) => a.label && a.about && a.icon));
 });
 
 test('Learn the Properties: each picture matches its equation, and every written fact is true', () => {
-  const [id, zero, comm, dist] = PROPERTIES;
+  assert.deepEqual(PROPERTIES.map((p) => p.key), ['identity', 'zero', 'commutative', 'associative', 'distributive']);
+  const [id, zero, comm, assoc, dist] = PROPERTIES;
+  // Associative: both pictures have 24 dots, and each is the product written in its caption.
+  assert.deepEqual(assoc.models.map((m) => counts(m.model).total), [24, 24]);
+  assert.equal(propertyOf(assoc.eq), 'Associative');
   assert.equal(counts(id.model).dots, 7);
   assert.equal(id.model.plates * id.model.each, 7);
   assert.equal(zero.model.plates, 9);
@@ -125,8 +132,9 @@ test('Learn the Properties: each picture matches its equation, and every written
   assert.equal(counts(dist.second.model).total, 42);
   assert.equal(propertyOf(dist.second.eq), 'Distributive');
   assert.equal(modelEquation(GUIDE_STEPS.splitModel), '5 × 6 = 2 × 6 + 3 × 6');
-  const text = [...PROPERTIES.flatMap((p) => [p.eq, p.kid, p.caption, ...p.steps, ...(p.second ? [p.second.eq, p.second.caption, ...p.second.steps] : [])]), ...GUIDE_WORDS.flat(), ...Object.values(GUIDE_STEPS).filter(Array.isArray).flat()];
+  const text = [...PROPERTIES.flatMap((p) => [p.eq, p.kid, p.caption, ...p.steps, ...(p.contrast ? [p.contrast] : []), ...(p.models || []).map((m) => m.caption), ...(p.second ? [p.second.eq, p.second.caption, ...p.second.steps] : [])]),
+    ...GUIDE_WORDS.flat(), ...Object.values(GUIDE_STEPS).filter(Array.isArray).flat(), ...Object.values(UNIT5).flat(2)];
   for (const s of text) assert.deepEqual(wrongFactsInText(s), [], s);
   // Each example shows its own property (the turn-around example is checked without its "= 8").
-  assert.deepEqual([id.eq, zero.eq, comm.eq.replace(/ = 8$/, ''), dist.eq].map(propertyOf), ['Identity', 'Zero', 'Commutative', 'Distributive']);
+  assert.deepEqual([id.eq, zero.eq, comm.eq.replace(/ = 8$/, ''), assoc.eq, dist.eq].map(propertyOf), ['Identity', 'Zero', 'Commutative', 'Associative', 'Distributive']);
 });

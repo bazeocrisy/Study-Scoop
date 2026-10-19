@@ -1,7 +1,7 @@
 // Lesson player: the only DOM code for lessons. It keeps progress in memory for this visit only (never stored),
 // re-renders the stage area after each action, moves keyboard focus sensibly and announces feedback to screen readers.
 import { check, solution, showSteps } from './lib/lessons.js';
-import { cardsOf, stageInner, stageOf, unanswered } from './views/lesson.js';
+import { cardsOf, missItems, stageInner, stageOf, unanswered } from './views/lesson.js';
 
 const progress = new Map(); // "5-1:try" -> { i, items: { id: { resp, status, say, tries, first, hints, shown } }, steps, streak, submitted }
 
@@ -96,7 +96,8 @@ export function mountLesson(app, ctx, signal) {
     const el = focus && area().querySelector(focus);
     if (el) el.focus({ preventScroll: false });
   };
-  const itemState = (id) => (state.items[id] ||= { resp: {}, tries: 0, hints: 0 });
+  // In Practice My Misses the answers are kept apart, so the results of the first round stay as they were.
+  const itemState = (id) => ((state.misses ? state.misses.items : state.items)[id] ||= { resp: {}, tries: 0, hints: 0 });
   const saveForm = (form) => { if (form?.dataset.item) itemState(form.dataset.item).resp = readForm(form); };
 
   function onCheck(form) {
@@ -123,7 +124,7 @@ export function mountLesson(app, ctx, signal) {
       st.first = r.status;
       if (stage === 'together') state.streak = r.status === 'correct' ? state.streak + 1 : 0;
     }
-    if (r.status !== 'correct' && stage === 'try' && st.tries === 2) st.say += ' You can press Hint or Show me how now.';
+    if (r.status !== 'correct' && (stage === 'try' || state.misses) && st.tries === 2) st.say += item.hints?.length ? ' You can press Hint or Show me how now.' : ' You can press Show me how now.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     rerender(r.status === 'correct'
       ? '[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href], form[data-item] .choices input'
@@ -134,7 +135,7 @@ export function mountLesson(app, ctx, signal) {
     const form = e.target.closest('form[data-act="check"]');
     if (!form) return;
     e.preventDefault(); // the page never submits anywhere
-    if (stage !== 'test') onCheck(form);
+    if (stage !== 'test' || state.misses) onCheck(form);
   }, { signal });
 
   // Remember typed answers as the child types (so Back and Next keep them).
@@ -184,6 +185,33 @@ export function mountLesson(app, ctx, signal) {
       announce(`Step ${state.steps[state.i]} of ${steps}. ${s.say}${s.eq ? ` ${s.eq}` : ''}`);
       return;
     }
+    if (state.misses && (act === 'next' || act === 'back')) {
+      saveForm(form);
+      const m = state.misses;
+      const n = missItems(lesson, stage, state).length;
+      if (act === 'next' && m.i >= n - 1) { m.done = true; announce('How you did.'); } else m.i = Math.max(0, Math.min(n - 1, m.i + (act === 'next' ? 1 : -1)));
+      rerender('#stage-h');
+      window.scrollTo({ top: Math.max(0, area().getBoundingClientRect().top + window.scrollY - 12) });
+      return;
+    }
+    if (act === 'misses' || act === 'misses-again') {
+      // The questions missed on the first try (Try It Yourself), on the test, or again in the last round.
+      const ids = act === 'misses-again'
+        ? missItems(lesson, stage, state).filter((it) => state.misses.items[it.id]?.first !== 'correct').map((it) => it.id)
+        : stage === 'test'
+          ? cards.filter((it) => state.items[it.id]?.status !== 'correct').map((it) => it.id)
+          : cards.filter((it) => state.items[it.id]?.first !== 'correct').map((it) => it.id);
+      if (!ids.length) return;
+      state.misses = { ids, i: 0, items: {}, done: false };
+      announce(`Practice My Misses: ${ids.length} question${ids.length === 1 ? '' : 's'}.`);
+      rerender('#stage-h');
+      return;
+    }
+    if (act === 'misses-exit') {
+      state.misses = null;
+      rerender('#stage-h');
+      return;
+    }
     if (act === 'next' || act === 'back' || act === 'goto') {
       saveForm(form);
       const to = act === 'goto' ? Number(btn.dataset.to) : state.i + (act === 'next' ? 1 : -1);
@@ -214,7 +242,7 @@ export function mountLesson(app, ctx, signal) {
       return;
     }
     if (act === 'restart') {
-      Object.assign(state, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false });
+      Object.assign(state, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false, misses: null });
       rerender('#stage-h');
     }
   }, { signal });

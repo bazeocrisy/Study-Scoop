@@ -654,7 +654,7 @@
     ]
   },
   "try": {
-    "pass": 7,
+    "pass": 16,
     "items": [
       {
         "id": "t1",
@@ -853,7 +853,16 @@
             "why": "Both make 40: 20 + 20 = 40 and 25 + 15 = 40."
           }
         ],
-        "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Cutting a different way gives the same product."
+        "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Cutting a different way gives the same product.",
+        "hints": [
+          "Find each friend's total.",
+          "Friend 1: 20 + 20. Friend 2: 25 + 15."
+        ],
+        "show": [
+          "Friend 1: 4 × 5 + 4 × 5 = 20 + 20 = 40.",
+          "Friend 2: 5 × 5 + 3 × 5 = 25 + 15 = 40.",
+          "Both make 40, so both friends are right."
+        ]
       },
       {
         "id": "t6",
@@ -895,7 +904,11 @@
             "say": "8 + 1 is 9, but this is times 1. 8 groups of 1 is 8."
           }
         ],
-        "yes": "Yes! Times 1 keeps the number the same."
+        "yes": "Yes! Times 1 keeps the number the same.",
+        "show": [
+          "8 × 1 means 8 groups of 1.",
+          "That is 8. Times 1 keeps the number the same."
+        ]
       },
       {
         "id": "t8",
@@ -928,6 +941,478 @@
           "Switch the factors: 6 × 4 = 4 × 6."
         ],
         "yes": "Yes! The order of the factors does not matter."
+      },
+      {
+        "id": "t9",
+        "type": "choice",
+        "prompt": "Which fact does this array show?",
+        "options": [
+          {
+            "text": "4 + 6",
+            "why": "An array has equal rows, so it shows multiplication."
+          },
+          {
+            "text": "6 × 4",
+            "correct": true
+          },
+          {
+            "text": "6 × 6",
+            "why": "Count the dots in one row. There are 4."
+          },
+          {
+            "text": "4 × 4",
+            "why": "Count the rows going down. There are 6."
+          }
+        ],
+        "target": "6 × 4",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 4
+        },
+        "hints": [
+          "Count the rows going down. Then count the dots in one row.",
+          "Rows first, then how many in each row."
+        ],
+        "show": [
+          "There are 6 rows.",
+          "Each row has 4 dots, so the array shows 6 × 4 = 24."
+        ],
+        "yes": "Yes! 6 equal rows of 4 is 6 × 4."
+      },
+      {
+        "id": "t10",
+        "type": "choice",
+        "prompt": "Which facts match this split array?",
+        "options": [
+          {
+            "text": "(4 × 3) + (3 × 3)",
+            "why": "That would be a cut under row 4. This line is under row 5."
+          },
+          {
+            "text": "(7 × 2) + (7 × 1)",
+            "why": "That cut goes between columns. This line goes between rows."
+          },
+          {
+            "text": "(5 × 3) + (2 × 3)",
+            "correct": true
+          },
+          {
+            "text": "(5 × 7) + (2 × 7)",
+            "why": "Each row has 3 dots, not 7. Count the dots in one row."
+          }
+        ],
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "pictureMatch": true,
+        "hints": [
+          "Count the rows above the line and below the line.",
+          "Each row has 3 dots."
+        ],
+        "show": [
+          "5 rows are above the line and 2 rows are below it.",
+          "Each row has 3 dots: (5 × 3) + (2 × 3)."
+        ],
+        "yes": "Yes! 5 rows of 3 on top and 2 rows of 3 below."
+      },
+      {
+        "id": "t11",
+        "type": "choice",
+        "prompt": "This line goes between columns. Which facts match?",
+        "options": [
+          {
+            "text": "(4 × 5) + (4 × 3)",
+            "correct": true
+          },
+          {
+            "text": "(2 × 8) + (2 × 8)",
+            "why": "That cut goes between rows. This line goes between columns."
+          },
+          {
+            "text": "(4 × 6) + (4 × 2)",
+            "why": "That would be a cut after column 6. This line is after column 5."
+          },
+          {
+            "text": "(4 × 5) + (4 × 5)",
+            "why": "That makes 10 columns. The picture has 8: 5 on the left and 3 on the right."
+          }
+        ],
+        "model": {
+          "type": "array",
+          "rows": 4,
+          "cols": 8,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "pictureMatch": true,
+        "hints": [
+          "Count the columns left of the line and right of the line.",
+          "Each column has 4 dots."
+        ],
+        "show": [
+          "5 columns are left of the line and 3 are right of it.",
+          "Each column has 4 dots: (4 × 5) + (4 × 3)."
+        ],
+        "yes": "Yes! 4 rows of 5 on the left and 4 rows of 3 on the right."
+      },
+      {
+        "id": "t12",
+        "type": "choice",
+        "prompt": "What does the dashed line do to the array?",
+        "options": [
+          {
+            "text": "It takes some dots away.",
+            "why": "No dots are taken away. Every dot is still there."
+          },
+          {
+            "text": "It splits the array into two smaller arrays.",
+            "correct": true
+          },
+          {
+            "text": "It adds more dots.",
+            "why": "No dots are added. The line only splits the array into two parts."
+          }
+        ],
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 5,
+          "cut": {
+            "by": "rows",
+            "at": 3
+          },
+          "labels": "parts"
+        },
+        "hints": [
+          "Count all the dots. Is the total still 6 rows of 5?"
+        ],
+        "show": [
+          "The top part is 3 × 5 and the bottom part is 3 × 5.",
+          "Together they are still 6 × 5 = 30 dots."
+        ],
+        "yes": "Yes! Two smaller arrays, and the same number of dots."
+      },
+      {
+        "id": "t13",
+        "type": "fill",
+        "prompt": "Find each part. Then add.",
+        "lines": [
+          "7 × 6 = 5 × 6 + 2 × 6",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 30,
+          "q": 12,
+          "t": 42
+        },
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 6,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 12,
+            "q": 30,
+            "t": 42
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 30
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 13
+            },
+            "say": "7 × 6 means 7 groups of 6, not 7 + 6. Add the two products."
+          },
+          {
+            "when": {
+              "q": 2
+            },
+            "say": "The second part is 2 × 6, not 2. Find 2 × 6."
+          }
+        ],
+        "hints": [
+          "The top part is 5 rows of 6. The bottom part is 2 rows of 6.",
+          "5 × 6 = 30 and 2 × 6 = 12."
+        ],
+        "show": [
+          "5 × 6 = 30.",
+          "2 × 6 = 12.",
+          "30 + 12 = 42. So 7 × 6 = 42."
+        ],
+        "yes": "Yes! 42."
+      },
+      {
+        "id": "t14",
+        "type": "fill",
+        "prompt": "This cut goes between columns. Find each part, then add.",
+        "lines": [
+          "5 × 8 = 5 × 5 + 5 × 3",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 25,
+          "q": 15,
+          "t": 40
+        },
+        "model": {
+          "type": "array",
+          "rows": 5,
+          "cols": 8,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 15,
+            "q": 25,
+            "t": 40
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 25
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 13
+            },
+            "say": "5 × 8 means 5 groups of 8, not 5 + 8. Add the two products."
+          },
+          {
+            "when": {
+              "q": 3
+            },
+            "say": "The second part is 5 × 3, not 3. Find 5 × 3."
+          }
+        ],
+        "hints": [
+          "The left part is 5 rows of 5. The right part is 5 rows of 3.",
+          "5 × 5 = 25 and 5 × 3 = 15."
+        ],
+        "show": [
+          "5 × 5 = 25.",
+          "5 × 3 = 15.",
+          "25 + 15 = 40. So 5 × 8 = 40."
+        ],
+        "yes": "Yes! 40."
+      },
+      {
+        "id": "t15",
+        "type": "decompose",
+        "prompt": "Decompose 7 × 7. Any way that works is fine.",
+        "fact": [
+          7,
+          7
+        ],
+        "answer": {
+          "p": 5,
+          "q": 7,
+          "r": 2,
+          "s": 7,
+          "t": 49
+        },
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 7
+        },
+        "hints": [
+          "Cut one 7 into 5 + 2.",
+          "5 × 7 + 2 × 7. Then add."
+        ],
+        "show": [
+          "7 × 7 = 5 × 7 + 2 × 7.",
+          "35 + 14 = 49."
+        ]
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "Which is a correct way to decompose 8 × 6?",
+        "options": [
+          {
+            "text": "5 × 6 + 2 × 6",
+            "why": "5 and 2 make 7, not 8."
+          },
+          {
+            "text": "4 × 6 + 4",
+            "why": "The second part must be a whole fact: 4 × 6, not 4."
+          },
+          {
+            "text": "4 × 6 + 4 × 6",
+            "correct": true
+          },
+          {
+            "text": "8 × 3 + 8 × 2",
+            "why": "3 and 2 make 5, not 6."
+          }
+        ],
+        "target": "8 × 6",
+        "hints": [
+          "The two parts of the broken factor must add up to that factor.",
+          "Which choice uses 4 + 4 = 8?"
+        ],
+        "show": [
+          "8 × 6 = 4 × 6 + 4 × 6.",
+          "24 + 24 = 48."
+        ],
+        "yes": "Yes! 4 + 4 = 8, and 24 + 24 = 48."
+      },
+      {
+        "id": "t17",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "1 × 9 + 5 × 9 = 9 × [x]"
+        ],
+        "answer": {
+          "x": 6
+        },
+        "hints": [
+          "Both facts have 9. Which numbers were put together?",
+          "1 and 5 make what?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 54
+            },
+            "say": "That box needs a factor, not the product. What do 1 and 5 make?"
+          },
+          {
+            "when": {
+              "x": 5
+            },
+            "say": "Do not forget the 1 × 9. 1 and 5 make 6."
+          }
+        ],
+        "show": [
+          "1 + 5 = 6.",
+          "1 × 9 + 5 × 9 = 9 + 45 = 54, and 9 × 6 = 54."
+        ],
+        "yes": "Yes! 1 + 5 = 6, so 9 × 6."
+      },
+      {
+        "id": "t18",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "7 × 3 + 7 × 3 = 7 × [x]"
+        ],
+        "answer": {
+          "x": 6
+        },
+        "hints": [
+          "Both facts keep the 7. Add the other numbers.",
+          "3 and 3 make what?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 3
+            },
+            "say": "There are two 7 × 3 facts. 3 and 3 make 6."
+          },
+          {
+            "when": {
+              "x": 42
+            },
+            "say": "That box needs a factor, not the product."
+          }
+        ],
+        "show": [
+          "3 + 3 = 6.",
+          "7 × 3 + 7 × 3 = 21 + 21 = 42, and 7 × 6 = 42."
+        ],
+        "yes": "Yes! 3 + 3 = 6, so 7 × 6."
+      },
+      {
+        "id": "t19",
+        "type": "number",
+        "prompt": "A bakery has 8 trays. Each tray has 7 rolls. How many rolls are there?",
+        "answer": "8 × 7",
+        "hints": [
+          "8 trays of 7: 8 × 7.",
+          "Decompose the 8 into 5 + 3: 5 × 7 + 3 × 7."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 15
+            },
+            "say": "8 + 7 is 15. There are 8 equal trays, so multiply."
+          },
+          {
+            "when": {
+              "answer": 35
+            },
+            "say": "35 is only 5 trays. Add the other 3 trays."
+          }
+        ],
+        "show": [
+          "8 × 7 = 5 × 7 + 3 × 7.",
+          "35 + 21 = 56 rolls."
+        ],
+        "yes": "Yes! 56 rolls."
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "If you decompose a factor in different ways, will the product always be the same?",
+        "options": [
+          {
+            "text": "No. A bigger cut makes a bigger product.",
+            "why": "The product stays the same. 6 × 4 = 5 × 4 + 1 × 4 = 3 × 4 + 3 × 4 = 24."
+          },
+          {
+            "text": "Yes. The dots stay the same. Only the cut moves.",
+            "correct": true
+          },
+          {
+            "text": "Only if you cut in the middle.",
+            "why": "Any cut works. 6 × 4 = 5 × 4 + 1 × 4 = 3 × 4 + 3 × 4 = 24."
+          }
+        ],
+        "hints": [
+          "Try 6 × 4 two ways: 5 + 1 and 3 + 3."
+        ],
+        "show": [
+          "5 × 4 + 1 × 4 = 20 + 4 = 24.",
+          "3 × 4 + 3 × 4 = 12 + 12 = 24.",
+          "The same dots, so the same product."
+        ],
+        "yes": "Yes! Every correct cut gives the same product."
       }
     ]
   },

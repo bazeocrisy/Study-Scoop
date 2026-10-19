@@ -4,7 +4,7 @@ import { html } from '../lib/html.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { STAGES, STAGE_IDS, answerText, boxes, score, showSteps, stageLabel } from '../lib/lessons.js';
-import { facts, subBar } from './common.js';
+import { ICONS, facts, scoreLine, subBar } from './common.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
 const ICON_NOT = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>`;
@@ -56,8 +56,12 @@ function lessonBar(ctx, lesson, stage) {
     </div>`;
 }
 
+/** The questions of a Practice My Misses round (the questions missed in Try It Yourself or in the test). */
+export const missItems = (lesson, stage, state) => (state?.misses ? lesson[stage].items.filter((it) => state.misses.ids.includes(it.id)) : []);
+
 function stageBody(ctx, lesson, stage, state) {
   if (stage === 'parent') return parentGuide(ctx, lesson);
+  if (state.misses && (stage === 'try' || stage === 'test')) return missesBody(ctx, lesson, stage, state);
   const cards = cardsOf(lesson, stage);
   const label = stageLabel(stage);
   if (stage === 'test' && state.submitted) return testResults(ctx, lesson, state);
@@ -344,20 +348,47 @@ export function unanswered(items, state) {
   }).map(([, k]) => k);
 }
 
+/** Where a finished lesson stage can go: Back to Lessons and Home (with its icon and its word). */
+function lessonExits(ctx) {
+  return html`<a class="btn" href="${ctx.actLink('math', 'lessons')}">‹ Back to Lessons</a>
+    <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>`;
+}
+
+/** The lesson after this one (for "what next?"), or null for the last lesson. */
+function nextLesson(ctx, lesson) {
+  const list = ctx.lessons?.lessons || [];
+  const k = list.findIndex((l) => l.id === lesson.id);
+  return k >= 0 && k < list.length - 1 ? list[k + 1] : null;
+}
+
+/** One missed question in a results list: the question, the right answer and how to get it. */
+const reviewItem = (it, you = null) => html`<li>
+  <span>${blanks(it.prompt)}</span>
+  ${you === null ? '' : html`<span class="you">Your answer: ${you}</span>`}
+  <span class="right">Correct answer: ${answerText(it)}</span>
+  ${it.show ? html`<span class="explain">${it.show.join(' ')}</span>` : ''}
+</li>`;
+
 function trySummary(ctx, lesson, state) {
   const items = lesson.try.items;
   const first = items.filter((it) => state.items?.[it.id]?.first === 'correct').length;
   const missed = items.filter((it) => state.items?.[it.id]?.first !== 'correct');
+  const answered = items.filter((it) => state.items?.[it.id]?.first).length;
   const passed = first >= lesson.try.pass;
   return html`
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Try It Yourself: your results</h2></div>
-    <div class="card">
-      <p class="summary-score">${first} out of ${items.length} right on the first try</p>
+    <div class="card results">
+      ${scoreLine(first, items.length, answered)}
       <p>${passed ? 'Great work! You are ready for the test.' : `Practice a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
-      ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => html`<li><span>${it.prompt}</span><span class="right">Answer: ${answerText(it)}</span></li>`)}</ul>` : ''}
+      <p class="next-step"><strong>What next?</strong> ${missed.length ? 'Press Practice My Misses to try the questions you missed again, with hints. Then take Test Your Knowledge.' : 'Take Test Your Knowledge.'}</p>
+      ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => reviewItem(it))}</ul>` : ''}
     </div>
-    <div class="stage-nav">
-      <button type="button" class="btn" data-act="restart">Try again</button>
+    <div class="stage-nav end-nav">
+      <span class="btn-row">
+        ${missed.length ? html`<button type="button" class="btn" data-act="misses">Practice My Misses (${missed.length})</button>` : ''}
+        <button type="button" class="btn" data-act="restart">Try again</button>
+        ${lessonExits(ctx)}
+      </span>
       <a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>
     </div>`;
 }
@@ -371,22 +402,77 @@ function testResults(ctx, lesson, state) {
     const vals = boxes(it).map((b) => r[b]).filter((x) => x !== undefined && x !== '');
     return vals.length ? vals.join(', ') : 'No answer';
   };
+  const answered = items.length - unanswered(items, state).length;
+  const next = nextLesson(ctx, lesson);
   return html`
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Test Your Knowledge: your score</h2></div>
-    <div class="card">
-      <p class="summary-score">${s.right} out of ${s.total}</p>
+    <div class="card results">
+      ${scoreLine(s.right, s.total, answered, false)}
       <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${lesson.test.pass} or more right means you passed. Look at the answers below, then try again.`}</p>
+      <p class="next-step"><strong>What next?</strong> ${s.missed.length ? 'Press Practice My Misses to learn from the questions you missed. ' : ''}${s.passed
+        ? (next ? `When you are ready, go on to Lesson ${next.id}: ${next.title}.` : 'You finished the last lesson. Try the Study Guide or the Math Practice Test.')
+        : 'Then take the test again.'}</p>
       ${s.missed.length ? html`<h3>Questions to look at again</h3>
-        <ul class="review">${s.missed.map((it) => html`<li>
-          <span>${it.prompt}</span>
-          <span class="you">Your answer: ${shown(it)}</span>
-          <span class="right">Correct answer: ${answerText(it)}</span>
-          ${it.show ? html`<span>${it.show.join(' ')}</span>` : ''}
-        </li>`)}</ul>` : html`<p>You got every question right!</p>`}
+        <ul class="review">${s.missed.map((it) => reviewItem(it, shown(it)))}</ul>` : html`<p>You got every question right!</p>`}
     </div>
+    <div class="stage-nav end-nav">
+      <span class="btn-row">
+        ${s.missed.length ? html`<button type="button" class="btn" data-act="misses">Practice My Misses (${s.missed.length})</button>` : ''}
+        <button type="button" class="btn" data-act="restart">Take the test again</button>
+        ${lessonExits(ctx)}
+      </span>
+      ${s.passed && next ? html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`
+        : html`<a class="btn btn-primary" href="${ctx.link('math')}">Back to Math</a>`}
+    </div>`;
+}
+
+/** Practice My Misses inside a lesson: the missed questions again, one at a time, with Check Answer, Hint and Show me how. */
+function missesBody(ctx, lesson, stage, state) {
+  const m = state.misses;
+  const items = missItems(lesson, stage, state);
+  if (m.done || !items.length) return missesSummary(ctx, lesson, stage, state, items);
+  const i = Math.min(m.i, items.length - 1);
+  const item = items[i];
+  const st = m.items[item.id] || {};
+  const ready = st.status === 'correct' || Boolean(st.shown);
+  const last = i === items.length - 1;
+  const fb = st.status === 'correct' ? html` aria-describedby="fb-${item.id}"` : '';
+  return html`
+    <div class="stage-title">
+      <h2 id="stage-h" tabindex="-1">Practice My Misses</h2>
+      <p class="progress">Question ${i + 1} of ${items.length}</p>
+    </div>
+    ${i === 0 ? html`<p class="notice">These are the questions you missed${stage === 'test' ? ' on the test' : ''}. Check your answer, and use ${stage === 'test' ? '' : 'Hint and '}Show me how to learn from them.</p>` : ''}
+    ${itemCard(lesson, item, 'together', { items: m.items })}
     <div class="stage-nav">
-      <button type="button" class="btn" data-act="restart">Take the test again</button>
-      <a class="btn btn-primary" href="${ctx.link('math')}">Back to Math</a>
+      ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>` : html`<button type="button" class="btn" data-act="misses-exit">‹ My results</button>`}
+      <span class="next-wrap">${ready ? '' : html`<span class="hint" id="next-why">Answer the question to go on.</span>`}
+        <button type="button" class="btn btn-primary" data-act="next"${ready ? fb : html` disabled aria-describedby="next-why"`}>${last ? 'See how I did ›' : 'Next ›'}</button></span>
+    </div>
+    <p class="hint">${NOT_SAVED}</p>`;
+}
+
+function missesSummary(ctx, lesson, stage, state, items) {
+  const m = state.misses;
+  const first = items.filter((it) => m.items[it.id]?.first === 'correct').length;
+  const still = items.filter((it) => m.items[it.id]?.first !== 'correct');
+  const answered = items.filter((it) => m.items[it.id]?.first).length;
+  return html`
+    <div class="stage-title"><h2 id="stage-h" tabindex="-1">Practice My Misses: how you did</h2></div>
+    <div class="card results">
+      ${scoreLine(first, items.length, answered)}
+      <p>${still.length ? 'Good practice! Look at these once more.' : 'You got every missed question right this time. Great work!'}</p>
+      <p class="next-step"><strong>What next?</strong> ${still.length ? 'Practice them again, or go back to your results.' : stage === 'try' ? 'Take Test Your Knowledge.' : 'Take the test again.'}</p>
+      ${still.length ? html`<h3>Still to practice</h3><ul class="review">${still.map((it) => reviewItem(it))}</ul>` : ''}
+    </div>
+    <div class="stage-nav end-nav">
+      <span class="btn-row">
+        ${still.length ? html`<button type="button" class="btn" data-act="misses-again">Practice these again (${still.length})</button>` : ''}
+        <button type="button" class="btn" data-act="misses-exit">‹ My results</button>
+        ${lessonExits(ctx)}
+      </span>
+      ${stage === 'try' ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>`
+        : html`<button type="button" class="btn btn-primary" data-act="restart">Take the test again</button>`}
     </div>`;
 }
 

@@ -1,7 +1,7 @@
 // Activity player: the DOM code for Spelling, Vocabulary and Math practice and for the practice tests (DECISIONS D18, D19).
 // Progress, misses and test answers live in memory for this visit only (never stored), keyed by week, so weeks never mix.
 import { check, solution, showSteps } from './lib/lessons.js';
-import { activityInfo, mathItems, rng, shuffle, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
+import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
 import { html } from './lib/html.js';
 import { activityInner } from './views/activity.js';
@@ -15,7 +15,7 @@ const missMap = (weekId, subject) => {
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
-export const missCounts = (weekId) => ({ vocab: missMap(weekId, 'vocab').size, spelling: missMap(weekId, 'spelling').size, math: missMap(weekId, 'math').size });
+export const missCounts = (weekId) => ({ vocab: missMap(weekId, 'vocab').size, spelling: missMap(weekId, 'spelling').size, math: missMap(weekId, 'math').size, mathwords: missMap(weekId, 'mathwords').size });
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
 const missKey = (item) => (item.n ? `word-${item.n}` : item.id);
@@ -37,18 +37,19 @@ function newRun(ctx, section, act) {
   const rand = rng(seed());
   const base = { items: [], items_: {}, i: 0, finished: false, submitted: false, warned: false, noSound: false };
   if (section === 'tests') {
-    const t = testFor(act, ctx.week, ctx.tests, rand);
+    const t = testFor(act, ctx.week, ctx.tests, rand, ctx.mathWords);
     if (!t) return null;
-    return { ...base, ...t, subject: act, act, mode: 'test', goal: `${t.topic} · ${t.items.length} questions` };
+    return { ...base, ...t, subject: act, group: act, act, mode: 'test', goal: `${t.topic} · ${t.items.length} questions` };
   }
   const info = activityInfo(section, act);
-  const run = { ...base, subject: section, act, mode: 'practice', title: info.label, goal: info.about };
+  const run = { ...base, subject: section, group: missGroup(section, act), act, mode: 'practice', title: info.label, goal: info.about };
   const cards = cardsFor(ctx, section);
-  if (act === 'learn' || act === 'flash') run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} };
-  else if (act === 'misses') run.items = [...missMap(ctx.weekId, section).values()].map((e) => reshuffle(e.item, rand));
+  if (act === 'learn' || act === 'flash' || act === 'wreview') run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} };
+  else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
+  else if (WORD_MODES[act]) { run.items = mathWordItems(ctx.mathWords, act, rand); run.unavailable = !ctx.mathWords; }
   else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
-  else if (section === 'vocab') run.items = shuffle(vocabItems(ctx.week, act, rand), rand);
-  else run.items = shuffle(spellingItems(ctx.week, act), rand);
+  else if (section === 'vocab') run.items = shuffleRounds(vocabItems(ctx.week, act, rand), rand);
+  else run.items = shuffleRounds(spellingItems(ctx.week, act), rand);
   return run;
 }
 
@@ -57,12 +58,12 @@ export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
-  const stale = (old?.act === 'misses' && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && ctx.practice);
+  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (WORD_MODES[act] ? ctx.mathWords : ctx.practice));
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
-    if (old.act === 'misses') {
+    if (isMissesAct(old.act)) {
       const have = new Set(old.items.map(missKey));
-      old.items.push(...[...missMap(ctx.weekId, section).values()].map((e) => e.item).filter((it) => !have.has(missKey(it))));
+      old.items.push(...[...missMap(ctx.weekId, old.group).values()].map((e) => e.item).filter((it) => !have.has(missKey(it))));
     }
     return old;
   }
@@ -220,9 +221,9 @@ export function mountActivity(app, ctx, signal) {
 
   // Misses: a question missed on the first try (or shown) is added; in Practice My Misses, a first-try right answer removes it.
   const noteFirst = (item, first) => {
-    const m = missMap(ctx.weekId, run.subject);
-    if (first !== 'correct') addMiss(ctx.weekId, run.subject, item);
-    else if (run.act === 'misses' && m.get(missKey(item))?.item.id === item.id) m.delete(missKey(item));
+    const m = missMap(ctx.weekId, run.group);
+    if (first !== 'correct') addMiss(ctx.weekId, run.group, item);
+    else if (isMissesAct(run.act) && m.get(missKey(item))?.item.id === item.id) m.delete(missKey(item));
   };
 
   function onCheck(form) {
@@ -337,6 +338,10 @@ export function mountActivity(app, ctx, signal) {
         } else if (st.status !== 'correct' && run.subject === 'vocab') {
           const w = ctx.week.vocab.words.find((x) => x.word === it.word);
           if (w) addMiss(ctx.weekId, 'vocab', vocabPractice({ ...it, id: `test-${it.id}` }, w));
+        } else if (st.status !== 'correct' && run.subject === 'mathwords' && ctx.mathWords) {
+          // The practice form of the question (with its hints and Show me how) goes to Math Vocabulary > Practice My Misses.
+          const orig = Object.values(WORD_MODES).flatMap((m) => ctx.mathWords[m] || []).find((x) => x.prompt === it.prompt);
+          if (orig) addMiss(ctx.weekId, 'mathwords', orig);
         }
       }
       run.submitted = true;

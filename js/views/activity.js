@@ -2,12 +2,12 @@
 // Questions use the same question card as the Math lessons; the activity player keeps progress for this visit only.
 import { html } from '../lib/html.js';
 import { answerText, score } from '../lib/lessons.js';
-import { SKILL_LABEL, SUBJECT, MATH_SKILLS, activityInfo, blankSentence } from '../lib/activities.js';
+import { SKILL_LABEL, SUBJECT, MATH_SKILLS, TEST_HOME, activityInfo, blankSentence, missesAct } from '../lib/activities.js';
 import { modelFigure } from '../lib/models.js';
-import { PROPERTIES, teacherExample, teacherWord } from '../lib/mathlearn.js';
+import { PROPERTIES, definitionOf, teacherExample, teacherWord } from '../lib/mathlearn.js';
 import { formatLongDate } from '../lib/dates.js';
 import { blanks, itemCard, readButton, soundButton, unanswered } from './lesson.js';
-import { ICONS, facts, subBar, wordPicture } from './common.js';
+import { ICONS, facts, scoreLine, subBar, wordPicture } from './common.js';
 
 const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page, this activity starts again.';
 const CHECK = { catchAll: 'Try again.' };
@@ -52,7 +52,7 @@ function endNav(ctx, run, { missed = false, again = 'Try again' } = {}) {
     <div class="stage-nav end-nav">
       <span class="btn-row">
         ${again ? html`<button type="button" class="btn" data-act="restart">${again}</button>` : ''}
-        ${missed ? html`<a class="btn" href="${ctx.actLink(run.subject, 'misses')}">Practice My Misses</a>` : ''}
+        ${missed ? html`<a class="btn" href="${ctx.actLink(run.subject, missesAct(run.subject, run.act))}">Practice My Misses</a>` : ''}
         <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
       </span>
       <a class="btn btn-primary" href="${menuLink(ctx, run)}">Choose another activity</a>
@@ -67,6 +67,7 @@ export function activityInner(ctx) {
   const run = ctx.run;
   if (run.act === 'flash') return flashcards(ctx, run);
   if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
+  if (run.act === 'wreview') return wordCards(ctx, run);
   if (!run.items.length) return emptyRun(ctx, run);
   if (run.mode === 'test') return run.submitted ? testResults(ctx, run) : testQuestion(ctx, run);
   return run.finished ? practiceSummary(ctx, run) : practiceQuestion(ctx, run);
@@ -74,7 +75,7 @@ export function activityInner(ctx) {
 
 function emptyRun(ctx, run) {
   if (run.unavailable) {
-    return html`${stageTitle('Not available right now')}<div class="card"><p>The practice problems could not be loaded. Please try again later.</p></div>${endNav(ctx, run, { again: '' })}`;
+    return html`${stageTitle('Not available right now')}<div class="card"><p>The practice questions could not be loaded. Please try again later.</p></div>${endNav(ctx, run, { again: '' })}`;
   }
   return html`
     ${stageTitle('Nothing to practice yet')}
@@ -106,13 +107,14 @@ function practiceQuestion(ctx, run) {
 function practiceSummary(ctx, run) {
   const first = run.items.filter((it) => run.items_[it.id]?.first === 'correct').length;
   const missed = run.items.filter((it) => run.items_[it.id]?.first !== 'correct');
+  const answered = run.items.filter((it) => run.items_[it.id]?.first).length;
   const praise = !missed.length ? 'Every answer was right on the first try. Great work!'
     : first * 2 >= run.items.length ? 'Good work! The questions below are saved in Practice My Misses for this visit.'
       : 'Nice effort. Let\'s practice the ones below. They are saved in Practice My Misses for this visit.';
   return html`
     ${stageTitle('Your results')}
     <div class="card results">
-      <p class="summary-score">${first} out of ${run.items.length} right on the first try</p>
+      ${scoreLine(first, run.items.length, answered)}
       <p>${praise}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => html`<li>${reviewPrompt(it)}<span class="right">Answer: ${answerText(it)}</span>${it.explain ? html`<span>${it.explain}</span>` : ''}</li>`)}</ul>` : ''}
     </div>
@@ -164,10 +166,13 @@ const whyChosen = (it, st) => (it.type === 'choice' && st?.resp?.choice !== unde
 function testResults(ctx, run) {
   const s = score(run.items, run.items_, run.pass);
   const skills = MATH_SKILLS.map((k) => [k, run.items.filter((it) => it.skill === k)]).filter(([, list]) => list.length);
+  const answered = s.total - unanswered(run.items, { items: run.items_ }).length;
+  const [homeSection, homeAct] = TEST_HOME[run.subject] || [run.subject, null];
+  const practiceHref = homeAct ? ctx.actLink(homeSection, homeAct) : ctx.link(homeSection);
   return html`
     ${stageTitle(`${run.title}: your score`)}
     <div class="card results">
-      <p class="summary-score">${s.right} out of ${s.total}</p>
+      ${scoreLine(s.right, s.total, answered, false)}
       <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${run.pass} or more right means you passed. Look at the answers below, then practice and try again.`}</p>
       ${run.noSound ? html`<p class="notice">The sound was off for some words, so a grown-up read them. That is fine for practice.</p>` : ''}
       ${skills.length > 1 ? html`<table class="skills"><caption>Your score in each part</caption><tbody>${skills.map(([k, list]) => html`<tr><th scope="row">${SKILL_LABEL[k]}</th><td>${list.filter((it) => run.items_[it.id]?.status === 'correct').length} of ${list.length}</td></tr>`)}</tbody></table>` : ''}
@@ -186,7 +191,8 @@ function testResults(ctx, run) {
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Take the test again</button>
         <button type="button" class="btn" data-act="print">Print my results</button>
-        <a class="btn" href="${ctx.link(run.subject)}">Practice ${SUBJECT[run.subject]}</a>
+        <a class="btn" href="${practiceHref}">Practice ${SUBJECT[run.subject]}</a>
+        <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
       </span>
       <a class="btn btn-primary" href="${ctx.link('tests')}">Back to Tests</a>
     </div>`;
@@ -275,18 +281,20 @@ function propertyCards(ctx, run) {
   const f = run.flash;
   const p = PROPERTIES[f.i];
   const tw = teacherWord(ctx.week, p);
+  const d = definitionOf(ctx.week, p);
   const last = f.i === PROPERTIES.length - 1;
   return html`
     ${stageTitle(`Property ${f.i + 1} of ${PROPERTIES.length}`)}
     <div class="work has-pic prop-learn">
       <div class="card pic-card">
-        <div class="models">${modelFigure(p.model, p.caption)}</div>
+        ${propertyPicture(p)}
         <p class="equation fact">${facts(p.eq)}</p>
       </div>
       <div class="card">
-        <div class="instruct-head"><h3>${p.name}</h3>${readButton([p.name, tw ? `Teacher's words: ${tw.def}` : '', `In other words: ${p.kid}`, ...p.steps], 'this property')}</div>
-        ${tw ? html`<blockquote class="teacher-words"><span class="label">Teacher's words</span><span class="def">${tw.def}</span></blockquote>` : ''}
-        <p class="kid-words"><span class="label">In other words</span>${p.kid}</p>
+        <div class="instruct-head"><h3>${p.name}</h3>${readButton([p.name, d ? `${d.teacher ? "Teacher's words" : 'Definition'}: ${d.text}` : '', d?.text === p.kid ? '' : `In other words: ${p.kid}`, ...p.steps], 'this property')}</div>
+        ${definitionBlock(d)}
+        ${d?.text === p.kid ? '' : html`<p class="kid-words"><span class="label">In other words</span>${p.kid}</p>`}
+        ${p.contrast ? html`<p class="contrast"><span class="label">Do not mix them up</span> ${facts(p.contrast)}</p>` : ''}
         <h4 class="label">${p.second ? 'Example 1' : 'Example'}: ${facts(p.eq)}</h4>
         <ol class="steps">${p.steps.map((s, k) => html`<li><span class="sn" aria-hidden="true">${k + 1}</span><span>${facts(s)}</span></li>`)}</ol>
         ${p.key === 'distributive' && teacherExample(tw) ? html`<p class="teacher-line"><span class="label">Your teacher's example</span> ${facts(teacherExample(tw))}</p>` : ''}
@@ -310,6 +318,45 @@ function propertyCards(ctx, run) {
     </div>`;
 }
 
+/** A property's picture(s): one model, or two side by side (the Associative Property's two groupings). */
+function propertyPicture(p) {
+  if (p.models) return html`<div class="models">${p.models.map((m) => modelFigure(m.model, m.caption))}</div><p class="caption-all">${p.caption}</p>`;
+  return html`<div class="models">${modelFigure(p.model, p.caption)}</div>`;
+}
+
+/** The teacher's exact words when the week has them; otherwise the property's definition, labelled as such. */
+function definitionBlock(d) {
+  if (!d) return '';
+  return html`<blockquote class="teacher-words"><span class="label">${d.teacher ? "Teacher's words" : 'Definition'}</span><span class="def">${d.text}</span></blockquote>`;
+}
+
+/** Math > Math Vocabulary > Review My Words: one property word per card, with Previous and Next. */
+function wordCards(ctx, run) {
+  const f = run.flash;
+  const p = PROPERTIES[f.i];
+  const d = definitionOf(ctx.week, p);
+  const last = f.i === PROPERTIES.length - 1;
+  return html`
+    ${stageTitle(`Word ${f.i + 1} of ${PROPERTIES.length}`)}
+    <div class="work has-pic prop-learn word-card">
+      <div class="card pic-card">
+        ${propertyPicture(p)}
+      </div>
+      <div class="card">
+        <div class="instruct-head"><h3 class="vocab-word">${p.name}</h3>${readButton([p.name, d ? `${d.teacher ? "Teacher's words" : 'Definition'}: ${d.text}` : '', d?.text === p.kid ? '' : `In other words: ${p.kid}`, `Example: ${p.eq}`], 'this word')}</div>
+        ${definitionBlock(d)}
+        ${d?.text === p.kid ? '' : html`<p class="kid-words"><span class="label">In other words</span>${p.kid}</p>`}
+        <p class="example"><span class="tag">Example</span> <span class="equation">${facts(p.eq)}</span></p>
+        ${p.contrast ? html`<p class="contrast"><span class="label">Do not mix them up</span> ${facts(p.contrast)}</p>` : ''}
+      </div>
+    </div>
+    <div class="stage-nav">
+      ${f.i > 0 ? html`<button type="button" class="btn" data-act="card-prev">‹ Previous</button>` : html`<span></span>`}
+      ${last ? html`<a class="btn btn-primary" href="${ctx.actLink('math', 'words')}">Done: choose a quiz ›</a>`
+        : html`<button type="button" class="btn btn-primary" data-act="card-next">Next: ${PROPERTIES[f.i + 1].name.replace(' Property', '')} ›</button>`}
+    </div>`;
+}
+
 // ---------------------------------------------------------------- menus
 
 /** The Test Center: the three Study Scoop practice tests for the chosen week. */
@@ -327,7 +374,7 @@ export function testCenter(ctx, catalog) {
               ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
               : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
             <dl class="facts">
-              <div><dt>Class test</dt><dd>${c.date ? formatLongDate(c.date) : 'No date given'}</dd></div>
+              <div><dt>${c.dateLabel || 'Class test'}</dt><dd>${c.date ? formatLongDate(c.date) : 'No date given'}</dd></div>
               <div><dt>Questions</dt><dd>${c.available ? c.count : '—'}</dd></div>
             </dl>
             ${c.coverage ? html`<p class="coverage">${c.coverage}</p>` : ''}

@@ -4,6 +4,7 @@
 
 import { decompositionOf, normWord, validateQuiz } from './lessons.js';
 import { pictureName } from './data.js';
+import { PROPERTIES } from './mathlearn.js';
 
 // Each subject opens on a menu of these (menu-first navigation, DECISIONS D19). `page` marks a page to read
 // (no questions); `parent` puts an activity on a second menu (Math > Practice Problems).
@@ -12,7 +13,7 @@ export const ACTIVITIES = {
     { id: 'learn', label: 'Learn My Words', about: 'See this week\'s words, pictures and spelling rules.', icon: 'book', page: true },
     { id: 'flash', label: 'Flashcards', about: 'Tap a card to turn it over and see the word.', icon: 'cards' },
     { id: 'letters', label: 'Missing Letters', about: 'Hear a word, then type the missing letters.', icon: 'puzzle' },
-    { id: 'listen', label: 'Listen & Spell', about: 'Hear a word and a sentence, then type the word.', icon: 'ear' },
+    { id: 'listen', label: 'Listen & Spell', about: 'Hear a word and a sentence, then type the word. At the end, add the ending yourself.', icon: 'ear' },
     { id: 'misses', label: 'Practice My Misses', about: 'Practice only the words you missed.', icon: 'redo' },
   ],
   vocab: [
@@ -23,24 +24,39 @@ export const ACTIVITIES = {
     { id: 'misses', label: 'Practice My Misses', about: 'Practice only the questions you missed.', icon: 'redo' },
   ],
   math: [
-    { id: 'learn', label: 'Learn the Properties', about: 'Meet the four multiplication properties, one at a time.', icon: 'book', start: true },
+    { id: 'learn', label: 'Learn the Properties', about: 'Meet the five multiplication properties, one at a time.', icon: 'book', start: true },
+    { id: 'words', label: 'Math Vocabulary', about: 'Review the property words, then quiz yourself.', icon: 'cards', page: true },
     { id: 'practice', label: 'Practice Problems', about: 'Answer problems. Get a hint when you need one.', icon: 'pencil', page: true },
-    { id: 'lessons', label: 'Math Lessons', about: 'Lessons 5-1 and 5-2, step by step.', icon: 'steps', page: true },
-    { id: 'guide', label: 'Study Guide', about: 'A short review for the Multiplication Properties test.', icon: 'list', page: true },
+    { id: 'lessons', label: 'Math Lessons', about: 'Lessons 5-1 to 5-7, step by step.', icon: 'steps', page: true },
+    { id: 'guide', label: 'Study Guide', about: 'A short review of Unit 5 and the properties.', icon: 'list', page: true },
     { id: 'props', label: 'Identify the Property', about: 'Look at a fact. Which property does it show?', icon: 'choice', parent: 'practice' },
     { id: 'split', label: 'Match the Split Array', about: 'A line splits an array. Pick the matching facts.', icon: 'grid', parent: 'practice' },
     { id: 'breakapart', label: 'Break Apart a Factor', about: 'Break a fact into two easier facts.', icon: 'puzzle', parent: 'practice' },
-    { id: 'mixed', label: 'Mixed Practice', about: 'A mix of all four properties and arrays.', icon: 'mix', parent: 'practice' },
-    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the problems you missed.', icon: 'redo', parent: 'practice' },
+    { id: 'mixed', label: 'Mixed Practice', about: 'A mix of properties, arrays and breaking apart.', icon: 'mix', parent: 'practice' },
+    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the problems you missed.', icon: 'redo', parent: 'practice', misses: true },
+    // Math Vocabulary: the five property words. Its misses are kept apart from the practice problems' misses.
+    { id: 'wreview', label: 'Review My Words', about: 'One property at a time: what it means, an example and a picture.', icon: 'book', parent: 'words', group: 'mathwords' },
+    { id: 'wchoice', label: 'Multiple Choice', about: 'Pick the right property, meaning or equation.', icon: 'choice', parent: 'words', group: 'mathwords' },
+    { id: 'wtf', label: 'True or False', about: 'Read a sentence about a property. Is it true?', icon: 'truefalse', parent: 'words', group: 'mathwords' },
+    { id: 'wfill', label: 'Fill in the Blank', about: 'Type the property word that fits.', icon: 'pencil', parent: 'words', group: 'mathwords' },
+    { id: 'wmisses', label: 'Practice My Misses', about: 'Practice only the word questions you missed.', icon: 'redo', parent: 'words', group: 'mathwords', misses: true },
   ],
 };
+for (const a of [...ACTIVITIES.spelling, ...ACTIVITIES.vocab]) if (a.id === 'misses') a.misses = true;
 export const activityInfo = (subject, id) => ACTIVITIES[subject]?.find((a) => a.id === id) || null;
+/** Which list of misses an activity adds to: Math Vocabulary keeps its own ('mathwords'); others use the subject. */
+export const missGroup = (subject, id) => activityInfo(subject, id)?.group || subject;
+/** The Practice My Misses activity for a list of misses. */
+export const missesAct = (subject, id) => (missGroup(subject, id) === 'mathwords' ? 'wmisses' : 'misses');
+export const isMissesAct = (id) => id === 'misses' || id === 'wmisses';
 export const activityLabel = (subject, id) => activityInfo(subject, id)?.label || '';
 /** The choices on a menu: the subject's own menu, or a second menu such as Math > Practice Problems. */
 export const menuItems = (subject, parent = null) => (ACTIVITIES[subject] || []).filter((a) => (a.parent || null) === parent);
 
-export const TEST_KINDS = ['math', 'spelling', 'vocab'];
-export const SUBJECT = { math: 'Math', spelling: 'Spelling', vocab: 'Vocabulary' };
+export const TEST_KINDS = ['math', 'spelling', 'vocab', 'mathwords'];
+export const SUBJECT = { math: 'Math', spelling: 'Spelling', vocab: 'Vocabulary', mathwords: 'Math Vocabulary' };
+/** The section a test's subject belongs to ("Practice Math Vocabulary" goes to Math > Math Vocabulary). */
+export const TEST_HOME = { math: ['math', null], spelling: ['spelling', null], vocab: ['vocab', null], mathwords: ['math', 'words'] };
 
 /** A small seeded random number generator, so a shuffle can be repeated in tests. */
 export function rng(seed) {
@@ -52,6 +68,11 @@ export function rng(seed) {
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+/** Shuffles each round of an activity on its own: every word comes once before any word comes again. */
+export function shuffleRounds(list, rand = Math.random) {
+  return [...shuffle(list.filter((it) => !it.round), rand), ...shuffle(list.filter((it) => it.round), rand)];
 }
 
 export function shuffle(list, rand = Math.random) {
@@ -87,59 +108,96 @@ export function vocabPractice(item, w) {
   return { ...item, hints: [hint], show: [means(w), `So the answer is ${q(answer)}.`] };
 }
 
-/** Practice questions for one vocabulary activity, built from the week's words and teacher definitions. */
+/** Each practice activity has this many questions when the week has enough words (Assignment: 20 per activity). */
+export const ACTIVITY_SIZE = 20;
+
+/** The two multiple-choice questions a word can have: pick its meaning, or pick the word for a meaning. */
+function choiceFor(w, kind, others, rand) {
+  if (kind === 'meaning') {
+    return {
+      id: `mc-${slug(w.word)}`, type: 'choice', word: w.word, kind: 'meaning',
+      prompt: `What does the word ${q(w.word)} mean?`,
+      // A wrong pick says only what the chosen meaning belongs to, so the second try is still the child's own.
+      options: shuffle([{ text: w.def, correct: true },
+        ...others(w).slice(0, 3).map((o) => ({ text: o.def, why: `That is what ${q(o.word)} means. Try again.` }))], rand),
+      yes: `Yes! ${means(w)}`, explain: means(w),
+    };
+  }
+  return {
+    id: `mw-${slug(w.word)}`, type: 'choice', word: w.word, kind: 'word',
+    prompt: `Which word means ${q(w.def)}?`,
+    options: shuffle([{ text: w.word, correct: true },
+      ...others(w).slice(0, 3).map((o) => ({ text: o.word, why: `${means(o)} Try again.` }))], rand),
+    yes: `Yes! ${means(w)}`, explain: means(w),
+  };
+}
+
+/** A true-or-false statement about a word: its own meaning (true) or another word's meaning (false). */
+function tfFor(w, truth, others) {
+  if (truth) {
+    return {
+      id: `tf-${slug(w.word)}`, type: 'choice', word: w.word, kind: 'tf', truth: true,
+      prompt: `True or false? ${q(w.word)} means ${q(w.def)}.`,
+      options: [{ text: 'True', correct: true }, { text: 'False', why: `It is true. ${means(w)}` }],
+      yes: `Yes, it is true. ${means(w)}`, explain: `True. ${means(w)}`,
+    };
+  }
+  const o = others(w)[0];
+  return {
+    id: `tf-${slug(w.word)}-x`, type: 'choice', word: w.word, kind: 'tf', truth: false, other: o.word,
+    prompt: `True or false? ${q(w.word)} means ${q(o.def)}.`,
+    options: [{ text: 'True', why: `It is false. That is what ${q(o.word)} means. ${means(w)}` }, { text: 'False', correct: true }],
+    yes: `Yes, it is false. ${means(w)}`, explain: `False. ${means(w)}`,
+  };
+}
+
+/** The form of a word written in its example sentence ("installments" for Installment), or null. */
+const formIn = (w) => new RegExp(`\\b${w.word}[a-z]*`, 'i').exec(w.sentence)?.[0].toLowerCase() || null;
+
+/**
+ * Practice questions for one vocabulary activity, built from the week's words and teacher definitions.
+ * Each activity has 20 questions (when the week has at least 10 words): every word once, then words again in the
+ * other form (the other kind of multiple-choice question, the other true-or-false statement, the example sentence
+ * as a second fill-in sentence). Teacher definitions are used exactly; no word or definition is invented.
+ */
 export function vocabItems(week, kind, rand = Math.random) {
   const words = week.vocab.words;
   const others = (w) => shuffle(words.filter((x) => x !== w), rand);
+  const size = Math.min(ACTIVITY_SIZE, words.length * 2);
   if (kind === 'choice') {
-    return words.map((w, i) => vocabPractice(i % 2 === 0
-      ? {
-        id: `mc-${slug(w.word)}`, type: 'choice', word: w.word, kind: 'meaning',
-        prompt: `What does the word ${q(w.word)} mean?`,
-        // A wrong pick says only what the chosen meaning belongs to, so the second try is still the child's own.
-        options: shuffle([{ text: w.def, correct: true },
-          ...others(w).slice(0, 3).map((o) => ({ text: o.def, why: `That is what ${q(o.word)} means. Try again.` }))], rand),
-        yes: `Yes! ${means(w)}`, explain: means(w),
-      }
-      : {
-        id: `mw-${slug(w.word)}`, type: 'choice', word: w.word, kind: 'word',
-        prompt: `Which word means ${q(w.def)}?`,
-        options: shuffle([{ text: w.word, correct: true },
-          ...others(w).slice(0, 3).map((o) => ({ text: o.word, why: `${means(o)} Try again.` }))], rand),
-        yes: `Yes! ${means(w)}`, explain: means(w),
-      }, w));
+    const first = words.map((w, i) => choiceFor(w, i % 2 === 0 ? 'meaning' : 'word', others, rand));
+    const again = words.map((w, i) => choiceFor(w, i % 2 === 0 ? 'word' : 'meaning', others, rand));
+    return [...first, ...again.map((it) => ({ ...it, round: 2 }))].slice(0, size).map((it) => vocabPractice(it, words.find((w) => w.word === it.word)));
   }
   if (kind === 'truefalse') {
     // Half the statements are true and half are false; a false one pairs the word with another word's meaning.
+    // The second round says the opposite about some words, keeping the whole activity half true.
     const trueSet = new Set(shuffle(words, rand).slice(0, Math.ceil(words.length / 2)));
-    return words.map((w) => {
-      if (trueSet.has(w)) {
-        return vocabPractice({
-          id: `tf-${slug(w.word)}`, type: 'choice', word: w.word, kind: 'tf', truth: true,
-          prompt: `True or false? ${q(w.word)} means ${q(w.def)}.`,
-          options: [{ text: 'True', correct: true }, { text: 'False', why: `It is true. ${means(w)}` }],
-          yes: `Yes, it is true. ${means(w)}`, explain: `True. ${means(w)}`,
-        }, w);
-      }
-      const o = others(w)[0];
-      return vocabPractice({
-        id: `tf-${slug(w.word)}`, type: 'choice', word: w.word, kind: 'tf', truth: false, other: o.word,
-        prompt: `True or false? ${q(w.word)} means ${q(o.def)}.`,
-        options: [{ text: 'True', why: `It is false. That is what ${q(o.word)} means. ${means(w)}` }, { text: 'False', correct: true }],
-        yes: `Yes, it is false. ${means(w)}`, explain: `False. ${means(w)}`,
-      }, w);
-    });
+    const first = words.map((w) => tfFor(w, trueSet.has(w), others));
+    const extra = size - first.length;
+    const flipTrue = shuffle(words.filter((w) => !trueSet.has(w)), rand).slice(0, Math.ceil(extra / 2));
+    const flipFalse = shuffle(words.filter((w) => trueSet.has(w)), rand).slice(0, extra - flipTrue.length);
+    const again = [...flipTrue.map((w) => tfFor(w, true, others)), ...flipFalse.map((w) => tfFor(w, false, others))].map((it) => ({ ...it, round: 2 }));
+    return [...first, ...again].map((it) => vocabPractice(it, words.find((w) => w.word === it.word)));
   }
   if (kind === 'fill') {
     // A short word bank (the answer and three other words of the week) keeps the choice manageable.
-    return words.map((w) => vocabPractice({
+    const bankFor = (w, form) => [form, ...others(w).slice(0, 3).map((x) => x.word.toLowerCase())].sort();
+    const first = words.map((w) => vocabPractice({
       id: `fill-${slug(w.word)}`, type: 'word', word: w.word, kind: 'fill',
-      prompt: w.fill, answer: w.word.toLowerCase(),
-      bank: [w, ...others(w).slice(0, 3)].map((x) => x.word.toLowerCase()).sort(),
+      prompt: w.fill, answer: w.word.toLowerCase(), bank: bankFor(w, w.word.toLowerCase()),
       yes: `Yes! ${w.fill.replace('___', w.word.toLowerCase())}`,
       retry: 'Read the sentence again. Which word from the word bank fits?',
       explain: means(w),
     }, w));
+    // Second sentences: the word's example sentence with the word taken out (the word exactly as written there).
+    const again = words.filter((w) => formIn(w) === w.word.toLowerCase()).slice(0, size - first.length).map((w) => ({
+      id: `fill2-${slug(w.word)}`, type: 'word', word: w.word, kind: 'fill', round: 2,
+      prompt: blankSentence(w.sentence, w.word).replace(/_{3,}/, '___'), answer: w.word.toLowerCase(), bank: bankFor(w, w.word.toLowerCase()),
+      hints: [`Which word means ${q(w.def)}?`], show: [means(w), `So the answer is ${q(w.word.toLowerCase())}.`],
+      yes: `Yes! ${w.sentence}`, retry: 'Read the sentence again. Which word from the word bank fits?', explain: means(w),
+    }));
+    return [...first, ...again];
   }
   return [];
 }
@@ -209,10 +267,44 @@ export function spellItem(entry, sp, { test = false, id } = {}) {
   return item;
 }
 
+/** Words to practise a second time: the ones whose spelling changes before the ending first (doubled letter,
+ *  dropped e), then the rest in list order. */
+function secondRound(sp, n) {
+  const changes = (e) => e.word.toLowerCase().slice(0, e.word.length - suffixOf(sp).length) !== e.base.toLowerCase();
+  return [...sp.words.filter(changes), ...sp.words.filter((e) => !changes(e))].slice(0, n);
+}
+
+/** Missing Letters, second look: other letters of the same word are hidden (every other letter of the base part),
+ *  so the child has to remember more of the word. Never two blanks side by side; never the same blanks as the first look. */
+export function lettersAgainItem(entry, sp) {
+  const first = lettersItem(entry, sp);
+  const w = first.word;
+  const end = w.endsWith(suffixOf(sp)) ? w.length - suffixOf(sp).length : w.length;
+  let blanks = [];
+  for (let k = 1; k < end && blanks.length < 3; k += 2) blanks.push(k);
+  if (JSON.stringify(blanks) === JSON.stringify(first.blanks)) blanks = blanks.map((k) => k - 1).filter((k) => k >= 0);
+  return { ...first, id: `ml2-${first.n}`, round: 2, blanks, prompt: 'Second look! Listen to the word. Type the missing letters.' };
+}
+
+/** Listen & Spell, build it: the base word is given, the child adds the ending with the right rule and types the word. */
+export function buildItem(entry, sp) {
+  const n = wordNo(entry, sp);
+  const ending = suffixOf(sp);
+  return {
+    id: `bw-${n}`, n, round: 2, type: 'word', blank: false, answer: entry.word.toLowerCase(),
+    prompt: `Add the ending -${ending} to the word "${entry.base.toLowerCase()}". Type the new word.`,
+    hints: [ruleQuestion(sp), `Say the new word out loud. Does the spelling of "${entry.base.toLowerCase()}" change?`],
+    show: spellSteps(entry, sp), retry: `Check the spelling rule: ${rulePhrase(sp, entry)}.`,
+    yes: `Yes! ${entry.word}.`, explain: `${entry.word}: ${rulePhrase(sp, entry)}.`,
+  };
+}
+
+/** Each spelling activity: every word once, then 5 words again in a new way (20 questions for a 15-word list). */
 export function spellingItems(week, kind) {
   const sp = week.spelling;
-  if (kind === 'letters') return sp.words.map((e) => lettersItem(e, sp));
-  if (kind === 'listen') return sp.words.map((e) => spellItem(e, sp));
+  const extra = Math.max(0, Math.min(sp.words.length, ACTIVITY_SIZE - sp.words.length));
+  if (kind === 'letters') return [...sp.words.map((e) => lettersItem(e, sp)), ...secondRound(sp, extra).map((e) => lettersAgainItem(e, sp))];
+  if (kind === 'listen') return [...sp.words.map((e) => spellItem(e, sp)), ...secondRound(sp, extra).map((e) => buildItem(e, sp))];
   return [];
 }
 
@@ -233,23 +325,29 @@ export function spellingTest(week, rand = Math.random) {
   };
 }
 
-/** A test from data/tests/<week>.json (math or vocab), or the generated spelling test. Null when there is none. */
-export function testFor(kind, week, tests, rand) {
+/** A test from data/tests/<week>.json (math or vocab), the generated spelling test, or the Math Vocabulary test
+ *  (from data/practice/math-words.json). Null when there is none. */
+export function testFor(kind, week, tests, rand, mathWords = null) {
   if (kind === 'spelling') return week.spelling?.words?.length ? spellingTest(week, rand) : null;
+  if (kind === 'mathwords') return mathWords ? mathWordsTest(mathWords, rand) : null;
   const t = tests?.[kind];
   return t ? { kind, title: `${SUBJECT[kind]} Practice Test`, ...t, pass: t.pass ?? passMark(t.items.length) } : null;
 }
 
-/** The three Test Center cards for a week: what each test covers, when the class test is, and if it can start. */
-export function testCatalog(week, tests) {
+/** The Test Center cards for a week: what each test covers, when the class test is, and if it can start.
+ *  The Math Vocabulary test has no class test of its own: its card names the week's math test as the one it helps with. */
+export function testCatalog(week, tests, mathWords = null) {
   return TEST_KINDS.map((kind) => {
-    const sched = week.tests.find((t) => t.kind === kind) || null;
-    const t = testFor(kind, week, tests, () => 0);
+    const related = kind === 'mathwords';
+    const sched = week.tests.find((t) => t.kind === (related ? 'math' : kind)) || null;
+    const t = testFor(kind, week, tests, () => 0, mathWords);
     let reason = '';
-    if (!t) reason = sched ? 'A Study Scoop practice test for this topic has not been written yet.' : `No ${SUBJECT[kind].toLowerCase()} test is listed for this week.`;
+    if (!t) reason = related ? 'The Math Vocabulary questions could not be loaded. Please try again later.'
+      : sched ? 'A Study Scoop practice test for this topic has not been written yet.' : `No ${SUBJECT[kind].toLowerCase()} test is listed for this week.`;
     return {
       kind, subject: SUBJECT[kind], title: `${SUBJECT[kind]} Practice Test`,
       topic: t?.topic || sched?.detail || '', date: sched?.date || null, classTest: sched?.title || null,
+      dateLabel: related ? 'Helps with math test' : 'Class test',
       count: t ? t.items.length : 0, coverage: t?.coverage || '', note: t?.note || '', available: Boolean(t), reason,
     };
   });
@@ -320,10 +418,10 @@ function vocabTestProblems(t, week) {
 // The questions are authored in data/practice/math.json (original problems, not the textbook's) and checked here.
 // They belong to the topic, not to one week, like the lessons.
 
-export const PROPERTY_NAMES = ['Identity', 'Zero', 'Commutative', 'Distributive'];
-/** The sets a practice activity draws from. Mixed Practice takes a few from every set. */
+export const PROPERTY_NAMES = ['Identity', 'Zero', 'Commutative', 'Associative', 'Distributive'];
+/** The sets a practice activity draws from. Mixed Practice takes the same number from every set (5 × 4 = 20). */
 export const PRACTICE_SETS = { props: ['props'], split: ['split'], breakapart: ['breakapart'], mixed: ['props', 'split', 'breakapart', 'facts'] };
-const MIXED_EACH = 3;
+export const MIXED_EACH = 5;
 
 /** The questions for one Math practice activity: easy to hard in its written order; Mixed Practice is shuffled. */
 export function mathItems(practice, act, rand = Math.random) {
@@ -341,14 +439,31 @@ export function twoFacts(s) {
   return m ? m.slice(1, 5).map(Number) : null;
 }
 
+/** "(2 × 3) × 4" -> { a: 2, b: 3, c: 4, first: true }; "2 × (3 × 4)" -> { …, first: false }; otherwise null. */
+function grouped(s) {
+  const t = String(s).trim();
+  let m = /^\(\s*(\d+)\s*×\s*(\d+)\s*\)\s*×\s*(\d+)$/.exec(t);
+  if (m) return { a: Number(m[1]), b: Number(m[2]), c: Number(m[3]), first: true };
+  m = /^(\d+)\s*×\s*\(\s*(\d+)\s*×\s*(\d+)\s*\)$/.exec(t);
+  if (m) return { a: Number(m[1]), b: Number(m[2]), c: Number(m[3]), first: false };
+  return null;
+}
+
 /**
  * The one property an equation shows, worked out from its numbers: "6 × 1 = 6" is Identity, "0 × 8 = 0" Zero,
- * "3 × 6 = 6 × 3" Commutative, "8 × 4 = (5 × 4) + (3 × 4)" Distributive. Null when it is false, unclear, or
- * shows more than one (1 × 0, or a turn-around with a 1 or a 0), so such a question can never be published.
+ * "3 × 6 = 6 × 3" Commutative, "(2 × 3) × 4 = 2 × (3 × 4)" Associative (same three factors in the same order,
+ * only the grouping moves; no 0 or 1, so it cannot also be Identity or Zero), "8 × 4 = (5 × 4) + (3 × 4)"
+ * Distributive. Null when it is false, unclear, or shows more than one (1 × 0, or a turn-around with a 1 or a 0),
+ * so such a question can never be published.
  */
 export function propertyOf(eq) {
   const sides = String(eq).split('=').map((s) => s.trim());
   if (sides.length !== 2) return null;
+  const g1 = grouped(sides[0]), g2 = grouped(sides[1]);
+  if (g1 || g2) {
+    const ok = g1 && g2 && g1.first !== g2.first && g1.a === g2.a && g1.b === g2.b && g1.c === g2.c && Math.min(g1.a, g1.b, g1.c) > 1;
+    return ok ? 'Associative' : null;
+  }
   const left = oneFact(sides[0]);
   if (!left) return null;
   const [a, b] = left;
@@ -402,7 +517,10 @@ export function validateMathPractice(practice) {
         const p = propertyOf(it.eq);
         if (!p) err(`${where}: "${it.eq}" must show exactly one property`);
         if (!String(it.prompt).includes(it.eq)) err(`${where}: the question must show ${it.eq}`);
-        if (JSON.stringify((it.options || []).map((o) => o.text).sort()) !== JSON.stringify(PROPERTY_NAMES.map((n) => `${n} Property`).sort())) err(`${where}: the choices must be the four properties`);
+        // Four different property names (of the five), and one of them is the property the equation shows.
+        const names = (it.options || []).map((o) => o.text);
+        if (names.length !== 4 || new Set(names).size !== 4 || names.some((n) => !PROPERTY_NAMES.map((x) => `${x} Property`).includes(n))) err(`${where}: the choices must be four different property names`);
+        else if (p && !names.includes(`${p} Property`)) err(`${where}: the choices must include the ${p} Property`);
         if (p && correct !== `${p} Property`) err(`${where}: "${it.eq}" shows the ${p} Property, but the key says ${correct}`);
         const pair = it.model?.type === 'pair' ? it.model : null;
         if (pair && `${pair.left.rows} × ${pair.left.cols} = ${pair.right.rows} × ${pair.right.cols}` !== it.eq) err(`${where}: the picture does not show ${it.eq}`);
@@ -447,4 +565,119 @@ export function validateMathPractice(practice) {
   }
   errors.push(...validateQuiz(all, 1, 'practice/math.json'));
   return errors;
+}
+
+// ---------------------------------------------------------------- Math Vocabulary (Math > Math Vocabulary)
+// The five multiplication properties: Review My Words (cards), Multiple Choice, True or False, Fill in the Blank,
+// Practice My Misses, and the Math Vocabulary practice test. Questions are authored in data/practice/math-words.json
+// and checked here: every property is worked out again from each equation's numbers, and every definition is the
+// property's own line from Learn the Properties (js/lib/mathlearn.js).
+
+export const WORD_MODES = { wchoice: 'choice', wtf: 'truefalse', wfill: 'fill' };
+const PKEYS = PROPERTIES.map((p) => p.key);
+const pname = (k) => PROPERTIES.find((p) => p.key === k)?.name;
+const pkid = (k) => PROPERTIES.find((p) => p.key === k)?.kid;
+const shortName = (k) => pname(k)?.replace(' Property', '');
+const keyOfName = (name) => PROPERTIES.find((p) => p.name === name || p.name === `${name} Property`)?.key || null;
+const keyOfEq = (eq) => keyOfName(propertyOf(eq) || '');
+
+/** Problems with data/practice/math-words.json; an empty list means it is safe to show. */
+export function validateMathWords(bank) {
+  const errors = [];
+  const err = (m) => errors.push(`practice/math-words.json: ${m}`);
+  if (!bank || typeof bank !== 'object') return ['practice/math-words.json must be an object'];
+  for (const mode of Object.values(WORD_MODES)) {
+    const list = bank[mode];
+    if (!Array.isArray(list) || list.length < 20) { err(`${mode} needs at least 20 questions`); continue; }
+    errors.push(...validateQuiz(list, 1, `practice/math-words.json ${mode}`));
+    for (const k of PKEYS) if (list.filter((it) => it.prop === k).length < 3) err(`${mode}: needs at least 3 questions about the ${pname(k)}`);
+    if (new Set(list.map((it) => normWord(it.prompt))).size !== list.length) err(`${mode}: two questions are the same`);
+    for (const it of list) {
+      const where = `${mode} ${it.id}`;
+      if (!PKEYS.includes(it.prop)) { err(`${where}: "prop" must be one of ${PKEYS.join(', ')}`); continue; }
+      if (!Array.isArray(it.hints) || !it.hints.length) err(`${where}: needs at least one hint`);
+      if (!Array.isArray(it.show) || !it.show.length) err(`${where}: needs Show me how steps`);
+      if (typeof it.explain !== 'string' || !it.explain.trim()) err(`${where}: needs an explanation for the results`);
+      const correct = it.options?.find((o) => o.correct)?.text;
+      const wrong = (it.options || []).filter((o) => !o.correct).map((o) => o.text);
+      if (it.eq !== undefined && !String(it.prompt).includes(it.eq)) err(`${where}: the question must show ${it.eq}`);
+      switch (it.kind) {
+        case 'eq':
+        case 'fill-eq':
+          if (keyOfEq(it.eq) !== it.prop) err(`${where}: "${it.eq}" shows ${propertyOf(it.eq) || 'no single property'}, not the ${pname(it.prop)}`);
+          if (it.kind === 'eq' && correct !== pname(it.prop)) err(`${where}: the key must be the ${pname(it.prop)}`);
+          if (it.kind === 'eq' && wrong.some((w) => !keyOfName(w) || keyOfName(w) === it.prop)) err(`${where}: every wrong choice must be another property`);
+          break;
+        case 'meaning':
+          if (!it.prompt.includes(pname(it.prop))) err(`${where}: the question must name the ${pname(it.prop)}`);
+          if (correct !== pkid(it.prop)) err(`${where}: the key must be the ${pname(it.prop)}'s own definition`);
+          if (wrong.some((w) => !PKEYS.some((k) => k !== it.prop && pkid(k) === w))) err(`${where}: every wrong choice must be another property's definition`);
+          break;
+        case 'name':
+          if (!it.prompt.includes(pkid(it.prop))) err(`${where}: the question must quote the ${pname(it.prop)}'s definition`);
+          if (correct !== pname(it.prop)) err(`${where}: the key must be the ${pname(it.prop)}`);
+          if (wrong.some((w) => !keyOfName(w) || keyOfName(w) === it.prop)) err(`${where}: every wrong choice must be another property`);
+          break;
+        case 'which-eq':
+          if (keyOfEq(correct || '') !== it.prop) err(`${where}: the keyed equation must show the ${pname(it.prop)}`);
+          for (const w of wrong) {
+            const k = keyOfEq(w);
+            if (!k) err(`${where}: "${w}" must show exactly one property`);
+            else if (k === it.prop) err(`${where}: "${w}" also shows the ${pname(it.prop)}`);
+          }
+          break;
+        case 'tf-eq': {
+          const real = keyOfEq(it.eq);
+          if (!real || real !== it.prop) err(`${where}: "${it.eq}" shows ${propertyOf(it.eq) || 'no single property'}, so "prop" must say so`);
+          if (!it.prompt.includes(`shows the ${pname(it.said)}`)) err(`${where}: the statement must name the ${pname(it.said)}`);
+          if ((real === it.said) !== it.truth) err(`${where}: "truth" does not match the equation`);
+          if ((correct === 'True') !== Boolean(it.truth)) err(`${where}: the answer key does not match the statement`);
+          break;
+        }
+        case 'tf-def':
+          if (!it.prompt.includes(`The ${pname(it.said)} says`) || !it.prompt.includes(pkid(it.defOf) || '???')) err(`${where}: the statement must name a property and quote a definition`);
+          if ((it.said === it.defOf) !== it.truth) err(`${where}: "truth" does not match the definition`);
+          if ((correct === 'True') !== Boolean(it.truth)) err(`${where}: the answer key does not match the statement`);
+          break;
+        case 'fill-def':
+          if (PKEYS.some((k) => normWord(it.prompt).includes(shortName(k).toLowerCase()))) err(`${where}: the sentence must not name a property`);
+          break;
+        default: err(`${where}: unknown kind ${JSON.stringify(it.kind)}`);
+      }
+      if (it.type === 'word') {
+        if (normWord(it.answer) !== shortName(it.prop).toLowerCase()) err(`${where}: the answer must be ${shortName(it.prop).toLowerCase()}`);
+        if (JSON.stringify([...(it.bank || [])].sort()) !== JSON.stringify(PKEYS.map((k) => shortName(k).toLowerCase()).sort())) err(`${where}: the word bank must be the five property words`);
+      }
+    }
+  }
+  const tf = bank.truefalse || [];
+  const trues = tf.filter((it) => it.truth).length;
+  if (Math.abs(trues * 2 - tf.length) > 2) err(`truefalse: about half must be true (${trues} of ${tf.length} are)`);
+  return errors;
+}
+
+/** Practice questions for one Math Vocabulary activity (shuffled; True/False options stay in order). */
+export function mathWordItems(bank, act, rand = Math.random) {
+  const list = bank?.[WORD_MODES[act]] || [];
+  return shuffle(list, rand).map((it) => (it.type === 'choice' && it.options.length > 2 ? { ...it, options: shuffle(it.options, rand) } : it));
+}
+
+/** The Math Vocabulary practice test: 15 questions, 5 of each mode, every property in every mode, no hints. */
+export function mathWordsTest(bank, rand = Math.random) {
+  if (!bank) return null;
+  const pickFor = (list, k, n) => list.filter((it) => it.prop === k)[n % list.filter((it) => it.prop === k).length];
+  const picked = [];
+  PKEYS.forEach((k, n) => {
+    picked.push(pickFor(bank.choice, k, n), pickFor(bank.truefalse, k, n), pickFor(bank.fill, k, n + 1));
+  });
+  const items = shuffle(picked.filter(Boolean), rand).map((it, i) => {
+    const { hints, show, ...rest } = it; // tests never show hints or Show me how
+    return { ...rest, id: `q${i + 1}`, ...(rest.type === 'choice' && rest.options.length > 2 ? { options: shuffle(rest.options, rand) } : {}) };
+  });
+  return {
+    kind: 'mathwords', title: 'Math Vocabulary Practice Test', topic: 'The five multiplication properties', items, pass: passMark(items.length),
+    coverage: `${items.length} questions: multiple choice, true or false and fill in the blank about the Identity, Zero, Commutative, Associative and Distributive Properties.`,
+    note: 'A Study Scoop practice test about the property words. It helps with the Multiplication Properties math test.',
+    instructions: 'Answer each question. There are no hints during the test. You will see your score and the answers at the end.',
+  };
 }

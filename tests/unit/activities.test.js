@@ -28,8 +28,22 @@ test('every generated practice question in every week is valid and accepts its o
     }
     for (const kind of ['letters', 'listen']) {
       const items = spellingItems(week, kind);
-      assert.equal(items.length, week.spelling.words.length);
+      // 20 questions: every word once, then 5 words again in a new way (no word is invented).
+      assert.equal(items.length, 20);
+      assert.equal(new Set(items.map((i) => i.id)).size, 20);
+      assert.deepEqual([...new Set(items.map((i) => i.n))].length, week.spelling.words.length);
       assert.deepEqual(validateQuiz(items, 1, `${week.id} ${kind}`), []);
+      for (const it of items) {
+        assert.equal(check(it, asText(solution(it))).status, 'correct', it.id);
+        assert.ok(it.hints?.length && it.show?.length, `${it.id} has hints and Show me how`);
+      }
+    }
+    for (const kind of ['choice', 'truefalse', 'fill']) {
+      const items = vocabItems(week, kind, rng(2));
+      assert.equal(items.length, 20, `${week.id} ${kind}`);
+      assert.equal(new Set(items.map((i) => i.id)).size, 20, `${week.id} ${kind}: no question twice`);
+      assert.equal(new Set(items.map((i) => i.prompt)).size, 20, `${week.id} ${kind}: no prompt twice`);
+      for (const it of items) assert.ok(it.hints?.length && it.show?.length, `${it.id} has hints and Show me how`);
     }
   }
 });
@@ -50,7 +64,7 @@ test('multiple choice: the right answer is the teacher definition (or the word),
 
 test('true or false: half true, half false, and each answer key matches its statement', () => {
   const items = vocabItems(W19, 'truefalse', rng(7));
-  assert.equal(items.filter((i) => i.truth).length, 6);
+  assert.equal(items.filter((i) => i.truth).length, 10);
   for (const it of items) {
     const w = W19.vocab.words.find((x) => x.word === it.word);
     const statesOwn = it.prompt.includes(`"${w.def}"`);
@@ -88,6 +102,18 @@ test('missing letters hide the first vowel and the pattern letter, and never sho
     assert.equal(answerText(it), e.word);
   }
   assert.equal(blankSentence('Mom is Heating soup.', 'heating'), 'Mom is ______ soup.');
+  // Second look: other letters of the same word, never side by side, never the first look's letters.
+  const again = spellingItems(W19, 'letters').slice(15);
+  assert.deepEqual(again.map((it) => [...it.word].map((c, k) => (it.blanks.includes(k) ? '_' : c)).join('')),
+    ['s_i_ping', 'd_n_ing', 'a_a_ing', 's_e_ping', 'h_a_ing']);
+  for (const it of again) {
+    assert.ok(it.blanks.every((b, k) => k === 0 || b - it.blanks[k - 1] > 1), it.id);
+    assert.notDeepEqual(it.blanks, lettersItem(W19.spelling.words[it.n - 1], W19.spelling).blanks);
+  }
+  // Build it: the base word is given and the child adds the ending (the doubled and dropped-e words come first).
+  const build = spellingItems(W19, 'listen').slice(15);
+  assert.deepEqual(build.map((it) => it.answer), ['skipping', 'dancing', 'amazing', 'stepping', 'heating']);
+  for (const it of build) assert.ok(!it.prompt.toLowerCase().includes(it.answer), it.id);
 });
 
 test('dictation says the word, the sentence and the word; nothing on screen gives the spelling away', () => {
@@ -147,12 +173,16 @@ test('the validator catches wrong answer keys, mismatched split arrays and chang
   caught(broken((t) => { t.math.items[0].skill = 'other'; }), /skill must be one of/);
 });
 
-test('Test Center: three cards per week, and no test is offered without its questions', () => {
-  const cards = testCatalog(W19, T19);
+test('Test Center: four cards per week, and no test is offered without its questions', () => {
+  const MW = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/practice/math-words.json'), 'utf8'));
+  const cards = testCatalog(W19, T19, MW);
   assert.deepEqual(cards.map((c) => [c.kind, c.available, c.count, c.date]),
-    [['math', true, 20, '2026-10-21'], ['spelling', true, 15, '2026-10-23'], ['vocab', true, 16, '2026-10-23']]);
-  const old = testCatalog(WEEKS.find((w) => w.id === '2026-10-12'), null);
-  assert.deepEqual(old.map((c) => c.available), [false, true, false]);
+    [['math', true, 20, '2026-10-21'], ['spelling', true, 15, '2026-10-23'], ['vocab', true, 16, '2026-10-23'], ['mathwords', true, 15, '2026-10-21']]);
+  // The Math Vocabulary card never claims to be a class test of its own.
+  assert.match(cards[3].dateLabel, /Helps with/);
+  assert.equal(testCatalog(W19, T19, null)[3].available, false);
+  const old = testCatalog(WEEKS.find((w) => w.id === '2026-10-12'), null, MW);
+  assert.deepEqual(old.map((c) => c.available), [false, true, false, true]);
   for (const c of old.filter((x) => !x.available)) assert.ok(c.reason);
   assert.equal(testFor('math', W19, null), null);
 });

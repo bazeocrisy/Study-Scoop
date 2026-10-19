@@ -16,12 +16,13 @@ const L51 = readJSON('data/lessons/5-1.json');
 const L52 = readJSON('data/lessons/5-2.json');
 const LESSON_STAGES = ['learn', 'watch', 'together', 'try', 'test', 'parent'];
 const lessonHash = (id, stage) => `#math?lesson=${id}&stage=${stage}`;
-const LESSON_ROUTES = ['5-1', '5-2'].flatMap((id) => LESSON_STAGES.map((s) => lessonHash(id, s)));
+const LESSON_ROUTES = readJSON('data/lessons/index.json').lessons.map((l) => l.id).flatMap((id) => LESSON_STAGES.map((s) => lessonHash(id, s)));
 // Activities and practice tests (Assignment 005), plus an earlier week's homework and Test Center.
 const ACTIVITY_ROUTES = ['#vocab?act=learn', '#spelling?act=learn', '#math?act=learn', '#math?act=practice', '#math?act=split', '#math?act=props', '#math?act=breakapart', '#math?act=mixed',
   '#math?act=lessons', '#math?act=guide', '#vocab?act=choice', '#vocab?act=truefalse', '#vocab?act=fill', '#vocab?act=misses',
   '#spelling?act=flash', '#spelling?act=letters', '#spelling?act=listen', '#spelling?act=misses',
-  '#tests?test=math', '#tests?test=spelling', '#tests?test=vocab', '#tests?week=2026-10-12', '#homework?week=2026-10-12'];
+  '#tests?test=math', '#tests?test=spelling', '#tests?test=vocab', '#tests?week=2026-10-12', '#homework?week=2026-10-12',
+  '#math?act=words', '#math?act=wreview', '#math?act=wchoice', '#math?act=wtf', '#math?act=wfill', '#math?act=wmisses', '#tests?test=mathwords', '#tests'];
 // `--site <folder>` serves a built site (scripts/build-site.js) instead of the repository, exactly as GitHub Pages would.
 const siteArg = process.argv.indexOf('--site');
 const SITE = siteArg > 0 ? path.resolve(process.argv[siteArg + 1] || '_site') : null;
@@ -171,8 +172,10 @@ async function main() {
         await check(`${id}: math words and examples match the data`, async () => {
           await b.hash(id === INDEX.current ? '#math?act=guide' : `#math?week=${id}&act=guide`);
           // Study Guide: each property with the teacher's definition word for word.
-          const shown = await b.js('return [...document.querySelectorAll(".guide-prop")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".def").textContent]);');
+          // (The Associative Property has no teacher wording in the week file; it is labelled "Definition", not compared here.)
+          const shown = await b.js('return [...document.querySelectorAll(".guide-prop")].filter((c) => c.querySelector(".label")?.textContent === "Teacher\'s words").map((c) => [c.querySelector("h4").textContent, c.querySelector(".def").textContent]);');
           eq([...shown].sort(), week.math.words.map((w) => [w.word, w.def]).sort(), 'cards');
+          eq(await b.js('return document.querySelectorAll(".guide-prop").length;'), 5, 'all five properties');
         });
       }
     }
@@ -354,38 +357,40 @@ async function main() {
     const solve = async (item) => { await answer(item, solution(item)); await checkAnswer(item); };
     const fb = () => b.js('return document.querySelector("#lesson-stage .feedback:not(.info)")?.textContent.replace(/\\s+/g, " ").trim() || "";');
 
-    await check('Math > Learn the Properties: four cards, each picture matching its equation, with the teacher\'s words', async () => {
+    await check('Math > Learn the Properties: five cards, each picture matching its equation, with the teacher\'s words', async () => {
       await b.load(url('#math'));
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
-        ['Learn the Properties', 'Practice Problems', 'Math Lessons', 'Study Guide'], 'four choices first');
+        ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide'], 'five choices first');
       await go('.menu-card[href="#math?act=learn"]');
       const W = readJSON('data/2026-10-19.json');
       const seen = [];
-      for (let k = 0; k < 4; k++) {
+      for (let k = 0; k < 5; k++) {
         seen.push(await b.js(`const c = document.querySelector('#act-stage');
-          return [c.querySelector('h3').textContent, c.querySelector('.def')?.textContent, c.querySelector('.kid-words').textContent.replace('In other words', ''),
+          return [c.querySelector('h3').textContent, c.querySelector('.def')?.textContent, c.querySelector('.kid-words')?.textContent.replace('In other words', '') ?? '',
             c.querySelector('.fact').textContent, c.querySelectorAll('.m-plate').length, c.querySelectorAll('circle.m-dot').length,
             [...c.querySelectorAll('.model-svg')].map((s) => s.querySelectorAll('.m-dot, .m-star').length),
             c.querySelectorAll('.prop-learn:not(.second-ex) .pic-card .m-dot.m-a').length, c.querySelectorAll('.prop-learn:not(.second-ex) .pic-card .m-dot.m-b').length,
             c.querySelectorAll('.second-ex .pic-card .m-dot.m-a').length, c.querySelectorAll('.second-ex .pic-card .m-dot.m-b').length,
             c.querySelector('.second-ex .fact')?.textContent];`));
-        if (k < 3) await press('[data-act="card-next"]');
+        if (k < 4) await press('[data-act="card-next"]');
       }
       const def = (n) => W.math.words.find((w) => w.word.startsWith(n)).def;
       eq(seen.map((s) => s.slice(0, 4)), [
         ['Identity Property', def('Identity'), 'Any number multiplied by 1 stays the same.', '7 × 1 = 7'],
         ['Zero Property', def('Zero'), 'Any number multiplied by 0 equals 0.', '9 × 0 = 0'],
         ['Commutative Property', def('Commutative'), 'Changing the order of the factors does not change the product.', '4 × 2 = 2 × 4 = 8'],
+        ['Associative Property', 'Changing the grouping of three or more factors does not change the product.', '', '(2 × 3) × 4 = 2 × (3 × 4)'],
         ['Distributive Property', def('Distributive'), 'You can break apart a factor, multiply the smaller parts, and add their products.', '6 × 3 = (5 × 3) + (1 × 3)']], 'words and equations');
       eq([seen[0][4], seen[0][5]], [7, 7], 'identity: 7 groups of 1');
       eq([seen[1][4], seen[1][5]], [9, 0], 'zero: 9 empty groups');
       eq(seen[2][6], [8, 8], 'commutative: 4 rows of 2 and 2 rows of 4');
-      eq([seen[3][7], seen[3][8]], [15, 3], "distributive leads with the teacher's example: 5 rows of 3 and 1 row of 3");
-      eq([seen[3][9], seen[3][10], seen[3][11]], [21, 21, '6 × 7 = (3 × 7) + (3 × 7)'], 'second example: 3 rows of 7 and 3 rows of 7');
-      eq(seen[0][9] + seen[1][9] + seen[2][9], 0, 'only the Distributive card has a second example');
+      eq(seen[3][6], [24, 24], 'associative: (2 × 3) × 4 as 6 rows of 4, and 2 × (3 × 4) as 2 rows of 12');
+      eq([seen[4][7], seen[4][8]], [15, 3], "distributive leads with the teacher's example: 5 rows of 3 and 1 row of 3");
+      eq([seen[4][9], seen[4][10], seen[4][11]], [21, 21, '6 × 7 = (3 × 7) + (3 × 7)'], 'second example: 3 rows of 7 and 3 rows of 7');
+      eq(seen[0][9] + seen[1][9] + seen[2][9] + seen[3][9], 0, 'only the Distributive card has a second example');
       eq(await b.js('return document.querySelector(".stage-nav .btn-primary").getAttribute("href");'), '#math?act=practice', 'then Practice Problems');
       await press('[data-act="card-prev"]');
-      eq(await b.js('return document.getElementById("stage-h").textContent;'), 'Property 3 of 4', 'Previous Property');
+      eq(await b.js('return document.getElementById("stage-h").textContent;'), 'Property 4 of 5', 'Previous Property');
       await b.js('document.querySelector(".bar-btns a.back").click();');
       await b.waitFor('location.hash === "#math"');
       // On a menu, Home is the first step of the crumbs.
@@ -495,10 +500,12 @@ async function main() {
       await press('[data-act="show"]');
       await press('[data-act="next"]');
       for (const item of rest) { await solve(item); expect((await fb()).startsWith('Yes!'), item.id); await press('[data-act="next"]'); }
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '7 out of 8 right on the first try', 'score');
-      expect(await b.js('return document.body.textContent.includes("You are ready for the test.");'), 'pass message at 7 of 8');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'score');
+      eq(await b.js('return document.querySelector(".score-facts").textContent.replace(/\\s+/g, " ").trim();'), 'Answered: 20 of 20 · Missed: 1', 'answered and missed');
+      expect(await b.js('return document.body.textContent.includes("You are ready for the test.");'), 'pass message at 19 of 20');
       eq(await b.js('return [...document.querySelectorAll(".review li .right")].map((e) => e.textContent);'),
-        ['Answer: 9 × 4 = 5 × 4 + 4 × 4 = 36'], 'missed list');
+        ['Correct answer: 9 × 4 = 5 × 4 + 4 × 4 = 36'], 'missed list');
+      expect(await b.js('return document.querySelector(".review li .explain")?.textContent.includes("20 + 16 = 36");'), 'the missed question is explained');
     });
     await check('Test: no hints or feedback, a warning for unanswered questions, a correct score and review', async () => {
       await b.load(url(lessonHash('5-1', 'test')));
@@ -515,7 +522,7 @@ async function main() {
       eq(await b.js('return [document.querySelector("[data-act=submit]").textContent, document.activeElement.id, [...document.querySelectorAll("[data-act=goto]")].map((x) => x.textContent)];'),
         ['Finish anyway', 'test-warning', ['Go to question 8']], 'unanswered warning, shown and focused');
       await press('[data-act="submit"]');
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '6 out of 8', 'score');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '6 out of 8 right (75%)', 'score');
       expect(await b.js('return document.body.textContent.includes("Not yet. 7 or more right means you passed.");'), 'not passed at 6');
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
         [['Your answer: 2, 28', 'Correct answer: 8 × 4 = 5 × 4 + 3 × 4 = 32'], ['Your answer: No answer', 'Correct answer: 54']], 'review');
@@ -533,7 +540,7 @@ async function main() {
       await b.load(url(lessonHash('5-2', 'test')));
       for (const [k, item] of L52.test.items.entries()) { await answer(item, solution(item)); if (k < L52.test.items.length - 1) await press('[data-act="next"]'); }
       await press('[data-act="submit"]');
-      eq(await b.js('return [document.querySelector(".summary-score").textContent, document.body.textContent.includes("You passed!")];'), ['8 out of 8', true], 'perfect score');
+      eq(await b.js('return [document.querySelector(".summary-score").textContent, document.body.textContent.includes("You passed!")];'), ['8 out of 8 right (100%)', true], 'perfect score');
     });
     await check('the tricycle table checks every row', async () => {
       await b.load(url(lessonHash('5-2', 'try')));
@@ -551,6 +558,249 @@ async function main() {
       await b.load(url(lessonHash('5-1', 'together')));
       const says = await b.js('return [...document.querySelectorAll("[data-act=read]")].map((x) => x.dataset.say);');
       expect(says.length && says.every((s) => s && !/parenthes|[×=]/.test(s)), `read-aloud text is spoken words: ${says.join(' / ')}`);
+    });
+
+    console.log('Unit 5: seven lessons, Math Vocabulary, results and misses (D20)');
+    const MW = readJSON('data/practice/math-words.json');
+    const LESSON_INDEX = readJSON('data/lessons/index.json').lessons;
+    /** A wrong answer for a question: another choice, or the last box one more than its right value. */
+    const wrongFor = (item) => {
+      const sol = solution(item);
+      if (item.type === 'choice') return { choice: item.options.findIndex((o) => !o.correct) };
+      const names = boxes(item);
+      const last = names[names.length - 1];
+      return { ...sol, [last]: Number(sol[last]) + 1 };
+    };
+    const stageTitle = () => b.js('return document.getElementById("stage-h")?.textContent.trim() || "";');
+    const formItem = () => b.js('return document.querySelector("form[data-item]")?.dataset.item || "";');
+
+    await check('Math > Math Lessons: seven open lessons, each card names its strategy, Start opens Learn It', async () => {
+      await b.load(url('#math'));
+      await go('.menu-card[href="#math?act=lessons"]');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Math Lessons', 'h1');
+      eq(await b.js('return [...document.querySelectorAll(".lesson-card .lesson-num")].map((n) => n.textContent);'), LESSON_INDEX.map((l) => l.id), 'seven lessons in order');
+      eq(await b.js('return [...document.querySelectorAll(".lesson-card .strategy")].map((n) => n.textContent.replace("Strategy", "").trim());'), LESSON_INDEX.map((l) => l.strategy), 'strategies');
+      eq(await b.js('return document.querySelectorAll(".lesson-card [disabled], .lesson-card .locked").length;'), 0, 'nothing is locked');
+      await go('.lesson-card a.btn-primary[href="#math?lesson=5-6&stage=learn"]');
+      eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), ['#math?lesson=5-6&stage=learn', LESSON_INDEX[5].title], 'Lesson 5-6 opens');
+    });
+
+    for (const meta of LESSON_INDEX) {
+      const L = readJSON(`data/lessons/${meta.id}.json`);
+      await check(`Lesson ${meta.id} end to end: Learn It, Watch Me, Practice Together, Try It Yourself (20) with misses, Test`, async () => {
+        await b.load(url(lessonHash(meta.id, 'learn')));
+        // Learn It: answer each check, then go on.
+        for (const [k, s] of L.learn.screens.entries()) {
+          if (s.item) { await solve(s.item); expect((await fb()).startsWith('Yes!'), `${s.item.id}: ${await fb()}`); }
+          if (k < L.learn.screens.length - 1) await press('[data-act="next"]');
+        }
+        await go('.stage-nav a.btn-primary[href$="stage=watch"]');
+        // Watch Me: every step, one at a time, then the "why" question.
+        for (const [k, ex] of L.watch.examples.entries()) {
+          for (let s = 1; s < ex.steps.length; s++) await press('[data-act="step-next"]');
+          eq(await b.js('return document.querySelectorAll(".steps li").length;'), ex.steps.length, `${ex.title}: all steps shown`);
+          if (ex.why) await solve(ex.why);
+          if (k < L.watch.examples.length - 1) await press('[data-act="next"]');
+        }
+        await go('.stage-nav a.btn-primary[href$="stage=together"]');
+        // Practice Together: a hint first, then the right answer.
+        for (const [k, item] of L.together.items.entries()) {
+          if (item.hints?.length) { await press(`form[data-item="${item.id}"] [data-act="hint"]`); expect(await b.js('return !!document.querySelector(".hints li");'), `${item.id}: hint shown`); }
+          await solve(item);
+          expect((await fb()).startsWith('Yes!'), `${item.id}: ${await fb()}`);
+          if (k < L.together.items.length - 1) await press('[data-act="next"]');
+        }
+        await go('.stage-nav a.btn-primary[href$="stage=try"]');
+        // Try It Yourself: 20 questions; the first two are missed on the first try.
+        eq(await b.js('return document.querySelector(".stage-title .progress").textContent;'), 'Question 1 of 20', '20 questions');
+        for (const [k, item] of L.try.items.entries()) {
+          eq(await formItem(), item.id, `question ${k + 1}`);
+          if (k < 2) {
+            await answer(item, wrongFor(item));
+            await checkAnswer(item);
+            expect((await fb()).startsWith('Not yet'), `${item.id}: wrong answer gets "Not yet" (${await fb()})`);
+          }
+          await solve(item);
+          expect((await fb()).startsWith('Yes!'), `${item.id}: ${await fb()}`);
+          await press('[data-act="next"]');
+        }
+        eq(await stageTitle(), 'Try It Yourself: your results', 'results');
+        eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '18 out of 20 right on the first try (90%)', 'score');
+        eq(await b.js('return document.querySelector(".score-facts").textContent.replace(/\\s+/g, " ").trim();'), 'Answered: 20 of 20 · Missed: 2', 'answered and missed');
+        eq(await b.js('return document.querySelectorAll(".review li").length;'), 2, 'the two missed questions are explained');
+        expect(await b.js('return [...document.querySelectorAll(".stage-nav a")].some((a) => a.textContent.includes("Back to Lessons")) && !!document.querySelector(".stage-nav a.btn .ico, .stage-nav a[href=\'#week\']");'), 'Back to Lessons and Home');
+        // Practice My Misses: the two missed questions again, then back to the results.
+        await press('[data-act="misses"]');
+        eq(await b.js('return [document.getElementById("stage-h").textContent, document.querySelector(".stage-title .progress").textContent];'), ['Practice My Misses', 'Question 1 of 2'], 'misses round');
+        for (const item of L.try.items.slice(0, 2)) {
+          eq(await formItem(), item.id, 'a missed question');
+          await solve(item);
+          await press('[data-act="next"]');
+        }
+        eq(await stageTitle(), 'Practice My Misses: how you did', 'misses summary');
+        eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '2 out of 2 right on the first try (100%)', 'misses score');
+        await press('[data-act="misses-exit"]');
+        eq(await stageTitle(), 'Try It Yourself: your results', 'back to results');
+        // Test Your Knowledge: no hints, every answer right, then the next lesson.
+        await go('.stage-nav a.btn-primary[href$="stage=test"]');
+        eq(await b.js('return document.querySelectorAll("[data-act=hint], [data-act=show]").length;'), 0, 'no hints in the test');
+        for (const [k, item] of L.test.items.entries()) {
+          await answer(item, solution(item));
+          await press(k < L.test.items.length - 1 ? '[data-act="next"]' : '[data-act="submit"]');
+        }
+        eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), `${L.test.items.length} out of ${L.test.items.length} right (100%)`, 'test score');
+        const k = LESSON_INDEX.findIndex((l) => l.id === meta.id);
+        const primary = await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");');
+        eq(primary, k < LESSON_INDEX.length - 1 ? lessonHash(LESSON_INDEX[k + 1].id, 'learn') : '#math', 'what next');
+        await go('.stage-nav a.btn[href="#math?act=lessons"]');
+        eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Math Lessons', 'Back to Lessons');
+      });
+    }
+
+    await check('Lesson test: a missed question goes to Practice My Misses with Show me how, and Home works from the results', async () => {
+      await b.load(url(lessonHash('5-4', 'test')));
+      const L = readJSON('data/lessons/5-4.json');
+      for (const [k, item] of L.test.items.entries()) {
+        await answer(item, k === 0 ? wrongFor(item) : solution(item));
+        await press(k < L.test.items.length - 1 ? '[data-act="next"]' : '[data-act="submit"]');
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '7 out of 8 right (88%)', 'score with percent');
+      await press('[data-act="misses"]');
+      const item = L.test.items[0];
+      eq(await formItem(), item.id, 'the missed test question');
+      await answer(item, wrongFor(item)); await checkAnswer(item);
+      await answer(item, { ...wrongFor(item), ...(item.type === 'choice' ? { choice: item.options.findLastIndex((o) => !o.correct) } : {}) });
+      const n = boxes(item);
+      if (item.type !== 'choice') await answer(item, { ...solution(item), [n[n.length - 1]]: Number(solution(item)[n[n.length - 1]]) + 2 });
+      await checkAnswer(item);
+      await press(`form[data-item="${item.id}"] [data-act="show"]`);
+      expect(await b.js('return !!document.querySelector(".showme li");'), 'Show me how explains it');
+      await press('[data-act="next"]');
+      eq(await stageTitle(), 'Practice My Misses: how you did', 'summary');
+      await press('[data-act="misses-exit"]');
+      await go('.stage-nav a.btn[href="#week"]');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'This Week', 'Home');
+    });
+
+    await check('Math > Math Vocabulary: five cards; Review My Words shows all five properties with Previous and Next', async () => {
+      await b.load(url('#math'));
+      eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
+        ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide'], 'Math menu');
+      await go('.menu-card[href="#math?act=words"]');
+      eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent.trim());'),
+        ['Review My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'], 'Math Vocabulary menu');
+      await go('.menu-card[href="#math?act=wreview"]');
+      const W = readJSON('data/2026-10-19.json');
+      const seen = [];
+      for (let k = 0; k < 5; k++) {
+        seen.push(await b.js(`const c = document.querySelector('#act-stage');
+          return [c.querySelector('h3').textContent, c.querySelector('.teacher-words .label').textContent, c.querySelector('.def').textContent,
+            [...c.querySelectorAll('.model-svg')].map((s) => s.querySelectorAll('.m-dot, .m-star, .m-tile').length), !!c.querySelector('.read')];`));
+        if (k < 4) await press('[data-act="card-next"]');
+      }
+      const def = (n) => W.math.words.find((w) => w.word.startsWith(n))?.def;
+      eq(seen.map((s) => s.slice(0, 3)), [
+        ['Identity Property', "Teacher's words", def('Identity')], ['Zero Property', "Teacher's words", def('Zero')],
+        ['Commutative Property', "Teacher's words", def('Commutative')],
+        ['Associative Property', 'Definition', 'Changing the grouping of three or more factors does not change the product.'],
+        ['Distributive Property', "Teacher's words", def('Distributive')]], 'names and definitions');
+      eq(seen[3][3], [24, 24], 'Associative: two groupings, 24 dots each');
+      expect(seen.every((s) => s[4]), 'Read to me on every card');
+      await press('[data-act="card-prev"]');
+      eq(await stageTitle(), 'Word 4 of 5', 'Previous');
+      await press('[data-act="card-next"]');
+      await go('.stage-nav a.btn-primary[href="#math?act=words"]');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Math Vocabulary', 'Done goes back to the menu');
+    });
+
+    const allWordItems = [...MW.choice, ...MW.truefalse, ...MW.fill];
+    const wordAnswer = (item) => (item.type === 'word' ? { text: item.answer } : { choice: item.options.findIndex((o) => o.correct) });
+    /** Answers a whole Math Vocabulary activity (the order is shuffled, so each question is looked up by its id). */
+    // In-page navigation (b.hash): misses live in memory for the visit, so a reload would rightly clear them.
+    const runWords = async (act, missFirst) => {
+      await b.hash(`#math?act=${act}`);
+      eq(await b.js('return document.querySelector(".stage-title h2").textContent;'), 'Question 1 of 20', `${act}: 20 questions`);
+      for (let k = 0; k < 20; k++) {
+        const id = await formItem();
+        const item = allWordItems.find((i) => i.id === id);
+        // The page shuffles choices, so the right choice is found on the page by its text.
+        if (item.type === 'choice') {
+          const want = item.options.find((o) => (k < missFirst ? !o.correct : o.correct)).text;
+          await b.js(`const f = document.querySelector('form[data-item="${id}"]'); [...f.querySelectorAll('label.choice')].find((l) => l.textContent.trim() === ${JSON.stringify(want)}).querySelector('input').click();`);
+        } else await answer(item, { text: k < missFirst ? 'commutativity' : item.answer });
+        await checkAnswer(item);
+        if (k < missFirst) {
+          expect((await b.js('return document.querySelector("#act-stage .feedback")?.textContent || "";')).includes('Not yet'), `${id}: Not yet`);
+          if (item.type === 'choice') {
+            const right = item.options.find((o) => o.correct).text;
+            await b.js(`const f = document.querySelector('form[data-item="${id}"]'); [...f.querySelectorAll('label.choice')].find((l) => l.textContent.trim() === ${JSON.stringify(right)}).querySelector('input').click();`);
+          } else await answer(item, { text: item.answer });
+          await checkAnswer(item);
+        }
+        expect((await b.js('return document.querySelector("#act-stage .feedback")?.textContent || "";')).includes('Yes'), `${id}: right`);
+        await press('[data-act="next"]');
+      }
+      return b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();');
+    };
+
+    await check('Math Vocabulary quizzes: 20 questions each, scored with a percentage; a miss goes to its own Practice My Misses', async () => {
+      await b.load(url('#math?act=words'));
+      eq(await runWords('wchoice', 1), '19 out of 20 right on the first try (95%)', 'Multiple Choice');
+      expect(await b.js('return !!document.querySelector(".stage-nav a[href=\'#math?act=wmisses\']");'), 'Practice My Misses link');
+      eq(await runWords('wtf', 0), '20 out of 20 right on the first try (100%)', 'True or False');
+      eq(await runWords('wfill', 2), '18 out of 20 right on the first try (90%)', 'Fill in the Blank');
+      await b.hash('#math?act=words');
+      eq(await b.js('return document.querySelector(".menu-card.misses .count-badge")?.textContent.replace(/\\D/g, "");'), '3', 'three word misses');
+      await go('.menu-card[href="#math?act=wmisses"]');
+      eq(await b.js('return document.querySelector(".stage-title h2").textContent;'), 'Question 1 of 3', 'misses run');
+      // Math Practice Problems keep their own misses (none were made there).
+      await b.hash('#math?act=misses');
+      eq(await b.js('return document.querySelector(".stage-title h2").textContent;'), 'Nothing to practice yet', 'practice problems misses are separate');
+    });
+
+    await check('Math Practice Problems, Spelling and Vocabulary: every activity has 20 questions', async () => {
+      const routes = ['#math?act=props', '#math?act=split', '#math?act=breakapart', '#math?act=mixed', '#spelling?act=letters', '#spelling?act=listen',
+        '#vocab?act=choice', '#vocab?act=truefalse', '#vocab?act=fill', '#spelling?week=2026-10-12&act=letters', '#vocab?week=2026-10-12&act=fill'];
+      const got = [];
+      for (const r of routes) { await b.load(url(r)); got.push(await b.js('return document.querySelector(".stage-title h2").textContent;')); }
+      eq(got, routes.map(() => 'Question 1 of 20'), 'twenty each');
+    });
+
+    await check('Tests: the Math Vocabulary practice test has no hints, keeps answers, scores, and links back to Math Vocabulary', async () => {
+      await b.load(url('#tests'));
+      eq(await b.js('return [...document.querySelectorAll(".test-card h3")].map((h) => h.textContent);'),
+        ['Math Practice Test', 'Spelling Practice Test', 'Vocabulary Practice Test', 'Math Vocabulary Practice Test'], 'four tests');
+      eq(await b.js('return document.querySelector(".test-mathwords dt").textContent;'), 'Helps with math test', 'not called a class test');
+      await go('.test-mathwords a.btn-primary');
+      eq(await b.js('return document.querySelector(".stage-title h2").textContent;'), 'Question 1 of 15', '15 questions');
+      for (let k = 0; k < 15; k++) {
+        eq(await b.js('return document.querySelectorAll("#act-stage [data-act=hint], #act-stage [data-act=show], #act-stage .feedback").length;'), 0, 'no hints or feedback');
+        const prompt = await b.js('const p = document.querySelector("#act-stage form[data-item]").querySelector(".prompt, legend")?.cloneNode(true); p?.querySelectorAll(".sr-only").forEach((x) => x.remove()); return (p?.textContent || "").trim();');
+        const item = allWordItems.find((i) => i.prompt === prompt);
+        expect(item, `found the question "${prompt}"`);
+        const id = await formItem();
+        if (item.type === 'choice') {
+          const right = item.options.find((o) => o.correct).text;
+          await b.js(`const f = document.querySelector('form[data-item="${id}"]'); [...f.querySelectorAll('label.choice')].find((l) => l.textContent.trim() === ${JSON.stringify(right)}).querySelector('input').click(); f.dispatchEvent(new Event('change', { bubbles: true }));`);
+        } else {
+          await b.js(`const f = document.querySelector('form[data-item="${id}"]'); f.querySelector('input[name=text]').value = ${JSON.stringify(item.answer)}; f.dispatchEvent(new Event('input', { bubbles: true }));`);
+        }
+        await press(k < 14 ? '[data-act="next"]' : '[data-act="submit"]');
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '15 out of 15 right (100%)', 'score');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=words', '#week', '#tests'], 'Practice Math Vocabulary, Home, Back to Tests');
+    });
+
+    await check('Study Guide: Unit 5 sections, lesson links, and answers that print', async () => {
+      await b.load(url('#math?act=guide'));
+      eq(await b.js('return [...document.querySelectorAll("#app h2")].map((h) => h.textContent.replace(/\\s+/g, " ").trim());'),
+        ['Unit 5 goals', 'Part 1: Multiplication Properties (class math test: Wednesday, Oct 21)', 'Part 2: Strategies from Lessons 5-2 to 5-7 (for practice)'], 'parts');
+      eq(await b.js('return document.querySelectorAll(".guide-prop").length;'), 5, 'five properties');
+      eq(await b.js('return document.querySelectorAll(".guide-table tbody tr").length;'), 6, 'six strategies');
+      eq(await b.js('return document.querySelectorAll(".guide-lessons a").length;'), 7, 'seven lesson links');
+      await b.media('print');
+      eq(await b.js('return [getComputedStyle(document.querySelector(".answers")).display, getComputedStyle(document.querySelector(".guide-table").closest("section").querySelector(".print-only") || document.querySelector("#h-g-check").parentElement.querySelector(".print-only")).display];'), ['none', 'block'], 'answers print as a list');
+      await b.media('');
     });
 
     console.log('Activities and practice tests');
@@ -587,8 +837,8 @@ async function main() {
       await b.load(url('#vocab?act=choice'));
       eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Multiple Choice', 'title');
       const seen = new Set();
-      for (let k = 0; k < W19.vocab.words.length; k++) {
-        eq(await progress(), 'Question ' + (k + 1) + ' of 12', 'progress');
+      for (let k = 0; k < 20; k++) {
+        eq(await progress(), 'Question ' + (k + 1) + ' of 20', 'progress');
         const p = await qPrompt();
         const right = vocabAnswer(p);
         const opts = await optionTexts();
@@ -607,8 +857,8 @@ async function main() {
         expect((await actFb()).startsWith('Yes!'), 'right answer: ' + await actFb());
         await nextQ();
       }
-      eq(seen.size, 12, 'every word asked once');
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '11 out of 12 right on the first try', 'summary');
+      eq(seen.size, 20, 'twenty different questions');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'summary');
       eq(await b.js('return document.querySelectorAll(".review li").length;'), 1, 'one question to look at again');
       await b.hash('#vocab?act=misses');
       eq(await progress(), 'Question 1 of 1', 'Practice My Misses has the missed question');
@@ -621,7 +871,7 @@ async function main() {
     await check('Vocabulary True or False: half true and half false, explanations after a wrong answer', async () => {
       await b.load(url('#vocab?act=truefalse'));
       const truth = [];
-      for (let k = 0; k < 12; k++) {
+      for (let k = 0; k < 20; k++) {
         const right = vocabAnswer(await qPrompt());
         truth.push(right);
         if (k < 2) {
@@ -634,16 +884,17 @@ async function main() {
         await checkIt();
         await nextQ();
       }
-      eq([truth.filter((t) => t === 'True').length, truth.filter((t) => t === 'False').length], [6, 6], 'balanced');
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '10 out of 12 right on the first try', 'summary');
+      eq([truth.filter((t) => t === 'True').length, truth.filter((t) => t === 'False').length], [10, 10], 'balanced');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '18 out of 20 right on the first try (90%)', 'summary');
     });
     await check('Vocabulary Fill in the Blank: capitals and spaces are ignored, the word bank fills the box, no spell-check', async () => {
       await b.load(url('#vocab?act=fill'));
       eq(await b.js('const i = document.querySelector("#act-stage input[name=text]"); return [i.spellcheck, i.getAttribute("autocorrect"), i.labels[0].textContent];'),
         [false, 'off', 'Type the missing word'], 'answer box');
-      for (let k = 0; k < 12; k++) {
+      for (let k = 0; k < 20; k++) {
         const p = await qPrompt();
-        const w = W19.vocab.words.find((x) => x.fill === p);
+        // A teacher fill-in sentence, or (second round) the word's example sentence with the word taken out.
+        const w = W19.vocab.words.find((x) => x.fill === p || x.sentence.replace(new RegExp(x.word + '[a-z]*', 'i'), '___') === p);
         expect(w, 'sentence is one of the week\'s: ' + p);
         expect(!p.toLowerCase().includes(w.word.toLowerCase()), 'the sentence does not show its answer');
         if (k === 0) { await typeIn('melancoly'); await checkIt(); expect((await actFb()).startsWith('Not yet'), 'a wrong word'); }
@@ -653,15 +904,17 @@ async function main() {
         expect((await actFb()).startsWith('Yes!'), w.word + ': ' + await actFb());
         await nextQ();
       }
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '11 out of 12 right on the first try', 'summary');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'summary');
     });
-    const { lettersItem, spellItem } = await import('../js/lib/activities.js');
+    const { lettersItem, lettersAgainItem, spellItem } = await import('../js/lib/activities.js');
     await check('Spelling Missing Letters: the word is never shown, wrong letters are marked, right letters are accepted', async () => {
       await b.load(url('#spelling?act=letters'));
-      for (let k = 0; k < 15; k++) {
+      for (let k = 0; k < 20; k++) {
         const id = await formId();
-        const w = W19.spelling.words[Number(id.slice(3)) - 1];
-        const item = lettersItem(w, W19.spelling);
+        const w = W19.spelling.words[Number(/(\d+)$/.exec(id)[1]) - 1];
+        // Every word once first; then five words again with other letters hidden (a second look).
+        eq(id.startsWith('ml2-'), k >= 15, 'second looks come after every word');
+        const item = (k >= 15 ? lettersAgainItem : lettersItem)(w, W19.spelling);
         expect(!(await stageText()).includes(w.word), w.word + ' is not shown before it is answered');
         eq(await b.js('return document.querySelectorAll("#act-stage img").length;'), 0, 'no picture (it would show the word)');
         const sol = solution(item);
@@ -675,7 +928,7 @@ async function main() {
         expect((await actFb()).startsWith('Yes!'), w.word + ': ' + await actFb());
         await nextQ();
       }
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '14 out of 15 right on the first try', 'summary');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'summary');
     });
     await check('Spelling Hear and Spell: says the word, the sentence and the word again; replay; typed answers checked', async () => {
       await b.load(url('#spelling?act=listen'));
@@ -803,7 +1056,7 @@ async function main() {
       const MENUS = {
         spelling: ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses'],
         vocab: ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'],
-        math: ['Learn the Properties', 'Practice Problems', 'Math Lessons', 'Study Guide'],
+        math: ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide'],
       };
       const NAME = { spelling: 'Spelling', vocab: 'Vocabulary', math: 'Math' };
       for (const [subject, labels] of Object.entries(MENUS)) {
@@ -874,7 +1127,7 @@ async function main() {
         }
         await nextQ();
       }
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '9 out of 10 right on the first try', 'summary');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'summary');
       eq(await b.js('return [...document.querySelectorAll(".end-nav a, .end-nav button")].map((x) => x.textContent.trim());'),
         ['Try again', 'Practice My Misses', 'Home', 'Choose another activity'], 'what next');
       await go('.end-nav a[href="#math?act=misses"]');
@@ -900,7 +1153,7 @@ async function main() {
     await check('Math > Math Lessons: both lessons with every step; a lesson has Back to Lessons, Back to Math and Home', async () => {
       await b.load(url('#math'));
       await go('.menu-card[href="#math?act=lessons"]');
-      eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => [...c.querySelectorAll(".stage-links a")].map((a) => a.textContent.trim().replace(/\\s+/g, " ")));').then((x) => x.map((l) => l.length)), [5, 5], 'five steps each');
+      eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => [...c.querySelectorAll(".stage-links a")].map((a) => a.textContent.trim().replace(/\\s+/g, " ")));').then((x) => x.map((l) => l.length)), [5, 5, 5, 5, 5, 5, 5], 'seven lessons, five steps each');
       await go('.stage-links a[href="#math?lesson=5-1&stage=together"]');
       eq(await b.js('return [document.getElementById("stage-h").textContent, [...document.querySelectorAll(".bar-btns a")].map((a) => [a.textContent.trim(), a.getAttribute("href")])];'),
         ['Practice Together', [['‹ Back to Lessons', '#math?act=lessons'], ['Back to Math', '#math'], ['Home', '#week']]], 'Practice Together, with Back and Home');
@@ -936,11 +1189,11 @@ async function main() {
       await b.viewport(1366, 900, false);
       await b.load(url('#tests'));
       eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".facts div:last-child dd")?.textContent, !!c.querySelector("a.btn")]);'),
-        [['Math Practice Test', '20', true], ['Spelling Practice Test', '15', true], ['Vocabulary Practice Test', '16', true]], 'cards');
+        [['Math Practice Test', '20', true], ['Spelling Practice Test', '15', true], ['Vocabulary Practice Test', '16', true], ['Math Vocabulary Practice Test', '15', true]], 'cards');
       expect((await b.js('return document.querySelector(".test-vocab").textContent;')).includes('purple words'), 'vocabulary coverage names the missing purple words');
       await b.hash('#tests?week=2026-10-12');
       eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [!!c.querySelector("a.btn"), !!c.querySelector(".unavailable")]);'),
-        [[false, true], [true, false], [false, true]], 'Oct 12: only the spelling test can start');
+        [[false, true], [true, false], [false, true], [true, false]], 'Oct 12: the spelling test and the Math Vocabulary test (not tied to a week) can start');
       await b.hash('#tests?week=2026-10-12&test=math');
       eq(await b.js('return location.hash;'), '#tests?week=2026-10-12', 'a test that does not exist goes back to the Test Center');
     });
@@ -963,7 +1216,7 @@ async function main() {
       eq(await b.js('return [document.querySelector("[data-act=submit]").textContent, document.activeElement.id, [...document.querySelectorAll("[data-act=goto]")].map((x) => [x.textContent, x.getAttribute("aria-label")])];'),
         ['Finish anyway', 'test-warning', [['17', 'Go to question 17']]], 'unanswered warning');
       await press('[data-act="submit"]');
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '18 out of 20', 'score');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '18 out of 20 right (90%)', 'score');
       expect(await b.js('return document.body.textContent.includes("You passed!");'), '16 or more passes');
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".qnum").textContent, l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
         [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 7 × 7 = 5 × 7 + 2 × 7 = 49']], 'review');
@@ -990,7 +1243,7 @@ async function main() {
       eq([...asked].sort(), [...SP.keys()].sort(), 'all 15 words, each once');
       eq(await b.js('return __spoken.length;'), 45, 'word, sentence, word for each');
       await press('[data-act="submit"]');
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '15 out of 15', 'score');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '15 out of 15 right (100%)', 'score');
     });
     await check('Vocabulary practice test: all 12 words covered, scored without hints, and refreshing starts again', async () => {
       await b.load(url('#tests?test=vocab'));
@@ -1000,7 +1253,7 @@ async function main() {
         if (k < items.length - 1) await press('[data-act="next"]');
       }
       await press('[data-act="submit"]');
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '16 out of 16', 'score');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '16 out of 16 right (100%)', 'score');
       await b.load(url('#tests?test=vocab'));
       eq([await progress(), await b.js('return document.querySelectorAll("#act-stage input:checked").length;')], ['Question 1 of 16', 0], 'refresh starts again');
     });

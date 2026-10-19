@@ -1,0 +1,1377 @@
+{
+  "id": "5-7",
+  "title": "Solve Multiplication Problems",
+  "goal": "I can solve a story problem: find the equal groups, write a fact, and use a strategy.",
+  "catchAll": "Find the equal groups. Write the multiplication fact. Then break apart a factor if it helps.",
+  "teacher": [
+    {
+      "term": "Distributive Property",
+      "def": "a multiplication fact can be broken apart into the sum of two other related facts"
+    }
+  ],
+  "glossary": {
+    "equal groups": "groups that all have the same number, like 6 rows of 8 chairs",
+    "equation": "a number sentence with an equals sign, like 6 × 8 = 48",
+    "unknown": "the number you need to find"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Ready? Warm-up",
+        "item": {
+          "id": "r1",
+          "type": "number",
+          "prompt": "How many dots are in this array?",
+          "answer": "4 × 7",
+          "model": {
+            "type": "array",
+            "rows": 4,
+            "cols": 7
+          },
+          "hints": [
+            "There are 4 rows. Each row has 7 dots.",
+            "Count by 7s: 7, 14, 21 …"
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 11
+              },
+              "say": "4 + 7 is 11. There are 4 rows of 7, so multiply."
+            }
+          ],
+          "yes": "Yes! 4 rows of 7 is 28 dots."
+        }
+      },
+      {
+        "title": "Ready? One more",
+        "item": {
+          "id": "r2",
+          "type": "number",
+          "prompt": "5 × 8 = ?",
+          "answer": "5 × 8",
+          "hints": [
+            "Count by 5s eight times.",
+            "5, 10, 15, 20 …"
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 13
+              },
+              "say": "5 + 8 is 13, but this is times. Count by 5s eight times."
+            }
+          ],
+          "yes": "Yes! 5 × 8 = 40."
+        }
+      },
+      {
+        "title": "Read the problem",
+        "text": [
+          "A class sets up 6 rows of chairs. Each row has 8 chairs. How many chairs are there?",
+          "The important numbers are 6 rows and 8 chairs in each row.",
+          "The rows are equal groups. So the fact is 6 × 8. The unknown is the total."
+        ],
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 8
+        },
+        "caption": "6 rows of 8 chairs",
+        "words": [
+          "equal groups",
+          "unknown"
+        ]
+      },
+      {
+        "title": "Use a strategy",
+        "teacher": true,
+        "text": [
+          "Break apart a factor. 6 is 5 + 1.",
+          "5 × 8 = 40 and 1 × 8 = 8. Add: 40 + 8 = 48 chairs.",
+          "Does it make sense? 6 rows of about 10 would be 60, so 48 is about right."
+        ],
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 8,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "caption": "6 × 8 = 5 × 8 + 1 × 8"
+      },
+      {
+        "title": "7 steps to solve",
+        "text": [
+          "1. Read the problem.",
+          "2. Find the important numbers.",
+          "3. Find the equal groups.",
+          "4. Draw an array or look at one.",
+          "5. Write an equation.",
+          "6. Solve. Break apart a factor if it helps.",
+          "7. Check that the answer makes sense."
+        ],
+        "words": [
+          "equation"
+        ]
+      },
+      {
+        "title": "Check",
+        "item": {
+          "id": "l1",
+          "type": "choice",
+          "prompt": "Ana has 4 bags. Each bag has 7 marbles. Which equation tells how many marbles she has?",
+          "options": [
+            {
+              "text": "4 + 7 = ?",
+              "why": "There are 4 equal groups of 7, so multiply, not add."
+            },
+            {
+              "text": "4 × 7 = ?",
+              "correct": true
+            },
+            {
+              "text": "7 − 4 = ?",
+              "why": "Nothing is taken away. Multiply the equal groups."
+            }
+          ],
+          "yes": "Yes! 4 bags of 7 is 4 × 7."
+        }
+      }
+    ]
+  },
+  "watch": {
+    "takeaway": "Find the equal groups, write the fact, break apart a factor, and check.",
+    "examples": [
+      {
+        "title": "Example A: cookies on a tray",
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 9,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "Read: A baker puts 7 rows of cookies on a tray. Each row has 9 cookies. How many cookies are there?",
+            "model": {
+              "type": "array",
+              "rows": 7,
+              "cols": 9
+            }
+          },
+          {
+            "say": "The equal groups are 7 rows of 9. The equation is 7 × 9 = ?"
+          },
+          {
+            "say": "Break apart the 7 into 5 + 2. Cut under row 5.",
+            "model": {
+              "type": "array",
+              "rows": 7,
+              "cols": 9,
+              "cut": {
+                "by": "rows",
+                "at": 5
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The top part is 5 rows of 9.",
+            "eq": "5 × 9 = 45"
+          },
+          {
+            "say": "The bottom part is 2 rows of 9.",
+            "eq": "2 × 9 = 18"
+          },
+          {
+            "say": "Add the two parts.",
+            "eq": "7 × 9 = 5 × 9 + 2 × 9 = 45 + 18 = 63",
+            "pictured": true
+          },
+          {
+            "say": "Check: 7 rows of about 10 is 70. 63 is close, so it makes sense. There are 63 cookies."
+          }
+        ],
+        "why": {
+          "id": "wA",
+          "type": "choice",
+          "prompt": "What are the equal groups in this problem?",
+          "options": [
+            {
+              "text": "7 rows of 9 cookies",
+              "correct": true
+            },
+            {
+              "text": "7 cookies and 9 cookies",
+              "why": "There are 7 rows, and each row has 9 cookies. The rows are the equal groups."
+            },
+            {
+              "text": "63 rows",
+              "why": "63 is the answer. There are 7 rows of 9."
+            }
+          ],
+          "yes": "Yes! 7 equal rows with 9 cookies in each row."
+        }
+      },
+      {
+        "title": "Example B: packs of juice boxes",
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 6,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "Read: Each pack has 6 juice boxes. How many juice boxes are in 8 packs?",
+            "model": {
+              "type": "array",
+              "rows": 8,
+              "cols": 6
+            }
+          },
+          {
+            "say": "Each pack is one row of 6. There are 8 packs, so the fact is 8 × 6."
+          },
+          {
+            "say": "Break the 8 into 4 + 4. Cut under row 4.",
+            "model": {
+              "type": "array",
+              "rows": 8,
+              "cols": 6,
+              "cut": {
+                "by": "rows",
+                "at": 4
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "Each part is the 4s fact.",
+            "eq": "4 × 6 = 24"
+          },
+          {
+            "say": "Double 24.",
+            "eq": "8 × 6 = 4 × 6 + 4 × 6 = 24 + 24 = 48",
+            "pictured": true
+          },
+          {
+            "say": "Check: 48 is more than 8 and more than 6, and 8 groups of about 5 is 40. It makes sense. There are 48 juice boxes."
+          }
+        ],
+        "why": {
+          "id": "wB",
+          "type": "choice",
+          "prompt": "Which number tells how many groups there are?",
+          "options": [
+            {
+              "text": "6",
+              "why": "6 is how many juice boxes are in each pack. There are 8 packs."
+            },
+            {
+              "text": "48",
+              "why": "48 is the answer. There are 8 packs."
+            },
+            {
+              "text": "8",
+              "correct": true
+            }
+          ],
+          "yes": "Yes! 8 packs are the 8 equal groups."
+        }
+      }
+    ]
+  },
+  "together": {
+    "intro": "Let's solve some together. Use Hint if you get stuck.",
+    "items": [
+      {
+        "id": "g1",
+        "type": "number",
+        "prompt": "A pet shop has 3 rows of fish tanks. Each row has 7 tanks. How many tanks are there?",
+        "answer": "3 × 7",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 7
+        },
+        "hints": [
+          "3 rows of 7: 3 × 7.",
+          "2 × 7 = 14. Add one more 7."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "3 + 7 is 10. There are 3 equal rows, so multiply."
+          }
+        ],
+        "show": [
+          "3 × 7 = 2 × 7 + 1 × 7.",
+          "14 + 7 = 21 tanks."
+        ],
+        "yes": "Yes! 21 tanks."
+      },
+      {
+        "id": "g2",
+        "type": "fill",
+        "prompt": "There are 4 vans. Each van carries 8 kids. Write the equation and solve.",
+        "lines": [
+          "[a] × [b] = [t]"
+        ],
+        "answer": {
+          "a": 4,
+          "b": 8,
+          "t": 32
+        },
+        "accept": [
+          {
+            "a": 8,
+            "b": 4,
+            "t": 32
+          }
+        ],
+        "hints": [
+          "How many vans? How many kids in each van?",
+          "4 × 8: find 2 × 8 = 16, then double it."
+        ],
+        "show": [
+          "4 vans of 8 kids is 4 × 8.",
+          "16 + 16 = 32. So 4 × 8 = 32."
+        ],
+        "retry": "Find the number of groups and the number in each group. Then multiply.",
+        "mistakes": [
+          {
+            "when": {
+              "a": 4,
+              "b": 8,
+              "t": 12
+            },
+            "say": "4 + 8 is 12. These are equal groups, so multiply."
+          }
+        ],
+        "yes": "Yes! 4 × 8 = 32."
+      },
+      {
+        "id": "g3",
+        "type": "fill",
+        "prompt": "A choir stands in 9 rows of 6 singers. Break apart the 9. Find each part, then add.",
+        "lines": [
+          "9 × 6 = 5 × 6 + 4 × 6",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 30,
+          "q": 24,
+          "t": 54
+        },
+        "model": {
+          "type": "array",
+          "rows": 9,
+          "cols": 6,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 24,
+            "q": 30,
+            "t": 54
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 30
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 15
+            },
+            "say": "9 × 6 means 9 groups of 6, not 9 + 6. Add the two products."
+          },
+          {
+            "when": {
+              "q": 4
+            },
+            "say": "The second part is 4 × 6, not 4. Find 4 × 6."
+          }
+        ],
+        "hints": [
+          "The top part is 5 rows of 6. The bottom part is 4 rows of 6.",
+          "5 × 6 = 30 and 4 × 6 = 24."
+        ],
+        "show": [
+          "5 × 6 = 30.",
+          "4 × 6 = 24.",
+          "30 + 24 = 54. So 9 × 6 = 54."
+        ],
+        "yes": "Yes! 30 + 24 = 54 singers."
+      },
+      {
+        "id": "g4",
+        "type": "choice",
+        "prompt": "Which equation matches this array?",
+        "options": [
+          {
+            "text": "5 + 4",
+            "why": "This is an array of equal rows, so multiply."
+          },
+          {
+            "text": "5 × 4",
+            "correct": true
+          },
+          {
+            "text": "4 × 4",
+            "why": "Count the rows again. There are 5 rows of 4."
+          },
+          {
+            "text": "5 × 5",
+            "why": "Count the dots in one row. There are 4."
+          }
+        ],
+        "target": "5 × 4",
+        "model": {
+          "type": "array",
+          "rows": 5,
+          "cols": 4
+        },
+        "hints": [
+          "Count the rows. Then count the dots in one row."
+        ],
+        "show": [
+          "There are 5 rows with 4 dots in each row.",
+          "So the equation is 5 × 4 = 20."
+        ],
+        "yes": "Yes! 5 rows of 4 is 5 × 4 = 20."
+      },
+      {
+        "id": "g5",
+        "type": "number",
+        "prompt": "A class puts paper stars on a wall in 8 rows. Each row has 7 stars. How many stars are on the wall?",
+        "answer": "8 × 7",
+        "hints": [
+          "8 rows of 7: 8 × 7.",
+          "Double the 4s fact: 4 × 7 = 28. 28 + 28."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 15
+            },
+            "say": "8 + 7 is 15. There are 8 equal rows, so multiply."
+          },
+          {
+            "when": {
+              "answer": 28
+            },
+            "say": "28 is only 4 rows. Double it for 8 rows."
+          }
+        ],
+        "show": [
+          "8 × 7 = 4 × 7 + 4 × 7.",
+          "28 + 28 = 56 stars."
+        ],
+        "yes": "Yes! 56 stars."
+      },
+      {
+        "id": "g6",
+        "type": "decompose",
+        "prompt": "A bookcase has 6 shelves. Each shelf holds 9 books. Decompose 6 × 9 to find how many books.",
+        "fact": [
+          6,
+          9
+        ],
+        "answer": {
+          "p": 5,
+          "q": 9,
+          "r": 1,
+          "s": 9,
+          "t": 54
+        },
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 9
+        },
+        "hints": [
+          "Break 6 into 5 + 1. Or break 9 into 5 + 4.",
+          "5 × 9 + 1 × 9. Then add."
+        ],
+        "show": [
+          "Break 6 into 5 + 1.",
+          "5 × 9 + 1 × 9 = 45 + 9 = 54 books."
+        ]
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "number",
+        "prompt": "A box of cans is shown. How many cans are in the box?",
+        "answer": "5 × 6",
+        "model": {
+          "type": "array",
+          "rows": 5,
+          "cols": 6
+        },
+        "hints": [
+          "Count the rows. Then count the cans in one row.",
+          "5 rows of 6: count by 5s six times."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 11
+            },
+            "say": "5 + 6 is 11. There are 5 equal rows of 6, so multiply."
+          },
+          {
+            "when": {
+              "answer": 5
+            },
+            "say": "5 is the number of rows. Each row has 6 cans."
+          }
+        ],
+        "show": [
+          "There are 5 rows with 6 cans in each row.",
+          "5 × 6 = 30 cans."
+        ],
+        "yes": "Yes! 30 cans."
+      },
+      {
+        "id": "t2",
+        "type": "choice",
+        "prompt": "Which equation matches this array?",
+        "options": [
+          {
+            "text": "3 + 8",
+            "why": "This is an array of equal rows, so multiply."
+          },
+          {
+            "text": "8 × 8",
+            "why": "Count the rows again. There are 3 rows."
+          },
+          {
+            "text": "3 × 8",
+            "correct": true
+          },
+          {
+            "text": "3 × 3",
+            "why": "Count the dots in one row. There are 8."
+          }
+        ],
+        "target": "3 × 8",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 8
+        },
+        "hints": [
+          "Count the rows. Then count the dots in one row."
+        ],
+        "show": [
+          "There are 3 rows with 8 dots in each row.",
+          "So the equation is 3 × 8 = 24."
+        ],
+        "yes": "Yes! 3 rows of 8 is 3 × 8."
+      },
+      {
+        "id": "t3",
+        "type": "choice",
+        "prompt": "Ben has 6 bags. Each bag has 5 shells. Which equation tells how many shells he has?",
+        "options": [
+          {
+            "text": "6 × 5 = ?",
+            "correct": true
+          },
+          {
+            "text": "6 + 5 = ?",
+            "why": "There are 6 equal bags of 5, so multiply."
+          },
+          {
+            "text": "5 × 5 = ?",
+            "why": "There are 6 bags, not 5."
+          }
+        ],
+        "hints": [
+          "How many bags? How many shells in each bag?"
+        ],
+        "show": [
+          "6 bags with 5 shells in each bag is 6 × 5.",
+          "6 × 5 = 30 shells."
+        ],
+        "yes": "Yes! 6 bags of 5 is 6 × 5."
+      },
+      {
+        "id": "t4",
+        "type": "number",
+        "prompt": "There are 3 rows of desks. Each row has 4 desks. How many desks are there?",
+        "answer": "3 × 4",
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 4
+        },
+        "hints": [
+          "3 rows of 4: 3 × 4.",
+          "Count by 4s three times: 4, 8, 12."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 7
+            },
+            "say": "3 + 4 is 7. There are 3 equal rows, so multiply."
+          }
+        ],
+        "show": [
+          "3 × 4 = 2 × 4 + 1 × 4.",
+          "8 + 4 = 12 desks."
+        ],
+        "yes": "Yes! 12 desks."
+      },
+      {
+        "id": "t5",
+        "type": "fill",
+        "prompt": "There are 7 boxes. Each box has 3 toys. Write the equation and solve.",
+        "lines": [
+          "[a] × [b] = [t]"
+        ],
+        "answer": {
+          "a": 7,
+          "b": 3,
+          "t": 21
+        },
+        "accept": [
+          {
+            "a": 3,
+            "b": 7,
+            "t": 21
+          }
+        ],
+        "hints": [
+          "How many boxes? How many toys in each box?",
+          "7 × 3: double 7 is 14, then add 7 more."
+        ],
+        "show": [
+          "7 boxes of 3 toys is 7 × 3.",
+          "7 × 2 + 7 × 1 = 14 + 7 = 21."
+        ],
+        "retry": "Find the number of groups and the number in each group. Then multiply.",
+        "mistakes": [
+          {
+            "when": {
+              "a": 7,
+              "b": 3,
+              "t": 10
+            },
+            "say": "7 + 3 is 10. These are equal groups, so multiply."
+          }
+        ],
+        "yes": "Yes! 7 × 3 = 21."
+      },
+      {
+        "id": "t6",
+        "type": "number",
+        "prompt": "A tray has 4 rows of muffins. Each row has 6 muffins. How many muffins are on the tray?",
+        "answer": "4 × 6",
+        "hints": [
+          "4 rows of 6: 4 × 6.",
+          "Find 2 × 6 = 12. Double it."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "4 + 6 is 10. There are 4 equal rows, so multiply."
+          },
+          {
+            "when": {
+              "answer": 12
+            },
+            "say": "12 is only 2 rows. Double it for 4 rows."
+          }
+        ],
+        "show": [
+          "4 × 6 = 2 × 6 + 2 × 6.",
+          "12 + 12 = 24 muffins."
+        ],
+        "yes": "Yes! 24 muffins."
+      },
+      {
+        "id": "t7",
+        "type": "number",
+        "prompt": "A triangle has 3 sides. How many sides do 8 triangles have?",
+        "answer": "8 × 3",
+        "hints": [
+          "8 triangles with 3 sides: 8 × 3.",
+          "Double 8 is 16. Add 8 more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 11
+            },
+            "say": "8 + 3 is 11. Each triangle has 3 sides, so multiply."
+          }
+        ],
+        "show": [
+          "8 × 3 = 8 × 2 + 8 × 1.",
+          "16 + 8 = 24 sides."
+        ],
+        "yes": "Yes! 24 sides."
+      },
+      {
+        "id": "t8",
+        "type": "fill",
+        "prompt": "A wall has 7 rows of 8 tiles. Break apart the 7. Find each part, then add.",
+        "lines": [
+          "7 × 8 = 5 × 8 + 2 × 8",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 40,
+          "q": 16,
+          "t": 56
+        },
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 8,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 16,
+            "q": 40,
+            "t": 56
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 40
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 15
+            },
+            "say": "7 × 8 means 7 groups of 8, not 7 + 8. Add the two products."
+          },
+          {
+            "when": {
+              "q": 2
+            },
+            "say": "The second part is 2 × 8, not 2. Find 2 × 8."
+          }
+        ],
+        "hints": [
+          "The top part is 5 rows of 8. The bottom part is 2 rows of 8.",
+          "5 × 8 = 40 and 2 × 8 = 16."
+        ],
+        "show": [
+          "5 × 8 = 40.",
+          "2 × 8 = 16.",
+          "40 + 16 = 56. So 7 × 8 = 56."
+        ],
+        "yes": "Yes! 40 + 16 = 56 tiles."
+      },
+      {
+        "id": "t9",
+        "type": "number",
+        "prompt": "Each row in a small theater has 9 seats. How many seats are in 6 rows?",
+        "answer": "6 × 9",
+        "hints": [
+          "6 rows of 9: 6 × 9.",
+          "5 × 9 = 45. Add one more row of 9."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 15
+            },
+            "say": "6 + 9 is 15. There are 6 equal rows, so multiply."
+          },
+          {
+            "when": {
+              "answer": 45
+            },
+            "say": "45 is only 5 rows. Add one more row of 9."
+          }
+        ],
+        "show": [
+          "6 × 9 = 5 × 9 + 1 × 9.",
+          "45 + 9 = 54 seats."
+        ],
+        "yes": "Yes! 54 seats."
+      },
+      {
+        "id": "t10",
+        "type": "decompose",
+        "prompt": "A game board has 8 rows of 8 squares. Decompose 8 × 8 to find the number of squares.",
+        "fact": [
+          8,
+          8
+        ],
+        "answer": {
+          "p": 4,
+          "q": 8,
+          "r": 4,
+          "s": 8,
+          "t": 64
+        },
+        "hints": [
+          "Break one 8 into 4 + 4, or into 5 + 3.",
+          "4 × 8 + 4 × 8. Then add."
+        ],
+        "show": [
+          "Break 8 into 4 + 4.",
+          "4 × 8 + 4 × 8 = 32 + 32 = 64 squares."
+        ]
+      },
+      {
+        "id": "t11",
+        "type": "number",
+        "prompt": "A spider has 8 legs. How many legs do 5 spiders have?",
+        "answer": "5 × 8",
+        "hints": [
+          "5 spiders with 8 legs: 5 × 8.",
+          "Count by 5s eight times, or by 8s five times."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 13
+            },
+            "say": "5 + 8 is 13. Each spider has 8 legs, so multiply."
+          }
+        ],
+        "show": [
+          "5 × 8 = 40.",
+          "There are 40 legs."
+        ],
+        "yes": "Yes! 40 legs."
+      },
+      {
+        "id": "t12",
+        "type": "number",
+        "prompt": "A team has 9 players. How many players are on 4 teams?",
+        "answer": "4 × 9",
+        "hints": [
+          "4 teams of 9: 4 × 9.",
+          "Find 2 × 9 = 18. Double it."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 13
+            },
+            "say": "4 + 9 is 13. Each team has 9 players, so multiply."
+          },
+          {
+            "when": {
+              "answer": 18
+            },
+            "say": "18 is only 2 teams. Double it for 4 teams."
+          }
+        ],
+        "show": [
+          "4 × 9 = 2 × 9 + 2 × 9.",
+          "18 + 18 = 36 players."
+        ],
+        "yes": "Yes! 36 players."
+      },
+      {
+        "id": "t13",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "9 × [x] = 63"
+        ],
+        "answer": {
+          "x": 7
+        },
+        "hints": [
+          "Count by 9s: 9, 18, 27 … Stop at 63.",
+          "Or try 7: 5 × 7 = 35 and 4 × 7 = 28."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 54
+            },
+            "say": "That box needs a factor. 9 × what makes 63?"
+          },
+          {
+            "when": {
+              "x": 6
+            },
+            "say": "9 × 6 is 54. One more 9 makes 63."
+          }
+        ],
+        "show": [
+          "9 × 7 = 5 × 7 + 4 × 7.",
+          "35 + 28 = 63. So the missing number is 7."
+        ],
+        "yes": "Yes! 9 × 7 = 63."
+      },
+      {
+        "id": "t14",
+        "type": "table",
+        "prompt": "Each pack has 6 juice boxes. Fill in the table.",
+        "headers": [
+          "Packs",
+          "Juice boxes"
+        ],
+        "rows": [
+          [
+            "3",
+            {
+              "answer": "3 × 6"
+            }
+          ],
+          [
+            "5",
+            {
+              "answer": "5 × 6"
+            }
+          ],
+          [
+            "8",
+            {
+              "answer": "8 × 6"
+            }
+          ]
+        ],
+        "retry": "Check each row: packs × 6.",
+        "hints": [
+          "Each pack has 6, so multiply the packs by 6.",
+          "3 packs: 3 × 6."
+        ],
+        "show": [
+          "3 × 6 = 18.",
+          "5 × 6 = 30.",
+          "8 × 6 = 48."
+        ],
+        "yes": "Yes! Packs × 6 gives the juice boxes."
+      },
+      {
+        "id": "t15",
+        "type": "choice",
+        "prompt": "A farmer plants 9 rows with 7 plants in each row. Which is a correct way to find the total?",
+        "options": [
+          {
+            "text": "9 + 7",
+            "why": "The rows are equal groups, so multiply."
+          },
+          {
+            "text": "5 × 7 + 4",
+            "why": "The second part must be a whole fact: 4 × 7, not 4."
+          },
+          {
+            "text": "5 × 7 + 4 × 7",
+            "correct": true
+          },
+          {
+            "text": "9 × 5 + 9 × 3",
+            "why": "5 and 3 make 8, not 7."
+          }
+        ],
+        "target": "9 × 7",
+        "hints": [
+          "The fact is 9 × 7. Break the 9 into 5 + 4."
+        ],
+        "show": [
+          "9 × 7 = 5 × 7 + 4 × 7.",
+          "35 + 28 = 63 plants."
+        ],
+        "yes": "Yes! 35 + 28 = 63 plants."
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "A student solved: \"4 boxes with 9 books in each box.\" She wrote 4 + 9 = 13. What went wrong?",
+        "options": [
+          {
+            "text": "She added. She should multiply: 4 × 9.",
+            "correct": true
+          },
+          {
+            "text": "Nothing. It is correct.",
+            "why": "There are 4 equal groups of 9, so multiply. 4 × 9 = 36."
+          },
+          {
+            "text": "She should take away: 9 − 4.",
+            "why": "Nothing is taken away. There are 4 equal groups of 9."
+          }
+        ],
+        "hints": [
+          "Are there equal groups?",
+          "Equal groups mean multiply."
+        ],
+        "show": [
+          "4 boxes of 9 books is 4 × 9.",
+          "4 × 9 = 18 + 18 = 36 books."
+        ],
+        "yes": "Yes! 4 × 9 = 36 books."
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "Which story can you solve with 5 × 8?",
+        "options": [
+          {
+            "text": "There are 5 red flowers and 8 yellow flowers. How many flowers?",
+            "why": "That is 5 + 8. There are no equal groups."
+          },
+          {
+            "text": "There are 5 vases with 8 flowers in each. How many flowers?",
+            "correct": true
+          },
+          {
+            "text": "There were 8 flowers. 5 were picked. How many are left?",
+            "why": "That is 8 − 5. Nothing is multiplied."
+          }
+        ],
+        "hints": [
+          "5 × 8 means 5 equal groups of 8."
+        ],
+        "show": [
+          "5 vases with 8 flowers in each is 5 equal groups of 8.",
+          "5 × 8 = 40 flowers."
+        ],
+        "yes": "Yes! 5 equal groups of 8."
+      },
+      {
+        "id": "t18",
+        "type": "number",
+        "prompt": "A van has 4 rows of seats. Each row has 3 seats. 2 of the seats are red. How many seats are in the van?",
+        "answer": "4 × 3",
+        "hints": [
+          "Not every number is needed. Find the rows and the seats in each row.",
+          "4 rows of 3: 4 × 3."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 9
+            },
+            "say": "The 2 red seats are already counted. Just find 4 rows of 3."
+          },
+          {
+            "when": {
+              "answer": 7
+            },
+            "say": "4 + 3 is 7. There are 4 equal rows, so multiply."
+          },
+          {
+            "when": {
+              "answer": 14
+            },
+            "say": "The 2 red seats are part of the 12, not extra. Just find 4 rows of 3."
+          }
+        ],
+        "show": [
+          "The red seats do not change how many seats there are.",
+          "4 × 3 = 12 seats."
+        ],
+        "yes": "Yes! 12 seats. The red seats were extra information."
+      },
+      {
+        "id": "t19",
+        "type": "choice",
+        "prompt": "Eli says 6 rows of 9 chairs is 15 chairs. Does that make sense?",
+        "options": [
+          {
+            "text": "Yes. 6 + 9 = 15.",
+            "why": "Rows of chairs are equal groups. Multiply: 6 × 9 = 54."
+          },
+          {
+            "text": "No. There are 69 chairs.",
+            "why": "Check: 6 × 9 = 45 + 9 = 54."
+          },
+          {
+            "text": "No. 15 is 6 + 9. There are 54 chairs.",
+            "correct": true
+          }
+        ],
+        "hints": [
+          "6 rows of about 10 would be 60 chairs. Is 15 close?"
+        ],
+        "show": [
+          "6 rows of 9 is 6 × 9.",
+          "6 × 9 = 5 × 9 + 1 × 9 = 45 + 9 = 54 chairs."
+        ],
+        "yes": "Yes! 15 is much too small. 6 × 9 = 54."
+      },
+      {
+        "id": "t20",
+        "type": "number",
+        "prompt": "A parking lot has 9 rows with 8 cars in each row. Then 1 more row of 8 cars is added. How many cars are there now?",
+        "answer": "10 × 8",
+        "hints": [
+          "9 rows and 1 more row make 10 rows.",
+          "10 rows of 8: 10 × 8."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 72
+            },
+            "say": "That is 9 rows. Do not forget the new row of 8."
+          },
+          {
+            "when": {
+              "answer": 73
+            },
+            "say": "The new row has 8 cars, not 1. Add 8 to 72."
+          }
+        ],
+        "show": [
+          "9 rows + 1 row = 10 rows of 8.",
+          "10 × 8 = 80 cars."
+        ],
+        "yes": "Yes! 80 cars."
+      }
+    ]
+  },
+  "test": {
+    "pass": 7,
+    "items": [
+      {
+        "id": "x1",
+        "type": "number",
+        "prompt": "There are 5 rows of trees. Each row has 7 trees. How many trees are there?",
+        "answer": "5 × 7",
+        "show": [
+          "5 rows of 7 is 5 × 7.",
+          "5 × 7 = 35 trees."
+        ]
+      },
+      {
+        "id": "x2",
+        "type": "choice",
+        "prompt": "Which equation matches this array?",
+        "options": [
+          {
+            "text": "4 + 9",
+            "why": "This is an array of equal rows, so multiply."
+          },
+          {
+            "text": "4 × 9",
+            "correct": true
+          },
+          {
+            "text": "9 × 9",
+            "why": "There are 4 rows, not 9."
+          },
+          {
+            "text": "4 × 4",
+            "why": "Each row has 9 dots, not 4."
+          }
+        ],
+        "target": "4 × 9",
+        "model": {
+          "type": "array",
+          "rows": 4,
+          "cols": 9
+        },
+        "show": [
+          "4 rows with 9 dots in each row is 4 × 9 = 36."
+        ]
+      },
+      {
+        "id": "x3",
+        "type": "number",
+        "prompt": "Each box has 8 crayons. How many crayons are in 6 boxes?",
+        "answer": "6 × 8",
+        "show": [
+          "6 boxes of 8 is 6 × 8.",
+          "5 × 8 + 1 × 8 = 40 + 8 = 48 crayons."
+        ]
+      },
+      {
+        "id": "x4",
+        "type": "fill",
+        "prompt": "A garden has 9 rows of 4 plants. Find each part, then add.",
+        "lines": [
+          "9 × 4 = 5 × 4 + 4 × 4",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 20,
+          "q": 16,
+          "t": 36
+        },
+        "model": {
+          "type": "array",
+          "rows": 9,
+          "cols": 4,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 16,
+            "q": 20,
+            "t": 36
+          }
+        ],
+        "show": [
+          "5 × 4 = 20.",
+          "4 × 4 = 16.",
+          "20 + 16 = 36. So 9 × 4 = 36."
+        ]
+      },
+      {
+        "id": "x5",
+        "type": "fill",
+        "prompt": "There are 3 bags. Each bag has 9 apples. Write the equation and solve.",
+        "lines": [
+          "[a] × [b] = [t]"
+        ],
+        "answer": {
+          "a": 3,
+          "b": 9,
+          "t": 27
+        },
+        "accept": [
+          {
+            "a": 9,
+            "b": 3,
+            "t": 27
+          }
+        ],
+        "show": [
+          "3 bags of 9 apples is 3 × 9.",
+          "2 × 9 + 1 × 9 = 18 + 9 = 27."
+        ],
+        "retry": "Find the number of groups and the number in each group. Then multiply."
+      },
+      {
+        "id": "x6",
+        "type": "decompose",
+        "prompt": "A wall has 7 rows of 8 tiles. Decompose 7 × 8 to find the number of tiles.",
+        "fact": [
+          7,
+          8
+        ],
+        "answer": {
+          "p": 5,
+          "q": 8,
+          "r": 2,
+          "s": 8,
+          "t": 56
+        },
+        "show": [
+          "Break 7 into 5 + 2: 5 × 8 + 2 × 8.",
+          "40 + 16 = 56 tiles."
+        ]
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "Which story can you solve with 4 × 6?",
+        "options": [
+          {
+            "text": "There are 4 plates with 6 grapes on each plate. How many grapes?",
+            "correct": true
+          },
+          {
+            "text": "There are 4 green grapes and 6 red grapes. How many grapes?",
+            "why": "That is 4 + 6. There are no equal groups."
+          },
+          {
+            "text": "There were 6 grapes. 4 were eaten. How many are left?",
+            "why": "That is 6 − 4. Nothing is multiplied."
+          }
+        ],
+        "show": [
+          "4 plates with 6 grapes each is 4 equal groups of 6.",
+          "4 × 6 = 24 grapes."
+        ]
+      },
+      {
+        "id": "x8",
+        "type": "number",
+        "prompt": "A bus has 9 rows. Each row has 6 seats. How many seats are on the bus?",
+        "answer": "9 × 6",
+        "show": [
+          "9 rows of 6 is 9 × 6.",
+          "5 × 6 + 4 × 6 = 30 + 24 = 54 seats."
+        ]
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "To solve multiplication story problems: find the equal groups, write an equation such as 6 × 8 = ?, solve it with a strategy (often by breaking apart a factor), and check that the answer makes sense. This lesson does not use division."
+      },
+      {
+        "heading": "Try it with real things",
+        "list": [
+          "At the store: \"Each pack has 6 yogurts. How many in 3 packs?\"",
+          "At home: count chairs, windows or egg cups set out in rows. Ask \"How many rows? How many in each row?\""
+        ]
+      },
+      {
+        "heading": "Questions to ask",
+        "list": [
+          "What are the equal groups?",
+          "What equation did you write?",
+          "Which strategy did you use?",
+          "Does the answer make sense?"
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Adding the two numbers instead of multiplying (6 + 9 instead of 6 × 9).",
+          "Using a number that is not needed (extra information).",
+          "Not checking whether the answer is about the right size."
+        ]
+      },
+      {
+        "heading": "A note on notation",
+        "text": "Some books write the facts without ( ) and some with ( ). Both mean the same thing. Study Scoop uses original practice questions; it never copies the textbook."
+      }
+    ]
+  }
+}

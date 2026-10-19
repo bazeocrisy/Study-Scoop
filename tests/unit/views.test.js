@@ -108,7 +108,7 @@ test('Math opens on its four choices; Math Lessons links every lesson step', () 
   }
   assert.match(math, /What would you like to do\?/);
   const lessons = mathView({ ...ctxFor(realIndex, '2026-10-19', 'math', week), page: 'lessons' }).s;
-  for (const id of ['5-1', '5-2']) {
+  for (const id of ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']) {
     for (const st of ['learn', 'watch', 'together', 'try', 'test']) assert.ok(lessons.includes(`href="#math?lesson=${id}&amp;stage=${st}"`), `${id} ${st}`);
   }
   const practice = mathView({ ...ctxFor(realIndex, '2026-10-19', 'math', week), page: 'practice' }).s;
@@ -119,17 +119,19 @@ test('Learn the Properties uses the teacher\'s exact words when the week lists t
   const card = (weekId, i) => {
     const week = readJSON(`data/${weekId}.json`);
     const ctx = ctxFor(realIndex, weekId, 'math', week);
-    ctx.run = { subject: 'math', act: 'learn', mode: 'practice', title: 'Learn the Properties', items: [], items_: {}, flash: { order: [0, 1, 2, 3], i, flipped: false, marks: {} } };
+    ctx.run = { subject: 'math', act: 'learn', mode: 'practice', title: 'Learn the Properties', items: [], items_: {}, flash: { order: [0, 1, 2, 3, 4], i, flipped: false, marks: {} } };
     return [week, mathView(ctx).s];
   };
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 5; i++) {
     const [week, out] = card('2026-10-19', i);
-    const name = ['Identity', 'Zero', 'Commutative', 'Distributive'][i];
+    const name = ['Identity', 'Zero', 'Commutative', 'Associative', 'Distributive'][i];
     const w = week.math.words.find((x) => x.word.startsWith(name));
-    assert.ok(out.includes(`<span class="def">${esc(w.def)}</span>`), name);
+    if (w) assert.ok(out.includes(`<span class="label">${esc("Teacher's words")}</span><span class="def">${esc(w.def)}</span>`), name);
+    // The Associative Property is not in the week file: its definition is shown as a definition, never as the teacher's words.
+    else assert.ok(out.includes('<span class="label">Definition</span>') && !out.includes(esc("Teacher's words")), name);
     assert.doesNotMatch(out, /undefined|NaN/);
     const [, old] = card('2026-10-12', i);
-    assert.ok(!old.includes("Teacher's words"), `${name} without teacher words`);
+    assert.ok(!old.includes(esc("Teacher's words")) && !old.includes("Teacher's words"), `${name} without teacher words`);
     assert.ok(old.includes(`${name} Property`), name);
   }
 });

@@ -9,7 +9,7 @@ export function testsView(ctx) {
   return html`
     ${pageHead('Tests', ctx, 'Practice tests made by Study Scoop for this week. They are not your teacher\'s tests.')}
     ${ctx.testsProblem ? html`<p class="notice" role="note">The math and vocabulary practice tests for this week could not be loaded. Please try again later.</p>` : ''}
-    ${testCenter(ctx, testCatalog(ctx.week, ctx.tests))}
+    ${testCenter(ctx, testCatalog(ctx.week, ctx.tests, ctx.mathWords))}
     <div class="card note">
       <h2>How the practice tests work</h2>
       <ul class="plain-list">

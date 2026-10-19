@@ -106,6 +106,25 @@
         ]
       },
       {
+        "title": "Another way: break apart the 7",
+        "text": [
+          "You can also break apart the other factor. 7 is 5 + 2.",
+          "Cut between the columns. The left part is 3 × 5 = 15. The right part is 3 × 2 = 6.",
+          "Add: 15 + 6 = 21. The same 21 dots! A correct way always keeps every dot."
+        ],
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 7,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "caption": "3 × 7 = 3 × 5 + 3 × 2"
+      },
+      {
         "title": "Check",
         "item": {
           "id": "l1",
@@ -544,7 +563,7 @@
     ]
   },
   "try": {
-    "pass": 7,
+    "pass": 16,
     "items": [
       {
         "id": "t1",
@@ -667,7 +686,15 @@
             "correct": true
           }
         ],
-        "yes": "Yes! 14 + 7 = 21."
+        "yes": "Yes! 14 + 7 = 21.",
+        "hints": [
+          "3 = 2 + 1. Keep the 7 in both facts.",
+          "Look for 2 × 7 and 1 × 7."
+        ],
+        "show": [
+          "3 × 7 = 2 × 7 + 1 × 7.",
+          "14 + 7 = 21."
+        ]
       },
       {
         "id": "t5",
@@ -751,7 +778,11 @@
             "say": "0 groups of 7 is nothing at all. Times 0 is always 0."
           }
         ],
-        "yes": "Yes! Times 0 is always 0."
+        "yes": "Yes! Times 0 is always 0.",
+        "show": [
+          "0 × 7 means 0 groups of 7.",
+          "There is nothing to count, so 0 × 7 = 0."
+        ]
       },
       {
         "id": "t8",
@@ -769,7 +800,451 @@
             "say": "9 + 1 is 10, but this is times 1. 9 groups of 1 is 9."
           }
         ],
-        "yes": "Yes! Times 1 keeps the number the same."
+        "yes": "Yes! Times 1 keeps the number the same.",
+        "show": [
+          "9 × 1 means 9 groups of 1.",
+          "That is 9. Times 1 keeps the number the same."
+        ]
+      },
+      {
+        "id": "t9",
+        "type": "fill",
+        "prompt": "Find each part. Then add.",
+        "lines": [
+          "3 × 9 = 2 × 9 + 1 × 9",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 18,
+          "q": 9,
+          "t": 27
+        },
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 9,
+          "cut": {
+            "by": "rows",
+            "at": 2
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 9,
+            "q": 18,
+            "t": 27
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 18
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 12
+            },
+            "say": "3 × 9 means 3 groups of 9, not 3 + 9. Add the two products."
+          },
+          {
+            "when": {
+              "q": 1
+            },
+            "say": "The second part is 1 × 9, not 1. Find 1 × 9."
+          }
+        ],
+        "hints": [
+          "The top part is 2 rows of 9: the 2s fact.",
+          "The bottom part is 1 row of 9. Then add."
+        ],
+        "show": [
+          "2 × 9 = 18.",
+          "1 × 9 = 9.",
+          "18 + 9 = 27. So 3 × 9 = 27."
+        ],
+        "yes": "Yes! 27."
+      },
+      {
+        "id": "t10",
+        "type": "fill",
+        "prompt": "This time the 7 is broken apart into 5 + 2. Find each part, then add.",
+        "lines": [
+          "3 × 7 = 3 × 5 + 3 × 2",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 15,
+          "q": 6,
+          "t": 21
+        },
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 7,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 6,
+            "q": 15,
+            "t": 21
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 15
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 10
+            },
+            "say": "3 × 7 means 3 groups of 7, not 3 + 7. Add the two products."
+          },
+          {
+            "when": {
+              "q": 2
+            },
+            "say": "The second part is 3 × 2, not 2. Find 3 × 2."
+          }
+        ],
+        "hints": [
+          "The left part is 3 rows of 5. The right part is 3 rows of 2.",
+          "3 × 5 = 15 and 3 × 2 = 6."
+        ],
+        "show": [
+          "3 × 5 = 15.",
+          "3 × 2 = 6.",
+          "15 + 6 = 21. So 3 × 7 = 21."
+        ],
+        "yes": "Yes! 21."
+      },
+      {
+        "id": "t11",
+        "type": "decompose",
+        "prompt": "Decompose 3 × 8. Any way that works is fine.",
+        "fact": [
+          3,
+          8
+        ],
+        "answer": {
+          "p": 2,
+          "q": 8,
+          "r": 1,
+          "s": 8,
+          "t": 24
+        },
+        "hints": [
+          "Break the 3 into 2 + 1. Or break the 8 into 5 + 3.",
+          "2 × 8 + 1 × 8. Then add."
+        ],
+        "show": [
+          "3 × 8 = 2 × 8 + 1 × 8.",
+          "16 + 8 = 24."
+        ]
+      },
+      {
+        "id": "t12",
+        "type": "choice",
+        "prompt": "Which facts match this split array?",
+        "options": [
+          {
+            "text": "(2 × 9) + (2 × 9)",
+            "why": "That makes 4 rows. This array has 3 rows: 2 on top and 1 below."
+          },
+          {
+            "text": "(2 × 9) + (1 × 9)",
+            "correct": true
+          },
+          {
+            "text": "(3 × 5) + (3 × 4)",
+            "why": "That cut goes between columns. This line goes between rows."
+          },
+          {
+            "text": "(2 × 3) + (1 × 3)",
+            "why": "Each row has 9 dots, not 3. Count the dots in one row."
+          }
+        ],
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 9,
+          "cut": {
+            "by": "rows",
+            "at": 2
+          },
+          "labels": "parts"
+        },
+        "pictureMatch": true,
+        "hints": [
+          "Count the rows above the line and below the line.",
+          "Each row has 9 dots."
+        ],
+        "show": [
+          "2 rows are above the line and 1 row is below it.",
+          "Each row has 9 dots: (2 × 9) + (1 × 9)."
+        ],
+        "yes": "Yes! The 2s fact on top and the 1s fact below."
+      },
+      {
+        "id": "t13",
+        "type": "choice",
+        "prompt": "This line goes between columns. Which facts match?",
+        "options": [
+          {
+            "text": "(2 × 7) + (1 × 7)",
+            "why": "That cut goes between rows. This line goes between columns."
+          },
+          {
+            "text": "(3 × 4) + (3 × 3)",
+            "why": "That would be a cut after column 4. This line is after column 5."
+          },
+          {
+            "text": "(3 × 5) + (3 × 5)",
+            "why": "That makes 10 columns. The picture has 7: 5 on the left and 2 on the right."
+          },
+          {
+            "text": "(3 × 5) + (3 × 2)",
+            "correct": true
+          }
+        ],
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 7,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "pictureMatch": true,
+        "hints": [
+          "Count the columns left of the line and right of the line.",
+          "Each column has 3 dots."
+        ],
+        "show": [
+          "5 columns are left of the line and 2 are right of it.",
+          "Each column has 3 dots: (3 × 5) + (3 × 2)."
+        ],
+        "yes": "Yes! 3 × 7 = (3 × 5) + (3 × 2) = 15 + 6 = 21."
+      },
+      {
+        "id": "t14",
+        "type": "number",
+        "prompt": "3 × 10 = ?",
+        "answer": "3 × 10",
+        "hints": [
+          "Double 10 is 20. That is the 2s fact.",
+          "Add 10 once more: 20 + 10."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 13
+            },
+            "say": "3 + 10 is 13, but this is times. Double 10, then add 10 once more."
+          },
+          {
+            "when": {
+              "answer": 20
+            },
+            "say": "20 is the 2s fact. Add one more 10."
+          }
+        ],
+        "show": [
+          "3 × 10 = 2 × 10 + 1 × 10.",
+          "20 + 10 = 30."
+        ],
+        "yes": "Yes! 30."
+      },
+      {
+        "id": "t15",
+        "type": "number",
+        "prompt": "A clover has 3 leaves. How many leaves are on 7 clovers?",
+        "answer": "7 × 3",
+        "hints": [
+          "7 clovers with 3 leaves: 7 × 3.",
+          "Find the 3. Double 7 is 14, then add 7 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "7 + 3 is 10. Each clover has 3 leaves, so multiply."
+          },
+          {
+            "when": {
+              "answer": 14
+            },
+            "say": "14 is the 2s fact. Add one more 7."
+          }
+        ],
+        "show": [
+          "7 × 3 = 7 × 2 + 7 × 1.",
+          "14 + 7 = 21 leaves."
+        ],
+        "yes": "Yes! 21 leaves."
+      },
+      {
+        "id": "t16",
+        "type": "number",
+        "prompt": "Kim reads 3 books each week. How many books does she read in 6 weeks?",
+        "answer": "6 × 3",
+        "hints": [
+          "6 weeks of 3 books: 6 × 3.",
+          "Find the 3. Double 6 is 12, then add 6 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 9
+            },
+            "say": "6 + 3 is 9. She reads 3 books each week, so multiply."
+          },
+          {
+            "when": {
+              "answer": 12
+            },
+            "say": "12 is the 2s fact. Add one more 6."
+          }
+        ],
+        "show": [
+          "6 × 3 = 6 × 2 + 6 × 1.",
+          "12 + 6 = 18 books."
+        ],
+        "yes": "Yes! 18 books."
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "Which shows a correct way to find 3 × 9?",
+        "options": [
+          {
+            "text": "2 × 9 + 1",
+            "why": "The second part must be a whole fact: 1 × 9, not 1."
+          },
+          {
+            "text": "3 × 5 + 3 × 3",
+            "why": "5 and 3 make 8, not 9."
+          },
+          {
+            "text": "2 × 9 + 1 × 9",
+            "correct": true
+          },
+          {
+            "text": "2 × 1 + 1 × 9",
+            "why": "Both facts must keep the 9: 2 × 9 and 1 × 9."
+          }
+        ],
+        "target": "3 × 9",
+        "hints": [
+          "3 = 2 + 1. Keep the 9 in both facts."
+        ],
+        "show": [
+          "3 × 9 = 2 × 9 + 1 × 9.",
+          "18 + 9 = 27."
+        ],
+        "yes": "Yes! 18 + 9 = 27."
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "A student wrote 3 × 8 = 2 × 8 + 1 = 17. What went wrong?",
+        "options": [
+          {
+            "text": "The second part should be 1 × 8, not 1.",
+            "correct": true
+          },
+          {
+            "text": "Nothing. It is correct.",
+            "why": "3 × 8 is 3 rows of 8. That is 24, not 17."
+          },
+          {
+            "text": "The first part should be 3 × 8.",
+            "why": "The first part 2 × 8 is fine. The second part lost its 8."
+          },
+          {
+            "text": "You should add 3 + 8.",
+            "why": "3 × 8 means 3 groups of 8, not 3 + 8."
+          }
+        ],
+        "quotesMistake": true,
+        "hints": [
+          "Both parts must be whole facts.",
+          "Is \"1\" a whole fact like 1 × 8?"
+        ],
+        "show": [
+          "3 × 8 = 2 × 8 + 1 × 8.",
+          "16 + 8 = 24."
+        ],
+        "yes": "Yes! 3 × 8 = 2 × 8 + 1 × 8 = 16 + 8 = 24."
+      },
+      {
+        "id": "t19",
+        "type": "choice",
+        "prompt": "Mo found that 3 × 8 is 24. How can he find 8 × 3?",
+        "options": [
+          {
+            "text": "Add 3 more.",
+            "why": "8 × 3 has the same factors in a different order, so it is still 24."
+          },
+          {
+            "text": "Turn it around. 8 × 3 is also 24.",
+            "correct": true
+          },
+          {
+            "text": "Write 83.",
+            "why": "8 × 3 is a multiplication fact, not the number 83. Turn it around: it is 24."
+          }
+        ],
+        "hints": [
+          "Look at the two factors. Are they the same numbers?"
+        ],
+        "show": [
+          "8 × 3 and 3 × 8 use the same factors.",
+          "Turning a fact around does not change the product: 24."
+        ],
+        "yes": "Yes! The order of the factors does not matter."
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "Why does 3 × 6 = 2 × 6 + 1 × 6 work?",
+        "options": [
+          {
+            "text": "Because 6 is even.",
+            "why": "That does not matter. The 3 rows split into 2 rows and 1 row."
+          },
+          {
+            "text": "3 rows is 2 rows and 1 more row.",
+            "correct": true
+          },
+          {
+            "text": "Because 2 × 6 is bigger.",
+            "why": "Size does not matter. The 3 rows split into 2 rows and 1 row, and the 6 stays in both parts."
+          }
+        ],
+        "hints": [
+          "Think of 3 rows of 6. Cut under row 2."
+        ],
+        "show": [
+          "3 = 2 + 1.",
+          "So 3 rows of 6 is 2 rows of 6 and 1 row of 6: 12 + 6 = 18."
+        ],
+        "yes": "Yes! 2 + 1 = 3 rows, and every row has 6."
       }
     ]
   },

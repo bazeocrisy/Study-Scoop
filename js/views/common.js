@@ -100,9 +100,9 @@ export function subjectMenu(ctx, subject, items, { misses = 0 } = {}) {
   return html`
     <ul class="menu-grid subject-${subject} count-${items.length}">
       ${items.map((a) => html`
-        <li><a class="menu-card${a.id === 'misses' ? ' misses' : ''}" href="${ctx.actLink(subject, a.id)}">
+        <li><a class="menu-card${a.misses ? ' misses' : ''}" href="${ctx.actLink(subject, a.id)}">
           <span class="mc-icon">${ICONS[a.icon] || ''}</span>
-          <span class="mc-text">${a.start ? html`<span class="start-here">Start here</span>` : ''}<span class="mc-title">${a.label}${a.id === 'misses' && misses ? html` <span class="count-badge">${misses}<span class="sr-only"> to practice</span></span>` : ''}</span>
+          <span class="mc-text">${a.start ? html`<span class="start-here">Start here</span>` : ''}<span class="mc-title">${a.label}${a.misses && misses ? html` <span class="count-badge">${misses}<span class="sr-only"> to practice</span></span>` : ''}</span>
             <span class="mc-about">${a.about}</span></span>
           <span class="mc-go" aria-hidden="true">›</span>
         </a></li>`)}
@@ -133,3 +133,10 @@ export const testsNote = (ctx, what) => html`<p class="hint menu-foot">${what} i
 
 /** Keeps each written fact such as "(3 × 7)" or "6 × 7 = 42" on one line. */
 export const facts = (text) => String(text).split(/(\(?\d+ × \d+\)?(?: = \d+)?)/).map((p, k) => (k % 2 ? html`<span class="nobr">${p}</span>` : p));
+
+/** "18 out of 20 right on the first try (90%)", then how many were answered and missed: every results screen. */
+export function scoreLine(right, total, answered, firstTry = true) {
+  const pct = total ? Math.round((right / total) * 100) : 0;
+  return html`<p class="summary-score">${right} out of ${total} right${firstTry ? ' on the first try' : ''} <span class="pct">(${pct}%)</span></p>
+    <p class="score-facts"><span>Answered: ${answered} of ${total}</span> · <span>Missed: ${total - right}</span></p>`;
+}

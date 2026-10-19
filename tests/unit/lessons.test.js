@@ -92,7 +92,7 @@ test('open decompositions: any valid cut, either factor, facts turned around or 
 });
 
 test('every lesson is valid and every question accepts its own answer', () => {
-  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2']);
+  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']);
   for (const lesson of LESSONS) {
     assert.deepEqual(validateLesson(lesson, lesson.id), [], lesson.id);
     for (const [, item] of allItems(lesson)) {
