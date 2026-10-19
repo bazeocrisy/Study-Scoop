@@ -131,12 +131,12 @@ export default {
         yes: 'Yes! 10 + 10 = 20.',
       }),
       factorsFill('g3', 4, 6, 'rows', 2, { total: true, prompt: 'Break the 4 into two equal parts. Fill in the boxes.', yes: 'Yes! 2 + 2 = 4 rows, and 12 + 12 = 24.' }),
-      partsFill('g4', 3, 4, 'cols', 2, {
+      partsFill('g4', 10, 4, 'cols', 2, {
         prompt: 'The 4 comes second. Find each part, then add.',
-        hints: ['Find the 4. It is broken into 2 + 2 columns.', 'Find 3 × 2. Then double it.'],
-        yes: 'Yes! 6 + 6 = 12.',
+        hints: ['Find the 4. It is broken into 2 + 2 columns.', 'Find 10 × 2. Then double it.'],
+        yes: 'Yes! 20 + 20 = 40.',
       }),
-      fact('g5', 4, 10, { ...four(10), yes: 'Yes! 20 + 20 = 40.' }),
+      fact('g5', 4, 4, { ...four(4), yes: 'Yes! 8 + 8 = 16.' }),
       decompose('g6', 4, 6, ['rows', 2], {
         prompt: 'Your turn! Decompose 4 × 6 any way you like.',
         model: arr(4, 6),
@@ -150,10 +150,10 @@ export default {
     items: [
       // 1-5: understanding
       {
-        id: 't1', type: 'fill', prompt: '2 × 3 = 6. Use it to find 4 × 3.', lines: ['4 × 3 = 6 + [x]', '= [t]'], answer: { x: 6, t: 12 },
-        hints: ['4 × 3 is two 2 × 3 facts.', 'What do you add to 6 to double it?'],
-        mistakes: [{ when: { x: 3 }, say: 'Add the whole 2s fact again: 6, not 3.' }, { when: { x: 4 }, say: 'Add the whole 2s fact again: 6, not 4.' }],
-        show: ['4 × 3 = 2 × 3 + 2 × 3.', '6 + 6 = 12.'], yes: 'Yes! 6 + 6 = 12.',
+        id: 't1', type: 'fill', prompt: '2 × 2 = 4. Use it to find 4 × 2.', lines: ['4 × 2 = 4 + [x]', '= [t]'], answer: { x: 4, t: 8 },
+        hints: ['4 × 2 is two 2 × 2 facts.', 'Double means add the same 2s fact again.'],
+        mistakes: [{ when: { x: 2 }, say: 'Add the whole 2s fact again, not just 2.' }, { when: { x: 1 }, say: 'Add the whole 2s fact again, not 1.' }],
+        show: ['4 × 2 = 2 × 2 + 2 × 2.', '4 + 4 = 8.'], yes: 'Yes! 4 + 4 = 8.',
       },
       choice('t2', 'Which facts match this split array?', [
         ['(4 × 4) + (4 × 4)', 'That cut goes between columns. This line goes between rows.'],
@@ -286,7 +286,7 @@ export default {
       { heading: 'What your child is learning', text: 'To multiply by 4 by doubling a 2s fact. Because 4 = 2 + 2, a 4s fact is two equal 2s facts: 4 × 9 = 2 × 9 + 2 × 9 = 18 + 18 = 36. When the 4 comes second (6 × 4), break the 4 the same way: 6 × 2 + 6 × 2.' },
       { heading: 'Try it with real things', list: ['Make 2 rows of 9 pennies. Count them (18). Make 2 more rows below. Now there are 4 rows: 18 + 18 = 36.', 'Practice doubles out loud: double 12, double 16, double 18.'] },
       { heading: 'Questions to ask', list: ['Where is the 4?', 'What is the 2s fact?', 'What is double that number?'] },
-      { heading: 'Common mistakes', list: ['Stopping at the 2s fact (2 × 7 = 14) and not doubling.', 'Adding the factors: 4 + 7 = 11.', 'Writing the second part as a number instead of a fact: 2 × 7 + 2.', 'Doubling the wrong fact, such as 4 × 2 for 4 × 9.'] },
+      { heading: 'Common mistakes', list: ['Stopping at the 2s fact (2 × 9 = 18) and not doubling.', 'Adding the factors: 4 + 9 = 13.', 'Writing the second part as a number instead of a fact: 2 × 9 + 2.', 'Doubling the wrong fact, such as 4 × 2 for 4 × 9.'] },
       { heading: 'A note on notation', text: 'Some books write the facts without ( ) and some with ( ). Both mean the same thing. Study Scoop uses original practice questions; it never copies the textbook.' },
     ],
   },

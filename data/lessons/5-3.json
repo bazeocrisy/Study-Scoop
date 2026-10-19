@@ -446,18 +446,18 @@
         "type": "fill",
         "prompt": "The 4 comes second. Find each part, then add.",
         "lines": [
-          "3 × 4 = 3 × 2 + 3 × 2",
+          "10 × 4 = 10 × 2 + 10 × 2",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 6,
-          "q": 6,
-          "t": 12
+          "p": 20,
+          "q": 20,
+          "t": 40
         },
         "model": {
           "type": "array",
-          "rows": 3,
+          "rows": 10,
           "cols": 4,
           "cut": {
             "by": "cols",
@@ -468,57 +468,51 @@
         "mistakes": [
           {
             "when": {
-              "t": 6
+              "t": 20
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 7
+              "t": 14
             },
-            "say": "3 × 4 means 3 groups of 4, not 3 + 4. Add the two products."
+            "say": "10 × 4 means 10 groups of 4, not 10 + 4. Add the two products."
           }
         ],
         "hints": [
           "Find the 4. It is broken into 2 + 2 columns.",
-          "Find 3 × 2 (it is a double) and 3 × 2 (it is a double). Then add them."
+          "Find 10 × 2 (count by 10s) and 10 × 2 (count by 10s). Then add them."
         ],
         "show": [
-          "3 × 2 = 6.",
-          "3 × 2 = 6.",
-          "6 + 6 = 12. So 3 × 4 = 12."
+          "10 × 2 = 20.",
+          "10 × 2 = 20.",
+          "20 + 20 = 40. So 10 × 4 = 40."
         ],
-        "yes": "Yes! 6 + 6 = 12."
+        "yes": "Yes! 20 + 20 = 40."
       },
       {
         "id": "g5",
         "type": "number",
-        "prompt": "4 × 10 = ?",
-        "answer": "4 × 10",
+        "prompt": "4 × 4 = ?",
+        "answer": "4 × 4",
         "hints": [
-          "Find the 2s fact: 2 × 10.",
+          "Find the 2s fact: 2 × 4.",
           "Then double it: add the 2s fact to itself."
         ],
         "mistakes": [
           {
             "when": {
-              "answer": 14
+              "answer": 8
             },
-            "say": "4 + 10 is 14, but this is times. Find the 2s fact and double it."
-          },
-          {
-            "when": {
-              "answer": 20
-            },
-            "say": "20 is the 2s fact. Double it to get the 4s fact."
+            "say": "8 is the 2s fact. Double it to get the 4s fact."
           }
         ],
         "show": [
-          "4 = 2 + 2, so 4 × 10 is two 2 × 10 facts.",
-          "2 × 10 = 20.",
-          "20 + 20 = 40. So 4 × 10 = 40."
+          "4 = 2 + 2, so 4 × 4 is two 2 × 4 facts.",
+          "2 × 4 = 8.",
+          "8 + 8 = 16. So 4 × 4 = 16."
         ],
-        "yes": "Yes! 20 + 20 = 40."
+        "yes": "Yes! 8 + 8 = 16."
       },
       {
         "id": "g6",
@@ -557,38 +551,38 @@
       {
         "id": "t1",
         "type": "fill",
-        "prompt": "2 × 3 = 6. Use it to find 4 × 3.",
+        "prompt": "2 × 2 = 4. Use it to find 4 × 2.",
         "lines": [
-          "4 × 3 = 6 + [x]",
+          "4 × 2 = 4 + [x]",
           "= [t]"
         ],
         "answer": {
-          "x": 6,
-          "t": 12
+          "x": 4,
+          "t": 8
         },
         "hints": [
-          "4 × 3 is two 2 × 3 facts.",
-          "What do you add to 6 to double it?"
+          "4 × 2 is two 2 × 2 facts.",
+          "Double means add the same 2s fact again."
         ],
         "mistakes": [
           {
             "when": {
-              "x": 3
+              "x": 2
             },
-            "say": "Add the whole 2s fact again: 6, not 3."
+            "say": "Add the whole 2s fact again, not just 2."
           },
           {
             "when": {
-              "x": 4
+              "x": 1
             },
-            "say": "Add the whole 2s fact again: 6, not 4."
+            "say": "Add the whole 2s fact again, not 1."
           }
         ],
         "show": [
-          "4 × 3 = 2 × 3 + 2 × 3.",
-          "6 + 6 = 12."
+          "4 × 2 = 2 × 2 + 2 × 2.",
+          "4 + 4 = 8."
         ],
-        "yes": "Yes! 6 + 6 = 12."
+        "yes": "Yes! 4 + 4 = 8."
       },
       {
         "id": "t2",
@@ -1420,9 +1414,9 @@
       {
         "heading": "Common mistakes",
         "list": [
-          "Stopping at the 2s fact (2 × 7 = 14) and not doubling.",
-          "Adding the factors: 4 + 7 = 11.",
-          "Writing the second part as a number instead of a fact: 2 × 7 + 2.",
+          "Stopping at the 2s fact (2 × 9 = 18) and not doubling.",
+          "Adding the factors: 4 + 9 = 13.",
+          "Writing the second part as a number instead of a fact: 2 × 9 + 2.",
           "Doubling the wrong fact, such as 4 × 2 for 4 × 9."
         ]
       },

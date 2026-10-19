@@ -66,7 +66,7 @@
               "when": {
                 "answer": 46
               },
-              "say": "Check the ones: 8 + 8 is 16, so carry the ten."
+              "say": "Check the ones: 8 + 8 is 16. Regroup 10 ones as 1 ten."
             }
           ],
           "yes": "Yes! 28 + 28 = 56."
@@ -323,7 +323,7 @@
         "title": "Example C: the 8 comes second",
         "model": {
           "type": "array",
-          "rows": 5,
+          "rows": 9,
           "cols": 8,
           "cut": {
             "by": "cols",
@@ -333,10 +333,10 @@
         },
         "steps": [
           {
-            "say": "This time the 8 comes second. 5 × 8 is 5 rows of 8.",
+            "say": "This time the 8 comes second. 9 × 8 is 9 rows of 8.",
             "model": {
               "type": "array",
-              "rows": 5,
+              "rows": 9,
               "cols": 8
             }
           },
@@ -344,7 +344,7 @@
             "say": "Find the 8. Break it into 4 + 4. Cut between the columns.",
             "model": {
               "type": "array",
-              "rows": 5,
+              "rows": 9,
               "cols": 8,
               "cut": {
                 "by": "cols",
@@ -354,16 +354,16 @@
             }
           },
           {
-            "say": "The left part is 5 rows of 4.",
-            "eq": "5 × 4 = 20"
+            "say": "The left part is 9 rows of 4.",
+            "eq": "9 × 4 = 36"
           },
           {
             "say": "The right part is the same.",
-            "eq": "5 × 4 = 20"
+            "eq": "9 × 4 = 36"
           },
           {
-            "say": "Double 20.",
-            "eq": "5 × 8 = 5 × 4 + 5 × 4 = 20 + 20 = 40",
+            "say": "Double 36.",
+            "eq": "9 × 8 = 9 × 4 + 9 × 4 = 36 + 36 = 72",
             "pictured": true
           }
         ],
@@ -373,12 +373,12 @@
           "prompt": "Which number did we break apart?",
           "options": [
             {
-              "text": "The 5",
-              "why": "Every part still has 5 rows. We broke the 8 into 4 + 4."
+              "text": "The 9",
+              "why": "Every part still has 9 rows. We broke the 8 into 4 + 4."
             },
             {
-              "text": "The 40",
-              "why": "40 is the product. We broke the 8 into 4 + 4."
+              "text": "The 72",
+              "why": "72 is the product. We broke the 8 into 4 + 4."
             },
             {
               "text": "The 8",
@@ -493,7 +493,7 @@
         ],
         "hints": [
           "The top part is 5 rows of 10. The bottom part is 3 rows of 10.",
-          "Find 5 × 10 (count by 5s) and 3 × 10 (use a fact you know). Then add them."
+          "Find 5 × 10 (count by 10s) and 3 × 10 (count by 10s). Then add them."
         ],
         "show": [
           "5 × 10 = 50.",
@@ -586,7 +586,7 @@
         ],
         "hints": [
           "Each part is 10 rows of 4.",
-          "Find 10 × 4 (use a fact you know) and 10 × 4 (use a fact you know). Then add them."
+          "Find 10 × 4 (count by 10s) and 10 × 4 (count by 10s). Then add them."
         ],
         "show": [
           "10 × 4 = 40.",
@@ -773,34 +773,40 @@
         "type": "fill",
         "prompt": "What number makes it true?",
         "lines": [
-          "8 × [x] = 4 × 10 + 4 × 10"
+          "8 × [x] = 4 × 9 + 4 × 9"
         ],
         "answer": {
-          "x": 10
+          "x": 9
         },
         "hints": [
-          "Both parts have 10.",
-          "4 rows of 10 and 4 more rows of 10 make 8 rows of what?"
+          "Which number is in both parts?",
+          "Each part keeps the same number. 4 rows and 4 more rows make 8 rows of it."
         ],
         "mistakes": [
           {
             "when": {
-              "x": 40
+              "x": 36
             },
             "say": "That is one part. The box needs a factor: 8 × what?"
           },
           {
             "when": {
-              "x": 80
+              "x": 72
             },
             "say": "That box needs a factor, not the product."
+          },
+          {
+            "when": {
+              "x": 4
+            },
+            "say": "4 is how many rows are in each part. Which number does each part keep?"
           }
         ],
         "show": [
-          "4 + 4 = 8, and both parts have 10.",
-          "8 × 10 = 4 × 10 + 4 × 10."
+          "4 + 4 = 8, and both parts have 9.",
+          "8 × 9 = 4 × 9 + 4 × 9."
         ],
-        "yes": "Yes! 8 × 10 = 4 × 10 + 4 × 10."
+        "yes": "Yes! 8 × 9 = 4 × 9 + 4 × 9."
       },
       {
         "id": "t5",
@@ -873,7 +879,7 @@
         ],
         "hints": [
           "Each part is 4 rows of 10.",
-          "Find 4 × 10 (use a fact you know) and 4 × 10 (use a fact you know). Then add them."
+          "Find 4 × 10 (count by 10s) and 4 × 10 (count by 10s). Then add them."
         ],
         "show": [
           "4 × 10 = 40.",

@@ -265,7 +265,7 @@
             "pictured": true
           },
           {
-            "say": "Check: 8 boxes of 5 would be 40, and each box has a little less than 5. So 32 makes sense. There are 32 muffins."
+            "say": "Check: count by 4s: 4, 8, 12, 16, 20, 24, 28, 32. There are 32 muffins."
           }
         ],
         "why": {

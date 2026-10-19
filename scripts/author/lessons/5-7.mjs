@@ -113,7 +113,7 @@ export default {
           { say: 'Break the 8 into 4 + 4. Cut under row 4.', model: arr(8, 4, ['r', 4], 'parts') },
           { say: 'Each part is the 4s fact.', eq: '4 × 4 = 16' },
           { say: 'Double 16.', eq: '8 × 4 = 4 × 4 + 4 × 4 = 16 + 16 = 32', pictured: true },
-          { say: 'Check: 8 boxes of 5 would be 40, and each box has a little less than 5. So 32 makes sense. There are 32 muffins.' },
+          { say: 'Check: count by 4s: 4, 8, 12, 16, 20, 24, 28, 32. There are 32 muffins.' },
         ],
         why: choice('wB', 'Which number tells how many groups there are?', [
           ['4', '4 is how many muffins are in each box. There are 8 boxes.'],

@@ -41,7 +41,7 @@ export default {
         item: {
           id: 'r2', type: 'number', prompt: 'Double 28 = ?', answer: '28 + 28',
           hints: ['Double means add the number to itself: 28 + 28.', 'Add the tens (20 + 20). Then add the ones (8 + 8). Put them together.'],
-          mistakes: [{ when: { answer: 30 }, say: 'That is 28 + 2. Double 28 means 28 + 28.' }, { when: { answer: 46 }, say: 'Check the ones: 8 + 8 is 16, so carry the ten.' }],
+          mistakes: [{ when: { answer: 30 }, say: 'That is 28 + 2. Double 28 means 28 + 28.' }, { when: { answer: 46 }, say: 'Check the ones: 8 + 8 is 16. Regroup 10 ones as 1 ten.' }],
           yes: 'Yes! 28 + 28 = 56.',
         },
       },
@@ -127,17 +127,17 @@ export default {
       },
       {
         title: 'Example C: the 8 comes second',
-        model: arr(5, 8, ['c', 4], 'facts'),
+        model: arr(9, 8, ['c', 4], 'facts'),
         steps: [
-          { say: 'This time the 8 comes second. 5 × 8 is 5 rows of 8.', model: arr(5, 8) },
-          { say: 'Find the 8. Break it into 4 + 4. Cut between the columns.', model: arr(5, 8, ['c', 4], 'parts') },
-          { say: 'The left part is 5 rows of 4.', eq: '5 × 4 = 20' },
-          { say: 'The right part is the same.', eq: '5 × 4 = 20' },
-          { say: 'Double 20.', eq: '5 × 8 = 5 × 4 + 5 × 4 = 20 + 20 = 40', pictured: true },
+          { say: 'This time the 8 comes second. 9 × 8 is 9 rows of 8.', model: arr(9, 8) },
+          { say: 'Find the 8. Break it into 4 + 4. Cut between the columns.', model: arr(9, 8, ['c', 4], 'parts') },
+          { say: 'The left part is 9 rows of 4.', eq: '9 × 4 = 36' },
+          { say: 'The right part is the same.', eq: '9 × 4 = 36' },
+          { say: 'Double 36.', eq: '9 × 8 = 9 × 4 + 9 × 4 = 36 + 36 = 72', pictured: true },
         ],
         why: choice('wC', 'Which number did we break apart?', [
-          ['The 5', 'Every part still has 5 rows. We broke the 8 into 4 + 4.'],
-          ['The 40', '40 is the product. We broke the 8 into 4 + 4.'],
+          ['The 9', 'Every part still has 9 rows. We broke the 8 into 4 + 4.'],
+          ['The 72', '72 is the product. We broke the 8 into 4 + 4.'],
           ['The 8', true],
         ], { yes: 'Yes! Find the 8 and break it apart, wherever it is.' }),
       },
@@ -191,10 +191,10 @@ export default {
         yes: 'Yes! 4 rows of 4 on top and 4 rows of 4 below.',
       }),
       fact('t3', 8, 5, { ...eight(5) }),
-      missing('t4', '8 × [x] = 4 × 10 + 4 × 10', { x: 10 }, {
-        hints: ['Both parts have 10.', '4 rows of 10 and 4 more rows of 10 make 8 rows of what?'],
-        mistakes: [{ when: { x: 40 }, say: 'That is one part. The box needs a factor: 8 × what?' }, { when: { x: 80 }, say: 'That box needs a factor, not the product.' }],
-        show: ['4 + 4 = 8, and both parts have 10.', '8 × 10 = 4 × 10 + 4 × 10.'], yes: 'Yes! 8 × 10 = 4 × 10 + 4 × 10.',
+      missing('t4', '8 × [x] = 4 × 9 + 4 × 9', { x: 9 }, {
+        hints: ['Which number is in both parts?', 'Each part keeps the same number. 4 rows and 4 more rows make 8 rows of it.'],
+        mistakes: [{ when: { x: 36 }, say: 'That is one part. The box needs a factor: 8 × what?' }, { when: { x: 72 }, say: 'That box needs a factor, not the product.' }, { when: { x: 4 }, say: '4 is how many rows are in each part. Which number does each part keep?' }],
+        show: ['4 + 4 = 8, and both parts have 9.', '8 × 9 = 4 × 9 + 4 × 9.'], yes: 'Yes! 8 × 9 = 4 × 9 + 4 × 9.',
       }),
       choice('t5', 'Which fact can you double to find 8 × 7?', [
         ['2 × 7', 'Double 2 × 7 is only 4 × 7. Double 4 × 7 to get 8 × 7.'],
