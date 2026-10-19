@@ -137,7 +137,9 @@ export function check(item, response, lesson = {}) {
 
   if (item.type === 'number') {
     if (v.answer === solution(item).answer) return { status: 'correct', say: item.yes || 'Yes!' };
-    return { status: 'notyet', say: mistake?.say || join(explainNumber(item, v.answer), catchAll) };
+    const why = explainNumber(item, v.answer);
+    // The lesson's general hint follows only a general reason (too big or too small); a specific reason stands alone.
+    return { status: 'notyet', say: mistake?.say || (/ is too (?:big|small)\.$/.test(why) ? join(why, catchAll) : why) };
   }
   if (item.type === 'table') {
     const s = solution(item);
@@ -193,6 +195,14 @@ export function check(item, response, lesson = {}) {
 }
 
 const join = (...parts) => parts.filter(Boolean).join(' ');
+/** Two words at most two letters apart (a near miss when copying a word from the bank). */
+function near(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return false;
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length] <= 2;
+}
 const groups = (n, of) => `${n} ${n === 1 ? 'group' : 'groups'} of ${of}`;
 
 /** Which boxes need another look, said in words (the boxes are also marked on the screen). */
@@ -208,13 +218,15 @@ function markedNote(n, total) {
 export function explainNumber(item, x) {
   const target = solution(item).answer;
   const m = String(item.answer).match(/^\s*(\d+)\s*×\s*(\d+)\s*$/);
-  if (m) {
+  // Group messages only when the child can see both factors (and never for × 0 or × 1, where they would name the answer).
+  const prompt = String(item.prompt || '');
+  if (m && Number(m[1]) > 1 && Number(m[2]) > 1 && new RegExp(`\\b${m[1]}\\b`).test(prompt) && new RegExp(`\\b${m[2]}\\b`).test(prompt)) {
     const a = Number(m[1]), b = Number(m[2]);
     if (x === a + b) return `You added: ${a} + ${b} = ${x}. ${a} × ${b} means ${groups(a, b)}, so multiply.`;
-    if (b > 0 && a > 1 && x === target - b) return `${x} is ${groups(a - 1, b)}. You need ${groups(a, b)}.`;
-    if (b > 0 && x === target + b) return `${x} is ${groups(a + 1, b)}. You need ${groups(a, b)}.`;
-    if (a > 0 && b > 1 && a !== b && x === target - a) return `${x} is ${groups(b - 1, a)}. You need ${groups(b, a)}.`;
-    if (a > 0 && a !== b && x === target + a) return `${x} is ${groups(b + 1, a)}. You need ${groups(b, a)}.`;
+    if (x === target - b) return `${x} is ${groups(a - 1, b)}. You need ${groups(a, b)}.`;
+    if (x === target + b) return `${x} is ${groups(a + 1, b)}. You need ${groups(a, b)}.`;
+    if (a !== b && x === target - a) return `${x} is ${groups(a, b - 1)}. Each group needs ${b}.`;
+    if (a !== b && x === target + a) return `${x} is ${groups(a, b + 1)}. Each group needs ${b}.`;
   }
   return x > target ? `${x} is too big.` : `${x} is too small.`;
 }
@@ -226,7 +238,9 @@ export function explainNumber(item, x) {
 export function explainWord(item, typed) {
   if (item.wrongWords?.[typed]) return item.wrongWords[typed];
   if (item.bank?.length) {
-    return item.bank.map(normWord).includes(typed) ? '' : 'Use one of the words in the word bank.';
+    const bank = item.bank.map(normWord);
+    if (bank.includes(typed)) return '';
+    return bank.some((w) => near(w, typed)) ? 'Check your spelling. Copy the word from the word bank.' : 'Use one of the words in the word bank.';
   }
   const want = normWord(item.answer);
   if (!/^[a-z' -]+$/.test(typed)) return 'Use only letters.';
@@ -242,16 +256,18 @@ export function explainWord(item, typed) {
 export function helpSteps(item) {
   // A choice question with no written hints still gets a first step before the answer: how to choose.
   const hints = item.hints?.length ? item.hints
-    : item.type === 'choice' ? ['Read each choice again. Cross out any choice that does not match the picture or the steps.'] : [];
+    : item.type === 'choice' ? ['Read each choice again. Cross out the ones that cannot be right.'] : [];
   const show = showSteps(item).filter((t) => !hints.includes(t));
-  return [...hints.map((text) => ({ text, kind: 'hint' })), ...show.map((text) => ({ text, kind: 'show' }))];
+  const steps = [...hints.map((text) => ({ text, kind: 'hint' })), ...show.map((text) => ({ text, kind: 'show' }))];
+  // The same sentence twice in a row adds nothing when it opens one step at a time.
+  return steps.filter((st, k) => k === 0 || st.text !== steps[k - 1].text);
 }
 
 /** Steps shown by "Show me how". Authored steps win; otherwise the filled-in answer. */
 export function showSteps(item) {
   if (item.show?.length) return item.show;
   const a = String(answerText(item)).trim();
-  return [item.type === 'choice' ? `The answer is: ${a}${/[.!?]$/.test(a) ? '' : '.'}` : `The answer is ${a.replace(/[.!?]+$/, '')}.`];
+  return [item.type === 'choice' ? `The right choice is: ${a}${/[.!?]$/.test(a) ? '' : '.'}` : `The answer is ${a.replace(/[.!?]+$/, '')}.`];
 }
 
 /** Score of a finished test: { right, total, passed, missed: [items] }. */

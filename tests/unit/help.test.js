@@ -56,15 +56,21 @@ test('every wrong answer gets a reason (not just "Try again"), and the reason ne
 });
 
 test('typed numbers: added factors, one group too many or too few, too big or too small', () => {
-  const it = { type: 'number', answer: '6 × 7' };
+  const it = { type: 'number', answer: '6 × 7', prompt: '6 × 7 = ?' };
   assert.equal(explainNumber(it, 13), 'You added: 6 + 7 = 13. 6 × 7 means 6 groups of 7, so multiply.');
   assert.equal(explainNumber(it, 35), '35 is 5 groups of 7. You need 6 groups of 7.');
   assert.equal(explainNumber(it, 49), '49 is 7 groups of 7. You need 6 groups of 7.');
-  assert.equal(explainNumber(it, 36), '36 is 6 groups of 6. You need 7 groups of 6.');
+  // Off by one factor of 6: still said as 6 groups (the way the question reads).
+  assert.equal(explainNumber(it, 36), '36 is 6 groups of 6. Each group needs 7.');
+  assert.equal(explainNumber(it, 48), '48 is 6 groups of 8. Each group needs 7.');
   assert.equal(explainNumber(it, 50), '50 is too big.');
   assert.equal(explainNumber(it, 40), '40 is too small.');
-  assert.equal(explainNumber({ type: 'number', answer: '1 × 7' }, 14), '14 is 2 groups of 7. You need 1 group of 7.');
-  for (const x of [0, 1, 13, 35, 41, 43, 49, 99]) assert.ok(!/\b42\b/.test(explainNumber(it, x)), `never says 42 (${x})`);
+  for (const x of [0, 1, 13, 35, 36, 41, 43, 48, 49, 99]) assert.ok(!/\b42\b/.test(explainNumber(it, x)), `never says 42 (${x})`);
+  // Times 1 and times 0: group messages would name the answer, so only too big or too small.
+  assert.equal(explainNumber({ type: 'number', answer: '8 × 1', prompt: '8 × 1 = ?' }, 7), '7 is too small.');
+  assert.equal(explainNumber({ type: 'number', answer: '8 × 1', prompt: '8 × 1 = ?' }, 16), '16 is too big.');
+  // Factors the child cannot see (a story that never says "10") get no group message.
+  assert.equal(explainNumber({ type: 'number', answer: '10 × 8', prompt: '9 rows of 8 cars, then 1 more row. How many cars?' }, 18), '18 is too small.');
 });
 
 test('typed words: another word from the bank says what it means; spelling says which letter to check', () => {

@@ -213,8 +213,8 @@ const BREAK = [
 const FACTS = [
   {
     id: 'f7', type: 'fill', prompt: 'What number goes in the box?', lines: ['(2 × 4) × 3 = 2 × (4 × [a])'], answer: { a: 3 },
-    hints: ['Changing the grouping does not change the product.', 'The factors stay in the same order: 2, 4, 3.'],
-    mistakes: [{ when: { a: 2 }, say: 'Keep the same factors in the same order: 2, 4 and 3. Only the ( ) move.' }],
+    hints: ['Changing the grouping does not change the product.', 'Which factor from the left side is missing on the right side?'],
+    mistakes: [{ when: { a: 2 }, say: 'Only the ( ) move. Which factor from the left side is missing on the right side?' }],
     show: ['The factors are 2, 4 and 3, in that order.', 'Only the ( ) move: 2 × (4 × 3).', 'So the missing number is 3. This is the Associative Property.'],
     yes: 'Yes! (2 × 4) × 3 = 2 × (4 × 3) = 24.', explain: 'Changing the grouping does not change the product: (2 × 4) × 3 = 8 × 3 = 24 and 2 × (4 × 3) = 2 × 12 = 24.',
   },

@@ -578,7 +578,7 @@
             "when": {
               "answer": 7
             },
-            "say": "0 groups of 7 is nothing at all. Times 0 is always 0."
+            "say": "0 groups of 7 means there are no groups at all. How many is that?"
           }
         ],
         "yes": "Yes! Times 0 is always 0.",
@@ -600,7 +600,7 @@
             "when": {
               "answer": 10
             },
-            "say": "9 + 1 is 10, but this is times 1. 9 groups of 1 is 9."
+            "say": "9 + 1 is 10, but this is times 1. Think: 9 groups of 1."
           }
         ],
         "yes": "Yes! Times 1 keeps the number the same.",

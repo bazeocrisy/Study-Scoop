@@ -2273,7 +2273,7 @@
             "when": {
               "answer": 5
             },
-            "say": "Times 0 always makes 0."
+            "say": "5 × 0 means 5 groups of 0. Each group is empty."
           }
         ],
         "hints": [
@@ -2434,14 +2434,14 @@
         },
         "hints": [
           "Changing the grouping does not change the product.",
-          "The factors stay in the same order: 2, 4, 3."
+          "Which factor from the left side is missing on the right side?"
         ],
         "mistakes": [
           {
             "when": {
               "a": 2
             },
-            "say": "Keep the same factors in the same order: 2, 4 and 3. Only the ( ) move."
+            "say": "Only the ( ) move. Which factor from the left side is missing on the right side?"
           }
         ],
         "show": [

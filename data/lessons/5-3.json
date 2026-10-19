@@ -257,7 +257,7 @@
           "options": [
             {
               "text": "The 6",
-              "why": "Every part still has 6 rows. We broke the 4 into 2 + 2."
+              "why": "Every part still has 6 rows. Look at what the line cuts."
             },
             {
               "text": "The 4",
@@ -265,7 +265,7 @@
             },
             {
               "text": "The 24",
-              "why": "24 is the product. We broke the 4 into 2 + 2."
+              "why": "24 is the product. Look at what the line cuts."
             }
           ],
           "yes": "Yes! Find the 4 and break it into 2 + 2, wherever it is."
@@ -339,7 +339,7 @@
         ],
         "hints": [
           "Each part is 2 × 8 = 16.",
-          "Find 2 × 8 (it is a double) and 2 × 8 (it is a double). Then add them."
+          "Add the two numbers on the second line."
         ],
         "show": [
           "2 × 8 = 16.",
@@ -388,7 +388,7 @@
         ],
         "hints": [
           "The top part is 2 rows of 5.",
-          "Find 2 × 5 (count by 5s) and 2 × 5 (count by 5s). Then add them."
+          "Find 2 × 5 (count by 5s). Both parts are the same, so add it to itself."
         ],
         "show": [
           "2 × 5 = 10.",
@@ -481,7 +481,7 @@
         ],
         "hints": [
           "Find the 4. It is broken into 2 + 2 columns.",
-          "Find 10 × 2 (count by 10s) and 10 × 2 (count by 10s). Then add them."
+          "Find 10 × 2 (count by 10s). Both parts are the same, so add it to itself."
         ],
         "show": [
           "10 × 2 = 20.",
@@ -702,15 +702,15 @@
           },
           {
             "text": "4 × 2",
-            "why": "Double 4 × 2 is 4 × 4. Find the 4 in 4 × 9 and use the 2s fact: 2 × 9."
+            "why": "Double 4 × 2 is 4 × 4, not 4 × 9. Which 2s fact keeps the 9?"
           },
           {
             "text": "1 × 9",
-            "why": "Double 1 × 9 is only 2 × 9. You need 2 × 9, then double that."
+            "why": "Doubling 1 × 9 makes a 2s fact, not 4 × 9. Which fact doubles to make 4 × 9?"
           },
           {
             "text": "2 × 4",
-            "why": "Double 2 × 4 is 4 × 4. Use the 2s fact with the 9: 2 × 9."
+            "why": "Double 2 × 4 is 4 × 4, not 4 × 9. Which 2s fact keeps the 9?"
           }
         ],
         "hints": [
@@ -762,7 +762,7 @@
         ],
         "hints": [
           "The top part is 2 rows of 2.",
-          "Find 2 × 2 (it is a double) and 2 × 2 (it is a double). Then add them."
+          "Find 2 × 2 (it is a double). Both parts are the same, so add it to itself."
         ],
         "show": [
           "2 × 2 = 4.",
@@ -811,7 +811,7 @@
         ],
         "hints": [
           "Each part is 3 rows of 2.",
-          "Find 3 × 2 (it is a double) and 3 × 2 (it is a double). Then add them."
+          "Find 3 × 2 (it is a double). Both parts are the same, so add it to itself."
         ],
         "show": [
           "3 × 2 = 6.",
