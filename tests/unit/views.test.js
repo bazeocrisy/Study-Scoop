@@ -10,7 +10,7 @@ import { weekView } from '../../js/views/week.js';
 import { spellingView } from '../../js/views/spelling.js';
 import { vocabView } from '../../js/views/vocab.js';
 import { mathView } from '../../js/views/math.js';
-import { quickmathView } from '../../js/views/quickmath.js';
+import { skillsView } from '../../js/views/skills.js';
 import { homeworkView } from '../../js/views/homework.js';
 import { newsletterView } from '../../js/views/newsletter.js';
 import { testsView } from '../../js/views/tests.js';
@@ -18,7 +18,7 @@ import { testsView } from '../../js/views/tests.js';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const VIEWS = { week: weekView, spelling: spellingView, vocab: vocabView, math: mathView,
-  quickmath: quickmathView, homework: homeworkView, newsletter: newsletterView, tests: testsView };
+  skills: skillsView, homework: homeworkView, newsletter: newsletterView, tests: testsView };
 
 const LESSONS = readJSON('data/lessons/index.json');
 const PICTURES = readJSON('data/pictures.json');
@@ -86,16 +86,18 @@ test('This Week counts down to each test from a fixed date', () => {
   assert.match(past, /Today[\s\S]*Friday, October 16/);
 });
 
-test('unfinished activities are labelled "Coming soon" and have no buttons or form fields', () => {
+test('Skill Builders opens on three skill cards, each with Learn It, practice, Practice My Misses and a test', () => {
   const week = readJSON('data/2026-10-19.json');
-  for (const section of ['quickmath']) {
-    const out = VIEWS[section](ctxFor(realIndex, '2026-10-19', section, week)).s;
-    assert.match(out, /Coming soon/, section);
-    assert.doesNotMatch(out, /<button|<input|<select/, section);
-  }
-  const qm = quickmathView(ctxFor(realIndex, '2026-10-19', 'quickmath', week)).s;
-  for (const name of ['Make 10', 'Make 20', 'Make 50', 'Make 100', 'Make the Next 10', 'Mixed Mental Math']) {
-    assert.ok(qm.includes(name), name);
+  const ctx = ctxFor(realIndex, '2026-10-19', 'skills', week);
+  const home = skillsView(ctx).s;
+  for (const name of ['Mental Add', 'Rounding', 'Times Tables']) assert.ok(home.includes(name), name);
+  assert.doesNotMatch(home, /Coming soon|<input|<select/);
+  for (const [card, acts] of [['add', ['addlearn', 'addfacts', 'addsplit', 'addmisses', 'addtest']], ['round', ['roundlearn', 'roundten', 'roundhun', 'roundmisses', 'roundtest']], ['times', ['timeslearn', 'timesall', 'timestricky', 'timesmisses', 'timestest']]]) {
+    const menu = skillsView({ ...ctx, page: card }).s;
+    for (const a of acts) assert.match(menu, new RegExp(`act=${a}\\b`), `${card} menu links ${a}`);
+    const learn = skillsView({ ...ctx, page: `${card}learn` }).s;
+    assert.match(learn, /<h1[^>]*>[^<]+: Learn It</, `${card} Learn It`);
+    assert.doesNotMatch(learn, /undefined|NaN|\[object /);
   }
 });
 

@@ -6,11 +6,12 @@ import path from 'node:path';
 import { BASE, ROOT, startBrowser, startServer } from './lib/harness.js';
 import { boxes, helpSteps, solution } from '../js/lib/lessons.js';
 import { pictureName } from '../js/lib/data.js';
+import { roundParts } from '../js/lib/rounding.js';
 
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const INDEX = readJSON('data/weeks.json');
 const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['math', 'Math'],
-  ['quickmath', 'Quick Math'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
+  ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
 const L51 = readJSON('data/lessons/5-1.json');
 const L52 = readJSON('data/lessons/5-2.json');
@@ -22,7 +23,9 @@ const ACTIVITY_ROUTES = ['#vocab?act=learn', '#spelling?act=learn', '#math?act=l
   '#math?act=lessons', '#math?act=guide', '#vocab?act=choice', '#vocab?act=truefalse', '#vocab?act=fill', '#vocab?act=misses',
   '#spelling?act=flash', '#spelling?act=letters', '#spelling?act=listen', '#spelling?act=misses',
   '#tests?test=math', '#tests?test=spelling', '#tests?test=vocab', '#tests?week=2026-10-12', '#homework?week=2026-10-12',
-  '#math?act=words', '#math?act=wreview', '#math?act=wchoice', '#math?act=wtf', '#math?act=wfill', '#math?act=wmisses', '#tests?test=mathwords', '#tests'];
+  '#math?act=words', '#math?act=wreview', '#math?act=wchoice', '#math?act=wtf', '#math?act=wfill', '#math?act=wmisses', '#tests?test=mathwords', '#tests',
+  // Skill Builders (D22): every menu, Learn It page, practice set and test.
+  ...['add', 'addlearn', 'addfacts', 'addsplit', 'addtest', 'round', 'roundlearn', 'roundten', 'roundhun', 'roundtest', 'times', 'timeslearn', 'timesall', 'timestricky', 'timestest'].map((a) => `#skills?act=${a}`)];
 // `--site <folder>` serves a built site (scripts/build-site.js) instead of the repository, exactly as GitHub Pages would.
 const siteArg = process.argv.indexOf('--site');
 const SITE = siteArg > 0 ? path.resolve(process.argv[siteArg + 1] || '_site') : null;
@@ -1314,6 +1317,149 @@ async function main() {
       const r = await b.js('return [getComputedStyle(document.querySelector(".summary-score")).display, getComputedStyle(document.querySelector(".print-only")).display, [...document.querySelectorAll("#act-stage .btn")].every((x) => getComputedStyle(x).display === "none")];');
       await b.media('');
       eq(r, ['block', 'block', true], 'print');
+    });
+
+
+    console.log('Skill Builders (D22)');
+    /** What is on the screen for the current Skill Builders question, and the right answer worked out from it. */
+    const skillQ = async () => {
+      const q = await b.js(`const f = document.querySelector('#act-stage form[data-item]'); if (!f) return null;
+        const line = f.querySelector('.eqline'); const p = f.querySelector('.prompt, .round-step, legend');
+        return { id: f.dataset.item, prompt: (f.querySelector('.prompt')?.textContent || '').trim(), round: !!f.querySelector('.round-digits'),
+          names: [...f.querySelectorAll('input.box')].map((i) => i.name), line: line ? line.textContent.replace(/\\s+/g, ' ').trim() : '',
+          fact: (f.querySelector('.eqline span[id^="q-"]')?.textContent || '').trim() };`);
+      if (!q) return null;
+      const nums = (t) => (t.match(/\d+/g) || []).map(Number);
+      if (q.round) {
+        const [n, to] = nums(q.prompt);
+        const p = roundParts(n, to);
+        return { ...q, n, to, right: { place: String(p.place), dir: p.up ? 'up' : 'stay', answer: String(p.answer) }, p };
+      }
+      if (q.names.length === 1 && q.names[0] === 'answer') {
+        const t = q.fact || q.prompt;
+        let v;
+        if (/^Round /.test(q.prompt)) { const [n, to] = nums(q.prompt); v = roundParts(n, to).answer; } else if (/make 10/.test(t)) v = 10 - nums(t)[0];
+        else if (/×/.test(t)) { const [a, c] = nums(t); v = a * c; } else { const [a, c] = nums(t); v = a + c; }
+        return { ...q, right: { answer: String(v) } };
+      }
+      const [A, B] = nums(q.line);
+      if (q.names.join() === 'x') return { ...q, right: { x: String(10 - A) } };
+      if (q.names.join() === 'a,b,c,t') { const o = A % 10; return { ...q, right: { a: String(o), b: String(A - o + B), c: String(o), t: String(A + B) } }; }
+      const ao = A % 10, bo = B % 10;
+      return { ...q, right: { a: String(ao), b: String(bo), c: String(A - ao + B - bo), d: String(ao + bo), t: String(A + B) } };
+    };
+    /** Types or taps an answer into the current question (rounding radios are tapped, boxes are typed). */
+    const skillFill = (values) => b.js(`const f = document.querySelector('#act-stage form[data-item]'); const v = ${JSON.stringify(values)};
+      for (const [k, x] of Object.entries(v)) { const r = f.querySelector('input[type=radio][name="' + k + '"][value="' + x + '"]'); if (r) r.click(); else { const el = f.querySelector('input.box[name="' + k + '"]'); if (el) el.value = x; } }
+      f.dispatchEvent(new Event('input', { bubbles: true }));`);
+
+    await check('Skill Builders: three skill cards; each opens its own menu with Learn It, practice, Practice My Misses and a test', async () => {
+      await b.load(url('#skills'));
+      eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), ['Mental Add', 'Rounding', 'Times Tables'], 'skill cards');
+      for (const [card, labels] of [['add', ['Learn It', 'Quick Facts', 'Break It Apart', 'Practice My Misses', 'Mental Add Test']],
+        ['round', ['Learn It', 'Nearest 10', 'Nearest 100', 'Practice My Misses', 'Rounding Test']],
+        ['times', ['Learn It', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
+        await b.load(url('#skills'));
+        await go(`.menu-card[href="#skills?act=${card}"]`);
+        eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), labels, `${card} menu`);
+        eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Skill Builders', labels.at(-1).replace(' Test', '').replace('Mental Add', 'Mental Add')], `${card} crumbs`);
+        await go(`.menu-card[href="#skills?act=${card}learn"]`);
+        expect((await b.js('return document.querySelector("h1").textContent;')).endsWith(': Learn It'), `${card} Learn It`);
+        expect(await b.js('return document.querySelectorAll(".skill-ex").length;') >= 4, `${card} examples`);
+        expect(await b.js('return !!document.querySelector(".stage-nav a.btn-primary[href*=act]");'), `${card}: Start practice link`);
+      }
+      // The rounding pictures underline the digit in the place and put the arrow on the digit to its right.
+      await b.load(url('#skills?act=roundlearn'));
+      eq(await b.js('return [...document.querySelectorAll(".round-pic")].slice(0, 4).map((p) => [p.querySelector(".is-under").textContent, p.querySelector(".is-arrow").textContent]);'),
+        [['4', '5'], ['6', '3'], ['3', '4'], ['9', '7']], '45, 63, 347, 897');
+    });
+
+    await check('Rounding > Nearest 10: tap a digit to underline it, the arrow appears, each wrong step says why, Help step by step, 20 questions, results and misses', async () => {
+      await b.load(url('#skills?act=roundten'));
+      for (let k = 0; k < 20; k++) {
+        eq(await progress(), `Question ${k + 1} of 20`, 'progress');
+        const q = await skillQ();
+        expect(q.round, 'a rounding question');
+        if (k === 0) {
+          const wrongPlace = String(q.p.place === 0 ? 1 : 0);
+          await skillFill({ ...q.right, place: wrongPlace });
+          // The tapped digit is underlined and the arrow sits on the digit to its right.
+          eq(await b.js(`const l = document.querySelector('#act-stage label[for="' + document.querySelector('input[name=place]:checked').id + '"]');
+            const next = l.nextElementSibling?.nextElementSibling; return [getComputedStyle(l).textDecorationLine, next ? getComputedStyle(next, '::before').content : 'none'];`),
+            ['underline', q.p.digits.length > Number(wrongPlace) + 1 ? '"↓" / ""' : 'none'], 'underline and arrow (the arrow is drawn, not read aloud)');
+          await checkIt();
+          expect((await actFb()).includes('underline the digit in the tens place'), `wrong digit: ${await actFb()}`);
+          // Focus stays on the digit the child chose, never on another digit (which would hint at the answer).
+          eq(await b.js('return [document.activeElement?.name, document.activeElement?.value];'), ['place', wrongPlace], 'focus on the chosen digit');
+          await press('#act-stage [data-act="help"]');
+          eq(await b.js('return document.querySelectorAll("#act-stage .help-steps li").length;'), 1, 'one Help step');
+          await skillFill({ ...q.right, dir: q.p.up ? 'stay' : 'up' });
+          await checkIt();
+          expect((await actFb()).startsWith(`Not yet The arrow points to ${q.p.next}.`), `wrong direction: ${await actFb()}`);
+          await skillFill({ ...q.right, answer: String(q.n) });
+          await checkIt();
+          expect((await actFb()).includes('ends in 0'), `not rounded: ${await actFb()}`);
+          await skillFill(q.right);
+        } else await skillFill(q.right);
+        await checkIt();
+        expect((await actFb()).startsWith('Yes!'), `${q.prompt}: ${await actFb()}`);
+        await nextQ();
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'score');
+      await go('#act-stage a.btn[href="#skills?act=roundmisses"]');
+      eq(await progress(), 'Question 1 of 1', 'the missed number is in Practice My Misses');
+      expect(await skillQ().then((q) => q.round), 'still with the underline-and-arrow method');
+    });
+
+    await check('Mental Add > Break It Apart and Quick Facts: 20 questions each, a lost ten is explained, Help step by step', async () => {
+      await b.load(url('#skills?act=addsplit'));
+      for (let k = 0; k < 20; k++) {
+        const q = await skillQ();
+        if (k === 0) {
+          await skillFill({ ...q.right, t: String(Number(q.right.t) - 10) });
+          await checkIt();
+          expect(/ten/.test(await actFb()) && (await actFb()).startsWith('Not yet'), `lost a ten: ${await actFb()}`);
+          expect(!(await actFb()).includes(q.right.t), 'the reason does not give the answer');
+          await press('#act-stage [data-act="help"]');
+          await press('#act-stage [data-act="help"]');
+          eq(await b.js('return document.querySelectorAll("#act-stage .help-steps li").length;'), 2, 'two Help steps');
+        }
+        await skillFill(q.right);
+        await checkIt();
+        expect((await actFb()).startsWith('Yes!'), `${q.line}: ${await actFb()}`);
+        await nextQ();
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'Break It Apart score');
+      await b.load(url('#skills?act=addfacts'));
+      for (let k = 0; k < 20; k++) {
+        const q = await skillQ();
+        await skillFill(q.right);
+        await checkIt();
+        expect((await actFb()).startsWith('Yes!'), `${q.prompt || q.fact || q.line}: ${await actFb()}`);
+        await nextQ();
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '20 out of 20 right on the first try (100%)', 'Quick Facts score');
+    });
+
+    await check('Skill Builders tests: no Help or feedback during the test, a score, Back to the skill, and the miss goes to its Practice My Misses with Help', async () => {
+      for (const [act, n, card, label] of [['timestest', 12, 'times', 'Times Tables'], ['roundtest', 10, 'round', 'Rounding'], ['addtest', 10, 'add', 'Mental Add']]) {
+        await b.load(url(`#skills?act=${act}`));
+        for (let k = 0; k < n; k++) {
+          eq(await progress(), `Question ${k + 1} of ${n}`, `${act} progress`);
+          eq(await b.js('return document.querySelectorAll("#act-stage [data-act=help], #act-stage .feedback, #act-stage button[type=submit]").length;'), 0, `${act}: no Help or feedback`);
+          const q = await skillQ();
+          await skillFill(k === 0 ? { answer: String(Number(q.right.answer) + 1) } : q.right);
+          await press(k < n - 1 ? '#act-stage [data-act="next"]' : '#act-stage [data-act="submit"]');
+        }
+        eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), `${n - 1} out of ${n} right (${Math.round(((n - 1) / n) * 100)}%)`, `${act} score`);
+        expect(await b.js(`return !!document.querySelector('.stage-nav a.btn-primary[href="#skills?act=${card}"]');`), `${act}: Back to ${label}`);
+        await go(`#act-stage a.btn[href="#skills?act=${card}misses"]`);
+        eq(await progress(), 'Question 1 of 1', `${act}: the missed question is in Practice My Misses`);
+        const q = await skillQ();
+        await skillFill(q.round ? { ...q.right, answer: String(Number(q.right.answer) + q.to) } : Object.fromEntries(Object.entries(q.right).map(([k2, v]) => [k2, String(Number(v) + 1)])));
+        await checkIt();
+        expect(await b.js('return !!document.querySelector("#act-stage [data-act=help]");'), `${act}: Help in Practice My Misses`);
+      }
     });
 
     console.log('Privacy and security');

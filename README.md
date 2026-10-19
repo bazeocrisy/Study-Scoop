@@ -10,7 +10,7 @@ A free third-grade learning hub for weekly classroom topics and original practic
 - Spelling: study, flashcards and practice tests
 - Vocabulary: definitions, examples and activities
 - Math: Unit 5 lessons, multiplication mastery and Find My Factors
-- Quick Math: Make 10/20/50/100, Next 10 and mixed mental math
+- Skill Builders: Mental Add, Rounding and Times Tables (more skills to come), each with Learn It, practice with Help, and a test
 - Homework: weekly assignment support
 - Newsletter: current issue and archives
 

@@ -30,8 +30,8 @@ function itemsById(lesson, stage) {
 function readForm(form) {
   const resp = {};
   for (const el of form.querySelectorAll('input.box')) resp[el.name] = el.value;
-  const chosen = form.querySelector('input[name="choice"]:checked');
-  if (chosen) resp.choice = chosen.value;
+  // Radio buttons: the chosen answer, and for rounding the underlined digit and go up or stay.
+  for (const r of form.querySelectorAll('input[type="radio"]:checked')) resp[r.name] = r.value;
   return resp;
 }
 

@@ -3,6 +3,7 @@
 
 import { chainHolds, evaluate, wrongFactsInText } from './arith.js';
 import { counts } from './models.js';
+import { FROM_RIGHT, NEXT_PLACE, PLACE, roundParts } from './rounding.js';
 
 export const STAGES = [
   { id: 'learn', label: 'Learn It' },
@@ -19,6 +20,7 @@ const BOX = /\[([a-z][a-z0-9]*)\]/g;
 /** Names of the answer boxes in an item, in reading order. */
 export function boxes(item) {
   if (item.type === 'number') return ['answer'];
+  if (item.type === 'round') return ['place', 'dir', 'answer'];
   if (item.type === 'word' || item.type === 'spell') return ['text'];
   if (item.type === 'letters') return (item.blanks || []).map((_, k) => `l${k}`);
   if (item.type === 'decompose') return ['p', 'q', 'r', 's', 't'];
@@ -30,6 +32,7 @@ export function boxes(item) {
 /** The correct value of every box (used by Show me how, the test review and the validator). */
 export function solution(item) {
   if (item.type === 'number') return { answer: evaluate(String(item.answer)) };
+  if (item.type === 'round') { const p = roundParts(item.n, item.to); return { place: p.place, dir: p.up ? 'up' : 'stay', answer: p.answer }; }
   if (item.type === 'fill' || item.type === 'decompose') return { ...item.answer };
   if (item.type === 'table') {
     const out = {};
@@ -53,7 +56,7 @@ export function answerText(item) {
   if (item.type === 'choice') return item.options[s.choice].text;
   if (item.type === 'word' || item.type === 'spell') return item.answer;
   if (item.type === 'letters') return item.word;
-  if (item.type === 'number') return String(s.answer);
+  if (item.type === 'number' || item.type === 'round') return String(s.answer);
   if (item.type === 'fill') return item.lines.map((l) => fill(l, s)).join(' ');
   if (item.type === 'decompose') return `${item.fact[0]} × ${item.fact[1]} = ${s.p} × ${s.q} + ${s.r} × ${s.s} = ${s.t}`;
   if (item.type === 'table') return item.rows.map((row, i) => row.map((c, j) => (typeof c === 'object' ? s[`r${i}c${j}`] : c)).join(' · ')).join('; ');
@@ -62,7 +65,8 @@ export function answerText(item) {
 
 /** Reads typed text as a whole number: " 18 " and "018" are 18; anything else is not a number. */
 export function readNumber(text) {
-  const t = String(text ?? '').trim();
+  // "1,000" is read as 1000 (children often write the comma).
+  const t = String(text ?? '').trim().replace(/^(\d{1,3}),(\d{3})$/, '$1$2');
   if (t === '') return { empty: true };
   if (!/^\d{1,4}$/.test(t)) return { bad: true };
   return { value: Number(t) };
@@ -127,6 +131,7 @@ export function check(item, response, lesson = {}) {
     const lead = wrong.length === names.length && names.length > 1 ? 'Those letters are not right yet.' : wrong.length > 1 ? `${wrong.length} of the letters are not right yet. They are marked.` : names.length > 1 ? 'One letter is not right yet. It is marked.' : 'That letter is not right yet.';
     return { status: 'notyet', say: join(lead, item.retry || catchAll), wrong };
   }
+  if (item.type === 'round') return checkRound(item, response);
   const read = readAll(item, response);
   // Empty or unreadable boxes are marked so the child can find them (never counted as a try).
   const unread = boxes(item).filter((b) => readNumber(response?.[b]).value === undefined);
@@ -229,6 +234,14 @@ export function explainNumber(item, x) {
     if (a !== b && x === target - a) return `${x} is ${groups(a, b - 1)}. Each group needs ${b}.`;
     if (a !== b && x === target + a) return `${x} is ${groups(a, b + 1)}. Each group needs ${b}.`;
   }
+  // Adding: a lost or extra ten, or just 1 away.
+  const plus = String(item.answer).match(/^\s*(\d+)\s*\+\s*(\d+)\s*$/);
+  if (plus) {
+    if ((plus[1] === '10' || plus[2] === '10') && x === target - 10) return 'You forgot to add the 10. Adding 10 gives one more ten.';
+    if (x === target - 10) return 'You lost a ten. When the ones make 10 or more, that ten goes with the tens.';
+    if (x === target + 10) return 'You added an extra ten. Check the tens again.';
+    if (Math.abs(x - target) === 1) return 'So close! Check the ones again.';
+  }
   return x > target ? `${x} is too big.` : `${x} is too small.`;
 }
 
@@ -262,6 +275,30 @@ export function helpSteps(item) {
   const steps = [...hints.map((text) => ({ text, kind: 'hint' })), ...show.map((text) => ({ text, kind: 'show' }))];
   // The same sentence twice in a row adds nothing when it opens one step at a time.
   return steps.filter((st, k) => k === 0 || st.text !== steps[k - 1].text);
+}
+
+/** Rounding with the class method: which digit is underlined, go up or stay, and the rounded number. */
+function checkRound(item, response) {
+  const p = roundParts(item.n, item.to);
+  const name = PLACE[item.to];
+  const place = response?.place, dir = response?.dir;
+  if (place === undefined || place === null || place === '') return { status: 'empty', say: 'Tap a digit to underline it first.', wrong: ['place'] };
+  if (dir !== 'up' && dir !== 'stay') return { status: 'empty', say: 'Choose: go up, or stay the same.', wrong: ['dir'] };
+  const r = readNumber(response?.answer);
+  if (r.empty) return { status: 'empty', say: 'Type the rounded number.', wrong: ['answer'] };
+  if (r.bad) return { status: 'empty', say: 'Use only the digits 0 to 9.', wrong: ['answer'] };
+  if (Number(place) !== p.place) return { status: 'notyet', say: `To round to the nearest ${item.to}, underline the digit in the ${name} place. It is the ${FROM_RIGHT[item.to]} digit from the right.`, wrong: ['place'] };
+  if (dir !== (p.up ? 'up' : 'stay')) return { status: 'notyet', say: `The arrow points to ${p.next}. Remember: 5 or more, go up. 4 or less, stay the same.`, wrong: ['dir'] };
+  const x = r.value;
+  if (x === p.answer) return { status: 'correct', say: item.yes || 'Yes!' };
+  const zeros = item.to === 10 ? '0' : '00';
+  const say = x === item.n ? `Rounding to the nearest ${item.to} makes a number that ends in ${zeros}.`
+    : x % item.to !== 0 ? 'Every digit to the right of the underlined digit becomes 0.'
+      : p.carry ? `The ${p.d} goes up to 10. Write 0 in the ${name} place and ${p.place === 0 ? `write 1 in the ${NEXT_PLACE[item.to]} place` : `add 1 to the ${NEXT_PLACE[item.to]} digit`}.`
+        // Compare the digits left of the underlined one, then the underlined digit itself.
+        : Math.floor(x / (item.to * 10)) !== Math.floor(p.answer / (item.to * 10)) ? 'The digits to the left of the underlined digit stay the same.'
+          : p.up ? `Going up means the ${p.d} becomes 1 more.` : `Staying the same means the ${p.d} does not change.`;
+  return { status: 'notyet', say, wrong: ['answer'] };
 }
 
 /** Steps shown by "Show me how". Authored steps win; otherwise the filled-in answer. */
@@ -433,6 +470,11 @@ function validateItem(item, where, err, ids) {
       const [a, b] = item.fact || [];
       if (!isInt(a, 1, 12) || !isInt(b, 1, 12)) { err(`${where}: fact must be two whole numbers`); break; }
       if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not a valid decomposition`);
+      break;
+    }
+    case 'round': {
+      if (!isInt(item.n, 10, 9999) || ![10, 100].includes(item.to) || String(item.n).length < String(item.to).length) { err(`${where}: round needs a number n (10 to 9999) with at least as many digits as "to" (10 or 100)`); break; }
+      if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not accepted`);
       break;
     }
     case 'table': {
