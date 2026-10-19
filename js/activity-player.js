@@ -1,6 +1,6 @@
 // Activity player: the DOM code for Spelling, Vocabulary and Math practice and for the practice tests (DECISIONS D18, D19).
 // Progress, misses and test answers live in memory for this visit only (never stored), keyed by week, so weeks never mix.
-import { check, solution, showSteps } from './lib/lessons.js';
+import { check, helpSteps, solution } from './lib/lessons.js';
 import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
 import { html } from './lib/html.js';
@@ -247,7 +247,7 @@ export function mountActivity(app, ctx, signal) {
     st.tries += 1;
     st.status = r.status;
     if (!st.first) { st.first = r.status; noteFirst(item, r.status); }
-    if (r.status !== 'correct' && st.tries === 2) st.say += ' You can press Show me how now.';
+    if (r.status !== 'correct' && st.tries === 1 && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     rerender(r.status === 'correct'
       ? '[data-act="next"]:not([disabled])'
@@ -287,26 +287,26 @@ export function mountActivity(app, ctx, signal) {
       input.focus();
       return;
     }
-    if (e.detail > 1 && ['next', 'back', 'submit', 'goto', 'card-next', 'card-prev', 'flip'].includes(act)) return;
-    if (act === 'hint' && form) {
+    if (e.detail > 1 && ['help', 'next', 'back', 'submit', 'goto', 'card-next', 'card-prev', 'flip'].includes(act)) return;
+    if (act === 'help' && form) {
+      // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = byId().get(form.dataset.item);
       const st = itemState(item.id);
+      if (!st.tries || st.status === 'correct' || st.shown) return;
       saveForm(form);
-      st.hints = Math.min((st.hints || 0) + 1, item.hints.length);
-      announce(`Hint: ${item.hints[st.hints - 1]}`);
-      return rerender('[data-act="hint"]:not([disabled]), button[type="submit"]');
-    }
-    if (act === 'show' && form) {
-      const item = byId().get(form.dataset.item);
-      const st = itemState(item.id);
-      st.shown = true;
-      st.resp = Object.fromEntries(Object.entries(solution(item)).map(([k, v]) => [k, String(v)]));
-      if (!st.first) { st.first = 'shown'; noteFirst(item, 'shown'); }
-      st.status = 'shown';
-      st.say = '';
-      st.wrong = undefined;
-      announce(`Here's how. ${showSteps(item).join(' ')}`);
-      return rerender('[data-act="next"]:not([disabled])');
+      const steps = helpSteps(item);
+      st.help = Math.min((st.help || 0) + 1, steps.length);
+      const last = st.help === steps.length;
+      if (last) {
+        st.shown = true;
+        st.resp = Object.fromEntries(Object.entries(solution(item)).map(([k, v]) => [k, String(v)]));
+        if (!st.first) { st.first = 'shown'; noteFirst(item, 'shown'); }
+        st.status = 'shown';
+        st.say = '';
+        st.wrong = undefined;
+      }
+      announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
+      return rerender(last ? '[data-act="next"]:not([disabled])' : ['[data-act="help"]', 'button[type="submit"]']);
     }
     if (act === 'next' || act === 'back' || act === 'goto') {
       saveForm(form);

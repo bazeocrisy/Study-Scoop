@@ -183,17 +183,22 @@ export function vocabItems(week, kind, rand = Math.random) {
   if (kind === 'fill') {
     // A short word bank (the answer and three other words of the week) keeps the choice manageable.
     const bankFor = (w, form) => [form, ...others(w).slice(0, 3).map((x) => x.word.toLowerCase())].sort();
-    const first = words.map((w) => vocabPractice({
+    // Choosing another word from the bank says what that word means, so the child sees why it does not fit.
+    const whyNot = (bank, w) => Object.fromEntries(bank.filter((b) => b !== w.word.toLowerCase()).map((b) => {
+      const x = words.find((o) => o.word.toLowerCase() === b);
+      return [b, x ? `${means(x)} That does not fit this sentence.` : 'That word does not fit this sentence.'];
+    }));
+    const first = words.map((w, _, __, bank = bankFor(w, w.word.toLowerCase())) => vocabPractice({
       id: `fill-${slug(w.word)}`, type: 'word', word: w.word, kind: 'fill',
-      prompt: w.fill, answer: w.word.toLowerCase(), bank: bankFor(w, w.word.toLowerCase()),
+      prompt: w.fill, answer: w.word.toLowerCase(), bank, wrongWords: whyNot(bank, w),
       yes: `Yes! ${w.fill.replace('___', w.word.toLowerCase())}`,
       retry: 'Read the sentence again. Which word from the word bank fits?',
       explain: means(w),
     }, w));
     // Second sentences: the word's example sentence with the word taken out (the word exactly as written there).
-    const again = words.filter((w) => formIn(w) === w.word.toLowerCase()).slice(0, size - first.length).map((w) => ({
+    const again = words.filter((w) => formIn(w) === w.word.toLowerCase()).slice(0, size - first.length).map((w, _, __, bank = bankFor(w, w.word.toLowerCase())) => ({
       id: `fill2-${slug(w.word)}`, type: 'word', word: w.word, kind: 'fill', round: 2,
-      prompt: blankSentence(w.sentence, w.word).replace(/_{3,}/, '___'), answer: w.word.toLowerCase(), bank: bankFor(w, w.word.toLowerCase()),
+      prompt: blankSentence(w.sentence, w.word).replace(/_{3,}/, '___'), answer: w.word.toLowerCase(), bank, wrongWords: whyNot(bank, w),
       hints: [`Which word means ${q(w.def)}?`], show: [means(w), `So the answer is ${q(w.word.toLowerCase())}.`],
       yes: `Yes! ${w.sentence}`, retry: 'Read the sentence again. Which word from the word bank fits?', explain: means(w),
     }));
@@ -680,7 +685,19 @@ export function validateMathWords(bank) {
 /** Practice questions for one Math Vocabulary activity (shuffled; True/False options stay in order). */
 export function mathWordItems(bank, act, rand = Math.random) {
   const list = bank?.[WORD_MODES[act]] || [];
-  return shuffle(list, rand).map((it) => (it.type === 'choice' && it.options.length > 2 ? { ...it, options: shuffle(it.options, rand) } : it));
+  return shuffle(list, rand).map((it) => (it.type === 'choice' && it.options.length > 2 ? { ...it, options: shuffle(it.options, rand) }
+    : it.type === 'word' ? { ...it, wrongWords: propertyWhyNot(it) } : it));
+}
+
+/** A property word that does not fit says what that property is, so the child can compare it with the equation. */
+function propertyWhyNot(it) {
+  const right = normWord(it.answer);
+  return Object.fromEntries(PROPERTIES.flatMap((p) => {
+    const word = normWord(shortName(p.key));
+    if (word === right) return [];
+    const why = `The ${p.name}: ${p.kid} Does ${it.eq ? it.eq : 'this'} show that?`;
+    return [[word, why], [`${word} property`, why]];
+  }));
 }
 
 /** The Math Vocabulary practice test: 15 questions, 5 of each mode, every property in every mode, no hints. */

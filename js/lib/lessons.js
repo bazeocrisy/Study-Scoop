@@ -114,7 +114,7 @@ export function check(item, response, lesson = {}) {
     const typed = normWord(response?.text);
     if (!typed) return { status: 'empty', say: 'Type the word first.', wrong: ['text'] };
     if ([item.answer, ...(item.accept || [])].some((a) => normWord(a) === typed)) return { status: 'correct', say: item.yes || 'Yes!' };
-    return { status: 'notyet', say: item.retry || catchAll, wrong: ['text'] };
+    return { status: 'notyet', say: join(explainWord(item, typed), item.retry || catchAll), wrong: ['text'] };
   }
   if (item.type === 'letters') {
     const names = boxes(item);
@@ -124,7 +124,8 @@ export function check(item, response, lesson = {}) {
     if (blank.length) return { status: 'empty', say: names.length > 1 ? 'Type a letter in every box first.' : 'Type a letter first.', wrong: blank };
     const wrong = names.filter((n, k) => got[k] !== sol[n]);
     if (!wrong.length) return { status: 'correct', say: item.yes || 'Yes!' };
-    return { status: 'notyet', say: item.retry || catchAll, wrong };
+    const lead = wrong.length === names.length && names.length > 1 ? 'Those letters are not right yet.' : wrong.length > 1 ? `${wrong.length} of the letters are not right yet. They are marked.` : names.length > 1 ? 'One letter is not right yet. It is marked.' : 'That letter is not right yet.';
+    return { status: 'notyet', say: join(lead, item.retry || catchAll), wrong };
   }
   const read = readAll(item, response);
   // Empty or unreadable boxes are marked so the child can find them (never counted as a try).
@@ -136,13 +137,13 @@ export function check(item, response, lesson = {}) {
 
   if (item.type === 'number') {
     if (v.answer === solution(item).answer) return { status: 'correct', say: item.yes || 'Yes!' };
-    return { status: 'notyet', say: mistake?.say || catchAll };
+    return { status: 'notyet', say: mistake?.say || join(explainNumber(item, v.answer), catchAll) };
   }
   if (item.type === 'table') {
     const s = solution(item);
     const wrong = Object.keys(s).filter((k) => v[k] !== s[k]);
     if (!wrong.length) return { status: 'correct', say: item.yes || 'Yes!' };
-    return { status: 'notyet', say: mistake?.say || item.retry || catchAll, wrong };
+    return { status: 'notyet', say: mistake?.say || join(markedNote(wrong.length, Object.keys(s).length), item.retry || catchAll), wrong };
   }
   if (item.type === 'fill') {
     const sol = solution(item);
@@ -161,7 +162,7 @@ export function check(item, response, lesson = {}) {
       const firstOk = holds(fill(item.lines[0], v)) && firstBoxes.every((b) => v[b] >= (item.min ?? 1));
       wrong = firstOk ? boxes(item).filter((b) => !firstBoxes.includes(b)) : firstBoxes;
     }
-    return { status: 'notyet', say: mistake?.say || item.retry || catchAll, wrong: wrong.length ? wrong : undefined };
+    return { status: 'notyet', say: mistake?.say || join(wrong.length ? markedNote(wrong.length, boxes(item).length) : '', item.retry || catchAll), wrong: wrong.length ? wrong : undefined };
   }
   if (item.type === 'decompose') {
     const [a, b] = item.fact;
@@ -191,10 +192,66 @@ export function check(item, response, lesson = {}) {
   return { status: 'notyet', say: catchAll };
 }
 
+const join = (...parts) => parts.filter(Boolean).join(' ');
+const groups = (n, of) => `${n} ${n === 1 ? 'group' : 'groups'} of ${of}`;
+
+/** Which boxes need another look, said in words (the boxes are also marked on the screen). */
+function markedNote(n, total) {
+  if (total <= 1) return '';
+  return n === total ? 'None of the boxes are right yet.' : n === 1 ? 'One box is not right yet. It is marked.' : `${n} boxes are not right yet. They are marked.`;
+}
+
+/**
+ * Why a typed number is not the answer, when no planned mistake matches (never says the answer itself):
+ * an added fact, one group too many or too few, or simply too big or too small.
+ */
+export function explainNumber(item, x) {
+  const target = solution(item).answer;
+  const m = String(item.answer).match(/^\s*(\d+)\s*×\s*(\d+)\s*$/);
+  if (m) {
+    const a = Number(m[1]), b = Number(m[2]);
+    if (x === a + b) return `You added: ${a} + ${b} = ${x}. ${a} × ${b} means ${groups(a, b)}, so multiply.`;
+    if (b > 0 && a > 1 && x === target - b) return `${x} is ${groups(a - 1, b)}. You need ${groups(a, b)}.`;
+    if (b > 0 && x === target + b) return `${x} is ${groups(a + 1, b)}. You need ${groups(a, b)}.`;
+    if (a > 0 && b > 1 && a !== b && x === target - a) return `${x} is ${groups(b - 1, a)}. You need ${groups(b, a)}.`;
+    if (a > 0 && a !== b && x === target + a) return `${x} is ${groups(b + 1, a)}. You need ${groups(b, a)}.`;
+  }
+  return x > target ? `${x} is too big.` : `${x} is too small.`;
+}
+
+/**
+ * Why a typed word is not the answer: another word's meaning (word banks), a word that is not in the bank,
+ * or, for spelling, how long the word is and which letter to check first.
+ */
+export function explainWord(item, typed) {
+  if (item.wrongWords?.[typed]) return item.wrongWords[typed];
+  if (item.bank?.length) {
+    return item.bank.map(normWord).includes(typed) ? '' : 'Use one of the words in the word bank.';
+  }
+  const want = normWord(item.answer);
+  if (!/^[a-z' -]+$/.test(typed)) return 'Use only letters.';
+  if (typed.length !== want.length) return `You typed ${typed.length} ${typed.length === 1 ? 'letter' : 'letters'}. The word has ${want.length} letters.`;
+  const k = [...want].findIndex((c, i) => typed[i] !== c);
+  return k <= 0 ? 'Check the first letter.' : `The first ${k === 1 ? 'letter is' : `${k} letters are`} right. Check letter ${k + 1}.`;
+}
+
+/**
+ * Help: the steps a child can open one at a time after a wrong answer. The hints come first (they teach a step
+ * without the answer), then the worked steps; the last step finishes the question.
+ */
+export function helpSteps(item) {
+  // A choice question with no written hints still gets a first step before the answer: how to choose.
+  const hints = item.hints?.length ? item.hints
+    : item.type === 'choice' ? ['Read each choice again. Cross out any choice that does not match the picture or the steps.'] : [];
+  const show = showSteps(item).filter((t) => !hints.includes(t));
+  return [...hints.map((text) => ({ text, kind: 'hint' })), ...show.map((text) => ({ text, kind: 'show' }))];
+}
+
 /** Steps shown by "Show me how". Authored steps win; otherwise the filled-in answer. */
 export function showSteps(item) {
   if (item.show?.length) return item.show;
-  return [`The answer is ${answerText(item)}.`];
+  const a = String(answerText(item)).trim();
+  return [item.type === 'choice' ? `The answer is: ${a}${/[.!?]$/.test(a) ? '' : '.'}` : `The answer is ${a.replace(/[.!?]+$/, '')}.`];
 }
 
 /** Score of a finished test: { right, total, passed, missed: [items] }. */

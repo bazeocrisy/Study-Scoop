@@ -1,6 +1,8 @@
 # Study Scoop — Project Status
 
 ## Current phase
+Step-by-step Help (D21) on `develop`: one Help button after a wrong answer, one step at a time, and a reason for every wrong answer, across lessons and all practice activities.
+
 Unit 5 build on `develop` (DECISIONS D20): all seven Unit 5 lessons (5-1 to 5-7), each with 20 Try It Yourself questions, hints, Show me how, results with what to do next and an in-lesson Practice My Misses; Math Vocabulary for the five properties (Associative added); 20 questions in every Practice Problems kind and every Spelling and Vocabulary activity; a Math Vocabulary Practice Test; a Unit 5 Study Guide. Content was reviewed by independent curriculum and interaction/accessibility reviews and corrected. 144 unit tests, 171 browser checks and 173 built-site checks pass.
 
 Assignment 005 user-acceptance corrections on `develop` (D19): Spelling, Vocabulary and Math open on an activity menu; every activity has crumbs, Back to Subject and Home; flashcards flip on click, tap, Enter or Space; Math has Learn the Properties, Practice Problems (38 checked original problems), Math Lessons and a Study Guide; leaving an unfinished test asks first. Production is unchanged.

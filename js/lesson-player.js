@@ -1,6 +1,6 @@
 // Lesson player: the only DOM code for lessons. It keeps progress in memory for this visit only (never stored),
 // re-renders the stage area after each action, moves keyboard focus sensibly and announces feedback to screen readers.
-import { check, solution, showSteps } from './lib/lessons.js';
+import { check, helpSteps, solution } from './lib/lessons.js';
 import { cardsOf, missItems, stageInner, stageOf, unanswered } from './views/lesson.js';
 
 const progress = new Map(); // "5-1:try" -> { i, items: { id: { resp, status, say, tries, first, hints, shown } }, steps, streak, submitted }
@@ -124,7 +124,7 @@ export function mountLesson(app, ctx, signal) {
       st.first = r.status;
       if (stage === 'together') state.streak = r.status === 'correct' ? state.streak + 1 : 0;
     }
-    if (r.status !== 'correct' && (stage === 'try' || state.misses) && st.tries === 2) st.say += item.hints?.length ? ' You can press Hint or Show me how now.' : ' You can press Show me how now.';
+    if (r.status !== 'correct' && st.tries === 1 && (stage !== 'test' || state.misses) && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     rerender(r.status === 'correct'
       ? '[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href], form[data-item] .choices input'
@@ -150,29 +150,27 @@ export function mountLesson(app, ctx, signal) {
     const cards = cardsOf(lesson, stage);
     if (act === 'read') return readAloud(btn);
     // The second click of a double click lands on the redrawn button: it must not skip a question or a step.
-    if (e.detail > 1 && ['next', 'back', 'step-next', 'step-back', 'submit', 'goto', 'misses', 'misses-again', 'misses-exit', 'restart'].includes(act)) return;
-    if (act === 'hint' && form) {
+    if (e.detail > 1 && ['help', 'next', 'back', 'step-next', 'step-back', 'submit', 'goto', 'misses', 'misses-again', 'misses-exit', 'restart'].includes(act)) return;
+    if (act === 'help' && form) {
+      // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = items.get(form.dataset.item);
       const st = itemState(item.id);
+      if (!st.tries || st.status === 'correct' || st.shown) return;
       saveForm(form);
-      st.hints = Math.min((st.hints || 0) + 1, item.hints.length);
-      announce(`Hint: ${item.hints[st.hints - 1]}`);
-      rerender('[data-act="hint"]:not([disabled]), button[type="submit"]');
-      return;
-    }
-    if (act === 'show' && form) {
-      const item = items.get(form.dataset.item);
-      const st = itemState(item.id);
-      st.shown = true;
-      const sol = solution(item);
-      st.resp = Object.fromEntries(Object.entries(sol).map(([k, v]) => [k, String(v)]));
-      if (!st.first) st.first = 'shown';
-      st.status = 'shown';
-      st.say = '';
-      st.wrong = undefined;
-      if (stage === 'together') state.streak = 0;
-      announce(`Here's how. ${showSteps(item).join(' ')}`);
-      rerender('[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href]');
+      const steps = helpSteps(item);
+      st.help = Math.min((st.help || 0) + 1, steps.length);
+      const last = st.help === steps.length;
+      if (last) {
+        st.shown = true;
+        st.resp = Object.fromEntries(Object.entries(solution(item)).map(([k, v]) => [k, String(v)]));
+        if (!st.first) st.first = 'shown';
+        st.status = 'shown';
+        st.say = '';
+        st.wrong = undefined;
+        if (stage === 'together') state.streak = 0;
+      }
+      announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
+      rerender(last ? '[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href]' : '[data-act="help"], button[type="submit"]');
       return;
     }
     if (act === 'step-next' || act === 'step-back') {

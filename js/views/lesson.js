@@ -3,7 +3,7 @@
 import { html } from '../lib/html.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
-import { STAGES, STAGE_IDS, answerText, boxes, score, showSteps, stageLabel } from '../lib/lessons.js';
+import { STAGES, STAGE_IDS, answerText, boxes, helpSteps, score, stageLabel } from '../lib/lessons.js';
 import { ICONS, facts, scoreLine, subBar } from './common.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
@@ -147,14 +147,15 @@ function sayItem(item) {
   return parts;
 }
 
-/** One question with its answer boxes or choices, feedback, hints and "Show me how". */
+/** One question with its answer boxes or choices, feedback, and Help (one step at a time, after a wrong answer). */
 export function itemCard(lesson, item, stage, state) {
   const st = state.items?.[item.id] || {};
   const test = stage === 'test';
   const resp = st.resp || {};
   const done = !test && (st.status === 'correct' || st.shown);
-  const hintsAllowed = !test && (stage !== 'try' || (st.tries || 0) >= 2);
-  const showAllowed = !test && (st.tries || 0) >= 2;
+  const steps = test ? [] : helpSteps(item);
+  const opened = st.shown ? steps.length : Math.min(st.help || 0, steps.length);
+  const helpAllowed = !test && !done && (st.tries || 0) >= 1 && opened < steps.length;
   const pics = item.models || (item.model ? [item.model] : []);
   const inline = item.type === 'number' && /=\s*\?\s*$/.test(item.prompt);
   return html`
@@ -166,12 +167,10 @@ export function itemCard(lesson, item, stage, state) {
         ${test ? '' : html`
           <div class="btn-row">
             ${done ? '' : html`<button type="submit" class="btn btn-primary">Check Answer</button>`}
-            ${!done && hintsAllowed && item.hints?.length ? html`<button type="button" class="btn" data-act="hint"${(st.hints || 0) >= item.hints.length ? ' disabled' : ''}>Hint${(st.hints || 0) ? ` ${st.hints} of ${item.hints.length}` : ''}</button>` : ''}
-            ${!done && showAllowed ? html`<button type="button" class="btn" data-act="show">Show me how</button>` : ''}
+            ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${opened ? `Next help step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${opened ? 'Next step' : 'Help'}</button>` : ''}
           </div>`}
         ${!test && st.say ? feedbackPanel(item, st) : ''}
-        ${!test && st.hints ? html`<div class="feedback info"><span class="fb-title">Hint</span><ol class="hints">${item.hints.slice(0, st.hints).map((h) => html`<li>${h}</li>`)}</ol></div>` : ''}
-        ${!test && st.shown ? html`<div class="showme"><strong>Here's how:</strong><ol>${showSteps(item).map((s) => html`<li>${s}</li>`)}</ol></div>` : ''}
+        ${!test && opened ? helpPanel(item, steps, opened, st.shown, done) : ''}
       </form>
     </div>`;
 }
@@ -191,7 +190,19 @@ function feedbackPanel(item, st) {
   const id = `fb-${item.id}`;
   if (st.status === 'correct') return html`<div class="feedback ok" id="${id}">${ICON_OK}<span class="fb-title">${st.say}</span></div>`;
   if (st.status === 'empty') return html`<div class="feedback info" id="${id}"><span>${st.say}</span></div>`;
-  return html`<div class="feedback notyet" id="${id}">${ICON_NOT}<span class="fb-title">Not yet</span> <span>${st.say}</span></div>`;
+  return html`<div class="feedback notyet" id="${id}"><div class="fb-head">${ICON_NOT}<span class="fb-title">Not yet</span>${readButton(['Not yet', st.say], 'why it is not right')}</div>
+    <p class="fb-why">${st.say}</p></div>`;
+}
+
+/** The Help steps opened so far; when the last one is open the answer is filled in. */
+function helpPanel(item, steps, opened, finished, done) {
+  const shownSteps = steps.slice(0, opened);
+  const title = finished ? "Here's how" : `Help: step ${opened} of ${steps.length}`;
+  return html`<div class="feedback info help-panel" id="help-${item.id}">
+    <div class="fb-head"><span class="fb-title">${title}</span>${readButton(shownSteps.slice(-1).map((s) => s.text), 'this help step')}</div>
+    <ol class="help-steps">${shownSteps.map((s, k) => html`<li${k === opened - 1 && !finished ? ' class="is-new"' : ''}>${s.text}</li>`)}</ol>
+    ${done ? '' : html`<p class="help-more">Try the question again, or press Next step.</p>`}
+  </div>`;
 }
 
 const val = (resp, k) => (resp[k] === undefined ? '' : String(resp[k]));
@@ -395,7 +406,7 @@ function trySummary(ctx, lesson, state) {
     <div class="card results">
       ${scoreLine(first, items.length, answered)}
       <p>${passed ? 'Great work! You are ready for the test.' : `Practice a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
-      <p class="next-step"><strong>What next?</strong> ${missed.length ? 'Press Practice My Misses to try the questions you missed again, with hints. Then take Test Your Knowledge.' : 'Take Test Your Knowledge.'}</p>
+      <p class="next-step"><strong>What next?</strong> ${missed.length ? 'Press Practice My Misses to try the questions you missed again, with Help. Then take Test Your Knowledge.' : 'Take Test Your Knowledge.'}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => reviewItem(it))}</ul>` : ''}
     </div>
     <div class="stage-nav end-nav">
@@ -454,7 +465,7 @@ function missesBody(ctx, lesson, stage, state) {
       <h2 id="stage-h" tabindex="-1">Practice My Misses</h2>
       <p class="progress">Question ${i + 1} of ${items.length}</p>
     </div>
-    ${i === 0 ? html`<p class="notice">These are the questions you missed${stage === 'test' ? ' on the test' : ''}. Check your answer, and use ${stage === 'test' ? '' : 'Hint and '}Show me how to learn from them.</p>` : ''}
+    ${i === 0 ? html`<p class="notice">These are the questions you missed${stage === 'test' ? ' on the test' : ''}. Check your answer. If it is not right yet, press Help to see one step at a time.</p>` : ''}
     ${itemCard(lesson, item, 'together', { items: m.items })}
     <div class="stage-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>` : html`<button type="button" class="btn" data-act="misses-exit">‹ My results</button>`}
