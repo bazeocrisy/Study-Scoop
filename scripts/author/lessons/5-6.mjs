@@ -175,7 +175,7 @@ export default {
       // 1-5: understanding (7s and 9s)
       {
         id: 't1', type: 'fill', prompt: '5 × 8 = 40 and 2 × 8 = 16. Use them to find 7 × 8.', lines: ['7 × 8 = 40 + [x]', '= [t]'], answer: { x: 16, t: 56 },
-        hints: ['7 = 5 + 2. Add the 5s fact and the 2s fact.', 'Which number in the equation is the 2s fact?'],
+        hints: ['7 = 5 + 2. Add the 5s fact and the 2s fact.', 'Which number in the problem is the 2s fact?'],
         mistakes: [{ when: { x: 2 }, say: 'Add the whole 2s fact: 16, not 2.' }, { when: { x: 8 }, say: 'Add the whole 2s fact: 2 × 8 = 16, not 8.' }],
         show: ['7 × 8 = 5 × 8 + 2 × 8.', '40 + 16 = 56.'], yes: 'Yes! 40 + 16 = 56.',
       },
@@ -217,7 +217,7 @@ export default {
         hints: ['Left part: 2 rows of 5. Right part: 2 rows of 4.'],
       }),
       fact('t10', 9, 9, { ...fiveAnd(9, 9) }),
-      decompose('t11', 9, 7, ['rows', 5], { hints: ['Break the 9 into 5 + 4, or the 7 into 5 + 2.', 'Write two facts that keep the same factor. Then add.'] }),
+      decompose('t11', 7, 10, ['rows', 5], { hints: ['Break the 7 into 5 + 2.', 'Write two facts that keep the 10. Then add.'] }),
       fact('t12', 7, 7, { ...fiveAnd(7, 7) }),
       choice('t13', 'Which one is equal to 9 × 6?', [
         ['5 × 6 + 3 × 6', '5 and 3 make 8, not 9.'],
@@ -271,7 +271,7 @@ export default {
         ['20 × 6', 'Add the 5 and the 4, do not multiply them: 5 + 4 = 9.'],
         ['9 × 6', true],
         ['1 × 6', 'Do not take away. Add the parts: 5 + 4 = 9, so it is 9 × 6.'],
-      ], { hints: ['Both facts keep the 6.', 'Add the other two numbers.'], show: ['5 × 6 + 4 × 6 = 30 + 24 = 54.', '5 + 4 = 9, so that is 9 × 6 = 54.'], yes: 'Yes! 30 + 24 = 54, and that is 9 × 6.' }),
+      ], { hints: ['Both facts keep the 6.', 'Add the two numbers that are not 6.'], show: ['5 × 6 + 4 × 6 = 30 + 24 = 54.', '5 + 4 = 9, so that is 9 × 6 = 54.'], yes: 'Yes! 30 + 24 = 54, and that is 9 × 6.' }),
     ],
   },
   test: {

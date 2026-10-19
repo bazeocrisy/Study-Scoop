@@ -194,7 +194,7 @@
             "pictured": true
           },
           {
-            "say": "Check: 5 rows are already 35 cookies, and 2 more rows add 14. So 49 makes sense. There are 49 cookies."
+            "say": "Check: count by 7s: 7, 14, 21, 28, 35, 42, 49. There are 49 cookies."
           }
         ],
         "why": {
@@ -219,11 +219,11 @@
         }
       },
       {
-        "title": "Example B: packs of juice boxes",
+        "title": "Example B: boxes of muffins",
         "model": {
           "type": "array",
           "rows": 8,
-          "cols": 6,
+          "cols": 4,
           "cut": {
             "by": "rows",
             "at": 4
@@ -232,22 +232,22 @@
         },
         "steps": [
           {
-            "say": "Read: Each pack has 6 juice boxes. How many juice boxes are in 8 packs?",
+            "say": "Read: Each box has 4 muffins. How many muffins are in 8 boxes?",
             "model": {
               "type": "array",
               "rows": 8,
-              "cols": 6
+              "cols": 4
             }
           },
           {
-            "say": "Each pack is one row of 6. There are 8 packs, so the fact is 8 × 6."
+            "say": "Each box is one row of 4. There are 8 boxes, so the fact is 8 × 4."
           },
           {
             "say": "Break the 8 into 4 + 4. Cut under row 4.",
             "model": {
               "type": "array",
               "rows": 8,
-              "cols": 6,
+              "cols": 4,
               "cut": {
                 "by": "rows",
                 "at": 4
@@ -257,15 +257,15 @@
           },
           {
             "say": "Each part is the 4s fact.",
-            "eq": "4 × 6 = 24"
+            "eq": "4 × 4 = 16"
           },
           {
-            "say": "Double 24.",
-            "eq": "8 × 6 = 4 × 6 + 4 × 6 = 24 + 24 = 48",
+            "say": "Double 16.",
+            "eq": "8 × 4 = 4 × 4 + 4 × 4 = 16 + 16 = 32",
             "pictured": true
           },
           {
-            "say": "Check: 8 packs of 5 would be 40, and each pack has a little more than 5. So 48 makes sense. There are 48 juice boxes."
+            "say": "Check: 8 boxes of 5 would be 40, and each box has a little less than 5. So 32 makes sense. There are 32 muffins."
           }
         ],
         "why": {
@@ -274,19 +274,19 @@
           "prompt": "Which number tells how many groups there are?",
           "options": [
             {
-              "text": "6",
-              "why": "6 is how many juice boxes are in each pack. There are 8 packs."
+              "text": "4",
+              "why": "4 is how many muffins are in each box. There are 8 boxes."
             },
             {
-              "text": "48",
-              "why": "48 is the answer. There are 8 packs."
+              "text": "32",
+              "why": "32 is the answer. There are 8 boxes."
             },
             {
               "text": "8",
               "correct": true
             }
           ],
-          "yes": "Yes! 8 packs are the 8 equal groups."
+          "yes": "Yes! 8 boxes are the 8 equal groups."
         }
       }
     ]
@@ -1008,7 +1008,7 @@
         ],
         "target": "9 × 7",
         "hints": [
-          "The fact is 9 × 7. Each part must be a whole fact, and the broken numbers must add up."
+          "The fact is 9 × 7. The two parts must add up to 9 rows, and each part keeps the 7."
         ],
         "show": [
           "9 × 7 = 5 × 7 + 4 × 7.",

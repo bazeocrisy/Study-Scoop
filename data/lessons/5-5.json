@@ -11,8 +11,8 @@
   ],
   "glossary": {
     "4s fact": "a fact times 4, like 4 × 6. Double the 2s fact to find it.",
-    "8s fact": "a fact times 8, like 8 × 6",
-    "double": "add a number to itself, like 24 + 24"
+    "8s fact": "a fact times 8, like 8 × 7",
+    "double": "add a number to itself, like 28 + 28"
   },
   "learn": {
     "screens": [
@@ -21,27 +21,27 @@
         "item": {
           "id": "r1",
           "type": "number",
-          "prompt": "4 × 6 = ?",
-          "answer": "4 × 6",
+          "prompt": "4 × 7 = ?",
+          "answer": "4 × 7",
           "hints": [
-            "Find the 2s fact: 2 × 6 = 12.",
-            "Double 12: 12 + 12."
+            "Find the 2s fact: 2 × 7.",
+            "Then double it: add the 2s fact to itself."
           ],
           "mistakes": [
             {
               "when": {
-                "answer": 10
+                "answer": 11
               },
-              "say": "4 + 6 is 10, but this is times. Double the 2s fact."
+              "say": "4 + 7 is 11, but this is times. Double the 2s fact."
             },
             {
               "when": {
-                "answer": 12
+                "answer": 14
               },
-              "say": "12 is the 2s fact. Double it."
+              "say": "14 is the 2s fact. Double it."
             }
           ],
-          "yes": "Yes! 4 × 6 = 24."
+          "yes": "Yes! 4 × 7 = 28."
         }
       },
       {
@@ -49,21 +49,27 @@
         "item": {
           "id": "r2",
           "type": "number",
-          "prompt": "Double 24 = ?",
-          "answer": "24 + 24",
+          "prompt": "Double 28 = ?",
+          "answer": "28 + 28",
           "hints": [
-            "Double means add the number to itself: 24 + 24.",
-            "20 + 20 = 40 and 4 + 4 = 8."
+            "Double means add the number to itself: 28 + 28.",
+            "Add the tens (20 + 20). Then add the ones (8 + 8). Put them together."
           ],
           "mistakes": [
             {
               "when": {
-                "answer": 26
+                "answer": 30
               },
-              "say": "That is 24 + 2. Double 24 means 24 + 24."
+              "say": "That is 28 + 2. Double 28 means 28 + 28."
+            },
+            {
+              "when": {
+                "answer": 46
+              },
+              "say": "Check the ones: 8 + 8 is 16, so carry the ten."
             }
           ],
-          "yes": "Yes! 24 + 24 = 48."
+          "yes": "Yes! 28 + 28 = 56."
         }
       },
       {
@@ -317,7 +323,7 @@
         "title": "Example C: the 8 comes second",
         "model": {
           "type": "array",
-          "rows": 3,
+          "rows": 5,
           "cols": 8,
           "cut": {
             "by": "cols",
@@ -327,10 +333,10 @@
         },
         "steps": [
           {
-            "say": "This time the 8 comes second. 3 × 8 is 3 rows of 8.",
+            "say": "This time the 8 comes second. 5 × 8 is 5 rows of 8.",
             "model": {
               "type": "array",
-              "rows": 3,
+              "rows": 5,
               "cols": 8
             }
           },
@@ -338,7 +344,7 @@
             "say": "Find the 8. Break it into 4 + 4. Cut between the columns.",
             "model": {
               "type": "array",
-              "rows": 3,
+              "rows": 5,
               "cols": 8,
               "cut": {
                 "by": "cols",
@@ -348,16 +354,16 @@
             }
           },
           {
-            "say": "The left part is 3 rows of 4.",
-            "eq": "3 × 4 = 12"
+            "say": "The left part is 5 rows of 4.",
+            "eq": "5 × 4 = 20"
           },
           {
             "say": "The right part is the same.",
-            "eq": "3 × 4 = 12"
+            "eq": "5 × 4 = 20"
           },
           {
-            "say": "Double 12.",
-            "eq": "3 × 8 = 3 × 4 + 3 × 4 = 12 + 12 = 24",
+            "say": "Double 20.",
+            "eq": "5 × 8 = 5 × 4 + 5 × 4 = 20 + 20 = 40",
             "pictured": true
           }
         ],
@@ -367,12 +373,12 @@
           "prompt": "Which number did we break apart?",
           "options": [
             {
-              "text": "The 3",
-              "why": "Every part still has 3 rows. We broke the 8 into 4 + 4."
+              "text": "The 5",
+              "why": "Every part still has 5 rows. We broke the 8 into 4 + 4."
             },
             {
-              "text": "The 24",
-              "why": "24 is the product. We broke the 8 into 4 + 4."
+              "text": "The 40",
+              "why": "40 is the product. We broke the 8 into 4 + 4."
             },
             {
               "text": "The 8",
@@ -439,19 +445,19 @@
         "type": "fill",
         "prompt": "Find each part. Then add.",
         "lines": [
-          "8 × 9 = 5 × 9 + 3 × 9",
+          "8 × 10 = 5 × 10 + 3 × 10",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 45,
-          "q": 27,
-          "t": 72
+          "p": 50,
+          "q": 30,
+          "t": 80
         },
         "model": {
           "type": "array",
           "rows": 8,
-          "cols": 9,
+          "cols": 10,
           "cut": {
             "by": "rows",
             "at": 5
@@ -460,41 +466,41 @@
         },
         "accept": [
           {
-            "p": 27,
-            "q": 45,
-            "t": 72
+            "p": 30,
+            "q": 50,
+            "t": 80
           }
         ],
         "mistakes": [
           {
             "when": {
-              "t": 45
+              "t": 50
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 17
+              "t": 18
             },
-            "say": "8 × 9 means 8 groups of 9, not 8 + 9. Add the two products."
+            "say": "8 × 10 means 8 groups of 10, not 8 + 10. Add the two products."
           },
           {
             "when": {
               "q": 3
             },
-            "say": "The second part is 3 × 9, not 3. Find 3 × 9."
+            "say": "The second part is 3 × 10, not 3. Find 3 × 10."
           }
         ],
         "hints": [
-          "The top part is 5 rows of 9. The bottom part is 3 rows of 9.",
-          "Find 5 × 9 (count by 5s) and 3 × 9 (use a fact you know). Then add them."
+          "The top part is 5 rows of 10. The bottom part is 3 rows of 10.",
+          "Find 5 × 10 (count by 5s) and 3 × 10 (use a fact you know). Then add them."
         ],
         "show": [
-          "5 × 9 = 45.",
-          "3 × 9 = 27.",
-          "45 + 27 = 72. So 8 × 9 = 72."
+          "5 × 10 = 50.",
+          "3 × 10 = 30.",
+          "50 + 30 = 80. So 8 × 10 = 80."
         ],
-        "yes": "Yes! 45 + 27 = 72."
+        "yes": "Yes! 50 + 30 = 80."
       },
       {
         "id": "g3",
@@ -545,18 +551,18 @@
         "type": "fill",
         "prompt": "The 8 comes second. Find each part, then add.",
         "lines": [
-          "6 × 8 = 6 × 4 + 6 × 4",
+          "10 × 8 = 10 × 4 + 10 × 4",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 24,
-          "q": 24,
-          "t": 48
+          "p": 40,
+          "q": 40,
+          "t": 80
         },
         "model": {
           "type": "array",
-          "rows": 6,
+          "rows": 10,
           "cols": 8,
           "cut": {
             "by": "cols",
@@ -567,27 +573,27 @@
         "mistakes": [
           {
             "when": {
-              "t": 24
+              "t": 40
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 14
+              "t": 18
             },
-            "say": "6 × 8 means 6 groups of 8, not 6 + 8. Add the two products."
+            "say": "10 × 8 means 10 groups of 8, not 10 + 8. Add the two products."
           }
         ],
         "hints": [
-          "Each part is 6 rows of 4.",
-          "Find 6 × 4 (use a fact you know) and 6 × 4 (use a fact you know). Then add them."
+          "Each part is 10 rows of 4.",
+          "Find 10 × 4 (use a fact you know) and 10 × 4 (use a fact you know). Then add them."
         ],
         "show": [
-          "6 × 4 = 24.",
-          "6 × 4 = 24.",
-          "24 + 24 = 48. So 6 × 8 = 48."
+          "10 × 4 = 40.",
+          "10 × 4 = 40.",
+          "40 + 40 = 80. So 10 × 8 = 80."
         ],
-        "yes": "Yes! 24 + 24 = 48."
+        "yes": "Yes! 40 + 40 = 80."
       },
       {
         "id": "g5",
@@ -738,15 +744,15 @@
         "prompt": "8 × 5 = ?",
         "answer": "8 × 5",
         "hints": [
-          "Find the 4s fact: 4 × 5 = 20.",
-          "Double it: 20 + 20."
+          "Find the 4s fact: 4 × 5.",
+          "Then double it: add the 4s fact to itself."
         ],
         "mistakes": [
           {
             "when": {
               "answer": 13
             },
-            "say": "8 + 5 is 13, but this is times. Double the 4s fact."
+            "say": "8 + 5 is 13, but this is times. Find the 4s fact and double it."
           },
           {
             "when": {
@@ -756,8 +762,9 @@
           }
         ],
         "show": [
-          "8 × 5 = 4 × 5 + 4 × 5.",
-          "20 + 20 = 40."
+          "8 = 4 + 4, so 8 × 5 is two 4 × 5 facts.",
+          "4 × 5 = 20.",
+          "20 + 20 = 40. So 8 × 5 = 40."
         ],
         "yes": "Yes! 40."
       },
@@ -766,34 +773,34 @@
         "type": "fill",
         "prompt": "What number makes it true?",
         "lines": [
-          "8 × [x] = 4 × 3 + 4 × 3"
+          "8 × [x] = 4 × 10 + 4 × 10"
         ],
         "answer": {
-          "x": 3
+          "x": 10
         },
         "hints": [
-          "Both parts have 3.",
-          "4 rows of 3 and 4 more rows of 3 make 8 rows of what?"
+          "Both parts have 10.",
+          "4 rows of 10 and 4 more rows of 10 make 8 rows of what?"
         ],
         "mistakes": [
           {
             "when": {
-              "x": 12
+              "x": 40
             },
             "say": "That is one part. The box needs a factor: 8 × what?"
           },
           {
             "when": {
-              "x": 24
+              "x": 80
             },
             "say": "That box needs a factor, not the product."
           }
         ],
         "show": [
-          "4 + 4 = 8, and both parts have 3.",
-          "8 × 3 = 4 × 3 + 4 × 3."
+          "4 + 4 = 8, and both parts have 10.",
+          "8 × 10 = 4 × 10 + 4 × 10."
         ],
-        "yes": "Yes! 8 × 3 = 4 × 3 + 4 × 3."
+        "yes": "Yes! 8 × 10 = 4 × 10 + 4 × 10."
       },
       {
         "id": "t5",
@@ -1019,25 +1026,25 @@
       {
         "id": "t10",
         "type": "decompose",
-        "prompt": "Decompose 8 × 6. Any way that works is fine.",
+        "prompt": "Decompose 8 × 7. Any way that works is fine.",
         "fact": [
           8,
-          6
+          7
         ],
         "answer": {
           "p": 4,
-          "q": 6,
+          "q": 7,
           "r": 4,
-          "s": 6,
-          "t": 48
+          "s": 7,
+          "t": 56
         },
         "hints": [
           "Break 8 into 4 + 4, or into 5 + 3.",
-          "Write two facts that keep the 6. Then add."
+          "Write two facts that keep the 7. Then add."
         ],
         "show": [
-          "8 × 6 = 4 × 6 + 4 × 6.",
-          "24 + 24 = 48."
+          "8 × 7 = 4 × 7 + 4 × 7.",
+          "28 + 28 = 56."
         ]
       },
       {
@@ -1116,33 +1123,35 @@
       {
         "id": "t13",
         "type": "choice",
-        "prompt": "Which one is equal to 8 × 9?",
+        "prompt": "Which one is equal to 8 × 2?",
         "options": [
           {
-            "text": "4 × 9 + 3 × 9",
+            "text": "4 × 2 + 3 × 2",
             "why": "4 and 3 make 7, not 8."
           },
           {
-            "text": "5 × 9 + 3 × 9",
+            "text": "5 × 2 + 3 × 2",
             "correct": true
           },
           {
-            "text": "5 × 9 + 3",
-            "why": "The second part must be a whole fact: 3 × 9, not 3."
+            "text": "5 × 2 + 3",
+            "why": "The second part must be a whole fact: 3 × 2, not 3."
           },
           {
-            "text": "8 + 9",
-            "why": "8 × 9 means 8 groups of 9, not 8 + 9."
+            "text": "8 + 2",
+            "why": "8 × 2 means 8 groups of 2, not 8 + 2."
           }
         ],
-        "target": "8 × 9",
+        "target": "8 × 2",
         "hints": [
-          "The numbers 8 is broken into must add up to 8, and both parts must keep the 9."
+          "Break 8 into two numbers that add up to 8.",
+          "Both parts must keep the 2."
         ],
         "show": [
-          "8 × 9 = 5 × 9 + 3 × 9 = 45 + 27 = 72."
+          "5 + 3 = 8.",
+          "8 × 2 = 5 × 2 + 3 × 2 = 10 + 6 = 16."
         ],
-        "yes": "Yes! 45 + 27 = 72."
+        "yes": "Yes! 10 + 6 = 16."
       },
       {
         "id": "t14",
@@ -1237,31 +1246,31 @@
       {
         "id": "t17",
         "type": "number",
-        "prompt": "A garden has 8 rows. Each row has 5 bean plants. How many bean plants are there?",
-        "answer": "8 × 5",
+        "prompt": "A garden has 9 rows. Each row has 8 bean plants. How many bean plants are there?",
+        "answer": "9 × 8",
         "hints": [
-          "8 rows of 5: 8 × 5.",
-          "Find the 4s fact with 5, then double it. Or count by 5s."
+          "9 rows of 8: 9 × 8.",
+          "Find the 8. Break it into 4 + 4: find 9 × 4, then double it."
         ],
         "mistakes": [
           {
             "when": {
-              "answer": 13
+              "answer": 17
             },
-            "say": "8 + 5 is 13. There are 8 equal rows, so multiply."
+            "say": "9 + 8 is 17. There are 9 equal rows, so multiply."
           },
           {
             "when": {
-              "answer": 20
+              "answer": 36
             },
-            "say": "20 is only 4 rows. Double it for 8 rows."
+            "say": "36 is 9 × 4, only half. Double it for 9 × 8."
           }
         ],
         "show": [
-          "8 × 5 = 4 × 5 + 4 × 5.",
-          "20 + 20 = 40 plants."
+          "9 × 8 = 9 × 4 + 9 × 4.",
+          "36 + 36 = 72 plants."
         ],
-        "yes": "Yes! 40 bean plants."
+        "yes": "Yes! 72 bean plants."
       },
       {
         "id": "t18",
@@ -1560,7 +1569,7 @@
         "list": [
           "Doubling the 2s fact only once (that gives the 4s fact, not the 8s fact).",
           "Breaking 8 into numbers that do not add up to 8, such as 4 and 3.",
-          "Adding the factors: 8 + 6 = 14."
+          "Adding the factors: 8 + 7 = 15."
         ]
       },
       {

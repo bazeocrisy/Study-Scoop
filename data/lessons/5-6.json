@@ -668,7 +668,7 @@
         },
         "hints": [
           "7 = 5 + 2. Add the 5s fact and the 2s fact.",
-          "Which number in the equation is the 2s fact?"
+          "Which number in the problem is the 2s fact?"
         ],
         "mistakes": [
           {
@@ -1107,25 +1107,25 @@
       {
         "id": "t11",
         "type": "decompose",
-        "prompt": "Decompose 9 × 7. Any way that works is fine.",
+        "prompt": "Decompose 7 × 10. Any way that works is fine.",
         "fact": [
-          9,
-          7
+          7,
+          10
         ],
         "answer": {
           "p": 5,
-          "q": 7,
-          "r": 4,
-          "s": 7,
-          "t": 63
+          "q": 10,
+          "r": 2,
+          "s": 10,
+          "t": 70
         },
         "hints": [
-          "Break the 9 into 5 + 4, or the 7 into 5 + 2.",
-          "Write two facts that keep the same factor. Then add."
+          "Break the 7 into 5 + 2.",
+          "Write two facts that keep the 10. Then add."
         ],
         "show": [
-          "9 × 7 = 5 × 7 + 4 × 7.",
-          "35 + 28 = 63."
+          "7 × 10 = 5 × 10 + 2 × 10.",
+          "50 + 20 = 70."
         ]
       },
       {
@@ -1414,7 +1414,7 @@
         ],
         "hints": [
           "Both facts keep the 6.",
-          "Add the other two numbers."
+          "Add the two numbers that are not 6."
         ],
         "show": [
           "5 × 6 + 4 × 6 = 30 + 24 = 54.",

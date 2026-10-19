@@ -80,7 +80,7 @@ test('lesson strategies are the unit\'s: each lesson teaches its own factor spli
   const byId = Object.fromEntries(LESSONS.map((l) => [l.id, l]));
   const text = (l) => JSON.stringify(l);
   assert.match(text(byId['5-2']), /3 × 7 = 3 × 5 \+ 3 × 2/, '5-2 also breaks apart the other factor');
-  assert.match(text(byId['5-3']), /4 × 7 = 2 × 7 \+ 2 × 7 = 14 \+ 14 = 28/);
+  assert.match(text(byId['5-3']), /4 × 9 = 2 × 9 \+ 2 × 9 = 18 \+ 18 = 36/);
   assert.match(text(byId['5-4']), /6 × 7 = 5 × 7 \+ 1 × 7 = 35 \+ 7 = 42/);
   assert.match(text(byId['5-4']), /6 × 7 = 3 × 7 \+ 3 × 7 = 21 \+ 21 = 42/);
   assert.match(text(byId['5-5']), /8 × 7 = 4 × 7 \+ 4 × 7 = 28 \+ 28 = 56/);
@@ -260,5 +260,27 @@ test('Watch Me: every "the answer is N" and "both ways make N" in an example nam
       const product = evaluate(last.eq.split('=').pop());
       for (const m of JSON.stringify(ex).matchAll(/(?:answer is|ways make|same) (\d+)\b/g)) assert.equal(Number(m[1]), product, `${lesson.id} ${ex.title}: "${m[0]}"`);
     }
+  }
+});
+
+test('Learn It: each warm-up answer is used again in the lesson\'s teaching screens', async () => {
+  const { evaluate } = await import('../../js/lib/arith.js');
+  for (const lesson of LESSONS.filter((l) => ['5-3', '5-4', '5-5', '5-6'].includes(l.id))) {
+    const screens = lesson.learn.screens;
+    const teaching = JSON.stringify(screens.filter((s) => !s.item));
+    for (const s of screens.filter((x) => x.item && /^r\d$/.test(x.item.id))) {
+      const value = evaluate(s.item.answer);
+      assert.match(teaching, new RegExp(`\\b${value}\\b`), `${lesson.id} ${s.item.id}: warm-up answer ${value} is not used in the teaching screens`);
+    }
+  }
+});
+
+test('worked examples stay off the printed lessons\' own worked examples', () => {
+  // The textbook works these exact facts in these lessons; Study Scoop's teaching screens (Learn It, Watch Me,
+  // Practice Together) use other facts so the child meets the book's examples fresh in class.
+  const BOOK_WORKED = { '5-3': [/14 \+ 14 = 28/], '5-5': [/24 \+ 24/, /8 × 6/, /5 × 9 \+ 3 × 9/, /3 × 4 \+ 3 × 4/] };
+  for (const lesson of LESSONS) {
+    const teaching = JSON.stringify([lesson.learn, lesson.watch, lesson.together, lesson.glossary]);
+    for (const re of BOOK_WORKED[lesson.id] || []) assert.doesNotMatch(teaching, re, lesson.id);
   }
 });

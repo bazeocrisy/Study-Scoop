@@ -23,26 +23,26 @@ export default {
   teacher: [{ term: 'Distributive Property', def: 'a multiplication fact can be broken apart into the sum of two other related facts' }],
   glossary: {
     '4s fact': 'a fact times 4, like 4 × 6. Double the 2s fact to find it.',
-    '8s fact': 'a fact times 8, like 8 × 6',
-    double: 'add a number to itself, like 24 + 24',
+    '8s fact': 'a fact times 8, like 8 × 7',
+    double: 'add a number to itself, like 28 + 28',
   },
   learn: {
     screens: [
       {
         title: 'Ready? Warm-up',
-        item: fact('r1', 4, 6, {
-          hints: ['Find the 2s fact: 2 × 6 = 12.', 'Double 12: 12 + 12.'],
-          mistakes: [{ when: { answer: 10 }, say: '4 + 6 is 10, but this is times. Double the 2s fact.' }, { when: { answer: 12 }, say: '12 is the 2s fact. Double it.' }],
-          yes: 'Yes! 4 × 6 = 24.',
+        item: fact('r1', 4, 7, {
+          hints: ['Find the 2s fact: 2 × 7.', 'Then double it: add the 2s fact to itself.'],
+          mistakes: [{ when: { answer: 11 }, say: '4 + 7 is 11, but this is times. Double the 2s fact.' }, { when: { answer: 14 }, say: '14 is the 2s fact. Double it.' }],
+          yes: 'Yes! 4 × 7 = 28.',
         }),
       },
       {
         title: 'Ready? One more',
         item: {
-          id: 'r2', type: 'number', prompt: 'Double 24 = ?', answer: '24 + 24',
-          hints: ['Double means add the number to itself: 24 + 24.', '20 + 20 = 40 and 4 + 4 = 8.'],
-          mistakes: [{ when: { answer: 26 }, say: 'That is 24 + 2. Double 24 means 24 + 24.' }],
-          yes: 'Yes! 24 + 24 = 48.',
+          id: 'r2', type: 'number', prompt: 'Double 28 = ?', answer: '28 + 28',
+          hints: ['Double means add the number to itself: 28 + 28.', 'Add the tens (20 + 20). Then add the ones (8 + 8). Put them together.'],
+          mistakes: [{ when: { answer: 30 }, say: 'That is 28 + 2. Double 28 means 28 + 28.' }, { when: { answer: 46 }, say: 'Check the ones: 8 + 8 is 16, so carry the ten.' }],
+          yes: 'Yes! 28 + 28 = 56.',
         },
       },
       {
@@ -127,17 +127,17 @@ export default {
       },
       {
         title: 'Example C: the 8 comes second',
-        model: arr(3, 8, ['c', 4], 'facts'),
+        model: arr(5, 8, ['c', 4], 'facts'),
         steps: [
-          { say: 'This time the 8 comes second. 3 × 8 is 3 rows of 8.', model: arr(3, 8) },
-          { say: 'Find the 8. Break it into 4 + 4. Cut between the columns.', model: arr(3, 8, ['c', 4], 'parts') },
-          { say: 'The left part is 3 rows of 4.', eq: '3 × 4 = 12' },
-          { say: 'The right part is the same.', eq: '3 × 4 = 12' },
-          { say: 'Double 12.', eq: '3 × 8 = 3 × 4 + 3 × 4 = 12 + 12 = 24', pictured: true },
+          { say: 'This time the 8 comes second. 5 × 8 is 5 rows of 8.', model: arr(5, 8) },
+          { say: 'Find the 8. Break it into 4 + 4. Cut between the columns.', model: arr(5, 8, ['c', 4], 'parts') },
+          { say: 'The left part is 5 rows of 4.', eq: '5 × 4 = 20' },
+          { say: 'The right part is the same.', eq: '5 × 4 = 20' },
+          { say: 'Double 20.', eq: '5 × 8 = 5 × 4 + 5 × 4 = 20 + 20 = 40', pictured: true },
         ],
         why: choice('wC', 'Which number did we break apart?', [
-          ['The 3', 'Every part still has 3 rows. We broke the 8 into 4 + 4.'],
-          ['The 24', '24 is the product. We broke the 8 into 4 + 4.'],
+          ['The 5', 'Every part still has 5 rows. We broke the 8 into 4 + 4.'],
+          ['The 40', '40 is the product. We broke the 8 into 4 + 4.'],
           ['The 8', true],
         ], { yes: 'Yes! Find the 8 and break it apart, wherever it is.' }),
       },
@@ -151,15 +151,15 @@ export default {
         hints: ['Each part is 4 × 3 = 12.', 'Double 12: 12 + 12.'],
         yes: 'Yes! 12 + 12 = 24. You doubled the 4s fact!',
       }),
-      partsFill('g2', 8, 9, 'rows', 5, {
-        hints: ['The top part is 5 rows of 9. The bottom part is 3 rows of 9.'],
-        yes: 'Yes! 45 + 27 = 72.',
+      partsFill('g2', 8, 10, 'rows', 5, {
+        hints: ['The top part is 5 rows of 10. The bottom part is 3 rows of 10.'],
+        yes: 'Yes! 50 + 30 = 80.',
       }),
       factorsFill('g3', 8, 5, 'rows', 4, { total: true, yes: 'Yes! 4 + 4 = 8 rows, and 20 + 20 = 40.' }),
-      partsFill('g4', 6, 8, 'cols', 4, {
+      partsFill('g4', 10, 8, 'cols', 4, {
         prompt: 'The 8 comes second. Find each part, then add.',
-        hints: ['Each part is 6 rows of 4.', '6 × 4 = 24. Double 24.'],
-        yes: 'Yes! 24 + 24 = 48.',
+        hints: ['Each part is 10 rows of 4.', 'Find 10 × 4. Then double it.'],
+        yes: 'Yes! 40 + 40 = 80.',
       }),
       fact('g5', 8, 4, { ...eight(4), yes: 'Yes! 16 + 16 = 32.' }),
       decompose('g6', 8, 2, ['rows', 4], {
@@ -190,15 +190,11 @@ export default {
         show: ['4 rows are above the line and 4 rows are below it.', 'Each row has 4 dots: (4 × 4) + (4 × 4).'],
         yes: 'Yes! 4 rows of 4 on top and 4 rows of 4 below.',
       }),
-      fact('t3', 8, 5, {
-        hints: ['Find the 4s fact: 4 × 5 = 20.', 'Double it: 20 + 20.'],
-        mistakes: [{ when: { answer: 13 }, say: '8 + 5 is 13, but this is times. Double the 4s fact.' }, { when: { answer: 20 }, say: '20 is the 4s fact. Double it to get the 8s fact.' }],
-        show: ['8 × 5 = 4 × 5 + 4 × 5.', '20 + 20 = 40.'],
-      }),
-      missing('t4', '8 × [x] = 4 × 3 + 4 × 3', { x: 3 }, {
-        hints: ['Both parts have 3.', '4 rows of 3 and 4 more rows of 3 make 8 rows of what?'],
-        mistakes: [{ when: { x: 12 }, say: 'That is one part. The box needs a factor: 8 × what?' }, { when: { x: 24 }, say: 'That box needs a factor, not the product.' }],
-        show: ['4 + 4 = 8, and both parts have 3.', '8 × 3 = 4 × 3 + 4 × 3.'], yes: 'Yes! 8 × 3 = 4 × 3 + 4 × 3.',
+      fact('t3', 8, 5, { ...eight(5) }),
+      missing('t4', '8 × [x] = 4 × 10 + 4 × 10', { x: 10 }, {
+        hints: ['Both parts have 10.', '4 rows of 10 and 4 more rows of 10 make 8 rows of what?'],
+        mistakes: [{ when: { x: 40 }, say: 'That is one part. The box needs a factor: 8 × what?' }, { when: { x: 80 }, say: 'That box needs a factor, not the product.' }],
+        show: ['4 + 4 = 8, and both parts have 10.', '8 × 10 = 4 × 10 + 4 × 10.'], yes: 'Yes! 8 × 10 = 4 × 10 + 4 × 10.',
       }),
       choice('t5', 'Which fact can you double to find 8 × 7?', [
         ['2 × 7', 'Double 2 × 7 is only 4 × 7. Double 4 × 7 to get 8 × 7.'],
@@ -217,7 +213,7 @@ export default {
         hints: ['Each part is 7 rows of 4.'],
       }),
       fact('t9', 8, 8, { ...eight(8) }),
-      decompose('t10', 8, 6, ['rows', 4], { hints: ['Break 8 into 4 + 4, or into 5 + 3.', 'Write two facts that keep the 6. Then add.'] }),
+      decompose('t10', 8, 7, ['rows', 4], { hints: ['Break 8 into 4 + 4, or into 5 + 3.', 'Write two facts that keep the 7. Then add.'] }),
       table('t11', 'Each times 8 number is double the times 4 number. Fill in the last column.', ['Number', 'Times 4', 'Times 8'], [
         ['7', '28', { answer: '8 × 7' }],
         ['9', '36', { answer: '8 × 9' }],
@@ -233,12 +229,12 @@ export default {
         mistakes: [{ when: { answer: 12 }, say: '4 + 8 is 12. Each spider has 8 legs, so multiply.' }, { when: { answer: 16 }, say: '16 is only 2 spiders. Double it for 4 spiders.' }],
         show: ['4 × 8 = 2 × 8 + 2 × 8.', '16 + 16 = 32 legs.'], yes: 'Yes! 32 legs.',
       }),
-      choice('t13', 'Which one is equal to 8 × 9?', [
-        ['4 × 9 + 3 × 9', '4 and 3 make 7, not 8.'],
-        ['5 × 9 + 3 × 9', true],
-        ['5 × 9 + 3', 'The second part must be a whole fact: 3 × 9, not 3.'],
-        ['8 + 9', '8 × 9 means 8 groups of 9, not 8 + 9.'],
-      ], { target: '8 × 9', hints: ['The numbers 8 is broken into must add up to 8, and both parts must keep the 9.'], show: ['8 × 9 = 5 × 9 + 3 × 9 = 45 + 27 = 72.'], yes: 'Yes! 45 + 27 = 72.' }),
+      choice('t13', 'Which one is equal to 8 × 2?', [
+        ['4 × 2 + 3 × 2', '4 and 3 make 7, not 8.'],
+        ['5 × 2 + 3 × 2', true],
+        ['5 × 2 + 3', 'The second part must be a whole fact: 3 × 2, not 3.'],
+        ['8 + 2', '8 × 2 means 8 groups of 2, not 8 + 2.'],
+      ], { target: '8 × 2', hints: ['Break 8 into two numbers that add up to 8.', 'Both parts must keep the 2.'], show: ['5 + 3 = 8.', '8 × 2 = 5 × 2 + 3 × 2 = 10 + 6 = 16.'], yes: 'Yes! 10 + 6 = 16.' }),
       missing('t14', '[x] × 8 = 64', { x: 8 }, {
         hints: ['Count by 8s: 8, 16, 24 … Stop at 64.', 'Or: what number doubled makes 64? Which 4s fact makes that number?'],
         mistakes: [{ when: { x: 56 }, say: 'That box needs a factor. What times 8 makes 64?' }, { when: { x: 7 }, say: '7 × 8 is 56. One more 8 makes 64.' }],
@@ -263,10 +259,10 @@ export default {
         hints: ['Add the two numbers that 8 was broken into.'],
         show: ['8 = 4 + 4.', '8 × 7 = 4 × 7 + 4 × 7 = 28 + 28 = 56.'], yes: 'Yes! The parts must add up to 8: 4 × 7 + 4 × 7 = 56.',
       }),
-      story('t17', 'A garden has 8 rows. Each row has 5 bean plants. How many bean plants are there?', 8, 5, {
-        hints: ['8 rows of 5: 8 × 5.', 'Find the 4s fact with 5, then double it. Or count by 5s.'],
-        mistakes: [{ when: { answer: 13 }, say: '8 + 5 is 13. There are 8 equal rows, so multiply.' }, { when: { answer: 20 }, say: '20 is only 4 rows. Double it for 8 rows.' }],
-        show: ['8 × 5 = 4 × 5 + 4 × 5.', '20 + 20 = 40 plants.'], yes: 'Yes! 40 bean plants.',
+      story('t17', 'A garden has 9 rows. Each row has 8 bean plants. How many bean plants are there?', 9, 8, {
+        hints: ['9 rows of 8: 9 × 8.', 'Find the 8. Break it into 4 + 4: find 9 × 4, then double it.'],
+        mistakes: [{ when: { answer: 17 }, say: '9 + 8 is 17. There are 9 equal rows, so multiply.' }, { when: { answer: 36 }, say: '36 is 9 × 4, only half. Double it for 9 × 8.' }],
+        show: ['9 × 8 = 9 × 4 + 9 × 4.', '36 + 36 = 72 plants.'], yes: 'Yes! 72 bean plants.',
       }),
       choice('t18', 'Two friends find 8 × 4. Friend 1 writes 4 × 4 + 4 × 4. Friend 2 writes 5 × 4 + 3 × 4. Who is right?', [
         ['Only Friend 1', 'Check Friend 2 too: 20 + 12 = 32.'],
@@ -319,7 +315,7 @@ export default {
       { heading: 'What your child is learning', text: 'Two ways to multiply by 8. Because 8 = 4 + 4, an 8s fact is double the 4s fact: 8 × 7 = 4 × 7 + 4 × 7 = 28 + 28 = 56. Because 8 = 5 + 3, it is also the 5s fact plus the 3s fact: 5 × 7 + 3 × 7 = 35 + 21 = 56.' },
       { heading: 'Try it with real things', list: ['Make 8 rows of 7 cereal pieces. Cover the bottom 4 rows: 28. Uncover them: 28 + 28 = 56.', 'Chant a doubling chain: 3, 6, 12, 24 (times 1, 2, 4, 8).'] },
       { heading: 'Questions to ask', list: ['Where is the 8?', 'What is the 4s fact? What is double that?', 'Which way is easier for you: 4 + 4 or 5 + 3?'] },
-      { heading: 'Common mistakes', list: ['Doubling the 2s fact only once (that gives the 4s fact, not the 8s fact).', 'Breaking 8 into numbers that do not add up to 8, such as 4 and 3.', 'Adding the factors: 8 + 6 = 14.'] },
+      { heading: 'Common mistakes', list: ['Doubling the 2s fact only once (that gives the 4s fact, not the 8s fact).', 'Breaking 8 into numbers that do not add up to 8, such as 4 and 3.', 'Adding the factors: 8 + 7 = 15.'] },
       { heading: 'A note on notation', text: 'Some books write the facts without ( ) and some with ( ). Both mean the same thing. Study Scoop uses original practice questions; it never copies the textbook.' },
     ],
   },

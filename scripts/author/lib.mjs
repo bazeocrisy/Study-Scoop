@@ -55,7 +55,7 @@ export function partsFill(id, a, b, by, k, o = {}) {
   const item = { id, type: 'fill', prompt: o.prompt || 'Find each part. Then add.', lines, answer };
   // Hints teach a step without giving the products away (the full working is in Show me how):
   // the first says what the parts are, the second how to find them.
-  const how = (f) => (f[0] === 5 || f[1] === 5 ? 'count by 5s' : f[0] === 1 || f[1] === 1 ? 'times 1 keeps the number' : f[0] === 2 || f[1] === 2 ? 'it is a double' : 'use a fact you know');
+  const how = (f) => (f[0] === 1 || f[1] === 1 ? 'times 1 keeps the number' : f[0] === 5 || f[1] === 5 ? 'count by 5s' : f[0] === 2 || f[1] === 2 ? 'it is a double' : 'use a fact you know');
   o = { ...o, hints: [o.hints?.[0] || `The parts are ${F(...s.f1)} and ${F(...s.f2)}.`, `Find ${F(...s.f1)} (${how(s.f1)}) and ${F(...s.f2)} (${how(s.f2)}). Then add them.`] };
   if (o.model !== false) item.model = o.model || arr(a, b, [by[0], k], o.labels || 'parts');
   if (ask === 'products' && s.p !== s.q) item.accept = [{ p: s.q, q: s.p, t: s.t }];

@@ -129,11 +129,11 @@
     "takeaway": "4s facts: find the 2s fact, then double it.",
     "examples": [
       {
-        "title": "Example A: 4 × 7",
+        "title": "Example A: 4 × 9",
         "model": {
           "type": "array",
           "rows": 4,
-          "cols": 7,
+          "cols": 9,
           "cut": {
             "by": "rows",
             "at": 2
@@ -142,11 +142,11 @@
         },
         "steps": [
           {
-            "say": "Problem: 4 × 7. That is 4 rows of 7.",
+            "say": "Problem: 4 × 9. That is 4 rows of 9.",
             "model": {
               "type": "array",
               "rows": 4,
-              "cols": 7
+              "cols": 9
             }
           },
           {
@@ -154,7 +154,7 @@
             "model": {
               "type": "array",
               "rows": 4,
-              "cols": 7,
+              "cols": 9,
               "cut": {
                 "by": "rows",
                 "at": 2
@@ -164,21 +164,21 @@
           },
           {
             "say": "Step 2: Solve the top part.",
-            "eq": "2 × 7 = 14"
+            "eq": "2 × 9 = 18"
           },
           {
             "say": "Step 3: Solve the bottom part. It is the same fact!",
-            "eq": "2 × 7 = 14"
+            "eq": "2 × 9 = 18"
           },
           {
-            "say": "Step 4: Add the two parts. That is double 14.",
-            "eq": "4 × 7 = 2 × 7 + 2 × 7 = 14 + 14 = 28",
+            "say": "Step 4: Add the two parts. That is double 18.",
+            "eq": "4 × 9 = 2 × 9 + 2 × 9 = 18 + 18 = 36",
             "pictured": true,
             "word": "double"
           },
           {
-            "say": "Step 5: Check the array. 4 rows of 7 is 28 dots.",
-            "eq": "4 × 7 = 28"
+            "say": "Step 5: Check the array. 4 rows of 9 is 36 dots.",
+            "eq": "4 × 9 = 36"
           }
         ],
         "why": {
@@ -191,12 +191,12 @@
               "why": "No dots were added. The 4 rows were cut into 2 rows and 2 rows."
             },
             {
-              "text": "Each part is 2 rows of 7.",
+              "text": "Each part is 2 rows of 9.",
               "correct": true
             },
             {
-              "text": "7 is an odd number.",
-              "why": "That does not matter. Both parts are 2 rows of 7, so they are the same."
+              "text": "9 is an odd number.",
+              "why": "That does not matter. Both parts are 2 rows of 9, so they are the same."
             }
           ],
           "yes": "Yes! 2 rows and 2 more rows make 4 rows, so you double the 2s fact."
@@ -446,18 +446,18 @@
         "type": "fill",
         "prompt": "The 4 comes second. Find each part, then add.",
         "lines": [
-          "7 × 4 = 7 × 2 + 7 × 2",
+          "3 × 4 = 3 × 2 + 3 × 2",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 14,
-          "q": 14,
-          "t": 28
+          "p": 6,
+          "q": 6,
+          "t": 12
         },
         "model": {
           "type": "array",
-          "rows": 7,
+          "rows": 3,
           "cols": 4,
           "cut": {
             "by": "cols",
@@ -468,57 +468,57 @@
         "mistakes": [
           {
             "when": {
-              "t": 14
+              "t": 6
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 11
+              "t": 7
             },
-            "say": "7 × 4 means 7 groups of 4, not 7 + 4. Add the two products."
+            "say": "3 × 4 means 3 groups of 4, not 3 + 4. Add the two products."
           }
         ],
         "hints": [
           "Find the 4. It is broken into 2 + 2 columns.",
-          "Find 7 × 2 (it is a double) and 7 × 2 (it is a double). Then add them."
+          "Find 3 × 2 (it is a double) and 3 × 2 (it is a double). Then add them."
         ],
         "show": [
-          "7 × 2 = 14.",
-          "7 × 2 = 14.",
-          "14 + 14 = 28. So 7 × 4 = 28."
+          "3 × 2 = 6.",
+          "3 × 2 = 6.",
+          "6 + 6 = 12. So 3 × 4 = 12."
         ],
-        "yes": "Yes! 14 + 14 = 28."
+        "yes": "Yes! 6 + 6 = 12."
       },
       {
         "id": "g5",
         "type": "number",
-        "prompt": "4 × 9 = ?",
-        "answer": "4 × 9",
+        "prompt": "4 × 10 = ?",
+        "answer": "4 × 10",
         "hints": [
-          "Find the 2s fact: 2 × 9.",
+          "Find the 2s fact: 2 × 10.",
           "Then double it: add the 2s fact to itself."
         ],
         "mistakes": [
           {
             "when": {
-              "answer": 13
+              "answer": 14
             },
-            "say": "4 + 9 is 13, but this is times. Find the 2s fact and double it."
+            "say": "4 + 10 is 14, but this is times. Find the 2s fact and double it."
           },
           {
             "when": {
-              "answer": 18
+              "answer": 20
             },
-            "say": "18 is the 2s fact. Double it to get the 4s fact."
+            "say": "20 is the 2s fact. Double it to get the 4s fact."
           }
         ],
         "show": [
-          "4 = 2 + 2, so 4 × 9 is two 2 × 9 facts.",
-          "2 × 9 = 18.",
-          "18 + 18 = 36. So 4 × 9 = 36."
+          "4 = 2 + 2, so 4 × 10 is two 2 × 10 facts.",
+          "2 × 10 = 20.",
+          "20 + 20 = 40. So 4 × 10 = 40."
         ],
-        "yes": "Yes! 18 + 18 = 36."
+        "yes": "Yes! 20 + 20 = 40."
       },
       {
         "id": "g6",
@@ -557,38 +557,38 @@
       {
         "id": "t1",
         "type": "fill",
-        "prompt": "2 × 7 = 14. Use it to find 4 × 7.",
+        "prompt": "2 × 3 = 6. Use it to find 4 × 3.",
         "lines": [
-          "4 × 7 = 14 + [x]",
+          "4 × 3 = 6 + [x]",
           "= [t]"
         ],
         "answer": {
-          "x": 14,
-          "t": 28
+          "x": 6,
+          "t": 12
         },
         "hints": [
-          "4 × 7 is two 2 × 7 facts.",
-          "What do you add to 14 to double it?"
+          "4 × 3 is two 2 × 3 facts.",
+          "What do you add to 6 to double it?"
         ],
         "mistakes": [
           {
             "when": {
-              "x": 7
+              "x": 3
             },
-            "say": "Add the whole 2s fact again: 14, not 7."
+            "say": "Add the whole 2s fact again: 6, not 3."
           },
           {
             "when": {
               "x": 4
             },
-            "say": "Add the whole 2s fact again: 14, not 4."
+            "say": "Add the whole 2s fact again: 6, not 4."
           }
         ],
         "show": [
-          "4 × 7 = 2 × 7 + 2 × 7.",
-          "14 + 14 = 28."
+          "4 × 3 = 2 × 3 + 2 × 3.",
+          "6 + 6 = 12."
         ],
-        "yes": "Yes! 14 + 14 = 28."
+        "yes": "Yes! 6 + 6 = 12."
       },
       {
         "id": "t2",
@@ -1400,12 +1400,12 @@
     "sections": [
       {
         "heading": "What your child is learning",
-        "text": "To multiply by 4 by doubling a 2s fact. Because 4 = 2 + 2, a 4s fact is two equal 2s facts: 4 × 7 = 2 × 7 + 2 × 7 = 14 + 14 = 28. When the 4 comes second (6 × 4), break the 4 the same way: 6 × 2 + 6 × 2."
+        "text": "To multiply by 4 by doubling a 2s fact. Because 4 = 2 + 2, a 4s fact is two equal 2s facts: 4 × 9 = 2 × 9 + 2 × 9 = 18 + 18 = 36. When the 4 comes second (6 × 4), break the 4 the same way: 6 × 2 + 6 × 2."
       },
       {
         "heading": "Try it with real things",
         "list": [
-          "Make 2 rows of 7 pennies. Count them (14). Make 2 more rows below. Now there are 4 rows: 14 + 14 = 28.",
+          "Make 2 rows of 9 pennies. Count them (18). Make 2 more rows below. Now there are 4 rows: 18 + 18 = 36.",
           "Practice doubles out loud: double 12, double 16, double 18."
         ]
       },

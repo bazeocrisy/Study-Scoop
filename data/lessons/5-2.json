@@ -662,7 +662,7 @@
         ],
         "hints": [
           "The top part is 2 rows of 5: the 2s fact. The bottom part is 1 row of 5.",
-          "Find 2 × 5 (count by 5s) and 1 × 5 (count by 5s). Then add them."
+          "Find 2 × 5 (count by 5s) and 1 × 5 (times 1 keeps the number). Then add them."
         ],
         "show": [
           "2 × 5 = 10.",
