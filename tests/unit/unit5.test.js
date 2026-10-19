@@ -213,7 +213,7 @@ test('every lesson stage and every results screen renders, with Practice My Miss
     clean(sum, `${lesson.id} try results`);
     assert.match(sum, /18 out of 20 right on the first try <span class="pct">\(90%\)/, lesson.id);
     assert.match(sum, /Answered: 20 of 20/);
-    assert.match(sum, /data-act="misses">Practice My Misses \(2\)/);
+    assert.match(sum, /data-act="misses">Practice My Misses <span aria-hidden="true">\(2\)<\/span><span class="sr-only">: 2 questions/);
     assert.match(sum, /Back to Lessons/);
     assert.match(sum, /<span>Home<\/span>/);
     assert.match(sum, /What next\?/);
@@ -225,7 +225,7 @@ test('every lesson stage and every results screen renders, with Practice My Miss
     assert.match(round, /Check Answer/);
     const done = view('try', { i: 20, items, steps: {}, misses: { ids, i: 1, items: { [ids[0]]: { first: 'correct' }, [ids[1]]: { first: 'notyet' } }, done: true } });
     clean(done, `${lesson.id} misses summary`);
-    assert.match(done, /Practice these again \(1\)/);
+    assert.match(done, /Practice these again <span aria-hidden="true">\(1\)/);
     // Test results: a passing score names the next lesson; the last lesson points to the Study Guide.
     const testItems = Object.fromEntries(lesson.test.items.map((it) => [it.id, { status: 'correct', resp: Object.fromEntries(Object.entries(solution(it)).map(([k, v]) => [k, String(v)])) }]));
     const res = view('test', { i: 0, items: testItems, steps: {}, submitted: true });
@@ -233,6 +233,20 @@ test('every lesson stage and every results screen renders, with Practice My Miss
     assert.match(res, /8 out of 8 right <span class="pct">\(100%\)/);
     const k = INDEX.lessons.findIndex((l) => l.id === lesson.id);
     if (k < INDEX.lessons.length - 1) assert.ok(res.includes(`Next: Lesson ${INDEX.lessons[k + 1].id}`), lesson.id);
-    else assert.match(res, /Study Guide/);
+    else assert.ok(res.includes('href="#math?act=guide"') && res.includes('href="#tests?test=math"'), 'last lesson: Study Guide and Math Practice Test');
   }
+});
+
+test('the Math Vocabulary test never repeats a practice question, and a new attempt can pick different questions', () => {
+  const practice = new Set(Object.values(WORD_MODES).flatMap((m) => MW[m].map((it) => it.prompt)));
+  const sets = new Set();
+  for (let seed = 1; seed <= 8; seed++) {
+    const t = mathWordsTest(MW, rng(seed));
+    for (const it of t.items) assert.ok(!practice.has(it.prompt), it.prompt);
+    sets.add(t.items.map((i) => i.prompt).sort().join('|'));
+  }
+  assert.ok(sets.size > 1, 'different attempts can have different questions');
+  const b = JSON.parse(JSON.stringify(MW));
+  b.test[0].prompt = MW.choice[0].prompt;
+  assert.ok(validateMathWords(b).some((p) => /same question is in practice/.test(p)));
 });

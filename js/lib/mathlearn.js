@@ -22,7 +22,7 @@ export const PROPERTIES = [
   {
     // The class organizer lists this fifth property; the week file has no teacher wording for it, so `def` is the
     // Product Owner's definition and is labelled "Definition", never "Teacher's words".
-    key: 'associative', name: 'Associative Property', kid: 'Changing the grouping of three or more factors does not change the product.',
+    key: 'associative', name: 'Associative Property', kid: 'You can move the ( ) to multiply a different pair first. The answer stays the same.',
     def: 'Changing the grouping of three or more factors does not change the product.',
     eq: '(2 × 3) × 4 = 2 × (3 × 4)',
     models: [
@@ -138,7 +138,7 @@ export const UNIT5 = {
     ['Which property does 5 × 1 = 5 show?', 'Identity Property'],
     ['Which property does (3 × 2) × 5 = 3 × (2 × 5) show?', 'Associative Property'],
     ['Finish it: 7 × 4 = 5 × 4 + 2 × 4 = 20 + 8 = ?', '28'],
-    ['Double the 2s fact to find 4 × 8.', '16 + 16 = 32'],
+    ['Find 4 × 8. Hint: 2 × 8 = 16. Double it.', '16 + 16 = 32'],
     ['Find 9 × 7 with a 5s fact.', '35 + 28 = 63'],
     ['A tray has 6 rows of 8 cookies. How many cookies?', '6 × 8 = 48 cookies'],
   ],

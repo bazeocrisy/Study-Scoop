@@ -150,7 +150,7 @@ export function mountLesson(app, ctx, signal) {
     const cards = cardsOf(lesson, stage);
     if (act === 'read') return readAloud(btn);
     // The second click of a double click lands on the redrawn button: it must not skip a question or a step.
-    if (e.detail > 1 && ['next', 'back', 'step-next', 'step-back', 'submit', 'goto'].includes(act)) return;
+    if (e.detail > 1 && ['next', 'back', 'step-next', 'step-back', 'submit', 'goto', 'misses', 'misses-again', 'misses-exit', 'restart'].includes(act)) return;
     if (act === 'hint' && form) {
       const item = items.get(form.dataset.item);
       const st = itemState(item.id);

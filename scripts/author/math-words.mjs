@@ -165,12 +165,53 @@ KEYS.forEach((k, n) => SENT[k].forEach((s, j) => {
   });
 }));
 
+// ---------------------------------------------------------------- the practice test's own questions (never in practice)
+// Two questions per property in each mode; each attempt picks one of the two at random, so no test question is one
+// the child has already seen with its hints and Show me how.
+const test = [];
+const TEST_EQ = {
+  identity: ['4 × 1 = 4', '1 × 6 = 6', '1 × 11 = 11', '9 × 1 = 9', '1 × 2 = 2', '5 × 1 = 5'],
+  zero: ['0 × 7 = 0', '3 × 0 = 0', '0 × 12 = 0', '6 × 0 = 0', '0 × 2 = 0', '11 × 0 = 0'],
+  commutative: ['3 × 8 = 8 × 3', '7 × 2 = 2 × 7', '6 × 9 = 9 × 6', '4 × 5 = 5 × 4', '8 × 7 = 7 × 8', '2 × 3 = 3 × 2'],
+  associative: ['(3 × 3) × 2 = 3 × (3 × 2)', '2 × (4 × 3) = (2 × 4) × 3', '(5 × 2) × 2 = 5 × (2 × 2)', '(2 × 2) × 6 = 2 × (2 × 6)', '3 × (2 × 5) = (3 × 2) × 5', '(4 × 2) × 5 = 4 × (2 × 5)'],
+  distributive: ['8 × 4 = (5 × 4) + (3 × 4)', '7 × 7 = (5 × 7) + (2 × 7)', '6 × 6 = (3 × 6) + (3 × 6)', '9 × 3 = (5 × 3) + (4 × 3)', '4 × 8 = (4 × 4) + (4 × 4)', '3 × 9 = (2 × 9) + (1 × 9)'],
+};
+KEYS.forEach((k, n) => {
+  const others = KEYS.filter((x) => x !== k);
+  // Multiple choice: which property does this equation show?
+  TEST_EQ[k].slice(0, 2).forEach((eq, j) => test.push({
+    id: `xc-${k}-${j + 1}`, type: 'choice', kind: 'eq', prop: k, eq, mode: 'choice',
+    prompt: `Which property does ${eq} show?`,
+    options: four({ text: NAME(k), correct: true }, rot(others, n + j).map((o) => ({ text: NAME(o), why: `${NAME(o)}: ${DEF(o)}` })), n + j),
+    hints: [HINT_EQ], show: [BECAUSE[k](eq)], explain: `${BECAUSE[k](eq)} That is the ${NAME(k)}.`,
+  }));
+  // True or false: one true and one false statement (the false one names a property that is often confused with it).
+  const confuse = { identity: 'zero', zero: 'identity', commutative: 'associative', associative: 'commutative', distributive: 'commutative' }[k];
+  [[TEST_EQ[k][2], k], [TEST_EQ[k][3], confuse]].forEach(([eq, said], j) => {
+    const truth = said === k;
+    test.push({
+      id: `xt-${k}-${j + 1}`, type: 'choice', kind: 'tf-eq', prop: k, said, eq, truth, mode: 'truefalse',
+      prompt: `True or false? ${eq} shows the ${NAME(said)}.`,
+      options: [truth ? { text: 'True', correct: true } : { text: 'True', why: `It is false. ${BECAUSE[k](eq)} That is the ${NAME(k)}.` },
+        truth ? { text: 'False', why: `It is true. ${BECAUSE[k](eq)}` } : { text: 'False', correct: true }],
+      hints: [HINT_EQ], show: [BECAUSE[k](eq)], explain: `${truth ? 'True' : 'False'}. ${eq} shows the ${NAME(k)}.`,
+    });
+  });
+  // Fill in the blank.
+  TEST_EQ[k].slice(4, 6).forEach((eq, j) => test.push({
+    id: `xf-${k}-${j + 1}`, type: 'word', kind: 'fill-eq', prop: k, eq, mode: 'fill',
+    prompt: `${eq} shows the ___ Property.`, answer: SHORT(k).toLowerCase(), accept: [`${SHORT(k).toLowerCase()} property`],
+    bank: BANK, hints: [HINT_EQ], show: [BECAUSE[k](eq)], retry: 'Look at the equation again.',
+    explain: `${BECAUSE[k](eq)} That is the ${NAME(k)}.`,
+  }));
+});
+
 const bank = {
   topic: 'The five multiplication properties',
-  note: 'Study Scoop Math Vocabulary questions (original). Definitions match Learn the Properties.',
-  choice, truefalse, fill,
+  note: 'Study Scoop Math Vocabulary questions (original). Definitions match Learn the Properties. "test" holds the practice test\'s own questions, which never appear in practice.',
+  choice, truefalse, fill, test,
 };
 const problems = validateMathWords(bank);
 if (problems.length) { console.error(problems.join('\n')); process.exit(1); }
 fs.writeFileSync(path.join(ROOT, 'data/practice/math-words.json'), `${JSON.stringify(bank, null, 2)}\n`);
-console.log(`choice ${choice.length}, truefalse ${truefalse.length} (${truefalse.filter((t) => t.truth).length} true), fill ${fill.length}`);
+console.log(`choice ${choice.length}, truefalse ${truefalse.length} (${truefalse.filter((t) => t.truth).length} true), fill ${fill.length}, test pool ${test.length}`);

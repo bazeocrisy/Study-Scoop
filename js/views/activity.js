@@ -191,6 +191,7 @@ function testResults(ctx, run) {
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Take the test again</button>
         <button type="button" class="btn" data-act="print">Print my results</button>
+        ${s.missed.length && run.subject !== 'math' ? html`<a class="btn" href="${homeAct ? ctx.actLink(homeSection, 'wmisses') : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
         <a class="btn" href="${practiceHref}">Practice ${SUBJECT[run.subject]}</a>
         <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
       </span>
@@ -359,7 +360,7 @@ function wordCards(ctx, run) {
 
 // ---------------------------------------------------------------- menus
 
-/** The Test Center: the three Study Scoop practice tests for the chosen week. */
+/** The Test Center: the four Study Scoop practice tests for the chosen week. */
 export function testCenter(ctx, catalog) {
   return html`
     <section aria-labelledby="h-tests-list">

@@ -769,9 +769,9 @@ h1[tabindex="-1"]:focus { outline: none; } h1[tabindex="-1"]:focus-visible { out
 .guide-table { border-collapse: collapse; width: 100%; }
 .guide-table th, .guide-table td { border-top: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
 .guide-table thead th { border-top: 0; font-size: .95rem; color: var(--muted); }
-.guide-table a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
-.answers summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
-@media print { .no-print { display: none !important; } .guide-table a { min-height: 0; } }
+.answers summary { cursor: pointer; font-weight: 700; min-height: 44px; padding: 10px 0; }
+@media print { .no-print { display: none !important; } }
+.guide-prop h4 { font-family: var(--display); font-size: 1.25rem; margin: 0; }
 .guide-lessons { margin: 4px 0 0; padding-left: 1.2em; }
 .guide-lessons a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
 .guide-lessons .muted { color: var(--muted); }

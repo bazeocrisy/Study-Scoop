@@ -252,7 +252,7 @@ function answerArea(item, resp, st, test, done) {
   if (item.type === 'word' || item.type === 'spell') {
     // Typed words: no spell-check, autocorrect or suggestions, so the browser never gives the spelling away.
     const marked = (st.status === 'notyet' || st.status === 'empty') && st.wrong?.includes('text');
-    const label = item.type === 'spell' ? 'Type the word you hear' : 'Type the missing word';
+    const label = item.type === 'spell' ? 'Type the word you hear' : item.blank === false ? 'Type the new word' : 'Type the missing word';
     return html`
       ${item.type === 'spell' ? html`<div class="dictate">
         ${soundButton('dictate', 'Hear the word and sentence', true)}
@@ -361,6 +361,21 @@ function nextLesson(ctx, lesson) {
   return k >= 0 && k < list.length - 1 ? list[k + 1] : null;
 }
 
+/** "Practice My Misses (2)": the number is shown, and read out as "2 questions" (not "left paren 2"). */
+const countLabel = (label, n) => html`${label} <span aria-hidden="true">(${n})</span><span class="sr-only">: ${n} question${n === 1 ? '' : 's'}</span>`;
+
+/** The main "what next" for a finished lesson test: retake when not passed; the next lesson when passed;
+ *  after the last lesson, the Study Guide and the Math Practice Test. */
+function testNext(ctx, lesson, passed) {
+  const next = nextLesson(ctx, lesson);
+  if (!passed) return { text: 'Then take the test again.', main: html`<button type="button" class="btn btn-primary" data-act="restart">Take the test again</button>`, retakeSecondary: false };
+  if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
+  return {
+    text: 'You finished the last lesson! Review with the Study Guide, then try the Math Practice Test.',
+    main: html`<a class="btn" href="${ctx.testLink('math')}">Math Practice Test</a><a class="btn btn-primary" href="${ctx.actLink('math', 'guide')}">Study Guide ›</a>`, retakeSecondary: true,
+  };
+}
+
 /** One missed question in a results list: the question, the right answer and how to get it. */
 const reviewItem = (it, you = null) => html`<li>
   <span>${blanks(it.prompt)}</span>
@@ -385,7 +400,7 @@ function trySummary(ctx, lesson, state) {
     </div>
     <div class="stage-nav end-nav">
       <span class="btn-row">
-        ${missed.length ? html`<button type="button" class="btn" data-act="misses">Practice My Misses (${missed.length})</button>` : ''}
+        ${missed.length ? html`<button type="button" class="btn" data-act="misses">${countLabel('Practice My Misses', missed.length)}</button>` : ''}
         <button type="button" class="btn" data-act="restart">Try again</button>
         ${lessonExits(ctx)}
       </span>
@@ -403,26 +418,23 @@ function testResults(ctx, lesson, state) {
     return vals.length ? vals.join(', ') : 'No answer';
   };
   const answered = items.length - unanswered(items, state).length;
-  const next = nextLesson(ctx, lesson);
+  const what = testNext(ctx, lesson, s.passed);
   return html`
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Test Your Knowledge: your score</h2></div>
     <div class="card results">
       ${scoreLine(s.right, s.total, answered, false)}
       <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${lesson.test.pass} or more right means you passed. Look at the answers below, then try again.`}</p>
-      <p class="next-step"><strong>What next?</strong> ${s.missed.length ? 'Press Practice My Misses to learn from the questions you missed. ' : ''}${s.passed
-        ? (next ? `When you are ready, go on to Lesson ${next.id}: ${next.title}.` : 'You finished the last lesson. Try the Study Guide or the Math Practice Test.')
-        : 'Then take the test again.'}</p>
+      <p class="next-step"><strong>What next?</strong> ${s.missed.length ? 'Press Practice My Misses to learn from the questions you missed. ' : ''}${what.text}</p>
       ${s.missed.length ? html`<h3>Questions to look at again</h3>
         <ul class="review">${s.missed.map((it) => reviewItem(it, shown(it)))}</ul>` : html`<p>You got every question right!</p>`}
     </div>
     <div class="stage-nav end-nav">
       <span class="btn-row">
-        ${s.missed.length ? html`<button type="button" class="btn" data-act="misses">Practice My Misses (${s.missed.length})</button>` : ''}
-        <button type="button" class="btn" data-act="restart">Take the test again</button>
+        ${s.missed.length ? html`<button type="button" class="btn" data-act="misses">${countLabel('Practice My Misses', s.missed.length)}</button>` : ''}
+        ${what.retakeSecondary ? html`<button type="button" class="btn" data-act="restart">Take the test again</button>` : ''}
         ${lessonExits(ctx)}
       </span>
-      ${s.passed && next ? html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`
-        : html`<a class="btn btn-primary" href="${ctx.link('math')}">Back to Math</a>`}
+      <span class="btn-row">${what.main}</span>
     </div>`;
 }
 
@@ -457,22 +469,24 @@ function missesSummary(ctx, lesson, stage, state, items) {
   const first = items.filter((it) => m.items[it.id]?.first === 'correct').length;
   const still = items.filter((it) => m.items[it.id]?.first !== 'correct');
   const answered = items.filter((it) => m.items[it.id]?.first).length;
+  // After a test, what comes next depends on the test score (a child who passed goes on, not back).
+  const what = stage === 'test' ? testNext(ctx, lesson, score(lesson.test.items, state.items || {}, lesson.test.pass).passed) : null;
   return html`
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Practice My Misses: how you did</h2></div>
     <div class="card results">
       ${scoreLine(first, items.length, answered)}
       <p>${still.length ? 'Good practice! Look at these once more.' : 'You got every missed question right this time. Great work!'}</p>
-      <p class="next-step"><strong>What next?</strong> ${still.length ? 'Practice them again, or go back to your results.' : stage === 'try' ? 'Take Test Your Knowledge.' : 'Take the test again.'}</p>
+      <p class="next-step"><strong>What next?</strong> ${still.length ? 'Practice them again, or go back to your results.' : stage === 'try' ? 'Take Test Your Knowledge.' : what.text}</p>
       ${still.length ? html`<h3>Still to practice</h3><ul class="review">${still.map((it) => reviewItem(it))}</ul>` : ''}
     </div>
     <div class="stage-nav end-nav">
       <span class="btn-row">
-        ${still.length ? html`<button type="button" class="btn" data-act="misses-again">Practice these again (${still.length})</button>` : ''}
+        ${still.length ? html`<button type="button" class="btn" data-act="misses-again">${countLabel('Practice these again', still.length)}</button>` : ''}
         <button type="button" class="btn" data-act="misses-exit">‹ My results</button>
         ${lessonExits(ctx)}
       </span>
       ${stage === 'try' ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>`
-        : html`<button type="button" class="btn btn-primary" data-act="restart">Take the test again</button>`}
+        : html`<span class="btn-row">${what.main}</span>`}
     </div>`;
 }
 

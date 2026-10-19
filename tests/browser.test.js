@@ -379,7 +379,7 @@ async function main() {
         ['Identity Property', def('Identity'), 'Any number multiplied by 1 stays the same.', '7 × 1 = 7'],
         ['Zero Property', def('Zero'), 'Any number multiplied by 0 equals 0.', '9 × 0 = 0'],
         ['Commutative Property', def('Commutative'), 'Changing the order of the factors does not change the product.', '4 × 2 = 2 × 4 = 8'],
-        ['Associative Property', 'Changing the grouping of three or more factors does not change the product.', '', '(2 × 3) × 4 = 2 × (3 × 4)'],
+        ['Associative Property', 'Changing the grouping of three or more factors does not change the product.', 'You can move the ( ) to multiply a different pair first. The answer stays the same.', '(2 × 3) × 4 = 2 × (3 × 4)'],
         ['Distributive Property', def('Distributive'), 'You can break apart a factor, multiply the smaller parts, and add their products.', '6 × 3 = (5 × 3) + (1 × 3)']], 'words and equations');
       eq([seen[0][4], seen[0][5]], [7, 7], 'identity: 7 groups of 1');
       eq([seen[1][4], seen[1][5]], [9, 0], 'zero: 9 empty groups');
@@ -651,7 +651,7 @@ async function main() {
         eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), `${L.test.items.length} out of ${L.test.items.length} right (100%)`, 'test score');
         const k = LESSON_INDEX.findIndex((l) => l.id === meta.id);
         const primary = await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");');
-        eq(primary, k < LESSON_INDEX.length - 1 ? lessonHash(LESSON_INDEX[k + 1].id, 'learn') : '#math', 'what next');
+        eq(primary, k < LESSON_INDEX.length - 1 ? lessonHash(LESSON_INDEX[k + 1].id, 'learn') : '#math?act=guide', 'what next');
         await go('.stage-nav a.btn[href="#math?act=lessons"]');
         eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Math Lessons', 'Back to Lessons');
       });
@@ -713,7 +713,7 @@ async function main() {
       eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Math Vocabulary', 'Done goes back to the menu');
     });
 
-    const allWordItems = [...MW.choice, ...MW.truefalse, ...MW.fill];
+    const allWordItems = [...MW.choice, ...MW.truefalse, ...MW.fill, ...MW.test];
     const wordAnswer = (item) => (item.type === 'word' ? { text: item.answer } : { choice: item.options.findIndex((o) => o.correct) });
     /** Answers a whole Math Vocabulary activity (the order is shuffled, so each question is looked up by its id). */
     // In-page navigation (b.hash): misses live in memory for the visit, so a reload would rightly clear them.
@@ -794,7 +794,7 @@ async function main() {
     await check('Study Guide: Unit 5 sections, lesson links, and answers that print', async () => {
       await b.load(url('#math?act=guide'));
       eq(await b.js('return [...document.querySelectorAll("#app h2")].map((h) => h.textContent.replace(/\\s+/g, " ").trim());'),
-        ['Unit 5 goals', 'Part 1: Multiplication Properties (class math test: Wednesday, Oct 21)', 'Part 2: Strategies from Lessons 5-2 to 5-7 (for practice)'], 'parts');
+        ['Unit 5 goals', 'Part 1: Multiplication Properties (class math test: Wednesday, Oct 21)', 'Part 2: Strategies from Lessons 5-2 to 5-7 (for practice)', 'Review: words, self-check and am I ready?'], 'parts');
       eq(await b.js('return document.querySelectorAll(".guide-prop").length;'), 5, 'five properties');
       eq(await b.js('return document.querySelectorAll(".guide-table tbody tr").length;'), 6, 'six strategies');
       eq(await b.js('return document.querySelectorAll(".guide-lessons a").length;'), 7, 'seven lesson links');

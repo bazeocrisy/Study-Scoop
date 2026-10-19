@@ -131,6 +131,7 @@ function studyGuide(ctx) {
     <section class="card" aria-labelledby="h-g-strat">
       <h3 id="h-g-strat">4. Multiply by 3, 4, 6, 7, 8 and 9</h3>
       <div class="table-scroll"><table class="guide-table">
+        <caption class="sr-only">How to break apart each factor, with an example</caption>
         <thead><tr><th scope="col">To multiply by</th><th scope="col">Break it into</th><th scope="col">Example</th></tr></thead>
         <tbody>${UNIT5.strategies.map(([n, parts, ex]) => html`<tr><th scope="row">${n}</th><td>${parts}</td><td>${facts(ex)}</td></tr>`)}</tbody>
       </table></div>
@@ -148,6 +149,7 @@ function studyGuide(ctx) {
         <ul class="plain-list">${UNIT5.mixups.map((x) => html`<li>${facts(x)}</li>`)}</ul>
       </section>
     </div>
+    <h2 class="guide-part">Review: words, self-check and am I ready?</h2>
     <div class="two-col">
       <section class="card" aria-labelledby="h-g-words">
         <h3 id="h-g-words">7. Math words</h3>

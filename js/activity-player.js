@@ -23,7 +23,8 @@ function addMiss(weekId, subject, item, fromMark = false) {
   const m = missMap(weekId, subject);
   const old = m.get(missKey(item));
   // Keep the harder form of a spelling word (Hear and Spell over Missing Letters); a real miss outranks a mark.
-  if (old && old.item.type === 'spell' && item.type === 'letters') { old.fromMark = old.fromMark && fromMark; return; }
+  // ("Add the ending" questions give the base word, so they are easier than hearing and spelling the word.)
+  if (old && old.item.type === 'spell' && (item.type === 'letters' || String(item.id).startsWith('bw-'))) { old.fromMark = old.fromMark && fromMark; return; }
   m.set(missKey(item), { item, fromMark: Boolean(old ? old.fromMark && fromMark : fromMark) });
 }
 
@@ -340,7 +341,7 @@ export function mountActivity(app, ctx, signal) {
           if (w) addMiss(ctx.weekId, 'vocab', vocabPractice({ ...it, id: `test-${it.id}` }, w));
         } else if (st.status !== 'correct' && run.subject === 'mathwords' && ctx.mathWords) {
           // The practice form of the question (with its hints and Show me how) goes to Math Vocabulary > Practice My Misses.
-          const orig = Object.values(WORD_MODES).flatMap((m) => ctx.mathWords[m] || []).find((x) => x.prompt === it.prompt);
+          const orig = [...Object.values(WORD_MODES), 'test'].flatMap((m) => ctx.mathWords[m] || []).find((x) => x.prompt === it.prompt);
           if (orig) addMiss(ctx.weekId, 'mathwords', orig);
         }
       }
@@ -380,8 +381,8 @@ export function mountActivity(app, ctx, signal) {
     if (act === 'card-next' || act === 'card-prev') {
       f.i = Math.max(0, Math.min(words.length - 1, f.i + (act === 'card-next' ? 1 : -1)));
       f.flipped = false;
-      announce(`${run.subject === 'math' ? 'Property' : 'Card'} ${f.i + 1} of ${words.length}${cardName()}.`);
-      return rerender(`[data-act="${act}"]:not([disabled]), [data-act="card-prev"]:not([disabled]), [data-act="card-next"]:not([disabled]), #stage-h`);
+      announce(`${run.act === 'wreview' ? 'Word' : run.subject === 'math' ? 'Property' : 'Card'} ${f.i + 1} of ${words.length}${cardName()}.`);
+      return rerender(`[data-act="${act}"]:not([disabled]), .stage-nav a.btn-primary, [data-act="card-prev"]:not([disabled]), [data-act="card-next"]:not([disabled]), #stage-h`);
     }
     if (act === 'shuffle') {
       f.order = shuffle(f.order, rng(seed()));

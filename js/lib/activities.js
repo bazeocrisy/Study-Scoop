@@ -650,6 +650,27 @@ export function validateMathWords(bank) {
       }
     }
   }
+  // The practice test's own pool: two per property in each mode, checked like the practice questions, and never
+  // the same as a practice question.
+  const pool = bank.test;
+  if (!Array.isArray(pool)) err('test (the practice test questions) is missing');
+  else {
+    errors.push(...validateQuiz(pool, 1, 'practice/math-words.json test'));
+    const practicePrompts = new Set(Object.values(WORD_MODES).flatMap((m) => (bank[m] || []).map((it) => normWord(it.prompt))));
+    for (const it of pool) {
+      const where = `test ${it.id}`;
+      if (practicePrompts.has(normWord(it.prompt))) err(`${where}: the same question is in practice`);
+      if (!Object.values(WORD_MODES).includes(it.mode)) err(`${where}: "mode" must be choice, truefalse or fill`);
+      if (it.eq !== undefined && keyOfEq(it.eq) !== it.prop) err(`${where}: "${it.eq}" shows ${propertyOf(it.eq) || 'no single property'}, not the ${pname(it.prop)}`);
+      const correct = it.options?.find((o) => o.correct)?.text;
+      if (it.kind === 'eq' && correct !== pname(it.prop)) err(`${where}: the key must be the ${pname(it.prop)}`);
+      if (it.kind === 'tf-eq' && ((it.said === it.prop) !== it.truth || (correct === 'True') !== Boolean(it.truth))) err(`${where}: the answer key does not match the statement`);
+      if (it.type === 'word' && normWord(it.answer) !== shortName(it.prop).toLowerCase()) err(`${where}: the answer must be ${shortName(it.prop).toLowerCase()}`);
+    }
+    for (const k of PKEYS) for (const mode of Object.values(WORD_MODES)) {
+      if (pool.filter((it) => it.prop === k && it.mode === mode).length < 2) err(`test: needs 2 ${mode} questions about the ${pname(k)}`);
+    }
+  }
   const tf = bank.truefalse || [];
   const trues = tf.filter((it) => it.truth).length;
   if (Math.abs(trues * 2 - tf.length) > 2) err(`truefalse: about half must be true (${trues} of ${tf.length} are)`);
@@ -665,11 +686,15 @@ export function mathWordItems(bank, act, rand = Math.random) {
 /** The Math Vocabulary practice test: 15 questions, 5 of each mode, every property in every mode, no hints. */
 export function mathWordsTest(bank, rand = Math.random) {
   if (!bank) return null;
-  const pickFor = (list, k, n) => list.filter((it) => it.prop === k)[n % list.filter((it) => it.prop === k).length];
+  // One question per property in each mode, picked at random from the test's own pool (never a practice question),
+  // so taking the test again gives a different set.
   const picked = [];
-  PKEYS.forEach((k, n) => {
-    picked.push(pickFor(bank.choice, k, n), pickFor(bank.truefalse, k, n), pickFor(bank.fill, k, n + 1));
-  });
+  for (const k of PKEYS) {
+    for (const mode of Object.values(WORD_MODES)) {
+      const choices = (bank.test || []).filter((it) => it.prop === k && it.mode === mode);
+      if (choices.length) picked.push(choices[Math.floor(rand() * choices.length)]);
+    }
+  }
   const items = shuffle(picked.filter(Boolean), rand).map((it, i) => {
     const { hints, show, ...rest } = it; // tests never show hints or Show me how
     return { ...rest, id: `q${i + 1}`, ...(rest.type === 'choice' && rest.options.length > 2 ? { options: shuffle(rest.options, rand) } : {}) };
