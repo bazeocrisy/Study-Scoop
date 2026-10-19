@@ -86,7 +86,8 @@ function splitOne(rand, teen) {
   const a = teen ? int(11, 19, rand) : int(2, 8, rand) * 10 + int(1, 9, rand);
   const b = int(3, 9, rand);
   const tens = a - (a % 10), ones = a % 10;
-  if (ones + b < 10 || ones === 0) return null; // the last step should cross a ten (the part worth practising)
+  // The last step should cross a ten (the part worth practising), and b must not equal the ones (the steps would go in a circle).
+  if (ones + b < 10 || ones === 0 || b === ones) return null;
   const mid = tens + b, sum = a + b;
   return {
     type: 'fill', kind: 'split1', prompt: `Break ${a} into tens and ones. Add the tens first, then the ones.`,

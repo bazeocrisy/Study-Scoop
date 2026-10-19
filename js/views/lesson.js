@@ -199,7 +199,7 @@ function roundArea(item, resp, st, done) {
   const dirs = [['up', 'Go up'], ['stay', 'Stay the same']];
   return html`<div class="round-work">
     <p class="round-step" id="q-${item.id}"><span class="sn" aria-hidden="true">1</span><span>Tap the digit in the <strong>${PLACE[item.to]} place</strong> to underline it.</span></p>
-    <fieldset class="round-digits${marked('place') ? ' is-marked' : ''}"${marked('place') ? html` aria-invalid="true"` : ''}>
+    <fieldset class="round-digits${marked('place') ? ' is-marked' : ''}" role="radiogroup"${marked('place') ? html` aria-invalid="true"` : ''}>
       <legend class="sr-only">Which digit of ${digits} is in the ${PLACE[item.to]} place?</legend>
       ${[...digits].map((d, k) => html`<input type="radio" class="dg-in" name="place" id="${item.id}-d${k}" value="${k}"${String(resp.place) === String(k) ? ' checked' : ''}${dis}><label class="digit" for="${item.id}-d${k}"><span class="sr-only">Digit ${k + 1} of ${digits.length}: </span>${d}</label>`)}
     </fieldset>

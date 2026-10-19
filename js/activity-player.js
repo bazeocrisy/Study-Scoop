@@ -263,7 +263,8 @@ export function mountActivity(app, ctx, signal) {
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     rerender(r.status === 'correct'
       ? '[data-act="next"]:not([disabled])'
-      : [`form[data-item="${item.id}"] input[name=choice]:checked`, `form[data-item="${item.id}"] input[aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`]);
+      // Focus stays on what the child chose (never on another answer, which would hint at it).
+      : [`form[data-item="${item.id}"] input[type=radio]:checked`, `form[data-item="${item.id}"] input[aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`]);
   }
 
   app.addEventListener('submit', (e) => {

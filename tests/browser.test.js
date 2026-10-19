@@ -1386,9 +1386,11 @@ async function main() {
           // The tapped digit is underlined and the arrow sits on the digit to its right.
           eq(await b.js(`const l = document.querySelector('#act-stage label[for="' + document.querySelector('input[name=place]:checked').id + '"]');
             const next = l.nextElementSibling?.nextElementSibling; return [getComputedStyle(l).textDecorationLine, next ? getComputedStyle(next, '::before').content : 'none'];`),
-            ['underline', q.p.digits.length > Number(wrongPlace) + 1 ? '"↓"' : 'none'], 'underline and arrow');
+            ['underline', q.p.digits.length > Number(wrongPlace) + 1 ? '"↓" / ""' : 'none'], 'underline and arrow (the arrow is drawn, not read aloud)');
           await checkIt();
           expect((await actFb()).includes('underline the digit in the tens place'), `wrong digit: ${await actFb()}`);
+          // Focus stays on the digit the child chose, never on another digit (which would hint at the answer).
+          eq(await b.js('return [document.activeElement?.name, document.activeElement?.value];'), ['place', wrongPlace], 'focus on the chosen digit');
           await press('#act-stage [data-act="help"]');
           eq(await b.js('return document.querySelectorAll("#act-stage .help-steps li").length;'), 1, 'one Help step');
           await skillFill({ ...q.right, dir: q.p.up ? 'stay' : 'up' });
