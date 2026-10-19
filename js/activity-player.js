@@ -4,6 +4,7 @@ import { check, helpSteps, solution } from './lib/lessons.js';
 import { showNewStep } from './lib/help-scroll.js';
 import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
+import { SKILL_SETS } from './lib/skills.js';
 import { html } from './lib/html.js';
 import { activityInner } from './views/activity.js';
 import { unanswered } from './views/lesson.js';
@@ -16,7 +17,7 @@ const missMap = (weekId, subject) => {
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
-export const missCounts = (weekId) => ({ vocab: missMap(weekId, 'vocab').size, spelling: missMap(weekId, 'spelling').size, math: missMap(weekId, 'math').size, mathwords: missMap(weekId, 'mathwords').size });
+export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
 const missKey = (item) => (item.n ? `word-${item.n}` : item.id);
@@ -44,12 +45,20 @@ function newRun(ctx, section, act) {
     return { ...base, ...t, subject: act, group: act, act, mode: 'test', goal: `${t.topic} · ${t.items.length} questions` };
   }
   const info = activityInfo(section, act);
+  // Skill Builders tests are tests (no Help until the end), kept on the skill's own menu.
+  if (section === 'skills' && info.test) {
+    const set = SKILL_SETS[act];
+    return { ...base, subject: section, group: missGroup(section, act), act, mode: 'test', title: set.title, goal: set.coverage,
+      items: set.make(rand), pass: set.pass, coverage: set.coverage,
+      instructions: 'Answer every question, then press Finish the test. There is no Help during the test. You will see the right answers at the end.' };
+  }
   const run = { ...base, subject: section, group: missGroup(section, act), act, mode: 'practice', title: info.label, goal: info.about };
   const cards = cardsFor(ctx, section);
   if (act === 'learn' || act === 'flash' || act === 'wreview') run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} };
   else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
   else if (WORD_MODES[act]) { run.items = mathWordItems(ctx.mathWords, act, rand); run.unavailable = !ctx.mathWords; }
   else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
+  else if (section === 'skills') run.items = SKILL_SETS[act].make(rand);
   else if (section === 'vocab') run.items = shuffleRounds(vocabItems(ctx.week, act, rand), rand);
   else run.items = shuffleRounds(spellingItems(ctx.week, act), rand);
   return run;
@@ -215,8 +224,8 @@ export function mountActivity(app, ctx, signal) {
   const readForm = (form) => {
     const resp = {};
     for (const el of form.querySelectorAll('input.box')) resp[el.name] = el.value;
-    const chosen = form.querySelector('input[name="choice"]:checked');
-    if (chosen) resp.choice = chosen.value;
+    // Radio buttons: the chosen answer, and for rounding the underlined digit and go up or stay.
+    for (const r of form.querySelectorAll('input[type="radio"]:checked')) resp[r.name] = r.value;
     return resp;
   };
   const saveForm = (form) => { if (form?.dataset.item) itemState(form.dataset.item).resp = readForm(form); };
@@ -341,6 +350,9 @@ export function mountActivity(app, ctx, signal) {
         } else if (st.status !== 'correct' && run.subject === 'vocab') {
           const w = ctx.week.vocab.words.find((x) => x.word === it.word);
           if (w) addMiss(ctx.weekId, 'vocab', vocabPractice({ ...it, id: `test-${it.id}` }, w));
+        } else if (st.status !== 'correct' && run.subject === 'skills') {
+          // A missed Skill Builders test question goes to the skill's Practice My Misses in its practice form (with Help).
+          addMiss(ctx.weekId, run.group, it.practice || it);
         } else if (st.status !== 'correct' && run.subject === 'mathwords' && ctx.mathWords) {
           // The practice form of the question (with its hints and Show me how) goes to Math Vocabulary > Practice My Misses.
           const orig = [...Object.values(WORD_MODES), 'test'].flatMap((m) => ctx.mathWords[m] || []).find((x) => x.prompt === it.prompt);

@@ -4,7 +4,7 @@ export const SECTIONS = [
   { id: 'spelling', label: 'Spelling' },
   { id: 'vocab', label: 'Vocabulary' },
   { id: 'math', label: 'Math' },
-  { id: 'quickmath', label: 'Quick Math' },
+  { id: 'skills', label: 'Skill Builders' },
   { id: 'homework', label: 'Homework' },
   { id: 'newsletter', label: 'Newsletter' },
   { id: 'tests', label: 'Tests' },

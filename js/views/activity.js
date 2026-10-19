@@ -25,7 +25,7 @@ export function activityView(ctx) {
 }
 
 function activityBar(ctx, run) {
-  if (run.mode === 'test') {
+  if (run.mode === 'test' && run.subject !== 'skills') {
     return subBar(ctx, {
       tone: 'tests', title: run.title, goal: run.goal, eyebrow: `Study Scoop practice test · ${ctx.week.label.replace(/^Week of /, '')}`,
       trail: [{ label: 'Tests', href: ctx.link('tests') }, { label: run.title }], back: [{ href: ctx.link('tests'), label: '‹ Back to Tests' }],
@@ -169,6 +169,8 @@ function testResults(ctx, run) {
   const answered = s.total - unanswered(run.items, { items: run.items_ }).length;
   const [homeSection, homeAct] = TEST_HOME[run.subject] || [run.subject, null];
   const practiceHref = homeAct ? ctx.actLink(homeSection, homeAct) : ctx.link(homeSection);
+  // A Skill Builders test belongs to its skill: practice, misses and "back" all go to that skill's menu.
+  const card = run.subject === 'skills' ? parentOf(run) : null;
   return html`
     ${stageTitle(`${run.title}: your score`)}
     <div class="card results">
@@ -191,11 +193,11 @@ function testResults(ctx, run) {
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Take the test again</button>
         <button type="button" class="btn" data-act="print">Print my results</button>
-        ${s.missed.length && run.subject !== 'math' ? html`<a class="btn" href="${homeAct ? ctx.actLink(homeSection, 'wmisses') : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
-        <a class="btn" href="${practiceHref}">Practice ${SUBJECT[run.subject]}</a>
+        ${s.missed.length && run.subject !== 'math' ? html`<a class="btn" href="${card ? ctx.actLink('skills', missesAct('skills', run.act)) : homeAct ? ctx.actLink(homeSection, 'wmisses') : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
+        ${card ? '' : html`<a class="btn" href="${practiceHref}">Practice ${SUBJECT[run.subject]}</a>`}
         <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
       </span>
-      <a class="btn btn-primary" href="${ctx.link('tests')}">Back to Tests</a>
+      ${card ? html`<a class="btn btn-primary" href="${ctx.actLink('skills', card.id)}">Back to ${card.label}</a>` : html`<a class="btn btn-primary" href="${ctx.link('tests')}">Back to Tests</a>`}
     </div>`;
 }
 

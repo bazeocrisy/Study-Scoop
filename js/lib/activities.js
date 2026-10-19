@@ -41,20 +41,47 @@ export const ACTIVITIES = {
     { id: 'wfill', label: 'Fill in the Blank', about: 'Type the property word that fits.', icon: 'pencil', parent: 'words', group: 'mathwords' },
     { id: 'wmisses', label: 'Practice My Misses', about: 'Practice only the word questions you missed.', icon: 'redo', parent: 'words', group: 'mathwords', misses: true },
   ],
+  // Skill Builders (DECISIONS D22): one card per skill. Each card has its own menu: Learn, practice sets,
+  // Practice My Misses (its own list of misses) and a test. Questions are made fresh each time (js/lib/skills.js).
+  skills: [
+    { id: 'add', label: 'Mental Add', about: 'Make 10, get to the next ten, and break numbers apart to add in your head.', icon: 'puzzle', page: true },
+    { id: 'round', label: 'Rounding', about: 'Round to the nearest 10 and 100: underline, arrow, go up or stay.', icon: 'steps', page: true },
+    { id: 'times', label: 'Times Tables', about: 'Multiplication facts from the 2s to the 10s, fast and right.', icon: 'grid', page: true },
+    { id: 'addlearn', label: 'Learn It', about: 'See how to make 10 and break numbers apart.', icon: 'book', parent: 'add', page: true, start: true },
+    { id: 'addfacts', label: 'Quick Facts', about: 'Make 10, 10 plus a number, and getting to the next ten.', icon: 'cards', parent: 'add', group: 'skilladd' },
+    { id: 'addsplit', label: 'Break It Apart', about: 'Break a number into tens and ones, then add.', icon: 'puzzle', parent: 'add', group: 'skilladd' },
+    { id: 'addmisses', label: 'Practice My Misses', about: 'Practice only the problems you missed.', icon: 'redo', parent: 'add', group: 'skilladd', misses: true },
+    { id: 'addtest', label: 'Mental Add Test', about: '10 questions. No help until the end.', icon: 'list', parent: 'add', group: 'skilladd', test: true },
+    { id: 'roundlearn', label: 'Learn It', about: 'Underline, arrow, go up or stay, and when a 9 goes up.', icon: 'book', parent: 'round', page: true, start: true },
+    { id: 'roundten', label: 'Nearest 10', about: 'Round numbers to the nearest 10.', icon: 'pencil', parent: 'round', group: 'skillround' },
+    { id: 'roundhun', label: 'Nearest 100', about: 'Round numbers to the nearest 100.', icon: 'pencil', parent: 'round', group: 'skillround' },
+    { id: 'roundmisses', label: 'Practice My Misses', about: 'Practice only the numbers you missed.', icon: 'redo', parent: 'round', group: 'skillround', misses: true },
+    { id: 'roundtest', label: 'Rounding Test', about: '10 questions. No help until the end.', icon: 'list', parent: 'round', group: 'skillround', test: true },
+    { id: 'timeslearn', label: 'Learn It', about: 'A way to find every fact from one you know.', icon: 'book', parent: 'times', page: true, start: true },
+    { id: 'timesall', label: 'All Facts', about: 'Facts from the 2s to the 10s.', icon: 'cards', parent: 'times', group: 'skilltimes' },
+    { id: 'timestricky', label: 'Tricky Facts', about: 'Facts with a 6, 7, 8 or 9.', icon: 'mix', parent: 'times', group: 'skilltimes' },
+    { id: 'timesmisses', label: 'Practice My Misses', about: 'Practice only the facts you missed.', icon: 'redo', parent: 'times', group: 'skilltimes', misses: true },
+    { id: 'timestest', label: 'Times Tables Test', about: '12 facts. No help until the end.', icon: 'list', parent: 'times', group: 'skilltimes', test: true },
+  ],
 };
 for (const a of [...ACTIVITIES.spelling, ...ACTIVITIES.vocab]) if (a.id === 'misses') a.misses = true;
 export const activityInfo = (subject, id) => ACTIVITIES[subject]?.find((a) => a.id === id) || null;
 /** Which list of misses an activity adds to: Math Vocabulary keeps its own ('mathwords'); others use the subject. */
 export const missGroup = (subject, id) => activityInfo(subject, id)?.group || subject;
 /** The Practice My Misses activity for a list of misses. */
-export const missesAct = (subject, id) => (missGroup(subject, id) === 'mathwords' ? 'wmisses' : 'misses');
-export const isMissesAct = (id) => id === 'misses' || id === 'wmisses';
+export const missesAct = (subject, id) => {
+  const group = missGroup(subject, id);
+  return (ACTIVITIES[subject] || []).find((a) => a.misses && (a.group || subject) === group)?.id || 'misses';
+};
+export const isMissesAct = (id) => /misses$/.test(String(id || ''));
+/** The Skill Builders card an activity belongs to (Mental Add, Rounding, Times Tables). */
+export const skillCard = (id) => { const a = activityInfo('skills', id); return a?.parent ? activityInfo('skills', a.parent) : a; };
 export const activityLabel = (subject, id) => activityInfo(subject, id)?.label || '';
 /** The choices on a menu: the subject's own menu, or a second menu such as Math > Practice Problems. */
 export const menuItems = (subject, parent = null) => (ACTIVITIES[subject] || []).filter((a) => (a.parent || null) === parent);
 
 export const TEST_KINDS = ['math', 'spelling', 'vocab', 'mathwords'];
-export const SUBJECT = { math: 'Math', spelling: 'Spelling', vocab: 'Vocabulary', mathwords: 'Math Vocabulary' };
+export const SUBJECT = { math: 'Math', spelling: 'Spelling', vocab: 'Vocabulary', mathwords: 'Math Vocabulary', skills: 'Skill Builders' };
 /** The section a test's subject belongs to ("Practice Math Vocabulary" goes to Math > Math Vocabulary). */
 export const TEST_HOME = { math: ['math', null], spelling: ['spelling', null], vocab: ['vocab', null], mathwords: ['math', 'words'] };
 

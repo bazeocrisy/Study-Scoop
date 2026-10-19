@@ -15,13 +15,13 @@ import { weekView } from './views/week.js';
 import { spellingView } from './views/spelling.js';
 import { vocabView } from './views/vocab.js';
 import { mathView } from './views/math.js';
-import { quickmathView } from './views/quickmath.js';
+import { skillsView } from './views/skills.js';
 import { homeworkView } from './views/homework.js';
 import { newsletterView } from './views/newsletter.js';
 
 const VIEWS = {
   week: weekView, spelling: spellingView, vocab: vocabView, math: mathView,
-  quickmath: quickmathView, homework: homeworkView, newsletter: newsletterView, tests: testsView,
+  skills: skillsView, homework: homeworkView, newsletter: newsletterView, tests: testsView,
 };
 
 const app = document.getElementById('app');

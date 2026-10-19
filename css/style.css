@@ -101,7 +101,7 @@ main > section, .two-col > section { min-width: 0; }
 .page-head { display: grid; gap: 4px; padding: 20px 24px; border-radius: var(--r-lg); background: var(--berry-tint); border-left: 8px solid var(--berry); }
 [data-section="spelling"] .page-head, [data-section="newsletter"] .page-head { background: var(--peach-tint); border-left-color: var(--peach); }
 [data-section="vocab"] .page-head, [data-section="homework"] .page-head { background: var(--teal-tint); border-left-color: var(--teal); }
-[data-section="quickmath"] .page-head { background: var(--honey-tint); border-left-color: var(--honey); }
+[data-section="skills"] .page-head { background: var(--honey-tint); border-left-color: var(--honey); }
 .week-of { color: var(--muted); font-weight: 700; }
 .intro { font-size: 1.1rem; }
 .notice { background: var(--paper); border: 2px solid var(--honey); border-radius: var(--r); padding: 12px 16px; }
@@ -799,3 +799,30 @@ h1[tabindex="-1"]:focus { outline: none; } h1[tabindex="-1"]:focus-visible { out
 }
 @media print { .help-more { display: none; } }
 .help-steps li { scroll-margin: 16px 0 32px; }
+
+/* Skill Builders (D22): honey tone; rounding drawn the class way (underline the digit, arrow to the next one) */
+.subject-skills { --tone: var(--honey); --tone-tint: var(--honey-tint); }
+.round-work { display: grid; gap: 10px; }
+.round-step { display: flex; gap: 10px; align-items: flex-start; margin: 0; }
+.round-step .sn { flex: none; display: inline-grid; place-items: center; width: 1.8em; height: 1.8em; border-radius: 999px; background: var(--tone-tint, var(--honey-tint)); font-weight: 800; }
+.round-digits { display: flex; gap: 6px; border: 0; padding: 26px 0 6px; margin: 0; }
+.round-digits.is-marked { outline: 3px dashed var(--notyet); outline-offset: 4px; border-radius: var(--r-sm); }
+.dg-in { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+.round-digits .digit { position: relative; display: inline-grid; place-items: center; min-width: 52px; min-height: 64px; padding: 0 6px;
+  font-family: var(--display); font-size: 2.6rem; font-weight: 800; border: 2px solid var(--line-strong); border-radius: var(--r-sm); background: var(--paper); cursor: pointer; }
+.dg-in:focus-visible + .digit { outline: 3px solid var(--focus, var(--berry)); outline-offset: 3px; }
+.dg-in:checked + .digit { text-decoration: underline; text-decoration-thickness: 5px; text-underline-offset: 8px; border-color: var(--honey); background: var(--honey-tint); }
+/* The arrow sits above the digit to the right of the underlined one ("the arrow points to the next digit"). */
+.dg-in:checked + .digit + .dg-in + .digit::before { content: "↓"; position: absolute; top: -28px; left: 50%; transform: translateX(-50%); font-size: 1.4rem; line-height: 1; color: var(--honey); }
+.dg-in:checked + .digit + .dg-in + .digit { border-style: dashed; border-color: var(--honey); }
+.dg-in:disabled + .digit { cursor: default; }
+.round-dir { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.round-pic { display: flex; align-items: flex-end; gap: 4px; margin: 6px 0 4px; padding-top: 26px; font-family: var(--display); font-size: 2.4rem; font-weight: 800; }
+.round-pic .digit { position: relative; min-width: 1em; text-align: center; }
+.round-pic .is-under { text-decoration: underline; text-decoration-thickness: 5px; text-underline-offset: 8px; color: var(--honey); }
+.round-pic .is-arrow::before { content: "↓"; position: absolute; top: -26px; left: 50%; transform: translateX(-50%); font-size: 1.3rem; color: var(--honey); }
+.round-pic .round-to { margin-left: 14px; font-size: 1.6rem; color: var(--muted); }
+.skill-learn { display: grid; gap: 14px; }
+.skill-ex h2 { font-size: 1.3rem; margin: 0; }
+@media (max-width: 420px) { .round-digits .digit { min-width: 46px; font-size: 2.2rem; } .round-dir { grid-template-columns: 1fr; } }
+@media print { .round-digits .digit { border-color: #000; } }

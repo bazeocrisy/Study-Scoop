@@ -3,6 +3,7 @@
 import { html } from '../lib/html.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
+import { PLACE } from '../lib/rounding.js';
 import { STAGES, STAGE_IDS, answerText, boxes, helpSteps, score, stageLabel } from '../lib/lessons.js';
 import { ICONS, facts, scoreLine, subBar } from './common.js';
 
@@ -186,6 +187,35 @@ export function soundButton(act, label, primary = false) {
   return html`<button type="button" class="btn${primary ? ' btn-primary' : ''} sound" data-act="${act}" data-label="${label}">${ICON_SPEAK}<span class="read-label">${label}</span></button>`;
 }
 
+/**
+ * Rounding the class way: tap the digit in the place you round to (it is underlined and an arrow appears on the
+ * digit to its right), choose go up or stay the same, then write the rounded number. The underline and arrow are
+ * drawn by the stylesheet from the chosen radio button, so they appear as soon as a digit is tapped.
+ */
+function roundArea(item, resp, st, done) {
+  const digits = String(item.n);
+  const marked = (name) => (st.status === 'notyet' || st.status === 'empty') && st.wrong?.includes(name);
+  const dis = done ? ' disabled' : '';
+  const dirs = [['up', 'Go up'], ['stay', 'Stay the same']];
+  return html`<div class="round-work">
+    <p class="round-step" id="q-${item.id}"><span class="sn" aria-hidden="true">1</span><span>Tap the digit in the <strong>${PLACE[item.to]} place</strong> to underline it.</span></p>
+    <fieldset class="round-digits${marked('place') ? ' is-marked' : ''}"${marked('place') ? html` aria-invalid="true"` : ''}>
+      <legend class="sr-only">Which digit of ${digits} is in the ${PLACE[item.to]} place?</legend>
+      ${[...digits].map((d, k) => html`<input type="radio" class="dg-in" name="place" id="${item.id}-d${k}" value="${k}"${String(resp.place) === String(k) ? ' checked' : ''}${dis}><label class="digit" for="${item.id}-d${k}"><span class="sr-only">Digit ${k + 1} of ${digits.length}: </span>${d}</label>`)}
+    </fieldset>
+    <p class="round-step"><span class="sn" aria-hidden="true">2</span><span>The arrow points to the next digit. <strong>5 or more, go up. 4 or less, stay the same.</strong></span></p>
+    <fieldset class="choices round-dir${marked('dir') ? ' is-marked' : ''}"><legend class="sr-only">Go up or stay the same?</legend>
+      ${dirs.map(([v, label]) => {
+        const chosen = resp.dir === v;
+        const cls = chosen && st.status === 'notyet' && marked('dir') ? ' is-wrong' : chosen && done ? ' is-right' : '';
+        return html`<label class="choice${cls}"><input type="radio" name="dir" value="${v}"${chosen ? ' checked' : ''}${dis}> <span>${label}</span></label>`;
+      })}
+    </fieldset>
+    <p class="round-step"><span class="sn" aria-hidden="true">3</span><span>Write the rounded number.</span></p>
+    <div class="eqlines"><span class="eqline"><span>${digits} rounds to</span>${box(item, 'answer', `${digits} rounded to the nearest ${item.to}`, resp, st, done)}</span></div>
+  </div>`;
+}
+
 function feedbackPanel(item, st, opened = 0) {
   const id = `fb-${item.id}`;
   // Once Help is open the "press Help" reminder is out of date.
@@ -241,6 +271,7 @@ function answerArea(item, resp, st, test, done) {
         return html`<label class="choice${cls}"><input type="radio" name="choice" value="${k}"${chosen ? ' checked' : ''}${done ? ' disabled' : ''}> <span>${facts(o.text)}</span></label>`;
       })}</fieldset>`;
   }
+  if (item.type === 'round') return roundArea(item, resp, st, done);
   if (item.type === 'number') {
     const fact = /^(.*=)\s*\?\s*$/.exec(item.prompt);
     return html`<div class="eqlines"><span class="eqline">${fact ? html`<span id="q-${item.id}">${fact[1]}</span>` : ''}${box(item, 'answer', `Answer: ${speak(item.prompt.replace(/\?\s*$/, 'blank'))}`, resp, st, done)}</span></div>`;
