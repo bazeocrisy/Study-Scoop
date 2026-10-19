@@ -596,8 +596,8 @@
         "prompt": "6 × 6 = ?",
         "answer": "6 × 6",
         "hints": [
-          "Use the 5s fact: 5 × 6 = 30.",
-          "Add one more group of 6: 30 + 6."
+          "Use the 5s fact: 5 × 6.",
+          "Then add one more group of 6."
         ],
         "mistakes": [
           {
@@ -739,8 +739,8 @@
         "prompt": "6 × 5 = ?",
         "answer": "6 × 5",
         "hints": [
-          "Use the 5s fact: 5 × 5 = 25.",
-          "Add one more group of 5: 25 + 5."
+          "Use the 5s fact: 5 × 5.",
+          "Then add one more group of 5."
         ],
         "mistakes": [
           {
@@ -944,18 +944,18 @@
         "type": "fill",
         "prompt": "The 6 comes second. Find each part, then add.",
         "lines": [
-          "8 × 6 = 8 × 5 + 8 × 1",
+          "2 × 6 = 2 × 5 + 2 × 1",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 40,
-          "q": 8,
-          "t": 48
+          "p": 10,
+          "q": 2,
+          "t": 12
         },
         "model": {
           "type": "array",
-          "rows": 8,
+          "rows": 2,
           "cols": 6,
           "cut": {
             "by": "cols",
@@ -965,71 +965,71 @@
         },
         "accept": [
           {
-            "p": 8,
-            "q": 40,
-            "t": 48
+            "p": 2,
+            "q": 10,
+            "t": 12
           }
         ],
         "mistakes": [
           {
             "when": {
-              "t": 40
+              "t": 10
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 14
+              "t": 8
             },
-            "say": "8 × 6 means 8 groups of 6, not 8 + 6. Add the two products."
+            "say": "2 × 6 means 2 groups of 6, not 2 + 6. Add the two products."
           },
           {
             "when": {
               "q": 1
             },
-            "say": "The second part is 8 × 1, not 1. Find 8 × 1."
+            "say": "The second part is 2 × 1, not 1. Find 2 × 1."
           }
         ],
         "hints": [
-          "Left part: 8 rows of 5.",
-          "Find 8 × 5 (count by 5s) and 8 × 1 (times 1 keeps the number). Then add them."
+          "Left part: 2 rows of 5. Right part: 2 rows of 1.",
+          "Find 2 × 5 (count by 5s) and 2 × 1 (times 1 keeps the number). Then add them."
         ],
         "show": [
-          "8 × 5 = 40.",
-          "8 × 1 = 8.",
-          "40 + 8 = 48. So 8 × 6 = 48."
+          "2 × 5 = 10.",
+          "2 × 1 = 2.",
+          "10 + 2 = 12. So 2 × 6 = 12."
         ],
-        "yes": "Yes! 48."
+        "yes": "Yes! 12."
       },
       {
         "id": "t9",
         "type": "number",
-        "prompt": "6 × 8 = ?",
-        "answer": "6 × 8",
+        "prompt": "6 × 7 = ?",
+        "answer": "6 × 7",
         "hints": [
-          "Use the 5s fact: 5 × 8 = 40.",
-          "Add one more group of 8: 40 + 8."
+          "Use the 5s fact: 5 × 7.",
+          "Then add one more group of 7."
         ],
         "mistakes": [
           {
             "when": {
-              "answer": 14
+              "answer": 13
             },
-            "say": "6 + 8 is 14, but this is times. Use the 5s fact, then add one more group."
+            "say": "6 + 7 is 13, but this is times. Use the 5s fact, then add one more group."
           },
           {
             "when": {
-              "answer": 40
+              "answer": 35
             },
-            "say": "40 is the 5s fact. Add one more group of 8."
+            "say": "35 is the 5s fact. Add one more group of 7."
           }
         ],
         "show": [
-          "6 = 5 + 1, so 6 × 8 = 5 × 8 + 1 × 8.",
-          "40 + 8 = 48.",
-          "So 6 × 8 = 48."
+          "6 = 5 + 1, so 6 × 7 = 5 × 7 + 1 × 7.",
+          "35 + 7 = 42.",
+          "So 6 × 7 = 42."
         ],
-        "yes": "Yes! 48."
+        "yes": "Yes! 42."
       },
       {
         "id": "t10",
@@ -1082,36 +1082,36 @@
       {
         "id": "t12",
         "type": "number",
-        "prompt": "A muffin pan has 6 rows. Each row holds 4 muffins. How many muffins fit in the pan?",
-        "answer": "6 × 4",
+        "prompt": "A muffin pan has 6 rows. Each row holds 3 muffins. How many muffins fit in the pan?",
+        "answer": "6 × 3",
         "model": {
           "type": "array",
           "rows": 6,
-          "cols": 4
+          "cols": 3
         },
         "hints": [
-          "6 rows of 4: 6 × 4.",
-          "Use the 5s fact: 5 × 4 = 20. Add one more row of 4."
+          "6 rows of 3: 6 × 3.",
+          "Use the 5s fact for 5 rows. Then add one more row of 3."
         ],
         "mistakes": [
           {
             "when": {
-              "answer": 10
+              "answer": 9
             },
-            "say": "6 + 4 is 10. There are 6 rows of 4, so multiply."
+            "say": "6 + 3 is 9. There are 6 rows of 3, so multiply."
           },
           {
             "when": {
-              "answer": 20
+              "answer": 15
             },
-            "say": "20 is only 5 rows. Add the last row of 4."
+            "say": "15 is only 5 rows. Add the last row of 3."
           }
         ],
         "show": [
-          "6 × 4 = 5 × 4 + 1 × 4.",
-          "20 + 4 = 24 muffins."
+          "6 × 3 = 5 × 3 + 1 × 3.",
+          "15 + 3 = 18 muffins."
         ],
-        "yes": "Yes! 24 muffins."
+        "yes": "Yes! 18 muffins."
       },
       {
         "id": "t13",
@@ -1246,8 +1246,8 @@
         ],
         "quotesMistake": true,
         "hints": [
-          "Both parts must be whole facts.",
-          "Is \"1\" a whole fact like 1 × 8?"
+          "Both parts must be whole facts that keep the same factor.",
+          "Check each part, one at a time."
         ],
         "show": [
           "6 × 8 = 5 × 8 + 1 × 8.",
@@ -1416,19 +1416,19 @@
         "type": "fill",
         "prompt": "Find each part. Then add.",
         "lines": [
-          "6 × 8 = 5 × 8 + 1 × 8",
+          "6 × 10 = 5 × 10 + 1 × 10",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 40,
-          "q": 8,
-          "t": 48
+          "p": 50,
+          "q": 10,
+          "t": 60
         },
         "model": {
           "type": "array",
           "rows": 6,
-          "cols": 8,
+          "cols": 10,
           "cut": {
             "by": "rows",
             "at": 5
@@ -1437,15 +1437,15 @@
         },
         "accept": [
           {
-            "p": 8,
-            "q": 40,
-            "t": 48
+            "p": 10,
+            "q": 50,
+            "t": 60
           }
         ],
         "show": [
-          "5 × 8 = 40.",
-          "1 × 8 = 8.",
-          "40 + 8 = 48. So 6 × 8 = 48."
+          "5 × 10 = 50.",
+          "1 × 10 = 10.",
+          "50 + 10 = 60. So 6 × 10 = 60."
         ]
       },
       {
@@ -1493,31 +1493,31 @@
       {
         "id": "x5",
         "type": "number",
-        "prompt": "There are 6 boxes. Each box has 9 pencils. How many pencils are there?",
-        "answer": "6 × 9",
+        "prompt": "There are 6 boxes. Each box has 2 pencils. How many pencils are there?",
+        "answer": "6 × 2",
         "show": [
-          "6 boxes of 9 is 6 × 9.",
-          "5 × 9 = 45. Add one more box: 45 + 9 = 54."
+          "6 boxes of 2 is 6 × 2.",
+          "5 × 2 = 10. Add one more box: 10 + 2 = 12."
         ]
       },
       {
         "id": "x6",
         "type": "decompose",
-        "prompt": "Decompose 7 × 6. Any way that works is fine.",
+        "prompt": "Decompose 6 × 6. Any way that works is fine.",
         "fact": [
-          7,
+          6,
           6
         ],
         "answer": {
-          "p": 7,
-          "q": 5,
-          "r": 7,
-          "s": 1,
-          "t": 42
+          "p": 5,
+          "q": 6,
+          "r": 1,
+          "s": 6,
+          "t": 36
         },
         "show": [
-          "Break the 6 into 5 + 1: 7 × 5 + 7 × 1.",
-          "35 + 7 = 42."
+          "Break one 6 into 5 + 1: 5 × 6 + 1 × 6.",
+          "30 + 6 = 36."
         ]
       },
       {

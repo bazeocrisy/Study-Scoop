@@ -7,7 +7,7 @@ function six(n, first = true) {
   const one = first ? F(1, n) : F(n, 1);
   const whole = first ? F(6, n) : F(n, 6);
   return {
-    hints: [`Use the 5s fact: ${five} = ${5 * n}.`, `Add one more group of ${n}: ${5 * n} + ${n}.`],
+    hints: [`Use the 5s fact: ${five}.`, `Then add one more group of ${n}.`],
     show: [`6 = 5 + 1, so ${whole} = ${five} + ${one}.`, `${5 * n} + ${n} = ${6 * n}.`, `So ${whole} = ${6 * n}.`],
     mistakes: [
       ...(6 + n !== 5 * n ? [{ when: { answer: 6 + n }, say: `6 + ${n} is ${6 + n}, but this is times. Use the 5s fact, then add one more group.` }] : []),
@@ -209,11 +209,11 @@ export default {
       // 6-15: practice
       partsFill('t6', 6, 2, 'rows', 5, { hints: ['Top part: 5 rows of 2. Bottom part: 1 row of 2.'] }),
       partsFill('t7', 6, 6, 'rows', 3, { hints: ['Each part is 3 rows of 6.'] }),
-      partsFill('t8', 8, 6, 'cols', 5, {
+      partsFill('t8', 2, 6, 'cols', 5, {
         prompt: 'The 6 comes second. Find each part, then add.',
-        hints: ['Left part: 8 rows of 5.', '8 × 5 = 40. Add one more group of 8.'],
+        hints: ['Left part: 2 rows of 5. Right part: 2 rows of 1.'],
       }),
-      fact('t9', 6, 8, { ...six(8) }),
+      fact('t9', 6, 7, { ...six(7) }),
       decompose('t10', 6, 3, ['rows', 5], { hints: ['Break 6 into 5 + 1, or into 3 + 3.', 'Write two facts that keep the 3. Then add.'] }),
       {
         id: 't11', type: 'fill', prompt: 'Break apart the 6 in 6 × 4. Use any two numbers that work.',
@@ -223,11 +223,11 @@ export default {
         retry: 'The two numbers must add up to 6. Each one must be at least 1.',
         yes: 'Yes! Your two parts add up to 6.',
       },
-      story('t12', 'A muffin pan has 6 rows. Each row holds 4 muffins. How many muffins fit in the pan?', 6, 4, {
-        model: arr(6, 4),
-        hints: ['6 rows of 4: 6 × 4.', 'Use the 5s fact: 5 × 4 = 20. Add one more row of 4.'],
-        mistakes: [{ when: { answer: 10 }, say: '6 + 4 is 10. There are 6 rows of 4, so multiply.' }, { when: { answer: 20 }, say: '20 is only 5 rows. Add the last row of 4.' }],
-        show: ['6 × 4 = 5 × 4 + 1 × 4.', '20 + 4 = 24 muffins.'], yes: 'Yes! 24 muffins.',
+      story('t12', 'A muffin pan has 6 rows. Each row holds 3 muffins. How many muffins fit in the pan?', 6, 3, {
+        model: arr(6, 3),
+        hints: ['6 rows of 3: 6 × 3.', 'Use the 5s fact for 5 rows. Then add one more row of 3.'],
+        mistakes: [{ when: { answer: 9 }, say: '6 + 3 is 9. There are 6 rows of 3, so multiply.' }, { when: { answer: 15 }, say: '15 is only 5 rows. Add the last row of 3.' }],
+        show: ['6 × 3 = 5 × 3 + 1 × 3.', '15 + 3 = 18 muffins.'], yes: 'Yes! 18 muffins.',
       }),
       choice('t13', 'Which one is equal to 6 × 9?', [
         ['5 × 9 + 1', 'The second part must be a whole fact: 1 × 9, not 1.'],
@@ -258,7 +258,7 @@ export default {
         ['You should add 6 + 8.', '6 × 8 means 6 groups of 8, not 6 + 8.'],
       ], {
         quotesMistake: true,
-        hints: ['Both parts must be whole facts.', 'Is "1" a whole fact like 1 × 8?'],
+        hints: ['Both parts must be whole facts that keep the same factor.', 'Check each part, one at a time.'],
         show: ['6 × 8 = 5 × 8 + 1 × 8.', '40 + 8 = 48.'], yes: 'Yes! 6 × 8 = 5 × 8 + 1 × 8 = 40 + 8 = 48.',
       }),
       story('t17', 'A van holds 6 kids. How many kids fit in 9 vans?', 9, 6, {
@@ -293,7 +293,7 @@ export default {
     pass: 7,
     items: [
       forTest(fact('x1', 6, 4, { show: ['5 × 4 = 20.', 'Add one more group of 4: 20 + 4 = 24.'] })),
-      forTest(partsFill('x2', 6, 8, 'rows', 5)),
+      forTest(partsFill('x2', 6, 10, 'rows', 5)),
       forTest(missing('x3', '6 × [x] = 3 × 9 + 3 × 9', { x: 9 }, { show: ['Both parts have 9, and 3 + 3 = 6.', '6 × 9 = 3 × 9 + 3 × 9.'] })),
       forTest(choice('x4', 'Which one is equal to 6 × 7?', [
         ['3 × 7 + 2 × 7', '3 and 2 make 5, not 6.'],
@@ -301,8 +301,8 @@ export default {
         ['6 + 7', '6 × 7 means 6 groups of 7, not 6 + 7.'],
         ['5 × 7 + 1', 'The second part must be a whole fact: 1 × 7, not 1.'],
       ], { target: '6 × 7', show: ['6 × 7 = 5 × 7 + 1 × 7 = 35 + 7 = 42.'] })),
-      forTest(story('x5', 'There are 6 boxes. Each box has 9 pencils. How many pencils are there?', 6, 9, { show: ['6 boxes of 9 is 6 × 9.', '5 × 9 = 45. Add one more box: 45 + 9 = 54.'] })),
-      forTest(decompose('x6', 7, 6, ['cols', 5], { show: ['Break the 6 into 5 + 1: 7 × 5 + 7 × 1.', '35 + 7 = 42.'] })),
+      forTest(story('x5', 'There are 6 boxes. Each box has 2 pencils. How many pencils are there?', 6, 2, { show: ['6 boxes of 2 is 6 × 2.', '5 × 2 = 10. Add one more box: 10 + 2 = 12.'] })),
+      forTest(decompose('x6', 6, 6, ['rows', 5], { show: ['Break one 6 into 5 + 1: 5 × 6 + 1 × 6.', '30 + 6 = 36.'] })),
       forTest(missing('x7', '[x] = 6 × 3', { x: 18 }, { show: ['3 × 3 = 9. Double it: 9 + 9 = 18.'] })),
       forTest(choice('x8', 'Which two facts can you add to find 6 × 8?', [
         ['3 × 8 and 3', 'The second part must be a whole fact: 3 × 8, not 3.'],

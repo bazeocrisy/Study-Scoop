@@ -125,27 +125,27 @@
         "item": {
           "id": "l1",
           "type": "choice",
-          "prompt": "Which one is equal to 8 × 6?",
+          "prompt": "Which one is equal to 8 × 9?",
           "options": [
             {
-              "text": "4 × 6 + 3 × 6",
+              "text": "4 × 9 + 3 × 9",
               "why": "4 and 3 make 7, not 8."
             },
             {
-              "text": "4 × 6 + 4",
-              "why": "The second part must be a whole fact: 4 × 6, not 4."
+              "text": "4 × 9 + 4",
+              "why": "The second part must be a whole fact: 4 × 9, not 4."
             },
             {
-              "text": "8 + 6",
-              "why": "8 × 6 means 8 groups of 6, not 8 + 6."
+              "text": "8 + 9",
+              "why": "8 × 9 means 8 groups of 9, not 8 + 9."
             },
             {
-              "text": "4 × 6 + 4 × 6",
+              "text": "4 × 9 + 4 × 9",
               "correct": true
             }
           ],
-          "target": "8 × 6",
-          "yes": "Yes! 4 × 6 + 4 × 6 is 24 + 24. That is 48."
+          "target": "8 × 9",
+          "yes": "Yes! 4 × 9 + 4 × 9 is 36 + 36. That is 72."
         }
       }
     ]
@@ -221,7 +221,7 @@
             },
             {
               "text": "Because 4 is the answer.",
-              "why": "The answer is 48. It works because 8 rows is 4 rows and 4 more rows."
+              "why": "The answer is 56. It works because 8 rows is 4 rows and 4 more rows."
             }
           ],
           "yes": "Yes! 4 + 4 = 8, so two 4s facts make the 8s fact."
@@ -270,7 +270,7 @@
         "why": {
           "id": "wB",
           "type": "choice",
-          "prompt": "Both ways make 48. Why?",
+          "prompt": "Both ways make 56. Why?",
           "options": [
             {
               "text": "We moved the cut. It is still 8 rows of 7.",
@@ -439,19 +439,19 @@
         "type": "fill",
         "prompt": "Find each part. Then add.",
         "lines": [
-          "8 × 6 = 5 × 6 + 3 × 6",
+          "8 × 9 = 5 × 9 + 3 × 9",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 30,
-          "q": 18,
-          "t": 48
+          "p": 45,
+          "q": 27,
+          "t": 72
         },
         "model": {
           "type": "array",
           "rows": 8,
-          "cols": 6,
+          "cols": 9,
           "cut": {
             "by": "rows",
             "at": 5
@@ -460,41 +460,41 @@
         },
         "accept": [
           {
-            "p": 18,
-            "q": 30,
-            "t": 48
+            "p": 27,
+            "q": 45,
+            "t": 72
           }
         ],
         "mistakes": [
           {
             "when": {
-              "t": 30
+              "t": 45
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 14
+              "t": 17
             },
-            "say": "8 × 6 means 8 groups of 6, not 8 + 6. Add the two products."
+            "say": "8 × 9 means 8 groups of 9, not 8 + 9. Add the two products."
           },
           {
             "when": {
               "q": 3
             },
-            "say": "The second part is 3 × 6, not 3. Find 3 × 6."
+            "say": "The second part is 3 × 9, not 3. Find 3 × 9."
           }
         ],
         "hints": [
-          "The top part is 5 rows of 6. The bottom part is 3 rows of 6.",
-          "Find 5 × 6 (count by 5s) and 3 × 6 (use a fact you know). Then add them."
+          "The top part is 5 rows of 9. The bottom part is 3 rows of 9.",
+          "Find 5 × 9 (count by 5s) and 3 × 9 (use a fact you know). Then add them."
         ],
         "show": [
-          "5 × 6 = 30.",
-          "3 × 6 = 18.",
-          "30 + 18 = 48. So 8 × 6 = 48."
+          "5 × 9 = 45.",
+          "3 × 9 = 27.",
+          "45 + 27 = 72. So 8 × 9 = 72."
         ],
-        "yes": "Yes! 30 + 18 = 48."
+        "yes": "Yes! 45 + 27 = 72."
       },
       {
         "id": "g3",
@@ -595,8 +595,8 @@
         "prompt": "8 × 4 = ?",
         "answer": "8 × 4",
         "hints": [
-          "Find the 4s fact: 4 × 4 = 16.",
-          "Double it: 16 + 16."
+          "Find the 4s fact: 4 × 4.",
+          "Then double it: add the 4s fact to itself."
         ],
         "mistakes": [
           {
@@ -622,30 +622,30 @@
       {
         "id": "g6",
         "type": "decompose",
-        "prompt": "Your turn! Decompose 8 × 9 any way you like.",
+        "prompt": "Your turn! Decompose 8 × 2 any way you like.",
         "fact": [
           8,
-          9
+          2
         ],
         "answer": {
           "p": 4,
-          "q": 9,
+          "q": 2,
           "r": 4,
-          "s": 9,
-          "t": 72
+          "s": 2,
+          "t": 16
         },
         "model": {
           "type": "array",
           "rows": 8,
-          "cols": 9
+          "cols": 2
         },
         "hints": [
           "Break 8 into 4 + 4, or into 5 + 3.",
-          "Write two facts that keep the 9. Then add."
+          "Write two facts that keep the 2. Then add."
         ],
         "show": [
           "Break 8 into 4 + 4.",
-          "4 × 9 + 4 × 9 = 36 + 36 = 72."
+          "4 × 2 + 4 × 2 = 8 + 8 = 16."
         ]
       }
     ]
@@ -766,34 +766,34 @@
         "type": "fill",
         "prompt": "What number makes it true?",
         "lines": [
-          "8 × [x] = 4 × 6 + 4 × 6"
+          "8 × [x] = 4 × 3 + 4 × 3"
         ],
         "answer": {
-          "x": 6
+          "x": 3
         },
         "hints": [
-          "Both parts have 6.",
-          "4 rows of 6 and 4 more rows of 6 make 8 rows of what?"
+          "Both parts have 3.",
+          "4 rows of 3 and 4 more rows of 3 make 8 rows of what?"
         ],
         "mistakes": [
           {
             "when": {
-              "x": 24
+              "x": 12
             },
             "say": "That is one part. The box needs a factor: 8 × what?"
           },
           {
             "when": {
-              "x": 48
+              "x": 24
             },
             "say": "That box needs a factor, not the product."
           }
         ],
         "show": [
-          "4 + 4 = 8, and both parts have 6.",
-          "8 × 6 = 4 × 6 + 4 × 6."
+          "4 + 4 = 8, and both parts have 3.",
+          "8 × 3 = 4 × 3 + 4 × 3."
         ],
-        "yes": "Yes! 8 × 6 = 4 × 6 + 4 × 6."
+        "yes": "Yes! 8 × 3 = 4 × 3 + 4 × 3."
       },
       {
         "id": "t5",
@@ -992,8 +992,8 @@
         "prompt": "8 × 8 = ?",
         "answer": "8 × 8",
         "hints": [
-          "Find the 4s fact: 4 × 8 = 32.",
-          "Double it: 32 + 32."
+          "Find the 4s fact: 4 × 8.",
+          "Then double it: add the 4s fact to itself."
         ],
         "mistakes": [
           {
@@ -1226,8 +1226,7 @@
         ],
         "quotesMistake": true,
         "hints": [
-          "Add the two numbers that 8 was broken into.",
-          "Do 4 and 3 make 8?"
+          "Add the two numbers that 8 was broken into."
         ],
         "show": [
           "8 = 4 + 4.",
@@ -1238,31 +1237,31 @@
       {
         "id": "t17",
         "type": "number",
-        "prompt": "A movie room has 8 rows. Each row has 6 seats. How many seats are there?",
-        "answer": "8 × 6",
+        "prompt": "A garden has 8 rows. Each row has 5 bean plants. How many bean plants are there?",
+        "answer": "8 × 5",
         "hints": [
-          "8 rows of 6: 8 × 6.",
-          "Break 8 into 5 + 3. Find the 5s fact and the 3s fact, then add."
+          "8 rows of 5: 8 × 5.",
+          "Find the 4s fact with 5, then double it. Or count by 5s."
         ],
         "mistakes": [
           {
             "when": {
-              "answer": 14
+              "answer": 13
             },
-            "say": "8 + 6 is 14. There are 8 equal rows, so multiply."
+            "say": "8 + 5 is 13. There are 8 equal rows, so multiply."
           },
           {
             "when": {
-              "answer": 30
+              "answer": 20
             },
-            "say": "30 is only 5 rows. Add the other 3 rows."
+            "say": "20 is only 4 rows. Double it for 8 rows."
           }
         ],
         "show": [
-          "8 × 6 = 5 × 6 + 3 × 6.",
-          "30 + 18 = 48 seats."
+          "8 × 5 = 4 × 5 + 4 × 5.",
+          "20 + 20 = 40 plants."
         ],
-        "yes": "Yes! 48 seats."
+        "yes": "Yes! 40 bean plants."
       },
       {
         "id": "t18",
@@ -1425,14 +1424,14 @@
         "type": "fill",
         "prompt": "What number makes it true?",
         "lines": [
-          "8 × [x] = 5 × 6 + 3 × 6"
+          "8 × [x] = 5 × 4 + 3 × 4"
         ],
         "answer": {
-          "x": 6
+          "x": 4
         },
         "show": [
-          "Both parts have 6, and 5 + 3 = 8.",
-          "8 × 6 = 5 × 6 + 3 × 6."
+          "Both parts have 4, and 5 + 3 = 8.",
+          "8 × 4 = 5 × 4 + 3 × 4."
         ]
       },
       {

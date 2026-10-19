@@ -250,3 +250,15 @@ test('the Math Vocabulary test never repeats a practice question, and a new atte
   b.test[0].prompt = MW.choice[0].prompt;
   assert.ok(validateMathWords(b).some((p) => /same question is in practice/.test(p)));
 });
+
+test('Watch Me: every "the answer is N" and "both ways make N" in an example names that example\'s own product', async () => {
+  const { evaluate } = await import('../../js/lib/arith.js');
+  for (const lesson of LESSONS) {
+    for (const ex of lesson.watch.examples) {
+      const last = [...ex.steps].reverse().find((s) => s.eq && /=/.test(s.eq));
+      if (!last) continue;
+      const product = evaluate(last.eq.split('=').pop());
+      for (const m of JSON.stringify(ex).matchAll(/(?:answer is|ways make|same) (\d+)\b/g)) assert.equal(Number(m[1]), product, `${lesson.id} ${ex.title}: "${m[0]}"`);
+    }
+  }
+});

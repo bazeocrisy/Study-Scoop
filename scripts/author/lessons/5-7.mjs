@@ -88,21 +88,21 @@ export default {
     examples: [
       {
         title: 'Example A: cookies on a tray',
-        model: arr(7, 9, ['r', 5], 'facts'),
+        model: arr(7, 7, ['r', 5], 'facts'),
         steps: [
-          { say: 'Read: A baker puts 7 rows of cookies on a tray. Each row has 9 cookies. How many cookies are there?', model: arr(7, 9) },
-          { say: 'The equal groups are 7 rows of 9. The equation is 7 × 9 = ?' },
-          { say: 'Break apart the 7 into 5 + 2. Cut under row 5.', model: arr(7, 9, ['r', 5], 'parts') },
-          { say: 'The top part is 5 rows of 9.', eq: '5 × 9 = 45' },
-          { say: 'The bottom part is 2 rows of 9.', eq: '2 × 9 = 18' },
-          { say: 'Add the two parts.', eq: '7 × 9 = 5 × 9 + 2 × 9 = 45 + 18 = 63', pictured: true },
-          { say: 'Check: 7 rows of about 10 is 70. 63 is close, so it makes sense. There are 63 cookies.' },
+          { say: 'Read: A baker puts 7 rows of cookies on a tray. Each row has 7 cookies. How many cookies are there?', model: arr(7, 7) },
+          { say: 'The equal groups are 7 rows of 7. The equation is 7 × 7 = ?' },
+          { say: 'Break apart the 7 rows into 5 + 2. Cut under row 5.', model: arr(7, 7, ['r', 5], 'parts') },
+          { say: 'The top part is 5 rows of 7.', eq: '5 × 7 = 35' },
+          { say: 'The bottom part is 2 rows of 7.', eq: '2 × 7 = 14' },
+          { say: 'Add the two parts.', eq: '7 × 7 = 5 × 7 + 2 × 7 = 35 + 14 = 49', pictured: true },
+          { say: 'Check: 5 rows are already 35 cookies, and 2 more rows add 14. So 49 makes sense. There are 49 cookies.' },
         ],
         why: choice('wA', 'What are the equal groups in this problem?', [
-          ['7 rows of 9 cookies', true],
-          ['7 cookies and 9 cookies', 'There are 7 rows, and each row has 9 cookies. The rows are the equal groups.'],
-          ['63 rows', '63 is the answer. There are 7 rows of 9.'],
-        ], { yes: 'Yes! 7 equal rows with 9 cookies in each row.' }),
+          ['7 rows of 7 cookies', true],
+          ['7 cookies and 7 more cookies', 'There are 7 rows, and each row has 7 cookies. The rows are the equal groups.'],
+          ['49 rows', '49 is the answer. There are 7 rows of 7.'],
+        ], { yes: 'Yes! 7 equal rows with 7 cookies in each row.' }),
       },
       {
         title: 'Example B: packs of juice boxes',
@@ -256,7 +256,7 @@ export default {
         ['5 × 7 + 4', 'The second part must be a whole fact: 4 × 7, not 4.'],
         ['5 × 7 + 4 × 7', true],
         ['9 × 5 + 9 × 3', '5 and 3 make 8, not 7.'],
-      ], { target: '9 × 7', hints: ['The fact is 9 × 7. Break the 9 into 5 + 4.'], show: ['9 × 7 = 5 × 7 + 4 × 7.', '35 + 28 = 63 plants.'], yes: 'Yes! 35 + 28 = 63 plants.' }),
+      ], { target: '9 × 7', hints: ['The fact is 9 × 7. Each part must be a whole fact, and the broken numbers must add up.'], show: ['9 × 7 = 5 × 7 + 4 × 7.', '35 + 28 = 63 plants.'], yes: 'Yes! 35 + 28 = 63 plants.' }),
       // 16-20: apply and explain
       choice('t16', 'Theo\'s problem: 4 boxes, 9 books in each box. Theo wrote 4 + 9 = 13. What went wrong?', [
         ['Theo added. He should multiply: 4 × 9.', true],
@@ -279,7 +279,7 @@ export default {
         ['No. 16 is 7 + 9. There are 63 chairs.', true],
       ], { hints: ['2 rows of 9 is already 18. Can 7 rows be only 16?'], show: ['7 rows of 9 is 7 × 9.', '7 × 9 = 5 × 9 + 2 × 9 = 45 + 18 = 63 chairs.'], yes: 'Yes! 16 is much too small. 7 × 9 = 63.' }),
       story('t20', 'A parking lot has 9 rows with 8 cars in each row. Then 1 more row of 8 cars is added. How many cars are there now?', 10, 8, {
-        hints: ['9 rows and 1 more row make 10 rows.', '10 rows of 8: 10 × 8.'],
+        hints: ['How many rows are there now?', 'Each row has 8 cars. Multiply the rows by 8.'],
         mistakes: [{ when: { answer: 72 }, say: 'That is 9 rows. Do not forget the new row of 8.' }, { when: { answer: 73 }, say: 'The new row has 8 cars, not 1. Add 8 to 72.' }],
         show: ['9 rows + 1 row = 10 rows of 8.', '10 × 8 = 80 cars.'], yes: 'Yes! 80 cars.',
       }),
@@ -296,7 +296,7 @@ export default {
         ['4 × 4', 'Each row has 9 dots, not 4.'],
       ], { model: arr(4, 9), target: '4 × 9', show: ['4 rows with 9 dots in each row is 4 × 9 = 36.'] })),
       forTest(story('x3', 'Each box has 8 crayons. How many crayons are in 6 boxes?', 6, 8, { show: ['6 boxes of 8 is 6 × 8.', '5 × 8 + 1 × 8 = 40 + 8 = 48 crayons.'] })),
-      forTest(partsFill('x4', 9, 4, 'rows', 5, { prompt: 'A garden has 9 rows of 4 plants. Find each part, then add.' })),
+      forTest(partsFill('x4', 9, 3, 'rows', 5, { prompt: 'A garden has 9 rows of 3 plants. Find each part, then add.' })),
       forTest(writeEq('x5', 'There are 3 bags. Each bag has 9 apples. Write the equation and solve.', 3, 9, { show: ['3 bags of 9 apples is 3 × 9.', '2 × 9 + 1 × 9 = 18 + 9 = 27.'] })),
       forTest(decompose('x6', 7, 6, ['rows', 5], { prompt: 'A box holds 7 rows of 6 eggs. Decompose 7 × 6 to find the number of eggs.', show: ['Break 7 into 5 + 2: 5 × 6 + 2 × 6.', '30 + 12 = 42 eggs.'] })),
       forTest(choice('x7', 'Which story can you solve with 4 × 6?', [

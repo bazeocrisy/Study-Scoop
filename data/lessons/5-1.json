@@ -500,7 +500,7 @@
           }
         ],
         "show": [
-          "The right part has 1 column of 5 dots: 5 × 1 = 5.",
+          "The right part is 5 rows of 1: 5 × 1 = 5.",
           "25 + 5 = 30."
         ],
         "yes": "Yes! 25 + 5 = 30."
@@ -1349,7 +1349,7 @@
         "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Cutting a different way gives the same product.",
         "hints": [
           "Find each friend's total.",
-          "Friend 1: 20 + 20. Friend 2: 25 + 15."
+          "Add each friend's two parts. Are the totals the same?"
         ],
         "show": [
           "Friend 1: 4 × 5 + 4 × 5 = 20 + 20 = 40.",
@@ -1360,31 +1360,31 @@
       {
         "id": "t19",
         "type": "number",
-        "prompt": "A bakery has 8 trays. Each tray has 7 rolls. How many rolls are there?",
-        "answer": "8 × 7",
+        "prompt": "A bakery has 9 trays. Each tray has 6 rolls. How many rolls are there?",
+        "answer": "9 × 6",
         "hints": [
-          "8 trays of 7: 8 × 7.",
-          "Decompose the 8 into 5 + 3: 5 × 7 + 3 × 7."
+          "9 trays of 6: 9 × 6.",
+          "Decompose the 9 into 5 + 4. Find each part, then add."
         ],
         "mistakes": [
           {
             "when": {
               "answer": 15
             },
-            "say": "8 + 7 is 15. There are 8 equal trays, so multiply."
+            "say": "9 + 6 is 15. There are 9 equal trays, so multiply."
           },
           {
             "when": {
-              "answer": 35
+              "answer": 30
             },
-            "say": "35 is only 5 trays. Add the other 3 trays."
+            "say": "30 is only 5 trays. Add the other 4 trays."
           }
         ],
         "show": [
-          "8 × 7 = 5 × 7 + 3 × 7.",
-          "35 + 21 = 56 rolls."
+          "9 × 6 = 5 × 6 + 4 × 6.",
+          "30 + 24 = 54 rolls."
         ],
-        "yes": "Yes! 56 rolls."
+        "yes": "Yes! 54 rolls."
       },
       {
         "id": "t20",

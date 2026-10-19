@@ -566,23 +566,67 @@
     "pass": 16,
     "items": [
       {
+        "id": "t7",
+        "type": "number",
+        "prompt": "0 × 7 = ?",
+        "answer": "0 × 7",
+        "hints": [
+          "0 groups of 7. Is there anything at all?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 7
+            },
+            "say": "0 groups of 7 is nothing at all. Times 0 is always 0."
+          }
+        ],
+        "yes": "Yes! Times 0 is always 0.",
+        "show": [
+          "0 × 7 means 0 groups of 7.",
+          "There is nothing to count, so 0 × 7 = 0."
+        ]
+      },
+      {
+        "id": "t8",
+        "type": "number",
+        "prompt": "9 × 1 = ?",
+        "answer": "9 × 1",
+        "hints": [
+          "9 groups of 1."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "9 + 1 is 10, but this is times 1. 9 groups of 1 is 9."
+          }
+        ],
+        "yes": "Yes! Times 1 keeps the number the same.",
+        "show": [
+          "9 × 1 means 9 groups of 1.",
+          "That is 9. Times 1 keeps the number the same."
+        ]
+      },
+      {
         "id": "t9",
         "type": "fill",
         "prompt": "Find each part. Then add.",
         "lines": [
-          "3 × 9 = 2 × 9 + 1 × 9",
+          "3 × 5 = 2 × 5 + 1 × 5",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 18,
-          "q": 9,
-          "t": 27
+          "p": 10,
+          "q": 5,
+          "t": 15
         },
         "model": {
           "type": "array",
           "rows": 3,
-          "cols": 9,
+          "cols": 5,
           "cut": {
             "by": "rows",
             "at": 2
@@ -591,41 +635,41 @@
         },
         "accept": [
           {
-            "p": 9,
-            "q": 18,
-            "t": 27
+            "p": 5,
+            "q": 10,
+            "t": 15
           }
         ],
         "mistakes": [
           {
             "when": {
-              "t": 18
+              "t": 10
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 12
+              "t": 8
             },
-            "say": "3 × 9 means 3 groups of 9, not 3 + 9. Add the two products."
+            "say": "3 × 5 means 3 groups of 5, not 3 + 5. Add the two products."
           },
           {
             "when": {
               "q": 1
             },
-            "say": "The second part is 1 × 9, not 1. Find 1 × 9."
+            "say": "The second part is 1 × 5, not 1. Find 1 × 5."
           }
         ],
         "hints": [
-          "The top part is 2 rows of 9: the 2s fact.",
-          "Find 2 × 9 (it is a double) and 1 × 9 (times 1 keeps the number). Then add them."
+          "The top part is 2 rows of 5: the 2s fact. The bottom part is 1 row of 5.",
+          "Find 2 × 5 (count by 5s) and 1 × 5 (count by 5s). Then add them."
         ],
         "show": [
-          "2 × 9 = 18.",
-          "1 × 9 = 9.",
-          "18 + 9 = 27. So 3 × 9 = 27."
+          "2 × 5 = 10.",
+          "1 × 5 = 5.",
+          "10 + 5 = 15. So 3 × 5 = 15."
         ],
-        "yes": "Yes! 27."
+        "yes": "Yes! 15."
       },
       {
         "id": "t4",
@@ -652,8 +696,8 @@
         ],
         "yes": "Yes! 14 + 7 = 21.",
         "hints": [
-          "3 = 2 + 1. Keep the 7 in both facts.",
-          "Look for 2 × 7 and 1 × 7."
+          "3 = 2 + 1. Both facts must keep the 7.",
+          "Check each choice: do the two numbers add up to 3?"
         ],
         "show": [
           "3 × 7 = 2 × 7 + 1 × 7.",
@@ -666,26 +710,26 @@
         "prompt": "Which facts match this split array?",
         "options": [
           {
-            "text": "(2 × 9) + (2 × 9)",
+            "text": "(2 × 8) + (2 × 8)",
             "why": "That makes 4 rows. This array has 3 rows: 2 on top and 1 below."
           },
           {
-            "text": "(2 × 9) + (1 × 9)",
+            "text": "(2 × 8) + (1 × 8)",
             "correct": true
           },
           {
-            "text": "(3 × 5) + (3 × 4)",
+            "text": "(3 × 5) + (3 × 3)",
             "why": "That cut goes between columns. This line goes between rows."
           },
           {
             "text": "(2 × 3) + (1 × 3)",
-            "why": "Each row has 9 dots, not 3. Count the dots in one row."
+            "why": "Each row has 8 dots, not 3. Count the dots in one row."
           }
         ],
         "model": {
           "type": "array",
           "rows": 3,
-          "cols": 9,
+          "cols": 8,
           "cut": {
             "by": "rows",
             "at": 2
@@ -695,11 +739,11 @@
         "pictureMatch": true,
         "hints": [
           "Count the rows above the line and below the line.",
-          "Each row has 9 dots."
+          "Count the dots in one row."
         ],
         "show": [
           "2 rows are above the line and 1 row is below it.",
-          "Each row has 9 dots: (2 × 9) + (1 × 9)."
+          "Each row has 8 dots: (2 × 8) + (1 × 8)."
         ],
         "yes": "Yes! The 2s fact on top and the 1s fact below."
       },
@@ -745,50 +789,6 @@
           "Each column has 3 dots: (3 × 5) + (3 × 2)."
         ],
         "yes": "Yes! 3 × 7 = (3 × 5) + (3 × 2) = 15 + 6 = 21."
-      },
-      {
-        "id": "t7",
-        "type": "number",
-        "prompt": "0 × 7 = ?",
-        "answer": "0 × 7",
-        "hints": [
-          "0 groups of 7. Is there anything at all?"
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "answer": 7
-            },
-            "say": "0 groups of 7 is nothing at all. Times 0 is always 0."
-          }
-        ],
-        "yes": "Yes! Times 0 is always 0.",
-        "show": [
-          "0 × 7 means 0 groups of 7.",
-          "There is nothing to count, so 0 × 7 = 0."
-        ]
-      },
-      {
-        "id": "t8",
-        "type": "number",
-        "prompt": "9 × 1 = ?",
-        "answer": "9 × 1",
-        "hints": [
-          "9 groups of 1."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "answer": 10
-            },
-            "say": "9 + 1 is 10, but this is times 1. 9 groups of 1 is 9."
-          }
-        ],
-        "yes": "Yes! Times 1 keeps the number the same.",
-        "show": [
-          "9 × 1 means 9 groups of 1.",
-          "That is 9. Times 1 keeps the number the same."
-        ]
       },
       {
         "id": "t2",
@@ -1131,34 +1131,34 @@
       {
         "id": "t17",
         "type": "choice",
-        "prompt": "Which shows a correct way to find 3 × 6?",
+        "prompt": "Pick the way that finds 3 × 4.",
         "options": [
           {
-            "text": "2 × 6 + 1",
-            "why": "The second part must be a whole fact: 1 × 6, not 1."
+            "text": "3 × 2 + 3 × 3",
+            "why": "2 and 3 make 5, not 4."
           },
           {
-            "text": "3 × 5 + 3 × 2",
-            "why": "5 and 2 make 7, not 6."
-          },
-          {
-            "text": "2 × 6 + 1 × 6",
+            "text": "2 × 4 + 1 × 4",
             "correct": true
           },
           {
-            "text": "2 × 1 + 1 × 6",
-            "why": "Both facts must keep the 6."
+            "text": "2 × 4 + 1",
+            "why": "The second part must be a whole fact that keeps the 4."
+          },
+          {
+            "text": "3 + 4",
+            "why": "3 × 4 means 3 groups of 4, not 3 + 4."
           }
         ],
-        "target": "3 × 6",
+        "target": "3 × 4",
         "hints": [
           "3 = 2 + 1. Both facts must keep the same factor."
         ],
         "show": [
-          "3 × 6 = 2 × 6 + 1 × 6.",
-          "12 + 6 = 18."
+          "3 × 4 = 2 × 4 + 1 × 4.",
+          "8 + 4 = 12."
         ],
-        "yes": "Yes! 12 + 6 = 18."
+        "yes": "Yes! 8 + 4 = 12."
       },
       {
         "id": "t18",
@@ -1184,8 +1184,8 @@
         ],
         "quotesMistake": true,
         "hints": [
-          "Both parts must be whole facts.",
-          "Is \"1\" a whole fact like 1 × 8?"
+          "Both parts must be whole facts that keep the same factor.",
+          "Check each part, one at a time."
         ],
         "show": [
           "3 × 8 = 2 × 8 + 1 × 8.",

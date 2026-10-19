@@ -496,8 +496,8 @@
         "prompt": "4 × 9 = ?",
         "answer": "4 × 9",
         "hints": [
-          "Find the 2s fact: 2 × 9 = 18.",
-          "Double it: 18 + 18."
+          "Find the 2s fact: 2 × 9.",
+          "Then double it: add the 2s fact to itself."
         ],
         "mistakes": [
           {
@@ -557,38 +557,38 @@
       {
         "id": "t1",
         "type": "fill",
-        "prompt": "2 × 6 = 12. Use it to find 4 × 6.",
+        "prompt": "2 × 7 = 14. Use it to find 4 × 7.",
         "lines": [
-          "4 × 6 = 12 + [x]",
+          "4 × 7 = 14 + [x]",
           "= [t]"
         ],
         "answer": {
-          "x": 12,
-          "t": 24
+          "x": 14,
+          "t": 28
         },
         "hints": [
-          "4 × 6 is two 2 × 6 facts.",
-          "What do you add to 12 to double it?"
+          "4 × 7 is two 2 × 7 facts.",
+          "What do you add to 14 to double it?"
         ],
         "mistakes": [
           {
             "when": {
-              "x": 6
+              "x": 7
             },
-            "say": "Add the whole 2s fact again: 12, not 6."
+            "say": "Add the whole 2s fact again: 14, not 7."
           },
           {
             "when": {
               "x": 4
             },
-            "say": "Add the whole 2s fact again: 12, not 4."
+            "say": "Add the whole 2s fact again: 14, not 4."
           }
         ],
         "show": [
-          "4 × 6 = 2 × 6 + 2 × 6.",
-          "12 + 12 = 24."
+          "4 × 7 = 2 × 7 + 2 × 7.",
+          "14 + 14 = 28."
         ],
-        "yes": "Yes! 12 + 12 = 24."
+        "yes": "Yes! 14 + 14 = 28."
       },
       {
         "id": "t2",
@@ -639,8 +639,8 @@
         "prompt": "4 × 3 = ?",
         "answer": "4 × 3",
         "hints": [
-          "Find the 2s fact: 2 × 3 = 6.",
-          "Double it: 6 + 6."
+          "Find the 2s fact: 2 × 3.",
+          "Then double it: add the 2s fact to itself."
         ],
         "mistakes": [
           {
@@ -862,7 +862,7 @@
         "model": {
           "type": "array",
           "rows": 4,
-          "cols": 9,
+          "cols": 5,
           "cut": {
             "by": "rows",
             "at": 2
@@ -870,14 +870,14 @@
           "labels": "parts"
         },
         "lines": [
-          "4 × 9 = [a] × 9 + [b] × 9",
-          "= 18 + 18",
+          "4 × 5 = [a] × 5 + [b] × 5",
+          "= 10 + 10",
           "= [t]"
         ],
         "answer": {
           "a": 2,
           "b": 2,
-          "t": 36
+          "t": 20
         },
         "min": 1,
         "hints": [
@@ -887,7 +887,7 @@
         "show": [
           "2 rows are above the line.",
           "2 rows are below the line.",
-          "4 × 9 = 2 × 9 + 2 × 9 = 18 + 18 = 36."
+          "4 × 5 = 2 × 5 + 2 × 5 = 10 + 10 = 20."
         ],
         "mistakes": [
           {
@@ -1068,8 +1068,8 @@
         "prompt": "4 × 4 = ?",
         "answer": "4 × 4",
         "hints": [
-          "Find the 2s fact: 2 × 4 = 8.",
-          "Double it: 8 + 8."
+          "Find the 2s fact: 2 × 4.",
+          "Then double it: add the 2s fact to itself."
         ],
         "mistakes": [
           {
@@ -1110,8 +1110,8 @@
         ],
         "quotesMistake": true,
         "hints": [
-          "Both parts must be whole facts.",
-          "Is \"2\" a whole fact, like the first part?"
+          "Both parts must be whole facts that keep the same factor.",
+          "Check each part, one at a time."
         ],
         "show": [
           "4 × 8 = 2 × 8 + 2 × 8.",
@@ -1183,31 +1183,31 @@
       {
         "id": "t19",
         "type": "number",
-        "prompt": "A horse has 4 legs. How many legs do 8 horses have?",
-        "answer": "8 × 4",
+        "prompt": "A horse has 4 legs. How many legs do 6 horses have?",
+        "answer": "6 × 4",
         "hints": [
-          "8 horses with 4 legs each: 8 × 4.",
-          "Find the 4. Find the 2s fact with 8, then double it."
+          "6 horses with 4 legs each: 6 × 4.",
+          "Find the 4. Find the 2s fact with 6, then double it."
         ],
         "mistakes": [
           {
             "when": {
-              "answer": 12
+              "answer": 10
             },
-            "say": "8 + 4 is 12. Each horse has 4 legs, so multiply."
+            "say": "6 + 4 is 10. Each horse has 4 legs, so multiply."
           },
           {
             "when": {
-              "answer": 16
+              "answer": 12
             },
-            "say": "16 is only 2 legs on each horse. Double it for 4."
+            "say": "12 is only 2 legs on each horse. Double it for 4."
           }
         ],
         "show": [
-          "8 × 4 = 8 × 2 + 8 × 2.",
-          "16 + 16 = 32 legs."
+          "6 × 4 = 6 × 2 + 6 × 2.",
+          "12 + 12 = 24 legs."
         ],
-        "yes": "Yes! 32 legs."
+        "yes": "Yes! 24 legs."
       },
       {
         "id": "t20",

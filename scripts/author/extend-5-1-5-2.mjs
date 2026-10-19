@@ -80,10 +80,10 @@ const EXTRA = {
       mistakes: [{ when: { x: 3 }, say: 'There are two 7 × 3 facts. 3 and 3 make 6.' }, { when: { x: 42 }, say: 'That box needs a factor, not the product.' }],
       show: ['3 + 3 = 6.', '7 × 3 + 7 × 3 = 21 + 21 = 42, and 7 × 6 = 42.'], yes: 'Yes! 3 + 3 = 6, so 7 × 6.',
     }),
-    story('t19', 'A bakery has 8 trays. Each tray has 7 rolls. How many rolls are there?', 8, 7, {
-      hints: ['8 trays of 7: 8 × 7.', 'Decompose the 8 into 5 + 3: 5 × 7 + 3 × 7.'],
-      mistakes: [{ when: { answer: 15 }, say: '8 + 7 is 15. There are 8 equal trays, so multiply.' }, { when: { answer: 35 }, say: '35 is only 5 trays. Add the other 3 trays.' }],
-      show: ['8 × 7 = 5 × 7 + 3 × 7.', '35 + 21 = 56 rolls.'], yes: 'Yes! 56 rolls.',
+    story('t19', 'A bakery has 9 trays. Each tray has 6 rolls. How many rolls are there?', 9, 6, {
+      hints: ['9 trays of 6: 9 × 6.', 'Decompose the 9 into 5 + 4. Find each part, then add.'],
+      mistakes: [{ when: { answer: 15 }, say: '9 + 6 is 15. There are 9 equal trays, so multiply.' }, { when: { answer: 30 }, say: '30 is only 5 trays. Add the other 4 trays.' }],
+      show: ['9 × 6 = 5 × 6 + 4 × 6.', '30 + 24 = 54 rolls.'], yes: 'Yes! 54 rolls.',
     }),
     choice('t20', 'Ty cuts 6 × 4 into 5 rows and 1 row. Ana cuts it into 3 rows and 3 rows. Who gets more dots?', [
       ['Ty, because 5 is bigger.', 'Ty has 20 + 4 = 24 dots. Ana has 12 + 12 = 24 dots. They are the same.'],
@@ -92,7 +92,7 @@ const EXTRA = {
     ], { models: [arr(6, 4, ['r', 5], 'parts'), arr(6, 4, ['r', 3], 'parts')], hints: ['Find Ty\'s two parts and add them. Then do the same for Ana.'], show: ['Ty: 5 × 4 + 1 × 4 = 20 + 4 = 24.', 'Ana: 3 × 4 + 3 × 4 = 12 + 12 = 24.', 'A different cut never changes the number of dots.'], yes: 'Yes! Every correct cut gives the same product.' }),
   ],
   '5-2': [
-    partsFill('t9', 3, 9, 'rows', 2, { hints: ['The top part is 2 rows of 9: the 2s fact.', 'The bottom part is 1 row of 9. Then add.'] }),
+    partsFill('t9', 3, 5, 'rows', 2, { hints: ['The top part is 2 rows of 5: the 2s fact. The bottom part is 1 row of 5.'] }),
     partsFill('t10', 3, 7, 'cols', 5, {
       prompt: 'This time the 7 is broken apart into 5 + 2. Find each part, then add.',
       hints: ['The left part is 3 rows of 5. The right part is 3 rows of 2.', '3 × 5 = 15 and 3 × 2 = 6.'],
@@ -101,14 +101,14 @@ const EXTRA = {
       hints: ['Break the 3 into 2 + 1. Or break the 8 into 5 + 3.', '2 × 8 + 1 × 8. Then add.'],
     }),
     choice('t12', 'Which facts match this split array?', [
-      ['(2 × 9) + (2 × 9)', 'That makes 4 rows. This array has 3 rows: 2 on top and 1 below.'],
-      ['(2 × 9) + (1 × 9)', true],
-      ['(3 × 5) + (3 × 4)', 'That cut goes between columns. This line goes between rows.'],
-      ['(2 × 3) + (1 × 3)', 'Each row has 9 dots, not 3. Count the dots in one row.'],
+      ['(2 × 8) + (2 × 8)', 'That makes 4 rows. This array has 3 rows: 2 on top and 1 below.'],
+      ['(2 × 8) + (1 × 8)', true],
+      ['(3 × 5) + (3 × 3)', 'That cut goes between columns. This line goes between rows.'],
+      ['(2 × 3) + (1 × 3)', 'Each row has 8 dots, not 3. Count the dots in one row.'],
     ], {
-      model: arr(3, 9, ['r', 2], 'parts'), pictureMatch: true,
-      hints: ['Count the rows above the line and below the line.', 'Each row has 9 dots.'],
-      show: ['2 rows are above the line and 1 row is below it.', 'Each row has 9 dots: (2 × 9) + (1 × 9).'],
+      model: arr(3, 8, ['r', 2], 'parts'), pictureMatch: true,
+      hints: ['Count the rows above the line and below the line.', 'Count the dots in one row.'],
+      show: ['2 rows are above the line and 1 row is below it.', 'Each row has 8 dots: (2 × 8) + (1 × 8).'],
       yes: 'Yes! The 2s fact on top and the 1s fact below.',
     }),
     choice('t13', 'This line goes between columns. Which facts match?', [
@@ -137,12 +137,12 @@ const EXTRA = {
       mistakes: [{ when: { answer: 9 }, say: '6 + 3 is 9. She reads 3 books each week, so multiply.' }, { when: { answer: 12 }, say: '12 is the 2s fact. Add one more 6.' }],
       show: ['6 × 3 = 6 × 2 + 6 × 1.', '12 + 6 = 18 books.'], yes: 'Yes! 18 books.',
     }),
-    choice('t17', 'Which shows a correct way to find 3 × 6?', [
-      ['2 × 6 + 1', 'The second part must be a whole fact: 1 × 6, not 1.'],
-      ['3 × 5 + 3 × 2', '5 and 2 make 7, not 6.'],
-      ['2 × 6 + 1 × 6', true],
-      ['2 × 1 + 1 × 6', 'Both facts must keep the 6.'],
-    ], { target: '3 × 6', hints: ['3 = 2 + 1. Both facts must keep the same factor.'], show: ['3 × 6 = 2 × 6 + 1 × 6.', '12 + 6 = 18.'], yes: 'Yes! 12 + 6 = 18.' }),
+    choice('t17', 'Pick the way that finds 3 × 4.', [
+      ['3 × 2 + 3 × 3', '2 and 3 make 5, not 4.'],
+      ['2 × 4 + 1 × 4', true],
+      ['2 × 4 + 1', 'The second part must be a whole fact that keeps the 4.'],
+      ['3 + 4', '3 × 4 means 3 groups of 4, not 3 + 4.'],
+    ], { target: '3 × 4', hints: ['3 = 2 + 1. Both facts must keep the same factor.'], show: ['3 × 4 = 2 × 4 + 1 × 4.', '8 + 4 = 12.'], yes: 'Yes! 8 + 4 = 12.' }),
     choice('t18', 'A student wrote 3 × 8 = 2 × 8 + 1 = 17. What went wrong?', [
       ['The second part should be 1 × 8, not 1.', true],
       ['Nothing. It is correct.', '3 × 8 is 3 rows of 8. That is 24, not 17.'],
@@ -150,7 +150,7 @@ const EXTRA = {
       ['You should add 3 + 8.', '3 × 8 means 3 groups of 8, not 3 + 8.'],
     ], {
       quotesMistake: true,
-      hints: ['Both parts must be whole facts.', 'Is "1" a whole fact like 1 × 8?'],
+      hints: ['Both parts must be whole facts that keep the same factor.', 'Check each part, one at a time.'],
       show: ['3 × 8 = 2 × 8 + 1 × 8.', '16 + 8 = 24.'], yes: 'Yes! 3 × 8 = 2 × 8 + 1 × 8 = 16 + 8 = 24.',
     }),
     choice('t19', 'Jo knows 3 × 6 = 18. What is 6 × 3?', [
@@ -195,6 +195,9 @@ function revise(id, lesson) {
     const teach = lesson.learn.screens.find((x) => x.title === 'The Distributive Property');
     teach.text[0] = 'Break one factor into two smaller numbers. Multiply each part. Then add.';
     item('t5').models = item('t5').models.map((m) => ({ ...m, labels: 'parts' }));
+    item('t5').hints = ['Find each friend\'s total.', 'Add each friend\'s two parts. Are the totals the same?'];
+    const g3 = item('g3');
+    g3.show = g3.show.map((x) => x.replace('The right part has 1 column of 5 dots: 5 × 1 = 5.', 'The right part is 5 rows of 1: 5 × 1 = 5.'));
     const wb = item('wB');
     const bigger = wb.options.find((o) => /bigger than 5/.test(o.text));
     if (bigger) { bigger.text = 'We used a bigger number.'; bigger.why = 'The array is still 6 rows of 3. We only moved the cut, so the dots stay the same.'; }
@@ -207,7 +210,8 @@ function revise(id, lesson) {
     item('t1').show = ['3 × 9 = 27, so the missing number is 9.', 'Check with the 3s strategy: 2 × 9 + 1 × 9 = 18 + 9 = 27.'];
     const x1 = item('x1');
     x1.show = ['3 × 7 = 2 × 7 + 1 × 7 = 14 + 7 = 21.', 'So the missing number is 7.'];
-    const order = ['t9', 't4', 't12', 't13', 't7', 't8', 't2', 't3', 't10', 't11', 't14', 't1', 't5', 't6', 't15', 't16', 't17', 't18', 't19', 't20'];
+    item('t4').hints = ['3 = 2 + 1. Both facts must keep the 7.', 'Check each choice: do the two numbers add up to 3?'];
+    const order = ['t7', 't8', 't9', 't4', 't12', 't13', 't2', 't3', 't10', 't11', 't14', 't1', 't5', 't6', 't15', 't16', 't17', 't18', 't19', 't20'];
     lesson.try.items.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
   }
 }

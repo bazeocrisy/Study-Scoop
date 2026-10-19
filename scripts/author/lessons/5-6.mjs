@@ -6,7 +6,7 @@ import { F, arr, choice, decompose, fact, factorsFill, forTest, missing, partsFi
 function fiveAnd(big, n) {
   const small = big - 5;
   return {
-    hints: [`Break ${big} into 5 + ${small}.`, `${F(5, n)} = ${5 * n} and ${F(small, n)} = ${small * n}. Add.`],
+    hints: [`Break ${big} into 5 + ${small}.`, `Find ${F(5, n)} and ${F(small, n)}. Then add them.`],
     show: [`${F(big, n)} = ${F(5, n)} + ${F(small, n)}.`, `${5 * n} + ${small * n} = ${big * n}.`],
     mistakes: [
       ...(big + n !== 5 * n ? [{ when: { answer: big + n }, say: `${big} + ${n} is ${big + n}, but this is times. Break ${big} into 5 + ${small}.` }] : []),
@@ -127,23 +127,19 @@ export default {
       },
       {
         title: 'Example C: the 9 comes second',
-        model: arr(7, 9, ['c', 5], 'facts'),
+        model: arr(3, 9, ['c', 5], 'facts'),
         steps: [
-          { say: 'This time the 9 comes second. 7 × 9 is 7 rows of 9.', model: arr(7, 9) },
-          { say: 'Find the 9. Break it into 5 + 4. Cut between the columns.', model: arr(7, 9, ['c', 5], 'parts') },
-          { say: 'The left part is 7 rows of 5.', eq: '7 × 5 = 35' },
-          { say: 'The right part is 7 rows of 4.', eq: '7 × 4 = 28' },
-          { say: 'Add the two parts.', eq: '7 × 9 = 7 × 5 + 7 × 4 = 35 + 28 = 63', pictured: true },
+          { say: 'This time the 9 comes second. 3 × 9 is 3 rows of 9.', model: arr(3, 9) },
+          { say: 'Find the 9. Break it into 5 + 4. Cut between the columns.', model: arr(3, 9, ['c', 5], 'parts') },
+          { say: 'The left part is 3 rows of 5.', eq: '3 × 5 = 15' },
+          { say: 'The right part is 3 rows of 4.', eq: '3 × 4 = 12' },
+          { say: 'Add the two parts.', eq: '3 × 9 = 3 × 5 + 3 × 4 = 15 + 12 = 27', pictured: true },
         ],
         why: choice('wC', 'Which number did we break apart?', [
-          ['The 7', 'Every part still has 7 rows. We broke the 9 into 5 + 4.'],
+          ['The 3', 'Every part still has 3 rows. We broke the 9 into 5 + 4.'],
           ['The 9', true],
-          ['The 63', '63 is the product. We broke the 9 into 5 + 4.'],
-        ], { yes: 'Yes! You can break apart the 7 or the 9. Both give 63.' }),
-        another: {
-          text: 'Turn the array and it still has the same 63 dots: 7 × 9 = 9 × 7.',
-          models: [arr(7, 9, ['c', 5], 'facts'), arr(9, 7, ['r', 5], 'facts')],
-        },
+          ['The 27', '27 is the product. We broke the 9 into 5 + 4.'],
+        ], { yes: 'Yes! Find the 9 and break it into 5 + 4, wherever it is.' }),
       },
     ],
   },
@@ -179,7 +175,7 @@ export default {
       // 1-5: understanding (7s and 9s)
       {
         id: 't1', type: 'fill', prompt: '5 × 8 = 40 and 2 × 8 = 16. Use them to find 7 × 8.', lines: ['7 × 8 = 40 + [x]', '= [t]'], answer: { x: 16, t: 56 },
-        hints: ['7 = 5 + 2. Add the 5s fact and the 2s fact.', '40 + 16.'],
+        hints: ['7 = 5 + 2. Add the 5s fact and the 2s fact.', 'Which number in the equation is the 2s fact?'],
         mistakes: [{ when: { x: 2 }, say: 'Add the whole 2s fact: 16, not 2.' }, { when: { x: 8 }, say: 'Add the whole 2s fact: 2 × 8 = 16, not 8.' }],
         show: ['7 × 8 = 5 × 8 + 2 × 8.', '40 + 16 = 56.'], yes: 'Yes! 40 + 16 = 56.',
       },
@@ -221,7 +217,7 @@ export default {
         hints: ['Left part: 2 rows of 5. Right part: 2 rows of 4.'],
       }),
       fact('t10', 9, 9, { ...fiveAnd(9, 9) }),
-      decompose('t11', 7, 9, ['rows', 5], { hints: ['Break the 7 into 5 + 2, or the 9 into 5 + 4.', '5 × 9 + 2 × 9. Then add.'] }),
+      decompose('t11', 9, 7, ['rows', 5], { hints: ['Break the 9 into 5 + 4, or the 7 into 5 + 2.', 'Write two facts that keep the same factor. Then add.'] }),
       fact('t12', 7, 7, { ...fiveAnd(7, 7) }),
       choice('t13', 'Which one is equal to 9 × 6?', [
         ['5 × 6 + 3 × 6', '5 and 3 make 8, not 9.'],
@@ -252,7 +248,7 @@ export default {
         ['You should add 9 + 4.', '9 × 4 means 9 groups of 4, not 9 + 4.'],
       ], {
         quotesMistake: true,
-        hints: ['Both parts must be whole facts.', 'Is "4" a whole fact like 4 × 4?'],
+        hints: ['Both parts must be whole facts that keep the same factor.', 'Check each part, one at a time.'],
         show: ['9 × 4 = 5 × 4 + 4 × 4.', '20 + 16 = 36.'], yes: 'Yes! 9 × 4 = 5 × 4 + 4 × 4 = 20 + 16 = 36.',
       }),
       story('t17', 'There are 7 days in a week. How many days are in 6 weeks?', 6, 7, {
@@ -270,12 +266,12 @@ export default {
         ['Yes for 7 × 8, but not for 7 × 3.', 'It works for 7 × 3 too: 5 × 3 + 2 × 3 = 15 + 6 = 21.'],
         ['No. 5 × 8 + 2 × 8 is not 56.', 'Check it: 40 + 16 = 56, so it is true.'],
       ], { hints: ['Find 5 × 8 + 2 × 8. Is it 56?', 'Then try 5 × 3 + 2 × 3. Is it 21?'], show: ['40 + 16 = 56 = 7 × 8.', '15 + 6 = 21 = 7 × 3.', '7 = 5 + 2 for every 7s fact.'], yes: 'Yes! Every 7s fact is a 5s fact plus a 2s fact.' }),
-      choice('t20', 'Kai knows 5 × 8 = 40 and 4 × 8 = 32. Which fact can he find by adding them?', [
-        ['9 × 4', 'Both facts have the 8, so the answer is a fact with 8. 5 + 4 = 9, so it is 9 × 8.'],
-        ['20 × 8', 'Add the 5 and the 4, do not multiply them: 5 + 4 = 9.'],
-        ['9 × 8', true],
-        ['1 × 8', 'Do not take away. Add the parts: 5 + 4 = 9, so it is 9 × 8.'],
-      ], { hints: ['Both facts keep the 8.', 'What do 5 and 4 make?'], show: ['5 × 8 + 4 × 8 = 40 + 32 = 72.', '5 + 4 = 9, so that is 9 × 8 = 72.'], yes: 'Yes! 40 + 32 = 72, and that is 9 × 8.' }),
+      choice('t20', 'Kai knows 5 × 6 = 30 and 4 × 6 = 24. Which fact can he find by adding them?', [
+        ['9 × 4', 'Both facts have the 6, so the answer is a fact with 6. 5 + 4 = 9, so it is 9 × 6.'],
+        ['20 × 6', 'Add the 5 and the 4, do not multiply them: 5 + 4 = 9.'],
+        ['9 × 6', true],
+        ['1 × 6', 'Do not take away. Add the parts: 5 + 4 = 9, so it is 9 × 6.'],
+      ], { hints: ['Both facts keep the 6.', 'Add the other two numbers.'], show: ['5 × 6 + 4 × 6 = 30 + 24 = 54.', '5 + 4 = 9, so that is 9 × 6 = 54.'], yes: 'Yes! 30 + 24 = 54, and that is 9 × 6.' }),
     ],
   },
   test: {

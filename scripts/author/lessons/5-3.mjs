@@ -6,7 +6,7 @@ function four(n, first = true) {
   const two = first ? F(2, n) : F(n, 2);
   const whole = first ? F(4, n) : F(n, 4);
   return {
-    hints: [`Find the 2s fact: ${two} = ${2 * n}.`, `Double it: ${2 * n} + ${2 * n}.`],
+    hints: [`Find the 2s fact: ${two}.`, 'Then double it: add the 2s fact to itself.'],
     show: [`4 = 2 + 2, so ${whole} is two ${two} facts.`, `${two} = ${2 * n}.`, `${2 * n} + ${2 * n} = ${4 * n}. So ${whole} = ${4 * n}.`],
     mistakes: [
       ...(4 + n !== 2 * n ? [{ when: { answer: 4 + n }, say: `${4} + ${n} is ${4 + n}, but this is times. Find the 2s fact and double it.` }] : []),
@@ -150,10 +150,10 @@ export default {
     items: [
       // 1-5: understanding
       {
-        id: 't1', type: 'fill', prompt: '2 × 6 = 12. Use it to find 4 × 6.', lines: ['4 × 6 = 12 + [x]', '= [t]'], answer: { x: 12, t: 24 },
-        hints: ['4 × 6 is two 2 × 6 facts.', 'What do you add to 12 to double it?'],
-        mistakes: [{ when: { x: 6 }, say: 'Add the whole 2s fact again: 12, not 6.' }, { when: { x: 4 }, say: 'Add the whole 2s fact again: 12, not 4.' }],
-        show: ['4 × 6 = 2 × 6 + 2 × 6.', '12 + 12 = 24.'], yes: 'Yes! 12 + 12 = 24.',
+        id: 't1', type: 'fill', prompt: '2 × 7 = 14. Use it to find 4 × 7.', lines: ['4 × 7 = 14 + [x]', '= [t]'], answer: { x: 14, t: 28 },
+        hints: ['4 × 7 is two 2 × 7 facts.', 'What do you add to 14 to double it?'],
+        mistakes: [{ when: { x: 7 }, say: 'Add the whole 2s fact again: 14, not 7.' }, { when: { x: 4 }, say: 'Add the whole 2s fact again: 14, not 4.' }],
+        show: ['4 × 7 = 2 × 7 + 2 × 7.', '14 + 14 = 28.'], yes: 'Yes! 14 + 14 = 28.',
       },
       choice('t2', 'Which facts match this split array?', [
         ['(4 × 4) + (4 × 4)', 'That cut goes between columns. This line goes between rows.'],
@@ -192,7 +192,7 @@ export default {
         mistakes: [{ when: { answer: 10 }, say: '6 + 4 is 10, but this is times. Find the 2s fact and double it.' }, { when: { answer: 12 }, say: '12 is the 2s fact. Double it to get the 4s fact.' }],
         show: ['Find the 4. 6 × 4 = 6 × 2 + 6 × 2.', '12 + 12 = 24.'],
       }),
-      factorsFill('t9', 4, 9, 'rows', 2, { total: true }),
+      factorsFill('t9', 4, 5, 'rows', 2, { total: true }),
       decompose('t10', 4, 7, ['rows', 2], {
         hints: ['Try breaking the 4 into 2 + 2.', 'Write two 2s facts that keep the 7. Then add.'],
       }),
@@ -232,7 +232,7 @@ export default {
         ['You should add 4 + 8.', '4 × 8 means 4 groups of 8, not 4 + 8.'],
       ], {
         quotesMistake: true,
-        hints: ['Both parts must be whole facts.', 'Is "2" a whole fact, like the first part?'],
+        hints: ['Both parts must be whole facts that keep the same factor.', 'Check each part, one at a time.'],
         show: ['4 × 8 = 2 × 8 + 2 × 8.', '16 + 16 = 32.'], yes: 'Yes! 4 × 8 = 2 × 8 + 2 × 8 = 16 + 16 = 32.',
       }),
       story('t17', 'A box of crayons has 4 rows. Each row has 5 crayons. How many crayons are in the box?', 4, 5, {
@@ -246,10 +246,10 @@ export default {
         ['Add 10 once: 20 + 10', '20 + 10 is only 3 × 10. 4 × 10 needs two 2s facts.'],
         ['Double 20: 20 + 20', true],
       ], { hints: ['4 = 2 + 2. How many 2 × 10 facts make 4 × 10?'], show: ['4 × 10 = 2 × 10 + 2 × 10.', '20 + 20 = 40.'], yes: 'Yes! 20 + 20 = 40.' }),
-      story('t19', 'A horse has 4 legs. How many legs do 8 horses have?', 8, 4, {
-        hints: ['8 horses with 4 legs each: 8 × 4.', 'Find the 4. Find the 2s fact with 8, then double it.'],
-        mistakes: [{ when: { answer: 12 }, say: '8 + 4 is 12. Each horse has 4 legs, so multiply.' }, { when: { answer: 16 }, say: '16 is only 2 legs on each horse. Double it for 4.' }],
-        show: ['8 × 4 = 8 × 2 + 8 × 2.', '16 + 16 = 32 legs.'], yes: 'Yes! 32 legs.',
+      story('t19', 'A horse has 4 legs. How many legs do 6 horses have?', 6, 4, {
+        hints: ['6 horses with 4 legs each: 6 × 4.', 'Find the 4. Find the 2s fact with 6, then double it.'],
+        mistakes: [{ when: { answer: 10 }, say: '6 + 4 is 10. Each horse has 4 legs, so multiply.' }, { when: { answer: 12 }, say: '12 is only 2 legs on each horse. Double it for 4.' }],
+        show: ['6 × 4 = 6 × 2 + 6 × 2.', '12 + 12 = 24 legs.'], yes: 'Yes! 24 legs.',
       }),
       choice('t20', 'Kim says: "To find any 4s fact, find the 2s fact and double it." Is Kim right?', [
         ['Only for even numbers.', 'It works for every number. 4 × 7 = 14 + 14 = 28.'],

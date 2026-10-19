@@ -299,7 +299,7 @@
         "title": "Example C: the 9 comes second",
         "model": {
           "type": "array",
-          "rows": 7,
+          "rows": 3,
           "cols": 9,
           "cut": {
             "by": "cols",
@@ -309,10 +309,10 @@
         },
         "steps": [
           {
-            "say": "This time the 9 comes second. 7 × 9 is 7 rows of 9.",
+            "say": "This time the 9 comes second. 3 × 9 is 3 rows of 9.",
             "model": {
               "type": "array",
-              "rows": 7,
+              "rows": 3,
               "cols": 9
             }
           },
@@ -320,7 +320,7 @@
             "say": "Find the 9. Break it into 5 + 4. Cut between the columns.",
             "model": {
               "type": "array",
-              "rows": 7,
+              "rows": 3,
               "cols": 9,
               "cut": {
                 "by": "cols",
@@ -330,16 +330,16 @@
             }
           },
           {
-            "say": "The left part is 7 rows of 5.",
-            "eq": "7 × 5 = 35"
+            "say": "The left part is 3 rows of 5.",
+            "eq": "3 × 5 = 15"
           },
           {
-            "say": "The right part is 7 rows of 4.",
-            "eq": "7 × 4 = 28"
+            "say": "The right part is 3 rows of 4.",
+            "eq": "3 × 4 = 12"
           },
           {
             "say": "Add the two parts.",
-            "eq": "7 × 9 = 7 × 5 + 7 × 4 = 35 + 28 = 63",
+            "eq": "3 × 9 = 3 × 5 + 3 × 4 = 15 + 12 = 27",
             "pictured": true
           }
         ],
@@ -349,44 +349,19 @@
           "prompt": "Which number did we break apart?",
           "options": [
             {
-              "text": "The 7",
-              "why": "Every part still has 7 rows. We broke the 9 into 5 + 4."
+              "text": "The 3",
+              "why": "Every part still has 3 rows. We broke the 9 into 5 + 4."
             },
             {
               "text": "The 9",
               "correct": true
             },
             {
-              "text": "The 63",
-              "why": "63 is the product. We broke the 9 into 5 + 4."
+              "text": "The 27",
+              "why": "27 is the product. We broke the 9 into 5 + 4."
             }
           ],
-          "yes": "Yes! You can break apart the 7 or the 9. Both give 63."
-        },
-        "another": {
-          "text": "Turn the array and it still has the same 63 dots: 7 × 9 = 9 × 7.",
-          "models": [
-            {
-              "type": "array",
-              "rows": 7,
-              "cols": 9,
-              "cut": {
-                "by": "cols",
-                "at": 5
-              },
-              "labels": "facts"
-            },
-            {
-              "type": "array",
-              "rows": 9,
-              "cols": 7,
-              "cut": {
-                "by": "rows",
-                "at": 5
-              },
-              "labels": "facts"
-            }
-          ]
+          "yes": "Yes! Find the 9 and break it into 5 + 4, wherever it is."
         }
       }
     ]
@@ -623,7 +598,7 @@
         "answer": "9 × 7",
         "hints": [
           "Break 9 into 5 + 4.",
-          "5 × 7 = 35 and 4 × 7 = 28. Add."
+          "Find 5 × 7 and 4 × 7. Then add them."
         ],
         "mistakes": [
           {
@@ -693,7 +668,7 @@
         },
         "hints": [
           "7 = 5 + 2. Add the 5s fact and the 2s fact.",
-          "40 + 16."
+          "Which number in the equation is the 2s fact?"
         ],
         "mistakes": [
           {
@@ -765,7 +740,7 @@
         "answer": "7 × 5",
         "hints": [
           "Break 7 into 5 + 2.",
-          "5 × 5 = 25 and 2 × 5 = 10. Add."
+          "Find 5 × 5 and 2 × 5. Then add them."
         ],
         "mistakes": [
           {
@@ -1107,7 +1082,7 @@
         "answer": "9 × 9",
         "hints": [
           "Break 9 into 5 + 4.",
-          "5 × 9 = 45 and 4 × 9 = 36. Add."
+          "Find 5 × 9 and 4 × 9. Then add them."
         ],
         "mistakes": [
           {
@@ -1132,25 +1107,25 @@
       {
         "id": "t11",
         "type": "decompose",
-        "prompt": "Decompose 7 × 9. Any way that works is fine.",
+        "prompt": "Decompose 9 × 7. Any way that works is fine.",
         "fact": [
-          7,
-          9
+          9,
+          7
         ],
         "answer": {
           "p": 5,
-          "q": 9,
-          "r": 2,
-          "s": 9,
+          "q": 7,
+          "r": 4,
+          "s": 7,
           "t": 63
         },
         "hints": [
-          "Break the 7 into 5 + 2, or the 9 into 5 + 4.",
-          "5 × 9 + 2 × 9. Then add."
+          "Break the 9 into 5 + 4, or the 7 into 5 + 2.",
+          "Write two facts that keep the same factor. Then add."
         ],
         "show": [
-          "7 × 9 = 5 × 9 + 2 × 9.",
-          "45 + 18 = 63."
+          "9 × 7 = 5 × 7 + 4 × 7.",
+          "35 + 28 = 63."
         ]
       },
       {
@@ -1160,7 +1135,7 @@
         "answer": "7 × 7",
         "hints": [
           "Break 7 into 5 + 2.",
-          "5 × 7 = 35 and 2 × 7 = 14. Add."
+          "Find 5 × 7 and 2 × 7. Then add them."
         ],
         "mistakes": [
           {
@@ -1319,8 +1294,8 @@
         ],
         "quotesMistake": true,
         "hints": [
-          "Both parts must be whole facts.",
-          "Is \"4\" a whole fact like 4 × 4?"
+          "Both parts must be whole facts that keep the same factor.",
+          "Check each part, one at a time."
         ],
         "show": [
           "9 × 4 = 5 × 4 + 4 × 4.",
@@ -1418,34 +1393,34 @@
       {
         "id": "t20",
         "type": "choice",
-        "prompt": "Kai knows 5 × 8 = 40 and 4 × 8 = 32. Which fact can he find by adding them?",
+        "prompt": "Kai knows 5 × 6 = 30 and 4 × 6 = 24. Which fact can he find by adding them?",
         "options": [
           {
             "text": "9 × 4",
-            "why": "Both facts have the 8, so the answer is a fact with 8. 5 + 4 = 9, so it is 9 × 8."
+            "why": "Both facts have the 6, so the answer is a fact with 6. 5 + 4 = 9, so it is 9 × 6."
           },
           {
-            "text": "20 × 8",
+            "text": "20 × 6",
             "why": "Add the 5 and the 4, do not multiply them: 5 + 4 = 9."
           },
           {
-            "text": "9 × 8",
+            "text": "9 × 6",
             "correct": true
           },
           {
-            "text": "1 × 8",
-            "why": "Do not take away. Add the parts: 5 + 4 = 9, so it is 9 × 8."
+            "text": "1 × 6",
+            "why": "Do not take away. Add the parts: 5 + 4 = 9, so it is 9 × 6."
           }
         ],
         "hints": [
-          "Both facts keep the 8.",
-          "What do 5 and 4 make?"
+          "Both facts keep the 6.",
+          "Add the other two numbers."
         ],
         "show": [
-          "5 × 8 + 4 × 8 = 40 + 32 = 72.",
-          "5 + 4 = 9, so that is 9 × 8 = 72."
+          "5 × 6 + 4 × 6 = 30 + 24 = 54.",
+          "5 + 4 = 9, so that is 9 × 6 = 54."
         ],
-        "yes": "Yes! 40 + 32 = 72, and that is 9 × 8."
+        "yes": "Yes! 30 + 24 = 54, and that is 9 × 6."
       }
     ]
   },

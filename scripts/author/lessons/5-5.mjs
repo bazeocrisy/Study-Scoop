@@ -6,7 +6,7 @@ function eight(n, first = true) {
   const four = first ? F(4, n) : F(n, 4);
   const whole = first ? F(8, n) : F(n, 8);
   return {
-    hints: [`Find the 4s fact: ${four} = ${4 * n}.`, `Double it: ${4 * n} + ${4 * n}.`],
+    hints: [`Find the 4s fact: ${four}.`, 'Then double it: add the 4s fact to itself.'],
     show: [`8 = 4 + 4, so ${whole} is two ${four} facts.`, `${four} = ${4 * n}.`, `${4 * n} + ${4 * n} = ${8 * n}. So ${whole} = ${8 * n}.`],
     mistakes: [
       ...(8 + n !== 4 * n ? [{ when: { answer: 8 + n }, say: `8 + ${n} is ${8 + n}, but this is times. Find the 4s fact and double it.` }] : []),
@@ -77,12 +77,12 @@ export default {
       },
       {
         title: 'Check',
-        item: choice('l1', 'Which one is equal to 8 × 6?', [
-          ['4 × 6 + 3 × 6', '4 and 3 make 7, not 8.'],
-          ['4 × 6 + 4', 'The second part must be a whole fact: 4 × 6, not 4.'],
-          ['8 + 6', '8 × 6 means 8 groups of 6, not 8 + 6.'],
-          ['4 × 6 + 4 × 6', true],
-        ], { target: '8 × 6', yes: 'Yes! 4 × 6 + 4 × 6 is 24 + 24. That is 48.' }),
+        item: choice('l1', 'Which one is equal to 8 × 9?', [
+          ['4 × 9 + 3 × 9', '4 and 3 make 7, not 8.'],
+          ['4 × 9 + 4', 'The second part must be a whole fact: 4 × 9, not 4.'],
+          ['8 + 9', '8 × 9 means 8 groups of 9, not 8 + 9.'],
+          ['4 × 9 + 4 × 9', true],
+        ], { target: '8 × 9', yes: 'Yes! 4 × 9 + 4 × 9 is 36 + 36. That is 72.' }),
       },
     ],
   },
@@ -103,7 +103,7 @@ export default {
         why: choice('wA', 'Why can we double 4 × 7 to find 8 × 7?', [
           ['Because 7 is odd.', 'Odd or even does not matter. It works because 8 rows is 4 rows and 4 more rows.'],
           ['8 rows is 4 rows and 4 more rows.', true],
-          ['Because 4 is the answer.', 'The answer is 48. It works because 8 rows is 4 rows and 4 more rows.'],
+          ['Because 4 is the answer.', 'The answer is 56. It works because 8 rows is 4 rows and 4 more rows.'],
         ], { yes: 'Yes! 4 + 4 = 8, so two 4s facts make the 8s fact.' }),
       },
       {
@@ -115,7 +115,7 @@ export default {
           { say: 'The bottom part is the 3s fact.', eq: '3 × 7 = 21' },
           { say: 'Add the two parts. Same answer as before!', eq: '8 × 7 = 5 × 7 + 3 × 7 = 35 + 21 = 56', pictured: true },
         ],
-        why: choice('wB', 'Both ways make 48. Why?', [
+        why: choice('wB', 'Both ways make 56. Why?', [
           ['We moved the cut. It is still 8 rows of 7.', true],
           ['We added more dots.', 'No dots were added. We only moved the cut.'],
           ['5 and 3 are odd numbers.', 'That does not matter. We only moved the cut, so the dots stay the same.'],
@@ -151,9 +151,9 @@ export default {
         hints: ['Each part is 4 × 3 = 12.', 'Double 12: 12 + 12.'],
         yes: 'Yes! 12 + 12 = 24. You doubled the 4s fact!',
       }),
-      partsFill('g2', 8, 6, 'rows', 5, {
-        hints: ['The top part is 5 rows of 6. The bottom part is 3 rows of 6.'],
-        yes: 'Yes! 30 + 18 = 48.',
+      partsFill('g2', 8, 9, 'rows', 5, {
+        hints: ['The top part is 5 rows of 9. The bottom part is 3 rows of 9.'],
+        yes: 'Yes! 45 + 27 = 72.',
       }),
       factorsFill('g3', 8, 5, 'rows', 4, { total: true, yes: 'Yes! 4 + 4 = 8 rows, and 20 + 20 = 40.' }),
       partsFill('g4', 6, 8, 'cols', 4, {
@@ -162,10 +162,10 @@ export default {
         yes: 'Yes! 24 + 24 = 48.',
       }),
       fact('g5', 8, 4, { ...eight(4), yes: 'Yes! 16 + 16 = 32.' }),
-      decompose('g6', 8, 9, ['rows', 4], {
-        prompt: 'Your turn! Decompose 8 × 9 any way you like.', model: arr(8, 9),
-        hints: ['Break 8 into 4 + 4, or into 5 + 3.', 'Write two facts that keep the 9. Then add.'],
-        show: ['Break 8 into 4 + 4.', '4 × 9 + 4 × 9 = 36 + 36 = 72.'],
+      decompose('g6', 8, 2, ['rows', 4], {
+        prompt: 'Your turn! Decompose 8 × 2 any way you like.', model: arr(8, 2),
+        hints: ['Break 8 into 4 + 4, or into 5 + 3.', 'Write two facts that keep the 2. Then add.'],
+        show: ['Break 8 into 4 + 4.', '4 × 2 + 4 × 2 = 8 + 8 = 16.'],
       }),
     ],
   },
@@ -195,10 +195,10 @@ export default {
         mistakes: [{ when: { answer: 13 }, say: '8 + 5 is 13, but this is times. Double the 4s fact.' }, { when: { answer: 20 }, say: '20 is the 4s fact. Double it to get the 8s fact.' }],
         show: ['8 × 5 = 4 × 5 + 4 × 5.', '20 + 20 = 40.'],
       }),
-      missing('t4', '8 × [x] = 4 × 6 + 4 × 6', { x: 6 }, {
-        hints: ['Both parts have 6.', '4 rows of 6 and 4 more rows of 6 make 8 rows of what?'],
-        mistakes: [{ when: { x: 24 }, say: 'That is one part. The box needs a factor: 8 × what?' }, { when: { x: 48 }, say: 'That box needs a factor, not the product.' }],
-        show: ['4 + 4 = 8, and both parts have 6.', '8 × 6 = 4 × 6 + 4 × 6.'], yes: 'Yes! 8 × 6 = 4 × 6 + 4 × 6.',
+      missing('t4', '8 × [x] = 4 × 3 + 4 × 3', { x: 3 }, {
+        hints: ['Both parts have 3.', '4 rows of 3 and 4 more rows of 3 make 8 rows of what?'],
+        mistakes: [{ when: { x: 12 }, say: 'That is one part. The box needs a factor: 8 × what?' }, { when: { x: 24 }, say: 'That box needs a factor, not the product.' }],
+        show: ['4 + 4 = 8, and both parts have 3.', '8 × 3 = 4 × 3 + 4 × 3.'], yes: 'Yes! 8 × 3 = 4 × 3 + 4 × 3.',
       }),
       choice('t5', 'Which fact can you double to find 8 × 7?', [
         ['2 × 7', 'Double 2 × 7 is only 4 × 7. Double 4 × 7 to get 8 × 7.'],
@@ -260,13 +260,13 @@ export default {
         ['You should add 8 + 7.', '8 × 7 means 8 groups of 7, not 8 + 7.'],
       ], {
         quotesMistake: true,
-        hints: ['Add the two numbers that 8 was broken into.', 'Do 4 and 3 make 8?'],
+        hints: ['Add the two numbers that 8 was broken into.'],
         show: ['8 = 4 + 4.', '8 × 7 = 4 × 7 + 4 × 7 = 28 + 28 = 56.'], yes: 'Yes! The parts must add up to 8: 4 × 7 + 4 × 7 = 56.',
       }),
-      story('t17', 'A movie room has 8 rows. Each row has 6 seats. How many seats are there?', 8, 6, {
-        hints: ['8 rows of 6: 8 × 6.', 'Break 8 into 5 + 3. Find the 5s fact and the 3s fact, then add.'],
-        mistakes: [{ when: { answer: 14 }, say: '8 + 6 is 14. There are 8 equal rows, so multiply.' }, { when: { answer: 30 }, say: '30 is only 5 rows. Add the other 3 rows.' }],
-        show: ['8 × 6 = 5 × 6 + 3 × 6.', '30 + 18 = 48 seats.'], yes: 'Yes! 48 seats.',
+      story('t17', 'A garden has 8 rows. Each row has 5 bean plants. How many bean plants are there?', 8, 5, {
+        hints: ['8 rows of 5: 8 × 5.', 'Find the 4s fact with 5, then double it. Or count by 5s.'],
+        mistakes: [{ when: { answer: 13 }, say: '8 + 5 is 13. There are 8 equal rows, so multiply.' }, { when: { answer: 20 }, say: '20 is only 4 rows. Double it for 8 rows.' }],
+        show: ['8 × 5 = 4 × 5 + 4 × 5.', '20 + 20 = 40 plants.'], yes: 'Yes! 40 bean plants.',
       }),
       choice('t18', 'Two friends find 8 × 4. Friend 1 writes 4 × 4 + 4 × 4. Friend 2 writes 5 × 4 + 3 × 4. Who is right?', [
         ['Only Friend 1', 'Check Friend 2 too: 20 + 12 = 32.'],
@@ -296,7 +296,7 @@ export default {
     items: [
       forTest(fact('x1', 8, 4, { show: ['4 × 4 = 16.', 'Double it: 16 + 16 = 32.'] })),
       forTest(partsFill('x2', 8, 7, 'rows', 4)),
-      forTest(missing('x3', '8 × [x] = 5 × 6 + 3 × 6', { x: 6 }, { show: ['Both parts have 6, and 5 + 3 = 8.', '8 × 6 = 5 × 6 + 3 × 6.'] })),
+      forTest(missing('x3', '8 × [x] = 5 × 4 + 3 × 4', { x: 4 }, { show: ['Both parts have 4, and 5 + 3 = 8.', '8 × 4 = 5 × 4 + 3 × 4.'] })),
       forTest(choice('x4', 'Which one is equal to 8 × 5?', [
         ['4 × 5 + 4 × 5', true],
         ['4 × 5 + 4', 'The second part must be a whole fact: 4 × 5, not 4.'],
