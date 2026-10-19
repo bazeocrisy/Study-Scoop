@@ -471,6 +471,10 @@ async function main() {
       await press('[data-act="help"]');
       eq(await b.js('return [...document.querySelectorAll(".help-steps li")].map((l) => l.textContent);'), [steps[0].text], 'one step at a time');
       eq(await b.js('return document.querySelector("[data-act=help]").textContent.trim();'), 'Next step', 'Next step');
+      // The step just opened is on the screen, highlighted, and keyboard focus stays on Next step.
+      eq(await b.js('const li = document.querySelector(".help-steps li:last-child"); const r = li.getBoundingClientRect(); return [r.top >= 0 && r.bottom <= innerHeight, li.className, document.activeElement?.dataset.act];'),
+        [true, 'is-new', 'help'], 'new step visible, highlighted, focus on Next step');
+      expect(!(await b.js('return document.body.textContent.includes("Press Help to see one step at a time");')), 'the press-Help reminder goes once Help is open');
       await b.waitFor(`document.querySelector('#live').textContent.startsWith('Step 1 of ${steps.length}. ')`);
       await press('[data-act="help"]');
       eq(await b.js('return [...document.querySelectorAll(".help-steps li")].length;'), 2, 'two steps open');
@@ -541,7 +545,7 @@ async function main() {
       await answer(g[4], { answer: 16 }); await checkAnswer(g[4]);
       eq(await fb(), "Not yet That's only double 8. Add 8 once more. Press Help to see one step at a time.", 'forgot once more');
       await answer(g[4], { answer: 9 }); await checkAnswer(g[4]);
-      eq(await fb(), `Not yet 9 is too small. ${L52.catchAll}`, 'anything else says why it is wrong, then the strategy');
+      eq(await fb(), `Not yet 9 is too small. ${g[4].hints?.[0] || L52.catchAll}`, 'anything else says why it is wrong, then a first hint');
       await b.load(url(lessonHash('5-2', 'test')));
       for (const [k, item] of L52.test.items.entries()) { await answer(item, solution(item)); if (k < L52.test.items.length - 1) await press('[data-act="next"]'); }
       await press('[data-act="submit"]');

@@ -139,7 +139,8 @@ export function check(item, response, lesson = {}) {
     if (v.answer === solution(item).answer) return { status: 'correct', say: item.yes || 'Yes!' };
     const why = explainNumber(item, v.answer);
     // The lesson's general hint follows only a general reason (too big or too small); a specific reason stands alone.
-    return { status: 'notyet', say: mistake?.say || (/ is too (?:big|small)\.$/.test(why) ? join(why, catchAll) : why) };
+    // After a general reason (too big or too small) comes the question's own first hint, or the lesson's general hint.
+    return { status: 'notyet', say: mistake?.say || (/ is too (?:big|small)\.$/.test(why) ? join(why, item.hints?.[0] || catchAll) : why) };
   }
   if (item.type === 'table') {
     const s = solution(item);

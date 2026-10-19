@@ -1,6 +1,7 @@
 // Activity player: the DOM code for Spelling, Vocabulary and Math practice and for the practice tests (DECISIONS D18, D19).
 // Progress, misses and test answers live in memory for this visit only (never stored), keyed by week, so weeks never mix.
 import { check, helpSteps, solution } from './lib/lessons.js';
+import { showNewStep } from './lib/help-scroll.js';
 import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
 import { html } from './lib/html.js';
@@ -306,7 +307,8 @@ export function mountActivity(app, ctx, signal) {
         st.wrong = undefined;
       }
       announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
-      return rerender(last ? '[data-act="next"]:not([disabled])' : ['[data-act="help"]', 'button[type="submit"]']);
+      rerender(last ? '[data-act="next"]:not([disabled])' : ['[data-act="help"]', 'button[type="submit"]']);
+      return showNewStep(area());
     }
     if (act === 'next' || act === 'back' || act === 'goto') {
       saveForm(form);

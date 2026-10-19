@@ -792,3 +792,10 @@ h1[tabindex="-1"]:focus { outline: none; } h1[tabindex="-1"]:focus-visible { out
 .help-more { margin: 8px 0 0; color: var(--muted); font-size: .95rem; }
 .btn-help { border-width: 2px; }
 @media print { .btn-help { display: none; } }
+@media (max-width: 420px) {
+  .feedback .fb-head { flex-wrap: nowrap; }
+  .feedback .fb-head .read { padding: 4px 10px; }
+  .feedback .fb-head .read-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media print { .help-more { display: none; } }
+.help-steps li { scroll-margin: 16px 0 32px; }

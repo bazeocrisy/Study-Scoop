@@ -167,10 +167,10 @@ export function itemCard(lesson, item, stage, state) {
         ${test ? '' : html`
           <div class="btn-row">
             ${done ? '' : html`<button type="submit" class="btn btn-primary">Check Answer</button>`}
-            ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${opened ? `Next help step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${opened ? 'Next step' : 'Help'}</button>` : ''}
+            ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${opened ? 'Next step' : 'Help'}</button>` : ''}
           </div>`}
-        ${!test && st.say ? feedbackPanel(item, st) : ''}
         ${!test && opened ? helpPanel(item, steps, opened, st.shown, done) : ''}
+        ${!test && st.say ? feedbackPanel(item, st, opened) : ''}
       </form>
     </div>`;
 }
@@ -186,8 +186,10 @@ export function soundButton(act, label, primary = false) {
   return html`<button type="button" class="btn${primary ? ' btn-primary' : ''} sound" data-act="${act}" data-label="${label}">${ICON_SPEAK}<span class="read-label">${label}</span></button>`;
 }
 
-function feedbackPanel(item, st) {
+function feedbackPanel(item, st, opened = 0) {
   const id = `fb-${item.id}`;
+  // Once Help is open the "press Help" reminder is out of date.
+  if (opened) st = { ...st, say: String(st.say).replace(' Press Help to see one step at a time.', '') };
   if (st.status === 'correct') return html`<div class="feedback ok" id="${id}">${ICON_OK}<span class="fb-title">${st.say}</span></div>`;
   if (st.status === 'empty') return html`<div class="feedback info" id="${id}"><span>${st.say}</span></div>`;
   return html`<div class="feedback notyet" id="${id}"><div class="fb-head">${ICON_NOT}<span class="fb-title">Not yet</span>${readButton(['Not yet', st.say], 'why it is not right')}</div>
@@ -200,7 +202,7 @@ function helpPanel(item, steps, opened, finished, done) {
   const title = finished ? "Here's how" : `Help: step ${opened} of ${steps.length}`;
   return html`<div class="feedback info help-panel" id="help-${item.id}">
     <div class="fb-head"><span class="fb-title">${title}</span>${readButton(shownSteps.slice(-1).map((s) => s.text), 'this help step')}</div>
-    <ol class="help-steps">${shownSteps.map((s, k) => html`<li${k === opened - 1 && !finished ? ' class="is-new"' : ''}>${s.text}</li>`)}</ol>
+    <ol class="help-steps">${shownSteps.map((s, k) => html`<li class="${k === opened - 1 && !finished ? 'is-new' : ''}">${s.text}</li>`)}</ol>
     ${done ? '' : html`<p class="help-more">Try the question again, or press Next step.</p>`}
   </div>`;
 }

@@ -1,6 +1,7 @@
 // Lesson player: the only DOM code for lessons. It keeps progress in memory for this visit only (never stored),
 // re-renders the stage area after each action, moves keyboard focus sensibly and announces feedback to screen readers.
 import { check, helpSteps, solution } from './lib/lessons.js';
+import { showNewStep } from './lib/help-scroll.js';
 import { cardsOf, missItems, stageInner, stageOf, unanswered } from './views/lesson.js';
 
 const progress = new Map(); // "5-1:try" -> { i, items: { id: { resp, status, say, tries, first, hints, shown } }, steps, streak, submitted }
@@ -93,7 +94,8 @@ export function mountLesson(app, ctx, signal) {
     area().innerHTML = stageInner({ ...ctx, lessonState: state }).s;
     hideReadIfUnavailable();
     app.dataset.rendered = String(Number(app.dataset.rendered || 0) + 1);
-    const el = focus && area().querySelector(focus);
+    // A list of selectors means "the first of these that is on the screen" (a single selector string keeps page order).
+    const el = focus && [].concat(focus).map((sel) => area().querySelector(sel)).find(Boolean);
     if (el) el.focus({ preventScroll: false });
   };
   // In Practice My Misses the answers are kept apart, so the results of the first round stay as they were.
@@ -170,7 +172,8 @@ export function mountLesson(app, ctx, signal) {
         if (stage === 'together') state.streak = 0;
       }
       announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
-      rerender(last ? '[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href]' : '[data-act="help"], button[type="submit"]');
+      rerender(last ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]'] : ['[data-act="help"]', 'button[type="submit"]']);
+      showNewStep(area());
       return;
     }
     if (act === 'step-next' || act === 'step-back') {

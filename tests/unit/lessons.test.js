@@ -135,8 +135,8 @@ test('wrong answers get the message written for that mistake; anything else gets
   assert.equal(check(g4, { a: '4', b: '2' }, l).status, 'notyet');
   const g5 = LESSONS[1].together.items.find((i) => i.id === 'g5');
   assert.equal(check(g5, { answer: '16' }, LESSONS[1]).say, "That's only double 8. Add 8 once more.");
-  // Any other wrong number says why it is wrong (never the answer), then the lesson's general hint.
-  assert.equal(check(g5, { answer: '50' }, LESSONS[1]).say, `50 is too big. ${LESSONS[1].catchAll}`);
+  // Any other wrong number says why it is wrong (never the answer), then the question's first hint.
+  assert.equal(check(g5, { answer: '50' }, LESSONS[1]).say, `50 is too big. ${g5.hints?.[0] || LESSONS[1].catchAll}`);
   assert.match(check(g5, { answer: '1' }, LESSONS[1]).say, /^1 is too small\. /);
   const t4 = LESSONS[1].try.items.find((i) => i.id === 't4');
   assert.equal(check(t4, { choice: String(t4.options.findIndex((o) => o.text === '2 × 7 + 2 × 7')) }, LESSONS[1]).say, "That's 4 groups of 7. 3 is 2 and 1.");
