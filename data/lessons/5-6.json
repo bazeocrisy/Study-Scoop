@@ -212,7 +212,7 @@
           "options": [
             {
               "text": "5 is the answer.",
-              "why": "The answer is 42. We cut at 5 because 5s facts are easy."
+              "why": "The answer is 42, not 5. Why is 5 a good place to cut?"
             },
             {
               "text": "5s facts are easy.",
@@ -220,7 +220,7 @@
             },
             {
               "text": "There are 5 dots in a row.",
-              "why": "Each row has 6 dots. We cut at 5 because 5s facts are easy."
+              "why": "Each row has 6 dots. Why is 5 a good place to cut?"
             }
           ],
           "yes": "Yes! 5s facts are easy, so 5 is a good place to cut."
@@ -350,7 +350,7 @@
           "options": [
             {
               "text": "The 3",
-              "why": "Every part still has 3 rows. We broke the 9 into 5 + 4."
+              "why": "Every part still has 3 rows. Look at what the line cuts."
             },
             {
               "text": "The 9",
@@ -358,7 +358,7 @@
             },
             {
               "text": "The 27",
-              "why": "27 is the product. We broke the 9 into 5 + 4."
+              "why": "27 is the product. Look at what the line cuts."
             }
           ],
           "yes": "Yes! Find the 9 and break it into 5 + 4, wherever it is."
@@ -407,7 +407,7 @@
         ],
         "hints": [
           "The parts are 5 × 3 = 15 and 2 × 3 = 6.",
-          "Find 5 × 3 (count by 5s) and 2 × 3 (it is a double). Then add them."
+          "Add the two numbers on the second line."
         ],
         "show": [
           "5 × 3 = 15.",
@@ -815,7 +815,7 @@
           },
           {
             "text": "7 × 5 and 2 × 4",
-            "why": "Both facts must keep the same factor. Try 5 × 9 and 2 × 9."
+            "why": "Both facts must keep the same factor, and the other numbers must add up to 7."
           }
         ],
         "hints": [
@@ -1397,7 +1397,7 @@
         "options": [
           {
             "text": "9 × 4",
-            "why": "Both facts have the 6, so the answer is a fact with 6. 5 + 4 = 9, so it is 9 × 6."
+            "why": "Both facts have the 6, so the answer is a fact with 6."
           },
           {
             "text": "20 × 6",
@@ -1409,7 +1409,7 @@
           },
           {
             "text": "1 × 6",
-            "why": "Do not take away. Add the parts: 5 + 4 = 9, so it is 9 × 6."
+            "why": "Do not take away. Add the parts 5 and 4."
           }
         ],
         "hints": [

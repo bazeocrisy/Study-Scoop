@@ -1097,7 +1097,7 @@
             "when": {
               "answer": 14
             },
-            "say": "The 2 red seats are part of the 12, not extra. Just find 4 rows of 3."
+            "say": "The 2 red seats are already in the rows, not extra. Just find 4 rows of 3."
           },
           {
             "when": {

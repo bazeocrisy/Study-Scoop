@@ -104,9 +104,9 @@ export default {
           { say: 'Check the array. 7 rows of 6 is 42 dots.', eq: '7 × 6 = 42' },
         ],
         why: choice('wA', 'Why did we cut under row 5?', [
-          ['5 is the answer.', 'The answer is 42. We cut at 5 because 5s facts are easy.'],
+          ['5 is the answer.', 'The answer is 42, not 5. Why is 5 a good place to cut?'],
           ['5s facts are easy.', true],
-          ['There are 5 dots in a row.', 'Each row has 6 dots. We cut at 5 because 5s facts are easy.'],
+          ['There are 5 dots in a row.', 'Each row has 6 dots. Why is 5 a good place to cut?'],
         ], { yes: 'Yes! 5s facts are easy, so 5 is a good place to cut.' }),
       },
       {
@@ -136,9 +136,9 @@ export default {
           { say: 'Add the two parts.', eq: '3 × 9 = 3 × 5 + 3 × 4 = 15 + 12 = 27', pictured: true },
         ],
         why: choice('wC', 'Which number did we break apart?', [
-          ['The 3', 'Every part still has 3 rows. We broke the 9 into 5 + 4.'],
+          ['The 3', 'Every part still has 3 rows. Look at what the line cuts.'],
           ['The 9', true],
-          ['The 27', '27 is the product. We broke the 9 into 5 + 4.'],
+          ['The 27', '27 is the product. Look at what the line cuts.'],
         ], { yes: 'Yes! Find the 9 and break it into 5 + 4, wherever it is.' }),
       },
     ],
@@ -200,7 +200,7 @@ export default {
         ['5 × 9 and 2', 'The second part must be a whole fact: 2 × 9, not 2.'],
         ['5 × 9 and 4 × 9', '5 and 4 make 9, not 7. That is 9 × 9.'],
         ['5 × 9 and 2 × 9', true],
-        ['7 × 5 and 2 × 4', 'Both facts must keep the same factor. Try 5 × 9 and 2 × 9.'],
+        ['7 × 5 and 2 × 4', 'Both facts must keep the same factor, and the other numbers must add up to 7.'],
       ], {
         hints: ['The two numbers must add up to 7, and both facts must keep the 9.'],
         show: ['5 + 2 = 7.', '7 × 9 = 5 × 9 + 2 × 9 = 45 + 18 = 63.'], yes: 'Yes! 45 + 18 = 63.',
@@ -267,10 +267,10 @@ export default {
         ['No. 5 × 8 + 2 × 8 is not 56.', 'Check it: 40 + 16 = 56, so it is true.'],
       ], { hints: ['Find 5 × 8 + 2 × 8. Is it 56?', 'Then try 5 × 3 + 2 × 3. Is it 21?'], show: ['40 + 16 = 56 = 7 × 8.', '15 + 6 = 21 = 7 × 3.', '7 = 5 + 2 for every 7s fact.'], yes: 'Yes! Every 7s fact is a 5s fact plus a 2s fact.' }),
       choice('t20', 'Kai knows 5 × 6 = 30 and 4 × 6 = 24. Which fact can he find by adding them?', [
-        ['9 × 4', 'Both facts have the 6, so the answer is a fact with 6. 5 + 4 = 9, so it is 9 × 6.'],
+        ['9 × 4', 'Both facts have the 6, so the answer is a fact with 6.'],
         ['20 × 6', 'Add the 5 and the 4, do not multiply them: 5 + 4 = 9.'],
         ['9 × 6', true],
-        ['1 × 6', 'Do not take away. Add the parts: 5 + 4 = 9, so it is 9 × 6.'],
+        ['1 × 6', 'Do not take away. Add the parts 5 and 4.'],
       ], { hints: ['Both facts keep the 6.', 'Add the two numbers that are not 6.'], show: ['5 × 6 + 4 × 6 = 30 + 24 = 54.', '5 + 4 = 9, so that is 9 × 6 = 54.'], yes: 'Yes! 30 + 24 = 54, and that is 9 × 6.' }),
     ],
   },

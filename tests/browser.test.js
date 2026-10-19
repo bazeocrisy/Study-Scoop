@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { BASE, ROOT, startBrowser, startServer } from './lib/harness.js';
-import { boxes, solution } from '../js/lib/lessons.js';
+import { boxes, helpSteps, solution } from '../js/lib/lessons.js';
 import { pictureName } from '../js/lib/data.js';
 
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
@@ -355,7 +355,7 @@ async function main() {
     };
     const checkAnswer = (item) => press(`form[data-item="${item.id}"] button[type=submit]`);
     const solve = async (item) => { await answer(item, solution(item)); await checkAnswer(item); };
-    const fb = () => b.js('return document.querySelector("#lesson-stage .feedback:not(.info)")?.textContent.replace(/\\s+/g, " ").trim() || "";');
+    const fb = () => b.js('const e = document.querySelector("#lesson-stage .feedback:not(.info)"); if (!e) return ""; const c = e.cloneNode(true); c.querySelectorAll(".read").forEach((x) => x.remove()); return c.textContent.replace(/\\s+/g, " ").trim();');
 
     await check('Math > Learn the Properties: five cards, each picture matching its equation, with the teacher\'s words', async () => {
       await b.load(url('#math'));
@@ -414,7 +414,7 @@ async function main() {
       let before = await rendered();
       await b.key('Enter');
       await afterAction(before);
-      eq(await fb(), 'Not yet 5 + 3 is 8. Count the dots: 5 rows of 3.', 'specific feedback for 8');
+      eq(await fb(), 'Not yet 5 + 3 is 8. Count the dots: 5 rows of 3. Press Help to see one step at a time.', 'specific feedback for 8');
       eq(await b.js('const e = document.activeElement; return [e.name, e.value, e.getAttribute("aria-invalid")];'), ['answer', '8', 'true'], 'focus stays on the answer, which is kept');
       await b.waitFor('document.getElementById("live").textContent.includes("5 + 3 is 8")');
       expect(await b.js('return document.querySelector("[data-act=next]").disabled;'), 'Next waits for a right answer');
@@ -435,7 +435,7 @@ async function main() {
       await checkAnswer(r1);
       eq(await b.js('return document.querySelector("#lesson-stage .feedback").textContent.trim();'), 'Use only the digits 0 to 9.', 'not a number');
       await checkAnswer(r1);
-      eq(await b.js('return !!document.querySelector("[data-act=show]");'), false, 'no "Show me how" after empty tries');
+      eq(await b.js('return !!document.querySelector("[data-act=help]");'), false, 'no Help after empty tries');
     });
     await check('Watch Me: step by step, then a "why" question; Examples A, B and C; the takeaway at the end', async () => {
       await b.load(url(lessonHash('5-1', 'watch')));
@@ -452,7 +452,7 @@ async function main() {
         const wrong = ex.why.options.findIndex((o) => !o.correct);
         await answer(ex.why, { choice: wrong });
         await checkAnswer(ex.why);
-        eq(await fb(), `Not yet ${ex.why.options[wrong].why}`, 'why feedback');
+        eq(await fb(), `Not yet ${ex.why.options[wrong].why} Press Help to see one step at a time.`, 'why feedback');
         await solve(ex.why);
         expect((await fb()).startsWith('Yes!'), 'why answered');
         if (k < L51.watch.examples.length - 1) await press('[data-act="next"]');
@@ -460,21 +460,30 @@ async function main() {
       eq(await b.js('return document.querySelector(".takeaway")?.textContent;'), L51.watch.takeaway, 'takeaway');
       eq(await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");'), lessonHash('5-1', 'together'), 'on to Practice Together');
     });
-    await check('Practice Together: hints, mistake-specific feedback, "Show me how" after two misses, 3-in-a-row, own cut', async () => {
+    await check('Practice Together: why-wrong feedback, Help one step at a time after a miss, 3-in-a-row, own cut', async () => {
       await b.load(url(lessonHash('5-1', 'together')));
       const [g1, ...rest] = L51.together.items;
-      await press('[data-act="hint"]');
-      await press('[data-act="hint"]');
-      eq(await b.js('return [...document.querySelectorAll(".hints li")].map((l) => l.textContent);'), g1.hints, 'both hints');
-      expect(await b.js('return document.querySelector("[data-act=hint]").disabled;'), 'no more hints');
+      const steps = helpSteps(g1);
+      expect(!(await b.js('return !!document.querySelector("[data-act=help], [data-act=hint], [data-act=show]");')), 'no Help before an answer');
       await answer(g1, { t: 20 }); await checkAnswer(g1);
-      eq(await fb(), 'Not yet You found the first part! Now add the second part.', 'stopped at the first part');
-      expect(!(await b.js('return !!document.querySelector("[data-act=show]");')), 'no Show me how after one miss');
+      eq(await fb(), 'Not yet You found the first part! Now add the second part. Press Help to see one step at a time.', 'stopped at the first part');
+      eq(await b.js('return document.querySelector("[data-act=help]").textContent.trim();'), 'Help', 'Help after one miss');
+      await press('[data-act="help"]');
+      eq(await b.js('return [...document.querySelectorAll(".help-steps li")].map((l) => l.textContent);'), [steps[0].text], 'one step at a time');
+      eq(await b.js('return document.querySelector("[data-act=help]").textContent.trim();'), 'Next step', 'Next step');
+      // The step just opened is on the screen, highlighted, and keyboard focus stays on Next step.
+      eq(await b.js('const li = document.querySelector(".help-steps li:last-child"); const r = li.getBoundingClientRect(); return [r.top >= 0 && r.bottom <= innerHeight, li.className, document.activeElement?.dataset.act];'),
+        [true, 'is-new', 'help'], 'new step visible, highlighted, focus on Next step');
+      expect(!(await b.js('return document.body.textContent.includes("Press Help to see one step at a time");')), 'the press-Help reminder goes once Help is open');
+      await b.waitFor(`document.querySelector('#live').textContent.startsWith('Step 1 of ${steps.length}. ')`);
+      await press('[data-act="help"]');
+      eq(await b.js('return [...document.querySelectorAll(".help-steps li")].length;'), 2, 'two steps open');
+      eq(await b.js('return document.querySelector("input[name=t]").value;'), '20', 'Help does not fill in the answer early');
       await answer(g1, { t: 11 }); await checkAnswer(g1);
       eq(await fb(), 'Not yet 7 × 4 means 7 groups of 4, not 7 + 4. Add the two products.', 'added the factors');
-      await press('[data-act="show"]');
-      eq(await b.js('return [document.querySelector("input[name=t]").value, [...document.querySelectorAll(".showme li")].length, document.querySelector("[data-act=next]").disabled];'),
-        ['28', g1.show.length, false], 'Show me how fills in the answer and explains');
+      for (let k = 2; k < steps.length; k++) await press('[data-act="help"]');
+      eq(await b.js('return [document.querySelector("input[name=t]").value, [...document.querySelectorAll(".help-steps li")].length, document.querySelector("[data-act=next]").disabled, !!document.querySelector("[data-act=help]")];'),
+        ['28', steps.length, false, false], 'the last Help step fills in the answer and explains');
       await press('[data-act="next"]');
       for (const item of rest.slice(0, 3)) { await solve(item); expect((await fb()).startsWith('Yes!'), item.id); await press('[data-act="next"]'); }
       // Three right on the first try in a row: the child may move on.
@@ -489,16 +498,15 @@ async function main() {
       await b.load(url(lessonHash('5-1', 'together')));
       eq(await b.js('return [document.querySelector(".stage-title .progress").textContent, !!document.querySelector(".feedback:not(.info)")];'), ['Question 1 of 6', false], 'reload starts again (nothing saved)');
     });
-    await check('Try It Yourself: hints only after the second miss; results count first tries and list what to look at again', async () => {
+    await check('Try It Yourself: Help after a miss; results count first tries and list what to look at again', async () => {
       await b.load(url(lessonHash('5-1', 'try')));
       const [t1, ...rest] = L51.try.items;
       const wrong = t1.options.filter((o) => !o.correct).map((o) => t1.options.indexOf(o));
-      expect(!(await b.js('return !!document.querySelector("[data-act=hint]");')), 'no hint before trying');
+      expect(!(await b.js('return !!document.querySelector("[data-act=help]");')), 'no Help before trying');
       await answer(t1, { choice: wrong[0] }); await checkAnswer(t1);
-      expect(!(await b.js('return !!document.querySelector("[data-act=hint]");')), 'no hint after one miss');
-      await answer(t1, { choice: wrong[1] }); await checkAnswer(t1);
-      expect(await b.js('return !!document.querySelector("[data-act=hint]") && !!document.querySelector("[data-act=show]");'), 'hint and Show me how after two misses');
-      await press('[data-act="show"]');
+      expect((await fb()).includes(t1.options[wrong[0]].why), 'the wrong choice is explained');
+      expect(await b.js('return !!document.querySelector("[data-act=help]") && !document.querySelector("[data-act=hint], [data-act=show]");'), 'Help (and no old buttons) after one miss');
+      for (let k = 0; k < helpSteps(t1).length; k++) await press('[data-act="help"]');
       await press('[data-act="next"]');
       for (const item of rest) { await solve(item); expect((await fb()).startsWith('Yes!'), item.id); await press('[data-act="next"]'); }
       eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'score');
@@ -512,7 +520,7 @@ async function main() {
       await b.load(url(lessonHash('5-1', 'test')));
       const items = L51.test.items;
       for (const [k, item] of items.entries()) {
-        eq(await b.js('return [...document.querySelectorAll("#lesson-stage [data-act=hint], #lesson-stage [data-act=show], #lesson-stage button[type=submit]")].length;'), 0, `no help on ${item.id}`);
+        eq(await b.js('return [...document.querySelectorAll("#lesson-stage [data-act=help], #lesson-stage [data-act=hint], #lesson-stage [data-act=show], #lesson-stage button[type=submit]")].length;'), 0, `no help on ${item.id}`);
         expect(!(await b.js(`return ${JSON.stringify(item.show || [])}.some((s) => document.body.textContent.includes(s));`)), `${item.id} does not reveal its worked answer`);
         if (item.id === 'x2') await answer(item, { b: 2, t: 28 });          // wrong
         else if (item.id !== 'x8') await answer(item, solution(item));      // x8 is left blank
@@ -535,9 +543,9 @@ async function main() {
       const g = L52.together.items;
       for (const item of g.slice(0, 4)) { await solve(item); await press('[data-act="next"]'); }
       await answer(g[4], { answer: 16 }); await checkAnswer(g[4]);
-      eq(await fb(), "Not yet That's only double 8. Add 8 once more.", 'forgot once more');
+      eq(await fb(), "Not yet That's only double 8. Add 8 once more. Press Help to see one step at a time.", 'forgot once more');
       await answer(g[4], { answer: 9 }); await checkAnswer(g[4]);
-      eq(await fb(), `Not yet ${L52.catchAll}`, 'anything else gets the strategy');
+      eq(await fb(), `Not yet 9 is too small. ${g[4].hints?.[0] || L52.catchAll}`, 'anything else says why it is wrong, then a first hint');
       await b.load(url(lessonHash('5-2', 'test')));
       for (const [k, item] of L52.test.items.entries()) { await answer(item, solution(item)); if (k < L52.test.items.length - 1) await press('[data-act="next"]'); }
       await press('[data-act="submit"]');
@@ -605,9 +613,14 @@ async function main() {
           if (k < L.watch.examples.length - 1) await press('[data-act="next"]');
         }
         await go('.stage-nav a.btn-primary[href$="stage=together"]');
-        // Practice Together: a hint first, then the right answer.
+        // Practice Together: a wrong answer is explained, Help opens one step, then the right answer.
         for (const [k, item] of L.together.items.entries()) {
-          if (item.hints?.length) { await press(`form[data-item="${item.id}"] [data-act="hint"]`); expect(await b.js('return !!document.querySelector(".hints li");'), `${item.id}: hint shown`); }
+          if (k === 0) {
+            await answer(item, wrongFor(item)); await checkAnswer(item);
+            expect((await fb()).startsWith('Not yet '), `${item.id}: why it is wrong`);
+            await press(`form[data-item="${item.id}"] [data-act="help"]`);
+            eq(await b.js('return document.querySelectorAll(".help-steps li").length;'), 1, `${item.id}: one Help step`);
+          }
           await solve(item);
           expect((await fb()).startsWith('Yes!'), `${item.id}: ${await fb()}`);
           if (k < L.together.items.length - 1) await press('[data-act="next"]');
@@ -645,7 +658,7 @@ async function main() {
         eq(await stageTitle(), 'Try It Yourself: your results', 'back to results');
         // Test Your Knowledge: no hints, every answer right, then the next lesson.
         await go('.stage-nav a.btn-primary[href$="stage=test"]');
-        eq(await b.js('return document.querySelectorAll("[data-act=hint], [data-act=show]").length;'), 0, 'no hints in the test');
+        eq(await b.js('return document.querySelectorAll("[data-act=help], [data-act=hint], [data-act=show]").length;'), 0, 'no hints in the test');
         for (const [k, item] of L.test.items.entries()) {
           await answer(item, solution(item));
           await press(k < L.test.items.length - 1 ? '[data-act="next"]' : '[data-act="submit"]');
@@ -659,7 +672,7 @@ async function main() {
       });
     }
 
-    await check('Lesson test: a missed question goes to Practice My Misses with Show me how, and Home works from the results', async () => {
+    await check('Lesson test: a missed question goes to Practice My Misses with Help, and Home works from the results', async () => {
       await b.load(url(lessonHash('5-4', 'test')));
       const L = readJSON('data/lessons/5-4.json');
       for (const [k, item] of L.test.items.entries()) {
@@ -675,8 +688,8 @@ async function main() {
       const n = boxes(item);
       if (item.type !== 'choice') await answer(item, { ...solution(item), [n[n.length - 1]]: Number(solution(item)[n[n.length - 1]]) + 2 });
       await checkAnswer(item);
-      await press(`form[data-item="${item.id}"] [data-act="show"]`);
-      expect(await b.js('return !!document.querySelector(".showme li");'), 'Show me how explains it');
+      for (let k = 0; k < helpSteps(item).length; k++) await press(`form[data-item="${item.id}"] [data-act="help"]`);
+      expect(await b.js('return document.querySelectorAll(".help-steps li").length;') >= 2, 'Help explains it step by step');
       await press('[data-act="next"]');
       eq(await stageTitle(), 'Practice My Misses: how you did', 'summary');
       await press('[data-act="misses-exit"]');
@@ -776,7 +789,7 @@ async function main() {
       await go('.test-mathwords a.btn-primary');
       eq(await b.js('return document.querySelector(".stage-title h2").textContent;'), 'Question 1 of 15', '15 questions');
       for (let k = 0; k < 15; k++) {
-        eq(await b.js('return document.querySelectorAll("#act-stage [data-act=hint], #act-stage [data-act=show], #act-stage .feedback").length;'), 0, 'no hints or feedback');
+        eq(await b.js('return document.querySelectorAll("#act-stage [data-act=help], #act-stage [data-act=hint], #act-stage [data-act=show], #act-stage .feedback").length;'), 0, 'no hints or feedback');
         const prompt = await b.js('const p = document.querySelector("#act-stage form[data-item]").querySelector(".prompt, legend")?.cloneNode(true); p?.querySelectorAll(".sr-only").forEach((x) => x.remove()); return (p?.textContent || "").trim();');
         const item = allWordItems.find((i) => i.prompt === prompt);
         expect(item, `found the question "${prompt}"`);
@@ -811,7 +824,7 @@ async function main() {
     const DEF = new Map(W19.vocab.words.map((w) => [w.word, w.def]));
     const SP = new Map(W19.spelling.words.map((w) => [w.word, w]));
     const formId = () => b.js('return document.querySelector("#act-stage form[data-item]")?.dataset.item || null;');
-    const actFb = () => b.js('return document.querySelector("#act-stage .feedback:not(.info)")?.textContent.replace(/\\s+/g, " ").trim() || "";');
+    const actFb = () => b.js('const e = document.querySelector("#act-stage .feedback:not(.info)"); if (!e) return ""; const c = e.cloneNode(true); c.querySelectorAll(".read").forEach((x) => x.remove()); return c.textContent.replace(/\\s+/g, " ").trim();');
     // The question as written on screen (a blank's hidden "blank" word for screen readers is left out).
     const qPrompt = () => b.js('const p = document.querySelector("#act-stage form[data-item]").querySelector(".prompt, legend")?.cloneNode(true); p?.querySelectorAll(".sr-only").forEach((x) => x.remove()); return (p?.textContent || "").trim();');
     const optionTexts = () => b.js('return [...document.querySelectorAll("#act-stage .choice > span")].map((s) => s.textContent);');
@@ -1094,7 +1107,7 @@ async function main() {
       await b.ready(before);
       eq(await b.js('return [location.hash, document.activeElement.tagName, document.activeElement.textContent];'), ['#week', 'H1', 'This Week'], 'browser Forward (focus on the heading)');
     });
-    await check('Math > Practice Problems > Match the Split Array: from the menu, right and wrong answers, hint, Show me how, results, misses', async () => {
+    await check('Math > Practice Problems > Match the Split Array: from the menu, right and wrong answers, Help step by step, results, misses', async () => {
       const PRACTICE = readJSON('data/practice/math.json');
       const ITEM = new Map(Object.values(PRACTICE.sets).flat().map((it) => [it.id, it]));
       await b.load(url('#math'));
@@ -1116,12 +1129,14 @@ async function main() {
           await pickText(item.options.find((o) => !o.correct).text);
           await checkIt();
           expect((await actFb()).startsWith('Not yet'), 'a wrong choice');
-          await press('#act-stage [data-act="hint"]');
-          expect(await b.js('return !!document.querySelector("#act-stage .hints li");'), 'a hint');
+          expect((await actFb()).includes(item.options.find((o) => !o.correct).why), 'the wrong choice says why');
+          await press('#act-stage [data-act="help"]');
+          eq(await b.js('return document.querySelectorAll("#act-stage .help-steps li").length;'), 1, 'one Help step');
           await pickText(item.options.filter((o) => !o.correct)[1].text);
           await checkIt();
-          await press('#act-stage [data-act="show"]');
-          expect((await b.js('return document.querySelector("#act-stage .showme").textContent;')).includes(right), 'Show me how ends with the answer');
+          const n = helpSteps(item).length;
+          for (let h = 1; h < n; h++) await press('#act-stage [data-act="help"]');
+          expect((await b.js('return document.querySelector("#act-stage .help-panel").textContent;')).includes(right), 'the last Help step ends with the answer');
         } else {
           await pickText(right);
           await checkIt();
@@ -1203,7 +1218,7 @@ async function main() {
       await b.load(url('#tests?test=math'));
       const items = T19.math.items;
       for (const [k, item] of items.entries()) {
-        eq(await b.js('return [...document.querySelectorAll("#act-stage [data-act=hint], #act-stage [data-act=show], #act-stage button[type=submit], #act-stage .feedback")].length;'), 0, 'no help or feedback on ' + item.id);
+        eq(await b.js('return [...document.querySelectorAll("#act-stage [data-act=help], #act-stage [data-act=hint], #act-stage [data-act=show], #act-stage button[type=submit], #act-stage .feedback")].length;'), 0, 'no help or feedback on ' + item.id);
         if (item.id === 'm2') await answer(item, { answer: 6 });
         else if (item.id !== 'm17') await answer(item, solution(item));
         if (k === 0) {
@@ -1238,7 +1253,7 @@ async function main() {
         expect(!(await b.js('return document.getElementById("app").innerHTML;')).includes(w), w + ' is not even in the page source');
         asked.push(w);
         expect(!(await b.js('return document.getElementById("app").textContent;')).includes(w), w + ' is never on the screen');
-        eq(await b.js('return [document.querySelectorAll("#app img").length, document.querySelectorAll("#act-stage [data-act=hint], #act-stage .feedback").length];'), [0, 0], 'no picture, hint or feedback');
+        eq(await b.js('return [document.querySelectorAll("#app img").length, document.querySelectorAll("#act-stage [data-act=help], #act-stage [data-act=hint], #act-stage .feedback").length];'), [0, 0], 'no picture, hint or feedback');
         await typeIn(k === 3 ? w.toUpperCase() : k === 5 ? w + '.' : w);
         if (k < 14) await press('[data-act="next"]');
       }
@@ -1274,7 +1289,7 @@ async function main() {
     await check('contrast and touch targets also hold after feedback, on a flipped and marked card, with the unanswered warning and on results', async () => {
       const states = [
         ['#vocab?act=truefalse', async () => { await pickText('True'); await checkIt(); }],
-        ['#vocab?act=fill', async () => { await typeIn('x'); await checkIt(); await press('[data-act="hint"]'); }],
+        ['#vocab?act=fill', async () => { await typeIn('x'); await checkIt(); await press('[data-act="help"]'); }],
         ['#spelling?act=letters', async () => { await b.js('document.querySelectorAll("#act-stage input.letter").forEach((el) => { el.value = "x"; }); document.querySelector("#act-stage form").dispatchEvent(new Event("input", { bubbles: true }));'); await checkIt(); }],
         ['#spelling?act=flash', async () => { await press('[data-act="flip"]'); await press('[data-mark="known"]'); }],
         ['#tests?test=vocab', async () => { for (let k = 0; k < 15; k++) await press('[data-act="next"]'); await press('[data-act="submit"]'); }],

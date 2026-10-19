@@ -107,9 +107,9 @@ export default {
           { say: 'Double 12.', eq: '6 × 4 = 6 × 2 + 6 × 2 = 12 + 12 = 24', pictured: true },
         ],
         why: choice('wB', 'Which number did we break apart?', [
-          ['The 6', 'Every part still has 6 rows. We broke the 4 into 2 + 2.'],
+          ['The 6', 'Every part still has 6 rows. Look at what the line cuts.'],
           ['The 4', true],
-          ['The 24', '24 is the product. We broke the 4 into 2 + 2.'],
+          ['The 24', '24 is the product. Look at what the line cuts.'],
         ], { yes: 'Yes! Find the 4 and break it into 2 + 2, wherever it is.' }),
         another: {
           text: 'Turn it around and it still works: 4 × 6 = 6 × 4 = 24.',
@@ -174,9 +174,9 @@ export default {
       }),
       choice('t5', 'Which fact can you double to find 4 × 9?', [
         ['2 × 9', true],
-        ['4 × 2', 'Double 4 × 2 is 4 × 4. Find the 4 in 4 × 9 and use the 2s fact: 2 × 9.'],
-        ['1 × 9', 'Double 1 × 9 is only 2 × 9. You need 2 × 9, then double that.'],
-        ['2 × 4', 'Double 2 × 4 is 4 × 4. Use the 2s fact with the 9: 2 × 9.'],
+        ['4 × 2', 'Double 4 × 2 is 4 × 4, not 4 × 9. Which 2s fact keeps the 9?'],
+        ['1 × 9', 'Doubling 1 × 9 makes a 2s fact, not 4 × 9. Which fact doubles to make 4 × 9?'],
+        ['2 × 4', 'Double 2 × 4 is 4 × 4, not 4 × 9. Which 2s fact keeps the 9?'],
       ], {
         hints: ['4 = 2 + 2. Which 2s fact keeps the 9?'],
         show: ['4 × 9 = 2 × 9 + 2 × 9.', 'So double 2 × 9 = 18: 18 + 18 = 36.'], yes: 'Yes! Double 2 × 9: 18 + 18 = 36.',

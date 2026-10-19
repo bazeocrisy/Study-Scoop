@@ -270,7 +270,7 @@ export default {
       ], { hints: ['5 × 8 means 5 equal groups of 8.'], show: ['5 vases with 8 flowers in each is 5 equal groups of 8.', '5 × 8 = 40 flowers.'], yes: 'Yes! 5 equal groups of 8.' }),
       story('t18', 'A van has 4 rows of seats. Each row has 3 seats. 2 of the seats are red. How many seats are in the van?', 4, 3, {
         hints: ['Not every number is needed. Find the rows and the seats in each row.', '4 rows of 3: 4 × 3.'],
-        mistakes: [{ when: { answer: 9 }, say: 'The 2 red seats are already counted. Just find 4 rows of 3.' }, { when: { answer: 7 }, say: '4 + 3 is 7. There are 4 equal rows, so multiply.' }, { when: { answer: 14 }, say: 'The 2 red seats are part of the 12, not extra. Just find 4 rows of 3.' }, { when: { answer: 10 }, say: 'Red seats are still seats. Do not take them away. Find 4 rows of 3.' }],
+        mistakes: [{ when: { answer: 9 }, say: 'The 2 red seats are already counted. Just find 4 rows of 3.' }, { when: { answer: 7 }, say: '4 + 3 is 7. There are 4 equal rows, so multiply.' }, { when: { answer: 14 }, say: 'The 2 red seats are already in the rows, not extra. Just find 4 rows of 3.' }, { when: { answer: 10 }, say: 'Red seats are still seats. Do not take them away. Find 4 rows of 3.' }],
         show: ['The red seats do not change how many seats there are.', '4 × 3 = 12 seats.'], yes: 'Yes! 12 seats. The red seats were extra information.',
       }),
       choice('t19', 'Eli says 7 rows of 9 chairs is 16 chairs. Does that make sense?', [

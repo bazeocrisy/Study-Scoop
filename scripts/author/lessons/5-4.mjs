@@ -137,9 +137,9 @@ export default {
           { say: 'Add the two parts.', eq: '4 × 6 = 4 × 5 + 4 × 1 = 20 + 4 = 24', pictured: true },
         ],
         why: choice('wC', 'Which number did we break apart?', [
-          ['The 4', 'Every part still has 4 rows. We broke the 6 into 5 + 1.'],
+          ['The 4', 'Every part still has 4 rows. Look at what the line cuts.'],
           ['The 6', true],
-          ['The 24', '24 is the product. We broke the 6 into 5 + 1.'],
+          ['The 24', '24 is the product. Look at what the line cuts.'],
         ], { yes: 'Yes! Find the 6 and break it apart, wherever it is.' }),
       },
     ],

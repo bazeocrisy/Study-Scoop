@@ -6,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chainHolds, evaluate, speak, wrongFactsInText } from '../../js/lib/arith.js';
 import { counts, modelFigure } from '../../js/lib/models.js';
-import { STAGE_IDS, boxes, check, decompositionOf, modelEquation, readNumber, score, solution, validateLesson } from '../../js/lib/lessons.js';
+import { STAGE_IDS, boxes, check, decompositionOf, helpSteps, modelEquation, readNumber, score, solution, validateLesson } from '../../js/lib/lessons.js';
 import { buildHash } from '../../js/lib/router.js';
 import { lessonView } from '../../js/views/lesson.js';
 
@@ -135,7 +135,9 @@ test('wrong answers get the message written for that mistake; anything else gets
   assert.equal(check(g4, { a: '4', b: '2' }, l).status, 'notyet');
   const g5 = LESSONS[1].together.items.find((i) => i.id === 'g5');
   assert.equal(check(g5, { answer: '16' }, LESSONS[1]).say, "That's only double 8. Add 8 once more.");
-  assert.equal(check(g5, { answer: '50' }, LESSONS[1]).say, LESSONS[1].catchAll);
+  // Any other wrong number says why it is wrong (never the answer), then the question's first hint.
+  assert.equal(check(g5, { answer: '50' }, LESSONS[1]).say, `50 is too big. ${g5.hints?.[0] || LESSONS[1].catchAll}`);
+  assert.match(check(g5, { answer: '1' }, LESSONS[1]).say, /^1 is too small\. /);
   const t4 = LESSONS[1].try.items.find((i) => i.id === 't4');
   assert.equal(check(t4, { choice: String(t4.options.findIndex((o) => o.text === '2 × 7 + 2 × 7')) }, LESSONS[1]).say, "That's 4 groups of 7. 3 is 2 and 1.");
 });
@@ -177,22 +179,45 @@ test('the test never shows hints, feedback or answers before it is finished', ()
       // Even with a typed answer and tries recorded, nothing is revealed in test mode.
       const st = { i, items: { [item.id]: { resp: asText(solution(item)), status: 'correct', say: 'Yes!', tries: 3, hints: 2, shown: true } }, steps: {} };
       const out = lessonView(ctx(lesson, 'test', st)).s;
-      assert.doesNotMatch(out, /data-act="(?:hint|show)"|class="feedback (?:ok|notyet)"|class="showme"|Not yet/, `${lesson.id} ${item.id}`);
+      assert.doesNotMatch(out, /data-act="(?:help|hint|show)"|class="feedback (?:ok|notyet)"|help-panel|class="showme"|Not yet/, `${lesson.id} ${item.id}`);
       for (const o of item.options || []) if (o.why) assert.ok(!out.includes(o.why), `${lesson.id} ${item.id} leaks a why message`);
       for (const s of item.show || []) assert.ok(!out.includes(s), `${lesson.id} ${item.id} leaks the worked answer`);
     });
   }
 });
 
-test('Try It Yourself hides hints until the second miss; Practice Together offers them right away', () => {
+test('Help appears after a wrong answer, opens one step at a time, and the old Hint and Show me how buttons are gone', () => {
   const l = LESSONS[0];
-  const t1 = l.try.items[0];
-  const once = lessonView(ctx(l, 'try', { i: 0, items: { [t1.id]: { tries: 1, status: 'notyet', say: 'x' } }, steps: {} })).s;
-  assert.doesNotMatch(once, /data-act="hint"/);
-  const twice = lessonView(ctx(l, 'try', { i: 0, items: { [t1.id]: { tries: 2, status: 'notyet', say: 'x' } }, steps: {} })).s;
-  assert.match(twice, /data-act="hint"/);
-  assert.match(twice, /data-act="show"/);
-  assert.match(lessonView(ctx(l, 'together', { i: 0, items: {}, steps: {} })).s, /data-act="hint"/);
+  for (const stage of ['together', 'try']) {
+    const it = l[stage].items[0];
+    const steps = helpSteps(it);
+    const view = (st) => lessonView(ctx(l, stage, { i: 0, items: { [it.id]: st }, steps: {} })).s;
+    assert.doesNotMatch(view({ tries: 0 }), /data-act="(?:help|hint|show)"/, `${stage}: no Help before an answer`);
+    const once = view({ tries: 1, status: 'notyet', say: 'x' });
+    assert.match(once, /data-act="help"[^>]*>Help</, `${stage}: Help after one wrong answer`);
+    assert.doesNotMatch(once, /data-act="(?:hint|show)"|help-panel/);
+    const two = view({ tries: 1, status: 'notyet', say: 'x', help: 2 });
+    assert.match(two, /Help: step 2 of \d+/);
+    assert.equal((two.match(/<li[ >]/g) || []).filter(Boolean).length >= 2, true);
+    assert.ok(two.includes(steps[1].text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')) || two.includes(steps[1].text));
+    if (steps.length > 2) assert.ok(!two.includes(`>${steps[2].text}<`), `${stage}: step 3 stays hidden`);
+    assert.match(two, /data-act="help"[^>]*>Next step</);
+    const done = view({ tries: 1, status: 'shown', shown: true, help: steps.length });
+    assert.match(done, /Here's how|Here&#39;s how/);
+    assert.doesNotMatch(done, /data-act="help"/);
+  }
+});
+
+test('every practice question has Help steps, and the last step is the worked answer', () => {
+  for (const lesson of LESSONS) {
+    for (const stage of ['together', 'try']) {
+      for (const item of lesson[stage].items) {
+        const steps = helpSteps(item);
+        assert.ok(steps.length >= 2 || item.type === 'choice', `${lesson.id} ${item.id}: needs at least 2 Help steps`);
+        assert.equal(steps.at(-1).kind, 'show', `${lesson.id} ${item.id}`);
+      }
+    }
+  }
 });
 
 test('every question has a way to get unstuck before the test (hints and Show me how)', () => {

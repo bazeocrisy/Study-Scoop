@@ -101,9 +101,9 @@ export default {
           { say: 'Check the array. 8 rows of 7 is 56 dots.', eq: '8 × 7 = 56' },
         ],
         why: choice('wA', 'Why can we double 4 × 7 to find 8 × 7?', [
-          ['Because 7 is odd.', 'Odd or even does not matter. It works because 8 rows is 4 rows and 4 more rows.'],
+          ['Because 7 is odd.', 'Odd or even does not matter. Look at how the 8 rows were cut.'],
           ['8 rows is 4 rows and 4 more rows.', true],
-          ['Because 4 is the answer.', 'The answer is 56. It works because 8 rows is 4 rows and 4 more rows.'],
+          ['Because 4 is the answer.', 'The answer is 56, not 4. Look at how the 8 rows were cut.'],
         ], { yes: 'Yes! 4 + 4 = 8, so two 4s facts make the 8s fact.' }),
       },
       {
@@ -136,8 +136,8 @@ export default {
           { say: 'Double 36.', eq: '9 × 8 = 9 × 4 + 9 × 4 = 36 + 36 = 72', pictured: true },
         ],
         why: choice('wC', 'Which number did we break apart?', [
-          ['The 9', 'Every part still has 9 rows. We broke the 8 into 4 + 4.'],
-          ['The 72', '72 is the product. We broke the 8 into 4 + 4.'],
+          ['The 9', 'Every part still has 9 rows. Look at what the line cuts.'],
+          ['The 72', '72 is the product. Look at what the line cuts.'],
           ['The 8', true],
         ], { yes: 'Yes! Find the 8 and break it apart, wherever it is.' }),
       },
@@ -197,7 +197,7 @@ export default {
         show: ['4 + 4 = 8, and both parts have 9.', '8 × 9 = 4 × 9 + 4 × 9.'], yes: 'Yes! 8 × 9 = 4 × 9 + 4 × 9.',
       }),
       choice('t5', 'Which fact can you double to find 8 × 7?', [
-        ['2 × 7', 'Double 2 × 7 is only 4 × 7. Double 4 × 7 to get 8 × 7.'],
+        ['2 × 7', 'Doubling 2 × 7 makes a 4s fact, not 8 × 7. Which fact doubles to make 8 × 7?'],
         ['4 × 7', true],
         ['4 × 2', 'Double 4 × 2 is 4 × 4, not 8 × 7.'],
         ['8 × 2', 'Double 8 × 2 is 8 × 4, not 8 × 7.'],

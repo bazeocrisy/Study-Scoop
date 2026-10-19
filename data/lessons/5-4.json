@@ -362,7 +362,7 @@
           "options": [
             {
               "text": "The 4",
-              "why": "Every part still has 4 rows. We broke the 6 into 5 + 1."
+              "why": "Every part still has 4 rows. Look at what the line cuts."
             },
             {
               "text": "The 6",
@@ -370,7 +370,7 @@
             },
             {
               "text": "The 24",
-              "why": "24 is the product. We broke the 6 into 5 + 1."
+              "why": "24 is the product. Look at what the line cuts."
             }
           ],
           "yes": "Yes! Find the 6 and break it apart, wherever it is."
@@ -419,7 +419,7 @@
         ],
         "hints": [
           "The top part is 5 × 4 = 20.",
-          "Find 5 × 4 (count by 5s) and 1 × 4 (times 1 keeps the number). Then add them."
+          "Add the two numbers on the second line."
         ],
         "show": [
           "5 × 4 = 20.",
@@ -468,7 +468,7 @@
         ],
         "hints": [
           "Each part is 3 rows of 8.",
-          "Find 3 × 8 (use a fact you know) and 3 × 8 (use a fact you know). Then add them."
+          "Find 3 × 8 (use a fact you know). Both parts are the same, so add it to itself."
         ],
         "show": [
           "3 × 8 = 24.",
@@ -930,7 +930,7 @@
         ],
         "hints": [
           "Each part is 3 rows of 6.",
-          "Find 3 × 6 (use a fact you know) and 3 × 6 (use a fact you know). Then add them."
+          "Find 3 × 6 (use a fact you know). Both parts are the same, so add it to itself."
         ],
         "show": [
           "3 × 6 = 18.",

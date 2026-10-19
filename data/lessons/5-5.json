@@ -219,7 +219,7 @@
           "options": [
             {
               "text": "Because 7 is odd.",
-              "why": "Odd or even does not matter. It works because 8 rows is 4 rows and 4 more rows."
+              "why": "Odd or even does not matter. Look at how the 8 rows were cut."
             },
             {
               "text": "8 rows is 4 rows and 4 more rows.",
@@ -227,7 +227,7 @@
             },
             {
               "text": "Because 4 is the answer.",
-              "why": "The answer is 56. It works because 8 rows is 4 rows and 4 more rows."
+              "why": "The answer is 56, not 4. Look at how the 8 rows were cut."
             }
           ],
           "yes": "Yes! 4 + 4 = 8, so two 4s facts make the 8s fact."
@@ -374,11 +374,11 @@
           "options": [
             {
               "text": "The 9",
-              "why": "Every part still has 9 rows. We broke the 8 into 4 + 4."
+              "why": "Every part still has 9 rows. Look at what the line cuts."
             },
             {
               "text": "The 72",
-              "why": "72 is the product. We broke the 8 into 4 + 4."
+              "why": "72 is the product. Look at what the line cuts."
             },
             {
               "text": "The 8",
@@ -431,7 +431,7 @@
         ],
         "hints": [
           "Each part is 4 × 3 = 12.",
-          "Find 4 × 3 (use a fact you know) and 4 × 3 (use a fact you know). Then add them."
+          "Add the two numbers on the second line."
         ],
         "show": [
           "4 × 3 = 12.",
@@ -586,7 +586,7 @@
         ],
         "hints": [
           "Each part is 10 rows of 4.",
-          "Find 10 × 4 (count by 10s) and 10 × 4 (count by 10s). Then add them."
+          "Find 10 × 4 (count by 10s). Both parts are the same, so add it to itself."
         ],
         "show": [
           "10 × 4 = 40.",
@@ -815,7 +815,7 @@
         "options": [
           {
             "text": "2 × 7",
-            "why": "Double 2 × 7 is only 4 × 7. Double 4 × 7 to get 8 × 7."
+            "why": "Doubling 2 × 7 makes a 4s fact, not 8 × 7. Which fact doubles to make 8 × 7?"
           },
           {
             "text": "4 × 7",
@@ -879,7 +879,7 @@
         ],
         "hints": [
           "Each part is 4 rows of 10.",
-          "Find 4 × 10 (count by 10s) and 4 × 10 (count by 10s). Then add them."
+          "Find 4 × 10 (count by 10s). Both parts are the same, so add it to itself."
         ],
         "show": [
           "4 × 10 = 40.",
@@ -990,7 +990,7 @@
         ],
         "hints": [
           "Each part is 7 rows of 4.",
-          "Find 7 × 4 (use a fact you know) and 7 × 4 (use a fact you know). Then add them."
+          "Find 7 × 4 (use a fact you know). Both parts are the same, so add it to itself."
         ],
         "show": [
           "7 × 4 = 28.",
