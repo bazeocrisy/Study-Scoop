@@ -13,14 +13,16 @@ const runs = new Map();    // "week:section:act" -> run
 const misses = new Map();  // "week:subject" -> Map(key -> { item, fromMark })
 
 const missMap = (weekId, subject) => {
-  const k = `${weekId}:${subject}`;
+  // Skill Builders are not weekly: their misses stay when another week is chosen.
+  const k = /^skill/.test(subject) ? `all:${subject}` : `${weekId}:${subject}`;
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
 export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
-const missKey = (item) => (item.n ? `word-${item.n}` : item.id);
+// (Rounding questions also have a number `n`, but they are kept by their own id, which names the number and the place.)
+const missKey = (item) => (item.n && !item.to ? `word-${item.n}` : item.id);
 function addMiss(weekId, subject, item, fromMark = false) {
   const m = missMap(weekId, subject);
   const old = m.get(missKey(item));

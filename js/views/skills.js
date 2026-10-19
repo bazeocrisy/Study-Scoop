@@ -61,12 +61,13 @@ export function learnExamples(skill) {
   }
   return [
     { title: 'Find any fact from one you know', table: [
-      ['× 2', 'Double it.'], ['× 3', 'Double it, then add one more.'], ['× 4', 'Double it, then double again.'],
-      ['× 5', 'Count by 5s.'], ['× 6', 'The 5s fact, plus one more.'], ['× 7', 'The 5s fact plus the 2s fact.'],
+      ['× 2', 'Double it.'], ['× 3', 'Double it, then add one more group.'], ['× 4', 'Double it, then double again.'],
+      ['× 5', 'Count by 5s.'], ['× 6', 'The 5s fact, plus one more group.'], ['× 7', 'The 5s fact plus the 2s fact.'],
       ['× 8', 'Double the 4s fact.'], ['× 9', 'The 5s fact plus the 4s fact.'], ['× 10', 'Write the number with a 0 after it.'],
     ] },
-    { title: 'Example: 7 × 8', steps: ['Break 7 into 5 + 2.', ...timesItem(7, 8).show] },
-    { title: 'Example: 6 × 9', steps: ['Break 6 into 5 + 1.', ...timesItem(6, 9).show] },
+    // The first step is the strategy the practice questions use for that fact, so the example and the Help agree.
+    { title: 'Example: 7 × 8', steps: [timesItem(7, 8).hints[0], ...timesItem(7, 8).show] },
+    { title: 'Example: 6 × 4', steps: [timesItem(6, 4).hints[0], ...timesItem(6, 4).show] },
     { title: 'Turn it around', steps: ['8 × 3 is the same as 3 × 8. Use the one that is easier for you.', 'That is the Commutative Property.'] },
   ];
 }

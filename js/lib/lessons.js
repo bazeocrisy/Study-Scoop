@@ -65,7 +65,8 @@ export function answerText(item) {
 
 /** Reads typed text as a whole number: " 18 " and "018" are 18; anything else is not a number. */
 export function readNumber(text) {
-  const t = String(text ?? '').trim();
+  // "1,000" is read as 1000 (children often write the comma).
+  const t = String(text ?? '').trim().replace(/^(\d{1,3}),(\d{3})$/, '$1$2');
   if (t === '') return { empty: true };
   if (!/^\d{1,4}$/.test(t)) return { bad: true };
   return { value: Number(t) };
@@ -236,6 +237,7 @@ export function explainNumber(item, x) {
   // Adding: a lost or extra ten, or just 1 away.
   const plus = String(item.answer).match(/^\s*(\d+)\s*\+\s*(\d+)\s*$/);
   if (plus) {
+    if ((plus[1] === '10' || plus[2] === '10') && x === target - 10) return 'You forgot to add the 10. Adding 10 gives one more ten.';
     if (x === target - 10) return 'You lost a ten. When the ones make 10 or more, that ten goes with the tens.';
     if (x === target + 10) return 'You added an extra ten. Check the tens again.';
     if (Math.abs(x - target) === 1) return 'So close! Check the ones again.';
@@ -292,10 +294,10 @@ function checkRound(item, response) {
   const zeros = item.to === 10 ? '0' : '00';
   const say = x === item.n ? `Rounding to the nearest ${item.to} makes a number that ends in ${zeros}.`
     : x % item.to !== 0 ? 'Every digit to the right of the underlined digit becomes 0.'
-      : p.carry ? `The ${p.d} goes up to 10. Write 0 in the ${name} place and add 1 to the ${NEXT_PLACE[item.to]} place.`
-        : p.up && x === p.answer - item.to ? `Going up means the ${p.d} becomes 1 more.`
-          : !p.up && x === p.answer + item.to ? `Staying the same means the ${p.d} does not change.`
-            : 'The digits to the left of the underlined digit stay the same. Check each step again.';
+      : p.carry ? `The ${p.d} goes up to 10. Write 0 in the ${name} place and ${p.place === 0 ? `write 1 in the ${NEXT_PLACE[item.to]} place` : `add 1 to the ${NEXT_PLACE[item.to]} digit`}.`
+        // Compare the digits left of the underlined one, then the underlined digit itself.
+        : Math.floor(x / (item.to * 10)) !== Math.floor(p.answer / (item.to * 10)) ? 'The digits to the left of the underlined digit stay the same.'
+          : p.up ? `Going up means the ${p.d} becomes 1 more.` : `Staying the same means the ${p.d} does not change.`;
   return { status: 'notyet', say, wrong: ['answer'] };
 }
 
