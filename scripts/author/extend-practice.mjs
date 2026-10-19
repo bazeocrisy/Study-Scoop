@@ -44,13 +44,13 @@ const PROPS = [
   prop('p14', '(5 × 2) × 3 = 5 × (2 × 3)', 'Associative', ['Commutative', 'Zero', 'Distributive'],
     'Look at the ( ). Did the order of the numbers change, or only the grouping?',
     ['The factors stay in the same order: 5, 2, 3.', 'Only the grouping changes. Both sides make 30: 10 × 3 = 30 and 5 × 6 = 30.', 'So this is the Associative Property.']),
-  prop('p15', '4 × (2 × 2) = (4 × 2) × 2', 'Associative', ['Identity', 'Commutative', 'Distributive'],
+  prop('p15', '4 × (3 × 2) = (4 × 3) × 2', 'Associative', ['Identity', 'Commutative', 'Distributive'],
     'Three factors with ( ) that move. What is that called?',
-    ['The factors stay in the same order: 4, 2, 2.', 'Only the ( ) move. Both sides make 16: 4 × 4 = 16 and 8 × 2 = 16.', 'So this is the Associative Property.']),
+    ['The factors stay in the same order: 4, 3, 2.', 'Only the ( ) move. Both sides make 24: 4 × 6 = 24 and 12 × 2 = 24.', 'So this is the Associative Property.']),
   prop('p16', '(2 × 3) × 5 = 2 × (3 × 5)', 'Associative', ['Commutative', 'Zero', 'Identity'],
     'Kai and Lena multiplied the same three numbers in the same order. What did they change?',
     ['Kai: 2 × 3 = 6, then 6 × 5 = 30. Lena: 3 × 5 = 15, then 2 × 15 = 30.', 'Same factors, same order, different grouping. Same product.', 'So this is the Associative Property.'],
-    'Kai finds 2 × 3 first, then multiplies by 5. Lena finds 3 × 5 first, then multiplies by 2. They both get 30. Which property does (2 × 3) × 5 = 2 × (3 × 5) show?'),
+    'Kai finds 2 × 3 = 6 first, then finds 6 × 5. Lena finds 3 × 5 = 15 first, then finds 2 × 15. They both get 30. Which property does (2 × 3) × 5 = 2 × (3 × 5) show?'),
   prop('p17', '10 × 1 = 10', 'Identity', ['Zero', 'Commutative', 'Associative'],
     'Look at the factors. What is special about one of them?',
     ['One factor is 1.', 'Any number multiplied by 1 stays the same: 10 × 1 = 10.', 'So this is the Identity Property.']),
@@ -67,6 +67,7 @@ const PROPS = [
 ];
 
 // ---------------------------------------------------------------- Match the Split Array
+const rowsOf = (n, per) => `${n} ${n === 1 ? 'row' : 'rows'} of ${per}`;
 /** A split-array question: a rows of b, cut by rows (under row k) or by columns (after column k). */
 function split(id, a, b, by, k, wrongCut) {
   const rows = by === 'rows';
@@ -90,12 +91,12 @@ function split(id, a, b, by, k, wrongCut) {
   const unit = rows ? 'row' : 'column';
   const per = rows ? b : a;
   return {
-    id, type: 'choice', prompt: 'A dashed line splits this array. Which expression matches the two parts?',
+    id, type: 'choice', prompt: 'A dashed line splits this array. Which facts match the two parts?',
     model: { type: 'array', rows: a, cols: b, cut: { by, at: k } }, pictureMatch: true, options,
     hints: [rows ? 'Put your finger on each row above the dashed line and count. Then do the same below it.' : 'Count the columns left of the dashed line. Then count the columns right of it.',
       `Every ${unit} has ${per} dots.`],
-    show: [`The line is ${place(k)}.`, rows ? `Above the line: ${k} rows of ${b}, so ${F(k, b)}.` : `Left of the line: ${a} rows of ${k}, so ${F(a, k)}.`,
-      rows ? `Below the line: ${a - k} rows of ${b}, so ${F(a - k, b)}.` : `Right of the line: ${a} rows of ${b - k}, so ${F(a, b - k)}.`, `So the answer is ${text(f1, f2)}.`],
+    show: [`The line is ${place(k)}.`, rows ? `Above the line: ${rowsOf(k, b)}, so ${F(k, b)}.` : `Left of the line: ${rowsOf(a, k)}, so ${F(a, k)}.`,
+      rows ? `Below the line: ${rowsOf(a - k, b)}, so ${F(a - k, b)}.` : `Right of the line: ${rowsOf(a, b - k)}, so ${F(a, b - k)}.`, `So the answer is ${text(f1, f2)}.`],
     yes: `Yes! ${F(...f1)} = ${f1[0] * f1[1]} and ${F(...f2)} = ${f2[0] * f2[1]}. ${f1[0] * f1[1]} + ${f2[0] * f2[1]} = ${a * b}.`,
     explain: `${text(f1, f2)} = ${f1[0] * f1[1]} + ${f2[0] * f2[1]} = ${a * b}.`,
     unitCount: n,
@@ -235,6 +236,8 @@ add('props', PROPS);
 add('split', SPLITS);
 add('breakapart', BREAK);
 add('facts', FACTS);
+// Every split question says "facts" (the word children learn), not "expression".
+for (const it of practice.sets.split) it.prompt = it.prompt.replace('Which expression matches the two parts?', 'Which facts match the two parts?');
 practice.note = 'Study Scoop practice problems (original, not from the textbook). They cover the five multiplication properties, split arrays and breaking apart a factor.';
 const problems = validateMathPractice(practice);
 if (problems.length) { console.error(problems.join('\n')); process.exit(1); }

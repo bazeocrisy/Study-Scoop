@@ -339,7 +339,7 @@
         ],
         "hints": [
           "Each part is 2 × 8 = 16.",
-          "Double 16: 16 + 16."
+          "Find 2 × 8 (it is a double) and 2 × 8 (it is a double). Then add them."
         ],
         "show": [
           "2 × 8 = 16.",
@@ -388,7 +388,7 @@
         ],
         "hints": [
           "The top part is 2 rows of 5.",
-          "Both parts are 2 × 5 = 10."
+          "Find 2 × 5 (count by 5s) and 2 × 5 (count by 5s). Then add them."
         ],
         "show": [
           "2 × 5 = 10.",
@@ -481,7 +481,7 @@
         ],
         "hints": [
           "Find the 4. It is broken into 2 + 2 columns.",
-          "7 × 2 = 14. Double 14."
+          "Find 7 × 2 (it is a double) and 7 × 2 (it is a double). Then add them."
         ],
         "show": [
           "7 × 2 = 14.",
@@ -557,38 +557,38 @@
       {
         "id": "t1",
         "type": "fill",
-        "prompt": "2 × 8 = 16. Use it to find 4 × 8.",
+        "prompt": "2 × 6 = 12. Use it to find 4 × 6.",
         "lines": [
-          "4 × 8 = 16 + [x]",
+          "4 × 6 = 12 + [x]",
           "= [t]"
         ],
         "answer": {
-          "x": 16,
-          "t": 32
+          "x": 12,
+          "t": 24
         },
         "hints": [
-          "4 × 8 is two 2 × 8 facts.",
-          "Double 16: 16 + 16."
+          "4 × 6 is two 2 × 6 facts.",
+          "What do you add to 12 to double it?"
         ],
         "mistakes": [
           {
             "when": {
-              "x": 8
+              "x": 6
             },
-            "say": "Add the whole 2s fact again: 16, not 8."
+            "say": "Add the whole 2s fact again: 12, not 6."
           },
           {
             "when": {
               "x": 4
             },
-            "say": "Add the whole 2s fact again: 16, not 4."
+            "say": "Add the whole 2s fact again: 12, not 4."
           }
         ],
         "show": [
-          "4 × 8 = 2 × 8 + 2 × 8.",
-          "16 + 16 = 32."
+          "4 × 6 = 2 × 6 + 2 × 6.",
+          "12 + 12 = 24."
         ],
-        "yes": "Yes! 16 + 16 = 32."
+        "yes": "Yes! 12 + 12 = 24."
       },
       {
         "id": "t2",
@@ -596,26 +596,26 @@
         "prompt": "Which facts match this split array?",
         "options": [
           {
-            "text": "(4 × 2) + (4 × 4)",
+            "text": "(4 × 4) + (4 × 4)",
             "why": "That cut goes between columns. This line goes between rows."
           },
           {
-            "text": "(2 × 6) + (2 × 6)",
+            "text": "(2 × 8) + (2 × 8)",
             "correct": true
           },
           {
-            "text": "(1 × 6) + (3 × 6)",
+            "text": "(1 × 8) + (3 × 8)",
             "why": "That would be a cut under row 1. This line is under row 2."
           },
           {
             "text": "(2 × 4) + (2 × 4)",
-            "why": "Each row has 6 dots, not 4. Count the dots in one row."
+            "why": "Each row has 8 dots, not 4. Count the dots in one row."
           }
         ],
         "model": {
           "type": "array",
           "rows": 4,
-          "cols": 6,
+          "cols": 8,
           "cut": {
             "by": "rows",
             "at": 2
@@ -625,13 +625,13 @@
         "pictureMatch": true,
         "hints": [
           "Count the rows above the line and below the line.",
-          "Each row has 6 dots."
+          "Count the dots in one row."
         ],
         "show": [
           "2 rows are above the line and 2 rows are below it.",
-          "Each row has 6 dots: (2 × 6) + (2 × 6)."
+          "Each row has 8 dots: (2 × 8) + (2 × 8)."
         ],
-        "yes": "Yes! 2 rows of 6 on top and 2 rows of 6 below."
+        "yes": "Yes! 2 rows of 8 on top and 2 rows of 8 below."
       },
       {
         "id": "t3",
@@ -720,7 +720,7 @@
           }
         ],
         "hints": [
-          "4 = 2 + 2. Which fact has 2 and 9?"
+          "4 = 2 + 2. Which 2s fact keeps the 9?"
         ],
         "show": [
           "4 × 9 = 2 × 9 + 2 × 9.",
@@ -733,19 +733,19 @@
         "type": "fill",
         "prompt": "Find each part. Then add.",
         "lines": [
-          "4 × 5 = 2 × 5 + 2 × 5",
+          "4 × 2 = 2 × 2 + 2 × 2",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 10,
-          "q": 10,
-          "t": 20
+          "p": 4,
+          "q": 4,
+          "t": 8
         },
         "model": {
           "type": "array",
           "rows": 4,
-          "cols": 5,
+          "cols": 2,
           "cut": {
             "by": "rows",
             "at": 2
@@ -755,45 +755,45 @@
         "mistakes": [
           {
             "when": {
-              "t": 10
+              "t": 4
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 9
+              "t": 6
             },
-            "say": "4 × 5 means 4 groups of 5, not 4 + 5. Add the two products."
+            "say": "4 × 2 means 4 groups of 2, not 4 + 2. Add the two products."
           }
         ],
         "hints": [
-          "The top part is 2 rows of 5.",
-          "Both parts are 2 × 5 = 10. Double 10."
+          "The top part is 2 rows of 2.",
+          "Find 2 × 2 (it is a double) and 2 × 2 (it is a double). Then add them."
         ],
         "show": [
-          "2 × 5 = 10.",
-          "2 × 5 = 10.",
-          "10 + 10 = 20. So 4 × 5 = 20."
+          "2 × 2 = 4.",
+          "2 × 2 = 4.",
+          "4 + 4 = 8. So 4 × 2 = 8."
         ],
-        "yes": "Yes! 20."
+        "yes": "Yes! 8."
       },
       {
         "id": "t7",
         "type": "fill",
         "prompt": "The 4 comes second. Find each part, then add.",
         "lines": [
-          "8 × 4 = 8 × 2 + 8 × 2",
+          "3 × 4 = 3 × 2 + 3 × 2",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 16,
-          "q": 16,
-          "t": 32
+          "p": 6,
+          "q": 6,
+          "t": 12
         },
         "model": {
           "type": "array",
-          "rows": 8,
+          "rows": 3,
           "cols": 4,
           "cut": {
             "by": "cols",
@@ -804,27 +804,27 @@
         "mistakes": [
           {
             "when": {
-              "t": 16
+              "t": 6
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 12
+              "t": 7
             },
-            "say": "8 × 4 means 8 groups of 4, not 8 + 4. Add the two products."
+            "say": "3 × 4 means 3 groups of 4, not 3 + 4. Add the two products."
           }
         ],
         "hints": [
-          "Each part is 8 rows of 2.",
-          "8 × 2 = 16. Double 16."
+          "Each part is 3 rows of 2.",
+          "Find 3 × 2 (it is a double) and 3 × 2 (it is a double). Then add them."
         ],
         "show": [
-          "8 × 2 = 16.",
-          "8 × 2 = 16.",
-          "16 + 16 = 32. So 8 × 4 = 32."
+          "3 × 2 = 6.",
+          "3 × 2 = 6.",
+          "6 + 6 = 12. So 3 × 4 = 12."
         ],
-        "yes": "Yes! 32."
+        "yes": "Yes! 12."
       },
       {
         "id": "t8",
@@ -902,25 +902,25 @@
       {
         "id": "t10",
         "type": "decompose",
-        "prompt": "Decompose 4 × 8. Any way that works is fine.",
+        "prompt": "Decompose 4 × 7. Any way that works is fine.",
         "fact": [
           4,
-          8
+          7
         ],
         "answer": {
           "p": 2,
-          "q": 8,
+          "q": 7,
           "r": 2,
-          "s": 8,
-          "t": 32
+          "s": 7,
+          "t": 28
         },
         "hints": [
           "Try breaking the 4 into 2 + 2.",
-          "2 × 8 + 2 × 8. Then add."
+          "Write two 2s facts that keep the 7. Then add."
         ],
         "show": [
-          "4 × 8 = 2 × 8 + 2 × 8.",
-          "16 + 16 = 32."
+          "4 × 7 = 2 × 7 + 2 × 7.",
+          "14 + 14 = 28."
         ]
       },
       {
@@ -934,17 +934,17 @@
         ],
         "rows": [
           [
-            "5",
-            "10",
+            "2",
+            "4",
             {
-              "answer": "4 × 5"
+              "answer": "4 × 2"
             }
           ],
           [
-            "8",
-            "16",
+            "6",
+            "12",
             {
-              "answer": "4 × 8"
+              "answer": "4 × 6"
             }
           ],
           [
@@ -958,11 +958,11 @@
         "retry": "Check each row: double the times 2 number.",
         "hints": [
           "Times 4 is double the times 2 number.",
-          "For 5: 10 + 10."
+          "For 2: what is 4 + 4?"
         ],
         "show": [
-          "5: 10 + 10 = 20.",
-          "8: 16 + 16 = 32.",
+          "2: 4 + 4 = 8.",
+          "6: 12 + 12 = 24.",
           "10: 20 + 20 = 40."
         ],
         "yes": "Yes! Each times 4 number is double the times 2 number."
@@ -1021,7 +1021,7 @@
         ],
         "target": "4 × 6",
         "hints": [
-          "4 = 2 + 2. Look for two 2 × 6 facts."
+          "4 = 2 + 2. Both parts must be whole facts that keep the 6."
         ],
         "show": [
           "4 × 6 = 2 × 6 + 2 × 6 = 12 + 12 = 24."
@@ -1040,7 +1040,7 @@
         },
         "hints": [
           "Count by 4s: 4, 8, 12, 16 … Stop at 36.",
-          "Or: what doubled makes 36? 18. And 2 × 9 = 18."
+          "Or: what number doubled makes 36? Which 2s fact makes that number?"
         ],
         "mistakes": [
           {
@@ -1089,133 +1089,133 @@
       {
         "id": "t16",
         "type": "choice",
-        "prompt": "A student wrote 4 × 6 = 2 × 6 + 2 = 14. What went wrong?",
+        "prompt": "A student wrote 4 × 8 = 2 × 8 + 2 = 18. What went wrong?",
         "options": [
           {
-            "text": "The second part should be 2 × 6, not 2.",
+            "text": "The second part should be 2 × 8, not 2.",
             "correct": true
           },
           {
             "text": "Nothing. It is correct.",
-            "why": "4 × 6 is 4 rows of 6. That is 24 dots, not 14."
+            "why": "4 × 8 is 4 rows of 8. That is 32 dots, not 18."
           },
           {
-            "text": "The first part should be 4 × 6.",
-            "why": "The first part 2 × 6 is fine. The second part lost its 6."
+            "text": "The first part should be 4 × 8.",
+            "why": "The first part 2 × 8 is fine. The second part lost its 8."
           },
           {
-            "text": "You should add 4 + 6.",
-            "why": "4 × 6 means 4 groups of 6, not 4 + 6."
+            "text": "You should add 4 + 8.",
+            "why": "4 × 8 means 4 groups of 8, not 4 + 8."
           }
         ],
         "quotesMistake": true,
         "hints": [
           "Both parts must be whole facts.",
-          "Is \"2\" a whole fact like 2 × 6?"
-        ],
-        "show": [
-          "4 × 6 = 2 × 6 + 2 × 6.",
-          "12 + 12 = 24."
-        ],
-        "yes": "Yes! 4 × 6 = 2 × 6 + 2 × 6 = 12 + 12 = 24."
-      },
-      {
-        "id": "t17",
-        "type": "number",
-        "prompt": "A box of crayons has 4 rows. Each row has 9 crayons. How many crayons are in the box?",
-        "answer": "4 × 9",
-        "model": {
-          "type": "array",
-          "rows": 4,
-          "cols": 9
-        },
-        "hints": [
-          "4 rows of 9 is 4 × 9.",
-          "Find 2 × 9 = 18. Double it."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "answer": 13
-            },
-            "say": "4 + 9 is 13. There are 4 rows of 9, so multiply."
-          },
-          {
-            "when": {
-              "answer": 18
-            },
-            "say": "18 is only 2 rows. Double it for 4 rows."
-          }
-        ],
-        "show": [
-          "4 × 9 = 2 × 9 + 2 × 9.",
-          "18 + 18 = 36 crayons."
-        ],
-        "yes": "Yes! 36 crayons."
-      },
-      {
-        "id": "t18",
-        "type": "choice",
-        "prompt": "Lena knows 2 × 8 = 16. How can she find 4 × 8?",
-        "options": [
-          {
-            "text": "Add 4: 16 + 4",
-            "why": "4 × 8 is two 2 × 8 facts. Add 16 again, not 4."
-          },
-          {
-            "text": "Add 8 once: 16 + 8",
-            "why": "16 + 8 is only 3 × 8. 4 × 8 needs two 2s facts: 16 + 16."
-          },
-          {
-            "text": "Double 16: 16 + 16",
-            "correct": true
-          }
-        ],
-        "hints": [
-          "4 = 2 + 2. How many 2 × 8 facts make 4 × 8?"
+          "Is \"2\" a whole fact, like the first part?"
         ],
         "show": [
           "4 × 8 = 2 × 8 + 2 × 8.",
           "16 + 16 = 32."
         ],
-        "yes": "Yes! 16 + 16 = 32."
+        "yes": "Yes! 4 × 8 = 2 × 8 + 2 × 8 = 16 + 16 = 32."
+      },
+      {
+        "id": "t17",
+        "type": "number",
+        "prompt": "A box of crayons has 4 rows. Each row has 5 crayons. How many crayons are in the box?",
+        "answer": "4 × 5",
+        "model": {
+          "type": "array",
+          "rows": 4,
+          "cols": 5
+        },
+        "hints": [
+          "4 rows of 5 is 4 × 5.",
+          "Find the 2s fact for 2 rows. Then double it."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 9
+            },
+            "say": "4 + 5 is 9. There are 4 rows of 5, so multiply."
+          },
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "10 is only 2 rows. Double it for 4 rows."
+          }
+        ],
+        "show": [
+          "4 × 5 = 2 × 5 + 2 × 5.",
+          "10 + 10 = 20 crayons."
+        ],
+        "yes": "Yes! 20 crayons."
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "Lena knows 2 × 10 = 20. How can she find 4 × 10?",
+        "options": [
+          {
+            "text": "Add 4: 20 + 4",
+            "why": "4 × 10 is two 2 × 10 facts. Add 20 again, not 4."
+          },
+          {
+            "text": "Add 10 once: 20 + 10",
+            "why": "20 + 10 is only 3 × 10. 4 × 10 needs two 2s facts."
+          },
+          {
+            "text": "Double 20: 20 + 20",
+            "correct": true
+          }
+        ],
+        "hints": [
+          "4 = 2 + 2. How many 2 × 10 facts make 4 × 10?"
+        ],
+        "show": [
+          "4 × 10 = 2 × 10 + 2 × 10.",
+          "20 + 20 = 40."
+        ],
+        "yes": "Yes! 20 + 20 = 40."
       },
       {
         "id": "t19",
         "type": "number",
-        "prompt": "There are 8 cars in a parking lot. Each car has 4 wheels. How many wheels are there?",
+        "prompt": "A horse has 4 legs. How many legs do 8 horses have?",
         "answer": "8 × 4",
         "hints": [
-          "8 cars with 4 wheels each: 8 × 4.",
-          "Find the 2s fact: 8 × 2 = 16. Double it."
+          "8 horses with 4 legs each: 8 × 4.",
+          "Find the 4. Find the 2s fact with 8, then double it."
         ],
         "mistakes": [
           {
             "when": {
               "answer": 12
             },
-            "say": "8 + 4 is 12. Each car has 4 wheels, so multiply."
+            "say": "8 + 4 is 12. Each horse has 4 legs, so multiply."
           },
           {
             "when": {
               "answer": 16
             },
-            "say": "16 is only 2 wheels on each car. Double it for 4."
+            "say": "16 is only 2 legs on each horse. Double it for 4."
           }
         ],
         "show": [
           "8 × 4 = 8 × 2 + 8 × 2.",
-          "16 + 16 = 32 wheels."
+          "16 + 16 = 32 legs."
         ],
-        "yes": "Yes! 32 wheels."
+        "yes": "Yes! 32 legs."
       },
       {
         "id": "t20",
         "type": "choice",
-        "prompt": "Is it always true? You can double a 2s fact to find a 4s fact.",
+        "prompt": "Kim says: \"To find any 4s fact, find the 2s fact and double it.\" Is Kim right?",
         "options": [
           {
-            "text": "No, only for even numbers.",
+            "text": "Only for even numbers.",
             "why": "It works for every number. 4 × 7 = 14 + 14 = 28."
           },
           {
@@ -1223,7 +1223,7 @@
             "correct": true
           },
           {
-            "text": "No, only for small numbers.",
+            "text": "Only for small numbers.",
             "why": "It works for every number. 4 × 9 = 18 + 18 = 36."
           }
         ],

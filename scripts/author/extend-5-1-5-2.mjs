@@ -69,14 +69,14 @@ const EXTRA = {
       ['4 × 6 + 4', 'The second part must be a whole fact: 4 × 6, not 4.'],
       ['4 × 6 + 4 × 6', true],
       ['8 × 3 + 8 × 2', '3 and 2 make 5, not 6.'],
-    ], { target: '8 × 6', hints: ['The two parts of the broken factor must add up to that factor.', 'Which choice uses 4 + 4 = 8?'], show: ['8 × 6 = 4 × 6 + 4 × 6.', '24 + 24 = 48.'], yes: 'Yes! 4 + 4 = 8, and 24 + 24 = 48.' }),
-    missing('t17', '1 × 9 + 5 × 9 = 9 × [x]', { x: 6 }, {
-      hints: ['Both facts have 9. Which numbers were put together?', '1 and 5 make what?'],
-      mistakes: [{ when: { x: 54 }, say: 'That box needs a factor, not the product. What do 1 and 5 make?' }, { when: { x: 5 }, say: 'Do not forget the 1 × 9. 1 and 5 make 6.' }],
-      show: ['1 + 5 = 6.', '1 × 9 + 5 × 9 = 9 + 45 = 54, and 9 × 6 = 54.'], yes: 'Yes! 1 + 5 = 6, so 9 × 6.',
+    ], { target: '8 × 6', hints: ['The two parts of the broken factor must add up to that factor.', 'Check each choice: do its two numbers add up to 8 or to 6, and is each part a whole fact?'], show: ['8 × 6 = 4 × 6 + 4 × 6.', '24 + 24 = 48.'], yes: 'Yes! 4 + 4 = 8, and 24 + 24 = 48.' }),
+    missing('t17', '2 × 8 + 4 × 8 = 8 × [x]', { x: 6 }, {
+      hints: ['Both facts have 8. Which numbers were put together?', 'Add the two numbers that are not 8.'],
+      mistakes: [{ when: { x: 48 }, say: 'That box needs a factor, not the product. What do 2 and 4 make?' }, { when: { x: 4 }, say: 'Do not forget the 2 × 8. 2 and 4 make 6.' }],
+      show: ['2 + 4 = 6.', '2 × 8 + 4 × 8 = 16 + 32 = 48, and 8 × 6 = 48.'], yes: 'Yes! 2 + 4 = 6, so 8 × 6.',
     }),
     missing('t18', '7 × 3 + 7 × 3 = 7 × [x]', { x: 6 }, {
-      hints: ['Both facts keep the 7. Add the other numbers.', '3 and 3 make what?'],
+      hints: ['Both facts keep the 7. Add the other two numbers.'],
       mistakes: [{ when: { x: 3 }, say: 'There are two 7 × 3 facts. 3 and 3 make 6.' }, { when: { x: 42 }, say: 'That box needs a factor, not the product.' }],
       show: ['3 + 3 = 6.', '7 × 3 + 7 × 3 = 21 + 21 = 42, and 7 × 6 = 42.'], yes: 'Yes! 3 + 3 = 6, so 7 × 6.',
     }),
@@ -85,11 +85,11 @@ const EXTRA = {
       mistakes: [{ when: { answer: 15 }, say: '8 + 7 is 15. There are 8 equal trays, so multiply.' }, { when: { answer: 35 }, say: '35 is only 5 trays. Add the other 3 trays.' }],
       show: ['8 × 7 = 5 × 7 + 3 × 7.', '35 + 21 = 56 rolls.'], yes: 'Yes! 56 rolls.',
     }),
-    choice('t20', 'If you decompose a factor in different ways, will the product always be the same?', [
-      ['No. A bigger cut makes a bigger product.', 'The product stays the same. 6 × 4 = 5 × 4 + 1 × 4 = 3 × 4 + 3 × 4 = 24.'],
-      ['Yes. The dots stay the same. Only the cut moves.', true],
-      ['Only if you cut in the middle.', 'Any cut works. 6 × 4 = 5 × 4 + 1 × 4 = 3 × 4 + 3 × 4 = 24.'],
-    ], { hints: ['Try 6 × 4 two ways: 5 + 1 and 3 + 3.'], show: ['5 × 4 + 1 × 4 = 20 + 4 = 24.', '3 × 4 + 3 × 4 = 12 + 12 = 24.', 'The same dots, so the same product.'], yes: 'Yes! Every correct cut gives the same product.' }),
+    choice('t20', 'Ty cuts 6 × 4 into 5 rows and 1 row. Ana cuts it into 3 rows and 3 rows. Who gets more dots?', [
+      ['Ty, because 5 is bigger.', 'Ty has 20 + 4 = 24 dots. Ana has 12 + 12 = 24 dots. They are the same.'],
+      ['Ana, because her parts are equal.', 'Ana has 12 + 12 = 24 dots. Ty has 20 + 4 = 24 dots. They are the same.'],
+      ['Neither. They both have 24 dots.', true],
+    ], { models: [arr(6, 4, ['r', 5], 'parts'), arr(6, 4, ['r', 3], 'parts')], hints: ['Find Ty\'s two parts and add them. Then do the same for Ana.'], show: ['Ty: 5 × 4 + 1 × 4 = 20 + 4 = 24.', 'Ana: 3 × 4 + 3 × 4 = 12 + 12 = 24.', 'A different cut never changes the number of dots.'], yes: 'Yes! Every correct cut gives the same product.' }),
   ],
   '5-2': [
     partsFill('t9', 3, 9, 'rows', 2, { hints: ['The top part is 2 rows of 9: the 2s fact.', 'The bottom part is 1 row of 9. Then add.'] }),
@@ -137,12 +137,12 @@ const EXTRA = {
       mistakes: [{ when: { answer: 9 }, say: '6 + 3 is 9. She reads 3 books each week, so multiply.' }, { when: { answer: 12 }, say: '12 is the 2s fact. Add one more 6.' }],
       show: ['6 × 3 = 6 × 2 + 6 × 1.', '12 + 6 = 18 books.'], yes: 'Yes! 18 books.',
     }),
-    choice('t17', 'Which shows a correct way to find 3 × 9?', [
-      ['2 × 9 + 1', 'The second part must be a whole fact: 1 × 9, not 1.'],
-      ['3 × 5 + 3 × 3', '5 and 3 make 8, not 9.'],
-      ['2 × 9 + 1 × 9', true],
-      ['2 × 1 + 1 × 9', 'Both facts must keep the 9: 2 × 9 and 1 × 9.'],
-    ], { target: '3 × 9', hints: ['3 = 2 + 1. Keep the 9 in both facts.'], show: ['3 × 9 = 2 × 9 + 1 × 9.', '18 + 9 = 27.'], yes: 'Yes! 18 + 9 = 27.' }),
+    choice('t17', 'Which shows a correct way to find 3 × 6?', [
+      ['2 × 6 + 1', 'The second part must be a whole fact: 1 × 6, not 1.'],
+      ['3 × 5 + 3 × 2', '5 and 2 make 7, not 6.'],
+      ['2 × 6 + 1 × 6', true],
+      ['2 × 1 + 1 × 6', 'Both facts must keep the 6.'],
+    ], { target: '3 × 6', hints: ['3 = 2 + 1. Both facts must keep the same factor.'], show: ['3 × 6 = 2 × 6 + 1 × 6.', '12 + 6 = 18.'], yes: 'Yes! 12 + 6 = 18.' }),
     choice('t18', 'A student wrote 3 × 8 = 2 × 8 + 1 = 17. What went wrong?', [
       ['The second part should be 1 × 8, not 1.', true],
       ['Nothing. It is correct.', '3 × 8 is 3 rows of 8. That is 24, not 17.'],
@@ -153,11 +153,11 @@ const EXTRA = {
       hints: ['Both parts must be whole facts.', 'Is "1" a whole fact like 1 × 8?'],
       show: ['3 × 8 = 2 × 8 + 1 × 8.', '16 + 8 = 24.'], yes: 'Yes! 3 × 8 = 2 × 8 + 1 × 8 = 16 + 8 = 24.',
     }),
-    choice('t19', 'Mo found that 3 × 8 is 24. How can he find 8 × 3?', [
-      ['Add 3 more.', '8 × 3 has the same factors in a different order, so it is still 24.'],
-      ['Turn it around. 8 × 3 is also 24.', true],
-      ['Write 83.', '8 × 3 is a multiplication fact, not the number 83. Turn it around: it is 24.'],
-    ], { hints: ['Look at the two factors. Are they the same numbers?'], show: ['8 × 3 and 3 × 8 use the same factors.', 'Turning a fact around does not change the product: 24.'], yes: 'Yes! The order of the factors does not matter.' }),
+    choice('t19', 'Jo knows 3 × 6 = 18. What is 6 × 3?', [
+      ['21, because you add 3 more.', '6 × 3 has the same factors in a different order, so it is still 18.'],
+      ['18. Turning a fact around keeps the product.', true],
+      ['63', '6 × 3 is a multiplication fact, not the number 63. Turn it around: it is 18.'],
+    ], { hints: ['Look at the two factors. Are they the same numbers in a different order?'], show: ['6 × 3 and 3 × 6 use the same factors.', 'Turning a fact around does not change the product: 18.'], yes: 'Yes! The order of the factors does not matter.' }),
     choice('t20', 'Why does 3 × 6 = 2 × 6 + 1 × 6 work?', [
       ['Because 6 is even.', 'That does not matter. The 3 rows split into 2 rows and 1 row.'],
       ['3 rows is 2 rows and 1 more row.', true],
@@ -173,11 +173,44 @@ const PATCH = {
     t7: { show: ['8 × 1 means 8 groups of 1.', 'That is 8. Times 1 keeps the number the same.'] },
   },
   '5-2': {
-    t4: { hints: ['3 = 2 + 1. Keep the 7 in both facts.', 'Look for 2 × 7 and 1 × 7.'], show: ['3 × 7 = 2 × 7 + 1 × 7.', '14 + 7 = 21.'] },
+    t4: { hints: ['3 = 2 + 1. Both facts must keep the 7.', 'Check each choice: do the two numbers add up to 3?'], show: ['3 × 7 = 2 × 7 + 1 × 7.', '14 + 7 = 21.'] },
     t7: { show: ['0 × 7 means 0 groups of 7.', 'There is nothing to count, so 0 × 7 = 0.'] },
     t8: { show: ['9 × 1 means 9 groups of 1.', 'That is 9. Times 1 keeps the number the same.'] },
   },
 };
+
+// Reviewer fixes to the hand-written parts (curriculum review, D20): wording, scope ("area" is not in this unit),
+// feedback, Show me how steps and an easy-to-hard order for Try It Yourself. Replacements, applied every run.
+function revise(id, lesson) {
+  const all = [...lesson.learn.screens.map((x) => x.item), ...lesson.watch.examples.map((e) => e.why), ...lesson.together.items, ...lesson.try.items, ...lesson.test.items].filter(Boolean);
+  const item = (k) => all.find((it) => it.id === k);
+  if (id === '5-1') {
+    delete lesson.glossary.area;
+    lesson.glossary.factor = 'a number you multiply, like the 6 and the 3 in 6 × 3';
+    lesson.glossary.product = 'the answer when you multiply';
+    for (const k of ['g5', 't4', 'x5']) {
+      const it = item(k);
+      it.prompt = it.prompt.replace(/^Each square is like a dot\. Find the area \(how many squares\): (\d+ × \d+)\.$/, 'How many squares? Break apart $1.');
+    }
+    const teach = lesson.learn.screens.find((x) => x.title === 'The Distributive Property');
+    teach.text[0] = 'Break one factor into two smaller numbers. Multiply each part. Then add.';
+    item('t5').models = item('t5').models.map((m) => ({ ...m, labels: 'parts' }));
+    const wb = item('wB');
+    const bigger = wb.options.find((o) => /bigger than 5/.test(o.text));
+    if (bigger) { bigger.text = 'We used a bigger number.'; bigger.why = 'The array is still 6 rows of 3. We only moved the cut, so the dots stay the same.'; }
+    const order = ['t9', 't12', 't7', 't8', 't10', 't11', 't13', 't14', 't2', 't3', 't17', 't18', 't16', 't1', 't6', 't15', 't4', 't5', 't19', 't20'];
+    lesson.try.items.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  }
+  if (id === '5-2') {
+    const x8 = item('x8');
+    for (const o of x8.options) if (o.text === '3 × 3 and 1 × 10') o.why = 'Keep the 10 in both facts: 2 × 10 and 1 × 10.';
+    item('t1').show = ['3 × 9 = 27, so the missing number is 9.', 'Check with the 3s strategy: 2 × 9 + 1 × 9 = 18 + 9 = 27.'];
+    const x1 = item('x1');
+    x1.show = ['3 × 7 = 2 × 7 + 1 × 7 = 14 + 7 = 21.', 'So the missing number is 7.'];
+    const order = ['t9', 't4', 't12', 't13', 't7', 't8', 't2', 't3', 't10', 't11', 't14', 't1', 't5', 't6', 't15', 't16', 't17', 't18', 't19', 't20'];
+    lesson.try.items.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  }
+}
 
 // Lesson 5-2: the other factor can be broken apart too (3 × 7 = 3 × 5 + 3 × 2). Inserted before the Check screen.
 const OTHER_WAY = {
@@ -198,6 +231,7 @@ for (const [id, extra] of Object.entries(EXTRA)) {
   lesson.try.items = [...lesson.try.items.filter((it) => !added.has(it.id)), ...extra];
   for (const it of lesson.try.items) for (const [k, v] of Object.entries(PATCH[id]?.[it.id] || {})) if (!it[k]?.length) it[k] = v;
   lesson.try.pass = 16;
+  revise(id, lesson);
   if (id === '5-2') {
     lesson.learn.screens = lesson.learn.screens.filter((s) => s.title !== OTHER_WAY.title);
     const at = lesson.learn.screens.findIndex((s) => s.title === 'Check');

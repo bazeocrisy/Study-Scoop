@@ -83,8 +83,8 @@ test('lesson strategies are the unit\'s: each lesson teaches its own factor spli
   assert.match(text(byId['5-3']), /4 × 7 = 2 × 7 \+ 2 × 7 = 14 \+ 14 = 28/);
   assert.match(text(byId['5-4']), /6 × 7 = 5 × 7 \+ 1 × 7 = 35 \+ 7 = 42/);
   assert.match(text(byId['5-4']), /6 × 7 = 3 × 7 \+ 3 × 7 = 21 \+ 21 = 42/);
-  assert.match(text(byId['5-5']), /8 × 6 = 4 × 6 \+ 4 × 6 = 24 \+ 24 = 48/);
-  assert.match(text(byId['5-5']), /8 × 6 = 5 × 6 \+ 3 × 6 = 30 \+ 18 = 48/);
+  assert.match(text(byId['5-5']), /8 × 7 = 4 × 7 \+ 4 × 7 = 28 \+ 28 = 56/);
+  assert.match(text(byId['5-5']), /8 × 7 = 5 × 7 \+ 3 × 7 = 35 \+ 21 = 56/);
   assert.match(text(byId['5-6']), /7 × 6 = 5 × 6 \+ 2 × 6 = 30 \+ 12 = 42/);
   assert.match(text(byId['5-6']), /9 × 6 = 5 × 6 \+ 4 × 6 = 30 \+ 24 = 54/);
   // No division in the problem-solving lesson.

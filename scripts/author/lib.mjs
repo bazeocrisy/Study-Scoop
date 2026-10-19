@@ -53,6 +53,10 @@ export function partsFill(id, a, b, by, k, o = {}) {
   lines.push('= [t]');
   answer.t = s.t;
   const item = { id, type: 'fill', prompt: o.prompt || 'Find each part. Then add.', lines, answer };
+  // Hints teach a step without giving the products away (the full working is in Show me how):
+  // the first says what the parts are, the second how to find them.
+  const how = (f) => (f[0] === 5 || f[1] === 5 ? 'count by 5s' : f[0] === 1 || f[1] === 1 ? 'times 1 keeps the number' : f[0] === 2 || f[1] === 2 ? 'it is a double' : 'use a fact you know');
+  o = { ...o, hints: [o.hints?.[0] || `The parts are ${F(...s.f1)} and ${F(...s.f2)}.`, `Find ${F(...s.f1)} (${how(s.f1)}) and ${F(...s.f2)} (${how(s.f2)}). Then add them.`] };
   if (o.model !== false) item.model = o.model || arr(a, b, [by[0], k], o.labels || 'parts');
   if (ask === 'products' && s.p !== s.q) item.accept = [{ p: s.q, q: s.p, t: s.t }];
   const mistakes = [
@@ -79,7 +83,8 @@ export function factorsFill(id, a, b, by, k, o = {}) {
   const unit = by === 'rows' ? 'rows' : 'columns';
   const where = by === 'rows' ? ['above', 'below'] : ['left of', 'right of'];
   item.hints = o.hints || [`Count the ${unit} ${where[0]} the line.`, `Count the ${unit} ${where[1]} the line.`];
-  item.show = o.show || [`${answer.a} ${unit} are ${where[0]} the line.`, `${answer.b} ${unit} are ${where[1]} the line.`, `${s.eq}${o.total ? ` = ${s.p} + ${s.q} = ${s.t}` : ''}.`];
+  const n = (k) => `${k} ${k === 1 ? unit.slice(0, -1) + ' is' : unit + ' are'}`;
+  item.show = o.show || [`${n(answer.a)} ${where[0]} the line.`, `${n(answer.b)} ${where[1]} the line.`, `${s.eq}${o.total ? ` = ${s.p} + ${s.q} = ${s.t}` : ''}.`];
   const whole = by === 'rows' ? a : b;
   const mistakes = [];
   if (whole !== answer.a) mistakes.push({ when: { a: whole }, say: `Count only the ${unit} ${where[0]} the line. That is the first part.` });

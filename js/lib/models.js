@@ -79,7 +79,8 @@ function arraySize(m) {
 
 function labelText(m, i) {
   const [p, q] = parts(m)[i];
-  if (m.labels === 'facts') return [`${p} × ${q} = ${p * q}`, m.cut.by === 'rows' ? plural(p, 'row') + ` of ${q}` : plural(q, 'column') + ` of ${p}`];
+  // Every part is read the same way as its fact, rows first ("6 × 2" is "6 rows of 2"), whichever way the cut goes.
+  if (m.labels === 'facts') return [`${p} × ${q} = ${p * q}`, plural(p, 'row') + ` of ${q}`];
   if (m.labels === 'parts') return m.cut.by === 'rows' ? [i ? 'Bottom part' : 'Top part', ''] : [i ? 'Right part' : 'Left part', ''];
   return null;
 }

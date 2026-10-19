@@ -1531,8 +1531,8 @@
       "type": "word",
       "kind": "fill-eq",
       "prop": "associative",
-      "eq": "2 × (2 × 5) = (2 × 2) × 5",
-      "prompt": "2 × (2 × 5) = (2 × 2) × 5 shows the ___ Property.",
+      "eq": "2 × (3 × 5) = (2 × 3) × 5",
+      "prompt": "2 × (3 × 5) = (2 × 3) × 5 shows the ___ Property.",
       "answer": "associative",
       "accept": [
         "associative property"
@@ -1549,12 +1549,12 @@
         "Look for three factors in the same order with ( ) that move."
       ],
       "show": [
-        "The same three factors stay in the same order. Only the ( ) move: 2 × (2 × 5) = (2 × 2) × 5.",
+        "The same three factors stay in the same order. Only the ( ) move: 2 × (3 × 5) = (2 × 3) × 5.",
         "So the word is \"Associative\"."
       ],
       "retry": "Look at the equation again. Which word from the word bank fits?",
-      "yes": "Yes! 2 × (2 × 5) = (2 × 2) × 5 shows the Associative Property.",
-      "explain": "The same three factors stay in the same order. Only the ( ) move: 2 × (2 × 5) = (2 × 2) × 5. That is the Associative Property."
+      "yes": "Yes! 2 × (3 × 5) = (2 × 3) × 5 shows the Associative Property.",
+      "explain": "The same three factors stay in the same order. Only the ( ) move: 2 × (3 × 5) = (2 × 3) × 5. That is the Associative Property."
     },
     {
       "id": "wf10",
@@ -2413,9 +2413,9 @@
       "type": "choice",
       "kind": "eq",
       "prop": "associative",
-      "eq": "(3 × 3) × 2 = 3 × (3 × 2)",
+      "eq": "(3 × 4) × 2 = 3 × (4 × 2)",
       "mode": "choice",
-      "prompt": "Which property does (3 × 3) × 2 = 3 × (3 × 2) show?",
+      "prompt": "Which property does (3 × 4) × 2 = 3 × (4 × 2) show?",
       "options": [
         {
           "text": "Zero Property",
@@ -2438,9 +2438,9 @@
         "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
       ],
       "show": [
-        "The same three factors stay in the same order. Only the ( ) move: (3 × 3) × 2 = 3 × (3 × 2)."
+        "The same three factors stay in the same order. Only the ( ) move: (3 × 4) × 2 = 3 × (4 × 2)."
       ],
-      "explain": "The same three factors stay in the same order. Only the ( ) move: (3 × 3) × 2 = 3 × (3 × 2). That is the Associative Property."
+      "explain": "The same three factors stay in the same order. Only the ( ) move: (3 × 4) × 2 = 3 × (4 × 2). That is the Associative Property."
     },
     {
       "id": "xc-associative-2",
@@ -2482,10 +2482,10 @@
       "kind": "tf-eq",
       "prop": "associative",
       "said": "associative",
-      "eq": "(5 × 2) × 2 = 5 × (2 × 2)",
+      "eq": "(5 × 2) × 3 = 5 × (2 × 3)",
       "truth": true,
       "mode": "truefalse",
-      "prompt": "True or false? (5 × 2) × 2 = 5 × (2 × 2) shows the Associative Property.",
+      "prompt": "True or false? (5 × 2) × 3 = 5 × (2 × 3) shows the Associative Property.",
       "options": [
         {
           "text": "True",
@@ -2493,16 +2493,16 @@
         },
         {
           "text": "False",
-          "why": "It is true. The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 2 = 5 × (2 × 2)."
+          "why": "It is true. The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 3 = 5 × (2 × 3)."
         }
       ],
       "hints": [
         "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
       ],
       "show": [
-        "The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 2 = 5 × (2 × 2)."
+        "The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 3 = 5 × (2 × 3)."
       ],
-      "explain": "True. (5 × 2) × 2 = 5 × (2 × 2) shows the Associative Property."
+      "explain": "True. (5 × 2) × 3 = 5 × (2 × 3) shows the Associative Property."
     },
     {
       "id": "xt-associative-2",
@@ -2510,14 +2510,14 @@
       "kind": "tf-eq",
       "prop": "associative",
       "said": "commutative",
-      "eq": "(2 × 2) × 6 = 2 × (2 × 6)",
+      "eq": "(2 × 5) × 6 = 2 × (5 × 6)",
       "truth": false,
       "mode": "truefalse",
-      "prompt": "True or false? (2 × 2) × 6 = 2 × (2 × 6) shows the Commutative Property.",
+      "prompt": "True or false? (2 × 5) × 6 = 2 × (5 × 6) shows the Commutative Property.",
       "options": [
         {
           "text": "True",
-          "why": "It is false. The same three factors stay in the same order. Only the ( ) move: (2 × 2) × 6 = 2 × (2 × 6). That is the Associative Property."
+          "why": "It is false. The same three factors stay in the same order. Only the ( ) move: (2 × 5) × 6 = 2 × (5 × 6). That is the Associative Property."
         },
         {
           "text": "False",
@@ -2528,9 +2528,9 @@
         "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
       ],
       "show": [
-        "The same three factors stay in the same order. Only the ( ) move: (2 × 2) × 6 = 2 × (2 × 6)."
+        "The same three factors stay in the same order. Only the ( ) move: (2 × 5) × 6 = 2 × (5 × 6)."
       ],
-      "explain": "False. (2 × 2) × 6 = 2 × (2 × 6) shows the Associative Property."
+      "explain": "False. (2 × 5) × 6 = 2 × (5 × 6) shows the Associative Property."
     },
     {
       "id": "xf-associative-1",

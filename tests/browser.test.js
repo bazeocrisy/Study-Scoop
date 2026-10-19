@@ -492,10 +492,11 @@ async function main() {
     await check('Try It Yourself: hints only after the second miss; results count first tries and list what to look at again', async () => {
       await b.load(url(lessonHash('5-1', 'try')));
       const [t1, ...rest] = L51.try.items;
+      const wrong = t1.options.filter((o) => !o.correct).map((o) => t1.options.indexOf(o));
       expect(!(await b.js('return !!document.querySelector("[data-act=hint]");')), 'no hint before trying');
-      await answer(t1, { p: 1, q: 1, r: 1, s: 1, t: 2 }); await checkAnswer(t1);
+      await answer(t1, { choice: wrong[0] }); await checkAnswer(t1);
       expect(!(await b.js('return !!document.querySelector("[data-act=hint]");')), 'no hint after one miss');
-      await answer(t1, { p: 9, q: 2, r: 9, s: 3, t: 45 }); await checkAnswer(t1);
+      await answer(t1, { choice: wrong[1] }); await checkAnswer(t1);
       expect(await b.js('return !!document.querySelector("[data-act=hint]") && !!document.querySelector("[data-act=show]");'), 'hint and Show me how after two misses');
       await press('[data-act="show"]');
       await press('[data-act="next"]');
@@ -504,8 +505,8 @@ async function main() {
       eq(await b.js('return document.querySelector(".score-facts").textContent.replace(/\\s+/g, " ").trim();'), 'Answered: 20 of 20 · Missed: 1', 'answered and missed');
       expect(await b.js('return document.body.textContent.includes("You are ready for the test.");'), 'pass message at 19 of 20');
       eq(await b.js('return [...document.querySelectorAll(".review li .right")].map((e) => e.textContent);'),
-        ['Correct answer: 9 × 4 = 5 × 4 + 4 × 4 = 36'], 'missed list');
-      expect(await b.js('return document.querySelector(".review li .explain")?.textContent.includes("20 + 16 = 36");'), 'the missed question is explained');
+        [`Correct answer: ${t1.options.find((o) => o.correct).text}`], 'missed list');
+      expect(await b.js('return document.querySelector(".review li .explain")?.textContent.includes("6 × 4 = 24");'), 'the missed question is explained');
     });
     await check('Test: no hints or feedback, a warning for unanswered questions, a correct score and review', async () => {
       await b.load(url(lessonHash('5-1', 'test')));
@@ -545,8 +546,9 @@ async function main() {
     await check('the tricycle table checks every row', async () => {
       await b.load(url(lessonHash('5-2', 'try')));
       const items = L52.try.items;
-      for (const item of items.slice(0, 4)) { await solve(item); await press('[data-act="next"]'); }
-      const table = items[4];
+      const at = items.findIndex((it) => it.type === 'table');
+      for (const item of items.slice(0, at)) { await solve(item); await press('[data-act="next"]'); }
+      const table = items[at];
       await answer(table, { ...solution(table), r1c2: 17 }); await checkAnswer(table);
       eq(await b.js('return [...document.querySelectorAll(".table-item input[aria-invalid=true]")].map((i) => i.name);'), ['r1c2'], 'only the wrong cell is marked');
       await solve(table);

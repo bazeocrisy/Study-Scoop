@@ -58,21 +58,18 @@ export default {
         text: [
           'Break apart a factor. 6 is 5 + 1.',
           '5 × 8 = 40 and 1 × 8 = 8. Add: 40 + 8 = 48 chairs.',
-          'Does it make sense? 6 rows of about 10 would be 60, so 48 is about right.',
+          'Does it make sense? 48 is more than 5 rows of 8 (40), but less than 6 rows of 10 (60). Yes!',
         ],
         model: arr(6, 8, ['r', 5], 'facts'),
         caption: '6 × 8 = 5 × 8 + 1 × 8',
       },
       {
-        title: '7 steps to solve',
+        title: '4 steps to solve',
         text: [
-          '1. Read the problem.',
-          '2. Find the important numbers.',
-          '3. Find the equal groups.',
-          '4. Draw an array or look at one.',
-          '5. Write an equation.',
-          '6. Solve. Break apart a factor if it helps.',
-          '7. Check that the answer makes sense.',
+          '1. Read. Find the equal groups.',
+          '2. Write the fact, like 6 × 8.',
+          '3. Solve. Break apart a factor if it helps.',
+          '4. Check. Is the answer about the right size?',
         ],
         words: ['equation'],
       },
@@ -116,7 +113,7 @@ export default {
           { say: 'Break the 8 into 4 + 4. Cut under row 4.', model: arr(8, 6, ['r', 4], 'parts') },
           { say: 'Each part is the 4s fact.', eq: '4 × 6 = 24' },
           { say: 'Double 24.', eq: '8 × 6 = 4 × 6 + 4 × 6 = 24 + 24 = 48', pictured: true },
-          { say: 'Check: 48 is more than 8 and more than 6, and 8 groups of about 5 is 40. It makes sense. There are 48 juice boxes.' },
+          { say: 'Check: 8 packs of 5 would be 40, and each pack has a little more than 5. So 48 makes sense. There are 48 juice boxes.' },
         ],
         why: choice('wB', 'Which number tells how many groups there are?', [
           ['6', '6 is how many juice boxes are in each pack. There are 8 packs.'],
@@ -141,7 +138,7 @@ export default {
       }),
       partsFill('g3', 9, 6, 'rows', 5, {
         prompt: 'A choir stands in 9 rows of 6 singers. Break apart the 9. Find each part, then add.',
-        hints: ['The top part is 5 rows of 6. The bottom part is 4 rows of 6.', '5 × 6 = 30 and 4 × 6 = 24.'],
+        hints: ['The top part is 5 rows of 6. The bottom part is 4 rows of 6.'],
         yes: 'Yes! 30 + 24 = 54 singers.',
       }),
       choice('g4', 'Which equation matches this array?', [
@@ -171,11 +168,11 @@ export default {
     pass: 16,
     items: [
       // 1-5: understanding
-      story('t1', 'A box of cans is shown. How many cans are in the box?', 5, 6, {
+      story('t1', 'Look at the array of stickers. How many stickers are there?', 5, 6, {
         model: arr(5, 6),
-        hints: ['Count the rows. Then count the cans in one row.', '5 rows of 6: count by 5s six times.'],
-        mistakes: [{ when: { answer: 11 }, say: '5 + 6 is 11. There are 5 equal rows of 6, so multiply.' }, { when: { answer: 5 }, say: '5 is the number of rows. Each row has 6 cans.' }],
-        show: ['There are 5 rows with 6 cans in each row.', '5 × 6 = 30 cans.'], yes: 'Yes! 30 cans.',
+        hints: ['Count the rows. Then count the stickers in one row.', '5 rows of 6: count by 5s six times.'],
+        mistakes: [{ when: { answer: 11 }, say: '5 + 6 is 11. There are 5 equal rows of 6, so multiply.' }, { when: { answer: 5 }, say: '5 is the number of rows. Each row has 6 stickers.' }],
+        show: ['There are 5 rows with 6 stickers in each row.', '5 × 6 = 30 stickers.'], yes: 'Yes! 30 stickers.',
       }),
       choice('t2', 'Which equation matches this array?', [
         ['3 + 8', 'This is an array of equal rows, so multiply.'],
@@ -215,7 +212,7 @@ export default {
       }),
       partsFill('t8', 7, 8, 'rows', 5, {
         prompt: 'A wall has 7 rows of 8 tiles. Break apart the 7. Find each part, then add.',
-        hints: ['The top part is 5 rows of 8. The bottom part is 2 rows of 8.', '5 × 8 = 40 and 2 × 8 = 16.'],
+        hints: ['The top part is 5 rows of 8. The bottom part is 2 rows of 8.'],
         yes: 'Yes! 40 + 16 = 56 tiles.',
       }),
       story('t9', 'Each row in a small theater has 9 seats. How many seats are in 6 rows?', 6, 9, {
@@ -231,7 +228,7 @@ export default {
       story('t11', 'A spider has 8 legs. How many legs do 5 spiders have?', 5, 8, {
         hints: ['5 spiders with 8 legs: 5 × 8.', 'Count by 5s eight times, or by 8s five times.'],
         mistakes: [{ when: { answer: 13 }, say: '5 + 8 is 13. Each spider has 8 legs, so multiply.' }],
-        show: ['5 × 8 = 40.', 'There are 40 legs.'], yes: 'Yes! 40 legs.',
+        show: ['5 spiders with 8 legs each is 5 × 8.', 'Count by 5s eight times: 5, 10, 15, 20, 25, 30, 35, 40.', 'There are 40 legs.'], yes: 'Yes! 40 legs.',
       }),
       story('t12', 'A team has 9 players. How many players are on 4 teams?', 4, 9, {
         hints: ['4 teams of 9: 4 × 9.', 'Find 2 × 9 = 18. Double it.'],
@@ -240,7 +237,7 @@ export default {
       }),
       {
         id: 't13', type: 'fill', prompt: 'What number makes it true?', lines: ['9 × [x] = 63'], answer: { x: 7 },
-        hints: ['Count by 9s: 9, 18, 27 … Stop at 63.', 'Or try 7: 5 × 7 = 35 and 4 × 7 = 28.'],
+        hints: ['Count by 9s: 9, 18, 27 … Stop at 63. Count how many 9s you said.', 'Or start at 9 × 5 = 45 and keep adding 9 until you reach 63.'],
         mistakes: [{ when: { x: 54 }, say: 'That box needs a factor. 9 × what makes 63?' }, { when: { x: 6 }, say: '9 × 6 is 54. One more 9 makes 63.' }],
         show: ['9 × 7 = 5 × 7 + 4 × 7.', '35 + 28 = 63. So the missing number is 7.'], yes: 'Yes! 9 × 7 = 63.',
       },
@@ -261,10 +258,10 @@ export default {
         ['9 × 5 + 9 × 3', '5 and 3 make 8, not 7.'],
       ], { target: '9 × 7', hints: ['The fact is 9 × 7. Break the 9 into 5 + 4.'], show: ['9 × 7 = 5 × 7 + 4 × 7.', '35 + 28 = 63 plants.'], yes: 'Yes! 35 + 28 = 63 plants.' }),
       // 16-20: apply and explain
-      choice('t16', 'A student solved: "4 boxes with 9 books in each box." She wrote 4 + 9 = 13. What went wrong?', [
-        ['She added. She should multiply: 4 × 9.', true],
+      choice('t16', 'Theo\'s problem: 4 boxes, 9 books in each box. Theo wrote 4 + 9 = 13. What went wrong?', [
+        ['Theo added. He should multiply: 4 × 9.', true],
         ['Nothing. It is correct.', 'There are 4 equal groups of 9, so multiply. 4 × 9 = 36.'],
-        ['She should take away: 9 − 4.', 'Nothing is taken away. There are 4 equal groups of 9.'],
+        ['He should take away: 9 − 4.', 'Nothing is taken away. There are 4 equal groups of 9.'],
       ], { hints: ['Are there equal groups?', 'Equal groups mean multiply.'], show: ['4 boxes of 9 books is 4 × 9.', '4 × 9 = 18 + 18 = 36 books.'], yes: 'Yes! 4 × 9 = 36 books.' }),
       choice('t17', 'Which story can you solve with 5 × 8?', [
         ['There are 5 red flowers and 8 yellow flowers. How many flowers?', 'That is 5 + 8. There are no equal groups.'],
@@ -273,14 +270,14 @@ export default {
       ], { hints: ['5 × 8 means 5 equal groups of 8.'], show: ['5 vases with 8 flowers in each is 5 equal groups of 8.', '5 × 8 = 40 flowers.'], yes: 'Yes! 5 equal groups of 8.' }),
       story('t18', 'A van has 4 rows of seats. Each row has 3 seats. 2 of the seats are red. How many seats are in the van?', 4, 3, {
         hints: ['Not every number is needed. Find the rows and the seats in each row.', '4 rows of 3: 4 × 3.'],
-        mistakes: [{ when: { answer: 9 }, say: 'The 2 red seats are already counted. Just find 4 rows of 3.' }, { when: { answer: 7 }, say: '4 + 3 is 7. There are 4 equal rows, so multiply.' }, { when: { answer: 14 }, say: 'The 2 red seats are part of the 12, not extra. Just find 4 rows of 3.' }],
+        mistakes: [{ when: { answer: 9 }, say: 'The 2 red seats are already counted. Just find 4 rows of 3.' }, { when: { answer: 7 }, say: '4 + 3 is 7. There are 4 equal rows, so multiply.' }, { when: { answer: 14 }, say: 'The 2 red seats are part of the 12, not extra. Just find 4 rows of 3.' }, { when: { answer: 10 }, say: 'Red seats are still seats. Do not take them away. Find 4 rows of 3.' }],
         show: ['The red seats do not change how many seats there are.', '4 × 3 = 12 seats.'], yes: 'Yes! 12 seats. The red seats were extra information.',
       }),
-      choice('t19', 'Eli says 6 rows of 9 chairs is 15 chairs. Does that make sense?', [
-        ['Yes. 6 + 9 = 15.', 'Rows of chairs are equal groups. Multiply: 6 × 9 = 54.'],
-        ['No. There are 69 chairs.', 'Check: 6 × 9 = 45 + 9 = 54.'],
-        ['No. 15 is 6 + 9. There are 54 chairs.', true],
-      ], { hints: ['6 rows of about 10 would be 60 chairs. Is 15 close?'], show: ['6 rows of 9 is 6 × 9.', '6 × 9 = 5 × 9 + 1 × 9 = 45 + 9 = 54 chairs.'], yes: 'Yes! 15 is much too small. 6 × 9 = 54.' }),
+      choice('t19', 'Eli says 7 rows of 9 chairs is 16 chairs. Does that make sense?', [
+        ['Yes. 7 + 9 = 16.', 'Rows of chairs are equal groups. Multiply: 7 × 9 = 63.'],
+        ['No. There are 79 chairs.', 'Check: 7 × 9 = 45 + 18 = 63.'],
+        ['No. 16 is 7 + 9. There are 63 chairs.', true],
+      ], { hints: ['2 rows of 9 is already 18. Can 7 rows be only 16?'], show: ['7 rows of 9 is 7 × 9.', '7 × 9 = 5 × 9 + 2 × 9 = 45 + 18 = 63 chairs.'], yes: 'Yes! 16 is much too small. 7 × 9 = 63.' }),
       story('t20', 'A parking lot has 9 rows with 8 cars in each row. Then 1 more row of 8 cars is added. How many cars are there now?', 10, 8, {
         hints: ['9 rows and 1 more row make 10 rows.', '10 rows of 8: 10 × 8.'],
         mistakes: [{ when: { answer: 72 }, say: 'That is 9 rows. Do not forget the new row of 8.' }, { when: { answer: 73 }, say: 'The new row has 8 cars, not 1. Add 8 to 72.' }],
@@ -301,7 +298,7 @@ export default {
       forTest(story('x3', 'Each box has 8 crayons. How many crayons are in 6 boxes?', 6, 8, { show: ['6 boxes of 8 is 6 × 8.', '5 × 8 + 1 × 8 = 40 + 8 = 48 crayons.'] })),
       forTest(partsFill('x4', 9, 4, 'rows', 5, { prompt: 'A garden has 9 rows of 4 plants. Find each part, then add.' })),
       forTest(writeEq('x5', 'There are 3 bags. Each bag has 9 apples. Write the equation and solve.', 3, 9, { show: ['3 bags of 9 apples is 3 × 9.', '2 × 9 + 1 × 9 = 18 + 9 = 27.'] })),
-      forTest(decompose('x6', 7, 8, ['rows', 5], { prompt: 'A wall has 7 rows of 8 tiles. Decompose 7 × 8 to find the number of tiles.', show: ['Break 7 into 5 + 2: 5 × 8 + 2 × 8.', '40 + 16 = 56 tiles.'] })),
+      forTest(decompose('x6', 7, 6, ['rows', 5], { prompt: 'A box holds 7 rows of 6 eggs. Decompose 7 × 6 to find the number of eggs.', show: ['Break 7 into 5 + 2: 5 × 6 + 2 × 6.', '30 + 12 = 42 eggs.'] })),
       forTest(choice('x7', 'Which story can you solve with 4 × 6?', [
         ['There are 4 plates with 6 grapes on each plate. How many grapes?', true],
         ['There are 4 green grapes and 6 red grapes. How many grapes?', 'That is 4 + 6. There are no equal groups.'],

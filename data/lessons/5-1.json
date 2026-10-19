@@ -12,7 +12,8 @@
   "glossary": {
     "decompose": "break apart into smaller parts",
     "sum": "the answer when you add",
-    "area": "how many squares cover a shape"
+    "factor": "a number you multiply, like the 6 and the 3 in 6 × 3",
+    "product": "the answer when you multiply"
   },
   "learn": {
     "screens": [
@@ -90,7 +91,7 @@
         "title": "The Distributive Property",
         "teacher": true,
         "text": [
-          "Decompose one factor into two easy facts. Then add.",
+          "Break one factor into two smaller numbers. Multiply each part. Then add.",
           "Sometimes ( ) go around each fact. It means the same thing."
         ],
         "pairs": [
@@ -255,8 +256,8 @@
               "correct": true
             },
             {
-              "text": "4 is bigger than 5.",
-              "why": "4 is smaller than 5. We only moved the cut, so the dots stay the same."
+              "text": "We used a bigger number.",
+              "why": "The array is still 6 rows of 3. We only moved the cut, so the dots stay the same."
             }
           ],
           "yes": "Yes! You can cut in a different place. The answer stays the same."
@@ -568,7 +569,7 @@
       {
         "id": "g5",
         "type": "fill",
-        "prompt": "Each square is like a dot. Find the area (how many squares): 5 × 7.",
+        "prompt": "How many squares? Break apart 5 × 7.",
         "model": {
           "type": "array",
           "style": "tiles",
@@ -657,236 +658,79 @@
     "pass": 16,
     "items": [
       {
-        "id": "t1",
-        "type": "decompose",
-        "prompt": "Decompose 9 × 4. Any way that works is fine.",
-        "model": {
-          "type": "array",
-          "rows": 9,
-          "cols": 4
-        },
-        "fact": [
-          9,
-          4
-        ],
-        "answer": {
-          "p": 5,
-          "q": 4,
-          "r": 4,
-          "s": 4,
-          "t": 36
-        },
-        "hints": [
-          "Try cutting under row 5.",
-          "5 × 4 + 4 × 4. Then add."
-        ],
-        "show": [
-          "Cut under row 5: 5 × 4 + 4 × 4.",
-          "20 + 16 = 36."
-        ]
-      },
-      {
-        "id": "t2",
-        "type": "fill",
-        "prompt": "What number makes it true?",
-        "lines": [
-          "[a] × 4 = 5 × 4 + 2 × 4"
-        ],
-        "answer": {
-          "a": 7
-        },
-        "hints": [
-          "The 4 is in both facts. Which number was decomposed?",
-          "5 and 2 make the missing factor."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "a": 28
-            },
-            "say": "That box needs a factor, not the product. Which number was decomposed?"
-          },
-          {
-            "when": {
-              "a": 20
-            },
-            "say": "That box needs a factor. What do 5 and 2 make?"
-          }
-        ],
-        "show": [
-          "5 and 2 make 7.",
-          "7 × 4 = 5 × 4 + 2 × 4."
-        ],
-        "yes": "Yes! 5 + 2 = 7, so 7 × 4."
-      },
-      {
-        "id": "t3",
-        "type": "fill",
-        "prompt": "What number makes it true?",
-        "lines": [
-          "4 × [b] = 4 × 5 + 4 × 3"
-        ],
-        "answer": {
-          "b": 8
-        },
-        "hints": [
-          "The 4 is in both facts. The other numbers are 5 and 3.",
-          "What do 5 and 3 make?"
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "b": 32
-            },
-            "say": "That box needs a factor, not the product. What do 5 and 3 make?"
-          },
-          {
-            "when": {
-              "b": 4
-            },
-            "say": "4 is the number in both facts. Add the other two: 5 and 3."
-          }
-        ],
-        "show": [
-          "5 and 3 make 8.",
-          "4 × 8 = 4 × 5 + 4 × 3."
-        ],
-        "yes": "Yes! 5 + 3 = 8."
-      },
-      {
-        "id": "t4",
-        "type": "fill",
-        "prompt": "Each square is like a dot. Find the area (how many squares): 4 × 9.",
-        "model": {
-          "type": "array",
-          "style": "tiles",
-          "rows": 4,
-          "cols": 9,
-          "cut": {
-            "by": "cols",
-            "at": 5
-          },
-          "sideLabels": true
-        },
-        "lines": [
-          "4 × 9 = 4 × 5 + 4 × 4",
-          "= [p] + [q]",
-          "= [t]"
-        ],
-        "answer": {
-          "p": 20,
-          "q": 16,
-          "t": 36
-        },
-        "hints": [
-          "Left part: 4 rows of 5 squares.",
-          "Right part: 4 rows of 4 squares."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "t": 13
-            },
-            "say": "4 × 9 means 4 rows of 9, not 4 + 9. Count the squares."
-          },
-          {
-            "when": {
-              "t": 20
-            },
-            "say": "You found the first part! Now add the second part."
-          }
-        ],
-        "show": [
-          "4 × 5 = 20 and 4 × 4 = 16.",
-          "20 + 16 = 36."
-        ],
-        "yes": "Yes! 20 + 16 = 36 squares.",
-        "accept": [
-          {
-            "p": 16,
-            "q": 20,
-            "t": 36
-          }
-        ]
-      },
-      {
-        "id": "t5",
+        "id": "t9",
         "type": "choice",
-        "prompt": "Two friends decomposed 8 × 5. Friend 1 wrote 4 × 5 + 4 × 5. Friend 2 wrote 5 × 5 + 3 × 5. Who is right?",
-        "models": [
-          {
-            "type": "array",
-            "rows": 8,
-            "cols": 5,
-            "cut": {
-              "by": "rows",
-              "at": 4
-            },
-            "labels": "facts"
-          },
-          {
-            "type": "array",
-            "rows": 8,
-            "cols": 5,
-            "cut": {
-              "by": "rows",
-              "at": 5
-            },
-            "labels": "facts"
-          }
-        ],
+        "prompt": "Which fact does this array show?",
         "options": [
           {
-            "text": "Only Friend 1",
-            "why": "Check Friend 2 too: 25 + 15 = 40."
+            "text": "4 + 6",
+            "why": "An array has equal rows, so it shows multiplication."
           },
           {
-            "text": "Only Friend 2",
-            "why": "Check Friend 1 too: 20 + 20 = 40."
-          },
-          {
-            "text": "Both friends",
+            "text": "6 × 4",
             "correct": true
           },
           {
-            "text": "Neither",
-            "why": "Both make 40: 20 + 20 = 40 and 25 + 15 = 40."
+            "text": "6 × 6",
+            "why": "Count the dots in one row. There are 4."
+          },
+          {
+            "text": "4 × 4",
+            "why": "Count the rows going down. There are 6."
           }
         ],
-        "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Cutting a different way gives the same product.",
-        "hints": [
-          "Find each friend's total.",
-          "Friend 1: 20 + 20. Friend 2: 25 + 15."
-        ],
-        "show": [
-          "Friend 1: 4 × 5 + 4 × 5 = 20 + 20 = 40.",
-          "Friend 2: 5 × 5 + 3 × 5 = 25 + 15 = 40.",
-          "Both make 40, so both friends are right."
-        ]
-      },
-      {
-        "id": "t6",
-        "type": "decompose",
-        "prompt": "Decompose 4 × 7. Any way that works is fine.",
-        "fact": [
-          4,
-          7
-        ],
-        "answer": {
-          "p": 4,
-          "q": 5,
-          "r": 4,
-          "s": 2,
-          "t": 28
+        "target": "6 × 4",
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 4
         },
         "hints": [
-          "Try decomposing the 7 into 5 and 2.",
-          "4 × 5 + 4 × 2. Then add."
+          "Count the rows going down. Then count the dots in one row.",
+          "Rows first, then how many in each row."
         ],
         "show": [
-          "Decompose 7 into 5 and 2.",
-          "4 × 5 + 4 × 2 = 20 + 8 = 28."
-        ]
+          "There are 6 rows.",
+          "Each row has 4 dots, so the array shows 6 × 4 = 24."
+        ],
+        "yes": "Yes! 6 equal rows of 4 is 6 × 4."
+      },
+      {
+        "id": "t12",
+        "type": "choice",
+        "prompt": "What does the dashed line do to the array?",
+        "options": [
+          {
+            "text": "It takes some dots away.",
+            "why": "No dots are taken away. Every dot is still there."
+          },
+          {
+            "text": "It splits the array into two smaller arrays.",
+            "correct": true
+          },
+          {
+            "text": "It adds more dots.",
+            "why": "No dots are added. The line only splits the array into two parts."
+          }
+        ],
+        "model": {
+          "type": "array",
+          "rows": 6,
+          "cols": 5,
+          "cut": {
+            "by": "rows",
+            "at": 3
+          },
+          "labels": "parts"
+        },
+        "hints": [
+          "Count all the dots. Is the total still 6 rows of 5?"
+        ],
+        "show": [
+          "The top part is 3 × 5 and the bottom part is 3 × 5.",
+          "Together they are still 6 × 5 = 30 dots."
+        ],
+        "yes": "Yes! Two smaller arrays, and the same number of dots."
       },
       {
         "id": "t7",
@@ -941,44 +785,6 @@
           "Switch the factors: 6 × 4 = 4 × 6."
         ],
         "yes": "Yes! The order of the factors does not matter."
-      },
-      {
-        "id": "t9",
-        "type": "choice",
-        "prompt": "Which fact does this array show?",
-        "options": [
-          {
-            "text": "4 + 6",
-            "why": "An array has equal rows, so it shows multiplication."
-          },
-          {
-            "text": "6 × 4",
-            "correct": true
-          },
-          {
-            "text": "6 × 6",
-            "why": "Count the dots in one row. There are 4."
-          },
-          {
-            "text": "4 × 4",
-            "why": "Count the rows going down. There are 6."
-          }
-        ],
-        "target": "6 × 4",
-        "model": {
-          "type": "array",
-          "rows": 6,
-          "cols": 4
-        },
-        "hints": [
-          "Count the rows going down. Then count the dots in one row.",
-          "Rows first, then how many in each row."
-        ],
-        "show": [
-          "There are 6 rows.",
-          "Each row has 4 dots, so the array shows 6 × 4 = 24."
-        ],
-        "yes": "Yes! 6 equal rows of 4 is 6 × 4."
       },
       {
         "id": "t10",
@@ -1067,43 +873,6 @@
         "yes": "Yes! 4 rows of 5 on the left and 4 rows of 3 on the right."
       },
       {
-        "id": "t12",
-        "type": "choice",
-        "prompt": "What does the dashed line do to the array?",
-        "options": [
-          {
-            "text": "It takes some dots away.",
-            "why": "No dots are taken away. Every dot is still there."
-          },
-          {
-            "text": "It splits the array into two smaller arrays.",
-            "correct": true
-          },
-          {
-            "text": "It adds more dots.",
-            "why": "No dots are added. The line only splits the array into two parts."
-          }
-        ],
-        "model": {
-          "type": "array",
-          "rows": 6,
-          "cols": 5,
-          "cut": {
-            "by": "rows",
-            "at": 3
-          },
-          "labels": "parts"
-        },
-        "hints": [
-          "Count all the dots. Is the total still 6 rows of 5?"
-        ],
-        "show": [
-          "The top part is 3 × 5 and the bottom part is 3 × 5.",
-          "Together they are still 6 × 5 = 30 dots."
-        ],
-        "yes": "Yes! Two smaller arrays, and the same number of dots."
-      },
-      {
         "id": "t13",
         "type": "fill",
         "prompt": "Find each part. Then add.",
@@ -1156,7 +925,7 @@
         ],
         "hints": [
           "The top part is 5 rows of 6. The bottom part is 2 rows of 6.",
-          "5 × 6 = 30 and 2 × 6 = 12."
+          "Find 5 × 6 (count by 5s) and 2 × 6 (it is a double). Then add them."
         ],
         "show": [
           "5 × 6 = 30.",
@@ -1218,7 +987,7 @@
         ],
         "hints": [
           "The left part is 5 rows of 5. The right part is 5 rows of 3.",
-          "5 × 5 = 25 and 5 × 3 = 15."
+          "Find 5 × 5 (count by 5s) and 5 × 3 (count by 5s). Then add them."
         ],
         "show": [
           "5 × 5 = 25.",
@@ -1226,6 +995,227 @@
           "25 + 15 = 40. So 5 × 8 = 40."
         ],
         "yes": "Yes! 40."
+      },
+      {
+        "id": "t2",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "[a] × 4 = 5 × 4 + 2 × 4"
+        ],
+        "answer": {
+          "a": 7
+        },
+        "hints": [
+          "The 4 is in both facts. Which number was decomposed?",
+          "5 and 2 make the missing factor."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "a": 28
+            },
+            "say": "That box needs a factor, not the product. Which number was decomposed?"
+          },
+          {
+            "when": {
+              "a": 20
+            },
+            "say": "That box needs a factor. What do 5 and 2 make?"
+          }
+        ],
+        "show": [
+          "5 and 2 make 7.",
+          "7 × 4 = 5 × 4 + 2 × 4."
+        ],
+        "yes": "Yes! 5 + 2 = 7, so 7 × 4."
+      },
+      {
+        "id": "t3",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "4 × [b] = 4 × 5 + 4 × 3"
+        ],
+        "answer": {
+          "b": 8
+        },
+        "hints": [
+          "The 4 is in both facts. The other numbers are 5 and 3.",
+          "What do 5 and 3 make?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "b": 32
+            },
+            "say": "That box needs a factor, not the product. What do 5 and 3 make?"
+          },
+          {
+            "when": {
+              "b": 4
+            },
+            "say": "4 is the number in both facts. Add the other two: 5 and 3."
+          }
+        ],
+        "show": [
+          "5 and 3 make 8.",
+          "4 × 8 = 4 × 5 + 4 × 3."
+        ],
+        "yes": "Yes! 5 + 3 = 8."
+      },
+      {
+        "id": "t17",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "2 × 8 + 4 × 8 = 8 × [x]"
+        ],
+        "answer": {
+          "x": 6
+        },
+        "hints": [
+          "Both facts have 8. Which numbers were put together?",
+          "Add the two numbers that are not 8."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 48
+            },
+            "say": "That box needs a factor, not the product. What do 2 and 4 make?"
+          },
+          {
+            "when": {
+              "x": 4
+            },
+            "say": "Do not forget the 2 × 8. 2 and 4 make 6."
+          }
+        ],
+        "show": [
+          "2 + 4 = 6.",
+          "2 × 8 + 4 × 8 = 16 + 32 = 48, and 8 × 6 = 48."
+        ],
+        "yes": "Yes! 2 + 4 = 6, so 8 × 6."
+      },
+      {
+        "id": "t18",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "7 × 3 + 7 × 3 = 7 × [x]"
+        ],
+        "answer": {
+          "x": 6
+        },
+        "hints": [
+          "Both facts keep the 7. Add the other two numbers."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 3
+            },
+            "say": "There are two 7 × 3 facts. 3 and 3 make 6."
+          },
+          {
+            "when": {
+              "x": 42
+            },
+            "say": "That box needs a factor, not the product."
+          }
+        ],
+        "show": [
+          "3 + 3 = 6.",
+          "7 × 3 + 7 × 3 = 21 + 21 = 42, and 7 × 6 = 42."
+        ],
+        "yes": "Yes! 3 + 3 = 6, so 7 × 6."
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "Which is a correct way to decompose 8 × 6?",
+        "options": [
+          {
+            "text": "5 × 6 + 2 × 6",
+            "why": "5 and 2 make 7, not 8."
+          },
+          {
+            "text": "4 × 6 + 4",
+            "why": "The second part must be a whole fact: 4 × 6, not 4."
+          },
+          {
+            "text": "4 × 6 + 4 × 6",
+            "correct": true
+          },
+          {
+            "text": "8 × 3 + 8 × 2",
+            "why": "3 and 2 make 5, not 6."
+          }
+        ],
+        "target": "8 × 6",
+        "hints": [
+          "The two parts of the broken factor must add up to that factor.",
+          "Check each choice: do its two numbers add up to 8 or to 6, and is each part a whole fact?"
+        ],
+        "show": [
+          "8 × 6 = 4 × 6 + 4 × 6.",
+          "24 + 24 = 48."
+        ],
+        "yes": "Yes! 4 + 4 = 8, and 24 + 24 = 48."
+      },
+      {
+        "id": "t1",
+        "type": "decompose",
+        "prompt": "Decompose 9 × 4. Any way that works is fine.",
+        "model": {
+          "type": "array",
+          "rows": 9,
+          "cols": 4
+        },
+        "fact": [
+          9,
+          4
+        ],
+        "answer": {
+          "p": 5,
+          "q": 4,
+          "r": 4,
+          "s": 4,
+          "t": 36
+        },
+        "hints": [
+          "Try cutting under row 5.",
+          "5 × 4 + 4 × 4. Then add."
+        ],
+        "show": [
+          "Cut under row 5: 5 × 4 + 4 × 4.",
+          "20 + 16 = 36."
+        ]
+      },
+      {
+        "id": "t6",
+        "type": "decompose",
+        "prompt": "Decompose 4 × 7. Any way that works is fine.",
+        "fact": [
+          4,
+          7
+        ],
+        "answer": {
+          "p": 4,
+          "q": 5,
+          "r": 4,
+          "s": 2,
+          "t": 28
+        },
+        "hints": [
+          "Try decomposing the 7 into 5 and 2.",
+          "4 × 5 + 4 × 2. Then add."
+        ],
+        "show": [
+          "Decompose 7 into 5 and 2.",
+          "4 × 5 + 4 × 2 = 20 + 8 = 28."
+        ]
       },
       {
         "id": "t15",
@@ -1257,105 +1247,115 @@
         ]
       },
       {
-        "id": "t16",
+        "id": "t4",
+        "type": "fill",
+        "prompt": "How many squares? Break apart 4 × 9.",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 4,
+          "cols": 9,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "sideLabels": true
+        },
+        "lines": [
+          "4 × 9 = 4 × 5 + 4 × 4",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 20,
+          "q": 16,
+          "t": 36
+        },
+        "hints": [
+          "Left part: 4 rows of 5 squares.",
+          "Right part: 4 rows of 4 squares."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 13
+            },
+            "say": "4 × 9 means 4 rows of 9, not 4 + 9. Count the squares."
+          },
+          {
+            "when": {
+              "t": 20
+            },
+            "say": "You found the first part! Now add the second part."
+          }
+        ],
+        "show": [
+          "4 × 5 = 20 and 4 × 4 = 16.",
+          "20 + 16 = 36."
+        ],
+        "yes": "Yes! 20 + 16 = 36 squares.",
+        "accept": [
+          {
+            "p": 16,
+            "q": 20,
+            "t": 36
+          }
+        ]
+      },
+      {
+        "id": "t5",
         "type": "choice",
-        "prompt": "Which is a correct way to decompose 8 × 6?",
+        "prompt": "Two friends decomposed 8 × 5. Friend 1 wrote 4 × 5 + 4 × 5. Friend 2 wrote 5 × 5 + 3 × 5. Who is right?",
+        "models": [
+          {
+            "type": "array",
+            "rows": 8,
+            "cols": 5,
+            "cut": {
+              "by": "rows",
+              "at": 4
+            },
+            "labels": "parts"
+          },
+          {
+            "type": "array",
+            "rows": 8,
+            "cols": 5,
+            "cut": {
+              "by": "rows",
+              "at": 5
+            },
+            "labels": "parts"
+          }
+        ],
         "options": [
           {
-            "text": "5 × 6 + 2 × 6",
-            "why": "5 and 2 make 7, not 8."
+            "text": "Only Friend 1",
+            "why": "Check Friend 2 too: 25 + 15 = 40."
           },
           {
-            "text": "4 × 6 + 4",
-            "why": "The second part must be a whole fact: 4 × 6, not 4."
+            "text": "Only Friend 2",
+            "why": "Check Friend 1 too: 20 + 20 = 40."
           },
           {
-            "text": "4 × 6 + 4 × 6",
+            "text": "Both friends",
             "correct": true
           },
           {
-            "text": "8 × 3 + 8 × 2",
-            "why": "3 and 2 make 5, not 6."
+            "text": "Neither",
+            "why": "Both make 40: 20 + 20 = 40 and 25 + 15 = 40."
           }
         ],
-        "target": "8 × 6",
+        "yes": "Yes! 20 + 20 = 40 and 25 + 15 = 40. Cutting a different way gives the same product.",
         "hints": [
-          "The two parts of the broken factor must add up to that factor.",
-          "Which choice uses 4 + 4 = 8?"
+          "Find each friend's total.",
+          "Friend 1: 20 + 20. Friend 2: 25 + 15."
         ],
         "show": [
-          "8 × 6 = 4 × 6 + 4 × 6.",
-          "24 + 24 = 48."
-        ],
-        "yes": "Yes! 4 + 4 = 8, and 24 + 24 = 48."
-      },
-      {
-        "id": "t17",
-        "type": "fill",
-        "prompt": "What number makes it true?",
-        "lines": [
-          "1 × 9 + 5 × 9 = 9 × [x]"
-        ],
-        "answer": {
-          "x": 6
-        },
-        "hints": [
-          "Both facts have 9. Which numbers were put together?",
-          "1 and 5 make what?"
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "x": 54
-            },
-            "say": "That box needs a factor, not the product. What do 1 and 5 make?"
-          },
-          {
-            "when": {
-              "x": 5
-            },
-            "say": "Do not forget the 1 × 9. 1 and 5 make 6."
-          }
-        ],
-        "show": [
-          "1 + 5 = 6.",
-          "1 × 9 + 5 × 9 = 9 + 45 = 54, and 9 × 6 = 54."
-        ],
-        "yes": "Yes! 1 + 5 = 6, so 9 × 6."
-      },
-      {
-        "id": "t18",
-        "type": "fill",
-        "prompt": "What number makes it true?",
-        "lines": [
-          "7 × 3 + 7 × 3 = 7 × [x]"
-        ],
-        "answer": {
-          "x": 6
-        },
-        "hints": [
-          "Both facts keep the 7. Add the other numbers.",
-          "3 and 3 make what?"
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "x": 3
-            },
-            "say": "There are two 7 × 3 facts. 3 and 3 make 6."
-          },
-          {
-            "when": {
-              "x": 42
-            },
-            "say": "That box needs a factor, not the product."
-          }
-        ],
-        "show": [
-          "3 + 3 = 6.",
-          "7 × 3 + 7 × 3 = 21 + 21 = 42, and 7 × 6 = 42."
-        ],
-        "yes": "Yes! 3 + 3 = 6, so 7 × 6."
+          "Friend 1: 4 × 5 + 4 × 5 = 20 + 20 = 40.",
+          "Friend 2: 5 × 5 + 3 × 5 = 25 + 15 = 40.",
+          "Both make 40, so both friends are right."
+        ]
       },
       {
         "id": "t19",
@@ -1389,28 +1389,50 @@
       {
         "id": "t20",
         "type": "choice",
-        "prompt": "If you decompose a factor in different ways, will the product always be the same?",
+        "prompt": "Ty cuts 6 × 4 into 5 rows and 1 row. Ana cuts it into 3 rows and 3 rows. Who gets more dots?",
         "options": [
           {
-            "text": "No. A bigger cut makes a bigger product.",
-            "why": "The product stays the same. 6 × 4 = 5 × 4 + 1 × 4 = 3 × 4 + 3 × 4 = 24."
+            "text": "Ty, because 5 is bigger.",
+            "why": "Ty has 20 + 4 = 24 dots. Ana has 12 + 12 = 24 dots. They are the same."
           },
           {
-            "text": "Yes. The dots stay the same. Only the cut moves.",
+            "text": "Ana, because her parts are equal.",
+            "why": "Ana has 12 + 12 = 24 dots. Ty has 20 + 4 = 24 dots. They are the same."
+          },
+          {
+            "text": "Neither. They both have 24 dots.",
             "correct": true
+          }
+        ],
+        "models": [
+          {
+            "type": "array",
+            "rows": 6,
+            "cols": 4,
+            "cut": {
+              "by": "rows",
+              "at": 5
+            },
+            "labels": "parts"
           },
           {
-            "text": "Only if you cut in the middle.",
-            "why": "Any cut works. 6 × 4 = 5 × 4 + 1 × 4 = 3 × 4 + 3 × 4 = 24."
+            "type": "array",
+            "rows": 6,
+            "cols": 4,
+            "cut": {
+              "by": "rows",
+              "at": 3
+            },
+            "labels": "parts"
           }
         ],
         "hints": [
-          "Try 6 × 4 two ways: 5 + 1 and 3 + 3."
+          "Find Ty's two parts and add them. Then do the same for Ana."
         ],
         "show": [
-          "5 × 4 + 1 × 4 = 20 + 4 = 24.",
-          "3 × 4 + 3 × 4 = 12 + 12 = 24.",
-          "The same dots, so the same product."
+          "Ty: 5 × 4 + 1 × 4 = 20 + 4 = 24.",
+          "Ana: 3 × 4 + 3 × 4 = 12 + 12 = 24.",
+          "A different cut never changes the number of dots."
         ],
         "yes": "Yes! Every correct cut gives the same product."
       }
@@ -1498,7 +1520,7 @@
       {
         "id": "x5",
         "type": "fill",
-        "prompt": "Each square is like a dot. Find the area (how many squares): 3 × 6.",
+        "prompt": "How many squares? Break apart 3 × 6.",
         "model": {
           "type": "array",
           "style": "tiles",

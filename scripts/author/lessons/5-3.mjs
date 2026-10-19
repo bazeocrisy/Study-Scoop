@@ -150,21 +150,21 @@ export default {
     items: [
       // 1-5: understanding
       {
-        id: 't1', type: 'fill', prompt: '2 × 8 = 16. Use it to find 4 × 8.', lines: ['4 × 8 = 16 + [x]', '= [t]'], answer: { x: 16, t: 32 },
-        hints: ['4 × 8 is two 2 × 8 facts.', 'Double 16: 16 + 16.'],
-        mistakes: [{ when: { x: 8 }, say: 'Add the whole 2s fact again: 16, not 8.' }, { when: { x: 4 }, say: 'Add the whole 2s fact again: 16, not 4.' }],
-        show: ['4 × 8 = 2 × 8 + 2 × 8.', '16 + 16 = 32.'], yes: 'Yes! 16 + 16 = 32.',
+        id: 't1', type: 'fill', prompt: '2 × 6 = 12. Use it to find 4 × 6.', lines: ['4 × 6 = 12 + [x]', '= [t]'], answer: { x: 12, t: 24 },
+        hints: ['4 × 6 is two 2 × 6 facts.', 'What do you add to 12 to double it?'],
+        mistakes: [{ when: { x: 6 }, say: 'Add the whole 2s fact again: 12, not 6.' }, { when: { x: 4 }, say: 'Add the whole 2s fact again: 12, not 4.' }],
+        show: ['4 × 6 = 2 × 6 + 2 × 6.', '12 + 12 = 24.'], yes: 'Yes! 12 + 12 = 24.',
       },
       choice('t2', 'Which facts match this split array?', [
-        ['(4 × 2) + (4 × 4)', 'That cut goes between columns. This line goes between rows.'],
-        ['(2 × 6) + (2 × 6)', true],
-        ['(1 × 6) + (3 × 6)', 'That would be a cut under row 1. This line is under row 2.'],
-        ['(2 × 4) + (2 × 4)', 'Each row has 6 dots, not 4. Count the dots in one row.'],
+        ['(4 × 4) + (4 × 4)', 'That cut goes between columns. This line goes between rows.'],
+        ['(2 × 8) + (2 × 8)', true],
+        ['(1 × 8) + (3 × 8)', 'That would be a cut under row 1. This line is under row 2.'],
+        ['(2 × 4) + (2 × 4)', 'Each row has 8 dots, not 4. Count the dots in one row.'],
       ], {
-        model: arr(4, 6, ['r', 2], 'parts'), pictureMatch: true,
-        hints: ['Count the rows above the line and below the line.', 'Each row has 6 dots.'],
-        show: ['2 rows are above the line and 2 rows are below it.', 'Each row has 6 dots: (2 × 6) + (2 × 6).'],
-        yes: 'Yes! 2 rows of 6 on top and 2 rows of 6 below.',
+        model: arr(4, 8, ['r', 2], 'parts'), pictureMatch: true,
+        hints: ['Count the rows above the line and below the line.', 'Count the dots in one row.'],
+        show: ['2 rows are above the line and 2 rows are below it.', 'Each row has 8 dots: (2 × 8) + (2 × 8).'],
+        yes: 'Yes! 2 rows of 8 on top and 2 rows of 8 below.',
       }),
       fact('t3', 4, 3, { ...four(3) }),
       missing('t4', '4 × [x] = 2 × 7 + 2 × 7', { x: 7 }, {
@@ -178,14 +178,14 @@ export default {
         ['1 × 9', 'Double 1 × 9 is only 2 × 9. You need 2 × 9, then double that.'],
         ['2 × 4', 'Double 2 × 4 is 4 × 4. Use the 2s fact with the 9: 2 × 9.'],
       ], {
-        hints: ['4 = 2 + 2. Which fact has 2 and 9?'],
+        hints: ['4 = 2 + 2. Which 2s fact keeps the 9?'],
         show: ['4 × 9 = 2 × 9 + 2 × 9.', 'So double 2 × 9 = 18: 18 + 18 = 36.'], yes: 'Yes! Double 2 × 9: 18 + 18 = 36.',
       }),
       // 6-15: practice
-      partsFill('t6', 4, 5, 'rows', 2, { hints: ['The top part is 2 rows of 5.', 'Both parts are 2 × 5 = 10. Double 10.'] }),
-      partsFill('t7', 8, 4, 'cols', 2, {
+      partsFill('t6', 4, 2, 'rows', 2, { hints: ['The top part is 2 rows of 2.'] }),
+      partsFill('t7', 3, 4, 'cols', 2, {
         prompt: 'The 4 comes second. Find each part, then add.',
-        hints: ['Each part is 8 rows of 2.', '8 × 2 = 16. Double 16.'],
+        hints: ['Each part is 3 rows of 2.'],
       }),
       fact('t8', 6, 4, {
         hints: ['Turn it around: 6 × 4 = 4 × 6.', 'Find the 2s fact: 6 × 2 = 12. Double it.'],
@@ -193,17 +193,17 @@ export default {
         show: ['Find the 4. 6 × 4 = 6 × 2 + 6 × 2.', '12 + 12 = 24.'],
       }),
       factorsFill('t9', 4, 9, 'rows', 2, { total: true }),
-      decompose('t10', 4, 8, ['rows', 2], {
-        hints: ['Try breaking the 4 into 2 + 2.', '2 × 8 + 2 × 8. Then add.'],
+      decompose('t10', 4, 7, ['rows', 2], {
+        hints: ['Try breaking the 4 into 2 + 2.', 'Write two 2s facts that keep the 7. Then add.'],
       }),
       table('t11', 'Double, then double again. Fill in the times 4 column.', ['Number', 'Times 2', 'Times 4'], [
-        ['5', '10', { answer: '4 × 5' }],
-        ['8', '16', { answer: '4 × 8' }],
+        ['2', '4', { answer: '4 × 2' }],
+        ['6', '12', { answer: '4 × 6' }],
         ['10', '20', { answer: '4 × 10' }],
       ], {
-        hints: ['Times 4 is double the times 2 number.', 'For 5: 10 + 10.'],
+        hints: ['Times 4 is double the times 2 number.', 'For 2: what is 4 + 4?'],
         retry: 'Check each row: double the times 2 number.',
-        show: ['5: 10 + 10 = 20.', '8: 16 + 16 = 32.', '10: 20 + 20 = 40.'],
+        show: ['2: 4 + 4 = 8.', '6: 12 + 12 = 24.', '10: 20 + 20 = 40.'],
         yes: 'Yes! Each times 4 number is double the times 2 number.',
       }),
       story('t12', 'A table has 4 legs. How many legs are on 7 tables?', 7, 4, {
@@ -217,44 +217,44 @@ export default {
         ['2 × 3 + 2 × 3', 'That is 2 × 6 broken apart. It is only half of 4 × 6.'],
         ['2 × 6 + 2 × 6', true],
         ['4 + 6', '4 × 6 means 4 groups of 6, not 4 + 6.'],
-      ], { target: '4 × 6', hints: ['4 = 2 + 2. Look for two 2 × 6 facts.'], show: ['4 × 6 = 2 × 6 + 2 × 6 = 12 + 12 = 24.'], yes: 'Yes! 12 + 12 = 24.' }),
+      ], { target: '4 × 6', hints: ['4 = 2 + 2. Both parts must be whole facts that keep the 6.'], show: ['4 × 6 = 2 × 6 + 2 × 6 = 12 + 12 = 24.'], yes: 'Yes! 12 + 12 = 24.' }),
       missing('t14', '[x] × 4 = 36', { x: 9 }, {
-        hints: ['Count by 4s: 4, 8, 12, 16 … Stop at 36.', 'Or: what doubled makes 36? 18. And 2 × 9 = 18.'],
+        hints: ['Count by 4s: 4, 8, 12, 16 … Stop at 36.', 'Or: what number doubled makes 36? Which 2s fact makes that number?'],
         mistakes: [{ when: { x: 32 }, say: 'That box needs a factor. What times 4 makes 36?' }, { when: { x: 8 }, say: '8 × 4 is 32. One more 4 makes 36.' }],
         show: ['2 × 9 = 18, and 18 + 18 = 36.', 'So 9 × 4 = 36.'], yes: 'Yes! 9 × 4 = 36.',
       }),
       fact('t15', 4, 4, { ...four(4) }),
       // 16-20: apply and explain
-      choice('t16', 'A student wrote 4 × 6 = 2 × 6 + 2 = 14. What went wrong?', [
-        ['The second part should be 2 × 6, not 2.', true],
-        ['Nothing. It is correct.', '4 × 6 is 4 rows of 6. That is 24 dots, not 14.'],
-        ['The first part should be 4 × 6.', 'The first part 2 × 6 is fine. The second part lost its 6.'],
-        ['You should add 4 + 6.', '4 × 6 means 4 groups of 6, not 4 + 6.'],
+      choice('t16', 'A student wrote 4 × 8 = 2 × 8 + 2 = 18. What went wrong?', [
+        ['The second part should be 2 × 8, not 2.', true],
+        ['Nothing. It is correct.', '4 × 8 is 4 rows of 8. That is 32 dots, not 18.'],
+        ['The first part should be 4 × 8.', 'The first part 2 × 8 is fine. The second part lost its 8.'],
+        ['You should add 4 + 8.', '4 × 8 means 4 groups of 8, not 4 + 8.'],
       ], {
         quotesMistake: true,
-        hints: ['Both parts must be whole facts.', 'Is "2" a whole fact like 2 × 6?'],
-        show: ['4 × 6 = 2 × 6 + 2 × 6.', '12 + 12 = 24.'], yes: 'Yes! 4 × 6 = 2 × 6 + 2 × 6 = 12 + 12 = 24.',
+        hints: ['Both parts must be whole facts.', 'Is "2" a whole fact, like the first part?'],
+        show: ['4 × 8 = 2 × 8 + 2 × 8.', '16 + 16 = 32.'], yes: 'Yes! 4 × 8 = 2 × 8 + 2 × 8 = 16 + 16 = 32.',
       }),
-      story('t17', 'A box of crayons has 4 rows. Each row has 9 crayons. How many crayons are in the box?', 4, 9, {
-        model: arr(4, 9),
-        hints: ['4 rows of 9 is 4 × 9.', 'Find 2 × 9 = 18. Double it.'],
-        mistakes: [{ when: { answer: 13 }, say: '4 + 9 is 13. There are 4 rows of 9, so multiply.' }, { when: { answer: 18 }, say: '18 is only 2 rows. Double it for 4 rows.' }],
-        show: ['4 × 9 = 2 × 9 + 2 × 9.', '18 + 18 = 36 crayons.'], yes: 'Yes! 36 crayons.',
+      story('t17', 'A box of crayons has 4 rows. Each row has 5 crayons. How many crayons are in the box?', 4, 5, {
+        model: arr(4, 5),
+        hints: ['4 rows of 5 is 4 × 5.', 'Find the 2s fact for 2 rows. Then double it.'],
+        mistakes: [{ when: { answer: 9 }, say: '4 + 5 is 9. There are 4 rows of 5, so multiply.' }, { when: { answer: 10 }, say: '10 is only 2 rows. Double it for 4 rows.' }],
+        show: ['4 × 5 = 2 × 5 + 2 × 5.', '10 + 10 = 20 crayons.'], yes: 'Yes! 20 crayons.',
       }),
-      choice('t18', 'Lena knows 2 × 8 = 16. How can she find 4 × 8?', [
-        ['Add 4: 16 + 4', '4 × 8 is two 2 × 8 facts. Add 16 again, not 4.'],
-        ['Add 8 once: 16 + 8', '16 + 8 is only 3 × 8. 4 × 8 needs two 2s facts: 16 + 16.'],
-        ['Double 16: 16 + 16', true],
-      ], { hints: ['4 = 2 + 2. How many 2 × 8 facts make 4 × 8?'], show: ['4 × 8 = 2 × 8 + 2 × 8.', '16 + 16 = 32.'], yes: 'Yes! 16 + 16 = 32.' }),
-      story('t19', 'There are 8 cars in a parking lot. Each car has 4 wheels. How many wheels are there?', 8, 4, {
-        hints: ['8 cars with 4 wheels each: 8 × 4.', 'Find the 2s fact: 8 × 2 = 16. Double it.'],
-        mistakes: [{ when: { answer: 12 }, say: '8 + 4 is 12. Each car has 4 wheels, so multiply.' }, { when: { answer: 16 }, say: '16 is only 2 wheels on each car. Double it for 4.' }],
-        show: ['8 × 4 = 8 × 2 + 8 × 2.', '16 + 16 = 32 wheels.'], yes: 'Yes! 32 wheels.',
+      choice('t18', 'Lena knows 2 × 10 = 20. How can she find 4 × 10?', [
+        ['Add 4: 20 + 4', '4 × 10 is two 2 × 10 facts. Add 20 again, not 4.'],
+        ['Add 10 once: 20 + 10', '20 + 10 is only 3 × 10. 4 × 10 needs two 2s facts.'],
+        ['Double 20: 20 + 20', true],
+      ], { hints: ['4 = 2 + 2. How many 2 × 10 facts make 4 × 10?'], show: ['4 × 10 = 2 × 10 + 2 × 10.', '20 + 20 = 40.'], yes: 'Yes! 20 + 20 = 40.' }),
+      story('t19', 'A horse has 4 legs. How many legs do 8 horses have?', 8, 4, {
+        hints: ['8 horses with 4 legs each: 8 × 4.', 'Find the 4. Find the 2s fact with 8, then double it.'],
+        mistakes: [{ when: { answer: 12 }, say: '8 + 4 is 12. Each horse has 4 legs, so multiply.' }, { when: { answer: 16 }, say: '16 is only 2 legs on each horse. Double it for 4.' }],
+        show: ['8 × 4 = 8 × 2 + 8 × 2.', '16 + 16 = 32 legs.'], yes: 'Yes! 32 legs.',
       }),
-      choice('t20', 'Is it always true? You can double a 2s fact to find a 4s fact.', [
-        ['No, only for even numbers.', 'It works for every number. 4 × 7 = 14 + 14 = 28.'],
+      choice('t20', 'Kim says: "To find any 4s fact, find the 2s fact and double it." Is Kim right?', [
+        ['Only for even numbers.', 'It works for every number. 4 × 7 = 14 + 14 = 28.'],
         ['Yes. 4 rows is 2 rows and 2 more rows.', true],
-        ['No, only for small numbers.', 'It works for every number. 4 × 9 = 18 + 18 = 36.'],
+        ['Only for small numbers.', 'It works for every number. 4 × 9 = 18 + 18 = 36.'],
       ], { hints: ['Try it with 4 × 7. Is 14 + 14 the same as 4 × 7?'], show: ['4 = 2 + 2 for every fact.', 'So a 4s fact is always two 2s facts: double the 2s fact.'], yes: 'Yes! 4 is always 2 + 2.' }),
     ],
   },

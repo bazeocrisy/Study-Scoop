@@ -89,7 +89,7 @@
         "text": [
           "Break apart a factor. 6 is 5 + 1.",
           "5 × 8 = 40 and 1 × 8 = 8. Add: 40 + 8 = 48 chairs.",
-          "Does it make sense? 6 rows of about 10 would be 60, so 48 is about right."
+          "Does it make sense? 48 is more than 5 rows of 8 (40), but less than 6 rows of 10 (60). Yes!"
         ],
         "model": {
           "type": "array",
@@ -104,15 +104,12 @@
         "caption": "6 × 8 = 5 × 8 + 1 × 8"
       },
       {
-        "title": "7 steps to solve",
+        "title": "4 steps to solve",
         "text": [
-          "1. Read the problem.",
-          "2. Find the important numbers.",
-          "3. Find the equal groups.",
-          "4. Draw an array or look at one.",
-          "5. Write an equation.",
-          "6. Solve. Break apart a factor if it helps.",
-          "7. Check that the answer makes sense."
+          "1. Read. Find the equal groups.",
+          "2. Write the fact, like 6 × 8.",
+          "3. Solve. Break apart a factor if it helps.",
+          "4. Check. Is the answer about the right size?"
         ],
         "words": [
           "equation"
@@ -268,7 +265,7 @@
             "pictured": true
           },
           {
-            "say": "Check: 48 is more than 8 and more than 6, and 8 groups of about 5 is 40. It makes sense. There are 48 juice boxes."
+            "say": "Check: 8 packs of 5 would be 40, and each pack has a little more than 5. So 48 makes sense. There are 48 juice boxes."
           }
         ],
         "why": {
@@ -418,7 +415,7 @@
         ],
         "hints": [
           "The top part is 5 rows of 6. The bottom part is 4 rows of 6.",
-          "5 × 6 = 30 and 4 × 6 = 24."
+          "Find 5 × 6 (count by 5s) and 4 × 6 (use a fact you know). Then add them."
         ],
         "show": [
           "5 × 6 = 30.",
@@ -530,7 +527,7 @@
       {
         "id": "t1",
         "type": "number",
-        "prompt": "A box of cans is shown. How many cans are in the box?",
+        "prompt": "Look at the array of stickers. How many stickers are there?",
         "answer": "5 × 6",
         "model": {
           "type": "array",
@@ -538,7 +535,7 @@
           "cols": 6
         },
         "hints": [
-          "Count the rows. Then count the cans in one row.",
+          "Count the rows. Then count the stickers in one row.",
           "5 rows of 6: count by 5s six times."
         ],
         "mistakes": [
@@ -552,14 +549,14 @@
             "when": {
               "answer": 5
             },
-            "say": "5 is the number of rows. Each row has 6 cans."
+            "say": "5 is the number of rows. Each row has 6 stickers."
           }
         ],
         "show": [
-          "There are 5 rows with 6 cans in each row.",
-          "5 × 6 = 30 cans."
+          "There are 5 rows with 6 stickers in each row.",
+          "5 × 6 = 30 stickers."
         ],
-        "yes": "Yes! 30 cans."
+        "yes": "Yes! 30 stickers."
       },
       {
         "id": "t2",
@@ -798,7 +795,7 @@
         ],
         "hints": [
           "The top part is 5 rows of 8. The bottom part is 2 rows of 8.",
-          "5 × 8 = 40 and 2 × 8 = 16."
+          "Find 5 × 8 (count by 5s) and 2 × 8 (it is a double). Then add them."
         ],
         "show": [
           "5 × 8 = 40.",
@@ -878,7 +875,8 @@
           }
         ],
         "show": [
-          "5 × 8 = 40.",
+          "5 spiders with 8 legs each is 5 × 8.",
+          "Count by 5s eight times: 5, 10, 15, 20, 25, 30, 35, 40.",
           "There are 40 legs."
         ],
         "yes": "Yes! 40 legs."
@@ -923,8 +921,8 @@
           "x": 7
         },
         "hints": [
-          "Count by 9s: 9, 18, 27 … Stop at 63.",
-          "Or try 7: 5 × 7 = 35 and 4 × 7 = 28."
+          "Count by 9s: 9, 18, 27 … Stop at 63. Count how many 9s you said.",
+          "Or start at 9 × 5 = 45 and keep adding 9 until you reach 63."
         ],
         "mistakes": [
           {
@@ -1021,10 +1019,10 @@
       {
         "id": "t16",
         "type": "choice",
-        "prompt": "A student solved: \"4 boxes with 9 books in each box.\" She wrote 4 + 9 = 13. What went wrong?",
+        "prompt": "Theo's problem: 4 boxes, 9 books in each box. Theo wrote 4 + 9 = 13. What went wrong?",
         "options": [
           {
-            "text": "She added. She should multiply: 4 × 9.",
+            "text": "Theo added. He should multiply: 4 × 9.",
             "correct": true
           },
           {
@@ -1032,7 +1030,7 @@
             "why": "There are 4 equal groups of 9, so multiply. 4 × 9 = 36."
           },
           {
-            "text": "She should take away: 9 − 4.",
+            "text": "He should take away: 9 − 4.",
             "why": "Nothing is taken away. There are 4 equal groups of 9."
           }
         ],
@@ -1100,6 +1098,12 @@
               "answer": 14
             },
             "say": "The 2 red seats are part of the 12, not extra. Just find 4 rows of 3."
+          },
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "Red seats are still seats. Do not take them away. Find 4 rows of 3."
           }
         ],
         "show": [
@@ -1111,29 +1115,29 @@
       {
         "id": "t19",
         "type": "choice",
-        "prompt": "Eli says 6 rows of 9 chairs is 15 chairs. Does that make sense?",
+        "prompt": "Eli says 7 rows of 9 chairs is 16 chairs. Does that make sense?",
         "options": [
           {
-            "text": "Yes. 6 + 9 = 15.",
-            "why": "Rows of chairs are equal groups. Multiply: 6 × 9 = 54."
+            "text": "Yes. 7 + 9 = 16.",
+            "why": "Rows of chairs are equal groups. Multiply: 7 × 9 = 63."
           },
           {
-            "text": "No. There are 69 chairs.",
-            "why": "Check: 6 × 9 = 45 + 9 = 54."
+            "text": "No. There are 79 chairs.",
+            "why": "Check: 7 × 9 = 45 + 18 = 63."
           },
           {
-            "text": "No. 15 is 6 + 9. There are 54 chairs.",
+            "text": "No. 16 is 7 + 9. There are 63 chairs.",
             "correct": true
           }
         ],
         "hints": [
-          "6 rows of about 10 would be 60 chairs. Is 15 close?"
+          "2 rows of 9 is already 18. Can 7 rows be only 16?"
         ],
         "show": [
-          "6 rows of 9 is 6 × 9.",
-          "6 × 9 = 5 × 9 + 1 × 9 = 45 + 9 = 54 chairs."
+          "7 rows of 9 is 7 × 9.",
+          "7 × 9 = 5 × 9 + 2 × 9 = 45 + 18 = 63 chairs."
         ],
-        "yes": "Yes! 15 is much too small. 6 × 9 = 54."
+        "yes": "Yes! 16 is much too small. 7 × 9 = 63."
       },
       {
         "id": "t20",
@@ -1286,21 +1290,21 @@
       {
         "id": "x6",
         "type": "decompose",
-        "prompt": "A wall has 7 rows of 8 tiles. Decompose 7 × 8 to find the number of tiles.",
+        "prompt": "A box holds 7 rows of 6 eggs. Decompose 7 × 6 to find the number of eggs.",
         "fact": [
           7,
-          8
+          6
         ],
         "answer": {
           "p": 5,
-          "q": 8,
+          "q": 6,
           "r": 2,
-          "s": 8,
-          "t": 56
+          "s": 6,
+          "t": 42
         },
         "show": [
-          "Break 7 into 5 + 2: 5 × 8 + 2 × 8.",
-          "40 + 16 = 56 tiles."
+          "Break 7 into 5 + 2: 5 × 6 + 2 × 6.",
+          "30 + 12 = 42 eggs."
         ]
       },
       {

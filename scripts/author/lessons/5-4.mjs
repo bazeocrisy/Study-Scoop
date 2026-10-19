@@ -119,7 +119,7 @@ export default {
         why: choice('wB', 'Both ways make 42. Why?', [
           ['We added more dots.', 'No dots were added. We only moved the cut.'],
           ['We moved the cut. It is still 6 rows of 7.', true],
-          ['3 is bigger than 5.', '3 is smaller than 5. We only moved the cut, so the dots stay the same.'],
+          ['We used a bigger number.', 'The array is still 6 rows of 7. We only moved the cut, so the dots stay the same.'],
         ], { yes: 'Yes! You can cut in a different place. The product stays the same.' }),
         another: {
           text: 'Two cuts, the same 42 dots.',
@@ -175,10 +175,10 @@ export default {
     items: [
       // 1-5: understanding
       {
-        id: 't1', type: 'fill', prompt: '3 × 9 = 27. Use it to find 6 × 9.', lines: ['6 × 9 = 27 + [x]', '= [t]'], answer: { x: 27, t: 54 },
-        hints: ['6 = 3 + 3. So 6 × 9 is two 3 × 9 facts.', 'Double 27: 27 + 27.'],
-        mistakes: [{ when: { x: 9 }, say: 'Add the whole 3s fact again: 27, not 9.' }, { when: { x: 3 }, say: 'Add the whole 3s fact again: 27, not 3.' }],
-        show: ['6 × 9 = 3 × 9 + 3 × 9.', '27 + 27 = 54.'], yes: 'Yes! 27 + 27 = 54.',
+        id: 't1', type: 'fill', prompt: '3 × 7 = 21. Use it to find 6 × 7.', lines: ['6 × 7 = 21 + [x]', '= [t]'], answer: { x: 21, t: 42 },
+        hints: ['6 = 3 + 3. So 6 × 7 is two 3 × 7 facts.', 'What do you add to 21 to double it?'],
+        mistakes: [{ when: { x: 7 }, say: 'Add the whole 3s fact again: 21, not 7.' }, { when: { x: 3 }, say: 'Add the whole 3s fact again: 21, not 3.' }],
+        show: ['6 × 7 = 3 × 7 + 3 × 7.', '21 + 21 = 42.'], yes: 'Yes! 21 + 21 = 42.',
       },
       choice('t2', 'Which facts match this split array?', [
         ['(3 × 5) + (3 × 5)', 'That would be a cut under row 3. This line is under row 5.'],
@@ -207,14 +207,14 @@ export default {
         show: ['5 + 1 = 6.', '6 × 4 = 5 × 4 + 1 × 4 = 20 + 4 = 24.'], yes: 'Yes! 20 + 4 = 24.',
       }),
       // 6-15: practice
-      partsFill('t6', 6, 7, 'rows', 5, { hints: ['Top part: 5 rows of 7.', 'Bottom part: 1 row of 7. Then add.'] }),
-      partsFill('t7', 6, 9, 'rows', 3, { hints: ['Each part is 3 rows of 9.', '3 × 9 = 27. Double 27.'] }),
+      partsFill('t6', 6, 2, 'rows', 5, { hints: ['Top part: 5 rows of 2. Bottom part: 1 row of 2.'] }),
+      partsFill('t7', 6, 6, 'rows', 3, { hints: ['Each part is 3 rows of 6.'] }),
       partsFill('t8', 8, 6, 'cols', 5, {
         prompt: 'The 6 comes second. Find each part, then add.',
         hints: ['Left part: 8 rows of 5.', '8 × 5 = 40. Add one more group of 8.'],
       }),
       fact('t9', 6, 8, { ...six(8) }),
-      decompose('t10', 6, 9, ['rows', 5], { hints: ['Break 6 into 5 + 1, or into 3 + 3.', '5 × 9 + 1 × 9. Then add.'] }),
+      decompose('t10', 6, 3, ['rows', 5], { hints: ['Break 6 into 5 + 1, or into 3 + 3.', 'Write two facts that keep the 3. Then add.'] }),
       {
         id: 't11', type: 'fill', prompt: 'Break apart the 6 in 6 × 4. Use any two numbers that work.',
         lines: ['6 × 4 = [a] × 4 + [b] × 4'], answer: { a: 5, b: 1 }, open: true, min: 1,
@@ -234,9 +234,9 @@ export default {
         ['5 × 9 + 1 × 9', true],
         ['3 × 9 + 2 × 9', '3 and 2 make 5, not 6.'],
         ['6 + 9', '6 × 9 means 6 groups of 9, not 6 + 9.'],
-      ], { target: '6 × 9', hints: ['6 = 5 + 1. Look for 5 × 9 and 1 × 9.'], show: ['6 × 9 = 5 × 9 + 1 × 9 = 45 + 9 = 54.'], yes: 'Yes! 45 + 9 = 54.' }),
+      ], { target: '6 × 9', hints: ['The two numbers that 6 is broken into must add up to 6, and both parts must keep the 9.'], show: ['6 × 9 = 5 × 9 + 1 × 9 = 45 + 9 = 54.'], yes: 'Yes! 45 + 9 = 54.' }),
       missing('t14', '[x] × 6 = 42', { x: 7 }, {
-        hints: ['Count by 6s: 6, 12, 18 … Stop at 42.', 'Or: 5 × 6 = 30. How many more 6s make 42?'],
+        hints: ['Count by 6s: 6, 12, 18 … Stop at 42.', 'Or start at 5 × 6 = 30. Keep adding 6 until you reach 42.'],
         mistakes: [{ when: { x: 36 }, say: 'That box needs a factor. What times 6 makes 42?' }, { when: { x: 6 }, say: '6 × 6 is 36. One more 6 makes 42.' }],
         show: ['5 × 6 = 30. 30 + 6 + 6 = 42.', 'That is 7 groups of 6, so 7 × 6 = 42.'], yes: 'Yes! 7 × 6 = 42.',
       }),
@@ -261,10 +261,10 @@ export default {
         hints: ['Both parts must be whole facts.', 'Is "1" a whole fact like 1 × 8?'],
         show: ['6 × 8 = 5 × 8 + 1 × 8.', '40 + 8 = 48.'], yes: 'Yes! 6 × 8 = 5 × 8 + 1 × 8 = 40 + 8 = 48.',
       }),
-      story('t17', 'A soccer team has 6 players on the field. How many players are on the field for 9 teams?', 9, 6, {
-        hints: ['9 teams of 6 players: 9 × 6.', 'Find the 6. Use 9 × 5 = 45, then add one more group of 9.'],
-        mistakes: [{ when: { answer: 15 }, say: '9 + 6 is 15. There are 9 equal teams, so multiply.' }, { when: { answer: 45 }, say: '45 is 9 × 5. Add one more group of 9.' }],
-        show: ['9 × 6 = 9 × 5 + 9 × 1.', '45 + 9 = 54 players.'], yes: 'Yes! 54 players.',
+      story('t17', 'A van holds 6 kids. How many kids fit in 9 vans?', 9, 6, {
+        hints: ['9 vans of 6 kids: 9 × 6.', 'Find the 6. Use the 5s fact with 9, then add one more group of 9.'],
+        mistakes: [{ when: { answer: 15 }, say: '9 + 6 is 15. There are 9 equal vans, so multiply.' }, { when: { answer: 45 }, say: '45 is 9 × 5. Add one more group of 9.' }],
+        show: ['9 × 6 = 9 × 5 + 9 × 1.', '45 + 9 = 54 kids.'], yes: 'Yes! 54 kids.',
       }),
       choice('t18', 'Two friends find 6 × 7. Friend 1 writes 5 × 7 + 1 × 7. Friend 2 writes 3 × 7 + 3 × 7. Who is right?', [
         ['Only Friend 1', 'Check Friend 2 too: 21 + 21 = 42.'],
@@ -272,8 +272,8 @@ export default {
         ['Both friends', true],
         ['Neither', 'Both make 42: 35 + 7 = 42 and 21 + 21 = 42.'],
       ], {
-        models: [arr(6, 7, ['r', 5], 'facts'), arr(6, 7, ['r', 3], 'facts')],
-        hints: ['Find each friend\'s total.', 'Friend 1: 35 + 7. Friend 2: 21 + 21.'],
+        models: [arr(6, 7, ['r', 5], 'parts'), arr(6, 7, ['r', 3], 'parts')],
+        hints: ['Find each friend\'s total.', 'Friend 1 adds a 5s fact and a 1s fact. Friend 2 doubles a 3s fact.'],
         show: ['Friend 1: 35 + 7 = 42.', 'Friend 2: 21 + 21 = 42.', 'Both are right.'],
         yes: 'Yes! 35 + 7 = 42 and 21 + 21 = 42. Different cuts, same product.',
       }),

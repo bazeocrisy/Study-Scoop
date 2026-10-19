@@ -206,19 +206,19 @@ export default {
         ['5 × 9 and 2 × 9', true],
         ['7 × 5 and 2 × 4', 'Both facts must keep the same factor. Try 5 × 9 and 2 × 9.'],
       ], {
-        hints: ['Break the 7 into 5 + 2. Keep the 9 in both facts.'],
+        hints: ['The two numbers must add up to 7, and both facts must keep the 9.'],
         show: ['5 + 2 = 7.', '7 × 9 = 5 × 9 + 2 × 9 = 45 + 18 = 63.'], yes: 'Yes! 45 + 18 = 63.',
       }),
       // 6-15: practice
-      partsFill('t6', 7, 6, 'rows', 5, { hints: ['Top part: 5 rows of 6. Bottom part: 2 rows of 6.', '5 × 6 = 30 and 2 × 6 = 12.'] }),
-      partsFill('t7', 9, 8, 'rows', 5, { hints: ['Top part: 5 rows of 8. Bottom part: 4 rows of 8.', '5 × 8 = 40 and 4 × 8 = 32.'] }),
+      partsFill('t6', 7, 6, 'rows', 5, { hints: ['Top part: 5 rows of 6. Bottom part: 2 rows of 6.'] }),
+      partsFill('t7', 9, 8, 'rows', 5, { hints: ['Top part: 5 rows of 8. Bottom part: 4 rows of 8.'] }),
       partsFill('t8', 4, 7, 'cols', 5, {
         prompt: 'The 7 comes second. Find each part, then add.',
-        hints: ['Left part: 4 rows of 5. Right part: 4 rows of 2.', '4 × 5 = 20 and 4 × 2 = 8.'],
+        hints: ['Left part: 4 rows of 5. Right part: 4 rows of 2.'],
       }),
-      partsFill('t9', 3, 9, 'cols', 5, {
+      partsFill('t9', 2, 9, 'cols', 5, {
         prompt: 'The 9 comes second. Find each part, then add.',
-        hints: ['Left part: 3 rows of 5. Right part: 3 rows of 4.', '3 × 5 = 15 and 3 × 4 = 12.'],
+        hints: ['Left part: 2 rows of 5. Right part: 2 rows of 4.'],
       }),
       fact('t10', 9, 9, { ...fiveAnd(9, 9) }),
       decompose('t11', 7, 9, ['rows', 5], { hints: ['Break the 7 into 5 + 2, or the 9 into 5 + 4.', '5 × 9 + 2 × 9. Then add.'] }),
@@ -228,9 +228,9 @@ export default {
         ['5 × 6 + 4', 'The second part must be a whole fact: 4 × 6, not 4.'],
         ['9 + 6', '9 × 6 means 9 groups of 6, not 9 + 6.'],
         ['5 × 6 + 4 × 6', true],
-      ], { target: '9 × 6', hints: ['9 = 5 + 4. Look for 5 × 6 and 4 × 6.'], show: ['9 × 6 = 5 × 6 + 4 × 6 = 30 + 24 = 54.'], yes: 'Yes! 30 + 24 = 54.' }),
+      ], { target: '9 × 6', hints: ['The numbers 9 is broken into must add up to 9, and both parts must keep the 6.'], show: ['9 × 6 = 5 × 6 + 4 × 6 = 30 + 24 = 54.'], yes: 'Yes! 30 + 24 = 54.' }),
       missing('t14', '7 × [x] = 63', { x: 9 }, {
-        hints: ['Count by 7s: 7, 14, 21 … Stop at 63.', 'Or try 9: 7 × 5 = 35 and 7 × 4 = 28.'],
+        hints: ['Count by 7s: 7, 14, 21 … Stop at 63. Count how many 7s you said.', 'Or start at 7 × 5 = 35 and keep adding 7 until you reach 63.'],
         mistakes: [{ when: { x: 56 }, say: 'That box needs a factor. 7 × what makes 63?' }, { when: { x: 8 }, say: '7 × 8 is 56. One more 7 makes 63.' }],
         show: ['7 × 9 = 7 × 5 + 7 × 4.', '35 + 28 = 63. So the missing number is 9.'], yes: 'Yes! 7 × 9 = 63.',
       }),
@@ -265,12 +265,12 @@ export default {
         mistakes: [{ when: { answer: 12 }, say: '9 + 3 is 12. Each tricycle has 3 wheels, so multiply.' }, { when: { answer: 15 }, say: '15 is only 5 tricycles. Add the other 4.' }],
         show: ['9 × 3 = 5 × 3 + 4 × 3.', '15 + 12 = 27 wheels.'], yes: 'Yes! 27 wheels.',
       }),
-      choice('t19', 'Is it always true? A 7s fact can be broken into a 5s fact and a 2s fact.', [
-        ['Yes. 7 is always 5 + 2.', true],
-        ['No, only for even numbers.', 'It works for every number. 7 × 3 = 15 + 6 = 21.'],
-        ['No, it only works for 7 × 5.', 'It works for every 7s fact. 7 × 4 = 20 + 8 = 28.'],
-      ], { hints: ['Try it with 7 × 3. Is 15 + 6 the same as 7 × 3?'], show: ['7 = 5 + 2 for every fact.', 'So every 7s fact is a 5s fact plus a 2s fact.'], yes: 'Yes! 7 is always 5 + 2.' }),
-      choice('t20', 'Mo knows 5 × 8 = 40 and 4 × 8 = 32. Which fact can he find by adding them?', [
+      choice('t19', 'Does 7 × 8 = 5 × 8 + 2 × 8? Does the same idea work for 7 × 3?', [
+        ['Yes, and yes. 7 is always 5 + 2.', true],
+        ['Yes for 7 × 8, but not for 7 × 3.', 'It works for 7 × 3 too: 5 × 3 + 2 × 3 = 15 + 6 = 21.'],
+        ['No. 5 × 8 + 2 × 8 is not 56.', 'Check it: 40 + 16 = 56, so it is true.'],
+      ], { hints: ['Find 5 × 8 + 2 × 8. Is it 56?', 'Then try 5 × 3 + 2 × 3. Is it 21?'], show: ['40 + 16 = 56 = 7 × 8.', '15 + 6 = 21 = 7 × 3.', '7 = 5 + 2 for every 7s fact.'], yes: 'Yes! Every 7s fact is a 5s fact plus a 2s fact.' }),
+      choice('t20', 'Kai knows 5 × 8 = 40 and 4 × 8 = 32. Which fact can he find by adding them?', [
         ['9 × 4', 'Both facts have the 8, so the answer is a fact with 8. 5 + 4 = 9, so it is 9 × 8.'],
         ['20 × 8', 'Add the 5 and the 4, do not multiply them: 5 + 4 = 9.'],
         ['9 × 8', true],
@@ -283,7 +283,7 @@ export default {
     items: [
       forTest(fact('x1', 7, 8, { show: ['7 × 8 = 5 × 8 + 2 × 8.', '40 + 16 = 56.'] })),
       forTest(partsFill('x2', 9, 7, 'rows', 5)),
-      forTest(missing('x3', '7 × [x] = 5 × 4 + 2 × 4', { x: 4 }, { show: ['Both parts have 4, and 5 + 2 = 7.', '7 × 4 = 5 × 4 + 2 × 4.'] })),
+      forTest(missing('x3', '7 × [x] = 5 × 3 + 2 × 3', { x: 3 }, { show: ['Both parts have 3, and 5 + 2 = 7.', '7 × 3 = 5 × 3 + 2 × 3.'] })),
       forTest(choice('x4', 'Which one is equal to 9 × 8?', [
         ['5 × 8 + 4', 'The second part must be a whole fact: 4 × 8, not 4.'],
         ['5 × 8 + 5 × 8', '5 and 5 make 10, not 9.'],
@@ -293,12 +293,12 @@ export default {
       forTest(story('x5', 'Each bracelet has 9 beads. How many beads are on 6 bracelets?', 6, 9, { show: ['6 bracelets of 9 beads is 6 × 9.', 'Break the 9 into 5 + 4: 30 + 24 = 54.'] })),
       forTest(decompose('x6', 7, 6, ['rows', 5], { show: ['Break 7 into 5 + 2: 5 × 6 + 2 × 6.', '30 + 12 = 42.'] })),
       forTest(missing('x7', '[x] = 9 × 9', { x: 81 }, { show: ['9 × 9 = 5 × 9 + 4 × 9.', '45 + 36 = 81.'] })),
-      forTest(choice('x8', 'Which two facts can you add to find 9 × 5?', [
-        ['5 × 5 and 4', 'The second part must be a whole fact: 4 × 5, not 4.'],
-        ['5 × 5 and 4 × 5', true],
-        ['5 × 5 and 5 × 5', '5 and 5 make 10, not 9.'],
-        ['4 × 5 and 3 × 5', '4 and 3 make 7, not 9.'],
-      ], { show: ['5 + 4 = 9.', '9 × 5 = 5 × 5 + 4 × 5 = 25 + 20 = 45.'] })),
+      forTest(choice('x8', 'Which two facts can you add to find 9 × 2?', [
+        ['5 × 2 and 4', 'The second part must be a whole fact: 4 × 2, not 4.'],
+        ['5 × 2 and 4 × 2', true],
+        ['5 × 2 and 5 × 2', '5 and 5 make 10, not 9.'],
+        ['4 × 2 and 3 × 2', '4 and 3 make 7, not 9.'],
+      ], { show: ['5 + 4 = 9.', '9 × 2 = 5 × 2 + 4 × 2 = 10 + 8 = 18.'] })),
     ],
   },
   parent: {

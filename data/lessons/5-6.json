@@ -432,7 +432,7 @@
         ],
         "hints": [
           "The parts are 5 × 3 = 15 and 2 × 3 = 6.",
-          "Add 15 + 6."
+          "Find 5 × 3 (count by 5s) and 2 × 3 (it is a double). Then add them."
         ],
         "show": [
           "5 × 3 = 15.",
@@ -494,7 +494,7 @@
         ],
         "hints": [
           "The top part is 5 rows of 4. The bottom part is 4 rows of 4.",
-          "5 × 4 = 20 and 4 × 4 = 16."
+          "Find 5 × 4 (count by 5s) and 4 × 4 (use a fact you know). Then add them."
         ],
         "show": [
           "5 × 4 = 20.",
@@ -607,7 +607,7 @@
         ],
         "hints": [
           "The left part is 6 rows of 5. The right part is 6 rows of 4.",
-          "6 × 5 = 30 and 6 × 4 = 24."
+          "Find 6 × 5 (count by 5s) and 6 × 4 (use a fact you know). Then add them."
         ],
         "show": [
           "6 × 5 = 30.",
@@ -844,7 +844,7 @@
           }
         ],
         "hints": [
-          "Break the 7 into 5 + 2. Keep the 9 in both facts."
+          "The two numbers must add up to 7, and both facts must keep the 9."
         ],
         "show": [
           "5 + 2 = 7.",
@@ -905,7 +905,7 @@
         ],
         "hints": [
           "Top part: 5 rows of 6. Bottom part: 2 rows of 6.",
-          "5 × 6 = 30 and 2 × 6 = 12."
+          "Find 5 × 6 (count by 5s) and 2 × 6 (it is a double). Then add them."
         ],
         "show": [
           "5 × 6 = 30.",
@@ -967,7 +967,7 @@
         ],
         "hints": [
           "Top part: 5 rows of 8. Bottom part: 4 rows of 8.",
-          "5 × 8 = 40 and 4 × 8 = 32."
+          "Find 5 × 8 (count by 5s) and 4 × 8 (use a fact you know). Then add them."
         ],
         "show": [
           "5 × 8 = 40.",
@@ -1029,7 +1029,7 @@
         ],
         "hints": [
           "Left part: 4 rows of 5. Right part: 4 rows of 2.",
-          "4 × 5 = 20 and 4 × 2 = 8."
+          "Find 4 × 5 (count by 5s) and 4 × 2 (it is a double). Then add them."
         ],
         "show": [
           "4 × 5 = 20.",
@@ -1043,18 +1043,18 @@
         "type": "fill",
         "prompt": "The 9 comes second. Find each part, then add.",
         "lines": [
-          "3 × 9 = 3 × 5 + 3 × 4",
+          "2 × 9 = 2 × 5 + 2 × 4",
           "= [p] + [q]",
           "= [t]"
         ],
         "answer": {
-          "p": 15,
-          "q": 12,
-          "t": 27
+          "p": 10,
+          "q": 8,
+          "t": 18
         },
         "model": {
           "type": "array",
-          "rows": 3,
+          "rows": 2,
           "cols": 9,
           "cut": {
             "by": "cols",
@@ -1064,41 +1064,41 @@
         },
         "accept": [
           {
-            "p": 12,
-            "q": 15,
-            "t": 27
+            "p": 8,
+            "q": 10,
+            "t": 18
           }
         ],
         "mistakes": [
           {
             "when": {
-              "t": 15
+              "t": 10
             },
             "say": "You found the first part! Now add the second part."
           },
           {
             "when": {
-              "t": 12
+              "t": 11
             },
-            "say": "3 × 9 means 3 groups of 9, not 3 + 9. Add the two products."
+            "say": "2 × 9 means 2 groups of 9, not 2 + 9. Add the two products."
           },
           {
             "when": {
               "q": 4
             },
-            "say": "The second part is 3 × 4, not 4. Find 3 × 4."
+            "say": "The second part is 2 × 4, not 4. Find 2 × 4."
           }
         ],
         "hints": [
-          "Left part: 3 rows of 5. Right part: 3 rows of 4.",
-          "3 × 5 = 15 and 3 × 4 = 12."
+          "Left part: 2 rows of 5. Right part: 2 rows of 4.",
+          "Find 2 × 5 (count by 5s) and 2 × 4 (it is a double). Then add them."
         ],
         "show": [
-          "3 × 5 = 15.",
-          "3 × 4 = 12.",
-          "15 + 12 = 27. So 3 × 9 = 27."
+          "2 × 5 = 10.",
+          "2 × 4 = 8.",
+          "10 + 8 = 18. So 2 × 9 = 18."
         ],
-        "yes": "Yes! 27."
+        "yes": "Yes! 18."
       },
       {
         "id": "t10",
@@ -1206,7 +1206,7 @@
         ],
         "target": "9 × 6",
         "hints": [
-          "9 = 5 + 4. Look for 5 × 6 and 4 × 6."
+          "The numbers 9 is broken into must add up to 9, and both parts must keep the 6."
         ],
         "show": [
           "9 × 6 = 5 × 6 + 4 × 6 = 30 + 24 = 54."
@@ -1224,8 +1224,8 @@
           "x": 9
         },
         "hints": [
-          "Count by 7s: 7, 14, 21 … Stop at 63.",
-          "Or try 9: 7 × 5 = 35 and 7 × 4 = 28."
+          "Count by 7s: 7, 14, 21 … Stop at 63. Count how many 7s you said.",
+          "Or start at 7 × 5 = 35 and keep adding 7 until you reach 63."
         ],
         "mistakes": [
           {
@@ -1389,34 +1389,36 @@
       {
         "id": "t19",
         "type": "choice",
-        "prompt": "Is it always true? A 7s fact can be broken into a 5s fact and a 2s fact.",
+        "prompt": "Does 7 × 8 = 5 × 8 + 2 × 8? Does the same idea work for 7 × 3?",
         "options": [
           {
-            "text": "Yes. 7 is always 5 + 2.",
+            "text": "Yes, and yes. 7 is always 5 + 2.",
             "correct": true
           },
           {
-            "text": "No, only for even numbers.",
-            "why": "It works for every number. 7 × 3 = 15 + 6 = 21."
+            "text": "Yes for 7 × 8, but not for 7 × 3.",
+            "why": "It works for 7 × 3 too: 5 × 3 + 2 × 3 = 15 + 6 = 21."
           },
           {
-            "text": "No, it only works for 7 × 5.",
-            "why": "It works for every 7s fact. 7 × 4 = 20 + 8 = 28."
+            "text": "No. 5 × 8 + 2 × 8 is not 56.",
+            "why": "Check it: 40 + 16 = 56, so it is true."
           }
         ],
         "hints": [
-          "Try it with 7 × 3. Is 15 + 6 the same as 7 × 3?"
+          "Find 5 × 8 + 2 × 8. Is it 56?",
+          "Then try 5 × 3 + 2 × 3. Is it 21?"
         ],
         "show": [
-          "7 = 5 + 2 for every fact.",
-          "So every 7s fact is a 5s fact plus a 2s fact."
+          "40 + 16 = 56 = 7 × 8.",
+          "15 + 6 = 21 = 7 × 3.",
+          "7 = 5 + 2 for every 7s fact."
         ],
-        "yes": "Yes! 7 is always 5 + 2."
+        "yes": "Yes! Every 7s fact is a 5s fact plus a 2s fact."
       },
       {
         "id": "t20",
         "type": "choice",
-        "prompt": "Mo knows 5 × 8 = 40 and 4 × 8 = 32. Which fact can he find by adding them?",
+        "prompt": "Kai knows 5 × 8 = 40 and 4 × 8 = 32. Which fact can he find by adding them?",
         "options": [
           {
             "text": "9 × 4",
@@ -1502,14 +1504,14 @@
         "type": "fill",
         "prompt": "What number makes it true?",
         "lines": [
-          "7 × [x] = 5 × 4 + 2 × 4"
+          "7 × [x] = 5 × 3 + 2 × 3"
         ],
         "answer": {
-          "x": 4
+          "x": 3
         },
         "show": [
-          "Both parts have 4, and 5 + 2 = 7.",
-          "7 × 4 = 5 × 4 + 2 × 4."
+          "Both parts have 3, and 5 + 2 = 7.",
+          "7 × 3 = 5 × 3 + 2 × 3."
         ]
       },
       {
@@ -1587,28 +1589,28 @@
       {
         "id": "x8",
         "type": "choice",
-        "prompt": "Which two facts can you add to find 9 × 5?",
+        "prompt": "Which two facts can you add to find 9 × 2?",
         "options": [
           {
-            "text": "5 × 5 and 4",
-            "why": "The second part must be a whole fact: 4 × 5, not 4."
+            "text": "5 × 2 and 4",
+            "why": "The second part must be a whole fact: 4 × 2, not 4."
           },
           {
-            "text": "5 × 5 and 4 × 5",
+            "text": "5 × 2 and 4 × 2",
             "correct": true
           },
           {
-            "text": "5 × 5 and 5 × 5",
+            "text": "5 × 2 and 5 × 2",
             "why": "5 and 5 make 10, not 9."
           },
           {
-            "text": "4 × 5 and 3 × 5",
+            "text": "4 × 2 and 3 × 2",
             "why": "4 and 3 make 7, not 9."
           }
         ],
         "show": [
           "5 + 4 = 9.",
-          "9 × 5 = 5 × 5 + 4 × 5 = 25 + 20 = 45."
+          "9 × 2 = 5 × 2 + 4 × 2 = 10 + 8 = 18."
         ]
       }
     ]

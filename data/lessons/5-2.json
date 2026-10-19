@@ -566,247 +566,6 @@
     "pass": 16,
     "items": [
       {
-        "id": "t1",
-        "type": "fill",
-        "prompt": "What number completes the equation?",
-        "lines": [
-          "3 × [x] = 27"
-        ],
-        "answer": {
-          "x": 9
-        },
-        "hints": [
-          "Count by 3s until you reach 27.",
-          "3, 6, 9, 12, 15, 18, 21, 24, 27. How many jumps?"
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "x": 24
-            },
-            "say": "3 × 8 is 24. Count by 3s up to 27."
-          }
-        ],
-        "show": [
-          "3 × 9 = 27."
-        ],
-        "yes": "Yes! 3 × 9 = 27."
-      },
-      {
-        "id": "t2",
-        "type": "fill",
-        "prompt": "What number completes the equation?",
-        "lines": [
-          "[x] = 8 × 3"
-        ],
-        "answer": {
-          "x": 24
-        },
-        "hints": [
-          "Find the 3. Double 8, then add 8 once more."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "x": 16
-            },
-            "say": "That's only double 8. Add 8 once more."
-          },
-          {
-            "when": {
-              "x": 9
-            },
-            "say": "You made 3 groups of 3. Double the 8, then add 8."
-          },
-          {
-            "when": {
-              "x": 11
-            },
-            "say": "8 × 3 means 8 groups of 3, not 8 + 3."
-          }
-        ],
-        "show": [
-          "Double 8 is 16.",
-          "16 + 8 = 24."
-        ],
-        "yes": "Yes! 8 × 3 = 24."
-      },
-      {
-        "id": "t3",
-        "type": "fill",
-        "prompt": "What number completes the equation?",
-        "lines": [
-          "3 × 4 = 4 × [x]"
-        ],
-        "answer": {
-          "x": 3
-        },
-        "hints": [
-          "Turn the fact around. Switch the two factors."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "x": 4
-            },
-            "say": "Switch the two factors. Which number moved?"
-          },
-          {
-            "when": {
-              "x": 12
-            },
-            "say": "That box needs a factor. 4 × what makes 12?"
-          }
-        ],
-        "show": [
-          "Switch the factors: 3 × 4 = 4 × 3."
-        ],
-        "yes": "Yes! The order of the factors does not matter."
-      },
-      {
-        "id": "t4",
-        "type": "choice",
-        "prompt": "Which one is equal to 3 × 7?",
-        "target": "3 × 7",
-        "options": [
-          {
-            "text": "2 × 7 + 2 × 7",
-            "why": "That's 4 groups of 7. 3 is 2 and 1."
-          },
-          {
-            "text": "1 × 7 + 1 × 7",
-            "why": "That's only 2 groups of 7. 3 is 2 and 1."
-          },
-          {
-            "text": "2 × 3 + 1 × 7",
-            "why": "Keep 7 in both facts."
-          },
-          {
-            "text": "2 × 7 + 1 × 7",
-            "correct": true
-          }
-        ],
-        "yes": "Yes! 14 + 7 = 21.",
-        "hints": [
-          "3 = 2 + 1. Keep the 7 in both facts.",
-          "Look for 2 × 7 and 1 × 7."
-        ],
-        "show": [
-          "3 × 7 = 2 × 7 + 1 × 7.",
-          "14 + 7 = 21."
-        ]
-      },
-      {
-        "id": "t5",
-        "type": "table",
-        "prompt": "Bicycles have 2 wheels. Tricycles have 3 wheels. Fill in the tricycle wheels.",
-        "headers": [
-          "How many",
-          "Bicycle wheels",
-          "Tricycle wheels"
-        ],
-        "rows": [
-          [
-            "7",
-            "14",
-            {
-              "answer": "3 × 7"
-            }
-          ],
-          [
-            "6",
-            "12",
-            {
-              "answer": "3 × 6"
-            }
-          ],
-          [
-            "9",
-            "18",
-            {
-              "answer": "3 × 9"
-            }
-          ]
-        ],
-        "hints": [
-          "Tricycle wheels are the bicycle wheels plus one more of the number.",
-          "For 7: 14 + 7."
-        ],
-        "retry": "Check each row: bicycle wheels plus one more of the number.",
-        "show": [
-          "7: 14 + 7 = 21.",
-          "6: 12 + 6 = 18.",
-          "9: 18 + 9 = 27."
-        ],
-        "yes": "Yes! Each 3s fact is the 2s fact plus one more."
-      },
-      {
-        "id": "t6",
-        "type": "number",
-        "prompt": "4 stools have 3 legs each. How many legs are there?",
-        "answer": "4 × 3",
-        "hints": [
-          "That is 4 groups of 3.",
-          "Double 4 is 8. Add 4 once more."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "answer": 7
-            },
-            "say": "4 stools with 3 legs each is 4 groups of 3, not 4 + 3."
-          }
-        ],
-        "show": [
-          "4 × 3 = 4 × 2 + 4 × 1 = 8 + 4 = 12."
-        ],
-        "yes": "Yes! 12 legs."
-      },
-      {
-        "id": "t7",
-        "type": "number",
-        "prompt": "0 × 7 = ?",
-        "answer": "0 × 7",
-        "hints": [
-          "0 groups of 7. Is there anything at all?"
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "answer": 7
-            },
-            "say": "0 groups of 7 is nothing at all. Times 0 is always 0."
-          }
-        ],
-        "yes": "Yes! Times 0 is always 0.",
-        "show": [
-          "0 × 7 means 0 groups of 7.",
-          "There is nothing to count, so 0 × 7 = 0."
-        ]
-      },
-      {
-        "id": "t8",
-        "type": "number",
-        "prompt": "9 × 1 = ?",
-        "answer": "9 × 1",
-        "hints": [
-          "9 groups of 1."
-        ],
-        "mistakes": [
-          {
-            "when": {
-              "answer": 10
-            },
-            "say": "9 + 1 is 10, but this is times 1. 9 groups of 1 is 9."
-          }
-        ],
-        "yes": "Yes! Times 1 keeps the number the same.",
-        "show": [
-          "9 × 1 means 9 groups of 1.",
-          "That is 9. Times 1 keeps the number the same."
-        ]
-      },
-      {
         "id": "t9",
         "type": "fill",
         "prompt": "Find each part. Then add.",
@@ -859,7 +618,7 @@
         ],
         "hints": [
           "The top part is 2 rows of 9: the 2s fact.",
-          "The bottom part is 1 row of 9. Then add."
+          "Find 2 × 9 (it is a double) and 1 × 9 (times 1 keeps the number). Then add them."
         ],
         "show": [
           "2 × 9 = 18.",
@@ -869,89 +628,36 @@
         "yes": "Yes! 27."
       },
       {
-        "id": "t10",
-        "type": "fill",
-        "prompt": "This time the 7 is broken apart into 5 + 2. Find each part, then add.",
-        "lines": [
-          "3 × 7 = 3 × 5 + 3 × 2",
-          "= [p] + [q]",
-          "= [t]"
-        ],
-        "answer": {
-          "p": 15,
-          "q": 6,
-          "t": 21
-        },
-        "model": {
-          "type": "array",
-          "rows": 3,
-          "cols": 7,
-          "cut": {
-            "by": "cols",
-            "at": 5
-          },
-          "labels": "parts"
-        },
-        "accept": [
+        "id": "t4",
+        "type": "choice",
+        "prompt": "Which one is equal to 3 × 7?",
+        "target": "3 × 7",
+        "options": [
           {
-            "p": 6,
-            "q": 15,
-            "t": 21
+            "text": "2 × 7 + 2 × 7",
+            "why": "That's 4 groups of 7. 3 is 2 and 1."
+          },
+          {
+            "text": "1 × 7 + 1 × 7",
+            "why": "That's only 2 groups of 7. 3 is 2 and 1."
+          },
+          {
+            "text": "2 × 3 + 1 × 7",
+            "why": "Keep 7 in both facts."
+          },
+          {
+            "text": "2 × 7 + 1 × 7",
+            "correct": true
           }
         ],
-        "mistakes": [
-          {
-            "when": {
-              "t": 15
-            },
-            "say": "You found the first part! Now add the second part."
-          },
-          {
-            "when": {
-              "t": 10
-            },
-            "say": "3 × 7 means 3 groups of 7, not 3 + 7. Add the two products."
-          },
-          {
-            "when": {
-              "q": 2
-            },
-            "say": "The second part is 3 × 2, not 2. Find 3 × 2."
-          }
-        ],
+        "yes": "Yes! 14 + 7 = 21.",
         "hints": [
-          "The left part is 3 rows of 5. The right part is 3 rows of 2.",
-          "3 × 5 = 15 and 3 × 2 = 6."
+          "3 = 2 + 1. Keep the 7 in both facts.",
+          "Look for 2 × 7 and 1 × 7."
         ],
         "show": [
-          "3 × 5 = 15.",
-          "3 × 2 = 6.",
-          "15 + 6 = 21. So 3 × 7 = 21."
-        ],
-        "yes": "Yes! 21."
-      },
-      {
-        "id": "t11",
-        "type": "decompose",
-        "prompt": "Decompose 3 × 8. Any way that works is fine.",
-        "fact": [
-          3,
-          8
-        ],
-        "answer": {
-          "p": 2,
-          "q": 8,
-          "r": 1,
-          "s": 8,
-          "t": 24
-        },
-        "hints": [
-          "Break the 3 into 2 + 1. Or break the 8 into 5 + 3.",
-          "2 × 8 + 1 × 8. Then add."
-        ],
-        "show": [
-          "3 × 8 = 2 × 8 + 1 × 8.",
-          "16 + 8 = 24."
+          "3 × 7 = 2 × 7 + 1 × 7.",
+          "14 + 7 = 21."
         ]
       },
       {
@@ -1041,6 +747,207 @@
         "yes": "Yes! 3 × 7 = (3 × 5) + (3 × 2) = 15 + 6 = 21."
       },
       {
+        "id": "t7",
+        "type": "number",
+        "prompt": "0 × 7 = ?",
+        "answer": "0 × 7",
+        "hints": [
+          "0 groups of 7. Is there anything at all?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 7
+            },
+            "say": "0 groups of 7 is nothing at all. Times 0 is always 0."
+          }
+        ],
+        "yes": "Yes! Times 0 is always 0.",
+        "show": [
+          "0 × 7 means 0 groups of 7.",
+          "There is nothing to count, so 0 × 7 = 0."
+        ]
+      },
+      {
+        "id": "t8",
+        "type": "number",
+        "prompt": "9 × 1 = ?",
+        "answer": "9 × 1",
+        "hints": [
+          "9 groups of 1."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 10
+            },
+            "say": "9 + 1 is 10, but this is times 1. 9 groups of 1 is 9."
+          }
+        ],
+        "yes": "Yes! Times 1 keeps the number the same.",
+        "show": [
+          "9 × 1 means 9 groups of 1.",
+          "That is 9. Times 1 keeps the number the same."
+        ]
+      },
+      {
+        "id": "t2",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "[x] = 8 × 3"
+        ],
+        "answer": {
+          "x": 24
+        },
+        "hints": [
+          "Find the 3. Double 8, then add 8 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 16
+            },
+            "say": "That's only double 8. Add 8 once more."
+          },
+          {
+            "when": {
+              "x": 9
+            },
+            "say": "You made 3 groups of 3. Double the 8, then add 8."
+          },
+          {
+            "when": {
+              "x": 11
+            },
+            "say": "8 × 3 means 8 groups of 3, not 8 + 3."
+          }
+        ],
+        "show": [
+          "Double 8 is 16.",
+          "16 + 8 = 24."
+        ],
+        "yes": "Yes! 8 × 3 = 24."
+      },
+      {
+        "id": "t3",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "3 × 4 = 4 × [x]"
+        ],
+        "answer": {
+          "x": 3
+        },
+        "hints": [
+          "Turn the fact around. Switch the two factors."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 4
+            },
+            "say": "Switch the two factors. Which number moved?"
+          },
+          {
+            "when": {
+              "x": 12
+            },
+            "say": "That box needs a factor. 4 × what makes 12?"
+          }
+        ],
+        "show": [
+          "Switch the factors: 3 × 4 = 4 × 3."
+        ],
+        "yes": "Yes! The order of the factors does not matter."
+      },
+      {
+        "id": "t10",
+        "type": "fill",
+        "prompt": "This time the 7 is broken apart into 5 + 2. Find each part, then add.",
+        "lines": [
+          "3 × 7 = 3 × 5 + 3 × 2",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 15,
+          "q": 6,
+          "t": 21
+        },
+        "model": {
+          "type": "array",
+          "rows": 3,
+          "cols": 7,
+          "cut": {
+            "by": "cols",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 6,
+            "q": 15,
+            "t": 21
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 15
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 10
+            },
+            "say": "3 × 7 means 3 groups of 7, not 3 + 7. Add the two products."
+          },
+          {
+            "when": {
+              "q": 2
+            },
+            "say": "The second part is 3 × 2, not 2. Find 3 × 2."
+          }
+        ],
+        "hints": [
+          "The left part is 3 rows of 5. The right part is 3 rows of 2.",
+          "Find 3 × 5 (count by 5s) and 3 × 2 (it is a double). Then add them."
+        ],
+        "show": [
+          "3 × 5 = 15.",
+          "3 × 2 = 6.",
+          "15 + 6 = 21. So 3 × 7 = 21."
+        ],
+        "yes": "Yes! 21."
+      },
+      {
+        "id": "t11",
+        "type": "decompose",
+        "prompt": "Decompose 3 × 8. Any way that works is fine.",
+        "fact": [
+          3,
+          8
+        ],
+        "answer": {
+          "p": 2,
+          "q": 8,
+          "r": 1,
+          "s": 8,
+          "t": 24
+        },
+        "hints": [
+          "Break the 3 into 2 + 1. Or break the 8 into 5 + 3.",
+          "2 × 8 + 1 × 8. Then add."
+        ],
+        "show": [
+          "3 × 8 = 2 × 8 + 1 × 8.",
+          "16 + 8 = 24."
+        ]
+      },
+      {
         "id": "t14",
         "type": "number",
         "prompt": "3 × 10 = ?",
@@ -1068,6 +975,100 @@
           "20 + 10 = 30."
         ],
         "yes": "Yes! 30."
+      },
+      {
+        "id": "t1",
+        "type": "fill",
+        "prompt": "What number completes the equation?",
+        "lines": [
+          "3 × [x] = 27"
+        ],
+        "answer": {
+          "x": 9
+        },
+        "hints": [
+          "Count by 3s until you reach 27.",
+          "3, 6, 9, 12, 15, 18, 21, 24, 27. How many jumps?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 24
+            },
+            "say": "3 × 8 is 24. Count by 3s up to 27."
+          }
+        ],
+        "show": [
+          "3 × 9 = 27, so the missing number is 9.",
+          "Check with the 3s strategy: 2 × 9 + 1 × 9 = 18 + 9 = 27."
+        ],
+        "yes": "Yes! 3 × 9 = 27."
+      },
+      {
+        "id": "t5",
+        "type": "table",
+        "prompt": "Bicycles have 2 wheels. Tricycles have 3 wheels. Fill in the tricycle wheels.",
+        "headers": [
+          "How many",
+          "Bicycle wheels",
+          "Tricycle wheels"
+        ],
+        "rows": [
+          [
+            "7",
+            "14",
+            {
+              "answer": "3 × 7"
+            }
+          ],
+          [
+            "6",
+            "12",
+            {
+              "answer": "3 × 6"
+            }
+          ],
+          [
+            "9",
+            "18",
+            {
+              "answer": "3 × 9"
+            }
+          ]
+        ],
+        "hints": [
+          "Tricycle wheels are the bicycle wheels plus one more of the number.",
+          "For 7: 14 + 7."
+        ],
+        "retry": "Check each row: bicycle wheels plus one more of the number.",
+        "show": [
+          "7: 14 + 7 = 21.",
+          "6: 12 + 6 = 18.",
+          "9: 18 + 9 = 27."
+        ],
+        "yes": "Yes! Each 3s fact is the 2s fact plus one more."
+      },
+      {
+        "id": "t6",
+        "type": "number",
+        "prompt": "4 stools have 3 legs each. How many legs are there?",
+        "answer": "4 × 3",
+        "hints": [
+          "That is 4 groups of 3.",
+          "Double 4 is 8. Add 4 once more."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 7
+            },
+            "say": "4 stools with 3 legs each is 4 groups of 3, not 4 + 3."
+          }
+        ],
+        "show": [
+          "4 × 3 = 4 × 2 + 4 × 1 = 8 + 4 = 12."
+        ],
+        "yes": "Yes! 12 legs."
       },
       {
         "id": "t15",
@@ -1130,34 +1131,34 @@
       {
         "id": "t17",
         "type": "choice",
-        "prompt": "Which shows a correct way to find 3 × 9?",
+        "prompt": "Which shows a correct way to find 3 × 6?",
         "options": [
           {
-            "text": "2 × 9 + 1",
-            "why": "The second part must be a whole fact: 1 × 9, not 1."
+            "text": "2 × 6 + 1",
+            "why": "The second part must be a whole fact: 1 × 6, not 1."
           },
           {
-            "text": "3 × 5 + 3 × 3",
-            "why": "5 and 3 make 8, not 9."
+            "text": "3 × 5 + 3 × 2",
+            "why": "5 and 2 make 7, not 6."
           },
           {
-            "text": "2 × 9 + 1 × 9",
+            "text": "2 × 6 + 1 × 6",
             "correct": true
           },
           {
-            "text": "2 × 1 + 1 × 9",
-            "why": "Both facts must keep the 9: 2 × 9 and 1 × 9."
+            "text": "2 × 1 + 1 × 6",
+            "why": "Both facts must keep the 6."
           }
         ],
-        "target": "3 × 9",
+        "target": "3 × 6",
         "hints": [
-          "3 = 2 + 1. Keep the 9 in both facts."
+          "3 = 2 + 1. Both facts must keep the same factor."
         ],
         "show": [
-          "3 × 9 = 2 × 9 + 1 × 9.",
-          "18 + 9 = 27."
+          "3 × 6 = 2 × 6 + 1 × 6.",
+          "12 + 6 = 18."
         ],
-        "yes": "Yes! 18 + 9 = 27."
+        "yes": "Yes! 12 + 6 = 18."
       },
       {
         "id": "t18",
@@ -1195,27 +1196,27 @@
       {
         "id": "t19",
         "type": "choice",
-        "prompt": "Mo found that 3 × 8 is 24. How can he find 8 × 3?",
+        "prompt": "Jo knows 3 × 6 = 18. What is 6 × 3?",
         "options": [
           {
-            "text": "Add 3 more.",
-            "why": "8 × 3 has the same factors in a different order, so it is still 24."
+            "text": "21, because you add 3 more.",
+            "why": "6 × 3 has the same factors in a different order, so it is still 18."
           },
           {
-            "text": "Turn it around. 8 × 3 is also 24.",
+            "text": "18. Turning a fact around keeps the product.",
             "correct": true
           },
           {
-            "text": "Write 83.",
-            "why": "8 × 3 is a multiplication fact, not the number 83. Turn it around: it is 24."
+            "text": "63",
+            "why": "6 × 3 is a multiplication fact, not the number 63. Turn it around: it is 18."
           }
         ],
         "hints": [
-          "Look at the two factors. Are they the same numbers?"
+          "Look at the two factors. Are they the same numbers in a different order?"
         ],
         "show": [
-          "8 × 3 and 3 × 8 use the same factors.",
-          "Turning a fact around does not change the product: 24."
+          "6 × 3 and 3 × 6 use the same factors.",
+          "Turning a fact around does not change the product: 18."
         ],
         "yes": "Yes! The order of the factors does not matter."
       },
@@ -1262,7 +1263,8 @@
           "x": 7
         },
         "show": [
-          "3 × 7 = 21."
+          "3 × 7 = 2 × 7 + 1 × 7 = 14 + 7 = 21.",
+          "So the missing number is 7."
         ]
       },
       {
@@ -1377,7 +1379,7 @@
           },
           {
             "text": "3 × 3 and 1 × 10",
-            "why": "3 and 1 make 4. Decompose the 3 into 2 and 1."
+            "why": "Keep the 10 in both facts: 2 × 10 and 1 × 10."
           },
           {
             "text": "10 and 3",
