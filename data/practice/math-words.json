@@ -1,0 +1,2772 @@
+{
+  "topic": "The five multiplication properties",
+  "note": "Study Scoop Math Vocabulary questions (original). Definitions match Learn the Properties. \"test\" holds the practice test's own questions, which never appear in practice.",
+  "choice": [
+    {
+      "id": "wc1",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "identity",
+      "eq": "1 × 7 = 7",
+      "prompt": "Which property does 1 × 7 = 7 show?",
+      "options": [
+        {
+          "text": "Identity Property",
+          "correct": true
+        },
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 1."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 1 × 7 = 7.",
+        "So it shows the Identity Property."
+      ],
+      "yes": "Yes! 1 × 7 = 7 shows the Identity Property.",
+      "explain": "One factor is 1, and the number stays the same: 1 × 7 = 7. That is the Identity Property."
+    },
+    {
+      "id": "wc2",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "zero",
+      "eq": "0 × 5 = 0",
+      "prompt": "Which property does 0 × 5 = 0 show?",
+      "options": [
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Zero Property",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 0."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 0 × 5 = 0.",
+        "So it shows the Zero Property."
+      ],
+      "yes": "Yes! 0 × 5 = 0 shows the Zero Property.",
+      "explain": "One factor is 0, so the product is 0: 0 × 5 = 0. That is the Zero Property."
+    },
+    {
+      "id": "wc3",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "commutative",
+      "eq": "6 × 2 = 2 × 6",
+      "prompt": "Which property does 6 × 2 = 2 × 6 show?",
+      "options": [
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Commutative Property",
+          "correct": true
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for the same two factors in a different order."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 6 × 2 = 2 × 6.",
+        "So it shows the Commutative Property."
+      ],
+      "yes": "Yes! 6 × 2 = 2 × 6 shows the Commutative Property.",
+      "explain": "The same two factors are on both sides in a different order: 6 × 2 = 2 × 6. That is the Commutative Property."
+    },
+    {
+      "id": "wc4",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "associative",
+      "eq": "(3 × 2) × 4 = 3 × (2 × 4)",
+      "prompt": "Which property does (3 × 2) × 4 = 3 × (2 × 4) show?",
+      "options": [
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Associative Property",
+          "correct": true
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for three factors in the same order with ( ) that move."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (3 × 2) × 4 = 3 × (2 × 4).",
+        "So it shows the Associative Property."
+      ],
+      "yes": "Yes! (3 × 2) × 4 = 3 × (2 × 4) shows the Associative Property.",
+      "explain": "The same three factors stay in the same order. Only the ( ) move: (3 × 2) × 4 = 3 × (2 × 4). That is the Associative Property."
+    },
+    {
+      "id": "wc5",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "distributive",
+      "eq": "5 × 7 = (5 × 5) + (5 × 2)",
+      "prompt": "Which property does 5 × 7 = (5 × 5) + (5 × 2) show?",
+      "options": [
+        {
+          "text": "Distributive Property",
+          "correct": true
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a + sign: a factor broken apart into two facts."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 5 × 7 = (5 × 5) + (5 × 2).",
+        "So it shows the Distributive Property."
+      ],
+      "yes": "Yes! 5 × 7 = (5 × 5) + (5 × 2) shows the Distributive Property.",
+      "explain": "A factor is broken apart into two easier facts that are added: 5 × 7 = (5 × 5) + (5 × 2). That is the Distributive Property."
+    },
+    {
+      "id": "wc6",
+      "type": "choice",
+      "kind": "meaning",
+      "prop": "identity",
+      "prompt": "What does the Identity Property mean?",
+      "options": [
+        {
+          "text": "Changing the order of the factors does not change the product.",
+          "why": "That is the Commutative Property."
+        },
+        {
+          "text": "You can move the ( ) to multiply a different pair first. The answer stays the same.",
+          "why": "That is the Associative Property."
+        },
+        {
+          "text": "You can break apart a factor, multiply the smaller parts, and add their products.",
+          "why": "That is the Distributive Property."
+        },
+        {
+          "text": "Any number multiplied by 1 stays the same.",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Think of an example: 7 × 1 = 7."
+      ],
+      "show": [
+        "Identity Property: Any number multiplied by 1 stays the same.",
+        "Example: 7 × 1 = 7."
+      ],
+      "yes": "Yes! Identity Property: Any number multiplied by 1 stays the same.",
+      "explain": "Identity Property: Any number multiplied by 1 stays the same."
+    },
+    {
+      "id": "wc7",
+      "type": "choice",
+      "kind": "meaning",
+      "prop": "zero",
+      "prompt": "What does the Zero Property mean?",
+      "options": [
+        {
+          "text": "You can break apart a factor, multiply the smaller parts, and add their products.",
+          "why": "That is the Distributive Property."
+        },
+        {
+          "text": "Any number multiplied by 1 stays the same.",
+          "why": "That is the Identity Property."
+        },
+        {
+          "text": "Any number multiplied by 0 equals 0.",
+          "correct": true
+        },
+        {
+          "text": "You can move the ( ) to multiply a different pair first. The answer stays the same.",
+          "why": "That is the Associative Property."
+        }
+      ],
+      "hints": [
+        "Think of an example: 9 × 0 = 0."
+      ],
+      "show": [
+        "Zero Property: Any number multiplied by 0 equals 0.",
+        "Example: 9 × 0 = 0."
+      ],
+      "yes": "Yes! Zero Property: Any number multiplied by 0 equals 0.",
+      "explain": "Zero Property: Any number multiplied by 0 equals 0."
+    },
+    {
+      "id": "wc8",
+      "type": "choice",
+      "kind": "meaning",
+      "prop": "commutative",
+      "prompt": "What does the Commutative Property mean?",
+      "options": [
+        {
+          "text": "Any number multiplied by 0 equals 0.",
+          "why": "That is the Zero Property."
+        },
+        {
+          "text": "Changing the order of the factors does not change the product.",
+          "correct": true
+        },
+        {
+          "text": "You can break apart a factor, multiply the smaller parts, and add their products.",
+          "why": "That is the Distributive Property."
+        },
+        {
+          "text": "Any number multiplied by 1 stays the same.",
+          "why": "That is the Identity Property."
+        }
+      ],
+      "hints": [
+        "Think of an example: 4 × 2 = 2 × 4 = 8."
+      ],
+      "show": [
+        "Commutative Property: Changing the order of the factors does not change the product.",
+        "Example: 4 × 2 = 2 × 4 = 8."
+      ],
+      "yes": "Yes! Commutative Property: Changing the order of the factors does not change the product.",
+      "explain": "Commutative Property: Changing the order of the factors does not change the product."
+    },
+    {
+      "id": "wc9",
+      "type": "choice",
+      "kind": "meaning",
+      "prop": "associative",
+      "prompt": "What does the Associative Property mean?",
+      "options": [
+        {
+          "text": "You can move the ( ) to multiply a different pair first. The answer stays the same.",
+          "correct": true
+        },
+        {
+          "text": "Any number multiplied by 1 stays the same.",
+          "why": "That is the Identity Property."
+        },
+        {
+          "text": "Any number multiplied by 0 equals 0.",
+          "why": "That is the Zero Property."
+        },
+        {
+          "text": "Changing the order of the factors does not change the product.",
+          "why": "That is the Commutative Property."
+        }
+      ],
+      "hints": [
+        "Think of an example: (2 × 3) × 4 = 2 × (3 × 4)."
+      ],
+      "show": [
+        "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same.",
+        "Example: (2 × 3) × 4 = 2 × (3 × 4)."
+      ],
+      "yes": "Yes! Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same.",
+      "explain": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+    },
+    {
+      "id": "wc10",
+      "type": "choice",
+      "kind": "meaning",
+      "prop": "distributive",
+      "prompt": "What does the Distributive Property mean?",
+      "options": [
+        {
+          "text": "Any number multiplied by 0 equals 0.",
+          "why": "That is the Zero Property."
+        },
+        {
+          "text": "Changing the order of the factors does not change the product.",
+          "why": "That is the Commutative Property."
+        },
+        {
+          "text": "You can move the ( ) to multiply a different pair first. The answer stays the same.",
+          "why": "That is the Associative Property."
+        },
+        {
+          "text": "You can break apart a factor, multiply the smaller parts, and add their products.",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Think of an example: 6 × 3 = (5 × 3) + (1 × 3)."
+      ],
+      "show": [
+        "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products.",
+        "Example: 6 × 3 = (5 × 3) + (1 × 3)."
+      ],
+      "yes": "Yes! Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products.",
+      "explain": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+    },
+    {
+      "id": "wc11",
+      "type": "choice",
+      "kind": "name",
+      "prop": "identity",
+      "prompt": "Which property says: \"Any number multiplied by 1 stays the same.\"",
+      "options": [
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Identity Property",
+          "correct": true
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        }
+      ],
+      "hints": [
+        "Which property matches an example like 7 × 1 = 7?"
+      ],
+      "show": [
+        "Any number multiplied by 1 stays the same.",
+        "That is the Identity Property. Example: 7 × 1 = 7."
+      ],
+      "yes": "Yes! That is the Identity Property.",
+      "explain": "Identity Property: Any number multiplied by 1 stays the same."
+    },
+    {
+      "id": "wc12",
+      "type": "choice",
+      "kind": "name",
+      "prop": "zero",
+      "prompt": "Which property says: \"Any number multiplied by 0 equals 0.\"",
+      "options": [
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Zero Property",
+          "correct": true
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        }
+      ],
+      "hints": [
+        "Which property matches an example like 9 × 0 = 0?"
+      ],
+      "show": [
+        "Any number multiplied by 0 equals 0.",
+        "That is the Zero Property. Example: 9 × 0 = 0."
+      ],
+      "yes": "Yes! That is the Zero Property.",
+      "explain": "Zero Property: Any number multiplied by 0 equals 0."
+    },
+    {
+      "id": "wc13",
+      "type": "choice",
+      "kind": "name",
+      "prop": "commutative",
+      "prompt": "Which property says: \"Changing the order of the factors does not change the product.\"",
+      "options": [
+        {
+          "text": "Commutative Property",
+          "correct": true
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        }
+      ],
+      "hints": [
+        "Which property matches an example like 4 × 2 = 2 × 4 = 8?"
+      ],
+      "show": [
+        "Changing the order of the factors does not change the product.",
+        "That is the Commutative Property. Example: 4 × 2 = 2 × 4 = 8."
+      ],
+      "yes": "Yes! That is the Commutative Property.",
+      "explain": "Commutative Property: Changing the order of the factors does not change the product."
+    },
+    {
+      "id": "wc14",
+      "type": "choice",
+      "kind": "name",
+      "prop": "associative",
+      "prompt": "Which property says: \"You can move the ( ) to multiply a different pair first. The answer stays the same.\"",
+      "options": [
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Associative Property",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Which property matches an example like (2 × 3) × 4 = 2 × (3 × 4)?"
+      ],
+      "show": [
+        "You can move the ( ) to multiply a different pair first. The answer stays the same.",
+        "That is the Associative Property. Example: (2 × 3) × 4 = 2 × (3 × 4)."
+      ],
+      "yes": "Yes! That is the Associative Property.",
+      "explain": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+    },
+    {
+      "id": "wc15",
+      "type": "choice",
+      "kind": "name",
+      "prop": "distributive",
+      "prompt": "Which property says: \"You can break apart a factor, multiply the smaller parts, and add their products.\"",
+      "options": [
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Distributive Property",
+          "correct": true
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        }
+      ],
+      "hints": [
+        "Which property matches an example like 6 × 3 = (5 × 3) + (1 × 3)?"
+      ],
+      "show": [
+        "You can break apart a factor, multiply the smaller parts, and add their products.",
+        "That is the Distributive Property. Example: 6 × 3 = (5 × 3) + (1 × 3)."
+      ],
+      "yes": "Yes! That is the Distributive Property.",
+      "explain": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+    },
+    {
+      "id": "wc16",
+      "type": "choice",
+      "kind": "which-eq",
+      "prop": "identity",
+      "prompt": "Which equation shows the Identity Property?",
+      "options": [
+        {
+          "text": "(2 × 5) × 3 = 2 × (5 × 3)",
+          "why": "(2 × 5) × 3 = 2 × (5 × 3) shows the Associative Property."
+        },
+        {
+          "text": "1 × 4 = 4",
+          "correct": true
+        },
+        {
+          "text": "0 × 3 = 0",
+          "why": "0 × 3 = 0 shows the Zero Property."
+        },
+        {
+          "text": "5 × 8 = 8 × 5",
+          "why": "5 × 8 = 8 × 5 shows the Commutative Property."
+        }
+      ],
+      "hints": [
+        "Look for a factor of 1."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 1 × 4 = 4.",
+        "So 1 × 4 = 4 shows the Identity Property."
+      ],
+      "yes": "Yes! 1 × 4 = 4 shows the Identity Property.",
+      "explain": "One factor is 1, and the number stays the same: 1 × 4 = 4."
+    },
+    {
+      "id": "wc17",
+      "type": "choice",
+      "kind": "which-eq",
+      "prop": "zero",
+      "prompt": "Which equation shows the Zero Property?",
+      "options": [
+        {
+          "text": "8 × 0 = 0",
+          "correct": true
+        },
+        {
+          "text": "9 × 1 = 9",
+          "why": "9 × 1 = 9 shows the Identity Property."
+        },
+        {
+          "text": "5 × 8 = 8 × 5",
+          "why": "5 × 8 = 8 × 5 shows the Commutative Property."
+        },
+        {
+          "text": "(2 × 5) × 3 = 2 × (5 × 3)",
+          "why": "(2 × 5) × 3 = 2 × (5 × 3) shows the Associative Property."
+        }
+      ],
+      "hints": [
+        "Look for a factor of 0."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 8 × 0 = 0.",
+        "So 8 × 0 = 0 shows the Zero Property."
+      ],
+      "yes": "Yes! 8 × 0 = 0 shows the Zero Property.",
+      "explain": "One factor is 0, so the product is 0: 8 × 0 = 0."
+    },
+    {
+      "id": "wc18",
+      "type": "choice",
+      "kind": "which-eq",
+      "prop": "commutative",
+      "prompt": "Which equation shows the Commutative Property?",
+      "options": [
+        {
+          "text": "(2 × 5) × 3 = 2 × (5 × 3)",
+          "why": "(2 × 5) × 3 = 2 × (5 × 3) shows the Associative Property."
+        },
+        {
+          "text": "9 × 1 = 9",
+          "why": "9 × 1 = 9 shows the Identity Property."
+        },
+        {
+          "text": "6 × 4 = (5 × 4) + (1 × 4)",
+          "why": "6 × 4 = (5 × 4) + (1 × 4) shows the Distributive Property."
+        },
+        {
+          "text": "2 × 9 = 9 × 2",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for the same two factors in a different order."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 2 × 9 = 9 × 2.",
+        "So 2 × 9 = 9 × 2 shows the Commutative Property."
+      ],
+      "yes": "Yes! 2 × 9 = 9 × 2 shows the Commutative Property.",
+      "explain": "The same two factors are on both sides in a different order: 2 × 9 = 9 × 2."
+    },
+    {
+      "id": "wc19",
+      "type": "choice",
+      "kind": "which-eq",
+      "prop": "associative",
+      "prompt": "Which equation shows the Associative Property?",
+      "options": [
+        {
+          "text": "0 × 3 = 0",
+          "why": "0 × 3 = 0 shows the Zero Property."
+        },
+        {
+          "text": "6 × 4 = (5 × 4) + (1 × 4)",
+          "why": "6 × 4 = (5 × 4) + (1 × 4) shows the Distributive Property."
+        },
+        {
+          "text": "4 × (3 × 2) = (4 × 3) × 2",
+          "correct": true
+        },
+        {
+          "text": "5 × 8 = 8 × 5",
+          "why": "5 × 8 = 8 × 5 shows the Commutative Property."
+        }
+      ],
+      "hints": [
+        "Look for three factors in the same order with ( ) that move."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: 4 × (3 × 2) = (4 × 3) × 2.",
+        "So 4 × (3 × 2) = (4 × 3) × 2 shows the Associative Property."
+      ],
+      "yes": "Yes! 4 × (3 × 2) = (4 × 3) × 2 shows the Associative Property.",
+      "explain": "The same three factors stay in the same order. Only the ( ) move: 4 × (3 × 2) = (4 × 3) × 2."
+    },
+    {
+      "id": "wc20",
+      "type": "choice",
+      "kind": "which-eq",
+      "prop": "distributive",
+      "prompt": "Which equation shows the Distributive Property?",
+      "options": [
+        {
+          "text": "5 × 8 = 8 × 5",
+          "why": "5 × 8 = 8 × 5 shows the Commutative Property."
+        },
+        {
+          "text": "8 × 3 = (4 × 3) + (4 × 3)",
+          "correct": true
+        },
+        {
+          "text": "9 × 1 = 9",
+          "why": "9 × 1 = 9 shows the Identity Property."
+        },
+        {
+          "text": "0 × 3 = 0",
+          "why": "0 × 3 = 0 shows the Zero Property."
+        }
+      ],
+      "hints": [
+        "Look for a + sign: a factor broken apart into two facts."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 8 × 3 = (4 × 3) + (4 × 3).",
+        "So 8 × 3 = (4 × 3) + (4 × 3) shows the Distributive Property."
+      ],
+      "yes": "Yes! 8 × 3 = (4 × 3) + (4 × 3) shows the Distributive Property.",
+      "explain": "A factor is broken apart into two easier facts that are added: 8 × 3 = (4 × 3) + (4 × 3)."
+    }
+  ],
+  "truefalse": [
+    {
+      "id": "wt1",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "commutative",
+      "said": "commutative",
+      "eq": "4 × 7 = 7 × 4",
+      "truth": true,
+      "prompt": "True or false? 4 × 7 = 7 × 4 shows the Commutative Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. The same two factors are on both sides in a different order: 4 × 7 = 7 × 4."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for the same two factors in a different order."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 4 × 7 = 7 × 4.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. The same two factors are on both sides in a different order: 4 × 7 = 7 × 4.",
+      "explain": "True. 4 × 7 = 7 × 4 shows the Commutative Property."
+    },
+    {
+      "id": "wt2",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "associative",
+      "said": "associative",
+      "eq": "(2 × 4) × 5 = 2 × (4 × 5)",
+      "truth": true,
+      "prompt": "True or false? (2 × 4) × 5 = 2 × (4 × 5) shows the Associative Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. The same three factors stay in the same order. Only the ( ) move: (2 × 4) × 5 = 2 × (4 × 5)."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for three factors in the same order with ( ) that move."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (2 × 4) × 5 = 2 × (4 × 5).",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. The same three factors stay in the same order. Only the ( ) move: (2 × 4) × 5 = 2 × (4 × 5).",
+      "explain": "True. (2 × 4) × 5 = 2 × (4 × 5) shows the Associative Property."
+    },
+    {
+      "id": "wt3",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "identity",
+      "said": "identity",
+      "eq": "3 × 1 = 3",
+      "truth": true,
+      "prompt": "True or false? 3 × 1 = 3 shows the Identity Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. One factor is 1, and the number stays the same: 3 × 1 = 3."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 1."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 3 × 1 = 3.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. One factor is 1, and the number stays the same: 3 × 1 = 3.",
+      "explain": "True. 3 × 1 = 3 shows the Identity Property."
+    },
+    {
+      "id": "wt4",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "zero",
+      "said": "zero",
+      "eq": "0 × 9 = 0",
+      "truth": true,
+      "prompt": "True or false? 0 × 9 = 0 shows the Zero Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. One factor is 0, so the product is 0: 0 × 9 = 0."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 0."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 0 × 9 = 0.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. One factor is 0, so the product is 0: 0 × 9 = 0.",
+      "explain": "True. 0 × 9 = 0 shows the Zero Property."
+    },
+    {
+      "id": "wt5",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "distributive",
+      "said": "distributive",
+      "eq": "7 × 3 = (5 × 3) + (2 × 3)",
+      "truth": true,
+      "prompt": "True or false? 7 × 3 = (5 × 3) + (2 × 3) shows the Distributive Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. A factor is broken apart into two easier facts that are added: 7 × 3 = (5 × 3) + (2 × 3)."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a + sign: a factor broken apart into two facts."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 7 × 3 = (5 × 3) + (2 × 3).",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. A factor is broken apart into two easier facts that are added: 7 × 3 = (5 × 3) + (2 × 3).",
+      "explain": "True. 7 × 3 = (5 × 3) + (2 × 3) shows the Distributive Property."
+    },
+    {
+      "id": "wt6",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "associative",
+      "said": "commutative",
+      "eq": "(5 × 2) × 4 = 5 × (2 × 4)",
+      "truth": false,
+      "prompt": "True or false? (5 × 2) × 4 = 5 × (2 × 4) shows the Commutative Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 4 = 5 × (2 × 4). That is the Associative Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for the same two factors in a different order."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 4 = 5 × (2 × 4).",
+        "That is the Associative Property, so it is false."
+      ],
+      "yes": "Yes, it is false. (5 × 2) × 4 = 5 × (2 × 4) shows the Associative Property.",
+      "explain": "False. (5 × 2) × 4 = 5 × (2 × 4) shows the Associative Property."
+    },
+    {
+      "id": "wt7",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "commutative",
+      "said": "associative",
+      "eq": "8 × 3 = 3 × 8",
+      "truth": false,
+      "prompt": "True or false? 8 × 3 = 3 × 8 shows the Associative Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. The same two factors are on both sides in a different order: 8 × 3 = 3 × 8. That is the Commutative Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for three factors in the same order with ( ) that move."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 8 × 3 = 3 × 8.",
+        "That is the Commutative Property, so it is false."
+      ],
+      "yes": "Yes, it is false. 8 × 3 = 3 × 8 shows the Commutative Property.",
+      "explain": "False. 8 × 3 = 3 × 8 shows the Commutative Property."
+    },
+    {
+      "id": "wt8",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "identity",
+      "said": "zero",
+      "eq": "6 × 1 = 6",
+      "truth": false,
+      "prompt": "True or false? 6 × 1 = 6 shows the Zero Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. One factor is 1, and the number stays the same: 6 × 1 = 6. That is the Identity Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 0."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 6 × 1 = 6.",
+        "That is the Identity Property, so it is false."
+      ],
+      "yes": "Yes, it is false. 6 × 1 = 6 shows the Identity Property.",
+      "explain": "False. 6 × 1 = 6 shows the Identity Property."
+    },
+    {
+      "id": "wt9",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "zero",
+      "said": "identity",
+      "eq": "7 × 0 = 0",
+      "truth": false,
+      "prompt": "True or false? 7 × 0 = 0 shows the Identity Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. One factor is 0, so the product is 0: 7 × 0 = 0. That is the Zero Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 1."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 7 × 0 = 0.",
+        "That is the Zero Property, so it is false."
+      ],
+      "yes": "Yes, it is false. 7 × 0 = 0 shows the Zero Property.",
+      "explain": "False. 7 × 0 = 0 shows the Zero Property."
+    },
+    {
+      "id": "wt10",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "distributive",
+      "said": "commutative",
+      "eq": "9 × 4 = (5 × 4) + (4 × 4)",
+      "truth": false,
+      "prompt": "True or false? 9 × 4 = (5 × 4) + (4 × 4) shows the Commutative Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. A factor is broken apart into two easier facts that are added: 9 × 4 = (5 × 4) + (4 × 4). That is the Distributive Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for the same two factors in a different order."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 9 × 4 = (5 × 4) + (4 × 4).",
+        "That is the Distributive Property, so it is false."
+      ],
+      "yes": "Yes, it is false. 9 × 4 = (5 × 4) + (4 × 4) shows the Distributive Property.",
+      "explain": "False. 9 × 4 = (5 × 4) + (4 × 4) shows the Distributive Property."
+    },
+    {
+      "id": "wt11",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "identity",
+      "said": "identity",
+      "defOf": "identity",
+      "truth": true,
+      "prompt": "True or false? The Identity Property says: \"Any number multiplied by 1 stays the same.\"",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. Example: 7 × 1 = 7."
+        }
+      ],
+      "hints": [
+        "Think of an example of the Identity Property: 7 × 1 = 7."
+      ],
+      "show": [
+        "Identity Property: Any number multiplied by 1 stays the same.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. Identity Property: Any number multiplied by 1 stays the same.",
+      "explain": "True. Identity Property: Any number multiplied by 1 stays the same."
+    },
+    {
+      "id": "wt12",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "zero",
+      "said": "zero",
+      "defOf": "zero",
+      "truth": true,
+      "prompt": "True or false? The Zero Property says: \"Any number multiplied by 0 equals 0.\"",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. Example: 9 × 0 = 0."
+        }
+      ],
+      "hints": [
+        "Think of an example of the Zero Property: 9 × 0 = 0."
+      ],
+      "show": [
+        "Zero Property: Any number multiplied by 0 equals 0.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. Zero Property: Any number multiplied by 0 equals 0.",
+      "explain": "True. Zero Property: Any number multiplied by 0 equals 0."
+    },
+    {
+      "id": "wt13",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "commutative",
+      "said": "commutative",
+      "defOf": "commutative",
+      "truth": true,
+      "prompt": "True or false? The Commutative Property says: \"Changing the order of the factors does not change the product.\"",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. Example: 4 × 2 = 2 × 4 = 8."
+        }
+      ],
+      "hints": [
+        "Think of an example of the Commutative Property: 4 × 2 = 2 × 4 = 8."
+      ],
+      "show": [
+        "Commutative Property: Changing the order of the factors does not change the product.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. Commutative Property: Changing the order of the factors does not change the product.",
+      "explain": "True. Commutative Property: Changing the order of the factors does not change the product."
+    },
+    {
+      "id": "wt14",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "associative",
+      "said": "associative",
+      "defOf": "associative",
+      "truth": true,
+      "prompt": "True or false? The Associative Property says: \"You can move the ( ) to multiply a different pair first. The answer stays the same.\"",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. Example: (2 × 3) × 4 = 2 × (3 × 4)."
+        }
+      ],
+      "hints": [
+        "Think of an example of the Associative Property: (2 × 3) × 4 = 2 × (3 × 4)."
+      ],
+      "show": [
+        "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same.",
+      "explain": "True. Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+    },
+    {
+      "id": "wt15",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "distributive",
+      "said": "distributive",
+      "defOf": "distributive",
+      "truth": true,
+      "prompt": "True or false? The Distributive Property says: \"You can break apart a factor, multiply the smaller parts, and add their products.\"",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. Example: 6 × 3 = (5 × 3) + (1 × 3)."
+        }
+      ],
+      "hints": [
+        "Think of an example of the Distributive Property: 6 × 3 = (5 × 3) + (1 × 3)."
+      ],
+      "show": [
+        "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products.",
+        "So it is true."
+      ],
+      "yes": "Yes, it is true. Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products.",
+      "explain": "True. Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+    },
+    {
+      "id": "wt16",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "commutative",
+      "said": "commutative",
+      "defOf": "associative",
+      "truth": false,
+      "prompt": "True or false? The Commutative Property says: \"You can move the ( ) to multiply a different pair first. The answer stays the same.\"",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. That is the Associative Property. The Commutative Property says: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Think of an example of the Commutative Property: 4 × 2 = 2 × 4 = 8."
+      ],
+      "show": [
+        "Commutative Property: Changing the order of the factors does not change the product.",
+        "The sentence describes the Associative Property, so it is false."
+      ],
+      "yes": "Yes, it is false. That sentence is the Associative Property.",
+      "explain": "False. Commutative Property: Changing the order of the factors does not change the product."
+    },
+    {
+      "id": "wt17",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "associative",
+      "said": "associative",
+      "defOf": "commutative",
+      "truth": false,
+      "prompt": "True or false? The Associative Property says: \"Changing the order of the factors does not change the product.\"",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. That is the Commutative Property. The Associative Property says: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Think of an example of the Associative Property: (2 × 3) × 4 = 2 × (3 × 4)."
+      ],
+      "show": [
+        "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same.",
+        "The sentence describes the Commutative Property, so it is false."
+      ],
+      "yes": "Yes, it is false. That sentence is the Commutative Property.",
+      "explain": "False. Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+    },
+    {
+      "id": "wt18",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "identity",
+      "said": "identity",
+      "defOf": "zero",
+      "truth": false,
+      "prompt": "True or false? The Identity Property says: \"Any number multiplied by 0 equals 0.\"",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. That is the Zero Property. The Identity Property says: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Think of an example of the Identity Property: 7 × 1 = 7."
+      ],
+      "show": [
+        "Identity Property: Any number multiplied by 1 stays the same.",
+        "The sentence describes the Zero Property, so it is false."
+      ],
+      "yes": "Yes, it is false. That sentence is the Zero Property.",
+      "explain": "False. Identity Property: Any number multiplied by 1 stays the same."
+    },
+    {
+      "id": "wt19",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "zero",
+      "said": "zero",
+      "defOf": "identity",
+      "truth": false,
+      "prompt": "True or false? The Zero Property says: \"Any number multiplied by 1 stays the same.\"",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. That is the Identity Property. The Zero Property says: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Think of an example of the Zero Property: 9 × 0 = 0."
+      ],
+      "show": [
+        "Zero Property: Any number multiplied by 0 equals 0.",
+        "The sentence describes the Identity Property, so it is false."
+      ],
+      "yes": "Yes, it is false. That sentence is the Identity Property.",
+      "explain": "False. Zero Property: Any number multiplied by 0 equals 0."
+    },
+    {
+      "id": "wt20",
+      "type": "choice",
+      "kind": "tf-def",
+      "prop": "distributive",
+      "said": "distributive",
+      "defOf": "commutative",
+      "truth": false,
+      "prompt": "True or false? The Distributive Property says: \"Changing the order of the factors does not change the product.\"",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. That is the Commutative Property. The Distributive Property says: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Think of an example of the Distributive Property: 6 × 3 = (5 × 3) + (1 × 3)."
+      ],
+      "show": [
+        "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products.",
+        "The sentence describes the Commutative Property, so it is false."
+      ],
+      "yes": "Yes, it is false. That sentence is the Commutative Property.",
+      "explain": "False. Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+    }
+  ],
+  "fill": [
+    {
+      "id": "wf1",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "identity",
+      "eq": "8 × 1 = 8",
+      "prompt": "8 × 1 = 8 shows the ___ Property.",
+      "answer": "identity",
+      "accept": [
+        "identity property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 1."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 8 × 1 = 8.",
+        "So the word is \"Identity\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 8 × 1 = 8 shows the Identity Property.",
+      "explain": "One factor is 1, and the number stays the same: 8 × 1 = 8. That is the Identity Property."
+    },
+    {
+      "id": "wf2",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "zero",
+      "eq": "0 × 4 = 0",
+      "prompt": "0 × 4 = 0 shows the ___ Property.",
+      "answer": "zero",
+      "accept": [
+        "zero property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 0."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 0 × 4 = 0.",
+        "So the word is \"Zero\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 0 × 4 = 0 shows the Zero Property.",
+      "explain": "One factor is 0, so the product is 0: 0 × 4 = 0. That is the Zero Property."
+    },
+    {
+      "id": "wf3",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "commutative",
+      "eq": "3 × 9 = 9 × 3",
+      "prompt": "3 × 9 = 9 × 3 shows the ___ Property.",
+      "answer": "commutative",
+      "accept": [
+        "commutative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for the same two factors in a different order."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 3 × 9 = 9 × 3.",
+        "So the word is \"Commutative\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 3 × 9 = 9 × 3 shows the Commutative Property.",
+      "explain": "The same two factors are on both sides in a different order: 3 × 9 = 9 × 3. That is the Commutative Property."
+    },
+    {
+      "id": "wf4",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "associative",
+      "eq": "(4 × 2) × 3 = 4 × (2 × 3)",
+      "prompt": "(4 × 2) × 3 = 4 × (2 × 3) shows the ___ Property.",
+      "answer": "associative",
+      "accept": [
+        "associative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for three factors in the same order with ( ) that move."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (4 × 2) × 3 = 4 × (2 × 3).",
+        "So the word is \"Associative\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! (4 × 2) × 3 = 4 × (2 × 3) shows the Associative Property.",
+      "explain": "The same three factors stay in the same order. Only the ( ) move: (4 × 2) × 3 = 4 × (2 × 3). That is the Associative Property."
+    },
+    {
+      "id": "wf5",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "distributive",
+      "eq": "6 × 8 = (5 × 8) + (1 × 8)",
+      "prompt": "6 × 8 = (5 × 8) + (1 × 8) shows the ___ Property.",
+      "answer": "distributive",
+      "accept": [
+        "distributive property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a + sign: a factor broken apart into two facts."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 6 × 8 = (5 × 8) + (1 × 8).",
+        "So the word is \"Distributive\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 6 × 8 = (5 × 8) + (1 × 8) shows the Distributive Property.",
+      "explain": "A factor is broken apart into two easier facts that are added: 6 × 8 = (5 × 8) + (1 × 8). That is the Distributive Property."
+    },
+    {
+      "id": "wf6",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "identity",
+      "eq": "1 × 12 = 12",
+      "prompt": "1 × 12 = 12 shows the ___ Property.",
+      "answer": "identity",
+      "accept": [
+        "identity property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 1."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 1 × 12 = 12.",
+        "So the word is \"Identity\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 1 × 12 = 12 shows the Identity Property.",
+      "explain": "One factor is 1, and the number stays the same: 1 × 12 = 12. That is the Identity Property."
+    },
+    {
+      "id": "wf7",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "zero",
+      "eq": "10 × 0 = 0",
+      "prompt": "10 × 0 = 0 shows the ___ Property.",
+      "answer": "zero",
+      "accept": [
+        "zero property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a factor of 0."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 10 × 0 = 0.",
+        "So the word is \"Zero\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 10 × 0 = 0 shows the Zero Property.",
+      "explain": "One factor is 0, so the product is 0: 10 × 0 = 0. That is the Zero Property."
+    },
+    {
+      "id": "wf8",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "commutative",
+      "eq": "7 × 5 = 5 × 7",
+      "prompt": "7 × 5 = 5 × 7 shows the ___ Property.",
+      "answer": "commutative",
+      "accept": [
+        "commutative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for the same two factors in a different order."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 7 × 5 = 5 × 7.",
+        "So the word is \"Commutative\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 7 × 5 = 5 × 7 shows the Commutative Property.",
+      "explain": "The same two factors are on both sides in a different order: 7 × 5 = 5 × 7. That is the Commutative Property."
+    },
+    {
+      "id": "wf9",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "associative",
+      "eq": "2 × (3 × 5) = (2 × 3) × 5",
+      "prompt": "2 × (3 × 5) = (2 × 3) × 5 shows the ___ Property.",
+      "answer": "associative",
+      "accept": [
+        "associative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for three factors in the same order with ( ) that move."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: 2 × (3 × 5) = (2 × 3) × 5.",
+        "So the word is \"Associative\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 2 × (3 × 5) = (2 × 3) × 5 shows the Associative Property.",
+      "explain": "The same three factors stay in the same order. Only the ( ) move: 2 × (3 × 5) = (2 × 3) × 5. That is the Associative Property."
+    },
+    {
+      "id": "wf10",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "distributive",
+      "eq": "4 × 9 = (4 × 5) + (4 × 4)",
+      "prompt": "4 × 9 = (4 × 5) + (4 × 4) shows the ___ Property.",
+      "answer": "distributive",
+      "accept": [
+        "distributive property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign.",
+        "Look for a + sign: a factor broken apart into two facts."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 4 × 9 = (4 × 5) + (4 × 4).",
+        "So the word is \"Distributive\"."
+      ],
+      "retry": "Look at the equation again. Which word from the word bank fits?",
+      "yes": "Yes! 4 × 9 = (4 × 5) + (4 × 4) shows the Distributive Property.",
+      "explain": "A factor is broken apart into two easier facts that are added: 4 × 9 = (4 × 5) + (4 × 4). That is the Distributive Property."
+    },
+    {
+      "id": "wf11",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "identity",
+      "prompt": "Any number multiplied by 1 stays the same. This is the ___ Property.",
+      "answer": "identity",
+      "accept": [
+        "identity property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 7 × 1 = 7?"
+      ],
+      "show": [
+        "Identity Property: Any number multiplied by 1 stays the same.",
+        "So the word is \"Identity\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Identity Property.",
+      "explain": "Identity Property: Any number multiplied by 1 stays the same."
+    },
+    {
+      "id": "wf12",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "identity",
+      "prompt": "A friend says 15 × 1 is still 15. She is using the ___ Property.",
+      "answer": "identity",
+      "accept": [
+        "identity property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 7 × 1 = 7?"
+      ],
+      "show": [
+        "Identity Property: Any number multiplied by 1 stays the same.",
+        "So the word is \"Identity\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Identity Property.",
+      "explain": "Identity Property: Any number multiplied by 1 stays the same."
+    },
+    {
+      "id": "wf13",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "zero",
+      "prompt": "Any number multiplied by 0 equals 0. This is the ___ Property.",
+      "answer": "zero",
+      "accept": [
+        "zero property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 9 × 0 = 0?"
+      ],
+      "show": [
+        "Zero Property: Any number multiplied by 0 equals 0.",
+        "So the word is \"Zero\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Zero Property.",
+      "explain": "Zero Property: Any number multiplied by 0 equals 0."
+    },
+    {
+      "id": "wf14",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "zero",
+      "prompt": "Five empty boxes hold 0 crayons, because 5 × 0 = 0. That is the ___ Property.",
+      "answer": "zero",
+      "accept": [
+        "zero property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 9 × 0 = 0?"
+      ],
+      "show": [
+        "Zero Property: Any number multiplied by 0 equals 0.",
+        "So the word is \"Zero\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Zero Property.",
+      "explain": "Zero Property: Any number multiplied by 0 equals 0."
+    },
+    {
+      "id": "wf15",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "commutative",
+      "prompt": "Changing the order of the factors does not change the product. This is the ___ Property.",
+      "answer": "commutative",
+      "accept": [
+        "commutative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 4 × 2 = 2 × 4 = 8?"
+      ],
+      "show": [
+        "Commutative Property: Changing the order of the factors does not change the product.",
+        "So the word is \"Commutative\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Commutative Property.",
+      "explain": "Commutative Property: Changing the order of the factors does not change the product."
+    },
+    {
+      "id": "wf16",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "commutative",
+      "prompt": "Turning an array of 2 rows of 6 into 6 rows of 2 shows the ___ Property.",
+      "answer": "commutative",
+      "accept": [
+        "commutative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 4 × 2 = 2 × 4 = 8?"
+      ],
+      "show": [
+        "Commutative Property: Changing the order of the factors does not change the product.",
+        "So the word is \"Commutative\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Commutative Property.",
+      "explain": "Commutative Property: Changing the order of the factors does not change the product."
+    },
+    {
+      "id": "wf17",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "associative",
+      "prompt": "Changing the grouping of three or more factors does not change the product. This is the ___ Property.",
+      "answer": "associative",
+      "accept": [
+        "associative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like (2 × 3) × 4 = 2 × (3 × 4)?"
+      ],
+      "show": [
+        "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same.",
+        "So the word is \"Associative\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Associative Property.",
+      "explain": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+    },
+    {
+      "id": "wf18",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "associative",
+      "prompt": "Moving the ( ) in 2 × 3 × 4 without changing the order uses the ___ Property.",
+      "answer": "associative",
+      "accept": [
+        "associative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like (2 × 3) × 4 = 2 × (3 × 4)?"
+      ],
+      "show": [
+        "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same.",
+        "So the word is \"Associative\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Associative Property.",
+      "explain": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+    },
+    {
+      "id": "wf19",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "distributive",
+      "prompt": "Breaking apart a factor and adding the two products uses the ___ Property.",
+      "answer": "distributive",
+      "accept": [
+        "distributive property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 6 × 3 = (5 × 3) + (1 × 3)?"
+      ],
+      "show": [
+        "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products.",
+        "So the word is \"Distributive\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Distributive Property.",
+      "explain": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+    },
+    {
+      "id": "wf20",
+      "type": "word",
+      "kind": "fill-def",
+      "prop": "distributive",
+      "prompt": "Cutting an array into two smaller arrays and adding them uses the ___ Property.",
+      "answer": "distributive",
+      "accept": [
+        "distributive property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Which property has an example like 6 × 3 = (5 × 3) + (1 × 3)?"
+      ],
+      "show": [
+        "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products.",
+        "So the word is \"Distributive\"."
+      ],
+      "retry": "Read the sentence again. Which word from the word bank fits?",
+      "yes": "Yes! Distributive Property.",
+      "explain": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+    }
+  ],
+  "test": [
+    {
+      "id": "xc-identity-1",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "identity",
+      "eq": "4 × 1 = 4",
+      "mode": "choice",
+      "prompt": "Which property does 4 × 1 = 4 show?",
+      "options": [
+        {
+          "text": "Identity Property",
+          "correct": true
+        },
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 4 × 1 = 4."
+      ],
+      "explain": "One factor is 1, and the number stays the same: 4 × 1 = 4. That is the Identity Property."
+    },
+    {
+      "id": "xc-identity-2",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "identity",
+      "eq": "1 × 6 = 6",
+      "mode": "choice",
+      "prompt": "Which property does 1 × 6 = 6 show?",
+      "options": [
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 1 × 6 = 6."
+      ],
+      "explain": "One factor is 1, and the number stays the same: 1 × 6 = 6. That is the Identity Property."
+    },
+    {
+      "id": "xt-identity-1",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "identity",
+      "said": "identity",
+      "eq": "1 × 11 = 11",
+      "truth": true,
+      "mode": "truefalse",
+      "prompt": "True or false? 1 × 11 = 11 shows the Identity Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. One factor is 1, and the number stays the same: 1 × 11 = 11."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 1 × 11 = 11."
+      ],
+      "explain": "True. 1 × 11 = 11 shows the Identity Property."
+    },
+    {
+      "id": "xt-identity-2",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "identity",
+      "said": "zero",
+      "eq": "9 × 1 = 9",
+      "truth": false,
+      "mode": "truefalse",
+      "prompt": "True or false? 9 × 1 = 9 shows the Zero Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. One factor is 1, and the number stays the same: 9 × 1 = 9. That is the Identity Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 9 × 1 = 9."
+      ],
+      "explain": "False. 9 × 1 = 9 shows the Identity Property."
+    },
+    {
+      "id": "xf-identity-1",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "identity",
+      "eq": "1 × 2 = 2",
+      "mode": "fill",
+      "prompt": "1 × 2 = 2 shows the ___ Property.",
+      "answer": "identity",
+      "accept": [
+        "identity property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 1 × 2 = 2."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "One factor is 1, and the number stays the same: 1 × 2 = 2. That is the Identity Property."
+    },
+    {
+      "id": "xf-identity-2",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "identity",
+      "eq": "5 × 1 = 5",
+      "mode": "fill",
+      "prompt": "5 × 1 = 5 shows the ___ Property.",
+      "answer": "identity",
+      "accept": [
+        "identity property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 1, and the number stays the same: 5 × 1 = 5."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "One factor is 1, and the number stays the same: 5 × 1 = 5. That is the Identity Property."
+    },
+    {
+      "id": "xc-zero-1",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "zero",
+      "eq": "0 × 7 = 0",
+      "mode": "choice",
+      "prompt": "Which property does 0 × 7 = 0 show?",
+      "options": [
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Zero Property",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 0 × 7 = 0."
+      ],
+      "explain": "One factor is 0, so the product is 0: 0 × 7 = 0. That is the Zero Property."
+    },
+    {
+      "id": "xc-zero-2",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "zero",
+      "eq": "3 × 0 = 0",
+      "mode": "choice",
+      "prompt": "Which property does 3 × 0 = 0 show?",
+      "options": [
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Zero Property",
+          "correct": true
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 3 × 0 = 0."
+      ],
+      "explain": "One factor is 0, so the product is 0: 3 × 0 = 0. That is the Zero Property."
+    },
+    {
+      "id": "xt-zero-1",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "zero",
+      "said": "zero",
+      "eq": "0 × 12 = 0",
+      "truth": true,
+      "mode": "truefalse",
+      "prompt": "True or false? 0 × 12 = 0 shows the Zero Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. One factor is 0, so the product is 0: 0 × 12 = 0."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 0 × 12 = 0."
+      ],
+      "explain": "True. 0 × 12 = 0 shows the Zero Property."
+    },
+    {
+      "id": "xt-zero-2",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "zero",
+      "said": "identity",
+      "eq": "6 × 0 = 0",
+      "truth": false,
+      "mode": "truefalse",
+      "prompt": "True or false? 6 × 0 = 0 shows the Identity Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. One factor is 0, so the product is 0: 6 × 0 = 0. That is the Zero Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 6 × 0 = 0."
+      ],
+      "explain": "False. 6 × 0 = 0 shows the Zero Property."
+    },
+    {
+      "id": "xf-zero-1",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "zero",
+      "eq": "0 × 2 = 0",
+      "mode": "fill",
+      "prompt": "0 × 2 = 0 shows the ___ Property.",
+      "answer": "zero",
+      "accept": [
+        "zero property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 0 × 2 = 0."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "One factor is 0, so the product is 0: 0 × 2 = 0. That is the Zero Property."
+    },
+    {
+      "id": "xf-zero-2",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "zero",
+      "eq": "11 × 0 = 0",
+      "mode": "fill",
+      "prompt": "11 × 0 = 0 shows the ___ Property.",
+      "answer": "zero",
+      "accept": [
+        "zero property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "One factor is 0, so the product is 0: 11 × 0 = 0."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "One factor is 0, so the product is 0: 11 × 0 = 0. That is the Zero Property."
+    },
+    {
+      "id": "xc-commutative-1",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "commutative",
+      "eq": "3 × 8 = 8 × 3",
+      "mode": "choice",
+      "prompt": "Which property does 3 × 8 = 8 × 3 show?",
+      "options": [
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Commutative Property",
+          "correct": true
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 3 × 8 = 8 × 3."
+      ],
+      "explain": "The same two factors are on both sides in a different order: 3 × 8 = 8 × 3. That is the Commutative Property."
+    },
+    {
+      "id": "xc-commutative-2",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "commutative",
+      "eq": "7 × 2 = 2 × 7",
+      "mode": "choice",
+      "prompt": "Which property does 7 × 2 = 2 × 7 show?",
+      "options": [
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "correct": true
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 7 × 2 = 2 × 7."
+      ],
+      "explain": "The same two factors are on both sides in a different order: 7 × 2 = 2 × 7. That is the Commutative Property."
+    },
+    {
+      "id": "xt-commutative-1",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "commutative",
+      "said": "commutative",
+      "eq": "6 × 9 = 9 × 6",
+      "truth": true,
+      "mode": "truefalse",
+      "prompt": "True or false? 6 × 9 = 9 × 6 shows the Commutative Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. The same two factors are on both sides in a different order: 6 × 9 = 9 × 6."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 6 × 9 = 9 × 6."
+      ],
+      "explain": "True. 6 × 9 = 9 × 6 shows the Commutative Property."
+    },
+    {
+      "id": "xt-commutative-2",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "commutative",
+      "said": "associative",
+      "eq": "4 × 5 = 5 × 4",
+      "truth": false,
+      "mode": "truefalse",
+      "prompt": "True or false? 4 × 5 = 5 × 4 shows the Associative Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. The same two factors are on both sides in a different order: 4 × 5 = 5 × 4. That is the Commutative Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 4 × 5 = 5 × 4."
+      ],
+      "explain": "False. 4 × 5 = 5 × 4 shows the Commutative Property."
+    },
+    {
+      "id": "xf-commutative-1",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "commutative",
+      "eq": "8 × 7 = 7 × 8",
+      "mode": "fill",
+      "prompt": "8 × 7 = 7 × 8 shows the ___ Property.",
+      "answer": "commutative",
+      "accept": [
+        "commutative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 8 × 7 = 7 × 8."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "The same two factors are on both sides in a different order: 8 × 7 = 7 × 8. That is the Commutative Property."
+    },
+    {
+      "id": "xf-commutative-2",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "commutative",
+      "eq": "2 × 3 = 3 × 2",
+      "mode": "fill",
+      "prompt": "2 × 3 = 3 × 2 shows the ___ Property.",
+      "answer": "commutative",
+      "accept": [
+        "commutative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same two factors are on both sides in a different order: 2 × 3 = 3 × 2."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "The same two factors are on both sides in a different order: 2 × 3 = 3 × 2. That is the Commutative Property."
+    },
+    {
+      "id": "xc-associative-1",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "associative",
+      "eq": "(3 × 4) × 2 = 3 × (4 × 2)",
+      "mode": "choice",
+      "prompt": "Which property does (3 × 4) × 2 = 3 × (4 × 2) show?",
+      "options": [
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Associative Property",
+          "correct": true
+        },
+        {
+          "text": "Distributive Property",
+          "why": "Distributive Property: You can break apart a factor, multiply the smaller parts, and add their products."
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (3 × 4) × 2 = 3 × (4 × 2)."
+      ],
+      "explain": "The same three factors stay in the same order. Only the ( ) move: (3 × 4) × 2 = 3 × (4 × 2). That is the Associative Property."
+    },
+    {
+      "id": "xc-associative-2",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "associative",
+      "eq": "2 × (4 × 3) = (2 × 4) × 3",
+      "mode": "choice",
+      "prompt": "Which property does 2 × (4 × 3) = (2 × 4) × 3 show?",
+      "options": [
+        {
+          "text": "Associative Property",
+          "correct": true
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: 2 × (4 × 3) = (2 × 4) × 3."
+      ],
+      "explain": "The same three factors stay in the same order. Only the ( ) move: 2 × (4 × 3) = (2 × 4) × 3. That is the Associative Property."
+    },
+    {
+      "id": "xt-associative-1",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "associative",
+      "said": "associative",
+      "eq": "(5 × 2) × 3 = 5 × (2 × 3)",
+      "truth": true,
+      "mode": "truefalse",
+      "prompt": "True or false? (5 × 2) × 3 = 5 × (2 × 3) shows the Associative Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 3 = 5 × (2 × 3)."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (5 × 2) × 3 = 5 × (2 × 3)."
+      ],
+      "explain": "True. (5 × 2) × 3 = 5 × (2 × 3) shows the Associative Property."
+    },
+    {
+      "id": "xt-associative-2",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "associative",
+      "said": "commutative",
+      "eq": "(2 × 5) × 6 = 2 × (5 × 6)",
+      "truth": false,
+      "mode": "truefalse",
+      "prompt": "True or false? (2 × 5) × 6 = 2 × (5 × 6) shows the Commutative Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. The same three factors stay in the same order. Only the ( ) move: (2 × 5) × 6 = 2 × (5 × 6). That is the Associative Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (2 × 5) × 6 = 2 × (5 × 6)."
+      ],
+      "explain": "False. (2 × 5) × 6 = 2 × (5 × 6) shows the Associative Property."
+    },
+    {
+      "id": "xf-associative-1",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "associative",
+      "eq": "3 × (2 × 5) = (3 × 2) × 5",
+      "mode": "fill",
+      "prompt": "3 × (2 × 5) = (3 × 2) × 5 shows the ___ Property.",
+      "answer": "associative",
+      "accept": [
+        "associative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: 3 × (2 × 5) = (3 × 2) × 5."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "The same three factors stay in the same order. Only the ( ) move: 3 × (2 × 5) = (3 × 2) × 5. That is the Associative Property."
+    },
+    {
+      "id": "xf-associative-2",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "associative",
+      "eq": "(4 × 2) × 5 = 4 × (2 × 5)",
+      "mode": "fill",
+      "prompt": "(4 × 2) × 5 = 4 × (2 × 5) shows the ___ Property.",
+      "answer": "associative",
+      "accept": [
+        "associative property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "The same three factors stay in the same order. Only the ( ) move: (4 × 2) × 5 = 4 × (2 × 5)."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "The same three factors stay in the same order. Only the ( ) move: (4 × 2) × 5 = 4 × (2 × 5). That is the Associative Property."
+    },
+    {
+      "id": "xc-distributive-1",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "distributive",
+      "eq": "8 × 4 = (5 × 4) + (3 × 4)",
+      "mode": "choice",
+      "prompt": "Which property does 8 × 4 = (5 × 4) + (3 × 4) show?",
+      "options": [
+        {
+          "text": "Distributive Property",
+          "correct": true
+        },
+        {
+          "text": "Identity Property",
+          "why": "Identity Property: Any number multiplied by 1 stays the same."
+        },
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 8 × 4 = (5 × 4) + (3 × 4)."
+      ],
+      "explain": "A factor is broken apart into two easier facts that are added: 8 × 4 = (5 × 4) + (3 × 4). That is the Distributive Property."
+    },
+    {
+      "id": "xc-distributive-2",
+      "type": "choice",
+      "kind": "eq",
+      "prop": "distributive",
+      "eq": "7 × 7 = (5 × 7) + (2 × 7)",
+      "mode": "choice",
+      "prompt": "Which property does 7 × 7 = (5 × 7) + (2 × 7) show?",
+      "options": [
+        {
+          "text": "Zero Property",
+          "why": "Zero Property: Any number multiplied by 0 equals 0."
+        },
+        {
+          "text": "Commutative Property",
+          "why": "Commutative Property: Changing the order of the factors does not change the product."
+        },
+        {
+          "text": "Associative Property",
+          "why": "Associative Property: You can move the ( ) to multiply a different pair first. The answer stays the same."
+        },
+        {
+          "text": "Distributive Property",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 7 × 7 = (5 × 7) + (2 × 7)."
+      ],
+      "explain": "A factor is broken apart into two easier facts that are added: 7 × 7 = (5 × 7) + (2 × 7). That is the Distributive Property."
+    },
+    {
+      "id": "xt-distributive-1",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "distributive",
+      "said": "distributive",
+      "eq": "6 × 6 = (3 × 6) + (3 × 6)",
+      "truth": true,
+      "mode": "truefalse",
+      "prompt": "True or false? 6 × 6 = (3 × 6) + (3 × 6) shows the Distributive Property.",
+      "options": [
+        {
+          "text": "True",
+          "correct": true
+        },
+        {
+          "text": "False",
+          "why": "It is true. A factor is broken apart into two easier facts that are added: 6 × 6 = (3 × 6) + (3 × 6)."
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 6 × 6 = (3 × 6) + (3 × 6)."
+      ],
+      "explain": "True. 6 × 6 = (3 × 6) + (3 × 6) shows the Distributive Property."
+    },
+    {
+      "id": "xt-distributive-2",
+      "type": "choice",
+      "kind": "tf-eq",
+      "prop": "distributive",
+      "said": "commutative",
+      "eq": "9 × 3 = (5 × 3) + (4 × 3)",
+      "truth": false,
+      "mode": "truefalse",
+      "prompt": "True or false? 9 × 3 = (5 × 3) + (4 × 3) shows the Commutative Property.",
+      "options": [
+        {
+          "text": "True",
+          "why": "It is false. A factor is broken apart into two easier facts that are added: 9 × 3 = (5 × 3) + (4 × 3). That is the Distributive Property."
+        },
+        {
+          "text": "False",
+          "correct": true
+        }
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 9 × 3 = (5 × 3) + (4 × 3)."
+      ],
+      "explain": "False. 9 × 3 = (5 × 3) + (4 × 3) shows the Distributive Property."
+    },
+    {
+      "id": "xf-distributive-1",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "distributive",
+      "eq": "4 × 8 = (4 × 4) + (4 × 4)",
+      "mode": "fill",
+      "prompt": "4 × 8 = (4 × 4) + (4 × 4) shows the ___ Property.",
+      "answer": "distributive",
+      "accept": [
+        "distributive property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 4 × 8 = (4 × 4) + (4 × 4)."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "A factor is broken apart into two easier facts that are added: 4 × 8 = (4 × 4) + (4 × 4). That is the Distributive Property."
+    },
+    {
+      "id": "xf-distributive-2",
+      "type": "word",
+      "kind": "fill-eq",
+      "prop": "distributive",
+      "eq": "3 × 9 = (2 × 9) + (1 × 9)",
+      "mode": "fill",
+      "prompt": "3 × 9 = (2 × 9) + (1 × 9) shows the ___ Property.",
+      "answer": "distributive",
+      "accept": [
+        "distributive property"
+      ],
+      "bank": [
+        "identity",
+        "zero",
+        "commutative",
+        "associative",
+        "distributive"
+      ],
+      "hints": [
+        "Look for a 1, a 0, a turn-around, ( ) that move, or a + sign."
+      ],
+      "show": [
+        "A factor is broken apart into two easier facts that are added: 3 × 9 = (2 × 9) + (1 × 9)."
+      ],
+      "retry": "Look at the equation again.",
+      "explain": "A factor is broken apart into two easier facts that are added: 3 × 9 = (2 × 9) + (1 × 9). That is the Distributive Property."
+    }
+  ]
+}

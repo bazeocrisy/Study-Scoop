@@ -22,9 +22,9 @@
     {"date": "Nov 20", "text": "Early Release"}
   ],
   "homework": [
-    {"title": "Reading Log", "due": "Every Monday"},
-    {"title": "Homework packet", "due": "Sent home Monday, due Friday"},
-    {"title": "3 spelling activities", "due": "Turned in with the packet"}
+    {"title": "Reading Log", "due": "Every Monday", "source": "newsletter"},
+    {"title": "Homework packet", "due": "Sent home Monday, due Friday", "source": "newsletter"},
+    {"title": "3 spelling activities", "due": "Turned in with the packet", "source": "newsletter"}
   ],
   "spelling": {
     "pattern": "-ing",
@@ -48,8 +48,8 @@
       {"word": "skipping", "base": "skip", "rule": "double", "sentence": "My sister is skipping down the sidewalk."},
       {"word": "landing", "base": "land", "rule": "add", "sentence": "The plane is landing at the airport.", "img": "landed"},
       {"word": "winking", "base": "wink", "rule": "add", "sentence": "Grandpa is winking at me.", "img": "winked"},
-      {"word": "crashing", "base": "crash", "rule": "add", "sentence": "The waves are crashing on the beach.", "img": "crashed"},
-      {"word": "flying", "base": "fly", "rule": "add", "sentence": "The birds are flying south for the winter."},
+      {"word": "crashing", "base": "crash", "rule": "add", "sentence": "The two cars are crashing into each other.", "img": "crashed"},
+      {"word": "flying", "base": "fly", "rule": "add", "sentence": "The plane is flying high above the clouds."},
       {"word": "dancing", "base": "dance", "rule": "drop-e", "sentence": "We were dancing at the party."},
       {"word": "lifting", "base": "lift", "rule": "add", "sentence": "Dad is lifting the heavy box.", "img": "lifted"},
       {"word": "amazing", "base": "amaze", "rule": "drop-e", "sentence": "The fireworks show was amazing."},
@@ -64,14 +64,14 @@
       {"word": "Produce", "def": "Fresh fruits and vegetables", "sentence": "We bought bananas and tomatoes from the produce stand at the farmers market.", "fill": "Mom bought apples, carrots, and lettuce in the ___ section of the grocery store."},
       {"word": "Exception", "def": "A case where a rule does not apply", "sentence": "Our class has no recess on rainy days, but Friday was an exception because we went to the gym.", "fill": "Everyone has to wear sneakers in gym class. The only ___ is a student with a broken foot."},
       {"word": "Installment", "def": "When money is paid over a length of time", "sentence": "My aunt is paying for her new laptop in installments of $50 each month.", "fill": "Dad pays for the new couch a little bit every month. Each payment is called an ___."},
-      {"word": "Peculiar", "def": "Strange or unusual", "sentence": "The peculiar cat liked to sleep in the bathtub instead of its bed.", "fill": "The dog made a ___ noise that none of us had ever heard before."},
+      {"word": "Peculiar", "def": "Strange or unusual", "sentence": "The peculiar cat liked to sleep in the bathtub instead of its bed.", "fill": "A dog with purple spots would look very ___, because most dogs do not look like that."},
       {"word": "Employee", "def": "Someone who works for money", "group": "green", "sentence": "The employee at the shoe store helped me find my size.", "fill": "My aunt is an ___ at the bank, and she gets paid every two weeks."},
       {"word": "Fortunate", "def": "favored by or involving good luck or fortune", "group": "green", "sentence": "I was fortunate to find my lost lunchbox before lunch time.", "fill": "We were ___ that the rain stopped right before the baseball game."},
       {"word": "Ignorant", "def": "lacking knowledge or awareness in general", "group": "green", "sentence": "I was ignorant about how bees make honey until we read about it in science.", "fill": "Before he read the book, my brother was ___ about how sharks live."},
       {"word": "Melancholy", "def": "A sad or gloomy condition", "group": "green", "sentence": "The gray, rainy day gave the whole house a melancholy feeling.", "fill": "After her best friend moved away, my sister felt a deep ___ for weeks."},
       {"word": "Trustworthy", "def": "The ability to keep promises", "sentence": "My best friend is trustworthy because he always keeps his promises.", "fill": "My neighbor always does what he says he will do. He is very ___."},
       {"word": "Constellations", "def": "A group of stars in the night sky that make up a picture or a pattern", "sentence": "Grandpa showed me the Big Dipper and other constellations in the night sky.", "fill": "On a clear night, we used a star map to find ___ like Orion."},
-      {"word": "Irritating", "def": "To anger or bother", "sentence": "My little cousin kept tapping the table, and the noise was irritating.", "fill": "The buzzing fly in the classroom was very ___."},
+      {"word": "Irritating", "def": "To anger or bother", "sentence": "My little cousin kept tapping the table, and the noise was irritating.", "fill": "My little brother kept poking my arm. It was so ___ that I asked him to stop."},
       {"word": "Distracted", "def": "To prevent something from continuing as usual", "sentence": "The fire drill distracted our class from the spelling lesson.", "fill": "The loud music ___ me, and I could not finish my homework."}
     ]
   },

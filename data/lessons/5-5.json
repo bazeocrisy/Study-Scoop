@@ -1,0 +1,1587 @@
+{
+  "id": "5-5",
+  "title": "Use Properties to Multiply by 8",
+  "goal": "I can multiply by 8: double the 4s fact, or add the 5s fact and the 3s fact.",
+  "catchAll": "Find the 8. Double the 4s fact, or add the 5s fact and the 3s fact.",
+  "teacher": [
+    {
+      "term": "Distributive Property",
+      "def": "a multiplication fact can be broken apart into the sum of two other related facts"
+    }
+  ],
+  "glossary": {
+    "4s fact": "a fact times 4, like 4 × 6. Double the 2s fact to find it.",
+    "8s fact": "a fact times 8, like 8 × 7",
+    "double": "add a number to itself, like 28 + 28"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Ready? Warm-up",
+        "item": {
+          "id": "r1",
+          "type": "number",
+          "prompt": "4 × 7 = ?",
+          "answer": "4 × 7",
+          "hints": [
+            "Find the 2s fact: 2 × 7.",
+            "Then double it: add the 2s fact to itself."
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 11
+              },
+              "say": "4 + 7 is 11, but this is times. Double the 2s fact."
+            },
+            {
+              "when": {
+                "answer": 14
+              },
+              "say": "14 is the 2s fact. Double it."
+            }
+          ],
+          "yes": "Yes! 4 × 7 = 28."
+        }
+      },
+      {
+        "title": "Ready? One more",
+        "item": {
+          "id": "r2",
+          "type": "number",
+          "prompt": "Double 28 = ?",
+          "answer": "28 + 28",
+          "hints": [
+            "Double means add the number to itself: 28 + 28.",
+            "Add the tens (20 + 20). Then add the ones (8 + 8). Put them together."
+          ],
+          "mistakes": [
+            {
+              "when": {
+                "answer": 30
+              },
+              "say": "That is 28 + 2. Double 28 means 28 + 28."
+            },
+            {
+              "when": {
+                "answer": 46
+              },
+              "say": "Check the ones: 8 + 8 is 16. Regroup 10 ones as 1 ten."
+            }
+          ],
+          "yes": "Yes! 28 + 28 = 56."
+        }
+      },
+      {
+        "title": "Way 1: 8 is 4 + 4",
+        "text": [
+          "8 × 7 means 8 rows of 7.",
+          "8 is 4 + 4. Cut under row 4.",
+          "Each part is the 4s fact: 4 × 7 = 28. Double it: 28 + 28 = 56."
+        ],
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 7,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "facts"
+        },
+        "caption": "8 × 7 = 4 × 7 + 4 × 7",
+        "words": [
+          "4s fact",
+          "double"
+        ]
+      },
+      {
+        "title": "Way 2: 8 is 5 + 3",
+        "text": [
+          "8 is also 5 + 3. Cut under row 5.",
+          "The top part is the 5s fact: 5 × 7 = 35. The bottom part is the 3s fact: 3 × 7 = 21.",
+          "Add them: 35 + 21 = 56. Same answer!"
+        ],
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 7,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "caption": "8 × 7 = 5 × 7 + 3 × 7"
+      },
+      {
+        "title": "The 8s strategies",
+        "teacher": true,
+        "text": [
+          "Find the 8. Double the 4s fact.",
+          "Or add the 5s fact and the 3s fact. Pick the facts you know best."
+        ],
+        "pairs": [
+          "8 × 7 = (4 × 7) + (4 × 7)",
+          "8 × 7 = (5 × 7) + (3 × 7)"
+        ]
+      },
+      {
+        "title": "Check",
+        "item": {
+          "id": "l1",
+          "type": "choice",
+          "prompt": "Which one is equal to 8 × 9?",
+          "options": [
+            {
+              "text": "4 × 9 + 3 × 9",
+              "why": "4 and 3 make 7, not 8."
+            },
+            {
+              "text": "4 × 9 + 4",
+              "why": "The second part must be a whole fact: 4 × 9, not 4."
+            },
+            {
+              "text": "8 + 9",
+              "why": "8 × 9 means 8 groups of 9, not 8 + 9."
+            },
+            {
+              "text": "4 × 9 + 4 × 9",
+              "correct": true
+            }
+          ],
+          "target": "8 × 9",
+          "yes": "Yes! 4 × 9 + 4 × 9 is 36 + 36. That is 72."
+        }
+      }
+    ]
+  },
+  "watch": {
+    "takeaway": "8s facts: double the 4s fact, or add the 5s fact and the 3s fact.",
+    "examples": [
+      {
+        "title": "Example A: 8 × 7 as 4 + 4",
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 7,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "Problem: 8 × 7. That is 8 rows of 7.",
+            "model": {
+              "type": "array",
+              "rows": 8,
+              "cols": 7
+            }
+          },
+          {
+            "say": "Break 8 into 4 + 4. Cut under row 4.",
+            "model": {
+              "type": "array",
+              "rows": 8,
+              "cols": 7,
+              "cut": {
+                "by": "rows",
+                "at": 4
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The top part is the 4s fact.",
+            "eq": "4 × 7 = 28"
+          },
+          {
+            "say": "The bottom part is the same 4s fact.",
+            "eq": "4 × 7 = 28"
+          },
+          {
+            "say": "Double 28.",
+            "eq": "8 × 7 = 4 × 7 + 4 × 7 = 28 + 28 = 56",
+            "pictured": true,
+            "word": "double"
+          },
+          {
+            "say": "Check the array. 8 rows of 7 is 56 dots.",
+            "eq": "8 × 7 = 56"
+          }
+        ],
+        "why": {
+          "id": "wA",
+          "type": "choice",
+          "prompt": "Why can we double 4 × 7 to find 8 × 7?",
+          "options": [
+            {
+              "text": "Because 7 is odd.",
+              "why": "Odd or even does not matter. It works because 8 rows is 4 rows and 4 more rows."
+            },
+            {
+              "text": "8 rows is 4 rows and 4 more rows.",
+              "correct": true
+            },
+            {
+              "text": "Because 4 is the answer.",
+              "why": "The answer is 56. It works because 8 rows is 4 rows and 4 more rows."
+            }
+          ],
+          "yes": "Yes! 4 + 4 = 8, so two 4s facts make the 8s fact."
+        }
+      },
+      {
+        "title": "Example B: 8 × 7 as 5 + 3",
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 7,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "Now break 8 into 5 + 3. Cut under row 5.",
+            "model": {
+              "type": "array",
+              "rows": 8,
+              "cols": 7,
+              "cut": {
+                "by": "rows",
+                "at": 5
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The top part is the 5s fact.",
+            "eq": "5 × 7 = 35"
+          },
+          {
+            "say": "The bottom part is the 3s fact.",
+            "eq": "3 × 7 = 21"
+          },
+          {
+            "say": "Add the two parts. Same answer as before!",
+            "eq": "8 × 7 = 5 × 7 + 3 × 7 = 35 + 21 = 56",
+            "pictured": true
+          }
+        ],
+        "why": {
+          "id": "wB",
+          "type": "choice",
+          "prompt": "Both ways make 56. Why?",
+          "options": [
+            {
+              "text": "We moved the cut. It is still 8 rows of 7.",
+              "correct": true
+            },
+            {
+              "text": "We added more dots.",
+              "why": "No dots were added. We only moved the cut."
+            },
+            {
+              "text": "5 and 3 are odd numbers.",
+              "why": "That does not matter. We only moved the cut, so the dots stay the same."
+            }
+          ],
+          "yes": "Yes! The cut moved, but the dots did not change."
+        },
+        "another": {
+          "text": "Two cuts, the same 56 dots.",
+          "models": [
+            {
+              "type": "array",
+              "rows": 8,
+              "cols": 7,
+              "cut": {
+                "by": "rows",
+                "at": 4
+              },
+              "labels": "facts"
+            },
+            {
+              "type": "array",
+              "rows": 8,
+              "cols": 7,
+              "cut": {
+                "by": "rows",
+                "at": 5
+              },
+              "labels": "facts"
+            }
+          ]
+        }
+      },
+      {
+        "title": "Example C: the 8 comes second",
+        "model": {
+          "type": "array",
+          "rows": 9,
+          "cols": 8,
+          "cut": {
+            "by": "cols",
+            "at": 4
+          },
+          "labels": "facts"
+        },
+        "steps": [
+          {
+            "say": "This time the 8 comes second. 9 × 8 is 9 rows of 8.",
+            "model": {
+              "type": "array",
+              "rows": 9,
+              "cols": 8
+            }
+          },
+          {
+            "say": "Find the 8. Break it into 4 + 4. Cut between the columns.",
+            "model": {
+              "type": "array",
+              "rows": 9,
+              "cols": 8,
+              "cut": {
+                "by": "cols",
+                "at": 4
+              },
+              "labels": "parts"
+            }
+          },
+          {
+            "say": "The left part is 9 rows of 4.",
+            "eq": "9 × 4 = 36"
+          },
+          {
+            "say": "The right part is the same.",
+            "eq": "9 × 4 = 36"
+          },
+          {
+            "say": "Double 36.",
+            "eq": "9 × 8 = 9 × 4 + 9 × 4 = 36 + 36 = 72",
+            "pictured": true
+          }
+        ],
+        "why": {
+          "id": "wC",
+          "type": "choice",
+          "prompt": "Which number did we break apart?",
+          "options": [
+            {
+              "text": "The 9",
+              "why": "Every part still has 9 rows. We broke the 8 into 4 + 4."
+            },
+            {
+              "text": "The 72",
+              "why": "72 is the product. We broke the 8 into 4 + 4."
+            },
+            {
+              "text": "The 8",
+              "correct": true
+            }
+          ],
+          "yes": "Yes! Find the 8 and break it apart, wherever it is."
+        }
+      }
+    ]
+  },
+  "together": {
+    "intro": "Let's do some together. Use Hint if you get stuck.",
+    "items": [
+      {
+        "id": "g1",
+        "type": "fill",
+        "prompt": "Finish the last step.",
+        "lines": [
+          "8 × 3 = 4 × 3 + 4 × 3",
+          "= 12 + 12",
+          "= [t]"
+        ],
+        "answer": {
+          "t": 24
+        },
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "facts"
+        },
+        "mistakes": [
+          {
+            "when": {
+              "t": 12
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 11
+            },
+            "say": "8 × 3 means 8 groups of 3, not 8 + 3. Add the two products."
+          }
+        ],
+        "hints": [
+          "Each part is 4 × 3 = 12.",
+          "Find 4 × 3 (use a fact you know) and 4 × 3 (use a fact you know). Then add them."
+        ],
+        "show": [
+          "4 × 3 = 12.",
+          "4 × 3 = 12.",
+          "12 + 12 = 24. So 8 × 3 = 24."
+        ],
+        "yes": "Yes! 12 + 12 = 24. You doubled the 4s fact!"
+      },
+      {
+        "id": "g2",
+        "type": "fill",
+        "prompt": "Find each part. Then add.",
+        "lines": [
+          "8 × 10 = 5 × 10 + 3 × 10",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 50,
+          "q": 30,
+          "t": 80
+        },
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 10,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 30,
+            "q": 50,
+            "t": 80
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 50
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 18
+            },
+            "say": "8 × 10 means 8 groups of 10, not 8 + 10. Add the two products."
+          },
+          {
+            "when": {
+              "q": 3
+            },
+            "say": "The second part is 3 × 10, not 3. Find 3 × 10."
+          }
+        ],
+        "hints": [
+          "The top part is 5 rows of 10. The bottom part is 3 rows of 10.",
+          "Find 5 × 10 (count by 10s) and 3 × 10 (count by 10s). Then add them."
+        ],
+        "show": [
+          "5 × 10 = 50.",
+          "3 × 10 = 30.",
+          "50 + 30 = 80. So 8 × 10 = 80."
+        ],
+        "yes": "Yes! 50 + 30 = 80."
+      },
+      {
+        "id": "g3",
+        "type": "fill",
+        "prompt": "Look at the cut. Fill in the boxes.",
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 5,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "parts"
+        },
+        "lines": [
+          "8 × 5 = [a] × 5 + [b] × 5",
+          "= 20 + 20",
+          "= [t]"
+        ],
+        "answer": {
+          "a": 4,
+          "b": 4,
+          "t": 40
+        },
+        "min": 1,
+        "hints": [
+          "Count the rows above the line.",
+          "Count the rows below the line."
+        ],
+        "show": [
+          "4 rows are above the line.",
+          "4 rows are below the line.",
+          "8 × 5 = 4 × 5 + 4 × 5 = 20 + 20 = 40."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "a": 8
+            },
+            "say": "Count only the rows above the line. That is the first part."
+          }
+        ],
+        "yes": "Yes! 4 + 4 = 8 rows, and 20 + 20 = 40."
+      },
+      {
+        "id": "g4",
+        "type": "fill",
+        "prompt": "The 8 comes second. Find each part, then add.",
+        "lines": [
+          "10 × 8 = 10 × 4 + 10 × 4",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 40,
+          "q": 40,
+          "t": 80
+        },
+        "model": {
+          "type": "array",
+          "rows": 10,
+          "cols": 8,
+          "cut": {
+            "by": "cols",
+            "at": 4
+          },
+          "labels": "parts"
+        },
+        "mistakes": [
+          {
+            "when": {
+              "t": 40
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 18
+            },
+            "say": "10 × 8 means 10 groups of 8, not 10 + 8. Add the two products."
+          }
+        ],
+        "hints": [
+          "Each part is 10 rows of 4.",
+          "Find 10 × 4 (count by 10s) and 10 × 4 (count by 10s). Then add them."
+        ],
+        "show": [
+          "10 × 4 = 40.",
+          "10 × 4 = 40.",
+          "40 + 40 = 80. So 10 × 8 = 80."
+        ],
+        "yes": "Yes! 40 + 40 = 80."
+      },
+      {
+        "id": "g5",
+        "type": "number",
+        "prompt": "8 × 4 = ?",
+        "answer": "8 × 4",
+        "hints": [
+          "Find the 4s fact: 4 × 4.",
+          "Then double it: add the 4s fact to itself."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 12
+            },
+            "say": "8 + 4 is 12, but this is times. Find the 4s fact and double it."
+          },
+          {
+            "when": {
+              "answer": 16
+            },
+            "say": "16 is the 4s fact. Double it to get the 8s fact."
+          }
+        ],
+        "show": [
+          "8 = 4 + 4, so 8 × 4 is two 4 × 4 facts.",
+          "4 × 4 = 16.",
+          "16 + 16 = 32. So 8 × 4 = 32."
+        ],
+        "yes": "Yes! 16 + 16 = 32."
+      },
+      {
+        "id": "g6",
+        "type": "decompose",
+        "prompt": "Your turn! Decompose 8 × 2 any way you like.",
+        "fact": [
+          8,
+          2
+        ],
+        "answer": {
+          "p": 4,
+          "q": 2,
+          "r": 4,
+          "s": 2,
+          "t": 16
+        },
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 2
+        },
+        "hints": [
+          "Break 8 into 4 + 4, or into 5 + 3.",
+          "Write two facts that keep the 2. Then add."
+        ],
+        "show": [
+          "Break 8 into 4 + 4.",
+          "4 × 2 + 4 × 2 = 8 + 8 = 16."
+        ]
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "fill",
+        "prompt": "4 × 9 = 36. Use it to find 8 × 9.",
+        "lines": [
+          "8 × 9 = 36 + [x]",
+          "= [t]"
+        ],
+        "answer": {
+          "x": 36,
+          "t": 72
+        },
+        "hints": [
+          "8 = 4 + 4. So 8 × 9 is two 4 × 9 facts.",
+          "What do you add to 36 to double it?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 9
+            },
+            "say": "Add the whole 4s fact again: 36, not 9."
+          },
+          {
+            "when": {
+              "x": 4
+            },
+            "say": "Add the whole 4s fact again: 36, not 4."
+          }
+        ],
+        "show": [
+          "8 × 9 = 4 × 9 + 4 × 9.",
+          "36 + 36 = 72."
+        ],
+        "yes": "Yes! 36 + 36 = 72."
+      },
+      {
+        "id": "t2",
+        "type": "choice",
+        "prompt": "Which facts match this split array?",
+        "options": [
+          {
+            "text": "(5 × 4) + (3 × 4)",
+            "why": "That would be a cut under row 5. This line is under row 4."
+          },
+          {
+            "text": "(8 × 2) + (8 × 2)",
+            "why": "That cut goes between columns. This line goes between rows."
+          },
+          {
+            "text": "(4 × 4) + (4 × 4)",
+            "correct": true
+          },
+          {
+            "text": "(4 × 8) + (4 × 8)",
+            "why": "Each row has 4 dots, not 8. Count the dots in one row."
+          }
+        ],
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 4,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "parts"
+        },
+        "pictureMatch": true,
+        "hints": [
+          "Count the rows above the line and below the line.",
+          "Each row has 4 dots."
+        ],
+        "show": [
+          "4 rows are above the line and 4 rows are below it.",
+          "Each row has 4 dots: (4 × 4) + (4 × 4)."
+        ],
+        "yes": "Yes! 4 rows of 4 on top and 4 rows of 4 below."
+      },
+      {
+        "id": "t3",
+        "type": "number",
+        "prompt": "8 × 5 = ?",
+        "answer": "8 × 5",
+        "hints": [
+          "Find the 4s fact: 4 × 5.",
+          "Then double it: add the 4s fact to itself."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 13
+            },
+            "say": "8 + 5 is 13, but this is times. Find the 4s fact and double it."
+          },
+          {
+            "when": {
+              "answer": 20
+            },
+            "say": "20 is the 4s fact. Double it to get the 8s fact."
+          }
+        ],
+        "show": [
+          "8 = 4 + 4, so 8 × 5 is two 4 × 5 facts.",
+          "4 × 5 = 20.",
+          "20 + 20 = 40. So 8 × 5 = 40."
+        ],
+        "yes": "Yes! 40."
+      },
+      {
+        "id": "t4",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "8 × [x] = 4 × 9 + 4 × 9"
+        ],
+        "answer": {
+          "x": 9
+        },
+        "hints": [
+          "Which number is in both parts?",
+          "Each part keeps the same number. 4 rows and 4 more rows make 8 rows of it."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 36
+            },
+            "say": "That is one part. The box needs a factor: 8 × what?"
+          },
+          {
+            "when": {
+              "x": 72
+            },
+            "say": "That box needs a factor, not the product."
+          },
+          {
+            "when": {
+              "x": 4
+            },
+            "say": "4 is how many rows are in each part. Which number does each part keep?"
+          }
+        ],
+        "show": [
+          "4 + 4 = 8, and both parts have 9.",
+          "8 × 9 = 4 × 9 + 4 × 9."
+        ],
+        "yes": "Yes! 8 × 9 = 4 × 9 + 4 × 9."
+      },
+      {
+        "id": "t5",
+        "type": "choice",
+        "prompt": "Which fact can you double to find 8 × 7?",
+        "options": [
+          {
+            "text": "2 × 7",
+            "why": "Double 2 × 7 is only 4 × 7. Double 4 × 7 to get 8 × 7."
+          },
+          {
+            "text": "4 × 7",
+            "correct": true
+          },
+          {
+            "text": "4 × 2",
+            "why": "Double 4 × 2 is 4 × 4, not 8 × 7."
+          },
+          {
+            "text": "8 × 2",
+            "why": "Double 8 × 2 is 8 × 4, not 8 × 7."
+          }
+        ],
+        "hints": [
+          "8 = 4 + 4. Which 4s fact keeps the 7?"
+        ],
+        "show": [
+          "8 × 7 = 4 × 7 + 4 × 7.",
+          "So double 4 × 7 = 28: 28 + 28 = 56."
+        ],
+        "yes": "Yes! Double 4 × 7: 28 + 28 = 56."
+      },
+      {
+        "id": "t6",
+        "type": "fill",
+        "prompt": "Find each part. Then add.",
+        "lines": [
+          "8 × 10 = 4 × 10 + 4 × 10",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 40,
+          "q": 40,
+          "t": 80
+        },
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 10,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "parts"
+        },
+        "mistakes": [
+          {
+            "when": {
+              "t": 40
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 18
+            },
+            "say": "8 × 10 means 8 groups of 10, not 8 + 10. Add the two products."
+          }
+        ],
+        "hints": [
+          "Each part is 4 rows of 10.",
+          "Find 4 × 10 (count by 10s) and 4 × 10 (count by 10s). Then add them."
+        ],
+        "show": [
+          "4 × 10 = 40.",
+          "4 × 10 = 40.",
+          "40 + 40 = 80. So 8 × 10 = 80."
+        ],
+        "yes": "Yes! 80."
+      },
+      {
+        "id": "t7",
+        "type": "fill",
+        "prompt": "Find each part. Then add.",
+        "lines": [
+          "8 × 3 = 5 × 3 + 3 × 3",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 15,
+          "q": 9,
+          "t": 24
+        },
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 3,
+          "cut": {
+            "by": "rows",
+            "at": 5
+          },
+          "labels": "parts"
+        },
+        "accept": [
+          {
+            "p": 9,
+            "q": 15,
+            "t": 24
+          }
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "t": 15
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 11
+            },
+            "say": "8 × 3 means 8 groups of 3, not 8 + 3. Add the two products."
+          },
+          {
+            "when": {
+              "q": 3
+            },
+            "say": "The second part is 3 × 3, not 3. Find 3 × 3."
+          }
+        ],
+        "hints": [
+          "Top part: 5 rows of 3. Bottom part: 3 rows of 3.",
+          "Find 5 × 3 (count by 5s) and 3 × 3 (use a fact you know). Then add them."
+        ],
+        "show": [
+          "5 × 3 = 15.",
+          "3 × 3 = 9.",
+          "15 + 9 = 24. So 8 × 3 = 24."
+        ],
+        "yes": "Yes! 24."
+      },
+      {
+        "id": "t8",
+        "type": "fill",
+        "prompt": "The 8 comes second. Find each part, then add.",
+        "lines": [
+          "7 × 8 = 7 × 4 + 7 × 4",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 28,
+          "q": 28,
+          "t": 56
+        },
+        "model": {
+          "type": "array",
+          "rows": 7,
+          "cols": 8,
+          "cut": {
+            "by": "cols",
+            "at": 4
+          },
+          "labels": "parts"
+        },
+        "mistakes": [
+          {
+            "when": {
+              "t": 28
+            },
+            "say": "You found the first part! Now add the second part."
+          },
+          {
+            "when": {
+              "t": 15
+            },
+            "say": "7 × 8 means 7 groups of 8, not 7 + 8. Add the two products."
+          }
+        ],
+        "hints": [
+          "Each part is 7 rows of 4.",
+          "Find 7 × 4 (use a fact you know) and 7 × 4 (use a fact you know). Then add them."
+        ],
+        "show": [
+          "7 × 4 = 28.",
+          "7 × 4 = 28.",
+          "28 + 28 = 56. So 7 × 8 = 56."
+        ],
+        "yes": "Yes! 56."
+      },
+      {
+        "id": "t9",
+        "type": "number",
+        "prompt": "8 × 8 = ?",
+        "answer": "8 × 8",
+        "hints": [
+          "Find the 4s fact: 4 × 8.",
+          "Then double it: add the 4s fact to itself."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 16
+            },
+            "say": "8 + 8 is 16, but this is times. Find the 4s fact and double it."
+          },
+          {
+            "when": {
+              "answer": 32
+            },
+            "say": "32 is the 4s fact. Double it to get the 8s fact."
+          }
+        ],
+        "show": [
+          "8 = 4 + 4, so 8 × 8 is two 4 × 8 facts.",
+          "4 × 8 = 32.",
+          "32 + 32 = 64. So 8 × 8 = 64."
+        ],
+        "yes": "Yes! 64."
+      },
+      {
+        "id": "t10",
+        "type": "decompose",
+        "prompt": "Decompose 8 × 7. Any way that works is fine.",
+        "fact": [
+          8,
+          7
+        ],
+        "answer": {
+          "p": 4,
+          "q": 7,
+          "r": 4,
+          "s": 7,
+          "t": 56
+        },
+        "hints": [
+          "Break 8 into 4 + 4, or into 5 + 3.",
+          "Write two facts that keep the 7. Then add."
+        ],
+        "show": [
+          "8 × 7 = 4 × 7 + 4 × 7.",
+          "28 + 28 = 56."
+        ]
+      },
+      {
+        "id": "t11",
+        "type": "table",
+        "prompt": "Each times 8 number is double the times 4 number. Fill in the last column.",
+        "headers": [
+          "Number",
+          "Times 4",
+          "Times 8"
+        ],
+        "rows": [
+          [
+            "7",
+            "28",
+            {
+              "answer": "8 × 7"
+            }
+          ],
+          [
+            "9",
+            "36",
+            {
+              "answer": "8 × 9"
+            }
+          ],
+          [
+            "10",
+            "40",
+            {
+              "answer": "8 × 10"
+            }
+          ]
+        ],
+        "retry": "Check each row: double the times 4 number.",
+        "hints": [
+          "Times 8 is double the times 4 number.",
+          "For 7: what is 28 + 28?"
+        ],
+        "show": [
+          "7: 28 + 28 = 56.",
+          "9: 36 + 36 = 72.",
+          "10: 40 + 40 = 80."
+        ],
+        "yes": "Yes! Each times 8 number is double the times 4 number."
+      },
+      {
+        "id": "t12",
+        "type": "number",
+        "prompt": "A spider has 8 legs. How many legs do 4 spiders have?",
+        "answer": "4 × 8",
+        "hints": [
+          "4 spiders with 8 legs each: 4 × 8.",
+          "Find 2 × 8 = 16. Double it."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 12
+            },
+            "say": "4 + 8 is 12. Each spider has 8 legs, so multiply."
+          },
+          {
+            "when": {
+              "answer": 16
+            },
+            "say": "16 is only 2 spiders. Double it for 4 spiders."
+          }
+        ],
+        "show": [
+          "4 × 8 = 2 × 8 + 2 × 8.",
+          "16 + 16 = 32 legs."
+        ],
+        "yes": "Yes! 32 legs."
+      },
+      {
+        "id": "t13",
+        "type": "choice",
+        "prompt": "Which one is equal to 8 × 2?",
+        "options": [
+          {
+            "text": "4 × 2 + 3 × 2",
+            "why": "4 and 3 make 7, not 8."
+          },
+          {
+            "text": "5 × 2 + 3 × 2",
+            "correct": true
+          },
+          {
+            "text": "5 × 2 + 3",
+            "why": "The second part must be a whole fact: 3 × 2, not 3."
+          },
+          {
+            "text": "8 + 2",
+            "why": "8 × 2 means 8 groups of 2, not 8 + 2."
+          }
+        ],
+        "target": "8 × 2",
+        "hints": [
+          "Break 8 into two numbers that add up to 8.",
+          "Both parts must keep the 2."
+        ],
+        "show": [
+          "5 + 3 = 8.",
+          "8 × 2 = 5 × 2 + 3 × 2 = 10 + 6 = 16."
+        ],
+        "yes": "Yes! 10 + 6 = 16."
+      },
+      {
+        "id": "t14",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "[x] × 8 = 64"
+        ],
+        "answer": {
+          "x": 8
+        },
+        "hints": [
+          "Count by 8s: 8, 16, 24 … Stop at 64.",
+          "Or: what number doubled makes 64? Which 4s fact makes that number?"
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "x": 56
+            },
+            "say": "That box needs a factor. What times 8 makes 64?"
+          },
+          {
+            "when": {
+              "x": 7
+            },
+            "say": "7 × 8 is 56. One more 8 makes 64."
+          }
+        ],
+        "show": [
+          "4 × 8 = 32, and 32 + 32 = 64.",
+          "So 8 × 8 = 64."
+        ],
+        "yes": "Yes! 8 × 8 = 64."
+      },
+      {
+        "id": "t15",
+        "type": "fill",
+        "prompt": "Break apart the 8 in 8 × 3. Use any two numbers that work.",
+        "lines": [
+          "8 × 3 = [a] × 3 + [b] × 3"
+        ],
+        "answer": {
+          "a": 4,
+          "b": 4
+        },
+        "open": true,
+        "min": 1,
+        "hints": [
+          "Pick two numbers that add up to 8.",
+          "Try 4 and 4, or 5 and 3."
+        ],
+        "show": [
+          "4 + 4 = 8, so 8 × 3 = 4 × 3 + 4 × 3.",
+          "12 + 12 = 24."
+        ],
+        "retry": "The two numbers must add up to 8. Each one must be at least 1.",
+        "yes": "Yes! Your two parts add up to 8."
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "A student wrote 8 × 7 = 4 × 7 + 3 × 7 = 49. What went wrong?",
+        "options": [
+          {
+            "text": "4 and 3 make 7, not 8. Use 4 × 7 + 4 × 7.",
+            "correct": true
+          },
+          {
+            "text": "Nothing. It is correct.",
+            "why": "8 × 7 is 8 rows of 7. That is 56, not 49."
+          },
+          {
+            "text": "The first part should be 8 × 7.",
+            "why": "The first part 4 × 7 is fine. The two parts must add up to 8 rows."
+          },
+          {
+            "text": "You should add 8 + 7.",
+            "why": "8 × 7 means 8 groups of 7, not 8 + 7."
+          }
+        ],
+        "quotesMistake": true,
+        "hints": [
+          "Add the two numbers that 8 was broken into."
+        ],
+        "show": [
+          "8 = 4 + 4.",
+          "8 × 7 = 4 × 7 + 4 × 7 = 28 + 28 = 56."
+        ],
+        "yes": "Yes! The parts must add up to 8: 4 × 7 + 4 × 7 = 56."
+      },
+      {
+        "id": "t17",
+        "type": "number",
+        "prompt": "A garden has 9 rows. Each row has 8 bean plants. How many bean plants are there?",
+        "answer": "9 × 8",
+        "hints": [
+          "9 rows of 8: 9 × 8.",
+          "Find the 8. Break it into 4 + 4: find 9 × 4, then double it."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 17
+            },
+            "say": "9 + 8 is 17. There are 9 equal rows, so multiply."
+          },
+          {
+            "when": {
+              "answer": 36
+            },
+            "say": "36 is 9 × 4, only half. Double it for 9 × 8."
+          }
+        ],
+        "show": [
+          "9 × 8 = 9 × 4 + 9 × 4.",
+          "36 + 36 = 72 plants."
+        ],
+        "yes": "Yes! 72 bean plants."
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "Two friends find 8 × 4. Friend 1 writes 4 × 4 + 4 × 4. Friend 2 writes 5 × 4 + 3 × 4. Who is right?",
+        "options": [
+          {
+            "text": "Only Friend 1",
+            "why": "Check Friend 2 too: 20 + 12 = 32."
+          },
+          {
+            "text": "Both friends",
+            "correct": true
+          },
+          {
+            "text": "Only Friend 2",
+            "why": "Check Friend 1 too: 16 + 16 = 32."
+          },
+          {
+            "text": "Neither",
+            "why": "Both make 32: 16 + 16 = 32 and 20 + 12 = 32."
+          }
+        ],
+        "models": [
+          {
+            "type": "array",
+            "rows": 8,
+            "cols": 4,
+            "cut": {
+              "by": "rows",
+              "at": 4
+            },
+            "labels": "parts"
+          },
+          {
+            "type": "array",
+            "rows": 8,
+            "cols": 4,
+            "cut": {
+              "by": "rows",
+              "at": 5
+            },
+            "labels": "parts"
+          }
+        ],
+        "hints": [
+          "Find each friend's total.",
+          "Friend 1 doubles a 4s fact. Friend 2 adds a 5s fact and a 3s fact."
+        ],
+        "show": [
+          "Friend 1: 16 + 16 = 32.",
+          "Friend 2: 20 + 12 = 32.",
+          "Both are right."
+        ],
+        "yes": "Yes! 16 + 16 = 32 and 20 + 12 = 32. Different cuts, same product."
+      },
+      {
+        "id": "t19",
+        "type": "choice",
+        "prompt": "Ben says: \"Every 8s fact is double a 4s fact.\" Is Ben right?",
+        "options": [
+          {
+            "text": "No, only when the other number is even.",
+            "why": "It works for every number. 8 × 7 = 28 + 28 = 56."
+          },
+          {
+            "text": "No, it is half.",
+            "why": "An 8s fact is double, not half. 8 × 3 = 12 + 12 = 24."
+          },
+          {
+            "text": "Yes. 8 rows is 4 rows and 4 more rows.",
+            "correct": true
+          }
+        ],
+        "hints": [
+          "Try it with 8 × 3. Is 12 + 12 the same as 8 × 3?"
+        ],
+        "show": [
+          "8 = 4 + 4 for every fact.",
+          "So an 8s fact is always two 4s facts: double the 4s fact."
+        ],
+        "yes": "Yes! 8 is always 4 + 4."
+      },
+      {
+        "id": "t20",
+        "type": "number",
+        "prompt": "A pack has 8 crayons. How many crayons are in 10 packs?",
+        "answer": "10 × 8",
+        "hints": [
+          "10 packs of 8: 10 × 8.",
+          "Find the 8. Find the 4s fact with 10, then double it."
+        ],
+        "mistakes": [
+          {
+            "when": {
+              "answer": 18
+            },
+            "say": "10 + 8 is 18. There are 10 equal packs, so multiply."
+          },
+          {
+            "when": {
+              "answer": 40
+            },
+            "say": "40 is 10 × 4. Double it for 10 × 8."
+          }
+        ],
+        "show": [
+          "10 × 8 = 10 × 4 + 10 × 4.",
+          "40 + 40 = 80 crayons."
+        ],
+        "yes": "Yes! 80 crayons."
+      }
+    ]
+  },
+  "test": {
+    "pass": 7,
+    "items": [
+      {
+        "id": "x1",
+        "type": "number",
+        "prompt": "8 × 4 = ?",
+        "answer": "8 × 4",
+        "show": [
+          "4 × 4 = 16.",
+          "Double it: 16 + 16 = 32."
+        ]
+      },
+      {
+        "id": "x2",
+        "type": "fill",
+        "prompt": "Find each part. Then add.",
+        "lines": [
+          "8 × 7 = 4 × 7 + 4 × 7",
+          "= [p] + [q]",
+          "= [t]"
+        ],
+        "answer": {
+          "p": 28,
+          "q": 28,
+          "t": 56
+        },
+        "model": {
+          "type": "array",
+          "rows": 8,
+          "cols": 7,
+          "cut": {
+            "by": "rows",
+            "at": 4
+          },
+          "labels": "parts"
+        },
+        "show": [
+          "4 × 7 = 28.",
+          "4 × 7 = 28.",
+          "28 + 28 = 56. So 8 × 7 = 56."
+        ]
+      },
+      {
+        "id": "x3",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "8 × [x] = 5 × 4 + 3 × 4"
+        ],
+        "answer": {
+          "x": 4
+        },
+        "show": [
+          "Both parts have 4, and 5 + 3 = 8.",
+          "8 × 4 = 5 × 4 + 3 × 4."
+        ]
+      },
+      {
+        "id": "x4",
+        "type": "choice",
+        "prompt": "Which one is equal to 8 × 5?",
+        "options": [
+          {
+            "text": "4 × 5 + 4 × 5",
+            "correct": true
+          },
+          {
+            "text": "4 × 5 + 4",
+            "why": "The second part must be a whole fact: 4 × 5, not 4."
+          },
+          {
+            "text": "5 × 5 + 2 × 5",
+            "why": "5 and 2 make 7, not 8."
+          },
+          {
+            "text": "8 + 5",
+            "why": "8 × 5 means 8 groups of 5, not 8 + 5."
+          }
+        ],
+        "target": "8 × 5",
+        "show": [
+          "8 × 5 = 4 × 5 + 4 × 5 = 20 + 20 = 40."
+        ]
+      },
+      {
+        "id": "x5",
+        "type": "number",
+        "prompt": "A pack has 8 markers. How many markers are in 3 packs?",
+        "answer": "3 × 8",
+        "show": [
+          "3 packs of 8 is 3 × 8.",
+          "2 × 8 = 16. Add one more 8: 16 + 8 = 24."
+        ]
+      },
+      {
+        "id": "x6",
+        "type": "decompose",
+        "prompt": "Decompose 8 × 9. Any way that works is fine.",
+        "fact": [
+          8,
+          9
+        ],
+        "answer": {
+          "p": 5,
+          "q": 9,
+          "r": 3,
+          "s": 9,
+          "t": 72
+        },
+        "show": [
+          "Break 8 into 5 + 3: 5 × 9 + 3 × 9.",
+          "45 + 27 = 72."
+        ]
+      },
+      {
+        "id": "x7",
+        "type": "fill",
+        "prompt": "What number makes it true?",
+        "lines": [
+          "[x] = 8 × 8"
+        ],
+        "answer": {
+          "x": 64
+        },
+        "show": [
+          "4 × 8 = 32. Double it: 32 + 32 = 64."
+        ]
+      },
+      {
+        "id": "x8",
+        "type": "choice",
+        "prompt": "Which two facts can you add to find 8 × 7?",
+        "options": [
+          {
+            "text": "5 × 7 and 2 × 7",
+            "why": "5 and 2 make 7, not 8."
+          },
+          {
+            "text": "4 × 7 and 3 × 7",
+            "why": "4 and 3 make 7, not 8."
+          },
+          {
+            "text": "5 × 7 and 3",
+            "why": "The second part must be a whole fact: 3 × 7, not 3."
+          },
+          {
+            "text": "5 × 7 and 3 × 7",
+            "correct": true
+          }
+        ],
+        "show": [
+          "5 + 3 = 8.",
+          "8 × 7 = 5 × 7 + 3 × 7 = 35 + 21 = 56."
+        ]
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "Two ways to multiply by 8. Because 8 = 4 + 4, an 8s fact is double the 4s fact: 8 × 7 = 4 × 7 + 4 × 7 = 28 + 28 = 56. Because 8 = 5 + 3, it is also the 5s fact plus the 3s fact: 5 × 7 + 3 × 7 = 35 + 21 = 56."
+      },
+      {
+        "heading": "Try it with real things",
+        "list": [
+          "Make 8 rows of 7 cereal pieces. Cover the bottom 4 rows: 28. Uncover them: 28 + 28 = 56.",
+          "Chant a doubling chain: 3, 6, 12, 24 (times 1, 2, 4, 8)."
+        ]
+      },
+      {
+        "heading": "Questions to ask",
+        "list": [
+          "Where is the 8?",
+          "What is the 4s fact? What is double that?",
+          "Which way is easier for you: 4 + 4 or 5 + 3?"
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Doubling the 2s fact only once (that gives the 4s fact, not the 8s fact).",
+          "Breaking 8 into numbers that do not add up to 8, such as 4 and 3.",
+          "Adding the factors: 8 + 7 = 15."
+        ]
+      },
+      {
+        "heading": "A note on notation",
+        "text": "Some books write the facts without ( ) and some with ( ). Both mean the same thing. Study Scoop uses original practice questions; it never copies the textbook."
+      }
+    ]
+  }
+}

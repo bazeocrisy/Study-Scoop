@@ -1,0 +1,11 @@
+{
+  "lessons": [
+    { "id": "5-1", "title": "Understand the Distributive Property", "summary": "Decompose a fact into two easier facts, then add.", "strategy": "Break apart a factor" },
+    { "id": "5-2", "title": "Use Properties to Multiply by 3", "summary": "A 3s fact is a 2s fact plus a 1s fact.", "strategy": "3 = 2 + 1" },
+    { "id": "5-3", "title": "Use Properties to Multiply by 4", "summary": "A 4s fact is double the 2s fact.", "strategy": "4 = 2 + 2" },
+    { "id": "5-4", "title": "Use Properties to Multiply by 6", "summary": "Use the 5s fact and add one more group, or double the 3s fact.", "strategy": "6 = 5 + 1 or 3 + 3" },
+    { "id": "5-5", "title": "Use Properties to Multiply by 8", "summary": "Double the 4s fact, or add the 5s fact and the 3s fact.", "strategy": "8 = 4 + 4 or 5 + 3" },
+    { "id": "5-6", "title": "Use Properties to Multiply by 7 and 9", "summary": "Start with a 5s fact. Add the 2s fact for 7s, or the 4s fact for 9s.", "strategy": "7 = 5 + 2 and 9 = 5 + 4" },
+    { "id": "5-7", "title": "Solve Multiplication Problems", "summary": "Find the equal groups, write the fact, and use a strategy to solve.", "strategy": "Equal groups and arrays" }
+  ]
+}

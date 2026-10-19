@@ -1,4 +1,4 @@
-// The seven sections, in navigation order. `id` is the hash route.
+// The eight sections, in navigation order. `id` is the hash route.
 export const SECTIONS = [
   { id: 'week', label: 'This Week' },
   { id: 'spelling', label: 'Spelling' },
@@ -7,6 +7,7 @@ export const SECTIONS = [
   { id: 'quickmath', label: 'Quick Math' },
   { id: 'homework', label: 'Homework' },
   { id: 'newsletter', label: 'Newsletter' },
+  { id: 'tests', label: 'Tests' },
 ];
 
 export const SECTION_IDS = SECTIONS.map((s) => s.id);

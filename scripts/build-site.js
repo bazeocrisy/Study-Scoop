@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { validateIndex, validateWeek } from '../js/lib/validate.js';
+import { validateLesson, validateLessonIndex } from '../js/lib/lessons.js';
+import { validateMathPractice, validateMathWords, validateTests } from '../js/lib/activities.js';
 import { pictureName } from '../js/lib/data.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -14,12 +16,16 @@ export const ALLOW = [
   /^index\.html$/,
   /^css\/[a-z0-9-]+\.css$/,
   /^js\/(?:(?:lib|views)\/)?[a-z0-9-]+\.js$/,
-  /^data\/(?:weeks|\d{4}-\d{2}-\d{2})\.json$/,
+  /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
+  /^data\/lessons\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/,
+  /^data\/tests\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
+  /^data\/practice\/(?:math|math-words)\.json$/,
   /^images\/cone\.svg$/,
-  /^images\/words\/[a-z0-9-]+\.svg$/,
+  /^images\/words\/[a-z0-9-]+\.(?:svg|webp)$/,
+  /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
-const SOURCES = ['index.html', 'css', 'js', 'data', 'images'];
+const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts'];
 /** Runtime files the site cannot work without. */
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
 /** Named so a check proves they are absent (the allowlist already excludes them). */
@@ -55,11 +61,17 @@ export function buildSite(out, src = REPO) {
   }
   fs.rmSync(out, { recursive: true, force: true });
   const listed = new Set(readJSON(path.join(src, 'data/weeks.json')).weeks.map((w) => `data/${w.id}.json`));
+  const lessonIndex = path.join(src, 'data/lessons/index.json');
+  const lessons = new Set(fs.existsSync(lessonIndex) ? readJSON(lessonIndex).lessons.map((l) => `data/lessons/${l.id}.json`) : []);
+  const testIndex = path.join(src, 'data/tests/index.json');
+  const testWeeks = new Set(fs.existsSync(testIndex) ? readJSON(testIndex).weeks.filter((id) => listed.has(`data/${id}.json`)).map((id) => `data/tests/${id}.json`) : []);
   const copied = [], skipped = [];
   for (const rel of SOURCES.flatMap((s) => walk(src, s))) {
     let why = null;
     if (!isAllowed(rel)) why = 'not on the allowlist';
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
+    else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';
+    else if (/^data\/tests\/(?!index\.json$)/.test(rel) && !testWeeks.has(rel)) why = 'not listed in data/tests/index.json (or its week is not published)';
     if (why) { skipped.push(`${rel} (${why})`); continue; }
     fs.mkdirSync(path.dirname(path.join(out, rel)), { recursive: true });
     fs.copyFileSync(path.join(src, rel), path.join(out, rel));
@@ -126,6 +138,49 @@ export function verifySite(dir) {
     }
     // Vocabulary pictures are optional per word (a missing one is hidden), but a site with none means the images were left out.
     if (!vocabPictures) problems.push('no vocabulary pictures were published');
+  }
+
+  // Lessons: the index is valid, every listed lesson is published and passes the lesson checks (its math included),
+  // and nothing unlisted is published (a draft lesson stays off the site, like a draft week).
+  if (has('data/lessons/index.json')) {
+    const lessonIndex = readJSON(path.join(dir, 'data/lessons/index.json'));
+    problems.push(...validateLessonIndex(lessonIndex));
+    const ids = new Set((lessonIndex.lessons || []).map((l) => l.id));
+    for (const rel of files.filter((f) => /^data\/lessons\/(?!index\.json$)/.test(f))) {
+      if (!ids.has(rel.slice('data/lessons/'.length, -'.json'.length))) problems.push(`${rel} is published but not listed in data/lessons/index.json`);
+    }
+    for (const id of ids) {
+      const rel = `data/lessons/${id}.json`;
+      if (!has(rel)) { problems.push(`${rel} is listed in data/lessons/index.json but missing`); continue; }
+      problems.push(...validateLesson(readJSON(path.join(dir, rel)), id).map((p) => `${rel}: ${p}`));
+    }
+  }
+  // Practice tests: each listed week's tests are published, belong to a published week, and pass every check
+  // (answer keys, pictures, teacher definitions). Nothing unlisted is published.
+  if (has('data/tests/index.json')) {
+    const weeks = readJSON(path.join(dir, 'data/tests/index.json')).weeks;
+    if (!Array.isArray(weeks)) problems.push('data/tests/index.json: "weeks" must be a list');
+    for (const rel of files.filter((f) => /^data\/tests\/(?!index\.json$)/.test(f))) {
+      if (!(weeks || []).includes(rel.slice('data/tests/'.length, -'.json'.length))) problems.push(`${rel} is published but not listed in data/tests/index.json`);
+    }
+    // A test listed for a week that is not published (a draft week) is simply left out, like the week itself.
+    for (const id of (weeks || []).filter((w) => has(`data/${w}.json`))) {
+      const rel = `data/tests/${id}.json`;
+      if (!has(rel)) { problems.push(`${rel} is listed in data/tests/index.json but missing`); continue; }
+      problems.push(...validateTests(readJSON(path.join(dir, rel)), readJSON(path.join(dir, `data/${id}.json`))));
+    }
+  }
+  // Math practice problems: every answer key, picture and property is checked before publishing.
+  if (has('data/practice/math.json')) problems.push(...validateMathPractice(readJSON(path.join(dir, 'data/practice/math.json'))));
+  // Math Vocabulary questions: every property, definition and true-or-false key is checked before publishing.
+  if (has('data/practice/math-words.json')) problems.push(...validateMathWords(readJSON(path.join(dir, 'data/practice/math-words.json'))));
+  // The picture list must match the published pictures exactly (pages use it so they never ask for a missing file).
+  if (has('data/pictures.json')) {
+    const list = readJSON(path.join(dir, 'data/pictures.json'));
+    const names = (ext) => files.filter((f) => f.startsWith('images/words/') && f.endsWith(ext))
+      .map((f) => f.slice('images/words/'.length, -ext.length)).sort();
+    if (JSON.stringify(list.photos) !== JSON.stringify(names('.webp'))) problems.push('data/pictures.json: "photos" does not match the published .webp pictures');
+    if (JSON.stringify(list.drawings) !== JSON.stringify(names('.svg'))) problems.push('data/pictures.json: "drawings" does not match the published .svg pictures');
   }
 
   // Pictures may not run scripts or load anything; no published text may contain personal names.

@@ -1,7 +1,11 @@
 # Study Scoop — Project Status
 
 ## Current phase
-Foundation merged into `main` (PR #1, `62720ef`). Preview-first publishing (D15): production https://bazeocrisy.github.io/Study-Scoop/ from `main`, live preview https://bazeocrisy.github.io/Study-Scoop/preview/ from `develop`. Image PRs #2 (spelling) and #3 (vocabulary) are open, unmerged.
+Unit 5 build on `develop` (DECISIONS D20): all seven Unit 5 lessons (5-1 to 5-7), each with 20 Try It Yourself questions, hints, Show me how, results with what to do next and an in-lesson Practice My Misses; Math Vocabulary for the five properties (Associative added); 20 questions in every Practice Problems kind and every Spelling and Vocabulary activity; a Math Vocabulary Practice Test; a Unit 5 Study Guide. Content was reviewed by independent curriculum and interaction/accessibility reviews and corrected. 144 unit tests, 171 browser checks and 173 built-site checks pass.
+
+Assignment 005 user-acceptance corrections on `develop` (D19): Spelling, Vocabulary and Math open on an activity menu; every activity has crumbs, Back to Subject and Home; flashcards flip on click, tap, Enter or Space; Math has Learn the Properties, Practice Problems (38 checked original problems), Math Lessons and a Study Guide; leaving an unfinished test asks first. Production is unchanged.
+
+Assignment 005 (implementation) on `develop`: eighth section **Tests** (weekly Study Scoop practice tests for Math, Spelling and Vocabulary), Spelling and Vocabulary practice activities with Practice My Misses, and homework entries that say what was received (D18). Before that, Assignment 004: redesigned site (D16), interactive Lessons 5-1 and 5-2 on a shared lesson engine (D17), spelling and vocabulary pictures integrated. Preview: https://bazeocrisy.github.io/Study-Scoop/preview/ · production (unchanged until the owner approves a merge): https://bazeocrisy.github.io/Study-Scoop/. Image PRs #2 and #3: their files are included on `develop`; the PRs themselves are not merged.
 
 ## Completed
 - GitHub repository created by owner; README.md and CLAUDE.md added
@@ -19,15 +23,16 @@ Foundation merged into `main` (PR #1, `62720ef`). Preview-first publishing (D15)
 - Owner feedback (light theme, D12): vanilla background, white cards, softer sprinkles; light on every device. 76 unit, 46 browser, 48 built-site checks passing
 
 ## Not yet implemented
-- Spelling practice, flash cards, tests, Practice My Misses, print sheet
-- Vocabulary practice, quizzes, tests, Practice My Misses, print sheet
-- Math Chapters Lessons 5-1 and 5-2 (Learn, Practice, Study Guide, Test)
+- Printable study sheets (spelling, vocabulary)
+- Practice for multiplying multiples of 10 (homework topic, Oct 12–16)
+- Vocabulary "purple words" for Oct 19–23 (not provided yet; the tests say so)
 - Multiplication Mastery and Find My Factors
 - Quick Math (six levels)
 - Optional timers
 - Manual device, print and screen-reader checks (`docs/TESTING.md`)
 
 ## Open questions (from the audit)
+- Unit 5 build: confirm with the teacher that the Associative Property is on the class organizer, and its exact wording (Study Scoop labels it "Definition", not "Teacher's words")
 - B3: which words are "purple" for the Oct 23 quiz
 - B4: vocabulary sheet photo so definitions can be checked (kept out of the repo)
 - B5: word pictures that contain text

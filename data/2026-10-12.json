@@ -62,16 +62,39 @@
   ],
   "homework": [
     {
+      "title": "Distributive Property worksheet",
+      "due": "Week of Oct 12–16",
+      "subject": "Math",
+      "source": "received",
+      "description": "Arrays split by a line across or down, with multiple-choice questions about which multiplication expression matches each split.",
+      "status": "The worksheet itself is kept private and is not shown on this website.",
+      "practice": {
+        "lesson": "5-1",
+        "label": "Practice with Lesson 5-1: Understand the Distributive Property"
+      }
+    },
+    {
+      "title": "Multiplying multiples of 10 worksheet",
+      "due": "Week of Oct 12–16",
+      "subject": "Math",
+      "source": "received",
+      "description": "Multiplying a one-digit number by a multiple of 10, in problems such as 40 × 6.",
+      "status": "The worksheet itself is kept private and is not shown on this website. Study Scoop does not have practice for this topic yet."
+    },
+    {
       "title": "Reading Log",
-      "due": "Every Monday"
+      "due": "Every Monday",
+      "source": "newsletter"
     },
     {
       "title": "Homework packet",
-      "due": "Sent home Monday, due Friday"
+      "due": "Sent home Monday, due Friday",
+      "source": "newsletter"
     },
     {
       "title": "3 spelling activities",
-      "due": "Turned in with the packet"
+      "due": "Turned in with the packet",
+      "source": "newsletter"
     }
   ],
   "spelling": {
@@ -224,7 +247,7 @@
         "word": "Peculiar",
         "def": "Strange or unusual",
         "sentence": "The peculiar cat liked to sleep in the bathtub instead of its bed.",
-        "fill": "The dog made a ___ noise that none of us had ever heard before.",
+        "fill": "A dog with purple spots would look very ___, because most dogs do not look like that.",
         "group": "green"
       },
       {
@@ -267,7 +290,7 @@
         "word": "Irritating",
         "def": "To anger or bother",
         "sentence": "My little cousin kept tapping the table, and the noise was irritating.",
-        "fill": "The buzzing fly in the classroom was very ___."
+        "fill": "My little brother kept poking my arm. It was so ___ that I asked him to stop."
       },
       {
         "word": "Distracted",

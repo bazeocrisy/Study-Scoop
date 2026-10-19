@@ -1,33 +1,17 @@
+// Vocabulary opens on its menu (Learn My Words, Multiple Choice, True or False, Fill in the Blank, Practice My Misses).
+// Learn My Words shows one study card at a time (DECISIONS D19); the teacher's definitions are used exactly.
 import { html } from '../lib/html.js';
-import { pictureName } from '../lib/data.js';
-import { comingSoon, pageHead } from './common.js';
-
-const GROUP_LABEL = { green: 'Quiz word (green)', purple: 'Quiz word (purple)' };
+import { menuItems } from '../lib/activities.js';
+import { menuPage, testsNote } from './common.js';
+import { activityView } from './activity.js';
 
 export function vocabView(ctx) {
+  if (ctx.run) return activityView(ctx);
   const v = ctx.week.vocab;
-  return html`
-    ${pageHead('Vocabulary', ctx, `${v.title} · Quiz: ${v.quiz}`)}
-    <p class="card note">${v.groupsNote}</p>
-
-    <ul class="cards vocab">
-      ${v.words.map((w) => html`
-        <li class="card vocab-card${w.group ? ` group-${w.group}` : ''}">
-          <span class="pic"><img src="images/words/${pictureName(w.word)}.svg" alt="" width="160" height="110" data-optional></span>
-          <h2 class="vocab-word">${w.word}</h2>
-          ${w.group ? html`<p class="badge badge-${w.group}">${GROUP_LABEL[w.group]}</p>` : ''}
-          <p class="def">${w.def}</p>
-          <p class="example"><span class="tag">In a sentence</span> ${w.sentence}</p>
-        </li>`)}
-    </ul>
-
-    ${comingSoon('Vocabulary practice', [
-      'Flash cards',
-      'Matching',
-      'Multiple choice',
-      'Fill in the blank',
-      'Vocabulary test',
-      'Practice My Misses',
-      'Printable study sheet',
-    ])}`;
+  return menuPage(ctx, 'vocab', {
+    title: 'Vocabulary', context: `${v.title} · ${v.words.length} words · Quiz: ${v.quiz}`,
+    items: menuItems('vocab'), misses: ctx.misses?.vocab,
+    after: html`${v.groupsNote.includes('purple') ? html`<p class="hint menu-foot">${v.groupsNote} Only the ${v.words.length} words here have been provided; the purple words are not on this list yet.</p>` : ''}
+      ${testsNote(ctx, 'The weekly Vocabulary Test')}`,
+  });
 }

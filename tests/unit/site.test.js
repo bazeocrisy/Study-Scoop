@@ -35,17 +35,40 @@ const caught = (problems, pattern) => assert.ok(problems.some((p) => pattern.tes
 
 test('the built site passes verification', () => {
   assert.deepEqual(verifySite(SITE), []);
-  assert.deepEqual(skipped, []);
+  // Only the full-size study-card originals (PNG; the site uses small WebP copies, DECISIONS D13, D14, D16)
+  // and the font licence note are left out.
+  assert.deepEqual(skipped.sort(), [...repoFiles('images/words').filter((f) => f.endsWith('.png')), 'fonts/README.md']
+    .map((f) => `${f} (not on the allowlist)`).sort());
   assert.deepEqual([...copied].sort(), PUBLISHED);
 });
 
-test('the built site is exactly the page, styles, modules, listed weeks and pictures', () => {
+test('the built site is exactly the page, styles, modules, fonts, listed weeks, lessons, practice tests and pictures', () => {
   const weeks = JSON.parse(fs.readFileSync(path.join(REPO, 'data/weeks.json'), 'utf8')).weeks.map((w) => `data/${w.id}.json`);
-  const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', ...weeks, 'images/cone.svg',
-    ...repoFiles('images/words')];
+  const lessons = JSON.parse(fs.readFileSync(path.join(REPO, 'data/lessons/index.json'), 'utf8')).lessons.map((l) => `data/lessons/${l.id}.json`);
+  const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
+    'data/lessons/index.json', ...lessons, 'images/cone.svg',
+    'data/practice/math.json', 'data/practice/math-words.json', 'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
+    ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2'))];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
-  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'images', 'index.html', 'js']);
+  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'fonts', 'images', 'index.html', 'js']);
+});
+
+test('a draft lesson (not listed) is left out, and a broken lesson fails verification', () => {
+  const src = tmp('lesson-src');
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  put(src, 'data/lessons/9-9.json', '{"id":"9-9"}');
+  const out = tmp('lesson-out');
+  const result = buildSite(out, src);
+  assert.ok(result.skipped.includes('data/lessons/9-9.json (not listed in data/lessons/index.json)'));
+  assert.deepEqual(verifySite(out), []);
+  // A wrong product in a worked example is caught before anything is published.
+  const f = path.join(out, 'data/lessons/5-1.json');
+  fs.writeFileSync(f, fs.readFileSync(f, 'utf8').replace('"6 × 3 = 5 × 3 + 1 × 3 = 15 + 3 = 18"', '"6 × 3 = 5 × 3 + 1 × 3 = 15 + 3 = 19"'));
+  caught(verifySite(out), /data\/lessons\/5-1\.json: 5-1: .*is not true/);
+  // The picture list must match the pictures that are really published.
+  fs.rmSync(path.join(out, 'images/words/produce.webp'));
+  caught(verifySite(out), /data\/pictures\.json: "photos" does not match/);
 });
 
 test('development files are absent from the built site, not merely unlinked', () => {
@@ -62,14 +85,15 @@ test('development files are absent from the built site, not merely unlinked', ()
 
 test('the build leaves out anything not on the allowlist, even inside approved folders', () => {
   const src = tmp('src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   for (const rel of ['reference/vocabulary-prototype.html', 'tests/browser.test.js', 'docs/notes.md', 'images/newsletters/2026-10-12.jpg',
     'images/words/scan.png', 'js/notes.md', 'js/.secret.js', 'css/draft.css.bak', 'data/2026-11-02.json', 'data/notes.json',
     'images/mockup.svg']) put(src, rel);
   const out = tmp('out');
   const result = buildSite(out, src);
   assert.deepEqual(files(out), PUBLISHED);
-  assert.deepEqual(result.skipped.sort(), [
+  // Ignore what the real repository build already leaves out (the study cards); check only the planted files.
+  assert.deepEqual(result.skipped.filter((s) => !skipped.includes(s)).sort(), [
     'css/draft.css.bak (not on the allowlist)', 'data/2026-11-02.json (not listed in data/weeks.json)', 'data/notes.json (not on the allowlist)',
     'images/mockup.svg (not on the allowlist)', 'images/newsletters/2026-10-12.jpg (not on the allowlist)',
     'images/words/scan.png (not on the allowlist)', 'js/.secret.js (not on the allowlist)', 'js/notes.md (not on the allowlist)']);
@@ -117,6 +141,26 @@ test('the verifier checks the weekly data and its pictures', () => {
   caught(brokenSite((d) => put(d, `data/${first.id}.json`, '{"id":"x"}')), new RegExp(`^data/${first.id}\\.json: `));
   caught(brokenSite((d) => fs.rmSync(path.join(d, 'images/words/rushed.svg'))), /names picture images\/words\/rushed\.svg, which is missing/);
   caught(brokenSite((d) => fs.rmSync(path.join(d, 'images/words'), { recursive: true })), /no vocabulary pictures were published/);
+});
+
+test('a draft practice test (not listed) is left out, and a wrong answer key fails verification', () => {
+  const src = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-src-'));
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  put(src, 'data/tests/2026-10-12.json', '{"id":"2026-10-12"}');
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-out-'));
+  const result = buildSite(out, src);
+  assert.ok(result.skipped.some((s) => s.startsWith('data/tests/2026-10-12.json (not listed')), 'draft test left out');
+  // A wrong answer key, a split array whose answer does not match its picture, and a changed teacher definition.
+  const broken = (change) => brokenSite((d) => {
+    const f = path.join(d, 'data/tests/2026-10-19.json');
+    const t = JSON.parse(fs.readFileSync(f, 'utf8'));
+    change(t);
+    fs.writeFileSync(f, JSON.stringify(t));
+  });
+  caught(broken((t) => { t.math.items.find((i) => i.id === 'm2').answer = '1'; }), /prompt says 6 × 0 but the answer is 1/);
+  caught(broken((t) => { const it = t.math.items.find((i) => i.id === 'm10'); it.model.cut.at = 4; }), /does not match the picture|also matches the picture/);
+  caught(broken((t) => { const it = t.vocab.items.find((i) => i.kind === 'meaning'); it.options.find((o) => o.correct).text = 'Something else'; }), /teacher's definition/);
+  caught(broken((t) => { t.math.items[0].hints = ['a hint']; }), /cannot have hints/);
 });
 
 test('the verifier rejects pictures with scripts or outside links, and personal names', () => {

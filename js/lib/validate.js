@@ -5,6 +5,7 @@ import { parseISODate } from './dates.js';
 
 const TEST_KINDS = ['math', 'vocab', 'spelling'];
 const GROUPS = ['green', 'purple'];
+const HOMEWORK_SOURCES = ['received', 'newsletter'];
 const isText = (v) => typeof v === 'string' && v.trim() !== '';
 const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
 const blanks = (s) => String(s).split('___').length - 1;
@@ -57,7 +58,14 @@ export function validateWeek(week, expectedId) {
 
   if (!Array.isArray(week.homework)) err('"homework" must be a list');
   else week.homework.forEach((h, i) => {
-    if (!isObj(h) || !isText(h.title) || !isText(h.due)) err(`homework[${i}] needs "title" and "due"`);
+    if (!isObj(h) || !isText(h.title) || !isText(h.due)) return err(`homework[${i}] needs "title" and "due"`);
+    // Where it came from (DECISIONS D18): only work actually received may be marked "received".
+    if (!HOMEWORK_SOURCES.includes(h.source)) err(`homework[${i}].source must be one of ${HOMEWORK_SOURCES.join(', ')}`);
+    for (const k of ['subject', 'description', 'status']) if (h[k] !== undefined && !isText(h[k])) err(`homework[${i}].${k} must be text`);
+    if (h.practice !== undefined) {
+      const p = h.practice;
+      if (!isObj(p) || !isText(p.label) || [p.lesson, p.test, p.section].filter(Boolean).length !== 1) err(`homework[${i}].practice needs a label and one of lesson, test or section`);
+    }
   });
 
   validateSpelling(week.spelling, err);
@@ -102,6 +110,8 @@ function validateVocab(v, err) {
     if (seen.has(w.word.toLowerCase())) err(`${at}: "${w.word}" is listed twice`);
     seen.add(w.word.toLowerCase());
     if (!isText(w.def)) err(`${at}.def is missing`);
+    // Practice questions use other words' meanings as wrong answers, so no two meanings may be the same.
+    else if (v.words.slice(0, i).some((x) => isObj(x) && String(x.def).trim().toLowerCase() === w.def.trim().toLowerCase())) err(`${at}: "${w.word}" has the same meaning as another word`);
     if (!isText(w.sentence)) err(`${at}.sentence is missing`);
     else if (!w.sentence.toLowerCase().includes(w.word.toLowerCase())) err(`${at}: the sentence must use "${w.word}"`);
     if (!isText(w.fill)) err(`${at}.fill is missing`);

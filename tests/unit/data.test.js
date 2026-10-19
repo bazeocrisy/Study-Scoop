@@ -9,7 +9,7 @@ import { pictureName } from '../../js/lib/data.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const pictures = new Set(fs.readdirSync(path.join(ROOT, 'images/words')).map((f) => f.replace(/\.svg$/, '')));
+const pictures = new Set(fs.readdirSync(path.join(ROOT, 'images/words')).filter((f) => f.endsWith('.svg')).map((f) => f.replace(/\.svg$/, '')));
 
 for (const dir of ['data', 'tests/fixtures/data']) {
   const index = readJSON(`${dir}/weeks.json`);
@@ -55,6 +55,23 @@ test('word pictures are plain drawings (no scripts, links or external references
   for (const name of pictures) {
     const svg = fs.readFileSync(path.join(ROOT, 'images/words', `${name}.svg`), 'utf8');
     assert.doesNotMatch(svg, /<script|\son[a-z]+=|href=|<foreignObject|url\(\s*['"]?https?:/i, `${name}.svg`);
+  }
+});
+
+test('study-card PNGs are valid square images named for a listed spelling or vocabulary word', () => {
+  // Owner-approved study cards (DECISIONS D13, D14). Kept in the repository, not published until a feature uses them.
+  const words = new Set(readJSON('data/weeks.json').weeks.flatMap(({ id }) => {
+    const week = readJSON(`data/${id}.json`);
+    return [...week.spelling.words.map((w) => w.word), ...week.vocab.words.map((w) => pictureName(w.word))];
+  }));
+  for (const f of fs.readdirSync(path.join(ROOT, 'images/words')).filter((n) => n.endsWith('.png'))) {
+    const b = fs.readFileSync(path.join(ROOT, 'images/words', f));
+    assert.equal(b.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', `${f} is a PNG`);
+    assert.equal(b.subarray(12, 16).toString('latin1'), 'IHDR', `${f} header`);
+    const [w, h] = [b.readUInt32BE(16), b.readUInt32BE(20)];
+    assert.ok(w === h && w >= 256, `${f} is ${w}x${h}; expected a square of at least 256 px`);
+    assert.match(f, /^[a-z0-9-]+\.png$/, `${f} name`);
+    assert.ok(words.has(f.slice(0, -4)), `${f} is not a spelling or vocabulary word in any listed week`);
   }
 });
 

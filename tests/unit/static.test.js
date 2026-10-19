@@ -35,22 +35,37 @@ test('the app never stores anything or tracks anyone', () => {
   }
 });
 
-test('the app makes no external requests (no external URLs, system fonts only)', () => {
+test('the app makes no external requests (no external URLs; fonts come from this site only)', () => {
   for (const f of APP_FILES) {
     const urls = (code(f).match(/https?:\/\/[^\s"'<>)]+/g) || []).filter((u) => !u.startsWith('http://www.w3.org/2000/svg'));
     assert.deepEqual(urls, [], f);
   }
-  refute(/@import|@font-face/, read('css/style.css'), 'css/style.css');
+  const css = read('css/style.css');
+  refute(/@import/, css, 'css/style.css');
+  // Self-hosted fonts (DECISIONS D16): every font file is a relative path inside fonts/.
+  // The only url()s are the font files and inline SVG decoration (the drip band).
+  for (const m of css.matchAll(/url\(\s*["']?([^"')]+)/g)) assert.match(m[1], /^(?:\.\.\/fonts\/[a-z0-9-]+\.woff2$|data:image\/svg\+xml,)/, m[1].slice(0, 60));
+  for (const f of fs.readdirSync(path.join(ROOT, 'fonts')).filter((n) => n.endsWith('.woff2'))) {
+    assert.equal(fs.readFileSync(path.join(ROOT, 'fonts', f)).subarray(0, 4).toString('latin1'), 'wOF2', `${f} is a WOFF2 font`);
+  }
 });
 
-test('index.html has a strict Content Security Policy and seven sections', () => {
+test('lesson code has no eval, inline styles or lesson-specific branches (one engine for every lesson)', () => {
+  for (const f of walk('js')) {
+    const src = code(f);
+    refute(/\beval\(|new Function|style="|<style/, src, f);
+    refute(/['"`](?:5-1|5-2)['"`]/, src, `${f} names a lesson`);
+  }
+});
+
+test('index.html has a strict Content Security Policy and eight sections', () => {
   const page = read('index.html');
   const csp = /Content-Security-Policy" content="([^"]+)"/.exec(page)?.[1] || '';
   assert.match(csp, /default-src 'self'/);
   assert.match(csp, /script-src 'self'(;|$)/);
   assert.match(csp, /connect-src 'self'/);
   refute(/unsafe-inline|unsafe-eval|\*/, csp, 'CSP');
-  assert.equal((page.match(/data-tab="/g) || []).length, 7);
+  assert.equal((page.match(/data-tab="/g) || []).length, 8);
   assert.match(page, /<html lang="en">/);
   assert.match(page, /<script type="module" src="js\/app\.js"><\/script>/);
   refute(/\son[a-z]+=/i, page, 'index.html inline event handler');

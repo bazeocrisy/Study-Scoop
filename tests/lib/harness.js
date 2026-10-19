@@ -127,6 +127,25 @@ export async function startBrowser() {
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, Buffer.from(r.result.data, 'base64'));
     },
+    /** Types text into the focused field, like a keyboard would. */
+    async type(text) { await send('Input.insertText', { text }); },
+    /** Waits until a page condition is true (never a fixed delay); fails with the last value seen. */
+    async waitFor(expr, timeout = 5000) {
+      let last;
+      for (const end = Date.now() + timeout; Date.now() < end;) {
+        last = await b.js(`return (${expr});`);
+        if (last) return last;
+        await b.wait(40);
+      }
+      throw new Error(`timed out waiting for ${expr} (last: ${JSON.stringify(last)})`);
+    },
+    /** A real mouse click in the middle of an element (as a child's click or tap would land), not a script click. */
+    async clickAt(selector) {
+      const r = await b.js(`const el = document.querySelector(${JSON.stringify(selector)}); el.scrollIntoView({ block: 'center' }); const q = el.getBoundingClientRect(); return [q.x + q.width / 2, q.y + q.height / 2];`);
+      for (const type of ['mouseMoved', 'mousePressed', 'mouseReleased']) {
+        await send('Input.dispatchMouseEvent', { type, x: r[0], y: r[1], button: type === 'mouseMoved' ? 'none' : 'left', clickCount: type === 'mouseMoved' ? 0 : 1 });
+      }
+    },
     async key(key, shift = false) {
       const vk = { Tab: 9, Enter: 13, ' ': 32 }[key] || 0;
       const mods = shift ? 8 : 0;
