@@ -65,6 +65,8 @@ export function validateWeek(week, expectedId) {
     if (h.practice !== undefined) {
       const p = h.practice;
       if (!isObj(p) || !isText(p.label) || [p.lesson, p.test, p.section].filter(Boolean).length !== 1) err(`homework[${i}].practice needs a label and one of lesson, test or section`);
+      // A section link may name an activity or a skill card in it (e.g. Skill Builders > Rounding).
+      else if (p.act !== undefined && (!p.section || !/^[a-z]+$/.test(p.act))) err(`homework[${i}].practice.act needs a section and a lowercase activity name`);
     }
   });
 

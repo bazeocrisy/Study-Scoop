@@ -46,6 +46,7 @@ export function homeworkView(ctx) {
         <a class="action" href="${ctx.link('spelling')}">Spelling activities</a>
         <a class="action" href="${ctx.link('vocab')}">Vocabulary activities</a>
         <a class="action" href="${ctx.link('math')}">Math lessons</a>
+        <a class="action" href="${ctx.link('skills')}">Skill Builders</a>
         <a class="action" href="${ctx.link('tests')}">Practice tests</a>
       </p>
     </section>
@@ -56,5 +57,5 @@ export function homeworkView(ctx) {
 function practiceHref(ctx, p) {
   if (p.lesson) return ctx.lessonLink(p.lesson, 'learn');
   if (p.test) return ctx.testLink(p.test);
-  return ctx.link(p.section);
+  return p.act ? ctx.actLink(p.section, p.act) : ctx.link(p.section);
 }

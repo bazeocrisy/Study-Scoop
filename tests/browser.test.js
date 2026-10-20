@@ -1285,8 +1285,13 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".hw-received strong")].map((s) => s.textContent);'),
         ['Distributive Property worksheet', 'Multiplying multiples of 10 worksheet'], 'Oct 12 received work');
       await b.hash('#homework');
-      eq(await b.js('return [document.querySelectorAll(".hw-received").length, document.querySelector(".page-head .intro").textContent];'),
-        [0, 'No classroom worksheets have been received for this week yet.'], 'Oct 19 has none received');
+      eq(await b.js('return [[...document.querySelectorAll(".hw-received strong")].map((s) => s.textContent), document.querySelector(".page-head .intro").textContent];'),
+        [['Rounding to the Nearest 10 or 100 worksheet'], '1 classroom assignment was received for this week.'], 'Oct 19 received work');
+      // Its practice link opens Skill Builders > Rounding, and the worksheet itself is never on the page.
+      eq(await b.js('return document.querySelector(".hw-received a.action").getAttribute("href");'), '#skills?act=round', 'practice link');
+      eq(await b.js('return document.querySelectorAll("#app img, #app object, #app iframe, #app embed").length;'), 0, 'no worksheet image');
+      await go('.hw-received a.action');
+      eq(await b.js('return document.querySelector("h1").textContent;'), 'Rounding', 'opens the Rounding card');
     });
 
     await check('contrast and touch targets also hold after feedback, on a flipped and marked card, with the unanswered warning and on results', async () => {

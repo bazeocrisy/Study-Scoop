@@ -22,6 +22,7 @@
     {"date": "Nov 20", "text": "Early Release"}
   ],
   "homework": [
+    {"title": "Rounding to the Nearest 10 or 100 worksheet", "due": "Week of Oct 19–23", "subject": "Math", "source": "received", "description": "Nine problems: rounding a number to the nearest ten or hundred, picking the numbers that round to a given ten or hundred, using a number line to say which two tens or hundreds a number is between and which one it is closer to, and spotting the number that is not rounded.", "status": "The worksheet itself is kept private and is not shown on this website.", "practice": {"section": "skills", "act": "round", "label": "Practice with Skill Builders: Rounding"}},
     {"title": "Reading Log", "due": "Every Monday", "source": "newsletter"},
     {"title": "Homework packet", "due": "Sent home Monday, due Friday", "source": "newsletter"},
     {"title": "3 spelling activities", "due": "Turned in with the packet", "source": "newsletter"}

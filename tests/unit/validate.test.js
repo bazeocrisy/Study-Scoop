@@ -8,6 +8,7 @@ import { validateIndex, validateWeek } from '../../js/lib/validate.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const good = () => JSON.parse(fs.readFileSync(path.join(ROOT, 'data/2026-10-19.json'), 'utf8'));
+const WEEK_HOMEWORK = good().homework.length; // where a new, broken homework entry lands
 const goodIndex = () => JSON.parse(fs.readFileSync(path.join(ROOT, 'data/weeks.json'), 'utf8'));
 
 function expectProblem(mutate, pattern) {
@@ -26,7 +27,9 @@ test('week problems are caught', () => {
   expectProblem((w) => { w.tests[0].kind = 'science'; }, /kind must be/);
   expectProblem((w) => { w.learning.push(['Math']); }, /learning\[6\]/);
   expectProblem((w) => { w.events.push({ date: 'Nov 1' }); }, /events\[4\]/);
-  expectProblem((w) => { w.homework.push({ title: 'x' }); }, /homework\[3\]/);
+  expectProblem((w) => { w.homework.push({ title: 'x' }); }, new RegExp(`homework\\[${WEEK_HOMEWORK}\\]`));
+  // A practice link to an activity needs a section (Skill Builders > Rounding).
+  expectProblem((w) => { w.homework[0] = { ...w.homework[0], practice: { label: 'x', lesson: '5-1', act: 'round' } }; }, /practice\.act needs a section/);
   expectProblem((w) => { w.spelling.words[0].rule = 'nope'; }, /rule "nope"/);
   expectProblem((w) => { w.spelling.words[1].word = w.spelling.words[0].word; }, /listed twice/);
   expectProblem((w) => { w.spelling.words[0].sentence = 'No word here.'; }, /must use "heating"/);
