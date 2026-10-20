@@ -8,6 +8,7 @@ import { validateIndex, validateWeek } from '../js/lib/validate.js';
 import { validateLesson, validateLessonIndex } from '../js/lib/lessons.js';
 import { validateMathPractice, validateMathWords, validateTests } from '../js/lib/activities.js';
 import { pictureName } from '../js/lib/data.js';
+import { validatePacket } from '../js/lib/homework.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -20,12 +21,14 @@ export const ALLOW = [
   /^data\/lessons\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/,
   /^data\/tests\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
   /^data\/practice\/(?:math|math-words)\.json$/,
+  /^data\/homework\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
+  /^downloads\/homework-\d{4}-\d{2}-\d{2}\.pdf$/,
   /^images\/cone\.svg$/,
   /^images\/words\/[a-z0-9-]+\.(?:svg|webp)$/,
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
-const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts'];
+const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads'];
 /** Runtime files the site cannot work without. */
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
 /** Named so a check proves they are absent (the allowlist already excludes them). */
@@ -169,6 +172,32 @@ export function verifySite(dir) {
       if (!has(rel)) { problems.push(`${rel} is listed in data/tests/index.json but missing`); continue; }
       problems.push(...validateTests(readJSON(path.join(dir, rel)), readJSON(path.join(dir, `data/${id}.json`))));
     }
+  }
+  // Homework packets (D23): Study Scoop's own version of the week's homework. Every question is checked, and its
+  // download must be a PDF that Study Scoop printed itself (never a scan of a class worksheet).
+  if (has('data/homework/index.json')) {
+    const weeks = readJSON(path.join(dir, 'data/homework/index.json')).weeks;
+    if (!Array.isArray(weeks)) problems.push('data/homework/index.json: "weeks" must be a list');
+    for (const rel of files.filter((f) => /^data\/homework\/(?!index\.json$)/.test(f))) {
+      if (!(weeks || []).includes(rel.slice('data/homework/'.length, -'.json'.length))) problems.push(`${rel} is published but not listed in data/homework/index.json`);
+    }
+    for (const id of weeks || []) {
+      const rel = `data/homework/${id}.json`;
+      if (!has(rel)) { problems.push(`${rel} is listed in data/homework/index.json but missing`); continue; }
+      const packet = readJSON(path.join(dir, rel));
+      problems.push(...validatePacket(packet, id));
+      if (packet.download) {
+        if (!has(packet.download)) problems.push(`${rel}: its download ${packet.download} is missing`);
+        else {
+          const pdf = fs.readFileSync(path.join(dir, packet.download)).toString('latin1');
+          if (!pdf.startsWith('%PDF') || !/\/Producer \(Skia\/PDF/.test(pdf)) problems.push(`${packet.download} must be the PDF Study Scoop prints from its own page (npm run homework-pdf), never a scan`);
+        }
+      }
+    }
+  }
+  for (const rel of files.filter((f) => f.startsWith('downloads/'))) {
+    const owner = has('data/homework/index.json') && (readJSON(path.join(dir, 'data/homework/index.json')).weeks || []).some((id) => has(`data/homework/${id}.json`) && readJSON(path.join(dir, `data/homework/${id}.json`)).download === rel);
+    if (!owner) problems.push(`${rel} is published but no homework packet names it`);
   }
   // Math practice problems: every answer key, picture and property is checked before publishing.
   if (has('data/practice/math.json')) problems.push(...validateMathPractice(readJSON(path.join(dir, 'data/practice/math.json'))));

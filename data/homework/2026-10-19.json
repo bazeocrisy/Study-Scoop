@@ -1,0 +1,188 @@
+{
+  "week": "2026-10-19",
+  "title": "Homework packet: Oct 19–23",
+  "about": "Study Scoop's own version of this week's homework, with the same kinds of problems in the same order. Do it here, then do the class worksheets on paper.",
+  "download": "downloads/homework-2026-10-19.pdf",
+  "pages": [
+    {
+      "id": "rounding",
+      "title": "Rounding to the Nearest 10 or 100",
+      "directions": "Solve each problem. Check each answer as you go.",
+      "problems": [
+        { "n": 1, "items": [
+          { "id": "r1", "type": "multi", "prompt": "Choose the numbers that round to 400.", "roundsTo": { "to": 100, "target": 400 },
+            "options": [
+              { "text": "356", "correct": true },
+              { "text": "451", "why": "451 rounds to 500. Its tens digit is 5, so the 4 goes up." },
+              { "text": "449", "correct": true },
+              { "text": "418", "correct": true }
+            ],
+            "hints": ["Round each number to the nearest hundred.", "Look at the tens digit of each number. 5 or more, go up. 4 or less, stay the same."],
+            "show": ["356 rounds to 400.", "451 rounds to 500.", "449 rounds to 400.", "418 rounds to 400.", "So 356, 449 and 418 round to 400."],
+            "yes": "Yes! 356, 449 and 418 all round to 400.", "explain": "356, 449 and 418 round to 400; 451 rounds to 500." }
+        ]},
+        { "n": 2, "items": [
+          { "id": "r2", "type": "blanks", "prompt": "Use the number line.", "model": { "type": "numberline", "from": 40, "to": 50, "dot": 47, "mid": true },
+            "text": ["47 is between [a] and [b].", "47 is closer to [c] than it is to [d].", "47 rounded to the nearest 10 is [e]."],
+            "answer": { "a": 40, "b": 50, "c": 50, "d": 40, "e": 50 }, "accept": [{ "a": 50, "b": 40, "c": 50, "d": 40, "e": 50 }],
+            "numberLine": { "from": "a", "to": "b", "closer": "c", "farther": "d", "rounded": "e" },
+            "mistakes": [{ "when": { "c": 40, "d": 50 }, "say": "Look at the dot again. Is it nearer the 40 or the 50?" }],
+            "hints": ["Read the numbers at the two ends of the line.", "Which end is the dot nearer to? That is the number it rounds to."],
+            "show": ["47 is between 40 and 50.", "47 is 3 away from 50 and 7 away from 40, so it is closer to 50.", "So 47 rounded to the nearest 10 is 50."],
+            "yes": "Yes! 47 is closer to 50.", "explain": "47 is between 40 and 50 and closer to 50, so it rounds to 50." }
+        ]},
+        { "n": 3, "items": [
+          { "id": "r3", "type": "multi", "prompt": "Choose the numbers that round to 80.", "roundsTo": { "to": 10, "target": 80 },
+            "options": [
+              { "text": "76", "correct": true },
+              { "text": "86", "why": "86 rounds to 90. Its ones digit is 6, so the 8 goes up." },
+              { "text": "74", "why": "74 rounds to 70. Its ones digit is 4, so the 7 stays the same." },
+              { "text": "83", "correct": true }
+            ],
+            "hints": ["Round each number to the nearest ten.", "Look at the ones digit of each number. 5 or more, go up. 4 or less, stay the same."],
+            "show": ["76 rounds to 80.", "86 rounds to 90.", "74 rounds to 70.", "83 rounds to 80.", "So 76 and 83 round to 80."],
+            "yes": "Yes! 76 and 83 round to 80.", "explain": "76 and 83 round to 80; 86 rounds to 90 and 74 rounds to 70." }
+        ]},
+        { "n": 4, "items": [
+          { "id": "r4", "type": "number", "prompt": "Round 36 to the nearest ten.", "answer": "40",
+            "mistakes": [{ "when": { "answer": 30 }, "say": "Look at the ones digit. 6 is 5 or more, so the tens digit goes up." }, { "when": { "answer": 36 }, "say": "Rounding to the nearest ten makes a number that ends in 0." }],
+            "hints": ["Underline the tens digit, 3. Look at the digit next to it.", "5 or more, go up. 4 or less, stay the same."],
+            "show": ["The tens digit is 3. The ones digit is 6.", "6 is 5 or more, so the 3 goes up to 4.", "So 36 rounds to 40."],
+            "yes": "Yes! 36 rounds to 40.", "explain": "The ones digit is 6, so 36 rounds up to 40." }
+        ]},
+        { "n": 5, "items": [
+          { "id": "r5", "type": "multi", "prompt": "Choose the numbers that round to 300 when you round to the nearest hundred.", "roundsTo": { "to": 100, "target": 300 },
+            "options": [
+              { "text": "251", "correct": true },
+              { "text": "350", "why": "350 rounds to 400. Its tens digit is 5, so the 3 goes up." },
+              { "text": "239", "why": "239 rounds to 200. Its tens digit is 3, so the 2 stays the same." },
+              { "text": "349", "correct": true }
+            ],
+            "hints": ["Round each number to the nearest hundred.", "Look at the tens digit of each number. 5 or more, go up. 4 or less, stay the same."],
+            "show": ["251 rounds to 300.", "350 rounds to 400.", "239 rounds to 200.", "349 rounds to 300.", "So 251 and 349 round to 300."],
+            "yes": "Yes! 251 and 349 round to 300.", "explain": "251 and 349 round to 300; 350 rounds to 400 and 239 rounds to 200." }
+        ]},
+        { "n": 6, "items": [
+          { "id": "r6", "type": "number", "prompt": "Round 748 to the nearest hundred.", "answer": "700",
+            "mistakes": [{ "when": { "answer": 800 }, "say": "Look at the tens digit. 4 is 4 or less, so the hundreds digit stays the same." }, { "when": { "answer": 750 }, "say": "Rounding to the nearest hundred makes a number that ends in 00." }],
+            "hints": ["Underline the hundreds digit, 7. Look at the digit next to it.", "5 or more, go up. 4 or less, stay the same."],
+            "show": ["The hundreds digit is 7. The tens digit is 4.", "4 is 4 or less, so the 7 stays the same.", "So 748 rounds to 700."],
+            "yes": "Yes! 748 rounds to 700.", "explain": "The tens digit is 4, so 748 rounds down to 700." }
+        ]},
+        { "n": 7, "items": [
+          { "id": "r7", "type": "choice", "prompt": "Which number is NOT rounded to the nearest 10?",
+            "options": [
+              { "text": "40", "why": "40 ends in 0, so it is already rounded to the nearest 10." },
+              { "text": "90", "why": "90 ends in 0, so it is already rounded to the nearest 10." },
+              { "text": "65", "correct": true },
+              { "text": "20", "why": "20 ends in 0, so it is already rounded to the nearest 10." }
+            ],
+            "hints": ["A number rounded to the nearest 10 ends in 0.", "Which number does not end in 0?"],
+            "show": ["40, 90 and 20 end in 0.", "65 ends in 5, so it is not rounded to the nearest 10."],
+            "yes": "Yes! 65 does not end in 0.", "explain": "Numbers rounded to the nearest 10 end in 0. 65 does not." }
+        ]},
+        { "n": 8, "items": [
+          { "id": "r8", "type": "blanks", "prompt": "Use the number line.", "model": { "type": "numberline", "from": 500, "to": 600, "dot": 525, "mid": true },
+            "text": ["525 is between [a] and [b].", "525 is closer to [c] than it is to [d].", "525 rounded to the nearest 100 is [e]."],
+            "answer": { "a": 500, "b": 600, "c": 500, "d": 600, "e": 500 }, "accept": [{ "a": 600, "b": 500, "c": 500, "d": 600, "e": 500 }],
+            "numberLine": { "from": "a", "to": "b", "closer": "c", "farther": "d", "rounded": "e" },
+            "mistakes": [{ "when": { "c": 600, "d": 500 }, "say": "Look at the dot again. Is it nearer the 500 or the 600? The middle mark is 550." }],
+            "hints": ["Read the numbers at the two ends of the line. The middle mark is halfway.", "Is the dot before or after the middle mark? That tells you which end it is nearer to."],
+            "show": ["525 is between 500 and 600.", "525 is before the middle mark, 550, so it is closer to 500.", "So 525 rounded to the nearest 100 is 500."],
+            "yes": "Yes! 525 is closer to 500.", "explain": "525 is between 500 and 600 and closer to 500, so it rounds to 500." }
+        ]},
+        { "n": 9, "items": [
+          { "id": "r9", "type": "choice", "prompt": "Which number is NOT rounded to the nearest 100?",
+            "options": [
+              { "text": "800", "why": "800 ends in 00, so it is already rounded to the nearest 100." },
+              { "text": "350", "correct": true },
+              { "text": "200", "why": "200 ends in 00, so it is already rounded to the nearest 100." },
+              { "text": "900", "why": "900 ends in 00, so it is already rounded to the nearest 100." }
+            ],
+            "hints": ["A number rounded to the nearest 100 ends in 00.", "Which number does not end in 00?"],
+            "show": ["800, 200 and 900 end in 00.", "350 ends in 50, so it is not rounded to the nearest 100."],
+            "yes": "Yes! 350 does not end in 00.", "explain": "Numbers rounded to the nearest 100 end in 00. 350 does not." }
+        ]}
+      ]
+    },
+    {
+      "id": "reading",
+      "title": "Reading: The Pumpkin Patch Plan",
+      "directions": "Read the story three times. A grown-up can count the words read right. Then answer the questions in complete sentences. Restate the question.",
+      "passage": {
+        "title": "The Pumpkin Patch Plan",
+        "text": "\"Our class is going to the pumpkin patch on Friday,\" Nia told her brother Owen. \"Everyone gets to pick one pumpkin to take home.\" Owen frowned. \"Mr. Reyes next door cannot go anywhere right now. His leg is in a cast.\" Nia thought about it for a moment. \"We could bring a pumpkin back for him,\" she said. \"That would be a kind surprise.\" On Friday, Nia searched the whole patch. She wanted the roundest, brightest pumpkin she could find. At last she spotted it, sitting all alone by the fence. She carried it carefully all the way to the bus. That evening, Nia and Owen knocked on Mr. Reyes's door. When he saw the pumpkin, his whole face lit up. \"Well, this is the finest pumpkin on the street!\" he said with a chuckle. \"You two are very thoughtful neighbors.\" Nia and Owen smiled all the way home."
+      },
+      "problems": [
+        { "n": 1, "items": [
+          { "id": "q1", "type": "sentence", "prompt": "Why did Nia and Owen bring a pumpkin to Mr. Reyes?",
+            "keywords": ["Nia", "Owen", "pumpkin", "Mr. Reyes", "because"], "minKeywords": 2, "minWords": 8,
+            "example": "Nia and Owen brought a pumpkin to Mr. Reyes because his leg was in a cast and he could not go to the pumpkin patch.",
+            "hints": ["Restate the question. Start with: Nia and Owen brought a pumpkin to Mr. Reyes because…", "Look back at the story. Why could Mr. Reyes not go anywhere?"],
+            "show": ["Nia and Owen brought a pumpkin to Mr. Reyes because his leg was in a cast and he could not go to the pumpkin patch."] }
+        ]},
+        { "n": 2, "items": [
+          { "id": "q2", "type": "sentence", "prompt": "What do you think the word thoughtful means?",
+            "keywords": ["thoughtful", "means"], "minKeywords": 2, "minWords": 6,
+            "example": "I think the word thoughtful means thinking about other people and doing kind things for them.",
+            "hints": ["Restate the question. Start with: I think the word thoughtful means…", "Find the sentence with thoughtful in it. What had Nia and Owen just done for Mr. Reyes?"],
+            "show": ["I think the word thoughtful means thinking about other people and doing kind things for them."] },
+          { "id": "q2check", "type": "choice", "prompt": "Check your meaning: which one fits the story best?",
+            "options": [
+              { "text": "Thinking about what other people need and being kind", "correct": true },
+              { "text": "Very tired after a long day", "why": "Nia and Owen were not tired. Read what Mr. Reyes says right after he sees the pumpkin." },
+              { "text": "Loud and silly", "why": "Nothing in the story is loud or silly. Think about what Nia and Owen did for Mr. Reyes." },
+              { "text": "Forgetting about other people", "why": "That is the opposite! Nia and Owen remembered Mr. Reyes." }
+            ],
+            "hints": ["What did Nia and Owen do for Mr. Reyes?", "They remembered him and brought him a surprise. Which meaning fits that?"],
+            "show": ["Nia and Owen remembered Mr. Reyes and brought him a pumpkin.", "Thoughtful means thinking about what other people need and being kind."],
+            "yes": "Yes! Thoughtful means thinking about others and being kind." }
+        ]}
+      ]
+    },
+    {
+      "id": "word",
+      "title": "Word Problems: Multiply or Divide?",
+      "directions": "Read each problem. Decide whether to multiply or divide, write the equation, then write the answer.",
+      "problems": [
+        { "n": 1, "story": "Owen has 24 apple slices. He shares them equally with 4 friends. How many apple slices does each friend get?", "items": [
+          { "id": "w1op", "type": "choice", "prompt": "I need to…",
+            "options": [
+              { "text": "Multiply", "why": "Owen is sharing a total into equal groups. Sharing equally is dividing." },
+              { "text": "Divide", "correct": true }
+            ],
+            "hints": ["Is Owen putting equal groups together, or sharing a total into equal groups?"],
+            "show": ["Owen shares 24 slices equally among 4 friends.", "Sharing equally means divide."],
+            "yes": "Yes! Sharing equally means divide." },
+          { "id": "w1eq", "type": "fill", "prompt": "Write the equation.", "lines": ["[a] ÷ [b] = [c]"], "answer": { "a": 24, "b": 4, "c": 6 }, "min": 1,
+            "mistakes": [{ "when": { "a": 4, "b": 24 }, "say": "Start with the total, 24. Then divide by the number of friends." }],
+            "hints": ["Start with the total. How many apple slices are there?", "Divide by the number of friends. Think: 4 × what = 24?"],
+            "show": ["The total is 24. There are 4 friends.", "4 × 6 = 24, so 24 ÷ 4 = 6."],
+            "yes": "Yes! 24 ÷ 4 = 6." },
+          { "id": "w1ans", "type": "number", "prompt": "Answer: How many apple slices does each friend get?", "answer": "24 ÷ 4",
+            "hints": ["Use your equation.", "The answer is the number after the = sign."],
+            "show": ["24 ÷ 4 = 6, so each friend gets 6 apple slices."],
+            "yes": "Yes! Each friend gets 6 apple slices.", "explain": "24 ÷ 4 = 6 apple slices for each friend." }
+        ]},
+        { "n": 2, "story": "Nia's class plants a garden. They plant 5 rows with 7 seeds in each row. How many seeds do they plant in all?", "items": [
+          { "id": "w2op", "type": "choice", "prompt": "I need to…",
+            "options": [
+              { "text": "Multiply", "correct": true },
+              { "text": "Divide", "why": "The class is putting equal rows together to find a total. That is multiplying." }
+            ],
+            "hints": ["Is the class putting equal groups together, or sharing a total into equal groups?"],
+            "show": ["There are 5 equal rows with 7 seeds in each.", "Putting equal groups together means multiply."],
+            "yes": "Yes! Equal rows put together means multiply." },
+          { "id": "w2eq", "type": "fill", "prompt": "Write the equation.", "lines": ["[a] × [b] = [c]"], "answer": { "a": 5, "b": 7, "c": 35 }, "accept": [{ "a": 7, "b": 5, "c": 35 }], "min": 1,
+            "hints": ["How many rows are there? How many seeds are in each row?", "Multiply the rows by the seeds in each row. Use a fact you know."],
+            "show": ["5 rows of 7 seeds is 5 × 7.", "5 × 7 = 35."],
+            "yes": "Yes! 5 × 7 = 35." },
+          { "id": "w2ans", "type": "number", "prompt": "Answer: How many seeds do they plant in all?", "answer": "5 × 7",
+            "hints": ["Use your equation.", "The answer is the number after the = sign."],
+            "show": ["5 × 7 = 35, so they plant 35 seeds."],
+            "yes": "Yes! They plant 35 seeds.", "explain": "5 rows of 7 seeds: 5 × 7 = 35 seeds." }
+        ]}
+      ]
+    }
+  ]
+}

@@ -21,6 +21,9 @@ const BOX = /\[([a-z][a-z0-9]*)\]/g;
 export function boxes(item) {
   if (item.type === 'number') return ['answer'];
   if (item.type === 'round') return ['place', 'dir', 'answer'];
+  if (item.type === 'blanks') return [...item.text.join(' ').matchAll(BOX)].map((m) => m[1]);
+  if (item.type === 'sentence') return ['text'];
+  if (item.type === 'multi') return ['multi'];
   if (item.type === 'word' || item.type === 'spell') return ['text'];
   if (item.type === 'letters') return (item.blanks || []).map((_, k) => `l${k}`);
   if (item.type === 'decompose') return ['p', 'q', 'r', 's', 't'];
@@ -33,7 +36,9 @@ export function boxes(item) {
 export function solution(item) {
   if (item.type === 'number') return { answer: evaluate(String(item.answer)) };
   if (item.type === 'round') { const p = roundParts(item.n, item.to); return { place: p.place, dir: p.up ? 'up' : 'stay', answer: p.answer }; }
-  if (item.type === 'fill' || item.type === 'decompose') return { ...item.answer };
+  if (item.type === 'fill' || item.type === 'decompose' || item.type === 'blanks') return { ...item.answer };
+  if (item.type === 'multi') return { multi: item.options.map((o, k) => (o.correct ? k : null)).filter((k) => k !== null).join(',') };
+  if (item.type === 'sentence') return { text: item.example };
   if (item.type === 'table') {
     const out = {};
     item.rows.forEach((row, i) => row.forEach((c, j) => { if (typeof c === 'object') out[`r${i}c${j}`] = evaluate(String(c.answer)); }));
@@ -58,6 +63,9 @@ export function answerText(item) {
   if (item.type === 'letters') return item.word;
   if (item.type === 'number' || item.type === 'round') return String(s.answer);
   if (item.type === 'fill') return item.lines.map((l) => fill(l, s)).join(' ');
+  if (item.type === 'blanks') return item.text.map((l) => fill(l, s)).join(' ');
+  if (item.type === 'multi') return item.options.filter((o) => o.correct).map((o) => o.text).join(', ');
+  if (item.type === 'sentence') return item.example;
   if (item.type === 'decompose') return `${item.fact[0]} × ${item.fact[1]} = ${s.p} × ${s.q} + ${s.r} × ${s.s} = ${s.t}`;
   if (item.type === 'table') return item.rows.map((row, i) => row.map((c, j) => (typeof c === 'object' ? s[`r${i}c${j}`] : c)).join(' · ')).join('; ');
   return '';
@@ -132,6 +140,8 @@ export function check(item, response, lesson = {}) {
     return { status: 'notyet', say: join(lead, item.retry || catchAll), wrong };
   }
   if (item.type === 'round') return checkRound(item, response);
+  if (item.type === 'multi') return checkMulti(item, response);
+  if (item.type === 'sentence') return checkSentence(item, response);
   const read = readAll(item, response);
   // Empty or unreadable boxes are marked so the child can find them (never counted as a try).
   const unread = boxes(item).filter((b) => readNumber(response?.[b]).value === undefined);
@@ -152,6 +162,13 @@ export function check(item, response, lesson = {}) {
     const wrong = Object.keys(s).filter((k) => v[k] !== s[k]);
     if (!wrong.length) return { status: 'correct', say: item.yes || 'Yes!' };
     return { status: 'notyet', say: mistake?.say || join(markedNote(wrong.length, Object.keys(s).length), item.retry || catchAll), wrong };
+  }
+  if (item.type === 'blanks') {
+    const sol = solution(item);
+    const matches = (acc) => Object.entries(acc).every(([k, val]) => v[k] === val);
+    if (matches(sol) || (item.accept || []).some(matches)) return { status: 'correct', say: item.yes || 'Yes!' };
+    const wrong = boxes(item).filter((b) => v[b] !== sol[b]);
+    return { status: 'notyet', say: mistake?.say || join(markedNote(wrong.length || 1, boxes(item).length), item.retry || catchAll), wrong: wrong.length ? wrong : undefined };
   }
   if (item.type === 'fill') {
     const sol = solution(item);
@@ -277,6 +294,38 @@ export function helpSteps(item) {
   return steps.filter((st, k) => k === 0 || st.text !== steps[k - 1].text);
 }
 
+/** "Circle all that apply": the chosen set must be exactly the right set. A wrong choice says why it is wrong. */
+function checkMulti(item, response) {
+  const chosen = String(response?.multi ?? '').split(',').filter((x) => x !== '').map(Number).sort((a, b) => a - b);
+  if (!chosen.length) return { status: 'empty', say: 'Choose at least one answer first.' };
+  const right = item.options.map((o, k) => (o.correct ? k : null)).filter((k) => k !== null);
+  if (chosen.join() === right.join()) return { status: 'correct', say: item.yes || 'Yes!' };
+  const bad = chosen.find((k) => !item.options[k]?.correct);
+  if (bad !== undefined) return { status: 'notyet', say: item.options[bad].why || 'One of your choices is not right.' };
+  const missing = right.length - chosen.length;
+  return { status: 'notyet', say: `You are close! ${missing === 1 ? 'One more answer is' : `${missing} more answers are`} right. Look at each one again.` };
+}
+
+/**
+ * A written answer in a complete sentence. The page cannot judge the meaning, so it checks the parts of a good
+ * sentence the class asks for (a capital letter, an end mark, enough words, words from the question) and then
+ * shows an example answer to compare with.
+ */
+function checkSentence(item, response) {
+  const text = String(response?.text ?? '').trim().replace(/\s+/g, ' ');
+  if (!text) return { status: 'empty', say: 'Type your answer first.', wrong: ['text'] };
+  const words = text.split(' ').filter((w) => /[a-z]/i.test(w));
+  const lower = text.toLowerCase();
+  const used = (item.keywords || []).filter((k) => lower.includes(k.toLowerCase()));
+  const need = Math.min(item.minKeywords ?? 2, (item.keywords || []).length);
+  const fix = !/^[A-Z]/.test(text) ? 'Start your sentence with a capital letter.'
+    : words.length < (item.minWords ?? 6) ? `Write a little more: a complete sentence with at least ${item.minWords ?? 6} words.`
+      : used.length < need ? `Restate the question: use words from it, like ${item.keywords.slice(0, 3).map((k) => `"${k}"`).join(' and ')}.`
+        : !/[.!?]["”']?$/.test(text) ? 'End your sentence with a period.' : '';
+  if (fix) return { status: 'notyet', say: fix, wrong: ['text'] };
+  return { status: 'correct', say: `That is a complete sentence! Check that it answers the question. Here is one way to say it: ${item.example}` };
+}
+
 /** Rounding with the class method: which digit is underlined, go up or stay, and the rounded number. */
 function checkRound(item, response) {
   const p = roundParts(item.n, item.to);
@@ -330,6 +379,10 @@ function validateModel(m, where, err) {
     validateModel({ ...m.left, type: 'array' }, `${where}.left`, err);
     validateModel({ ...m.right, type: 'array' }, `${where}.right`, err);
     if (m.left.rows * m.left.cols !== m.right.rows * m.right.cols) err(`${where}: the two arrays must have the same number of dots`);
+    return;
+  }
+  if (m.type === 'numberline') {
+    if (!isInt(m.from, 0, 9999) || !isInt(m.to, 1, 10000) || m.to <= m.from || !isInt(m.dot, m.from, m.to)) err(`${where}: a number line needs from < to and a dot between them`);
     return;
   }
   if (m.type !== 'array') return err(`${where}: unknown model type ${JSON.stringify(m.type)}`);
@@ -470,6 +523,42 @@ function validateItem(item, where, err, ids) {
       const [a, b] = item.fact || [];
       if (!isInt(a, 1, 12) || !isInt(b, 1, 12)) { err(`${where}: fact must be two whole numbers`); break; }
       if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not a valid decomposition`);
+      break;
+    }
+    case 'multi': {
+      if (!Array.isArray(item.options) || item.options.length < 2 || item.options.length > 6) { err(`${where}: select-all needs 2 to 6 options`); break; }
+      if (!item.options.some((o) => o.correct)) err(`${where}: at least one option must be correct`);
+      item.options.forEach((o, i) => { if (!isText(o.text)) err(`${where}: option ${i + 1} has no text`); if (!o.correct && !isText(o.why)) err(`${where}: wrong option ${i + 1} needs a "why"`); });
+      // "Circle the numbers that round to 400": every option is checked against the rounding rule.
+      if (item.roundsTo) {
+        const { to, target } = item.roundsTo;
+        item.options.forEach((o, i) => {
+          const n = Number(o.text);
+          const r = Math.floor(n / to + 0.5) * to;
+          if ((r === target) !== Boolean(o.correct)) err(`${where}: option ${o.text} rounds to ${r}, so it is ${o.correct ? 'not' : 'also'} a right answer`);
+        });
+      }
+      break;
+    }
+    case 'blanks': {
+      if (!Array.isArray(item.text) || !item.text.every(isText)) { err(`${where}: blanks needs text lines`); break; }
+      const names = boxes(item);
+      if (!names.length) err(`${where}: blanks has no [boxes]`);
+      else if (names.some((n) => !Number.isInteger(sol[n]))) err(`${where}: answer must give a whole number for every box`);
+      else if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not accepted`);
+      // A number line question ("47 is between [a] and [b] ... closer to [c] ... rounded [e]") must agree with its picture.
+      if (item.numberLine && item.model?.type === 'numberline') {
+        const m = item.model, near = Math.abs(m.dot - m.from) < Math.abs(m.to - m.dot) ? m.from : m.to;
+        const want = { [item.numberLine.from]: m.from, [item.numberLine.to]: m.to, [item.numberLine.closer]: near, [item.numberLine.farther]: near === m.from ? m.to : m.from, [item.numberLine.rounded]: near };
+        for (const [k, val] of Object.entries(want)) if (sol[k] !== val) err(`${where}: box ${k} should be ${val} for a dot at ${m.dot} between ${m.from} and ${m.to}`);
+        if (Math.abs(m.dot - m.from) === Math.abs(m.to - m.dot)) err(`${where}: a dot exactly halfway is never "closer" to either end`);
+      }
+      break;
+    }
+    case 'sentence': {
+      if (!isText(item.example) || !/^[A-Z].*[.!?]$/.test(item.example)) err(`${where}: a sentence question needs an example answer that is a complete sentence`);
+      if (!Array.isArray(item.keywords) || !item.keywords.length) err(`${where}: a sentence question needs keywords from the question`);
+      else if (check(item, asText).status !== 'correct') err(`${where}: its own example answer does not pass the sentence check`);
       break;
     }
     case 'round': {

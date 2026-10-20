@@ -7,7 +7,7 @@ export const DEFAULT_SECTION = 'week';
 const LESSON_ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const WORD = /^[a-z]+$/;
 /** Sections that open on a menu of activities (#math?act=practice, #spelling?act=flash). */
-const SUBJECTS = ['spelling', 'vocab', 'math', 'skills'];
+const SUBJECTS = ['spelling', 'vocab', 'math', 'skills', 'homework'];
 
 /** Reads a location hash. `known` is false when the section name was not recognised. */
 export function parseHash(hash, sectionIds) {

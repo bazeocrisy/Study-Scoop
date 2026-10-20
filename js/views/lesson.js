@@ -163,7 +163,7 @@ export function itemCard(lesson, item, stage, state) {
     <div class="work${pics.length ? ' has-pic' : ''}">
       ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m))}</div></div>` : ''}
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
-        <div class="instruct-head">${item.type === 'choice' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' || item.type === 'letters' ? '' : readButton(sayItem(item), 'the question')}</div>
+        <div class="instruct-head">${item.type === 'choice' || item.type === 'multi' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' || item.type === 'letters' ? '' : readButton(sayItem(item), 'the question')}</div>
         ${answerArea(item, resp, st, test, done)}
         ${test ? '' : html`
           <div class="btn-row">
@@ -272,6 +272,31 @@ function answerArea(item, resp, st, test, done) {
       })}</fieldset>`;
   }
   if (item.type === 'round') return roundArea(item, resp, st, done);
+  if (item.type === 'multi') {
+    // "Circle all that apply": check boxes; a wrong choice is marked when the answer is checked.
+    const chosen = String(resp.multi ?? '').split(',').filter((x) => x !== '');
+    return html`<fieldset class="choices multi"><legend id="q-${item.id}">${blanks(item.prompt)} <span class="multi-note">Choose all that are right.</span></legend>
+      ${item.options.map((o, k) => {
+        const on = chosen.includes(String(k));
+        const cls = !test && on && st.status === 'notyet' && !o.correct ? ' is-wrong' : !test && on && done ? ' is-right' : '';
+        return html`<label class="choice${cls}"><input type="checkbox" name="multi" value="${k}"${on ? ' checked' : ''}${done ? ' disabled' : ''}> <span>${facts(o.text)}</span></label>`;
+      })}</fieldset>`;
+  }
+  if (item.type === 'blanks') {
+    return html`<div class="blank-lines" role="group" aria-labelledby="q-${item.id}">
+      ${item.text.map((line) => html`<p class="blank-line">${String(line).split(/(\[[a-z][a-z0-9]*\])/).map((part, k) => {
+        if (k % 2 === 0) return part;
+        const name = part.slice(1, -1);
+        return box(item, name, `${speak(line.replace(part, 'blank'))}`, resp, st, done);
+      })}</p>`)}
+    </div>`;
+  }
+  if (item.type === 'sentence') {
+    const marked = (st.status === 'notyet' || st.status === 'empty') && st.wrong?.includes('text');
+    return html`<p class="word-answer sentence-answer"><label for="${item.id}-text">Write your answer in a complete sentence</label>
+      <textarea class="box text sentence${done ? ' is-right' : ''}" name="text" id="${item.id}-text" rows="3" maxlength="300" autocapitalize="sentences"
+        spellcheck="true"${marked ? html` aria-invalid="true"` : ''}${done ? ' readonly' : ''}>${val(resp, 'text')}</textarea></p>`;
+  }
   if (item.type === 'number') {
     const fact = /^(.*=)\s*\?\s*$/.exec(item.prompt);
     return html`<div class="eqlines"><span class="eqline">${fact ? html`<span id="q-${item.id}">${fact[1]}</span>` : ''}${box(item, 'answer', `Answer: ${speak(item.prompt.replace(/\?\s*$/, 'blank'))}`, resp, st, done)}</span></div>`;

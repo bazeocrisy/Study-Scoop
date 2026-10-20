@@ -10,6 +10,7 @@ import { mountLesson, stateFor, visitedStages } from './lesson-player.js';
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { missCounts, mountActivity, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
+import { validatePacket } from './lib/homework.js';
 import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
 import { weekView } from './views/week.js';
 import { spellingView } from './views/spelling.js';
@@ -91,6 +92,17 @@ async function render() {
       if (validateMathWords(mathWords).length) mathWords = null;
     } catch { mathWords = null; }
   }
+  // This week's homework packet (Homework only), listed in data/homework/index.json and checked like the lessons.
+  let packet = null;
+  if (route.section === 'homework') {
+    try {
+      const list = await loadJSON('data/homework/index.json');
+      if (list.weeks?.includes(weekId)) {
+        packet = await loadJSON(`data/homework/${weekId}.json`);
+        if (validatePacket(packet, weekId).length) packet = null;
+      }
+    } catch { packet = null; }
+  }
   // Practice tests written for this week (Tests only). data/tests/index.json lists the weeks that have them;
   // another week simply has no math or vocabulary test (the spelling test is made from the week's list).
   let tests = null, testsProblem = false;
@@ -140,7 +152,7 @@ async function render() {
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
-    tests, testsProblem, misses: missCounts(weekId), practice, mathWords, page: info?.page ? act : null,
+    tests, testsProblem, misses: missCounts(weekId), practice, mathWords, packet, page: info?.page ? act : null,
   };
   ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
   // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.

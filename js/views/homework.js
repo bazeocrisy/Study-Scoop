@@ -1,5 +1,6 @@
 import { html } from '../lib/html.js';
 import { pageHead } from './common.js';
+import { activityView } from './activity.js';
 
 // Where each homework entry came from (DECISIONS D18). Nothing is shown as received unless it was.
 const SOURCE = {
@@ -8,12 +9,23 @@ const SOURCE = {
 };
 
 export function homeworkView(ctx) {
+  if (ctx.run) return activityView(ctx);
   const items = ctx.week.homework;
   const received = items.filter((h) => h.source === 'received');
   return html`
     ${pageHead('Homework', ctx, received.length
       ? `${received.length} classroom ${received.length === 1 ? 'assignment was' : 'assignments were'} received for this week.`
       : 'No classroom worksheets have been received for this week yet.')}
+
+    ${ctx.packet ? html`
+      <section class="card packet-card" aria-labelledby="h-packet">
+        <h2 id="h-packet">Do this week's homework on the computer</h2>
+        <p>${ctx.packet.about}</p>
+        <p class="btn-row">
+          <a class="btn btn-primary" href="${ctx.actLink('homework', 'packet')}">Start the homework</a>
+          ${ctx.packet.download ? html`<a class="btn" href="${ctx.packet.download}" download>Download the packet (PDF)</a>` : ''}
+        </p>
+      </section>` : ''}
 
     <section aria-labelledby="h-due">
       <h2 id="h-due">${ctx.isCurrent ? 'This week\'s homework' : `Homework for ${ctx.week.label.replace(/^Week of /, '')}`}</h2>

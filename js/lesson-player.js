@@ -29,7 +29,10 @@ function itemsById(lesson, stage) {
 
 function readForm(form) {
   const resp = {};
-  for (const el of form.querySelectorAll('input.box')) resp[el.name] = el.value;
+  for (const el of form.querySelectorAll('input.box, textarea.box')) resp[el.name] = el.value;
+  // "Choose all that are right": the ticked boxes, as a list.
+  const ticked = [...form.querySelectorAll('input[type="checkbox"][name="multi"]:checked')].map((c) => c.value);
+  if (ticked.length) resp.multi = ticked.join(',');
   // Radio buttons: the chosen answer, and for rounding the underlined digit and go up or stay.
   for (const r of form.querySelectorAll('input[type="radio"]:checked')) resp[r.name] = r.value;
   return resp;

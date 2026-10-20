@@ -5,6 +5,7 @@ import { showNewStep } from './lib/help-scroll.js';
 import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
 import { SKILL_SETS } from './lib/skills.js';
+import { packetItems } from './lib/homework.js';
 import { html } from './lib/html.js';
 import { activityInner } from './views/activity.js';
 import { unanswered } from './views/lesson.js';
@@ -61,6 +62,8 @@ function newRun(ctx, section, act) {
   else if (WORD_MODES[act]) { run.items = mathWordItems(ctx.mathWords, act, rand); run.unavailable = !ctx.mathWords; }
   else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
   else if (section === 'skills') run.items = SKILL_SETS[act].make(rand);
+  // The homework packet: every page at once, in order (not shuffled), like the paper packet.
+  else if (section === 'homework') { run.items = packetItems(ctx.packet); run.packet = true; run.unavailable = !ctx.packet; }
   else if (section === 'vocab') run.items = shuffleRounds(vocabItems(ctx.week, act, rand), rand);
   else run.items = shuffleRounds(spellingItems(ctx.week, act), rand);
   return run;
@@ -225,7 +228,10 @@ export function mountActivity(app, ctx, signal) {
   const itemState = (id) => (run.items_[id] ||= { resp: {}, tries: 0, hints: 0 });
   const readForm = (form) => {
     const resp = {};
-    for (const el of form.querySelectorAll('input.box')) resp[el.name] = el.value;
+    for (const el of form.querySelectorAll('input.box, textarea.box')) resp[el.name] = el.value;
+    // "Choose all that are right": the ticked boxes, as a list.
+    const ticked = [...form.querySelectorAll('input[type="checkbox"][name="multi"]:checked')].map((c) => c.value);
+    if (ticked.length) resp.multi = ticked.join(',');
     // Radio buttons: the chosen answer, and for rounding the underlined digit and go up or stay.
     for (const r of form.querySelectorAll('input[type="radio"]:checked')) resp[r.name] = r.value;
     return resp;
@@ -261,10 +267,12 @@ export function mountActivity(app, ctx, signal) {
     if (!st.first) { st.first = r.status; noteFirst(item, r.status); }
     if (r.status !== 'correct' && st.tries === 1 && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
+    // In the homework packet, a right answer moves on to the next question on the page.
+    const after = run.packet ? run.items[run.items.findIndex((it) => it.id === item.id) + 1] : null;
     rerender(r.status === 'correct'
-      ? '[data-act="next"]:not([disabled])'
+      ? (after ? [`form[data-item="${after.id}"] input:not([disabled])`, `form[data-item="${after.id}"] textarea`, '[data-act="next"]:not([disabled])'] : ['[data-act="next"]:not([disabled])', '[data-act="print"]'])
       // Focus stays on what the child chose (never on another answer, which would hint at it).
-      : [`form[data-item="${item.id}"] input[type=radio]:checked`, `form[data-item="${item.id}"] input[aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`]);
+      : [`form[data-item="${item.id}"] input[type=radio]:checked`, `form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea`]);
   }
 
   app.addEventListener('submit', (e) => {
