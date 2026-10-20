@@ -10,9 +10,20 @@ const CHECK = { catchAll: 'Try again.' };
 export function packetPage(ctx, run) {
   const p = ctx.packet;
   const byId = new Map(run.items.map((it) => [it.id, it]));
-  const answered = run.items.filter((it) => run.items_[it.id]?.first).length;
-  const firstTry = run.items.filter((it) => run.items_[it.id]?.first === 'correct').length;
-  const finished = run.items.filter((it) => run.items_[it.id]?.status === 'correct' || run.items_[it.id]?.shown).length;
+  const st = (id) => run.items_[id] || {};
+  const isDone = (id) => st(id).status === 'correct' || Boolean(st(id).shown);
+  const answered = run.items.filter((it) => st(it.id).first).length;
+  // Written sentences are compared with an example, not marked right, so they are not counted as "right".
+  const scored = run.items.filter((it) => it.type !== 'sentence');
+  const firstTry = scored.filter((it) => st(it.id).first === 'correct').length;
+  const finished = run.items.filter((it) => isDone(it.id)).length;
+  /** A question that waits for the one before it (the meaning check waits for the written answer), or an equation
+   *  whose × or ÷ stays hidden until "I need to…" is answered (the sign would give that answer away). */
+  const view = (it) => {
+    if (it.after && !isDone(it.after)) return html`<p class="card locked">Answer the question above first. Then check your meaning here.</p>`;
+    const shown = it.opFrom && !isDone(it.opFrom) ? { ...it, lines: it.lines.map((l) => l.replace(/[×÷]/g, '?')) } : it;
+    return itemCard(CHECK, shown, 'together', { items: run.items_ });
+  };
   return html`
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">${p.title}</h2></div>
     <div class="card packet-intro">
@@ -21,25 +32,25 @@ export function packetPage(ctx, run) {
         ${p.download ? html`<a class="btn" href="${p.download}" download>${ICONS.list}<span>Download the packet (PDF)</span></a>` : ''}
         <button type="button" class="btn" data-act="print">Save my work (print or save as PDF)</button>
       </p>
-      <p class="print-only">${ctx.week.label} · Study Scoop's version of the homework (not the class worksheets)</p>
     </div>
+    <p class="print-only name-line">Name ____________________________ &nbsp; Date ______________ &nbsp; <span class="small">${ctx.week.label} · Study Scoop's version of the homework</span></p>
     ${p.pages.map((pg, k) => html`
       <section class="packet-page" aria-labelledby="pg-${pg.id}">
         <h2 id="pg-${pg.id}" class="packet-title"><span class="pg-num">Page ${k + 1}</span> ${pg.title}</h2>
-        ${pg.directions ? html`<p class="directions"><strong>Directions:</strong> ${pg.directions}</p>` : ''}
+        ${pg.directions ? html`<p class="directions"><strong>Directions:</strong> ${pg.directions}<span class="no-print"> Press Check Answer after each one.</span></p>` : ''}
         ${pg.passage ? passage(pg.passage) : ''}
         <ol class="problems">
           ${pg.problems.map((pr) => html`
             <li class="problem" id="${pg.id}-${pr.n}">
               <h3 class="pnum">${pg.passage ? 'Question' : 'Problem'} ${pr.n}</h3>
-              ${pr.story ? html`<div class="story card"><p>${pr.story}</p>${readButton(pr.story, 'the problem')}</div>` : ''}
-              ${pr.items.map((it) => itemCard(CHECK, byId.get(it.id), 'together', { items: run.items_ }))}
+              ${pr.story ? html`<div class="story card"><p>${pr.story}</p>${readButton(pr.story, 'the problem')}</div><div class="print-only show-work">Show your work</div>` : ''}
+              ${pr.items.map((it) => view(byId.get(it.id)))}
             </li>`)}
         </ol>
       </section>`)}
     <div class="card packet-progress" aria-live="off">
       <h2>How you are doing</h2>
-      <p><strong>${finished} of ${run.items.length}</strong> questions done · ${answered} answered · ${firstTry} right on the first try</p>
+      <p><strong>${finished} of ${run.items.length}</strong> questions done · ${answered} answered · ${firstTry} of ${scored.length} right on the first try (written answers are compared with an example, not scored)</p>
       <p class="hint">Your answers are not saved. To keep them, press Save my work before you close this page.</p>
     </div>
     <div class="stage-nav no-print">

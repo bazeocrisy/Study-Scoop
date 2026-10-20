@@ -220,6 +220,9 @@ function feedbackPanel(item, st, opened = 0) {
   const id = `fb-${item.id}`;
   // Once Help is open the "press Help" reminder is out of date.
   if (opened) st = { ...st, say: String(st.say).replace(' Press Help to see one step at a time.', '') };
+  // A written sentence is checked for its parts only, so it is never marked "right": it is compared with an example.
+  if (st.status === 'correct' && item.type === 'sentence') return html`<div class="feedback info compare" id="${id}"><div class="fb-head"><span class="fb-title">Compare your answer</span>${readButton(st.say, 'the example answer')}</div>
+    <p class="fb-why">${st.say}</p></div>`;
   if (st.status === 'correct') return html`<div class="feedback ok" id="${id}">${ICON_OK}<span class="fb-title">${st.say}</span></div>`;
   if (st.status === 'empty') return html`<div class="feedback info" id="${id}"><span>${st.say}</span></div>`;
   return html`<div class="feedback notyet" id="${id}"><div class="fb-head">${ICON_NOT}<span class="fb-title">Not yet</span>${readButton(['Not yet', st.say], 'why it is not right')}</div>
@@ -283,12 +286,20 @@ function answerArea(item, resp, st, test, done) {
       })}</fieldset>`;
   }
   if (item.type === 'blanks') {
+    // Each box is named by its place in the line ("Box 2 of 2 in: 47 is between blank and blank"), and a full stop
+    // after a box stays with it on a narrow screen.
     return html`<div class="blank-lines" role="group" aria-labelledby="q-${item.id}">
-      ${item.text.map((line) => html`<p class="blank-line">${String(line).split(/(\[[a-z][a-z0-9]*\])/).map((part, k) => {
-        if (k % 2 === 0) return part;
-        const name = part.slice(1, -1);
-        return box(item, name, `${speak(line.replace(part, 'blank'))}`, resp, st, done);
-      })}</p>`)}
+      ${item.text.map((line) => {
+        const parts = String(line).split(/(\[[a-z][a-z0-9]*\])/);
+        const count = (parts.length - 1) / 2;
+        return html`<p class="blank-line">${parts.map((part, k) => {
+          if (k % 2 === 0) return k > 0 && /^[.,!?]/.test(part) ? part.slice(1) : part;
+          const name = part.slice(1, -1);
+          const tail = /^[.,!?]/.test(parts[k + 1] || '') ? parts[k + 1][0] : '';
+          const label = count > 1 ? `Box ${(k + 1) / 2} of ${count} in: ${speak(line)}` : speak(line);
+          return html`<span class="nobr">${box(item, name, label, resp, st, done)}${tail}</span>`;
+        })}</p>`;
+      })}
     </div>`;
   }
   if (item.type === 'sentence') {
@@ -299,7 +310,7 @@ function answerArea(item, resp, st, test, done) {
   }
   if (item.type === 'number') {
     const fact = /^(.*=)\s*\?\s*$/.exec(item.prompt);
-    return html`<div class="eqlines"><span class="eqline">${fact ? html`<span id="q-${item.id}">${fact[1]}</span>` : ''}${box(item, 'answer', `Answer: ${speak(item.prompt.replace(/\?\s*$/, 'blank'))}`, resp, st, done)}</span></div>`;
+    return html`<div class="eqlines"><span class="eqline">${fact ? html`<span id="q-${item.id}">${fact[1]}</span>` : ''}${box(item, 'answer', fact ? `Answer: ${speak(item.prompt.replace(/\?\s*$/, 'blank'))}` : `Answer: ${speak(item.prompt)}`, resp, st, done)}</span></div>`;
   }
   if (item.type === 'fill') {
     return html`<div class="eqlines" role="group" aria-labelledby="q-${item.id}">

@@ -7,7 +7,7 @@
     {
       "id": "rounding",
       "title": "Rounding to the Nearest 10 or 100",
-      "directions": "Solve each problem. Check each answer as you go.",
+      "directions": "Solve each problem.",
       "problems": [
         { "n": 1, "items": [
           { "id": "r1", "type": "multi", "prompt": "Choose the numbers that round to 400.", "roundsTo": { "to": 100, "target": 400 },
@@ -111,14 +111,14 @@
       "directions": "Read the story three times. A grown-up can count the words read right. Then answer the questions in complete sentences. Restate the question.",
       "passage": {
         "title": "The Pumpkin Patch Plan",
-        "text": "\"Our class is going to the pumpkin patch on Friday,\" Nia told her brother Owen. \"Everyone gets to pick one pumpkin to take home.\" Owen frowned. \"Mr. Reyes next door cannot go anywhere right now. His leg is in a cast.\" Nia thought about it for a moment. \"We could bring a pumpkin back for him,\" she said. \"That would be a kind surprise.\" On Friday, Nia searched the whole patch. She wanted the roundest, brightest pumpkin she could find. At last she spotted it, sitting all alone by the fence. She carried it carefully all the way to the bus. That evening, Nia and Owen knocked on Mr. Reyes's door. When he saw the pumpkin, his whole face lit up. \"Well, this is the finest pumpkin on the street!\" he said with a chuckle. \"You two are very thoughtful neighbors.\" Nia and Owen smiled all the way home."
+        "text": "\"Our class is going to the pumpkin patch on Friday,\" Nia told her brother Owen. \"Everyone gets to pick one pumpkin to take home.\" Owen frowned. \"Mr. Reyes next door loves pumpkins, but he cannot get to the patch. His leg is in a cast.\" Nia thought about it for a moment. \"We could bring a pumpkin back for him,\" she said. \"That would be a kind surprise.\" On Friday, Nia searched the whole patch. She wanted the roundest, brightest pumpkin she could find. At last she spotted it, sitting all alone by the fence. She carried it carefully all the way to the bus. That evening, Nia and Owen knocked on Mr. Reyes's door. When he saw the pumpkin, his whole face lit up. \"Well, this is the finest pumpkin on the street!\" he said with a chuckle. \"You two are very thoughtful neighbors.\" Nia and Owen smiled all the way home."
       },
       "problems": [
         { "n": 1, "items": [
           { "id": "q1", "type": "sentence", "prompt": "Why did Nia and Owen bring a pumpkin to Mr. Reyes?",
-            "keywords": ["Nia", "Owen", "pumpkin", "Mr. Reyes", "because"], "minKeywords": 2, "minWords": 8,
+            "keywords": ["Nia", "Owen", "pumpkin", "Reyes", "because"], "minKeywords": 2, "minWords": 8,
             "example": "Nia and Owen brought a pumpkin to Mr. Reyes because his leg was in a cast and he could not go to the pumpkin patch.",
-            "hints": ["Restate the question. Start with: Nia and Owen brought a pumpkin to Mr. Reyes because…", "Look back at the story. Why could Mr. Reyes not go anywhere?"],
+            "hints": ["Restate the question. Start with: Nia and Owen brought a pumpkin to Mr. Reyes because…", "Look back at the story. Why could Mr. Reyes not get to the pumpkin patch?"],
             "show": ["Nia and Owen brought a pumpkin to Mr. Reyes because his leg was in a cast and he could not go to the pumpkin patch."] }
         ]},
         { "n": 2, "items": [
@@ -127,7 +127,7 @@
             "example": "I think the word thoughtful means thinking about other people and doing kind things for them.",
             "hints": ["Restate the question. Start with: I think the word thoughtful means…", "Find the sentence with thoughtful in it. What had Nia and Owen just done for Mr. Reyes?"],
             "show": ["I think the word thoughtful means thinking about other people and doing kind things for them."] },
-          { "id": "q2check", "type": "choice", "prompt": "Check your meaning: which one fits the story best?",
+          { "id": "q2check", "type": "choice", "after": "q2", "prompt": "Check your meaning: which one fits the story best?",
             "options": [
               { "text": "Thinking about what other people need and being kind", "correct": true },
               { "text": "Very tired after a long day", "why": "Nia and Owen were not tired. Read what Mr. Reyes says right after he sees the pumpkin." },
@@ -145,24 +145,24 @@
       "title": "Word Problems: Multiply or Divide?",
       "directions": "Read each problem. Decide whether to multiply or divide, write the equation, then write the answer.",
       "problems": [
-        { "n": 1, "story": "Owen has 24 apple slices. He shares them equally with 4 friends. How many apple slices does each friend get?", "items": [
+        { "n": 1, "story": "Owen puts 24 apple slices into 4 bags. He puts the same number of slices in each bag. How many apple slices are in each bag?", "items": [
           { "id": "w1op", "type": "choice", "prompt": "I need to…",
             "options": [
-              { "text": "Multiply", "why": "Owen is sharing a total into equal groups. Sharing equally is dividing." },
+              { "text": "Multiply", "why": "Owen is putting a total into equal groups. Splitting a total into equal groups is dividing." },
               { "text": "Divide", "correct": true }
             ],
-            "hints": ["Is Owen putting equal groups together, or sharing a total into equal groups?"],
-            "show": ["Owen shares 24 slices equally among 4 friends.", "Sharing equally means divide."],
-            "yes": "Yes! Sharing equally means divide." },
-          { "id": "w1eq", "type": "fill", "prompt": "Write the equation.", "lines": ["[a] ÷ [b] = [c]"], "answer": { "a": 24, "b": 4, "c": 6 }, "min": 1,
-            "mistakes": [{ "when": { "a": 4, "b": 24 }, "say": "Start with the total, 24. Then divide by the number of friends." }],
-            "hints": ["Start with the total. How many apple slices are there?", "Divide by the number of friends. Think: 4 × what = 24?"],
-            "show": ["The total is 24. There are 4 friends.", "4 × 6 = 24, so 24 ÷ 4 = 6."],
+            "hints": ["Is Owen putting equal groups together, or splitting a total into equal groups?"],
+            "show": ["Owen splits 24 slices into 4 equal bags.", "Splitting a total into equal groups means divide."],
+            "yes": "Yes! Splitting a total into equal groups means divide." },
+          { "id": "w1eq", "type": "fill", "prompt": "Write the equation.", "opFrom": "w1op", "retry": "Read the problem again and check each box.", "lines": ["[a] ÷ [b] = [c]"], "answer": { "a": 24, "b": 4, "c": 6 }, "min": 1,
+            "mistakes": [{ "when": { "a": 4, "b": 24 }, "say": "Start with the total, 24. Then divide by the number of bags." }],
+            "hints": ["Start with the total. How many apple slices are there?", "Divide by the number of bags. Think: 4 × what = 24?"],
+            "show": ["The total is 24. There are 4 bags.", "4 × 6 = 24, so 24 ÷ 4 = 6."],
             "yes": "Yes! 24 ÷ 4 = 6." },
-          { "id": "w1ans", "type": "number", "prompt": "Answer: How many apple slices does each friend get?", "answer": "24 ÷ 4",
+          { "id": "w1ans", "type": "number", "prompt": "How many apple slices are in each bag?", "answer": "24 ÷ 4",
             "hints": ["Use your equation.", "The answer is the number after the = sign."],
-            "show": ["24 ÷ 4 = 6, so each friend gets 6 apple slices."],
-            "yes": "Yes! Each friend gets 6 apple slices.", "explain": "24 ÷ 4 = 6 apple slices for each friend." }
+            "show": ["24 ÷ 4 = 6, so there are 6 apple slices in each bag."],
+            "yes": "Yes! There are 6 apple slices in each bag.", "explain": "24 ÷ 4 = 6 apple slices in each bag." }
         ]},
         { "n": 2, "story": "Nia's class plants a garden. They plant 5 rows with 7 seeds in each row. How many seeds do they plant in all?", "items": [
           { "id": "w2op", "type": "choice", "prompt": "I need to…",
@@ -173,11 +173,11 @@
             "hints": ["Is the class putting equal groups together, or sharing a total into equal groups?"],
             "show": ["There are 5 equal rows with 7 seeds in each.", "Putting equal groups together means multiply."],
             "yes": "Yes! Equal rows put together means multiply." },
-          { "id": "w2eq", "type": "fill", "prompt": "Write the equation.", "lines": ["[a] × [b] = [c]"], "answer": { "a": 5, "b": 7, "c": 35 }, "accept": [{ "a": 7, "b": 5, "c": 35 }], "min": 1,
+          { "id": "w2eq", "type": "fill", "prompt": "Write the equation.", "opFrom": "w2op", "retry": "Read the problem again and check each box.", "lines": ["[a] × [b] = [c]"], "answer": { "a": 5, "b": 7, "c": 35 }, "accept": [{ "a": 7, "b": 5, "c": 35 }], "min": 1,
             "hints": ["How many rows are there? How many seeds are in each row?", "Multiply the rows by the seeds in each row. Use a fact you know."],
             "show": ["5 rows of 7 seeds is 5 × 7.", "5 × 7 = 35."],
             "yes": "Yes! 5 × 7 = 35." },
-          { "id": "w2ans", "type": "number", "prompt": "Answer: How many seeds do they plant in all?", "answer": "5 × 7",
+          { "id": "w2ans", "type": "number", "prompt": "How many seeds do they plant in all?", "answer": "5 × 7",
             "hints": ["Use your equation.", "The answer is the number after the = sign."],
             "show": ["5 × 7 = 35, so they plant 35 seeds."],
             "yes": "Yes! They plant 35 seeds.", "explain": "5 rows of 7 seeds: 5 × 7 = 35 seeds." }

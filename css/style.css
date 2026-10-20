@@ -939,3 +939,28 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
   .site-head, header.top, .brand-row { padding-top: 0 !important; padding-bottom: 2px !important; }
 }
 @media print { [data-subject="homework"] .packet-progress { display: none !important; } }
+/* Homework packet review fixes (D23). */
+.locked { color: var(--muted); font-style: italic; }
+.feedback.compare { border-color: var(--line-strong); }
+.pl-count { padding-right: 4px; }
+.fluency { width: 100%; max-width: 32rem; }
+@media (max-width: 640px) {
+  .story { flex-direction: column-reverse; align-items: stretch; }
+  .story .read { align-self: flex-end; }
+  .fluency th, .fluency td { padding: 4px; font-size: .9rem; }
+}
+@media print {
+  [data-subject="homework"] textarea.sentence { width: 100% !important; height: 1.3in !important; min-height: 1.3in !important; }
+  [data-subject="homework"] .word-answer { display: block; }
+  [data-subject="homework"] .numberline { max-height: none; width: 3.4in !important; }
+  [data-subject="homework"] .name-line { display: block; margin: 0 0 6px; font-size: 11pt; }
+  [data-subject="homework"] .name-line .small { font-size: 8pt; color: #000; }
+  [data-subject="homework"] .show-work { display: block; border: 1.5px solid #000; height: 1.3in; padding: 4px 6px; font-size: 9pt; margin: 4px 0; }
+  [data-subject="homework"] .locked { display: none; }
+}
+@media print {
+  [data-subject="homework"] .numberline { width: 2.3in !important; }
+  [data-subject="homework"] .page-head, [data-subject="homework"] .directions { margin: 0 !important; }
+  [data-subject="homework"] .blank-line { font-size: 9.5pt !important; }
+  [data-subject="homework"] .problem .box { height: 1.5em !important; }
+}

@@ -167,7 +167,10 @@ export function check(item, response, lesson = {}) {
     const sol = solution(item);
     const matches = (acc) => Object.entries(acc).every(([k, val]) => v[k] === val);
     if (matches(sol) || (item.accept || []).some(matches)) return { status: 'correct', say: item.yes || 'Yes!' };
-    const wrong = boxes(item).filter((b) => v[b] !== sol[b]);
+    // Mark boxes against whichever allowed answer the child is closest to (e.g. 50 and 40 written either way round).
+    const fits = (acc) => boxes(item).filter((b) => v[b] === acc[b]).length;
+    const best = [sol, ...(item.accept || []).map((acc) => ({ ...sol, ...acc }))].reduce((x, y) => (fits(y) > fits(x) ? y : x));
+    const wrong = boxes(item).filter((b) => v[b] !== best[b]);
     return { status: 'notyet', say: mistake?.say || join(markedNote(wrong.length || 1, boxes(item).length), item.retry || catchAll), wrong: wrong.length ? wrong : undefined };
   }
   if (item.type === 'fill') {
@@ -323,7 +326,7 @@ function checkSentence(item, response) {
       : used.length < need ? `Restate the question: use words from it, like ${item.keywords.slice(0, 3).map((k) => `"${k}"`).join(' and ')}.`
         : !/[.!?]["”']?$/.test(text) ? 'End your sentence with a period.' : '';
   if (fix) return { status: 'notyet', say: fix, wrong: ['text'] };
-  return { status: 'correct', say: `That is a complete sentence! Check that it answers the question. Here is one way to say it: ${item.example}` };
+  return { status: 'correct', say: `Your sentence has all its parts. Does it answer the question? Here is one way to say it: ${item.example}` };
 }
 
 /** Rounding with the class method: which digit is underlined, go up or stay, and the rounded number. */

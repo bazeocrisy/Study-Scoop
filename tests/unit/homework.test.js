@@ -48,10 +48,10 @@ test('choose-all, number-line blanks and sentence answers each explain what is w
   assert.match(check(q1, { text: 'He had a cast.' }).say, /^Write a little more/);
   assert.match(check(q1, { text: 'He could not go to the patch with his leg.' }).say, /^Restate the question/);
   assert.equal(check(q1, { text: 'Nia and Owen brought a pumpkin because his leg was hurt' }).say, 'End your sentence with a period.');
-  assert.match(check(q1, { text: 'Nia and Owen brought a pumpkin to Mr. Reyes because his leg was in a cast.' }).say, /^That is a complete sentence!.*Here is one way to say it/);
+  assert.match(check(q1, { text: 'Nia and Owen brought a pumpkin to Mr. Reyes because his leg was in a cast.' }).say, /^Your sentence has all its parts\. Does it answer the question\? Here is one way to say it/);
   // Division in equations: 24 ÷ 4 = 6, and the total comes first.
   assert.ok(chainHolds('24 ÷ 4 = 6'));
-  assert.equal(check(byId('w1eq'), { a: '4', b: '24', c: '6' }).say, 'Start with the total, 24. Then divide by the number of friends.');
+  assert.equal(check(byId('w1eq'), { a: '4', b: '24', c: '6' }).say, 'Start with the total, 24. Then divide by the number of bags.');
   assert.equal(check(byId('w2eq'), { a: '7', b: '5', c: '35' }).status, 'correct', 'a turned-around multiplication is fine');
 });
 

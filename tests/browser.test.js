@@ -1485,7 +1485,7 @@ async function main() {
         f.dispatchEvent(new Event('input', { bubbles: true }));`);
       await press(`form[data-item="${it.id}"] button[type=submit]`);
     };
-    const packetFb = (id) => b.js(`const e = document.querySelector('form[data-item="${id}"] .feedback:not(.info)'); if (!e) return ''; const c = e.cloneNode(true); c.querySelectorAll('.read').forEach((x) => x.remove()); return c.textContent.replace(/\\s+/g, ' ').trim();`);
+    const packetFb = (id) => b.js(`const e = document.querySelector('form[data-item="${id}"] .feedback.ok, form[data-item="${id}"] .feedback.notyet, form[data-item="${id}"] .feedback.compare'); if (!e) return ''; const c = e.cloneNode(true); c.querySelectorAll('.read').forEach((x) => x.remove()); return c.textContent.replace(/\\s+/g, ' ').trim();`);
 
     await check('Homework: do this week\'s packet on the computer, every question in order, with reasons, Help, a download and Save my work', async () => {
       await b.load(url('#homework'));
@@ -1496,8 +1496,9 @@ async function main() {
       await go('.packet-card a.btn-primary');
       eq(await b.js('return [...document.querySelectorAll(".packet-title")].map((h) => h.textContent.replace(/\\s+/g, " ").trim());'),
         ['Page 1 Rounding to the Nearest 10 or 100', 'Page 2 Reading: The Pumpkin Patch Plan', 'Page 3 Word Problems: Multiply or Divide?'], 'pages in order');
-      eq(await b.js('return document.querySelectorAll("form[data-item]").length;'), PACKET_ITEMS.length, 'every question on the page');
-      eq(await b.js('return document.querySelectorAll(".passage-lines .pl-count").length > 10 && document.querySelector(".passage-lines li:last-child .pl-count").textContent;'), '149', 'running word count');
+      // Every question is on the page, except the meaning check, which waits for its written answer.
+      eq(await b.js('return document.querySelectorAll("form[data-item]").length;'), PACKET_ITEMS.filter((it) => !it.after).length, 'every question on the page');
+      eq(await b.js('return document.querySelectorAll(".passage-lines .pl-count").length > 10 && document.querySelector(".passage-lines li:last-child .pl-count").textContent;'), String(PACKET.pages[1].passage.text.trim().split(/\s+/).length), 'running word count');
       // A wrong choice says why; Help opens one step; then every question is answered right.
       const r1 = PACKET_ITEMS[0];
       await packetAnswer(r1, { multi: '0,1' });
@@ -1507,12 +1508,18 @@ async function main() {
       const q1 = PACKET_ITEMS.find((it) => it.id === 'q1');
       await packetAnswer(q1, { text: 'He could not go anywhere.' });
       expect((await packetFb('q1')).startsWith('Not yet Write a little more'), `sentence check: ${await packetFb('q1')}`);
+      // The equation's sign stays hidden until "I need to…" is answered, and the meaning check waits for Question 2.
+      expect(!(await b.js('return document.querySelector("form[data-item=w1eq]").textContent.includes("÷");')), 'the ÷ sign is hidden at first');
+      eq(await b.js('return [!!document.querySelector("form[data-item=q2check]"), !!document.querySelector(".locked")];'), [false, true], 'meaning check locked');
       for (const it of PACKET_ITEMS) {
         const sol = Object.fromEntries(Object.entries(solution(it)).map(([k, v]) => [k, String(v)]));
         await packetAnswer(it, it.type === 'sentence' ? { text: it.example } : sol);
-        expect(/^(Yes!|That is a complete sentence!)/.test(await packetFb(it.id)), `${it.id}: ${await packetFb(it.id)}`);
+        expect(/^(Yes!|Compare your answer Your sentence has all its parts)/.test(await packetFb(it.id)), `${it.id}: ${await packetFb(it.id)}`);
       }
       eq(await b.js('return document.querySelector(".packet-progress p strong").textContent;'), `${PACKET_ITEMS.length} of ${PACKET_ITEMS.length}`, 'all done');
+      expect(await b.js('return document.querySelector("form[data-item=w1eq]").textContent.includes("÷");'), 'the ÷ sign shows once the operation is chosen');
+      // Written sentences are compared, not scored as "right".
+      expect(await b.js('return document.querySelector(".packet-progress").textContent.includes("right on the first try (written answers are compared");'), 'sentences not scored');
       // Save my work prints (or saves as PDF) the page with the answers; on paper the buttons and messages are gone.
       await b.js('window.__printed = 0; window.print = () => { window.__printed++; };');
       await b.js('document.querySelector(".packet-intro [data-act=print]").click();');

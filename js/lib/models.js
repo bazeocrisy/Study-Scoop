@@ -12,7 +12,7 @@ const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 /** Accessible description of a model (what is drawn, never the answer to a question). */
 export function describe(m) {
-  if (m.type === 'numberline') return `A number line from ${m.from} to ${m.to} with a dot at ${m.dot}.`;
+  if (m.type === 'numberline') return `A number line from ${m.from} to ${m.to}${m.mid ? `, with ${(m.from + m.to) / 2} marked in the middle` : ''}, and a dot at ${m.dot}.`;
   if (m.type === 'plates') {
     if (m.plates === 0) return 'No plates at all.';
     return `${plural(m.plates, 'plate')} with ${m.each === 0 ? 'nothing' : plural(m.each, 'dot')} on each plate.`;
@@ -198,7 +198,7 @@ function numberLineSvg(m) {
   return `<svg viewBox="0 0 ${W} 84" width="${W}" height="84" aria-hidden="true" focusable="false" class="numberline">`
     + `<line x1="8" y1="${Y}" x2="${W - 8}" y2="${Y}" class="nl-line"/>`
     + `<path d="M8 ${Y}l10 -6v12z M${W - 8} ${Y}l-10 -6v12z" class="nl-arrow"/>`
-    + tick(m.from, true) + (m.mid ? tick((m.from + m.to) / 2, false) : '') + tick(m.to, true)
+    + tick(m.from, true) + (m.mid ? tick((m.from + m.to) / 2, true) : '') + tick(m.to, true)
     + `<circle cx="${x(m.dot)}" cy="${Y}" r="7" class="nl-dot"/><text x="${x(m.dot)}" y="${Y - 16}" text-anchor="middle" class="nl-num nl-dotnum">${m.dot}</text></svg>`;
 }
 
