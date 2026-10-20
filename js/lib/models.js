@@ -12,6 +12,7 @@ const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 /** Accessible description of a model (what is drawn, never the answer to a question). */
 export function describe(m) {
+  if (m.type === 'numberline') return `A number line from ${m.from} to ${m.to}${m.mid ? `, with ${(m.from + m.to) / 2} marked in the middle` : ''}, and a dot at ${m.dot}.`;
   if (m.type === 'plates') {
     if (m.plates === 0) return 'No plates at all.';
     return `${plural(m.plates, 'plate')} with ${m.each === 0 ? 'nothing' : plural(m.each, 'dot')} on each plate.`;
@@ -165,6 +166,7 @@ function platesSvg(m) {
 export function counts(m) {
   if (m.type === 'plates') return { plates: m.plates, dots: m.plates * m.each };
   if (m.type === 'pair') return { left: counts(m.left), right: counts(m.right) };
+  if (m.type === 'numberline') return {};
   const total = m.rows * m.cols;
   if (!m.cut) return { total };
   const [[a1, a2], [b1, b2]] = parts(m);
@@ -184,7 +186,20 @@ function clean(m) {
   });
   if (m.type === 'plates') return { type: 'plates', plates: int(m.plates), each: int(m.each), perRow: m.perRow ? int(m.perRow) : undefined, alt: m.alt };
   if (m.type === 'pair') return { type: 'pair', left: arr(m.left), right: arr(m.right), alt: m.alt };
+  if (m.type === 'numberline') { const n = (v) => Math.max(0, Math.min(10000, Math.trunc(Number(v)) || 0)); return { type: 'numberline', from: n(m.from), to: n(m.to), dot: n(m.dot), mid: Boolean(m.mid), alt: m.alt }; }
   return arr(m);
+}
+
+/** A number line with arrows at both ends, ticks at the ends (and the middle), and a labelled dot (the way the class draws it). */
+function numberLineSvg(m) {
+  const W = 320, L = 30, R = 290, Y = 46;
+  const x = (v) => L + ((v - m.from) / (m.to - m.from)) * (R - L);
+  const tick = (v, label) => `<line x1="${x(v)}" y1="${Y - 9}" x2="${x(v)}" y2="${Y + 9}" class="nl-tick"/>${label ? `<text x="${x(v)}" y="${Y + 30}" text-anchor="middle" class="nl-num">${v}</text>` : ''}`;
+  return `<svg viewBox="0 0 ${W} 84" width="${W}" height="84" aria-hidden="true" focusable="false" class="numberline">`
+    + `<line x1="8" y1="${Y}" x2="${W - 8}" y2="${Y}" class="nl-line"/>`
+    + `<path d="M8 ${Y}l10 -6v12z M${W - 8} ${Y}l-10 -6v12z" class="nl-arrow"/>`
+    + tick(m.from, true) + (m.mid ? tick((m.from + m.to) / 2, true) : '') + tick(m.to, true)
+    + `<circle cx="${x(m.dot)}" cy="${Y}" r="7" class="nl-dot"/><text x="${x(m.dot)}" y="${Y - 16}" text-anchor="middle" class="nl-num nl-dotnum">${m.dot}</text></svg>`;
 }
 
 export function modelFigure(model, caption) {
@@ -192,6 +207,8 @@ export function modelFigure(model, caption) {
   let svg;
   if (m.type === 'plates') {
     svg = m.plates === 0 ? '<span class="m-none">no plates</span>' : platesSvg(m);
+  } else if (m.type === 'numberline') {
+    svg = numberLineSvg(m);
   } else if (m.type === 'pair') {
     svg = `<span class="m-pair">${arraySvg({ ...m.left, type: 'array' })}<span class="m-turn" aria-hidden="true">↻</span>${arraySvg({ ...m.right, type: 'array' })}</span>`;
   } else {

@@ -1,8 +1,8 @@
-// Tiny arithmetic for lesson content: whole numbers, × + − and parentheses, and "=" chains.
+// Tiny arithmetic for lesson content: whole numbers, × ÷ + − and parentheses, and "=" chains.
 // Used by the lesson checker and the validator so every equation shown to a child is computed, never trusted.
 // No eval (the Content Security Policy forbids it anyway).
 
-const TOKEN = /\s*(\d+|[×x*+\-−=()])/y;
+const TOKEN = /\s*(\d+|[×x*÷/+\-−=()])/y;
 
 export function tokenize(text) {
   const out = [];
@@ -15,7 +15,7 @@ export function tokenize(text) {
     const m = TOKEN.exec(s);
     if (!m) throw new Error(`Cannot read "${s.slice(i, i + 8)}" in "${s}"`);
     const t = m[1];
-    out.push(/\d/.test(t) ? Number(t) : t === 'x' || t === '*' ? '×' : t === '−' ? '-' : t);
+    out.push(/\d/.test(t) ? Number(t) : t === 'x' || t === '*' ? '×' : t === '/' ? '÷' : t === '−' ? '-' : t);
     i = TOKEN.lastIndex;
   }
   return out;
@@ -32,7 +32,11 @@ export function evaluate(text) {
     if (typeof v !== 'number') throw new Error(`expected a number, got ${JSON.stringify(v)}`);
     return v;
   }
-  function product() { let v = primary(); while (peek() === '×') { i++; v *= primary(); } return v; }
+  function product() {
+    let v = primary();
+    while (peek() === '×' || peek() === '÷') { const op = t[i++]; const r = primary(); v = op === '×' ? v * r : v / r; }
+    return v;
+  }
   function sum() {
     let v = product();
     while (peek() === '+' || peek() === '-') { const op = t[i++]; const r = product(); v = op === '+' ? v + r : v - r; }
@@ -59,7 +63,7 @@ export function chainHolds(text) {
 export function wrongFactsInText(text) {
   const bad = [];
   // The longest run of numbers, signs and brackets (a whole chain), which must contain "=".
-  const CHAIN = /(?<![\d\w])[\d(][\d\s×x+\-−()=]*[\d)](?![\d\w])/g;
+  const CHAIN = /(?<![\d\w])[\d(][\d\s×x÷+\-−()=]*[\d)](?![\d\w])/g;
   for (const m of String(text).matchAll(CHAIN)) {
     const chain = m[0].trim();
     if (!chain.includes('=')) continue;
@@ -78,6 +82,7 @@ export function speak(text) {
     .replace(/_{2,}/g, 'blank')
     .replace(/\(\s*\)/g, 'brackets')
     .replace(/×/g, ' times ')
+    .replace(/÷/g, ' divided by ')
     .replace(/(\d|blank)\s*x\s*(?=\d|blank)/g, '$1 times ')
     .replace(/(\d|\))\s*\+\s*(?=\d|\(|blank)/g, '$1, plus ')
     .replace(/(\d|blank)\s*[−]\s*(?=\d)/g, '$1 minus ')

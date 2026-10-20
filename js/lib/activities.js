@@ -63,6 +63,10 @@ export const ACTIVITIES = {
     { id: 'timesmisses', label: 'Practice My Misses', about: 'Practice only the facts you missed.', icon: 'redo', parent: 'times', group: 'skilltimes', misses: true },
     { id: 'timestest', label: 'Times Tables Test', about: '12 facts. No help until the end.', icon: 'list', parent: 'times', group: 'skilltimes', test: true },
   ],
+  // Homework (D23): this week's packet, Study Scoop's own version, to do on the computer.
+  homework: [
+    { id: 'packet', label: 'Do This Week\'s Homework', about: 'Every page of this week\'s packet, with Check, Help and a download.', icon: 'pencil', group: 'homework' },
+  ],
 };
 for (const a of [...ACTIVITIES.spelling, ...ACTIVITIES.vocab]) if (a.id === 'misses') a.misses = true;
 export const activityInfo = (subject, id) => ACTIVITIES[subject]?.find((a) => a.id === id) || null;
@@ -81,7 +85,7 @@ export const activityLabel = (subject, id) => activityInfo(subject, id)?.label |
 export const menuItems = (subject, parent = null) => (ACTIVITIES[subject] || []).filter((a) => (a.parent || null) === parent);
 
 export const TEST_KINDS = ['math', 'spelling', 'vocab', 'mathwords'];
-export const SUBJECT = { math: 'Math', spelling: 'Spelling', vocab: 'Vocabulary', mathwords: 'Math Vocabulary', skills: 'Skill Builders' };
+export const SUBJECT = { math: 'Math', spelling: 'Spelling', vocab: 'Vocabulary', mathwords: 'Math Vocabulary', skills: 'Skill Builders', homework: 'Homework' };
 /** The section a test's subject belongs to ("Practice Math Vocabulary" goes to Math > Math Vocabulary). */
 export const TEST_HOME = { math: ['math', null], spelling: ['spelling', null], vocab: ['vocab', null], mathwords: ['math', 'words'] };
 

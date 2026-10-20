@@ -8,6 +8,7 @@ import { PROPERTIES, definitionOf, teacherExample, teacherWord } from '../lib/ma
 import { formatLongDate } from '../lib/dates.js';
 import { blanks, itemCard, readButton, soundButton, unanswered } from './lesson.js';
 import { ICONS, facts, scoreLine, subBar, wordPicture } from './common.js';
+import { packetPage } from './packet.js';
 
 const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page, this activity starts again.';
 const CHECK = { catchAll: 'Try again.' };
@@ -69,6 +70,7 @@ export function activityInner(ctx) {
   if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
   if (run.act === 'wreview') return wordCards(ctx, run);
   if (!run.items.length) return emptyRun(ctx, run);
+  if (run.packet) return packetPage(ctx, run);
   if (run.mode === 'test') return run.submitted ? testResults(ctx, run) : testQuestion(ctx, run);
   return run.finished ? practiceSummary(ctx, run) : practiceQuestion(ctx, run);
 }

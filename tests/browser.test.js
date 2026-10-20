@@ -25,7 +25,9 @@ const ACTIVITY_ROUTES = ['#vocab?act=learn', '#spelling?act=learn', '#math?act=l
   '#tests?test=math', '#tests?test=spelling', '#tests?test=vocab', '#tests?week=2026-10-12', '#homework?week=2026-10-12',
   '#math?act=words', '#math?act=wreview', '#math?act=wchoice', '#math?act=wtf', '#math?act=wfill', '#math?act=wmisses', '#tests?test=mathwords', '#tests',
   // Skill Builders (D22): every menu, Learn It page, practice set and test.
-  ...['add', 'addlearn', 'addfacts', 'addsplit', 'addtest', 'round', 'roundlearn', 'roundten', 'roundhun', 'roundtest', 'times', 'timeslearn', 'timesall', 'timestricky', 'timestest'].map((a) => `#skills?act=${a}`)];
+  ...['add', 'addlearn', 'addfacts', 'addsplit', 'addtest', 'round', 'roundlearn', 'roundten', 'roundhun', 'roundtest', 'times', 'timeslearn', 'timesall', 'timestricky', 'timestest'].map((a) => `#skills?act=${a}`),
+  // Homework packet (D23).
+  '#homework?act=packet'];
 // `--site <folder>` serves a built site (scripts/build-site.js) instead of the repository, exactly as GitHub Pages would.
 const siteArg = process.argv.indexOf('--site');
 const SITE = siteArg > 0 ? path.resolve(process.argv[siteArg + 1] || '_site') : null;
@@ -1465,6 +1467,67 @@ async function main() {
         await checkIt();
         expect(await b.js('return !!document.querySelector("#act-stage [data-act=help]");'), `${act}: Help in Practice My Misses`);
       }
+    });
+
+
+    console.log('Homework packet (D23)');
+    const PACKET = readJSON('data/homework/2026-10-19.json');
+    const PACKET_ITEMS = PACKET.pages.flatMap((pg) => pg.problems.flatMap((pr) => pr.items));
+    /** Answers one packet question the way a child would (ticks, taps, types), then presses its Check Answer. */
+    const packetAnswer = async (it, values) => {
+      await b.js(`const f = document.querySelector('form[data-item="${it.id}"]'); const v = ${JSON.stringify(values)};
+        f.querySelectorAll('input[type=checkbox]').forEach((c) => { c.checked = false; });
+        for (const [k, x] of Object.entries(v)) {
+          if (k === 'multi') { String(x).split(',').forEach((i) => { f.querySelector('input[type=checkbox][value="' + i + '"]').checked = true; }); continue; }
+          if (k === 'choice') { f.querySelector('input[name=choice][value="' + x + '"]').click(); continue; }
+          const el = f.querySelector('[name="' + k + '"]'); if (el) el.value = String(x);
+        }
+        f.dispatchEvent(new Event('input', { bubbles: true }));`);
+      await press(`form[data-item="${it.id}"] button[type=submit]`);
+    };
+    const packetFb = (id) => b.js(`const e = document.querySelector('form[data-item="${id}"] .feedback.ok, form[data-item="${id}"] .feedback.notyet, form[data-item="${id}"] .feedback.compare'); if (!e) return ''; const c = e.cloneNode(true); c.querySelectorAll('.read').forEach((x) => x.remove()); return c.textContent.replace(/\\s+/g, ' ').trim();`);
+
+    await check('Homework: do this week\'s packet on the computer, every question in order, with reasons, Help, a download and Save my work', async () => {
+      await b.load(url('#homework'));
+      eq(await b.js('return [document.querySelector("#h-packet")?.textContent, document.querySelector(".packet-card a.btn-primary").getAttribute("href"), document.querySelector(".packet-card a[download]").getAttribute("href")];'),
+        ["Do this week's homework on the computer", '#homework?act=packet', 'downloads/homework-2026-10-19.pdf'], 'the packet card');
+      // The download is a real PDF.
+      eq(await b.js('const r = await fetch("downloads/homework-2026-10-19.pdf"); const t = await r.text(); return [r.status, t.slice(0, 4)];'), [200, '%PDF'], 'download');
+      await go('.packet-card a.btn-primary');
+      eq(await b.js('return [...document.querySelectorAll(".packet-title")].map((h) => h.textContent.replace(/\\s+/g, " ").trim());'),
+        ['Page 1 Rounding to the Nearest 10 or 100', 'Page 2 Reading: The Pumpkin Patch Plan', 'Page 3 Word Problems: Multiply or Divide?'], 'pages in order');
+      // Every question is on the page, except the meaning check, which waits for its written answer.
+      eq(await b.js('return document.querySelectorAll("form[data-item]").length;'), PACKET_ITEMS.filter((it) => !it.after).length, 'every question on the page');
+      eq(await b.js('return document.querySelectorAll(".passage-lines .pl-count").length > 10 && document.querySelector(".passage-lines li:last-child .pl-count").textContent;'), String(PACKET.pages[1].passage.text.trim().split(/\s+/).length), 'running word count');
+      // A wrong choice says why; Help opens one step; then every question is answered right.
+      const r1 = PACKET_ITEMS[0];
+      await packetAnswer(r1, { multi: '0,1' });
+      eq(await packetFb('r1'), 'Not yet 451 rounds to 500. Its tens digit is 5, so the 4 goes up. Press Help to see one step at a time.', 'why the choice is wrong');
+      await press('form[data-item="r1"] [data-act="help"]');
+      eq(await b.js('return document.querySelectorAll("form[data-item=r1] .help-steps li").length;'), 1, 'one Help step');
+      const q1 = PACKET_ITEMS.find((it) => it.id === 'q1');
+      await packetAnswer(q1, { text: 'He could not go anywhere.' });
+      expect((await packetFb('q1')).startsWith('Not yet Write a little more'), `sentence check: ${await packetFb('q1')}`);
+      // The equation's sign stays hidden until "I need to…" is answered, and the meaning check waits for Question 2.
+      expect(!(await b.js('return document.querySelector("form[data-item=w1eq]").textContent.includes("÷");')), 'the ÷ sign is hidden at first');
+      eq(await b.js('return [!!document.querySelector("form[data-item=q2check]"), !!document.querySelector(".locked")];'), [false, true], 'meaning check locked');
+      for (const it of PACKET_ITEMS) {
+        const sol = Object.fromEntries(Object.entries(solution(it)).map(([k, v]) => [k, String(v)]));
+        await packetAnswer(it, it.type === 'sentence' ? { text: it.example } : sol);
+        expect(/^(Yes!|Compare your answer Your sentence has all its parts)/.test(await packetFb(it.id)), `${it.id}: ${await packetFb(it.id)}`);
+      }
+      eq(await b.js('return document.querySelector(".packet-progress p strong").textContent;'), `${PACKET_ITEMS.length} of ${PACKET_ITEMS.length}`, 'all done');
+      expect(await b.js('return document.querySelector("form[data-item=w1eq]").textContent.includes("÷");'), 'the ÷ sign shows once the operation is chosen');
+      // Written sentences are compared, not scored as "right".
+      expect(await b.js('return document.querySelector(".packet-progress").textContent.includes("right on the first try (written answers are compared");'), 'sentences not scored');
+      // Save my work prints (or saves as PDF) the page with the answers; on paper the buttons and messages are gone.
+      await b.js('window.__printed = 0; window.print = () => { window.__printed++; };');
+      await b.js('document.querySelector(".packet-intro [data-act=print]").click();');
+      eq(await b.js('return window.__printed;'), 1, 'Save my work');
+      await b.media('print');
+      eq(await b.js('return [getComputedStyle(document.querySelector("form[data-item=r4] .btn-row") || document.body).display, getComputedStyle(document.querySelector(".packet-intro")).display, document.querySelector("form[data-item=r4] input[name=answer]").value];'),
+        ['none', 'none', '40'], 'printed with answers, without buttons');
+      await b.media('');
     });
 
     console.log('Privacy and security');

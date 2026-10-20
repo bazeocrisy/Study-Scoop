@@ -48,15 +48,17 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
   const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
     'data/lessons/index.json', ...lessons, 'images/cone.svg',
     'data/practice/math.json', 'data/practice/math-words.json', 'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
-    ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2'))];
+    ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2')),
+    // Homework packets (D23): Study Scoop's own version of the week's homework and its printed PDF.
+    'data/homework/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/homework/index.json'), 'utf8')).weeks.flatMap((id) => [`data/homework/${id}.json`, `downloads/homework-${id}.pdf`])];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
-  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'fonts', 'images', 'index.html', 'js']);
+  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'fonts', 'images', 'index.html', 'js']);
 });
 
 test('a draft lesson (not listed) is left out, and a broken lesson fails verification', () => {
   const src = tmp('lesson-src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   put(src, 'data/lessons/9-9.json', '{"id":"9-9"}');
   const out = tmp('lesson-out');
   const result = buildSite(out, src);
@@ -80,12 +82,13 @@ test('development files are absent from the built site, not merely unlinked', ()
   for (const rel of ['reference/vocabulary-prototype.html', 'tests/browser.test.js', 'docs/STUDY-SCOOP-AUDIT-REPORT.md']) {
     assert.ok(fs.existsSync(path.join(REPO, rel)), `${rel} exists in the repository`);
   }
-  for (const rel of PUBLISHED) assert.doesNotMatch(rel, /\.(md|jpe?g|png|heic|pdf|txt|mjs|cjs|ts|map|yml)$|^\.|\/\./, rel);
+  // The only PDFs are homework packets Study Scoop printed from its own page (checked by the verifier); never a scan.
+  for (const rel of PUBLISHED.filter((f) => !/^downloads\/homework-\d{4}-\d{2}-\d{2}\.pdf$/.test(f))) assert.doesNotMatch(rel, /\.(md|jpe?g|png|heic|pdf|txt|mjs|cjs|ts|map|yml)$|^\.|\/\./, rel);
 });
 
 test('the build leaves out anything not on the allowlist, even inside approved folders', () => {
   const src = tmp('src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   for (const rel of ['reference/vocabulary-prototype.html', 'tests/browser.test.js', 'docs/notes.md', 'images/newsletters/2026-10-12.jpg',
     'images/words/scan.png', 'js/notes.md', 'js/.secret.js', 'css/draft.css.bak', 'data/2026-11-02.json', 'data/notes.json',
     'images/mockup.svg']) put(src, rel);
@@ -145,7 +148,7 @@ test('the verifier checks the weekly data and its pictures', () => {
 
 test('a draft practice test (not listed) is left out, and a wrong answer key fails verification', () => {
   const src = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-src-'));
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   put(src, 'data/tests/2026-10-12.json', '{"id":"2026-10-12"}');
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-out-'));
   const result = buildSite(out, src);

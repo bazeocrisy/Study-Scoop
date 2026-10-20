@@ -7,6 +7,7 @@
     "test": "node --test \"tests/unit/*.test.js\"",
     "test:browser": "node tests/browser.test.js",
     "build": "node scripts/build-site.js",
+    "homework-pdf": "node scripts/make-homework-pdf.mjs",
     "test:site": "node scripts/build-site.js && node tests/browser.test.js --site _site",
     "test:all": "npm test && npm run test:browser && npm run test:site",
     "serve": "node tests/serve.js"

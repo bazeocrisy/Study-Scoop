@@ -831,3 +831,136 @@ h1[tabindex="-1"]:focus { outline: none; } h1[tabindex="-1"]:focus-visible { out
   .round-digits .digit, .dg-in:checked + .digit, .dg-in:checked + .digit + .dg-in + .digit { border-color: #000; background: #fff; }
   .round-pic .is-under, .round-pic .is-arrow::before, .dg-in:checked + .digit + .dg-in + .digit::before { color: #000; }
 }
+
+/* Homework packet (D23): every page of Study Scoop's version of the week's homework, in order. */
+.packet-card .btn-row, .packet-intro .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 0; }
+.packet-page { margin-top: 22px; display: grid; gap: 10px; }
+.packet-title { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.packet-title .pg-num { font-size: .9rem; padding: 2px 10px; border-radius: 999px; background: var(--honey-tint); color: var(--ink); }
+.directions { margin: 0; }
+.problems { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); }
+.packet-page:has(.passage) .problems, .packet-page:has(.story) .problems { grid-template-columns: 1fr; }
+.problem { display: grid; gap: 8px; align-content: start; }
+.problem .pnum { margin: 0; font-size: 1.1rem; }
+.problem .work { grid-template-columns: 1fr; }
+.story { display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; }
+.story p { margin: 0; font-size: 1.1rem; }
+.blank-lines { display: grid; gap: 10px; }
+.blank-line { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 1.15rem; }
+.blank-line .box { width: 4.2em; }
+.multi-note { display: block; font-size: .95rem; font-weight: 400; color: var(--muted); }
+.numberline { max-width: 100%; height: auto; }
+.numberline .nl-line, .numberline .nl-tick { stroke: var(--ink); stroke-width: 3; }
+.numberline .nl-arrow { fill: var(--ink); }
+.numberline .nl-dot { fill: var(--ink); }
+.numberline .nl-num { fill: var(--ink); font: 700 17px var(--display, sans-serif); }
+.passage-lines { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 6px; font-size: 1.15rem; line-height: 1.5; }
+.passage-lines li { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: baseline; }
+.pl-count { color: var(--muted); font-size: .95rem; font-variant-numeric: tabular-nums; min-width: 2.5em; text-align: right; }
+.fluency { border-collapse: collapse; margin-top: 8px; }
+.fluency caption { text-align: left; font-weight: 700; padding-bottom: 4px; }
+.fluency th, .fluency td { border: 1px solid var(--line-strong); padding: 6px 8px; text-align: center; }
+.fl-in { width: 3.2em; min-height: 40px; font-size: 1.1rem; text-align: center; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--paper); color: var(--ink); }
+textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 1.5; padding: 8px 10px; resize: vertical; min-height: 5.2em; }
+.packet-progress h2 { margin: 0 0 4px; font-size: 1.2rem; }
+@media (max-width: 420px) { .passage-lines { font-size: 1.05rem; } .blank-line { font-size: 1.05rem; } }
+@media print {
+  [data-subject="homework"] form .btn-row, [data-subject="homework"] .feedback, [data-subject="homework"] .help-panel,
+  [data-subject="homework"] .read, [data-subject="homework"] .no-print, [data-subject="homework"] .packet-progress .hint { display: none !important; }
+  [data-subject="homework"] .packet-page + .packet-page { break-before: page; }
+  [data-subject="homework"] .problem, [data-subject="homework"] .passage { break-inside: avoid; }
+  [data-subject="homework"] .problems { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  /* A compact sheet, like the paper packet: small type, thin borders, no tall buttons. */
+  [data-subject="homework"] { font-size: 10.5pt; }
+  [data-subject="homework"] .card, [data-subject="homework"] .question { padding: 6px 8px !important; border-width: 1px !important; box-shadow: none !important; }
+  [data-subject="homework"] .work { gap: 4px !important; }
+  [data-subject="homework"] .pic-card { border: 0 !important; padding: 0 !important; }
+  [data-subject="homework"] .problem { gap: 2px; border: 1.5px solid #000; padding: 6px; }
+  [data-subject="homework"] .problem .pnum { font-size: 10.5pt; }
+  [data-subject="homework"] .prompt, [data-subject="homework"] legend, [data-subject="homework"] .blank-line, [data-subject="homework"] .story p { font-size: 10.5pt !important; }
+  [data-subject="homework"] .choice { min-height: 0 !important; padding: 2px 6px !important; margin: 2px 0 !important; border-width: 1px !important; }
+  [data-subject="homework"] .choices { gap: 2px !important; }
+  [data-subject="homework"] .box { min-height: 0 !important; height: 1.7em !important; font-size: 10.5pt !important; padding: 0 4px !important; }
+  [data-subject="homework"] .eqlines { font-size: 12pt !important; }
+  [data-subject="homework"] textarea.sentence { min-height: 5em; }
+  [data-subject="homework"] .numberline { width: 100%; }
+  [data-subject="homework"] .passage-lines { font-size: 11pt; gap: 2px; }
+  [data-subject="homework"] .stage-title, [data-subject="homework"] .packet-intro p:first-child { display: none; }
+  [data-subject="homework"] .packet-page { margin-top: 6px; gap: 4px; }
+  [data-subject="homework"] .work, [data-subject="homework"] .work.has-pic, [data-subject="homework"] .choices { display: block !important; }
+  [data-subject="homework"] legend, [data-subject="homework"] .prompt { display: block !important; width: 100% !important; max-width: none !important; float: none !important; margin: 0 0 4px !important; }
+  [data-subject="homework"] .question { border: 0 !important; padding: 0 !important; }
+  [data-subject="homework"] .instruct-head { display: block !important; }
+  [data-subject="homework"] .lesson-bar, [data-subject="homework"] .act-bar { padding: 4px 8px !important; margin: 0 0 4px !important; }
+  [data-subject="homework"] .multi-note { display: inline; font-size: 9pt; }
+  [data-subject="homework"] .packet-page:has(.passage) .problems, [data-subject="homework"] .packet-page:has(.story) .problems { grid-template-columns: 1fr; }
+  [data-subject="homework"] .box, [data-subject="homework"] textarea.sentence, .fl-in { border: 1.5px solid #000 !important; background: #fff !important; }
+  .pl-count { color: #000; }
+}
+/* In the packet's narrow problem cells, "Read to me" sits above the question instead of reserving room beside it. */
+.problem .card.question > .instruct-head:has(> span:empty) { position: static; margin: 0 0 4px; justify-content: flex-end; }
+.problem .card.question:has(> .instruct-head > span:empty) > .instruct-head + * { padding-right: 0; }
+@media print {
+  [data-subject="homework"].stage, [data-subject="homework"] .packet-page { display: block !important; }
+  [data-subject="homework"] .problems { display: grid !important; }
+  [data-subject="homework"] .numberline { max-height: 60px; }
+  .lesson-bar .goal { display: none; }
+}
+@media print {
+  [data-subject="homework"] textarea.sentence { height: 6em !important; min-height: 6em !important; }
+  [data-subject="homework"] .numberline { max-height: 48px; }
+  [data-subject="homework"] .blank-lines { gap: 2px; }
+  [data-subject="homework"] .blank-line { gap: 3px; line-height: 1.3; }
+  [data-subject="homework"] .problem { padding: 4px 6px; }
+  [data-subject="homework"] .act-bar h1 { font-size: 14pt; margin: 0; }
+  [data-subject="homework"] .packet-intro { padding: 2px 8px !important; }
+}
+@media print {
+  /* Inline blocks fill a sheet row by row and never split a problem (grid rows do not fragment well in print). */
+  [data-subject="homework"] .problems { display: block !important; font-size: 0; }
+  [data-subject="homework"] .problem { display: inline-block !important; vertical-align: top; width: 32.4%; margin: 0 1% 6px 0; font-size: 10.5pt; box-sizing: border-box; }
+  [data-subject="homework"] .problem:nth-child(3n) { margin-right: 0; }
+  [data-subject="homework"] .packet-page:has(.passage) .problem, [data-subject="homework"] .packet-page:has(.story) .problem { width: 100%; margin-right: 0; }
+}
+@media print {
+  /* One title line on paper ("Homework packet: Oct 19–23"); the page's bar and introduction stay on screen. */
+  [data-section="homework"] .lesson-bar, [data-subject="homework"] .packet-intro { display: none !important; }
+  [data-subject="homework"] .stage-title { display: block !important; margin: 0 0 4px; }
+  [data-subject="homework"] .stage-title h2 { font-size: 14pt; margin: 0; }
+  [data-subject="homework"] .choice { padding: 1px 6px !important; }
+}
+@media print {
+  [data-subject="homework"] .problem { font-size: 10pt; margin-bottom: 4px; }
+  [data-subject="homework"] .choice { margin: 1px 0 !important; line-height: 1.2; }
+  [data-subject="homework"] .choice input { width: 12px; height: 12px; margin: 0 4px 0 0; }
+  [data-subject="homework"] .numberline { max-height: 40px; }
+  [data-subject="homework"] legend, [data-subject="homework"] .prompt { line-height: 1.25; }
+  [data-subject="homework"] .directions { font-size: 10pt; }
+  .site-head, header.top, .brand-row { padding-top: 0 !important; padding-bottom: 2px !important; }
+}
+@media print { [data-subject="homework"] .packet-progress { display: none !important; } }
+/* Homework packet review fixes (D23). */
+.locked { color: var(--muted); font-style: italic; }
+.feedback.compare { border-color: var(--line-strong); }
+.pl-count { padding-right: 4px; }
+.fluency { width: 100%; max-width: 32rem; }
+@media (max-width: 640px) {
+  .story { flex-direction: column-reverse; align-items: stretch; }
+  .story .read { align-self: flex-end; }
+  .fluency th, .fluency td { padding: 4px; font-size: .9rem; }
+}
+@media print {
+  [data-subject="homework"] textarea.sentence { width: 100% !important; height: 1.3in !important; min-height: 1.3in !important; }
+  [data-subject="homework"] .word-answer { display: block; }
+  [data-subject="homework"] .numberline { max-height: none; width: 3.4in !important; }
+  [data-subject="homework"] .name-line { display: block; margin: 0 0 6px; font-size: 11pt; }
+  [data-subject="homework"] .name-line .small { font-size: 8pt; color: #000; }
+  [data-subject="homework"] .show-work { display: block; border: 1.5px solid #000; height: 1.3in; padding: 4px 6px; font-size: 9pt; margin: 4px 0; }
+  [data-subject="homework"] .locked { display: none; }
+}
+@media print {
+  [data-subject="homework"] .numberline { width: 2.3in !important; }
+  [data-subject="homework"] .page-head, [data-subject="homework"] .directions { margin: 0 !important; }
+  [data-subject="homework"] .blank-line { font-size: 9.5pt !important; }
+  [data-subject="homework"] .problem .box { height: 1.5em !important; }
+}
