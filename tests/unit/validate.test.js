@@ -54,7 +54,7 @@ test('math is optional', () => {
 test('weeks.json problems are caught', () => {
   assert.deepEqual(validateIndex(goodIndex()), []);
   const cases = [
-    [(i) => { i.current = '2026-10-26'; }, /"current"/],
+    [(i) => { i.current = '2026-11-09'; }, /"current"/],
     [(i) => { i.weeks.reverse(); }, /newest first/],
     [(i) => { i.weeks.push({ ...i.weeks[0] }); }, /listed twice|newest first/],
     [(i) => { i.weeks[0].id = '10/19/2026'; }, /date like/],
