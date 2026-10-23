@@ -1,0 +1,396 @@
+{
+  "id": "2026-10-26",
+  "vocab": {
+    "topic": "Because of Winn-Dixie — Four Green Words",
+    "coverage": "Trustworthy, Constellations, Irritating, and Distracted only (Oct 30 green-word quiz)",
+    "instructions": "Choose the correct answer. You can go back before submitting. Explanations are shown after the test.",
+    "note": "The classroom quiz is on the four green words. The other eight words stay available for review.",
+    "pass": 13,
+    "items": [
+      {
+        "id": "v1",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Trustworthy",
+        "prompt": "What does the word \"Trustworthy\" mean?",
+        "options": [
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the definition of Constellations."
+          },
+          {
+            "text": "The ability to keep promises",
+            "correct": true
+          },
+          {
+            "text": "To anger or bother",
+            "why": "That is the definition of Irritating."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the definition of Distracted."
+          }
+        ],
+        "explain": "\"Trustworthy\" means: The ability to keep promises."
+      },
+      {
+        "id": "v2",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Trustworthy",
+        "prompt": "True or false? \"Trustworthy\" means \"The ability to keep promises\".",
+        "options": [
+          {
+            "text": "True",
+            "correct": true
+          },
+          {
+            "text": "False",
+            "why": "That is the definition of Trustworthy."
+          }
+        ],
+        "explain": "True. \"Trustworthy\" means: The ability to keep promises."
+      },
+      {
+        "id": "v3",
+        "type": "choice",
+        "kind": "word",
+        "word": "Trustworthy",
+        "prompt": "Which word means \"The ability to keep promises\"?",
+        "options": [
+          {
+            "text": "Irritating",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Constellations",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Trustworthy",
+            "correct": true
+          },
+          {
+            "text": "Distracted",
+            "why": "Review the meanings of the green words."
+          }
+        ],
+        "explain": "The word is \"Trustworthy\": The ability to keep promises."
+      },
+      {
+        "id": "v4",
+        "type": "choice",
+        "kind": "context",
+        "word": "Trustworthy",
+        "prompt": "Read the sentence: \"Our trustworthy neighbor always keeps her promises.\" What does \"trustworthy\" mean on the class vocabulary sheet?",
+        "options": [
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the definition of Distracted."
+          },
+          {
+            "text": "The ability to keep promises",
+            "correct": true
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the definition of Constellations."
+          },
+          {
+            "text": "To anger or bother",
+            "why": "That is the definition of Irritating."
+          }
+        ],
+        "explain": "\"Trustworthy\" means: The ability to keep promises."
+      },
+      {
+        "id": "v5",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Constellations",
+        "prompt": "What does the word \"Constellations\" mean?",
+        "options": [
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the definition of Trustworthy."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "correct": true
+          },
+          {
+            "text": "To anger or bother",
+            "why": "That is the definition of Irritating."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the definition of Distracted."
+          }
+        ],
+        "explain": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
+      },
+      {
+        "id": "v6",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Constellations",
+        "prompt": "True or false? \"Constellations\" means \"To anger or bother\".",
+        "options": [
+          {
+            "text": "True",
+            "why": "That meaning belongs to Irritating."
+          },
+          {
+            "text": "False",
+            "correct": true
+          }
+        ],
+        "explain": "False. \"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
+      },
+      {
+        "id": "v7",
+        "type": "choice",
+        "kind": "word",
+        "word": "Constellations",
+        "prompt": "Which word means \"A group of stars in the night sky that make up a picture or a pattern\"?",
+        "options": [
+          {
+            "text": "Irritating",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Constellations",
+            "correct": true
+          },
+          {
+            "text": "Distracted",
+            "why": "Review the meanings of the green words."
+          }
+        ],
+        "explain": "The word is \"Constellations\": A group of stars in the night sky that make up a picture or a pattern."
+      },
+      {
+        "id": "v8",
+        "type": "choice",
+        "kind": "context",
+        "word": "Constellations",
+        "prompt": "Read the sentence: \"We observed constellations in the clear night sky.\" What does \"constellations\" mean?",
+        "options": [
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the definition of Distracted."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "correct": true
+          },
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the definition of Trustworthy."
+          },
+          {
+            "text": "To anger or bother",
+            "why": "That is the definition of Irritating."
+          }
+        ],
+        "explain": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
+      },
+      {
+        "id": "v9",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Irritating",
+        "prompt": "What does the word \"Irritating\" mean?",
+        "options": [
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the definition of Trustworthy."
+          },
+          {
+            "text": "To anger or bother",
+            "correct": true
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the definition of Constellations."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the definition of Distracted."
+          }
+        ],
+        "explain": "\"Irritating\" means: To anger or bother."
+      },
+      {
+        "id": "v10",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Irritating",
+        "prompt": "True or false? \"Irritating\" means \"To anger or bother\".",
+        "options": [
+          {
+            "text": "True",
+            "correct": true
+          },
+          {
+            "text": "False",
+            "why": "That is the definition of Irritating."
+          }
+        ],
+        "explain": "True. \"Irritating\" means: To anger or bother."
+      },
+      {
+        "id": "v11",
+        "type": "choice",
+        "kind": "word",
+        "word": "Irritating",
+        "prompt": "Which word means \"To anger or bother\"?",
+        "options": [
+          {
+            "text": "Constellations",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Irritating",
+            "correct": true
+          },
+          {
+            "text": "Distracted",
+            "why": "Review the meanings of the green words."
+          }
+        ],
+        "explain": "The word is \"Irritating\": To anger or bother."
+      },
+      {
+        "id": "v12",
+        "type": "choice",
+        "kind": "context",
+        "word": "Irritating",
+        "prompt": "Read the sentence: \"The irritating sound continued during homework.\" What does \"irritating\" mean?",
+        "options": [
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the definition of Distracted."
+          },
+          {
+            "text": "To anger or bother",
+            "correct": true
+          },
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the definition of Trustworthy."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the definition of Constellations."
+          }
+        ],
+        "explain": "\"Irritating\" means: To anger or bother."
+      },
+      {
+        "id": "v13",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Distracted",
+        "prompt": "What does the word \"Distracted\" mean?",
+        "options": [
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the definition of Trustworthy."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "correct": true
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the definition of Constellations."
+          },
+          {
+            "text": "To anger or bother",
+            "why": "That is the definition of Irritating."
+          }
+        ],
+        "explain": "\"Distracted\" means: To prevent something from continuing as usual."
+      },
+      {
+        "id": "v14",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Distracted",
+        "prompt": "True or false? \"Distracted\" means \"The ability to keep promises\".",
+        "options": [
+          {
+            "text": "True",
+            "why": "That meaning belongs to Trustworthy."
+          },
+          {
+            "text": "False",
+            "correct": true
+          }
+        ],
+        "explain": "False. \"Distracted\" means: To prevent something from continuing as usual."
+      },
+      {
+        "id": "v15",
+        "type": "choice",
+        "kind": "word",
+        "word": "Distracted",
+        "prompt": "Which word means \"To prevent something from continuing as usual\"?",
+        "options": [
+          {
+            "text": "Constellations",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "Review the meanings of the green words."
+          },
+          {
+            "text": "Distracted",
+            "correct": true
+          },
+          {
+            "text": "Irritating",
+            "why": "Review the meanings of the green words."
+          }
+        ],
+        "explain": "The word is \"Distracted\": To prevent something from continuing as usual."
+      },
+      {
+        "id": "v16",
+        "type": "choice",
+        "kind": "context",
+        "word": "Distracted",
+        "prompt": "Read the sentence: \"I was distracted when the class was interrupted.\" What does \"distracted\" mean?",
+        "options": [
+          {
+            "text": "To anger or bother",
+            "why": "That is the definition of Irritating."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "correct": true
+          },
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the definition of Trustworthy."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the definition of Constellations."
+          }
+        ],
+        "explain": "\"Distracted\" means: To prevent something from continuing as usual."
+      }
+    ]
+  }
+}

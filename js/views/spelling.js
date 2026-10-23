@@ -23,8 +23,8 @@ function learnWords(ctx) {
   })).filter((g) => g.words.length);
   // Study cards: the owner-approved picture cards (each shows the written word, so they are for studying only,
   // never for a spelling test; DECISIONS D13).
-  const photos = new Set(ctx.pictures?.photos || []);
-  const cards = sp.words.filter((w) => photos.has(pictureName(w.word)));
+  const availablePictures = new Set([...(ctx.pictures?.photos || []), ...(ctx.pictures?.drawings || [])]);
+  const cards = sp.words.filter((w) => availablePictures.has(pictureName(w.word)));
   return html`
     ${subBar(ctx, {
       tone: 'spelling', title: 'Learn My Words', goal: `This week's pattern: ${sp.pattern} (${sp.words.length} words)`,

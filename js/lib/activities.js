@@ -241,7 +241,7 @@ export function vocabItems(week, kind, rand = Math.random) {
 // ---------------------------------------------------------------- spelling
 
 /** The ending the week practices ("-ing" -> "ing"). */
-const suffixOf = (sp) => String(sp.pattern).replace(/^-/, '');
+const suffixOf = (sp, entry) => entry && /(?:^|-)or$/.test(entry.rule) ? 'or' : entry && /(?:^|-)er$/.test(entry.rule) ? 'er' : String(sp.pattern).replace(/^-/, '');
 const VOWEL = /[aeiou]/;
 
 /**
@@ -250,7 +250,7 @@ const VOWEL = /[aeiou]/;
  */
 export function missingLetters(entry, sp) {
   const w = entry.word.toLowerCase();
-  const suffix = suffixOf(sp);
+  const suffix = suffixOf(sp, entry);
   const end = w.endsWith(suffix) ? w.length - suffix.length : w.length;
   const stem = w.slice(0, end);
   const blanks = [];
@@ -269,12 +269,12 @@ const ruleQuestion = (sp) => `Which rule does this word follow: ${Object.values(
 function spellSteps(entry, sp) {
   const help = sp.ruleHelp?.[entry.rule];
   const w = entry.word.toLowerCase(), b = entry.base.toLowerCase();
-  const stem = w.slice(0, w.length - suffixOf(sp).length);
+  const stem = w.slice(0, w.length - suffixOf(sp, entry).length);
   const change = stem === b ? '' : stem === b + b.slice(-1) ? `Double the last letter: ${b} becomes ${stem}.`
     : b.endsWith('e') && stem === b.slice(0, -1) ? `Drop the e: ${b} becomes ${stem}.` : '';
   // The rule comes before it is used, and an example that is this very word is left out (it would give the word away early).
   const example = help && !new RegExp(`\\b${w}\\b`, 'i').test(help) ? [`Example: ${help}.`] : [];
-  return [`Start with ${q(entry.base)} and the ending ${q(suffixOf(sp))}.`, `${rulePhrase(sp, entry)}.`, ...example,
+  return [`Start with ${q(entry.base)} and the ending ${q(suffixOf(sp, entry))}.`, `${rulePhrase(sp, entry)}.`, ...example,
     ...(change ? [change] : []), `So the word is ${q(entry.word)}.`];
 }
 
@@ -308,7 +308,7 @@ export function spellItem(entry, sp, { test = false, id } = {}) {
 /** Words to practise a second time: the ones whose spelling changes before the ending first (doubled letter,
  *  dropped e), then the rest in list order. */
 function secondRound(sp, n) {
-  const changes = (e) => e.word.toLowerCase().slice(0, e.word.length - suffixOf(sp).length) !== e.base.toLowerCase();
+  const changes = (e) => e.word.toLowerCase().slice(0, e.word.length - suffixOf(sp, e).length) !== e.base.toLowerCase();
   return [...sp.words.filter(changes), ...sp.words.filter((e) => !changes(e))].slice(0, n);
 }
 
@@ -317,7 +317,7 @@ function secondRound(sp, n) {
 export function lettersAgainItem(entry, sp) {
   const first = lettersItem(entry, sp);
   const w = first.word;
-  const end = w.endsWith(suffixOf(sp)) ? w.length - suffixOf(sp).length : w.length;
+  const end = w.endsWith(suffixOf(sp, entry)) ? w.length - suffixOf(sp, entry).length : w.length;
   let blanks = [];
   for (let k = 1; k < end && blanks.length < 3; k += 2) blanks.push(k);
   if (JSON.stringify(blanks) === JSON.stringify(first.blanks)) blanks = blanks.map((k) => k - 1).filter((k) => k >= 0);
@@ -327,7 +327,7 @@ export function lettersAgainItem(entry, sp) {
 /** Listen & Spell, build it: the base word is given, the child adds the ending with the right rule and types the word. */
 export function buildItem(entry, sp) {
   const n = wordNo(entry, sp);
-  const ending = suffixOf(sp);
+  const ending = suffixOf(sp, entry);
   return {
     id: `bw-${n}`, n, round: 2, type: 'word', blank: false, answer: entry.word.toLowerCase(),
     prompt: `Add the ending -${ending} to the word "${entry.base.toLowerCase()}". Type the new word.`,
@@ -448,7 +448,10 @@ function vocabTestProblems(t, week) {
     }
     if (it.type === 'word' && normWord(it.answer) !== normWord(w.word)) out.push(`${it.id}: the answer must be ${w.word}`);
   }
-  for (const w of week.vocab.words) if (!used.has(w)) out.push(`no question is about ${w.word}`);
+  const quizWords = Array.isArray(week.vocab.quizWords) && week.vocab.quizWords.length
+    ? week.vocab.words.filter((w) => week.vocab.quizWords.some((q) => normWord(q) === normWord(w.word)))
+    : week.vocab.words;
+  for (const w of quizWords) if (!used.has(w)) out.push(`no question is about ${w.word}`);
   return out;
 }
 

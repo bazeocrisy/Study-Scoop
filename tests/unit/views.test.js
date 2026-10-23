@@ -35,6 +35,7 @@ function ctxFor(index, weekId, section, week) {
 
 const cases = [];
 const realIndex = readJSON('data/weeks.json');
+const historicalIndex = { ...realIndex, current: '2026-10-19' }; // Explicit Oct 19 route assertions.
 for (const { id } of realIndex.weeks) cases.push([realIndex, id, readJSON(`data/${id}.json`)]);
 const fixtureIndex = readJSON('tests/fixtures/data/weeks.json');
 cases.push([fixtureIndex, '2026-10-26', readJSON('tests/fixtures/data/2026-10-26.json')]);
@@ -79,16 +80,16 @@ for (const [index, id, week] of cases) {
 
 test('This Week counts down to each test from a fixed date', () => {
   const week = readJSON('data/2026-10-19.json');
-  const out = weekView(ctxFor(realIndex, '2026-10-19', 'week', week)).s;
+  const out = weekView(ctxFor(historicalIndex, '2026-10-19', 'week', week)).s;
   assert.match(out, /In 5 days[\s\S]*Math Test[\s\S]*Wednesday, October 21/);
   assert.match(out, /In 7 days[\s\S]*Vocabulary Quiz[\s\S]*Friday, October 23/);
-  const past = weekView(ctxFor(realIndex, '2026-10-12', 'week', readJSON('data/2026-10-12.json'))).s;
+  const past = weekView(ctxFor(historicalIndex, '2026-10-12', 'week', readJSON('data/2026-10-12.json'))).s;
   assert.match(past, /Today[\s\S]*Friday, October 16/);
 });
 
 test('Skill Builders opens on three skill cards, each with Learn It, practice, Practice My Misses and a test', () => {
   const week = readJSON('data/2026-10-19.json');
-  const ctx = ctxFor(realIndex, '2026-10-19', 'skills', week);
+  const ctx = ctxFor(historicalIndex, '2026-10-19', 'skills', week);
   const home = skillsView(ctx).s;
   for (const name of ['Mental Add', 'Rounding', 'Times Tables']) assert.ok(home.includes(name), name);
   assert.doesNotMatch(home, /Coming soon|<input|<select/);
@@ -103,24 +104,24 @@ test('Skill Builders opens on three skill cards, each with Learn It, practice, P
 
 test('Math opens on its four choices; Math Lessons links every lesson step', () => {
   const week = readJSON('data/2026-10-19.json');
-  const math = mathView(ctxFor(realIndex, '2026-10-19', 'math', week)).s;
+  const math = mathView(ctxFor(historicalIndex, '2026-10-19', 'math', week)).s;
   for (const [name, act] of [['Learn the Properties', 'learn'], ['Practice Problems', 'practice'], ['Math Lessons', 'lessons'], ['Study Guide', 'guide']]) {
     assert.ok(math.includes(name), name);
     assert.ok(math.includes(`href="#math?act=${act}"`), act);
   }
   assert.match(math, /What would you like to do\?/);
-  const lessons = mathView({ ...ctxFor(realIndex, '2026-10-19', 'math', week), page: 'lessons' }).s;
+  const lessons = mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'lessons' }).s;
   for (const id of ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']) {
     for (const st of ['learn', 'watch', 'together', 'try', 'test']) assert.ok(lessons.includes(`href="#math?lesson=${id}&amp;stage=${st}"`), `${id} ${st}`);
   }
-  const practice = mathView({ ...ctxFor(realIndex, '2026-10-19', 'math', week), page: 'practice' }).s;
+  const practice = mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'practice' }).s;
   for (const act of ['props', 'split', 'breakapart', 'mixed', 'misses']) assert.ok(practice.includes(`href="#math?act=${act}"`), act);
 });
 
 test('Learn the Properties uses the teacher\'s exact words when the week lists them, and works without them', () => {
   const card = (weekId, i) => {
     const week = readJSON(`data/${weekId}.json`);
-    const ctx = ctxFor(realIndex, weekId, 'math', week);
+    const ctx = ctxFor(historicalIndex, weekId, 'math', week);
     ctx.run = { subject: 'math', act: 'learn', mode: 'practice', title: 'Learn the Properties', items: [], items_: {}, flash: { order: [0, 1, 2, 3, 4], i, flipped: false, marks: {} } };
     return [week, mathView(ctx).s];
   };
@@ -140,14 +141,14 @@ test('Learn the Properties uses the teacher\'s exact words when the week lists t
 
 test('newsletter lists every week with working links', () => {
   const week = readJSON('data/2026-10-19.json');
-  const out = newsletterView(ctxFor(realIndex, '2026-10-19', 'newsletter', week)).s;
+  const out = newsletterView(ctxFor(historicalIndex, '2026-10-19', 'newsletter', week)).s;
   assert.ok(out.includes('href="#newsletter"'));
   assert.ok(out.includes('href="#newsletter?week=2026-10-12"'));
 });
 
 test('homework checkboxes are labelled', () => {
   const week = readJSON('data/2026-10-19.json');
-  const out = homeworkView(ctxFor(realIndex, '2026-10-19', 'homework', week)).s;
+  const out = homeworkView(ctxFor(historicalIndex, '2026-10-19', 'homework', week)).s;
   const inputs = [...out.matchAll(/<input type="checkbox" id="(hw-\d+)">/g)].map((m) => m[1]);
   assert.equal(inputs.length, week.homework.length);
   for (const id of inputs) assert.ok(out.includes(`<label class="hw-check" for="${id}">`), id);

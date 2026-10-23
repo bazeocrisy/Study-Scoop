@@ -1,0 +1,316 @@
+{
+  "id": "2026-10-26",
+  "label": "Week of October 26–30",
+  "learning": [
+    [
+      "Math",
+      "Area"
+    ],
+    [
+      "Reading",
+      "Novel Study: Because of Winn-Dixie"
+    ],
+    [
+      "Writing",
+      "Opinion"
+    ],
+    [
+      "Spelling",
+      "-er / -or"
+    ],
+    [
+      "ELA",
+      "Pronouns"
+    ],
+    [
+      "Science",
+      "Georgia Habitats"
+    ]
+  ],
+  "tests": [
+    {
+      "date": "2026-10-30",
+      "kind": "vocab",
+      "title": "Academic Vocabulary Quiz",
+      "detail": "Green words: Trustworthy, Constellations, Irritating, Distracted"
+    },
+    {
+      "date": "2026-10-30",
+      "kind": "spelling",
+      "title": "Spelling Test",
+      "detail": "-er / -or words"
+    },
+    {
+      "date": "2026-11-03",
+      "kind": "math",
+      "title": "Math Topic 6 Vocabulary Test",
+      "detail": "Area, Square Unit, Multiply (announced for Nov 3)"
+    }
+  ],
+  "events": [
+    {
+      "date": "Oct 26–30",
+      "text": "Red Ribbon Week"
+    },
+    {
+      "date": "Oct 29, 6–7 PM",
+      "text": "BOONanza"
+    },
+    {
+      "date": "Nov 18",
+      "text": "Field Trip"
+    },
+    {
+      "date": "Nov 20, noon",
+      "text": "Early Release"
+    }
+  ],
+  "homework": [
+    {
+      "title": "Homework packet",
+      "due": "Sent home Monday, due Friday",
+      "source": "newsletter",
+      "description": "The newsletter does not list individual math worksheet pages. Add specifics when the packet is received."
+    },
+    {
+      "title": "Reading Log",
+      "due": "Every Monday",
+      "source": "newsletter"
+    },
+    {
+      "title": "3 spelling activities",
+      "due": "With the weekly homework packet",
+      "source": "newsletter"
+    }
+  ],
+  "spelling": {
+    "pattern": "-er / -or",
+    "rules": {
+      "er": "Add -er to the base word",
+      "double-er": "Double the last consonant, then add -er",
+      "or": "Words ending in -or"
+    },
+    "ruleHelp": {
+      "er": "help → helper",
+      "double-er": "run → runner; swim → swimmer",
+      "or": "act → actor"
+    },
+    "words": [
+      {
+        "word": "pitcher",
+        "base": "pitch",
+        "rule": "er",
+        "sentence": "The pitcher threw a fast ball."
+      },
+      {
+        "word": "helper",
+        "base": "help",
+        "rule": "er",
+        "sentence": "The helper passed out papers."
+      },
+      {
+        "word": "boxer",
+        "base": "box",
+        "rule": "er",
+        "sentence": "The boxer practiced in the gym."
+      },
+      {
+        "word": "runner",
+        "base": "run",
+        "rule": "double-er",
+        "sentence": "The runner crossed the finish line."
+      },
+      {
+        "word": "swimmer",
+        "base": "swim",
+        "rule": "double-er",
+        "sentence": "The swimmer raced across the pool."
+      },
+      {
+        "word": "actor",
+        "base": "act",
+        "rule": "or",
+        "sentence": "The actor practiced for the school play."
+      },
+      {
+        "word": "tractor",
+        "base": "tract",
+        "rule": "or",
+        "sentence": "A tractor pulled a wagon across the field."
+      },
+      {
+        "word": "shipper",
+        "base": "ship",
+        "rule": "double-er",
+        "sentence": "The shipper packed the orders carefully."
+      },
+      {
+        "word": "doctor",
+        "base": "doct",
+        "rule": "or",
+        "sentence": "The doctor listened to my heartbeat."
+      },
+      {
+        "word": "bigger",
+        "base": "big",
+        "rule": "double-er",
+        "sentence": "The bigger pumpkin was on the porch."
+      },
+      {
+        "word": "bolder",
+        "base": "bold",
+        "rule": "er",
+        "sentence": "She used a bolder color in her painting."
+      },
+      {
+        "word": "conductor",
+        "base": "conduct",
+        "rule": "or",
+        "sentence": "The conductor guided the orchestra."
+      },
+      {
+        "word": "talker",
+        "base": "talk",
+        "rule": "er",
+        "sentence": "The talker shared an exciting story."
+      },
+      {
+        "word": "teacher",
+        "base": "teach",
+        "rule": "er",
+        "sentence": "The teacher helped us learn about area."
+      },
+      {
+        "word": "walker",
+        "base": "walk",
+        "rule": "er",
+        "sentence": "The walker followed the park trail."
+      }
+    ]
+  },
+  "vocab": {
+    "title": "Because of Winn-Dixie",
+    "quiz": "Friday, Oct 30",
+    "groupsNote": "The Oct 30 academic vocabulary quiz covers the four green words: Trustworthy, Constellations, Irritating, and Distracted. Other words are retained for review.",
+    "words": [
+      {
+        "word": "Produce",
+        "def": "Fresh fruits and vegetables",
+        "sentence": "We bought fresh produce at the market.",
+        "fill": "The ___ aisle has apples and carrots."
+      },
+      {
+        "word": "Exception",
+        "def": "A case where a rule does not apply",
+        "sentence": "The extra recess was an exception to the rule.",
+        "fill": "Everyone followed the rule except one ___."
+      },
+      {
+        "word": "Installment",
+        "def": "When money is paid over a length of time",
+        "sentence": "My aunt made an installment payment on her bicycle.",
+        "fill": "The monthly payment was an ___ toward the total price."
+      },
+      {
+        "word": "Peculiar",
+        "def": "Strange or unusual",
+        "sentence": "The peculiar bird had bright purple feathers.",
+        "fill": "The oddly shaped cloud looked ___."
+      },
+      {
+        "word": "Employee",
+        "def": "Someone who works for money",
+        "sentence": "The employee helped shoppers find their shoes.",
+        "fill": "An ___ at the store showed me where to pay."
+      },
+      {
+        "word": "Fortunate",
+        "def": "favored by or involving good luck or fortune",
+        "sentence": "We were fortunate to find our lost keys.",
+        "fill": "I felt ___ when my missing glove was returned."
+      },
+      {
+        "word": "Ignorant",
+        "def": "lacking knowledge or awareness in general",
+        "sentence": "Before the lesson, I was ignorant about how bees communicate.",
+        "fill": "I was ___ about constellations before the science lesson."
+      },
+      {
+        "word": "Melancholy",
+        "def": "A sad or gloomy condition",
+        "sentence": "The quiet music gave the scene a melancholy feeling.",
+        "fill": "The rainy ending gave the story a ___ mood."
+      },
+      {
+        "word": "Trustworthy",
+        "def": "The ability to keep promises",
+        "group": "green",
+        "sentence": "My trustworthy friend returned the book she borrowed.",
+        "fill": "He always keeps his promises, so I know he is ___."
+      },
+      {
+        "word": "Constellations",
+        "def": "A group of stars in the night sky that make up a picture or a pattern",
+        "group": "green",
+        "sentence": "We identified constellations in the night sky.",
+        "fill": "At night we looked for ___ among the stars."
+      },
+      {
+        "word": "Irritating",
+        "def": "To anger or bother",
+        "group": "green",
+        "sentence": "The irritating buzzing noise made it hard to concentrate.",
+        "fill": "The constant tapping was ___ while I was reading."
+      },
+      {
+        "word": "Distracted",
+        "def": "To prevent something from continuing as usual",
+        "group": "green",
+        "sentence": "I was distracted by the loud noise during class.",
+        "fill": "The sudden bell ___ me from finishing my sentence."
+      }
+    ],
+    "quizWords": [
+      "Trustworthy",
+      "Constellations",
+      "Irritating",
+      "Distracted"
+    ]
+  },
+  "math": {
+    "title": "Topic 6: Area",
+    "test": "Tuesday, Nov 3 (vocabulary test)",
+    "words": [
+      {
+        "word": "Area",
+        "def": "number of unit squares needed to cover the INSIDE of a shape or region",
+        "example": [
+          3,
+          4,
+          12
+        ],
+        "fill": "The number of unit squares covering a shape is its ___."
+      },
+      {
+        "word": "Square Unit",
+        "def": "a square that is 1 unit tall and 1 unit wide",
+        "example": [
+          1,
+          1,
+          1
+        ],
+        "fill": "A 1-by-1 square is one ___."
+      },
+      {
+        "word": "Multiply",
+        "def": "to find the area of a rectangle, you multiply the length and the width",
+        "example": [
+          4,
+          3,
+          12
+        ],
+        "fill": "To find a rectangular area's total using its length and width, ___."
+      }
+    ]
+  }
+}

@@ -19,7 +19,7 @@ const INDEX = readJSON('data/lessons/index.json');
 const LESSONS = INDEX.lessons.map((l) => readJSON(`data/lessons/${l.id}.json`));
 const MW = readJSON('data/practice/math-words.json');
 const W19 = readJSON('data/2026-10-19.json');
-const WEEKS = readJSON('data/weeks.json');
+const WEEKS = { ...readJSON('data/weeks.json'), current: '2026-10-19' }; // Pin historical route expectations; real current week is tested elsewhere.
 const asText = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, String(v)]));
 const norm = (t) => String(t).replace(/\s+/g, ' ').trim().toLowerCase();
 
