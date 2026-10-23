@@ -448,7 +448,10 @@ function vocabTestProblems(t, week) {
     }
     if (it.type === 'word' && normWord(it.answer) !== normWord(w.word)) out.push(`${it.id}: the answer must be ${w.word}`);
   }
-  for (const w of week.vocab.words) if (!used.has(w)) out.push(`no question is about ${w.word}`);
+  const quizWords = Array.isArray(week.vocab.quizWords) && week.vocab.quizWords.length
+    ? week.vocab.words.filter((w) => week.vocab.quizWords.some((q) => normWord(q) === normWord(w.word)))
+    : week.vocab.words;
+  for (const w of quizWords) if (!used.has(w)) out.push(`no question is about ${w.word}`);
   return out;
 }
 
