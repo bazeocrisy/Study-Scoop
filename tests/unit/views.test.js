@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildHash } from '../../js/lib/router.js';
+import { chapterFor } from '../../js/lib/chapters.js';
 import { esc } from '../../js/lib/html.js';
 import { weekView } from '../../js/views/week.js';
 import { spellingView } from '../../js/views/spelling.js';
@@ -27,6 +28,7 @@ function ctxFor(index, weekId, section, week) {
     link: (s, id = weekId) => buildHash(s, id, index.current),
     lessonLink: (id, stage) => buildHash('math', weekId, index.current, { lesson: id, stage }),
     actLink: (s, act) => buildHash(s, weekId, index.current, { act }),
+    chapterLink: (id) => buildHash('math', weekId, index.current, { ch: id }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
     tests: weekId === '2026-10-19' ? readJSON('data/tests/2026-10-19.json') : null, misses: { vocab: 0, spelling: 0, math: 0 },
     practice: readJSON('data/practice/math.json'),
@@ -102,20 +104,36 @@ test('Skill Builders opens on three skill cards, each with Learn It, practice, P
   }
 });
 
-test('Math opens on its four choices; Math Lessons links every lesson step', () => {
+test('Math opens on Choose Your Chapter; each chapter opens its own six activities and lists only its own lessons (D26)', () => {
   const week = readJSON('data/2026-10-19.json');
-  const math = mathView(ctxFor(historicalIndex, '2026-10-19', 'math', week)).s;
-  for (const [name, act] of [['Learn the Properties', 'learn'], ['Practice Problems', 'practice'], ['Math Lessons', 'lessons'], ['Study Guide', 'guide']]) {
-    assert.ok(math.includes(name), name);
-    assert.ok(math.includes(`href="#math?act=${act}"`), act);
+  const at = (extra) => { const c = ctxFor(historicalIndex, '2026-10-19', 'math', week); const x = { ...c, ...extra }; x.chapter = chapterFor(LESSONS, { ch: x.chapterMenu || null, act: x.page || null }); return x; };
+  const math = mathView(at({})).s;
+  assert.match(math, /Choose Your Chapter/);
+  assert.ok(math.includes('href="#math?ch=5"') && math.includes('href="#math?ch=6"'), 'both chapter cards');
+  assert.ok(math.includes('Chapter 5: Multiplication Properties and Strategies') && math.includes('Chapter 6: Connect Area and Multiplication'));
+  // No Chapter 5 activity or lesson is listed on the chooser.
+  assert.doesNotMatch(math, /href="#math\?(act|lesson)=/, 'the chooser lists chapters only');
+  // Oct 19: the class is on Chapter 5; Chapter 6 is coming up. Oct 26: Chapter 6 now, Chapter 5 for review.
+  assert.match(math, /Currently studying<\/span>\s*<span class="mc-title">Chapter 5/);
+  const w26 = readJSON('data/2026-10-26.json');
+  const m26 = mathView({ ...ctxFor(realIndex, '2026-10-26', 'math', w26), chapter: null }).s;
+  assert.match(m26, /Available for review<\/span>\s*<span class="mc-title">Chapter 5/);
+  assert.match(m26, /Currently studying<\/span>\s*<span class="mc-title">Chapter 6/);
+  const acts = { 5: ['learn', 'words', 'ch5', 'practice', 'guide', 'ch5test'], 6: ['arealearn', 'areawords', 'ch6', 'areapractice', 'ch6guide', 'ch6test'] };
+  for (const ch of [5, 6]) {
+    const out = mathView(at({ chapterMenu: ch })).s;
+    for (const a of acts[ch]) assert.ok(out.includes(`href="#math?act=${a}"`), `Chapter ${ch}: ${a}`);
+    for (const a of acts[ch === 5 ? 6 : 5]) assert.ok(!out.includes(`href="#math?act=${a}"`), `Chapter ${ch} never links ${a}`);
+    for (const l of ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test']) assert.ok(out.includes(l), `Chapter ${ch}: ${l}`);
+    const lessons = mathView(at({ page: `ch${ch}` })).s;
+    for (const l of LESSONS.lessons) {
+      for (const st of ['learn', 'watch', 'together', 'try', 'test']) assert.equal(lessons.includes(`href="#math?lesson=${l.id}&amp;stage=${st}"`), l.chapter === ch, `${l.id} ${st} in Chapter ${ch} Lessons`);
+    }
+    assert.ok(lessons.includes(`href="#math?ch=${ch}"`), 'Back to Chapter');
   }
-  assert.match(math, /What would you like to do\?/);
-  const lessons = mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'lessons' }).s;
-  for (const id of ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']) {
-    for (const st of ['learn', 'watch', 'together', 'try', 'test']) assert.ok(lessons.includes(`href="#math?lesson=${id}&amp;stage=${st}"`), `${id} ${st}`);
-  }
-  const practice = mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'practice' }).s;
+  const practice = mathView(at({ page: 'practice' })).s;
   for (const act of ['props', 'split', 'breakapart', 'mixed', 'misses']) assert.ok(practice.includes(`href="#math?act=${act}"`), act);
+  assert.match(practice, /Home<\/a><\/li><li><a href="#math">Math<\/a><\/li><li><a href="#math\?ch=5">Chapter 5<\/a><\/li><li><span aria-current="page">Practice Problems/, 'Home > Math > Chapter 5 > Practice Problems');
 });
 
 test('Learn the Properties uses the teacher\'s exact words when the week lists them, and works without them', () => {

@@ -1,0 +1,1514 @@
+{
+ "id": "6-1",
+ "title": "Understand Area",
+ "chapter": 6,
+ "goal": "I can find area by covering a shape with unit squares, with no gaps and no overlaps, and counting them.",
+ "catchAll": "Cover the inside with unit squares, no gaps and no overlaps. Then count every square once.",
+ "teacher": [
+  {
+   "term": "Area",
+   "def": "number of unit squares needed to cover the INSIDE of a shape or region"
+  },
+  {
+   "term": "Square Unit",
+   "def": "a square that is 1 unit tall and 1 unit wide"
+  }
+ ],
+ "glossary": {
+  "unit square": "the square we tile with: each side is 1 unit long",
+  "square unit": "a square that is 1 unit tall and 1 unit wide",
+  "tiling": "covering a shape with unit squares, with no gaps and no overlaps",
+  "area": "how much flat space is inside a shape"
+ },
+ "learn": {
+  "screens": [
+   {
+    "title": "What is area?",
+    "text": [
+     "Area is how much flat space is inside a shape.",
+     "We find it by covering the inside with unit squares and counting them."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "caption": "This rectangle is covered by 15 unit squares.",
+    "words": [
+     "area"
+    ]
+   },
+   {
+    "title": "A square unit",
+    "teacher": true,
+    "text": [
+     "Your teacher's words: a square unit is \"a square that is 1 unit tall and 1 unit wide\".",
+     "We tile with these squares (unit squares), and we write area in square units."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       1,
+       1
+      ]
+     ],
+     "unit": "unit"
+    },
+    "caption": "One square unit",
+    "words": [
+     "square unit",
+     "unit square"
+    ]
+   },
+   {
+    "title": "Tiling: no gaps, no overlaps",
+    "text": [
+     "Tiling means covering a shape with unit squares.",
+     "The squares must touch with no gaps, and none may lie on top of another.",
+     "A gap leaves space that is not counted. An overlap counts some space twice."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "caption": "A correct tiling: every square touches its neighbors.",
+    "words": [
+     "tiling"
+    ]
+   },
+   {
+    "title": "Check: which tiling is correct?",
+    "item": {
+     "id": "r1",
+     "type": "choice",
+     "prompt": "Which figure is tiled correctly to find its area?",
+     "options": [
+      {
+       "text": "Figure A",
+       "why": "Figure A has gaps between the squares. Some space is not covered."
+      },
+      {
+       "text": "Figure B",
+       "correct": true
+      },
+      {
+       "text": "Figure C",
+       "why": "In Figure C some squares lie on top of others, so space is counted twice."
+      }
+     ],
+     "models": [
+      {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ],
+       "tiling": "gaps",
+       "caption": "Figure A"
+      },
+      {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ],
+       "caption": "Figure B"
+      },
+      {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ],
+       "tiling": "overlap",
+       "caption": "Figure C"
+      }
+     ],
+     "yes": "Yes! Figure B has no gaps and no overlaps."
+    }
+   },
+   {
+    "title": "Count the unit squares",
+    "text": [
+     "Count each square once. Counting row by row helps you not skip any.",
+     "This rectangle has 2 rows of 6: 6 + 6 = 12. Its area is 12 square units."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXX",
+      "XXXXXX"
+     ]
+    },
+    "caption": "2 rows of 6 unit squares"
+   },
+   {
+    "title": "Inside, not the edge",
+    "text": [
+     "Area is about the inside of a shape.",
+     "Walking around the edge of a rug is not area. Covering the rug is area."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "ooooo",
+      "ooooo",
+      "ooooo"
+     ]
+    },
+    "caption": "The inside is what we cover."
+   },
+   {
+    "title": "Check: count them",
+    "item": {
+     "id": "r2",
+     "type": "number",
+     "prompt": "What is the area of the shape in square units?",
+     "answer": "2 × 4 + 2",
+     "model": {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XX.."
+      ]
+     },
+     "asks": "tiles",
+     "hints": [
+      "Count the squares in each row, then add the rows."
+     ],
+     "yes": "Yes! 4 + 4 + 2 = 10 square units."
+    }
+   }
+  ]
+ },
+ "watch": {
+  "takeaway": "Cover the inside with unit squares, no gaps and no overlaps, then count each square once. The count is the area in square units.",
+  "examples": [
+   {
+    "title": "Example A: count the tiles",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XXXX",
+      "XXXX"
+     ]
+    },
+    "steps": [
+     {
+      "say": "Problem: what is the area of this rectangle?"
+     },
+     {
+      "say": "Step 1: Check the tiling. The squares touch, with no gaps and no overlaps."
+     },
+     {
+      "say": "Step 2: Count the top row.",
+      "eq": "4 = 4"
+     },
+     {
+      "say": "Step 3: Count the rows. There are 3 rows of 4."
+     },
+     {
+      "say": "Step 4: Add the rows.",
+      "eq": "4 + 4 + 4 = 12"
+     },
+     {
+      "say": "Step 5: Name the unit. The area is 12 square units."
+     }
+    ],
+    "why": {
+     "id": "wA",
+     "type": "choice",
+     "prompt": "Why do we count row by row?",
+     "options": [
+      {
+       "text": "So we do not skip or count a square twice.",
+       "correct": true
+      },
+      {
+       "text": "Because rows are bigger than columns.",
+       "why": "Rows and columns hold the same squares. Counting in order just keeps track."
+      },
+      {
+       "text": "So the answer is bigger.",
+       "why": "The order of counting does not change the area."
+      }
+     ],
+     "yes": "Yes! Counting in order means every square is counted once."
+    }
+   },
+   {
+    "title": "Example B: a tiling with gaps",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ],
+     "tiling": "gaps"
+    },
+    "steps": [
+     {
+      "say": "Problem: can we find the area from this tiling?"
+     },
+     {
+      "say": "Step 1: Look between the squares. There are gaps."
+     },
+     {
+      "say": "Step 2: The gaps are inside the shape, but no square covers them. They would not be counted."
+     },
+     {
+      "say": "Step 3: Fix it: slide the squares together so they touch.",
+      "model": {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ]
+      }
+     },
+     {
+      "say": "Step 4: Now count: 5 + 5 + 5 = 15.",
+      "eq": "5 + 5 + 5 = 15",
+      "model": {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ]
+      }
+     },
+     {
+      "say": "Step 5: The area is 15 square units.",
+      "model": {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ]
+      }
+     }
+    ],
+    "why": {
+     "id": "wB",
+     "type": "choice",
+     "prompt": "What is wrong with a tiling that has gaps?",
+     "options": [
+      {
+       "text": "Some of the inside is not covered, so it is not counted.",
+       "correct": true
+      },
+      {
+       "text": "The squares are the wrong color.",
+       "why": "Color does not matter. Covering the whole inside does."
+      },
+      {
+       "text": "There are too many squares.",
+       "why": "With gaps there are too few squares covering the inside."
+      }
+     ],
+     "yes": "Yes! Every bit of the inside must be covered."
+    }
+   },
+   {
+    "title": "Example C: finish the tiling",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "Xoooo",
+      "Xoooo"
+     ]
+    },
+    "steps": [
+     {
+      "say": "Problem: only some tiles are drawn. What is the area?"
+     },
+     {
+      "say": "Step 1: The top row has 5 tiles, so every row needs 5."
+     },
+     {
+      "say": "Step 2: The left side shows 3 rows."
+     },
+     {
+      "say": "Step 3: Picture the rest covered.",
+      "model": {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ]
+      }
+     },
+     {
+      "say": "Step 4: Count all the rows.",
+      "eq": "5 + 5 + 5 = 15",
+      "model": {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ]
+      }
+     },
+     {
+      "say": "Step 5: The area is 15 square units.",
+      "model": {
+       "type": "grid",
+       "cells": [
+        "XXXXX",
+        "XXXXX",
+        "XXXXX"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "together": {
+  "intro": "Let's do some together. Press Help if you get stuck.",
+  "items": [
+   {
+    "id": "g1",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "2 × 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 5, then 5 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 7
+      },
+      "say": "2 + 5 = 7 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 2 rows with 5 tiles in each row.",
+     "5 + 5 = 10.",
+     "The area is 10 square units."
+    ],
+    "yes": "Yes! 10 tiles cover it, so the area is 10 square units."
+   },
+   {
+    "id": "g2",
+    "type": "choice",
+    "prompt": "Which figure is tiled correctly?",
+    "options": [
+     {
+      "text": "Figure A",
+      "correct": true
+     },
+     {
+      "text": "Figure B",
+      "why": "Figure B has squares lying on top of others. That counts some space twice."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX"
+      ],
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX"
+      ],
+      "tiling": "overlap",
+      "caption": "Figure B"
+     }
+    ],
+    "hints": [
+     "Look for squares that lie on top of other squares."
+    ],
+    "show": [
+     "In Figure B some squares overlap.",
+     "Figure A has no gaps and no overlaps, so it is correct."
+    ],
+    "yes": "Yes! Figure A is tiled correctly."
+   },
+   {
+    "id": "g3",
+    "type": "number",
+    "prompt": "Some tiles are missing. Picture the whole rectangle covered with tiles. What is its area in square units?",
+    "answer": "3 × 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "Xooo",
+      "Xooo"
+     ]
+    },
+    "asks": "area",
+    "hints": [
+     "The top row shows how many tiles fit in each row. The left side shows how many rows there are.",
+     "There are 4 tiles in a row and 3 rows."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 6
+      },
+      "say": "6 counts only the tiles that are drawn. Picture the empty part covered too."
+     }
+    ],
+    "show": [
+     "Each row needs 4 tiles.",
+     "There are 3 rows.",
+     "4 + 4 + 4 = 12.",
+     "The area is 12 square units."
+    ],
+    "yes": "Yes! 3 rows of 4 make 12 square units."
+   },
+   {
+    "id": "g4",
+    "type": "choice",
+    "prompt": "Why do we use squares, not circles, to measure area?",
+    "options": [
+     {
+      "text": "Squares fit together with no gaps.",
+      "correct": true
+     },
+     {
+      "text": "Circles are too small.",
+      "why": "Size is not the problem. Circles always leave gaps between them."
+     },
+     {
+      "text": "Circles cannot be counted.",
+      "why": "You can count circles, but the gaps between them would not be counted."
+     }
+    ],
+    "hints": [
+     "Picture circles side by side. What is left between them?"
+    ],
+    "show": [
+     "Circles leave gaps between them.",
+     "Squares fit together with no gaps, so they cover the whole inside."
+    ],
+    "yes": "Yes! Squares cover the inside with no gaps."
+   },
+   {
+    "id": "g5",
+    "type": "number",
+    "prompt": "Count the unit squares. What is the area of this shape in square units?",
+    "answer": "3 + 3 + 2 + 2",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX.",
+      "XXX.",
+      "XX..",
+      "XX.."
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the squares in each row.",
+     "Add the rows: 3, 3, 2 and 2."
+    ],
+    "show": [
+     "The rows have 3, 3, 2 and 2 squares.",
+     "3 + 3 + 2 + 2 = 10.",
+     "The area is 10 square units."
+    ],
+    "yes": "Yes! 10 square units."
+   },
+   {
+    "id": "g6",
+    "type": "choice",
+    "prompt": "How long is each side of a unit square?",
+    "options": [
+     {
+      "text": "1 unit",
+      "correct": true
+     },
+     {
+      "text": "2 units",
+      "why": "A 2-unit side is too long. A unit square has 4 equal sides, each 1 unit."
+     },
+     {
+      "text": "4 units",
+      "why": "A unit square has 4 sides, but each side is only 1 unit long."
+     }
+    ],
+    "hints": [
+     "A unit square is named for 1 unit. How long is each side?"
+    ],
+    "show": [
+     "A unit square is 1 unit tall and 1 unit wide."
+    ],
+    "yes": "Yes! 1 unit tall and 1 unit wide."
+   }
+  ]
+ },
+ "try": {
+  "pass": 16,
+  "items": [
+   {
+    "id": "t1",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "2 × 3",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX",
+      "XXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 3, then 3 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 5
+      },
+      "say": "2 + 3 = 5 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 2 rows with 3 tiles in each row.",
+     "3 + 3 = 6.",
+     "The area is 6 square units."
+    ],
+    "yes": "Yes! 6 tiles cover it, so the area is 6 square units."
+   },
+   {
+    "id": "t2",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "3 × 3",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX",
+      "XXX",
+      "XXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 3, then 3 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 6
+      },
+      "say": "3 + 3 = 6 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 3 rows with 3 tiles in each row.",
+     "3 + 3 + 3 = 9.",
+     "The area is 9 square units."
+    ],
+    "yes": "Yes! 9 tiles cover it, so the area is 9 square units."
+   },
+   {
+    "id": "t3",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "4 × 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 5, then 5 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 9
+      },
+      "say": "4 + 5 = 9 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 4 rows with 5 tiles in each row.",
+     "5 + 5 + 5 + 5 = 20.",
+     "The area is 20 square units."
+    ],
+    "yes": "Yes! 20 tiles cover it, so the area is 20 square units."
+   },
+   {
+    "id": "t4",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "2 × 7",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXXX",
+      "XXXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 7, then 7 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 9
+      },
+      "say": "2 + 7 = 9 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 2 rows with 7 tiles in each row.",
+     "7 + 7 = 14.",
+     "The area is 14 square units."
+    ],
+    "yes": "Yes! 14 tiles cover it, so the area is 14 square units."
+   },
+   {
+    "id": "t5",
+    "type": "number",
+    "prompt": "Some tiles are missing. Picture the whole rectangle covered with tiles. What is its area in square units?",
+    "answer": "3 × 6",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXX",
+      "Xooooo",
+      "Xooooo"
+     ]
+    },
+    "asks": "area",
+    "hints": [
+     "The top row shows how many tiles fit in each row. The left side shows how many rows there are.",
+     "There are 6 tiles in a row and 3 rows."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 8
+      },
+      "say": "8 counts only the tiles that are drawn. Picture the empty part covered too."
+     }
+    ],
+    "show": [
+     "Each row needs 6 tiles.",
+     "There are 3 rows.",
+     "6 + 6 + 6 = 18.",
+     "The area is 18 square units."
+    ],
+    "yes": "Yes! 3 rows of 6 make 18 square units."
+   },
+   {
+    "id": "t6",
+    "type": "number",
+    "prompt": "Some tiles are missing. Picture the whole rectangle covered with tiles. What is its area in square units?",
+    "answer": "4 × 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "Xooo",
+      "Xooo",
+      "Xooo"
+     ]
+    },
+    "asks": "area",
+    "hints": [
+     "The top row shows how many tiles fit in each row. The left side shows how many rows there are.",
+     "There are 4 tiles in a row and 4 rows."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 7
+      },
+      "say": "7 counts only the tiles that are drawn. Picture the empty part covered too."
+     }
+    ],
+    "show": [
+     "Each row needs 4 tiles.",
+     "There are 4 rows.",
+     "4 + 4 + 4 + 4 = 16.",
+     "The area is 16 square units."
+    ],
+    "yes": "Yes! 4 rows of 4 make 16 square units."
+   },
+   {
+    "id": "t7",
+    "type": "number",
+    "prompt": "Some tiles are missing. Picture the whole rectangle covered with tiles. What is its area in square units?",
+    "answer": "2 × 6",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXX",
+      "Xooooo"
+     ]
+    },
+    "asks": "area",
+    "hints": [
+     "The top row shows how many tiles fit in each row. The left side shows how many rows there are.",
+     "There are 6 tiles in a row and 2 rows."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 7
+      },
+      "say": "7 counts only the tiles that are drawn. Picture the empty part covered too."
+     }
+    ],
+    "show": [
+     "Each row needs 6 tiles.",
+     "There are 2 rows.",
+     "6 + 6 = 12.",
+     "The area is 12 square units."
+    ],
+    "yes": "Yes! 2 rows of 6 make 12 square units."
+   },
+   {
+    "id": "t8",
+    "type": "choice",
+    "prompt": "Which figure is tiled correctly?",
+    "options": [
+     {
+      "text": "Figure A",
+      "why": "Figure A has gaps between the squares."
+     },
+     {
+      "text": "Figure B",
+      "correct": true
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXX",
+       "XXXXX"
+      ],
+      "tiling": "gaps",
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXX",
+       "XXXXX"
+      ],
+      "caption": "Figure B"
+     }
+    ],
+    "hints": [
+     "A correct tiling has no gaps and no overlaps."
+    ],
+    "show": [
+     "Figure A has gaps.",
+     "Figure B has no gaps and no overlaps."
+    ],
+    "yes": "Yes! Figure B."
+   },
+   {
+    "id": "t9",
+    "type": "choice",
+    "prompt": "Which figure is tiled correctly?",
+    "options": [
+     {
+      "text": "Figure A",
+      "why": "Some squares in Figure A lie on top of others."
+     },
+     {
+      "text": "Figure B",
+      "why": "Figure B has gaps between the squares."
+     },
+     {
+      "text": "Figure C",
+      "correct": true
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "tiling": "overlap",
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "tiling": "gaps",
+      "caption": "Figure B"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "caption": "Figure C"
+     }
+    ],
+    "hints": [
+     "Check each figure for gaps, then for overlaps."
+    ],
+    "show": [
+     "A has overlaps. B has gaps.",
+     "C has neither, so C is correct."
+    ],
+    "yes": "Yes! Figure C."
+   },
+   {
+    "id": "t10",
+    "type": "choice",
+    "prompt": "What does area tell you about a shape?",
+    "options": [
+     {
+      "text": "How much flat space is inside it",
+      "correct": true
+     },
+     {
+      "text": "How long its edge is",
+      "why": "The edge is the outside line. Area is the space inside."
+     },
+     {
+      "text": "How tall it is",
+      "why": "Height is one length. Area covers the whole inside."
+     }
+    ],
+    "hints": [
+     "Think about covering the shape, not walking around it."
+    ],
+    "show": [
+     "Area is how much flat space is inside a shape."
+    ],
+    "yes": "Yes! Area is the space inside."
+   },
+   {
+    "id": "t11",
+    "type": "number",
+    "prompt": "How many more unit squares are needed to cover the whole shape with no gaps?",
+    "answer": "12 - 7",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XXoo",
+      "Xooo"
+     ]
+    },
+    "asks": "missing",
+    "hints": [
+     "Find how many unit squares the whole shape needs.",
+     "Then take away the 7 tiles already there."
+    ],
+    "show": [
+     "The whole shape needs 12 unit squares.",
+     "7 are already there.",
+     "12 - 7 = 5. 5 more are needed."
+    ],
+    "yes": "Yes! 5 more unit squares finish the tiling."
+   },
+   {
+    "id": "t12",
+    "type": "number",
+    "prompt": "How many more unit squares are needed to cover the whole shape with no gaps?",
+    "answer": "10 - 8",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXoo"
+     ]
+    },
+    "asks": "missing",
+    "hints": [
+     "Find how many unit squares the whole shape needs.",
+     "Then take away the 8 tiles already there."
+    ],
+    "show": [
+     "The whole shape needs 10 unit squares.",
+     "8 are already there.",
+     "10 - 8 = 2. 2 more are needed."
+    ],
+    "yes": "Yes! 2 more unit squares finish the tiling."
+   },
+   {
+    "id": "t13",
+    "type": "choice",
+    "prompt": "Which shape covers the greater area?",
+    "options": [
+     {
+      "text": "Figure A",
+      "correct": true
+     },
+     {
+      "text": "Figure B",
+      "why": "Count both: Figure A has 12 unit squares and Figure B has 10."
+     },
+     {
+      "text": "They are the same",
+      "why": "Count both. They are not the same."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXX",
+       "XXXXX"
+      ],
+      "caption": "Figure B"
+     }
+    ],
+    "compare": true,
+    "hints": [
+     "Count the unit squares in each figure."
+    ],
+    "show": [
+     "Figure A: 3 rows of 4 make 12 square units.",
+     "Figure B: 2 rows of 5 make 10 square units.",
+     "12 is more than 10, so Figure A covers more."
+    ],
+    "yes": "Yes! 12 square units is more than 10."
+   },
+   {
+    "id": "t14",
+    "type": "choice",
+    "prompt": "If some tiles lie on top of others, what goes wrong?",
+    "options": [
+     {
+      "text": "Some space is counted twice.",
+      "correct": true
+     },
+     {
+      "text": "Some space is not counted.",
+      "why": "That happens with gaps. Overlaps count space twice."
+     },
+     {
+      "text": "Nothing goes wrong.",
+      "why": "Overlapping squares make the count too big."
+     }
+    ],
+    "hints": [
+     "Two squares on the same spot are counted as 2."
+    ],
+    "show": [
+     "An overlap puts two squares on the same space.",
+     "That space is counted twice, so the count is too big."
+    ],
+    "yes": "Yes! Overlaps count space twice."
+   },
+   {
+    "id": "t15",
+    "type": "choice",
+    "prompt": "If there are gaps between the tiles, what goes wrong?",
+    "options": [
+     {
+      "text": "Some space is not counted.",
+      "correct": true
+     },
+     {
+      "text": "Some space is counted twice.",
+      "why": "That happens with overlaps. Gaps leave space out."
+     },
+     {
+      "text": "The shape gets bigger.",
+      "why": "The shape stays the same. The gaps are just not counted."
+     }
+    ],
+    "hints": [
+     "What is in a gap? Is it covered?"
+    ],
+    "show": [
+     "A gap is space that no square covers.",
+     "It is not counted, so the count is too small."
+    ],
+    "yes": "Yes! Gaps leave space out."
+   },
+   {
+    "id": "t16",
+    "type": "number",
+    "prompt": "What is the area of this shape in square units?",
+    "answer": "3 + 1 + 1",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX",
+      "X..",
+      "X.."
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the squares in each row."
+    ],
+    "show": [
+     "The rows have 3, 1 and 1 squares.",
+     "3 + 1 + 1 = 5.",
+     "The area is 5 square units."
+    ],
+    "yes": "Yes! 5 square units."
+   },
+   {
+    "id": "t17",
+    "type": "choice",
+    "prompt": "A rug is covered by 18 unit squares with no gaps or overlaps. What is its area?",
+    "options": [
+     {
+      "text": "18 square units",
+      "correct": true
+     },
+     {
+      "text": "18 units",
+      "why": "Units measure a length. Area is counted in square units."
+     },
+     {
+      "text": "18 rows",
+      "why": "Rows are lines of squares. The area is the number of squares."
+     }
+    ],
+    "hints": [
+     "Area is the number of unit squares, named in square units."
+    ],
+    "show": [
+     "18 unit squares cover the rug.",
+     "Its area is 18 square units."
+    ],
+    "yes": "Yes! 18 square units."
+   },
+   {
+    "id": "t18",
+    "type": "number",
+    "prompt": "What is the area of this shape in square units?",
+    "answer": "4 + 4 + 2",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XXXX",
+      "..XX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count each row, then add."
+    ],
+    "show": [
+     "The rows have 4, 4 and 2 squares.",
+     "4 + 4 + 2 = 10.",
+     "The area is 10 square units."
+    ],
+    "yes": "Yes! 10 square units."
+   },
+   {
+    "id": "t19",
+    "type": "choice",
+    "prompt": "Omar walks all the way around the edge of a garden. Lena covers the garden with square tiles. Who is finding the area?",
+    "options": [
+     {
+      "text": "Lena",
+      "correct": true
+     },
+     {
+      "text": "Omar",
+      "why": "Omar measures the edge. Area is the space inside."
+     },
+     {
+      "text": "Both of them",
+      "why": "Only covering the inside finds the area."
+     }
+    ],
+    "hints": [
+     "Area is about the inside of a shape."
+    ],
+    "show": [
+     "Lena covers the inside with squares.",
+     "That is how you find area."
+    ],
+    "yes": "Yes! Lena is finding the area."
+   },
+   {
+    "id": "t20",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. What is the area in square units?",
+    "answer": "2 × 8",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXXXX",
+      "XXXXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count one row, then the next."
+    ],
+    "show": [
+     "There are 2 rows of 8.",
+     "8 + 8 = 16.",
+     "The area is 16 square units."
+    ],
+    "yes": "Yes! 16 square units."
+   }
+  ]
+ },
+ "test": {
+  "pass": 8,
+  "items": [
+   {
+    "id": "x1",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "3 × 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "show": [
+     "There are 3 rows with 5 tiles in each row.",
+     "5 + 5 + 5 = 15.",
+     "The area is 15 square units."
+    ],
+    "yes": "Yes! 15 tiles cover it, so the area is 15 square units."
+   },
+   {
+    "id": "x2",
+    "type": "number",
+    "prompt": "Some tiles are missing. Picture the whole rectangle covered with tiles. What is its area in square units?",
+    "answer": "4 × 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "Xoooo",
+      "Xoooo",
+      "Xoooo"
+     ]
+    },
+    "asks": "area",
+    "show": [
+     "Each row needs 5 tiles.",
+     "There are 4 rows.",
+     "5 + 5 + 5 + 5 = 20.",
+     "The area is 20 square units."
+    ],
+    "yes": "Yes! 4 rows of 5 make 20 square units."
+   },
+   {
+    "id": "x3",
+    "type": "choice",
+    "prompt": "Which figure is tiled correctly?",
+    "options": [
+     {
+      "text": "Figure A",
+      "correct": true
+     },
+     {
+      "text": "Figure B",
+      "why": "Figure B has gaps between the squares."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXX",
+       "XXX",
+       "XXX"
+      ],
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXX",
+       "XXX",
+       "XXX"
+      ],
+      "tiling": "gaps",
+      "caption": "Figure B"
+     }
+    ],
+    "show": [
+     "Figure B has gaps.",
+     "Figure A has no gaps and no overlaps."
+    ]
+   },
+   {
+    "id": "x4",
+    "type": "choice",
+    "prompt": "What is area?",
+    "options": [
+     {
+      "text": "The amount of flat space inside a shape",
+      "correct": true
+     },
+     {
+      "text": "The distance around a shape",
+      "why": "That is the edge, not the area."
+     },
+     {
+      "text": "The number of corners",
+      "why": "Corners do not tell how much space is inside."
+     }
+    ],
+    "show": [
+     "Area is the amount of flat space inside a shape."
+    ]
+   },
+   {
+    "id": "x5",
+    "type": "number",
+    "prompt": "How many more unit squares are needed to cover the whole shape with no gaps?",
+    "answer": "12 - 7",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX",
+      "XXo",
+      "Xoo",
+      "Xoo"
+     ]
+    },
+    "asks": "missing",
+    "show": [
+     "The whole shape needs 12 unit squares.",
+     "7 are already there.",
+     "12 - 7 = 5. 5 more are needed."
+    ],
+    "yes": "Yes! 5 more unit squares finish the tiling."
+   },
+   {
+    "id": "x6",
+    "type": "number",
+    "prompt": "What is the area of this shape in square units?",
+    "answer": "2 + 4 + 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XX..",
+      "XXXX",
+      "XXXX"
+     ]
+    },
+    "asks": "tiles",
+    "show": [
+     "The rows have 2, 4 and 4 squares.",
+     "2 + 4 + 4 = 10 square units."
+    ]
+   },
+   {
+    "id": "x7",
+    "type": "choice",
+    "prompt": "Which figure covers the greater area?",
+    "options": [
+     {
+      "text": "Figure A",
+      "why": "Figure A has 2 rows of 6: 12 squares. Figure B has 14."
+     },
+     {
+      "text": "Figure B",
+      "correct": true
+     },
+     {
+      "text": "They are the same",
+      "why": "Count both: 12 and 14 are not the same."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXXX",
+       "XXXXXX"
+      ],
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXXXX",
+       "XXXXXXX"
+      ],
+      "caption": "Figure B"
+     }
+    ],
+    "compare": true,
+    "show": [
+     "Figure A: 12 square units.",
+     "Figure B: 14 square units."
+    ]
+   },
+   {
+    "id": "x8",
+    "type": "choice",
+    "prompt": "A table top is covered by 24 unit squares. How do you write its area?",
+    "options": [
+     {
+      "text": "24 units",
+      "why": "Units measure length. Area is in square units."
+     },
+     {
+      "text": "24 square units",
+      "correct": true
+     },
+     {
+      "text": "24 squares long",
+      "why": "Area is not a length."
+     }
+    ],
+    "show": [
+     "24 unit squares cover 24 square units."
+    ]
+   },
+   {
+    "id": "x9",
+    "type": "choice",
+    "prompt": "Why must tiles not overlap?",
+    "options": [
+     {
+      "text": "Space would be counted twice.",
+      "correct": true
+     },
+     {
+      "text": "The tiles would fall off.",
+      "why": "This is about counting, not about tiles staying in place."
+     },
+     {
+      "text": "The shape would change.",
+      "why": "The shape stays the same, but some space is counted twice."
+     }
+    ],
+    "show": [
+     "Overlapping tiles count the same space twice."
+    ]
+   },
+   {
+    "id": "x10",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "2 × 9",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXXXXX",
+      "XXXXXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "show": [
+     "There are 2 rows with 9 tiles in each row.",
+     "9 + 9 = 18.",
+     "The area is 18 square units."
+    ],
+    "yes": "Yes! 18 tiles cover it, so the area is 18 square units."
+   }
+  ]
+ },
+ "parent": {
+  "sections": [
+   {
+    "heading": "What your child is learning",
+    "text": "Area is the amount of flat space inside a shape. Your child covers a shape with unit squares (no gaps, no overlaps) and counts them. The count is the area in square units."
+   },
+   {
+    "heading": "Try it with real things",
+    "list": [
+     "Cover a placemat with sticky notes or square crackers. Count them.",
+     "Lay square tiles with a gap on purpose. Ask: what space is not counted?"
+    ]
+   },
+   {
+    "heading": "Questions to ask",
+    "list": [
+     "What does one unit square cover?",
+     "Are there any gaps or overlaps?",
+     "How did you make sure you counted each square once?"
+    ]
+   },
+   {
+    "heading": "Common mistakes",
+    "list": [
+     "Counting only the tiles that are drawn when part of the shape is empty.",
+     "Writing \"units\" instead of \"square units\".",
+     "Counting the squares along the edge only."
+    ]
+   },
+   {
+    "heading": "About these questions",
+    "text": "Lesson 6-1 follows the order of the class textbook chapter. The explanations, pictures and questions are Study Scoop's own; the teacher's words are marked as the teacher's."
+   }
+  ]
+ }
+}

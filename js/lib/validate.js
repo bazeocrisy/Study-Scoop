@@ -37,6 +37,11 @@ export function validateWeek(week, expectedId) {
   if (!isText(week.label)) err('"label" is missing');
   if (week.newsletter !== undefined && typeof week.newsletter !== 'string') err('"newsletter" must be text when present');
 
+  // The Math chapter the class is studying this week (D26): This Week recommends it; the Math library stays open.
+  if (week.mathChapter !== undefined && !(Number.isInteger(week.mathChapter) && week.mathChapter > 0)) err('"mathChapter" must be a chapter number');
+  // The original newsletter flyer (D26): published only after a privacy review, one image per printed page.
+  if (week.flyer !== undefined) validateFlyer(week.flyer, week.id, err);
+
   if (!Array.isArray(week.learning)) err('"learning" must be a list');
   else week.learning.forEach((row, i) => {
     if (!Array.isArray(row) || row.length !== 2 || !isText(row[0]) || !isText(row[1])) err(`learning[${i}] must be ["Subject", "Topic"]`);
@@ -74,6 +79,19 @@ export function validateWeek(week, expectedId) {
   validateVocab(week.vocab, err);
   if (week.math !== undefined) validateMath(week.math, err);
   return errors;
+}
+
+function validateFlyer(f, id, err) {
+  if (!isObj(f)) return err('"flyer" must be an object');
+  if (!parseISODate(f.reviewed)) err('flyer.reviewed must be the date of its privacy review, like 2026-10-23');
+  if (!Array.isArray(f.pages) || !f.pages.length) return err('flyer.pages must list the flyer images');
+  f.pages.forEach((pg, i) => {
+    const at = `flyer.pages[${i}]`;
+    if (!isObj(pg)) return err(`${at} must be an object`);
+    if (typeof pg.src !== 'string' || !new RegExp(`^images/flyers/${id}-[a-z]+\\.webp$`).test(pg.src)) err(`${at}.src must be images/flyers/${id}-<page>.webp`);
+    for (const k of ['label', 'alt']) if (!isText(pg[k])) err(`${at}.${k} is missing`);
+    for (const k of ['width', 'height']) if (!Number.isInteger(pg[k]) || pg[k] < 400) err(`${at}.${k} must be the image size in pixels`);
+  });
 }
 
 function validateSpelling(sp, err) {

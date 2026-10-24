@@ -1,0 +1,1956 @@
+{
+ "id": "6-5",
+ "title": "Use the Distributive Property to Determine Area",
+ "chapter": 6,
+ "goal": "I can break a side of a rectangle into two parts, find the area of each smaller rectangle, and add them.",
+ "catchAll": "Break one side into two easy parts. Keep the other side. Multiply each part, then add.",
+ "teacher": [
+  {
+   "term": "Distributive Property",
+   "def": "a multiplication fact can be broken apart into the sum of two other related facts"
+  },
+  {
+   "term": "Multiply",
+   "def": "to find the area of a rectangle, you multiply the length and the width"
+  }
+ ],
+ "glossary": {
+  "decompose": "break a number or a shape into parts, like 8 = 5 + 3",
+  "Distributive Property": "break apart a factor, multiply the parts, and add (Chapter 5)",
+  "partial area": "the area of one of the smaller rectangles"
+ },
+ "learn": {
+  "screens": [
+   {
+    "title": "Remember Chapter 5",
+    "teacher": true,
+    "text": [
+     "In Chapter 5 you broke a fact apart: 8 × 6 = (5 × 6) + (3 × 6).",
+     "Now you will see the same idea in a picture of a rectangle."
+    ],
+    "pairs": [
+     "8 × 6 = (5 × 6) + (3 × 6)",
+     "30 + 18 = 48"
+    ],
+    "words": [
+     "Distributive Property"
+    ]
+   },
+   {
+    "title": "Split a side",
+    "text": [
+     "A rectangle is 8 long and 6 wide. Break the 8 into 5 + 3.",
+     "Now there are two smaller rectangles: 5 by 6 and 3 by 6. The 6 stays the same."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       6
+      ],
+      [
+       5,
+       0,
+       3,
+       6
+      ]
+     ],
+     "unit": "units",
+     "show": "parts",
+     "areas": true
+    },
+    "caption": "8 = 5 + 3",
+    "words": [
+     "decompose"
+    ]
+   },
+   {
+    "title": "Add the two areas",
+    "text": [
+     "5 × 6 = 30 and 3 × 6 = 18.",
+     "30 + 18 = 48. So 8 × 6 = 48 square units."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       6
+      ],
+      [
+       5,
+       0,
+       3,
+       6
+      ]
+     ],
+     "unit": "units",
+     "show": "parts",
+     "areas": true
+    },
+    "caption": "30 + 18 = 48",
+    "words": [
+     "partial area"
+    ]
+   },
+   {
+    "title": "Check: finish it",
+    "item": {
+     "id": "r1",
+     "type": "fill",
+     "prompt": "Finish the equation for the split picture.",
+     "lines": [
+      "8 × 6 = 30 + [q]",
+      "= [t]"
+     ],
+     "answer": {
+      "q": 18,
+      "t": 48
+     },
+     "model": {
+      "type": "shape",
+      "rects": [
+       [
+        0,
+        0,
+        5,
+        6
+       ],
+       [
+        5,
+        0,
+        3,
+        6
+       ]
+      ],
+      "unit": "units",
+      "show": "parts"
+     },
+     "areaBox": "t",
+     "hints": [
+      "Multiply 3 × 6 for the right part. Then add it to 30."
+     ],
+     "yes": "Yes! 30 + 18 = 48."
+    }
+   },
+   {
+    "title": "Why split?",
+    "text": [
+     "Big sides are easier in parts. 18 × 4 is hard, but 10 × 4 = 40 and 8 × 4 = 32 are easy.",
+     "40 + 32 = 72. Splitting at 10 is often the easiest."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       4
+      ],
+      [
+       10,
+       0,
+       8,
+       4
+      ]
+     ],
+     "unit": "ft",
+     "show": "parts",
+     "areas": true
+    },
+    "caption": "18 = 10 + 8"
+   },
+   {
+    "title": "Check: which split matches?",
+    "item": {
+     "id": "r2",
+     "type": "choice",
+     "prompt": "The rectangle is 6 by 9. Which matches the split picture?",
+     "options": [
+      {
+       "text": "(6 × 5) + (6 × 4)",
+       "correct": true
+      },
+      {
+       "text": "(6 × 5) + (6 × 5)",
+       "why": "5 + 5 is 10, not 9."
+      },
+      {
+       "text": "(5 × 9) + (1 × 9)",
+       "why": "The picture splits the 9, not the 6."
+      }
+     ],
+     "model": {
+      "type": "shape",
+      "rects": [
+       [
+        0,
+        0,
+        5,
+        6
+       ],
+       [
+        5,
+        0,
+        4,
+        6
+       ]
+      ],
+      "unit": "units",
+      "show": "parts"
+     },
+     "yes": "Yes! The 9 is split into 5 + 4."
+    }
+   }
+  ]
+ },
+ "watch": {
+  "takeaway": "Split one side into two parts and keep the other side the same. The two smaller areas add up to the whole area.",
+  "examples": [
+   {
+    "title": "Example A: 8 × 6",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       6
+      ],
+      [
+       5,
+       0,
+       3,
+       6
+      ]
+     ],
+     "unit": "units",
+     "show": "parts",
+     "areas": true
+    },
+    "steps": [
+     {
+      "say": "Problem: a rectangle is 8 units long and 6 units wide. What is its area?",
+      "model": {
+       "type": "shape",
+       "rects": [
+        [
+         0,
+         0,
+         8,
+         6
+        ]
+       ],
+       "unit": "units"
+      }
+     },
+     {
+      "say": "Step 1: Break the 8 into 5 + 3. The 6 stays the same."
+     },
+     {
+      "say": "Step 2: Left part.",
+      "eq": "5 × 6 = 30"
+     },
+     {
+      "say": "Step 3: Right part.",
+      "eq": "3 × 6 = 18"
+     },
+     {
+      "say": "Step 4: Add the parts.",
+      "eq": "8 × 6 = 30 + 18 = 48"
+     },
+     {
+      "say": "Step 5: The area is 48 square units."
+     }
+    ],
+    "why": {
+     "id": "wA",
+     "type": "choice",
+     "prompt": "Why does the 6 stay the same in both parts?",
+     "options": [
+      {
+       "text": "Both parts are as wide as the whole rectangle.",
+       "correct": true
+      },
+      {
+       "text": "Because 6 is even.",
+       "why": "Even or odd does not matter. Both parts keep the full width."
+      },
+      {
+       "text": "It changes to 3.",
+       "why": "The cut goes through the 8, so the 6 does not change."
+      }
+     ],
+     "yes": "Yes! Only the 8 was split."
+    }
+   },
+   {
+    "title": "Example B: 6 × 9",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       6
+      ],
+      [
+       5,
+       0,
+       4,
+       6
+      ]
+     ],
+     "unit": "units",
+     "show": "parts",
+     "areas": true
+    },
+    "steps": [
+     {
+      "say": "Problem: 6 rows, 9 long. Break the 9 into 5 + 4.",
+      "model": {
+       "type": "shape",
+       "rects": [
+        [
+         0,
+         0,
+         9,
+         6
+        ]
+       ],
+       "unit": "units"
+      }
+     },
+     {
+      "say": "Step 1: Left part.",
+      "eq": "6 × 5 = 30"
+     },
+     {
+      "say": "Step 2: Right part.",
+      "eq": "6 × 4 = 24"
+     },
+     {
+      "say": "Step 3: Add.",
+      "eq": "6 × 9 = 30 + 24 = 54"
+     },
+     {
+      "say": "Step 4: The area is 54 square units."
+     }
+    ]
+   },
+   {
+    "title": "Example C: a table 18 feet long",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       4
+      ],
+      [
+       10,
+       0,
+       8,
+       4
+      ]
+     ],
+     "unit": "ft",
+     "show": "parts",
+     "areas": true
+    },
+    "steps": [
+     {
+      "say": "Problem: a table is 18 feet long and 4 feet wide. What is its area?",
+      "model": {
+       "type": "shape",
+       "rects": [
+        [
+         0,
+         0,
+         18,
+         4
+        ]
+       ],
+       "unit": "ft"
+      }
+     },
+     {
+      "say": "Step 1: Break 18 into 10 + 8."
+     },
+     {
+      "say": "Step 2: Multiply each part.",
+      "eq": "10 × 4 = 40"
+     },
+     {
+      "say": "Step 3: The other part.",
+      "eq": "8 × 4 = 32"
+     },
+     {
+      "say": "Step 4: Add.",
+      "eq": "40 + 32 = 72"
+     },
+     {
+      "say": "Step 5: The table covers 72 square feet."
+     }
+    ]
+   }
+  ]
+ },
+ "together": {
+  "intro": "Let's do some together. Press Help if you get stuck.",
+  "items": [
+   {
+    "id": "g1",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 8 into 5 + 3, then finish the equations to find the area in square centimeters.",
+    "lines": [
+     "4 × 8 = 4 × [a] + 4 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 5,
+     "b": 3,
+     "p": 20,
+     "q": 12,
+     "t": 32
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       4
+      ],
+      [
+       5,
+       0,
+       3,
+       4
+      ]
+     ],
+     "unit": "cm",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 8 into 5 and 3. The 4 stays the same.",
+     "Multiply 4 × 5 and 4 × 3, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 20
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "4 × 5 = 20.",
+     "4 × 3 = 12.",
+     "20 + 12 = 32.",
+     "The area is 32 square centimeters."
+    ],
+    "yes": "Yes! 4 × 8 = 20 + 12 = 32 square centimeters."
+   },
+   {
+    "id": "g2",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 15 into 10 + 5, then finish the equations to find the area in square meters.",
+    "lines": [
+     "6 × 15 = 6 × [a] + 6 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 5,
+     "p": 60,
+     "q": 30,
+     "t": 90
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       6
+      ],
+      [
+       10,
+       0,
+       5,
+       6
+      ]
+     ],
+     "unit": "m",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 15 into 10 and 5. The 6 stays the same.",
+     "Multiply 6 × 10 and 6 × 5, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 60
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "6 × 10 = 60.",
+     "6 × 5 = 30.",
+     "60 + 30 = 90.",
+     "The area is 90 square meters."
+    ],
+    "yes": "Yes! 6 × 15 = 60 + 30 = 90 square meters."
+   },
+   {
+    "id": "g3",
+    "type": "choice",
+    "prompt": "The rectangle is 5 by 13. Which matches the split picture?",
+    "options": [
+     {
+      "text": "(5 × 10) + (5 × 3)",
+      "correct": true
+     },
+     {
+      "text": "(5 × 10) + (5 × 2)",
+      "why": "10 + 2 is 12, not 13."
+     },
+     {
+      "text": "10 + 3",
+      "why": "Each part must be multiplied by 5."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       5
+      ],
+      [
+       10,
+       0,
+       3,
+       5
+      ]
+     ],
+     "unit": "ft",
+     "show": "parts"
+    },
+    "hints": [
+     "The picture splits 13 into 10 and 3. The 5 stays."
+    ],
+    "show": [
+     "5 × 10 = 50 and 5 × 3 = 15.",
+     "50 + 15 = 65 square feet."
+    ],
+    "yes": "Yes! 5 × 13 = 65 square feet."
+   },
+   {
+    "id": "g4",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 13 into 10 + 3, then finish the equations to find the area in square inches.",
+    "lines": [
+     "8 × 13 = 8 × [a] + 8 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 3,
+     "p": 80,
+     "q": 24,
+     "t": 104
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       8
+      ],
+      [
+       10,
+       0,
+       3,
+       8
+      ]
+     ],
+     "unit": "in.",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 13 into 10 and 3. The 8 stays the same.",
+     "Multiply 8 × 10 and 8 × 3, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 80
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "8 × 10 = 80.",
+     "8 × 3 = 24.",
+     "80 + 24 = 104.",
+     "The area is 104 square inches."
+    ],
+    "yes": "Yes! 8 × 13 = 80 + 24 = 104 square inches."
+   },
+   {
+    "quotesMistake": true,
+    "id": "g5",
+    "type": "choice",
+    "prompt": "A student wrote 3 × 17 = (2 × 10) + (1 × 7). Is the area right?",
+    "options": [
+     {
+      "text": "No. Each part must keep the 3: (3 × 10) + (3 × 7).",
+      "correct": true
+     },
+     {
+      "text": "Yes, it is right.",
+      "why": "(2 × 10) + (1 × 7) = 27, but 3 × 17 = 51."
+     },
+     {
+      "text": "No. It should be 3 + 17.",
+      "why": "Area is not 3 + 17. Split the 17 and keep the 3."
+     }
+    ],
+    "hints": [
+     "When you split the 17, both parts keep the full width of 3."
+    ],
+    "show": [
+     "3 × 17 = (3 × 10) + (3 × 7) = 30 + 21 = 51."
+    ],
+    "yes": "Yes! Keep the 3 in both parts."
+   },
+   {
+    "id": "g6",
+    "type": "number",
+    "prompt": "Use 10 + 4 to find the area of a rectangle 14 feet long and 7 feet wide. What is the area in square feet?",
+    "answer": "7 × 14",
+    "hints": [
+     "Split 14 into 10 + 4. Multiply 7 by each part.",
+     "Add the two parts."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 70
+      },
+      "say": "That is only the 10 part. Add 7 × 4 too."
+     }
+    ],
+    "show": [
+     "7 × 10 = 70.",
+     "7 × 4 = 28.",
+     "70 + 28 = 98 square feet."
+    ],
+    "yes": "Yes! 98 square feet."
+   }
+  ]
+ },
+ "try": {
+  "pass": 16,
+  "items": [
+   {
+    "id": "t1",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 9 into 5 + 4, then finish the equations to find the area in square centimeters.",
+    "lines": [
+     "7 × 9 = 7 × [a] + 7 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 5,
+     "b": 4,
+     "p": 35,
+     "q": 28,
+     "t": 63
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       7
+      ],
+      [
+       5,
+       0,
+       4,
+       7
+      ]
+     ],
+     "unit": "cm",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 9 into 5 and 4. The 7 stays the same.",
+     "Multiply 7 × 5 and 7 × 4, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 35
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "7 × 5 = 35.",
+     "7 × 4 = 28.",
+     "35 + 28 = 63.",
+     "The area is 63 square centimeters."
+    ],
+    "yes": "Yes! 7 × 9 = 35 + 28 = 63 square centimeters."
+   },
+   {
+    "id": "t2",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 15 into 10 + 5, then finish the equations to find the area in square meters.",
+    "lines": [
+     "4 × 15 = 4 × [a] + 4 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 5,
+     "p": 40,
+     "q": 20,
+     "t": 60
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       4
+      ],
+      [
+       10,
+       0,
+       5,
+       4
+      ]
+     ],
+     "unit": "m",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 15 into 10 and 5. The 4 stays the same.",
+     "Multiply 4 × 10 and 4 × 5, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 40
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "4 × 10 = 40.",
+     "4 × 5 = 20.",
+     "40 + 20 = 60.",
+     "The area is 60 square meters."
+    ],
+    "yes": "Yes! 4 × 15 = 40 + 20 = 60 square meters."
+   },
+   {
+    "id": "t3",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 14 into 10 + 4, then finish the equations to find the area in square inches.",
+    "lines": [
+     "6 × 14 = 6 × [a] + 6 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 4,
+     "p": 60,
+     "q": 24,
+     "t": 84
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       6
+      ],
+      [
+       10,
+       0,
+       4,
+       6
+      ]
+     ],
+     "unit": "in.",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 14 into 10 and 4. The 6 stays the same.",
+     "Multiply 6 × 10 and 6 × 4, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 60
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "6 × 10 = 60.",
+     "6 × 4 = 24.",
+     "60 + 24 = 84.",
+     "The area is 84 square inches."
+    ],
+    "yes": "Yes! 6 × 14 = 60 + 24 = 84 square inches."
+   },
+   {
+    "id": "t4",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 14 into 10 + 4, then finish the equations to find the area in square feet.",
+    "lines": [
+     "8 × 14 = 8 × [a] + 8 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 4,
+     "p": 80,
+     "q": 32,
+     "t": 112
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       8
+      ],
+      [
+       10,
+       0,
+       4,
+       8
+      ]
+     ],
+     "unit": "ft",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 14 into 10 and 4. The 8 stays the same.",
+     "Multiply 8 × 10 and 8 × 4, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 80
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "8 × 10 = 80.",
+     "8 × 4 = 32.",
+     "80 + 32 = 112.",
+     "The area is 112 square feet."
+    ],
+    "yes": "Yes! 8 × 14 = 80 + 32 = 112 square feet."
+   },
+   {
+    "id": "t5",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 17 into 10 + 7, then finish the equations to find the area in square feet.",
+    "lines": [
+     "8 × 17 = 8 × [a] + 8 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 7,
+     "p": 80,
+     "q": 56,
+     "t": 136
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       8
+      ],
+      [
+       10,
+       0,
+       7,
+       8
+      ]
+     ],
+     "unit": "ft",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 17 into 10 and 7. The 8 stays the same.",
+     "Multiply 8 × 10 and 8 × 7, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 80
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "8 × 10 = 80.",
+     "8 × 7 = 56.",
+     "80 + 56 = 136.",
+     "The area is 136 square feet."
+    ],
+    "yes": "Yes! 8 × 17 = 80 + 56 = 136 square feet."
+   },
+   {
+    "id": "t6",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 16 into 10 + 6, then finish the equations to find the area in square meters.",
+    "lines": [
+     "5 × 16 = 5 × [a] + 5 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 6,
+     "p": 50,
+     "q": 30,
+     "t": 80
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       5
+      ],
+      [
+       10,
+       0,
+       6,
+       5
+      ]
+     ],
+     "unit": "m",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 16 into 10 and 6. The 5 stays the same.",
+     "Multiply 5 × 10 and 5 × 6, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 50
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "5 × 10 = 50.",
+     "5 × 6 = 30.",
+     "50 + 30 = 80.",
+     "The area is 80 square meters."
+    ],
+    "yes": "Yes! 5 × 16 = 50 + 30 = 80 square meters."
+   },
+   {
+    "id": "t7",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 9 into 5 + 4, then finish the equations to find the area in square yards.",
+    "lines": [
+     "3 × 9 = 3 × [a] + 3 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 5,
+     "b": 4,
+     "p": 15,
+     "q": 12,
+     "t": 27
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       3
+      ],
+      [
+       5,
+       0,
+       4,
+       3
+      ]
+     ],
+     "unit": "yd",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 9 into 5 and 4. The 3 stays the same.",
+     "Multiply 3 × 5 and 3 × 4, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 15
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "3 × 5 = 15.",
+     "3 × 4 = 12.",
+     "15 + 12 = 27.",
+     "The area is 27 square yards."
+    ],
+    "yes": "Yes! 3 × 9 = 15 + 12 = 27 square yards."
+   },
+   {
+    "id": "t8",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 7 into 5 + 2, then finish the equations to find the area in square centimeters.",
+    "lines": [
+     "6 × 7 = 6 × [a] + 6 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 5,
+     "b": 2,
+     "p": 30,
+     "q": 12,
+     "t": 42
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       6
+      ],
+      [
+       5,
+       0,
+       2,
+       6
+      ]
+     ],
+     "unit": "cm",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 7 into 5 and 2. The 6 stays the same.",
+     "Multiply 6 × 5 and 6 × 2, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 30
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "6 × 5 = 30.",
+     "6 × 2 = 12.",
+     "30 + 12 = 42.",
+     "The area is 42 square centimeters."
+    ],
+    "yes": "Yes! 6 × 7 = 30 + 12 = 42 square centimeters."
+   },
+   {
+    "id": "t9",
+    "type": "choice",
+    "prompt": "The rectangle is 4 by 9. Which matches the split picture?",
+    "options": [
+     {
+      "text": "(4 × 5) + (4 × 4)",
+      "correct": true
+     },
+     {
+      "text": "(4 × 5) + (4 × 5)",
+      "why": "5 + 5 is 10."
+     },
+     {
+      "text": "4 + 9",
+      "why": "Multiply each part."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       4
+      ],
+      [
+       5,
+       0,
+       4,
+       4
+      ]
+     ],
+     "unit": "units",
+     "show": "parts"
+    },
+    "hints": [
+     "Find how the 9 is split."
+    ],
+    "show": [
+     "9 = 5 + 4.",
+     "20 + 16 = 36."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t10",
+    "type": "choice",
+    "prompt": "Which equation can find the area of a rectangle 15 cm long and 5 cm wide?",
+    "options": [
+     {
+      "text": "5 × 10 + 5 × 5",
+      "correct": true
+     },
+     {
+      "text": "5 + 10 + 5 + 5",
+      "why": "Adding sides does not find area."
+     },
+     {
+      "text": "5 × 1 + 5 × 5",
+      "why": "1 + 5 is 6, not 15."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       15,
+       5
+      ]
+     ],
+     "unit": "cm"
+    },
+    "hints": [
+     "Break 15 into 10 + 5."
+    ],
+    "show": [
+     "5 × 10 = 50 and 5 × 5 = 25.",
+     "50 + 25 = 75 square centimeters."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "areaOptions": true,
+    "id": "t11",
+    "type": "multi",
+    "prompt": "Which equations find the area of the picture? Choose all that are right.",
+    "options": [
+     {
+      "text": "4 × 9",
+      "correct": true
+     },
+     {
+      "text": "4 × 4 + 4 × 5",
+      "correct": true
+     },
+     {
+      "text": "4 × 4 × 5",
+      "why": "That multiplies all three numbers: 80."
+     },
+     {
+      "text": "4 + 9",
+      "why": "Adding does not find area."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       4,
+       4
+      ],
+      [
+       4,
+       0,
+       5,
+       4
+      ]
+     ],
+     "unit": "units",
+     "show": "parts"
+    },
+    "hints": [
+     "The whole is 4 by 9. The parts are 4 by 4 and 4 by 5."
+    ],
+    "show": [
+     "4 × 9 = 36.",
+     "16 + 20 = 36."
+    ],
+    "yes": "Yes! Both make 36."
+   },
+   {
+    "id": "t12",
+    "type": "choice",
+    "prompt": "Why might you split 18 into 10 + 8?",
+    "options": [
+     {
+      "text": "10 is easy to multiply by.",
+      "correct": true
+     },
+     {
+      "text": "18 cannot be multiplied.",
+      "why": "It can, but it is easier in parts."
+     },
+     {
+      "text": "It makes the area bigger.",
+      "why": "The area stays the same."
+     }
+    ],
+    "hints": [
+     "Think about the easiest facts."
+    ],
+    "show": [
+     "10 × 4 = 40 is an easy fact."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "quotesMistake": true,
+    "id": "t13",
+    "type": "choice",
+    "prompt": "A student wrote 6 × 15 = (6 × 10) + (6 × 4). What went wrong?",
+    "options": [
+     {
+      "text": "10 + 4 is 14, not 15. It should be (6 × 10) + (6 × 5).",
+      "correct": true
+     },
+     {
+      "text": "Nothing. It is right.",
+      "why": "(6 × 10) + (6 × 4) = 84, but 6 × 15 = 90."
+     },
+     {
+      "text": "It should be 6 + 15.",
+      "why": "Area is multiplied, not added."
+     }
+    ],
+    "hints": [
+     "Do the two parts add up to 15?"
+    ],
+    "show": [
+     "10 + 5 = 15, so use 6 × 5.",
+     "60 + 30 = 90."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t14",
+    "type": "number",
+    "prompt": "A trampoline mat is 13 feet long and 6 feet wide. Break 13 into 10 + 3. What is its area in square feet?",
+    "answer": "6 × 13",
+    "hints": [
+     "Multiply 6 × 10 and 6 × 3, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 60
+      },
+      "say": "That is only the 10 part. Add 6 × 3."
+     }
+    ],
+    "show": [
+     "6 × 10 = 60 and 6 × 3 = 18.",
+     "60 + 18 = 78 square feet."
+    ],
+    "yes": "Yes! 78 square feet."
+   },
+   {
+    "id": "t15",
+    "type": "number",
+    "prompt": "A rectangle is 16 meters long and 5 meters wide. Break 16 into 10 + 6. What is its area in square meters?",
+    "answer": "5 × 16",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       5
+      ],
+      [
+       10,
+       0,
+       6,
+       5
+      ]
+     ],
+     "unit": "m",
+     "show": "parts"
+    },
+    "asks": "area",
+    "hints": [
+     "Multiply 5 × 10 and 5 × 6, then add."
+    ],
+    "show": [
+     "50 + 30 = 80 square meters."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t16",
+    "type": "fill",
+    "prompt": "Finish the equation.",
+    "lines": [
+     "4 × 17 = 4 × 10 + 4 × [b]",
+     "= 40 + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "b": 7,
+     "q": 28,
+     "t": 68
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       4
+      ],
+      [
+       10,
+       0,
+       7,
+       4
+      ]
+     ],
+     "unit": "ft",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "Break 17 into 10 and one more number.",
+     "Multiply 4 × 7 for the second part, then add it to 40."
+    ],
+    "show": [
+     "4 × 7 = 28.",
+     "40 + 28 = 68 square feet."
+    ],
+    "yes": "Yes! 68 square feet."
+   },
+   {
+    "id": "t17",
+    "type": "choice",
+    "prompt": "A rectangle is split into 9 × 3 and 9 × 11. What are its length and width?",
+    "options": [
+     {
+      "text": "9 wide and 14 long",
+      "correct": true
+     },
+     {
+      "text": "9 wide and 11 long",
+      "why": "The two parts are 3 and 11 long: together 14."
+     },
+     {
+      "text": "3 wide and 11 long",
+      "why": "Both parts are 9 wide."
+     }
+    ],
+    "hints": [
+     "The 9 is in both parts. Add the other two numbers."
+    ],
+    "show": [
+     "3 + 11 = 14.",
+     "So the rectangle is 9 by 14."
+    ],
+    "yes": "Yes! 9 × 14 = 27 + 99 = 126."
+   },
+   {
+    "id": "t18",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 17 into 10 + 7, then finish the equations to find the area in square inches.",
+    "lines": [
+     "3 × 17 = 3 × [a] + 3 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 7,
+     "p": 30,
+     "q": 21,
+     "t": 51
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       3
+      ],
+      [
+       10,
+       0,
+       7,
+       3
+      ]
+     ],
+     "unit": "in.",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 17 into 10 and 7. The 3 stays the same.",
+     "Multiply 3 × 10 and 3 × 7, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 30
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "3 × 10 = 30.",
+     "3 × 7 = 21.",
+     "30 + 21 = 51.",
+     "The area is 51 square inches."
+    ],
+    "yes": "Yes! 3 × 17 = 30 + 21 = 51 square inches."
+   },
+   {
+    "id": "t19",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 7 into 5 + 2, then finish the equations to find the area in square centimeters.",
+    "lines": [
+     "9 × 7 = 9 × [a] + 9 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 5,
+     "b": 2,
+     "p": 45,
+     "q": 18,
+     "t": 63
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       9
+      ],
+      [
+       5,
+       0,
+       2,
+       9
+      ]
+     ],
+     "unit": "cm",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "hints": [
+     "The picture splits the 7 into 5 and 2. The 9 stays the same.",
+     "Multiply 9 × 5 and 9 × 2, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "t": 45
+      },
+      "say": "That is only the first part. Add the second part."
+     }
+    ],
+    "show": [
+     "9 × 5 = 45.",
+     "9 × 2 = 18.",
+     "45 + 18 = 63.",
+     "The area is 63 square centimeters."
+    ],
+    "yes": "Yes! 9 × 7 = 45 + 18 = 63 square centimeters."
+   },
+   {
+    "id": "t20",
+    "type": "choice",
+    "prompt": "Splitting 8 × 7 as (5 × 7) + (3 × 7) and as (8 × 5) + (8 × 2) gives …",
+    "options": [
+     {
+      "text": "the same area, 56",
+      "correct": true
+     },
+     {
+      "text": "two different areas",
+      "why": "Both splits cover the same rectangle."
+     },
+     {
+      "text": "only the first one is right",
+      "why": "Both are right. 35 + 21 = 56 and 40 + 16 = 56."
+     }
+    ],
+    "hints": [
+     "Find both totals."
+    ],
+    "show": [
+     "35 + 21 = 56.",
+     "40 + 16 = 56."
+    ],
+    "yes": "Yes! Either side can be split."
+   }
+  ]
+ },
+ "test": {
+  "pass": 8,
+  "items": [
+   {
+    "id": "x1",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 7 into 5 + 2, then finish the equations to find the area in square centimeters.",
+    "lines": [
+     "4 × 7 = 4 × [a] + 4 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 5,
+     "b": 2,
+     "p": 20,
+     "q": 8,
+     "t": 28
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       4
+      ],
+      [
+       5,
+       0,
+       2,
+       4
+      ]
+     ],
+     "unit": "cm",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "show": [
+     "4 × 5 = 20.",
+     "4 × 2 = 8.",
+     "20 + 8 = 28.",
+     "The area is 28 square centimeters."
+    ],
+    "yes": "Yes! 4 × 7 = 20 + 8 = 28 square centimeters."
+   },
+   {
+    "id": "x2",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 12 into 10 + 2, then finish the equations to find the area in square meters.",
+    "lines": [
+     "6 × 12 = 6 × [a] + 6 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 2,
+     "p": 60,
+     "q": 12,
+     "t": 72
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       6
+      ],
+      [
+       10,
+       0,
+       2,
+       6
+      ]
+     ],
+     "unit": "m",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "show": [
+     "6 × 10 = 60.",
+     "6 × 2 = 12.",
+     "60 + 12 = 72.",
+     "The area is 72 square meters."
+    ],
+    "yes": "Yes! 6 × 12 = 60 + 12 = 72 square meters."
+   },
+   {
+    "id": "x3",
+    "type": "choice",
+    "prompt": "The rectangle is 7 by 8. Which matches the split picture?",
+    "options": [
+     {
+      "text": "(7 × 5) + (7 × 3)",
+      "correct": true
+     },
+     {
+      "text": "(7 × 5) + (7 × 4)",
+      "why": "5 + 4 is 9."
+     },
+     {
+      "text": "7 + 8",
+      "why": "Multiply the parts."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       7
+      ],
+      [
+       5,
+       0,
+       3,
+       7
+      ]
+     ],
+     "unit": "units",
+     "show": "parts"
+    },
+    "show": [
+     "35 + 21 = 56."
+    ]
+   },
+   {
+    "id": "x4",
+    "type": "number",
+    "prompt": "A banner is 13 feet long and 4 feet wide. Break 13 into 10 + 3. What is its area in square feet?",
+    "answer": "4 × 13",
+    "show": [
+     "40 + 12 = 52 square feet."
+    ]
+   },
+   {
+    "quotesMistake": true,
+    "id": "x5",
+    "type": "choice",
+    "prompt": "A student wrote 4 × 12 = (4 × 10) + (2 × 2). What went wrong?",
+    "options": [
+     {
+      "text": "The second part must keep the 4: 4 × 2.",
+      "correct": true
+     },
+     {
+      "text": "Nothing is wrong.",
+      "why": "40 + 4 = 44, but 4 × 12 = 48."
+     },
+     {
+      "text": "It should be 4 + 12.",
+      "why": "Area is multiplied."
+     }
+    ],
+    "show": [
+     "4 × 12 = 40 + 8 = 48."
+    ]
+   },
+   {
+    "id": "x6",
+    "type": "fill",
+    "prompt": "Finish the equation.",
+    "lines": [
+     "5 × 14 = 5 × 10 + 5 × [b]",
+     "= 50 + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "b": 4,
+     "q": 20,
+     "t": 70
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       5
+      ],
+      [
+       10,
+       0,
+       4,
+       5
+      ]
+     ],
+     "unit": "m",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "show": [
+     "50 + 20 = 70 square meters."
+    ]
+   },
+   {
+    "areaOptions": true,
+    "id": "x7",
+    "type": "multi",
+    "prompt": "Which equations find the area of the picture? Choose all that are right.",
+    "options": [
+     {
+      "text": "3 × 9",
+      "correct": true
+     },
+     {
+      "text": "3 × 5 + 3 × 4",
+      "correct": true
+     },
+     {
+      "text": "3 + 5 + 4",
+      "why": "Adding does not find area."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       3
+      ],
+      [
+       5,
+       0,
+       4,
+       3
+      ]
+     ],
+     "unit": "units",
+     "show": "parts"
+    },
+    "show": [
+     "27 = 15 + 12."
+    ]
+   },
+   {
+    "id": "x8",
+    "type": "fill",
+    "prompt": "Use the split picture. Break 16 into 10 + 6, then finish the equations to find the area in square feet.",
+    "lines": [
+     "8 × 16 = 8 × [a] + 8 × [b]",
+     "= [p] + [q]",
+     "= [t]"
+    ],
+    "answer": {
+     "a": 10,
+     "b": 6,
+     "p": 80,
+     "q": 48,
+     "t": 128
+    },
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       8
+      ],
+      [
+       10,
+       0,
+       6,
+       8
+      ]
+     ],
+     "unit": "ft",
+     "show": "parts"
+    },
+    "areaBox": "t",
+    "show": [
+     "8 × 10 = 80.",
+     "8 × 6 = 48.",
+     "80 + 48 = 128.",
+     "The area is 128 square feet."
+    ],
+    "yes": "Yes! 8 × 16 = 80 + 48 = 128 square feet."
+   },
+   {
+    "id": "x9",
+    "type": "choice",
+    "prompt": "A rectangle is split into 6 × 4 and 6 × 5. What is its area?",
+    "options": [
+     {
+      "text": "54 square units",
+      "correct": true
+     },
+     {
+      "text": "24 square units",
+      "why": "That is only one part."
+     },
+     {
+      "text": "15 square units",
+      "why": "That adds the numbers."
+     }
+    ],
+    "show": [
+     "24 + 30 = 54."
+    ]
+   },
+   {
+    "id": "x10",
+    "type": "choice",
+    "prompt": "Why does splitting a side give the right area?",
+    "options": [
+     {
+      "text": "The two smaller rectangles cover the whole rectangle.",
+      "correct": true
+     },
+     {
+      "text": "It does not always.",
+      "why": "It always works if both parts keep the other side."
+     },
+     {
+      "text": "Because splitting makes it smaller.",
+      "why": "The total area does not change."
+     }
+    ],
+    "show": [
+     "The parts cover the whole rectangle."
+    ]
+   }
+  ]
+ },
+ "parent": {
+  "sections": [
+   {
+    "heading": "What your child is learning",
+    "text": "Your child connects the Distributive Property (Chapter 5) to area: a rectangle 8 by 6 can be split into 5 by 6 and 3 by 6, so 8 × 6 = (5 × 6) + (3 × 6) = 30 + 18 = 48 square units."
+   },
+   {
+    "heading": "Try it with real things",
+    "list": [
+     "Draw a long rectangle on graph paper, cut it with a line at 10, and find both parts.",
+     "Practice splitting numbers at 10: 14 = 10 + 4, 17 = 10 + 7."
+    ]
+   },
+   {
+    "heading": "Questions to ask",
+    "list": [
+     "Which side did you split?",
+     "Which side stays the same in both parts?",
+     "Do the parts add up to the side you split?"
+    ]
+   },
+   {
+    "heading": "Common mistakes",
+    "list": [
+     "Changing both sides in one part, such as (2 × 10) + (1 × 7) for 3 × 17.",
+     "Parts that do not add up to the side (10 + 4 for 15).",
+     "Finding one part and forgetting to add the other."
+    ]
+   },
+   {
+    "heading": "About these questions",
+    "text": "Lesson 6-5 follows the order of the class textbook chapter. The explanations, pictures and questions are Study Scoop's own; the teacher's words are marked as the teacher's."
+   }
+  ]
+ }
+}

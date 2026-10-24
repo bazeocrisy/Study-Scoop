@@ -9,6 +9,7 @@ import { wrongFactsInText } from '../../js/lib/arith.js';
 import { check, decompositionOf, solution, validateLesson } from '../../js/lib/lessons.js';
 import { WORD_MODES, mathWordItems, mathWordsTest, propertyOf, rng, testCatalog, validateMathWords } from '../../js/lib/activities.js';
 import { PROPERTIES } from '../../js/lib/mathlearn.js';
+import { chapterFor } from '../../js/lib/chapters.js';
 import { buildHash } from '../../js/lib/router.js';
 import { mathView } from '../../js/views/math.js';
 import { testsView } from '../../js/views/tests.js';
@@ -32,7 +33,10 @@ function ctxFor(extra = {}) {
     actLink: (s, act) => buildHash(s, weekId, WEEKS.current, { act }),
     testLink: (kind) => buildHash('tests', weekId, WEEKS.current, { test: kind }),
     tests: readJSON('data/tests/2026-10-19.json'), misses: { vocab: 0, spelling: 0, math: 0, mathwords: 2 },
+    chapterLink: (id) => buildHash('math', weekId, WEEKS.current, { ch: id }),
     practice: readJSON('data/practice/math.json'), mathWords: MW, lessons: INDEX, pictures: { photos: [], drawings: [] }, ...extra,
+    // The page's chapter, as the app works it out from the address (D26).
+    chapter: extra.chapter !== undefined ? extra.chapter : chapterFor(INDEX, { ch: extra.chapterMenu || null, act: extra.page || extra.run?.act || null, lesson: extra.lesson?.id || null }),
   };
 }
 const clean = (out, label) => {
@@ -40,11 +44,21 @@ const clean = (out, label) => {
   assert.doesNotMatch(out, /undefined|\bnull\b|NaN|\[object /, `${label}: no missing values`);
 };
 
-test('Math Lessons lists seven lessons, each open, each naming its strategy', () => {
-  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']);
-  for (const l of INDEX.lessons) assert.ok(l.title && l.summary && l.strategy, l.id);
-  const out = mathView(ctxFor({ page: 'lessons' })).s;
-  clean(out, 'lessons menu');
+test('Math: choose Chapter 5 or Chapter 6; each chapter lists its lessons, each open, each naming its strategy', () => {
+  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6']);
+  assert.deepEqual(INDEX.chapters.map((c) => c.id), [5, 6]);
+  for (const l of INDEX.lessons) assert.ok(l.title && l.summary && l.strategy && l.chapter === Number(l.id[0]), l.id);
+  const chooser = mathView(ctxFor({})).s;
+  clean(chooser, 'Choose Your Chapter');
+  assert.ok(chooser.includes('href="#math?ch=5"') && chooser.includes('href="#math?ch=6"'), 'both chapters');
+  for (const ch of [5, 6]) assert.ok(mathView(ctxFor({ chapterMenu: ch })).s.includes(`href="#math?act=ch${ch}"`), `Chapter ${ch} > Math Lessons`);
+  assert.ok(chooser.includes('Chapter 6: Connect Area and Multiplication'), 'chapter 6 title');
+  for (const ch of [5, 6]) {
+    const out = mathView(ctxFor({ page: `ch${ch}` })).s;
+    clean(out, `chapter ${ch} menu`);
+    for (const l of INDEX.lessons) assert.equal(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), l.chapter === ch, `${l.id} listed only in its chapter`);
+  }
+  const out = mathView(ctxFor({ page: 'ch5' })).s + mathView(ctxFor({ page: 'ch6' })).s;
   for (const l of INDEX.lessons) {
     assert.ok(out.includes(`Lesson ${l.id}: ${l.title.replace(/'/g, '&#39;')}`), l.id);
     assert.ok(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), `${l.id} can be started`);
@@ -170,8 +184,10 @@ test('Math > Math Vocabulary menu and Review My Words render for every property'
   clean(menu, 'words menu');
   for (const act of ['wreview', 'wchoice', 'wtf', 'wfill', 'wmisses']) assert.ok(menu.includes(`href="#math?act=${act}"`), act);
   assert.match(menu, /count-badge">2/, 'the misses badge counts Math Vocabulary misses');
-  const top = mathView(ctxFor()).s;
-  assert.deepEqual([...top.matchAll(/class="mc-title">([^<]+)/g)].map((m) => m[1].trim()), ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide']);
+  // Math > Chapter 5 lists its six activities (D26); its vocabulary is the property words.
+  const top = mathView(ctxFor({ chapterMenu: 5 })).s;
+  assert.deepEqual([...top.matchAll(/class="mc-title">([^<]+)/g)].map((m) => m[1].trim()), ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test']);
+  assert.match(menu, /href="#math\?ch=5"/, 'Back to Chapter 5');
   for (let i = 0; i < PROPERTIES.length; i++) {
     const run = { subject: 'math', act: 'wreview', mode: 'practice', title: 'Review My Words', goal: '', items: [], items_: {}, flash: { order: [0, 1, 2, 3, 4], i, flipped: false, marks: {} } };
     const out = mathView(ctxFor({ run })).s;
@@ -190,7 +206,8 @@ test('the Study Guide covers the unit: goals, five properties, strategies, patte
   // The class test date is shown only for the Multiplication Properties part.
   assert.match(out, /Part 1: Multiplication Properties.*class math test/s);
   assert.match(out, /Part 2: Strategies from Lessons 5-2 to 5-7 <span class="part-note">\(for practice\)/);
-  for (const l of INDEX.lessons) assert.ok(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), l.id);
+  // The Unit 5 study guide links the Chapter 5 lessons only; Chapter 6 has its own Review Center.
+  for (const l of INDEX.lessons) assert.equal(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), l.id.startsWith('5-'), l.id);
 });
 
 test('Tests: the Test Center has four practice tests, and the Math Vocabulary card is not called a class test', () => {
@@ -230,10 +247,16 @@ test('every lesson stage and every results screen renders, with Practice My Miss
     const testItems = Object.fromEntries(lesson.test.items.map((it) => [it.id, { status: 'correct', resp: Object.fromEntries(Object.entries(solution(it)).map(([k, v]) => [k, String(v)])) }]));
     const res = view('test', { i: 0, items: testItems, steps: {}, submitted: true });
     clean(res, `${lesson.id} test results`);
-    assert.match(res, /8 out of 8 right <span class="pct">\(100%\)/);
-    const k = INDEX.lessons.findIndex((l) => l.id === lesson.id);
-    if (k < INDEX.lessons.length - 1) assert.ok(res.includes(`Next: Lesson ${INDEX.lessons[k + 1].id}`), lesson.id);
-    else assert.ok(res.includes('href="#math?act=guide"') && res.includes('href="#tests?test=math"'), 'last lesson: Study Guide and Math Practice Test');
+    const n = lesson.test.items.length;
+    assert.ok(res.includes(`${n} out of ${n} right <span class="pct">(100%)`), `${lesson.id} perfect test score`);
+    // The next lesson in the same chapter; after a chapter's last lesson, that chapter's review.
+    const chapter = INDEX.lessons.filter((l) => l.chapter === Number(lesson.id[0]));
+    const k = chapter.findIndex((l) => l.id === lesson.id);
+    if (k < chapter.length - 1) assert.ok(res.includes(`Next: Lesson ${chapter[k + 1].id}`), lesson.id);
+    else if (lesson.id === '5-7') assert.ok(res.includes('href="#math?act=guide"') && res.includes('href="#math?act=ch5test"'), 'last Chapter 5 lesson: its Study Guide and Chapter Test');
+    else assert.ok(res.includes('href="#math?act=ch6guide"') && res.includes('href="#math?act=ch6test"'), 'last Chapter 6 lesson: its Study Guide and Chapter Test');
+    // Back to Lessons goes to the lesson's own chapter.
+    assert.ok(res.includes(`href="#math?act=ch${lesson.id[0]}"`) || res.includes(`act=ch${lesson.id[0]}"`), `${lesson.id}: Back to its chapter`);
   }
 });
 

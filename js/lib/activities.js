@@ -5,7 +5,7 @@
 import { decompositionOf, normWord, validateQuiz } from './lessons.js';
 import { pictureName } from './data.js';
 import { PROPERTIES, hasPropertyWords } from './mathlearn.js';
-import { isAreaWeek, validateArea } from './area.js';
+import { areaVocabTest, isAreaWeek } from './area.js';
 
 // Each subject opens on a menu of these (menu-first navigation, DECISIONS D19). `page` marks a page to read
 // (no questions); `parent` puts an activity on a second menu (Math > Practice Problems).
@@ -24,29 +24,47 @@ export const ACTIVITIES = {
     { id: 'fill', label: 'Fill in the Blank', about: 'Type the word that fits the sentence.', icon: 'pencil' },
     { id: 'misses', label: 'Practice My Misses', about: 'Practice only the questions you missed.', icon: 'redo' },
   ],
+  // Math is chapter-first (D26): Math opens on Choose Your Chapter, and every chapter's menu has the same six roles
+  // (CHAPTER_ROLES). Each entry names its chapter; its content comes from that chapter's own data and teacher week.
   math: [
-    // Topic 6: Area (shown first, and only, in a week whose math words are Area, Square Unit and Multiply).
-    { id: 'area', label: 'Topic 6: Area', about: 'Learn the Area words, then practice for the Nov 3 test.', icon: 'grid', page: true, topic: 'area', start: true },
-    { id: 'arealearn', label: 'Learn Area', about: 'The teacher\'s three words, with pictures and worked examples.', icon: 'book', parent: 'area', page: true, start: true },
-    { id: 'areafind', label: 'Find the Area', about: 'Count square units, multiply length × width, and solve story problems.', icon: 'grid', parent: 'area', group: 'area' },
-    { id: 'areawords', label: 'Area Words', about: 'Multiple choice, true or false and fill in the blank about the three words.', icon: 'choice', parent: 'area', group: 'area' },
-    { id: 'areamisses', label: 'Practice My Misses', about: 'Practice only the Area questions you missed.', icon: 'redo', parent: 'area', group: 'area', misses: true },
-    { id: 'learn', label: 'Learn the Properties', about: 'Meet the five multiplication properties, one at a time.', icon: 'book', start: true },
-    { id: 'words', label: 'Math Vocabulary', about: 'Review the property words, then quiz yourself.', icon: 'cards', page: true },
-    { id: 'practice', label: 'Practice Problems', about: 'Answer problems. Get a hint when you need one.', icon: 'pencil', page: true },
-    { id: 'lessons', label: 'Math Lessons', about: 'Lessons 5-1 to 5-7, step by step.', icon: 'steps', page: true },
-    { id: 'guide', label: 'Study Guide', about: 'A short review of Unit 5 and the properties.', icon: 'list', page: true },
-    { id: 'props', label: 'Identify the Property', about: 'Look at a fact. Which property does it show?', icon: 'choice', parent: 'practice' },
-    { id: 'split', label: 'Match the Split Array', about: 'A line splits an array. Pick the matching facts.', icon: 'grid', parent: 'practice' },
-    { id: 'breakapart', label: 'Break Apart a Factor', about: 'Break a fact into two easier facts.', icon: 'puzzle', parent: 'practice' },
-    { id: 'mixed', label: 'Mixed Practice', about: 'A mix of properties, arrays and breaking apart.', icon: 'mix', parent: 'practice' },
-    { id: 'misses', label: 'Practice My Misses', about: 'Practice only the problems you missed.', icon: 'redo', parent: 'practice', misses: true },
-    // Math Vocabulary: the five property words. Its misses are kept apart from the practice problems' misses.
-    { id: 'wreview', label: 'Review My Words', about: 'One property at a time: what it means, an example and a picture.', icon: 'book', parent: 'words', group: 'mathwords' },
-    { id: 'wchoice', label: 'Multiple Choice', about: 'Pick the right property, meaning or equation.', icon: 'choice', parent: 'words', group: 'mathwords' },
-    { id: 'wtf', label: 'True or False', about: 'Read a sentence about a property. Is it true?', icon: 'truefalse', parent: 'words', group: 'mathwords' },
-    { id: 'wfill', label: 'Fill in the Blank', about: 'Type the property word that fits.', icon: 'pencil', parent: 'words', group: 'mathwords' },
-    { id: 'wmisses', label: 'Practice My Misses', about: 'Practice only the word questions you missed.', icon: 'redo', parent: 'words', group: 'mathwords', misses: true },
+    // Chapter 5: Multiplication Properties and Strategies.
+    { id: 'learn', chapter: 5, role: 'vocab', label: 'Learn the Properties', about: 'Meet the five multiplication properties, one at a time, with the teacher\'s words.', icon: 'book', start: true },
+    { id: 'words', chapter: 5, role: 'vocabpractice', label: 'Math Vocabulary', about: 'Review My Words, Multiple Choice, True or False, Fill in the Blank and Practice My Misses.', icon: 'cards', page: true },
+    { id: 'ch5', chapter: 5, role: 'lessons', label: 'Chapter 5 Lessons', about: 'Lessons 5-1 to 5-7: Learn It, Watch Me, Practice Together, Try It Yourself and a test.', icon: 'steps', page: true },
+    { id: 'practice', chapter: 5, role: 'practice', label: 'Practice Problems', about: 'Properties, split arrays and breaking apart a factor, with hints.', icon: 'pencil', page: true },
+    { id: 'guide', chapter: 5, role: 'guide', label: 'Chapter 5 Study Guide', about: 'The five properties and the strategies for 3, 4, 6, 7, 8 and 9, ready to print.', icon: 'list', page: true },
+    { id: 'ch5test', chapter: 5, role: 'test', label: 'Chapter 5 Practice Test', about: 'Questions from the whole chapter. No hints until the end.', icon: 'choice', test: true, group: 'math' },
+    { id: 'props', chapter: 5, label: 'Identify the Property', about: 'Look at a fact. Which property does it show?', icon: 'choice', parent: 'practice' },
+    { id: 'split', chapter: 5, label: 'Match the Split Array', about: 'A line splits an array. Pick the matching facts.', icon: 'grid', parent: 'practice' },
+    { id: 'breakapart', chapter: 5, label: 'Break Apart a Factor', about: 'Break a fact into two easier facts.', icon: 'puzzle', parent: 'practice' },
+    { id: 'mixed', chapter: 5, label: 'Mixed Practice', about: 'A mix of properties, arrays and breaking apart.', icon: 'mix', parent: 'practice' },
+    { id: 'misses', chapter: 5, label: 'Practice My Misses', about: 'Practice only the problems you missed.', icon: 'redo', parent: 'practice', misses: true },
+    // Chapter 5 vocabulary: the five property words. Its misses are kept apart from the practice problems' misses.
+    { id: 'wreview', chapter: 5, label: 'Review My Words', about: 'One property at a time: what it means, an example and a picture.', icon: 'book', parent: 'words', group: 'mathwords' },
+    { id: 'wchoice', chapter: 5, label: 'Multiple Choice', about: 'Pick the right property, meaning or equation.', icon: 'choice', parent: 'words', group: 'mathwords' },
+    { id: 'wtf', chapter: 5, label: 'True or False', about: 'Read a sentence about a property. Is it true?', icon: 'truefalse', parent: 'words', group: 'mathwords' },
+    { id: 'wfill', chapter: 5, label: 'Fill in the Blank', about: 'Type the property word that fits.', icon: 'pencil', parent: 'words', group: 'mathwords' },
+    { id: 'wmisses', chapter: 5, label: 'Practice My Misses', about: 'Practice only the word questions you missed.', icon: 'redo', parent: 'words', group: 'mathwords', misses: true },
+    // Chapter 6: Connect Area and Multiplication.
+    { id: 'arealearn', chapter: 6, role: 'vocab', label: 'Learn the Area Words', about: 'The teacher\'s three Nov 3 words, with pictures and worked examples.', icon: 'book', page: true, start: true },
+    { id: 'areawords', chapter: 6, role: 'vocabpractice', label: 'Area Words', about: 'Review, flashcards and quizzes for the Nov 3 words and the chapter review words.', icon: 'cards', page: true },
+    { id: 'ch6', chapter: 6, role: 'lessons', label: 'Chapter 6 Lessons', about: 'Lessons 6-1 to 6-6: Learn It, Watch Me, Practice Together, Try It Yourself and a test.', icon: 'grid', page: true },
+    { id: 'areapractice', chapter: 6, role: 'practice', label: 'Area Practice Problems', about: 'Count square units, multiply length × width, and solve story problems, with hints.', icon: 'pencil', page: true },
+    { id: 'ch6guide', chapter: 6, role: 'guide', label: 'Chapter 6 Study Guide', about: 'Area from tiling to story problems: examples, mistakes to avoid and a self-check, ready to print.', icon: 'list', page: true },
+    { id: 'ch6test', chapter: 6, role: 'test', label: 'Chapter 6 Practice Test', about: '27 questions from all six lessons. No hints until the end.', icon: 'choice', test: true, group: 'area' },
+    { id: 'areafind', chapter: 6, label: 'Mixed Practice', about: 'Count square units, multiply length × width, and solve story problems.', icon: 'pencil', parent: 'areapractice', group: 'area' },
+    { id: 'areamisses', chapter: 6, label: 'Practice My Misses', about: 'Practice only the area problems you missed (practice and the chapter test).', icon: 'redo', parent: 'areapractice', group: 'area', misses: true },
+    // Chapter 6 vocabulary: its own misses, apart from the area problems.
+    { id: 'avreview', chapter: 6, label: 'Review My Words', about: 'One word at a time: what it means, a picture and an example.', icon: 'book', parent: 'areawords', group: 'areavocab' },
+    { id: 'avflash', chapter: 6, label: 'Flashcards', about: 'See the meaning and picture, say the word, then turn the card over.', icon: 'cards', parent: 'areawords', group: 'areavocab' },
+    { id: 'avchoice', chapter: 6, label: 'Multiple Choice', about: 'Pick the right meaning or the right word.', icon: 'choice', parent: 'areawords', group: 'areavocab' },
+    { id: 'avtf', chapter: 6, label: 'True or False', about: 'Read a sentence about a word. Is it true?', icon: 'truefalse', parent: 'areawords', group: 'areavocab' },
+    { id: 'avfill', chapter: 6, label: 'Fill in the Blank', about: 'Type the word that fits the sentence.', icon: 'pencil', parent: 'areawords', group: 'areavocab' },
+    { id: 'avmisses', chapter: 6, label: 'Practice My Misses', about: 'Practice only the word questions you missed.', icon: 'redo', parent: 'areawords', group: 'areavocab', misses: true },
+    // Earlier addresses keep working: they open the page that replaced them.
+    { id: 'lessons', label: 'Choose Your Chapter', about: 'Every Math chapter.', icon: 'steps', page: true, alias: true },
+    { id: 'area', chapter: 6, label: 'Chapter 6', about: 'The Chapter 6 menu.', icon: 'grid', page: true, alias: true },
+    { id: 'ch6review', chapter: 6, label: 'Chapter 6 Study Guide', about: 'The Chapter 6 Study Guide.', icon: 'list', page: true, alias: 'ch6guide' },
   ],
   // Skill Builders (DECISIONS D22): one card per skill. Each card has its own menu: Learn, practice sets,
   // Practice My Misses (its own list of misses) and a test. Questions are made fresh each time (js/lib/skills.js).
@@ -382,8 +400,10 @@ export function spellingTest(week, rand = Math.random) {
 
 /** A test from data/tests/<week>.json (math or vocab), the generated spelling test, or the Math Vocabulary test
  *  (from data/practice/math-words.json). Null when there is none. */
-export function testFor(kind, week, tests, rand, mathWords = null) {
+export function testFor(kind, week, tests, rand, mathWords = null, area = null) {
   if (kind === 'spelling') return week.spelling?.words?.length ? spellingTest(week, rand) : null;
+  // In the Area week the Math Vocabulary test is the Nov 3 vocabulary test (Area, Square Unit, Multiply).
+  if (kind === 'mathwords' && isAreaWeek(week)) return area?.vocab ? areaVocabTest(area, rand) : null;
   if (kind === 'mathwords') return mathWords ? mathWordsTest(mathWords, rand) : null;
   const t = tests?.[kind];
   return t ? { kind, title: `${SUBJECT[kind]} Practice Test`, ...t, pass: t.pass ?? passMark(t.items.length) } : null;
@@ -391,21 +411,24 @@ export function testFor(kind, week, tests, rand, mathWords = null) {
 
 /** The Test Center cards for a week: what each test covers, when the class test is, and if it can start.
  *  The Math Vocabulary test has no class test of its own: its card names the week's math test as the one it helps with. */
-export function testCatalog(week, tests, mathWords = null) {
+export function testCatalog(week, tests, mathWords = null, area = null) {
   return TEST_KINDS.map((kind) => {
     const related = kind === 'mathwords';
     // The Math Vocabulary test is about the Unit 5 property words: it helps with the week's math test only when
     // that test is the properties test (not, say, the Topic 6 Area vocabulary test).
-    const sched = related && !hasPropertyWords(week) ? null : week.tests.find((t) => t.kind === (related ? 'math' : kind)) || null;
-    const t = testFor(kind, week, tests, () => 0, mathWords);
+    const areaWeek = isAreaWeek(week);
+    const chapterReview = kind === 'math' && areaWeek;
+    const sched = (related && !hasPropertyWords(week) && !areaWeek) || chapterReview ? null : week.tests.find((t) => t.kind === (related ? 'math' : kind)) || null;
+    const t = testFor(kind, week, tests, () => 0, mathWords, area);
     let reason = '';
     if (!t) reason = related ? 'The Math Vocabulary questions could not be loaded. Please try again later.'
       : sched ? 'A Study Scoop practice test for this topic has not been written yet.' : `No ${SUBJECT[kind].toLowerCase()} test is listed for this week.`;
     return {
-      kind, subject: SUBJECT[kind], title: `${SUBJECT[kind]} Practice Test`,
+      kind, subject: SUBJECT[kind], title: t?.title || `${SUBJECT[kind]} Practice Test`,
       topic: t?.topic || sched?.detail || '', date: sched?.date || null, classTest: sched?.title || null,
-      dateLabel: related ? (hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : 'Class test',
-      review: related && !hasPropertyWords(week) ? 'Unit 5 (properties)' : '',
+      // Area week: the Math Vocabulary test is for the Nov 3 class vocabulary test, and the Math test is a chapter review.
+      dateLabel: related ? (areaWeek ? 'Class test' : hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : chapterReview ? 'Review of' : 'Class test',
+      review: chapterReview ? 'Chapter 6 (all lessons)' : related && !hasPropertyWords(week) && !areaWeek ? 'Unit 5 (properties)' : '',
       count: t ? t.items.length : 0, coverage: t?.coverage || '', note: t?.note || '', available: Boolean(t), reason,
     };
   });
@@ -431,17 +454,19 @@ export function validateTests(tests, week) {
       // An Area week's math test is about Area only; a properties test never uses the Area skills.
       if (kind === 'math' && AREA_SKILLS.includes(it.skill) !== isAreaWeek(week)) err(`math ${it.id}: skill ${it.skill} does not match this week's math topic`);
     }
-    if (kind === 'math' && isAreaWeek(week)) errors.push(...validateArea({ items: t.items }, week, { where: `tests/${week.id}.json math`, practice: false }));
+    // A Chapter 6 test covers every lesson of the chapter.
+    if (kind === 'math' && isAreaWeek(week)) for (const k of AREA_SKILLS) if (!t.items.some((it) => it.skill === k)) err(`math: no question from ${SKILL_LABEL[k]}`);
     if (kind === 'vocab') errors.push(...vocabTestProblems(t, week).map((m) => `tests/${week.id}.json: vocab ${m}`));
   }
   return errors;
 }
 
 /** The groups a math test score is shown in on the results screen. */
-export const MATH_SKILLS = ['names', 'facts', 'arrays', 'breaking', 'areawords', 'areacount', 'areamultiply'];
+export const MATH_SKILLS = ['names', 'facts', 'arrays', 'breaking', 'l61', 'l62', 'l63', 'l64', 'l65', 'l66'];
 export const SKILL_LABEL = { names: 'Naming the properties', facts: 'Times 1, times 0 and turn-around facts', arrays: 'Rows, columns and split arrays', breaking: 'Breaking apart facts',
-  areawords: 'The Area words', areacount: 'Counting square units', areamultiply: 'Multiplying length × width' };
-const AREA_SKILLS = ['areawords', 'areacount', 'areamultiply'];
+  l61: 'Lesson 6-1: Understand area', l62: 'Lesson 6-2: Count unit squares', l63: 'Lesson 6-3: Multiply length × width',
+  l64: 'Lesson 6-4: Composite figures', l65: 'Lesson 6-5: Split a side (Distributive Property)', l66: 'Lesson 6-6: Area problems' };
+const AREA_SKILLS = ['l61', 'l62', 'l63', 'l64', 'l65', 'l66'];
 
 /** Every vocabulary test question must be about its own word on this week's list and use the teacher definition exactly. */
 function vocabTestProblems(t, week) {

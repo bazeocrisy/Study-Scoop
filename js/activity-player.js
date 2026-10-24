@@ -5,7 +5,7 @@ import { showNewStep } from './lib/help-scroll.js';
 import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
 import { SKILL_SETS } from './lib/skills.js';
-import { AREA_SETS, areaItems } from './lib/area.js';
+import { AREA_CARDS, AREA_SETS, areaItems, areaVocabWords } from './lib/area.js';
 import { packetItems } from './lib/homework.js';
 import { html } from './lib/html.js';
 import { activityInner } from './views/activity.js';
@@ -20,7 +20,7 @@ const missMap = (weekId, subject) => {
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
-export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'area', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
+export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'area', 'areavocab', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
 // (Rounding questions also have a number `n`, but they are kept by their own id, which names the number and the place.)
@@ -38,17 +38,26 @@ const seed = () => (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
 /** A choice question with its options in a new order (True/False stays in order). */
 const reshuffle = (item, rand) => (item.type === 'choice' && item.options.length > 2 ? { ...item, options: shuffle(item.options, rand) } : item);
 /** What the cards of a card activity show: spelling words, vocabulary words, or the four math properties. */
-const cardsFor = (ctx, subject) => (subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
+const cardsFor = (ctx, subject, act) => (AREA_CARDS.includes(act) ? areaVocabWords(ctx.area) : subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
 
 function newRun(ctx, section, act) {
   const rand = rng(seed());
   const base = { items: [], items_: {}, i: 0, finished: false, submitted: false, warned: false, noSound: false };
   if (section === 'tests') {
-    const t = testFor(act, ctx.week, ctx.tests, rand, ctx.mathWords);
+    const t = testFor(act, ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);
     if (!t) return null;
-    return { ...base, ...t, subject: act, group: act, act, mode: 'test', goal: `${t.topic} · ${t.items.length} questions` };
+    // The weekly math test belongs to the week's chapter (D26): its misses go to that chapter's Practice My Misses.
+    const chapter = act === 'math' && ctx.week.mathChapter ? ctx.week.mathChapter : null;
+    return { ...base, ...t, subject: act, group: chapter === 6 ? 'area' : act, act, mode: 'test', chapter, goal: `${t.topic} · ${t.items.length} questions` };
   }
   const info = activityInfo(section, act);
+  // A Math chapter's practice test (D26): the chapter's own test, taken inside the chapter (no Help until the end).
+  if (section === 'math' && info.test) {
+    const t = testFor('math', ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);
+    if (!t) return { ...base, subject: section, group: missGroup(section, act), act, mode: 'test', title: info.label, goal: info.about, unavailable: true, chapter: info.chapter };
+    return { ...base, ...t, kind: 'math', subject: section, group: missGroup(section, act), act, mode: 'test', title: info.label, chapter: info.chapter,
+      goal: `${t.topic} · ${t.items.length} questions` };
+  }
   // Skill Builders tests are tests (no Help until the end), kept on the skill's own menu.
   if (section === 'skills' && info.test) {
     const set = SKILL_SETS[act];
@@ -57,8 +66,8 @@ function newRun(ctx, section, act) {
       instructions: 'Answer every question, then press Finish the test. There is no Help during the test. You will see the right answers at the end.' };
   }
   const run = { ...base, subject: section, group: missGroup(section, act), act, mode: 'practice', title: info.label, goal: info.about };
-  const cards = cardsFor(ctx, section);
-  if (act === 'learn' || act === 'flash' || act === 'wreview') run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} };
+  const cards = cardsFor(ctx, section, act);
+  if (act === 'learn' || act === 'flash' || act === 'wreview' || AREA_CARDS.includes(act)) { run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} }; if (AREA_CARDS.includes(act)) run.unavailable = !cards.length; }
   else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
   else if (WORD_MODES[act]) { run.items = mathWordItems(ctx.mathWords, act, rand); run.unavailable = !ctx.mathWords; }
   else if (AREA_SETS[act]) { run.items = areaItems(ctx.area, act, rand); run.unavailable = !ctx.area; }
@@ -76,7 +85,7 @@ export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
-  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] ? ctx.area : ctx.practice));
+  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (activityInfo(section, act)?.test && section === 'math' ? ctx.tests : WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] || AREA_CARDS.includes(act) ? ctx.area : ctx.practice));
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
     if (isMissesAct(old.act)) {
@@ -363,9 +372,16 @@ export function mountActivity(app, ctx, signal) {
         } else if (st.status !== 'correct' && run.subject === 'vocab') {
           const w = ctx.week.vocab.words.find((x) => x.word === it.word);
           if (w) addMiss(ctx.weekId, 'vocab', vocabPractice({ ...it, id: `test-${it.id}` }, w));
+        } else if (st.status !== 'correct' && run.subject === 'math' && run.chapter) {
+          // A missed chapter test question goes to the chapter's Practice My Misses, in its practice form when it has one.
+          addMiss(ctx.weekId, run.group, it.practice ? { ...it.practice, id: `test-${it.id}` } : { ...it, id: `test-${it.id}` });
         } else if (st.status !== 'correct' && run.subject === 'skills') {
           // A missed Skill Builders test question goes to the skill's Practice My Misses in its practice form (with Help).
           addMiss(ctx.weekId, run.group, it.practice || it);
+        } else if (st.status !== 'correct' && run.areaVocab && ctx.area) {
+          // A missed Nov 3 vocabulary test question goes to Area Words > Practice My Misses, as its practice question.
+          const orig = ['choice', 'truefalse', 'fill'].flatMap((m) => ctx.area.vocab[m] || []).find((x) => x.word === it.word && x.kind === (it.kind === 'tf' ? 'tf' : it.kind));
+          if (orig) addMiss(ctx.weekId, 'areavocab', orig);
         } else if (st.status !== 'correct' && run.subject === 'mathwords' && ctx.mathWords) {
           // The practice form of the question (with its hints and Show me how) goes to Math Vocabulary > Practice My Misses.
           const orig = [...Object.values(WORD_MODES), 'test'].flatMap((m) => ctx.mathWords[m] || []).find((x) => x.prompt === it.prompt);
@@ -386,10 +402,10 @@ export function mountActivity(app, ctx, signal) {
     // Flashcards and study cards
     const f = run.flash;
     if (!f) return;
-    const words = cardsFor(ctx, run.subject);
+    const words = cardsFor(ctx, run.subject, run.act);
     const cardWord = () => words[f.order[f.i]];
     // A spelling card's front must not say the word (it is the answer); other cards name their word.
-    const cardName = () => (run.subject === 'spelling' ? '' : `: ${cardWord().word || cardWord().name}`);
+    const cardName = () => (run.subject === 'spelling' || run.act === 'avflash' ? '' : `: ${cardWord().word || cardWord().name}`);
     // The spelling card's word is never in the page (it is the answer): the player says it from its own list.
     if (act === 'say-card') {
       if (speakingBtn === btn) return stopSpeech();
@@ -398,8 +414,9 @@ export function mountActivity(app, ctx, signal) {
     if (act === 'flip') {
       f.flipped = !f.flipped;
       const w = cardWord();
-      const rule = ctx.week.spelling.rules?.[w.rule];
-      if (!btn.classList.contains('flashcard')) announce(f.flipped ? `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}` : 'Front of the card.');
+      const rule = run.act === 'avflash' ? '' : ctx.week.spelling.rules?.[w.rule];
+      const backSays = run.act === 'avflash' ? `Back of the card: ${w.word}. ${w.example}` : `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}`;
+      if (!btn.classList.contains('flashcard')) announce(f.flipped ? backSays : 'Front of the card.');
       // Keep focus where it was: on the card itself, or on the Flip Card button.
       rerender(btn.classList.contains('flashcard') ? '.flashcard' : '.flip-btn');
       area().querySelector('.flashcard')?.classList.add('flip-anim');
@@ -408,7 +425,7 @@ export function mountActivity(app, ctx, signal) {
     if (act === 'card-next' || act === 'card-prev') {
       f.i = Math.max(0, Math.min(words.length - 1, f.i + (act === 'card-next' ? 1 : -1)));
       f.flipped = false;
-      announce(`${run.act === 'wreview' ? 'Word' : run.subject === 'math' ? 'Property' : 'Card'} ${f.i + 1} of ${words.length}${cardName()}.`);
+      announce(`${run.act === 'wreview' || run.act === 'avreview' ? 'Word' : run.act === 'avflash' ? 'Card' : run.subject === 'math' ? 'Property' : 'Card'} ${f.i + 1} of ${words.length}${run.act === 'avflash' ? '' : cardName()}.`);
       return rerender(`[data-act="${act}"]:not([disabled]), .stage-nav a.btn-primary, [data-act="card-prev"]:not([disabled]), [data-act="card-next"]:not([disabled]), #stage-h`);
     }
     if (act === 'shuffle') {

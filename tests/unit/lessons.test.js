@@ -92,7 +92,7 @@ test('open decompositions: any valid cut, either factor, facts turned around or 
 });
 
 test('every lesson is valid and every question accepts its own answer', () => {
-  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']);
+  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6']);
   for (const lesson of LESSONS) {
     assert.deepEqual(validateLesson(lesson, lesson.id), [], lesson.id);
     for (const [, item] of allItems(lesson)) {
@@ -107,9 +107,12 @@ test('every lesson is valid and every question accepts its own answer', () => {
 
 test('teacher definitions in lessons are word for word the teacher\'s (from the week data)', () => {
   const week = readJSON('data/2026-10-19.json');
+  // Chapter 5 words come from Oct 19–23 (Unit 5); Chapter 6 words (Area, Square Unit, Multiply) from Oct 26–30.
+  const area = readJSON('data/2026-10-26.json');
+  const teacherDef = (term) => [...week.math.words, ...area.math.words].find((w) => w.word === term)?.def;
   for (const lesson of LESSONS) {
     for (const t of lesson.teacher) {
-      assert.equal(t.def, week.math.words.find((w) => w.word === t.term).def, `${lesson.id} ${t.term}`);
+      assert.equal(t.def, teacherDef(t.term), `${lesson.id} ${t.term}`);
     }
   }
   // The naming question uses the teacher's fill sentence exactly.
@@ -157,6 +160,7 @@ const ctx = (lesson, stage, lessonState) => ({
   link: (s) => buildHash(s, '2026-10-19', '2026-10-19'),
   lessonLink: (id, st) => buildHash('math', '2026-10-19', '2026-10-19', { lesson: id, stage: st }),
   actLink: (s, act) => buildHash(s, '2026-10-19', '2026-10-19', { act }),
+  chapterLink: (id) => buildHash('math', '2026-10-19', '2026-10-19', { ch: id }),
 });
 
 test('every stage of every lesson renders: one h1, no missing values, labelled answer boxes', () => {

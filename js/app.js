@@ -10,6 +10,7 @@ import { hasPropertyWords } from './lib/mathlearn.js';
 import { validateArea } from './lib/area.js';
 import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson-player.js';
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
+import { chapterFor, validateChapters } from './lib/chapters.js';
 import { missCounts, mountActivity, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
 import { validatePacket } from './lib/homework.js';
@@ -49,7 +50,11 @@ async function start() {
   select.innerHTML = html`${index.weeks.map((w) => html`
     <option value="${w.id}">${w.label}${w.id === index.current ? ' (this week)' : ''}</option>`)}`.s;
   select.addEventListener('change', () => {
-    location.hash = buildHash(parseHash(location.hash, SECTION_IDS).section, select.value, index.current);
+    const r = parseHash(location.hash, SECTION_IDS);
+    // Math chapters do not change with the week (D26): a chapter menu, chapter page or lesson keeps its place.
+    // Other subjects' activities belong to their week, so they go to the chosen week's menu.
+    const keep = r.section === 'math' ? (r.lesson ? { lesson: r.lesson, stage: r.stage } : r.act ? { act: r.act } : r.ch ? { ch: r.ch } : {}) : {};
+    location.hash = buildHash(r.section, select.value, index.current, keep);
   });
   // Which word pictures exist (so no page asks for a missing file). Pictures are optional: no list, no pictures.
   try { pictures = await loadJSON('data/pictures.json'); } catch { /* keep the empty list */ }
@@ -63,12 +68,13 @@ async function render() {
   const weekId = resolveWeek(route.week, index);
   // Lessons (Math only): the list, and the lesson named in the address. Unknown lessons fall back to the Math page.
   let lessons = null, lesson = null;
-  if (route.section === 'math') {
+  // This Week also reads the chapter list, to recommend the week's chapter (D26).
+  if (route.section === 'math' || route.section === 'week') {
     try {
       lessons = await loadJSON('data/lessons/index.json');
-      if (validateLessonIndex(lessons).length) lessons = null;
+      if (validateLessonIndex(lessons).length || validateChapters(lessons).length) lessons = null;
     } catch { lessons = null; }
-    if (route.lesson && lessons?.lessons.some((l) => l.id === route.lesson)) {
+    if (route.section === 'math' && route.lesson && lessons?.lessons.some((l) => l.id === route.lesson)) {
       try { lesson = await loadJSON(`data/lessons/${route.lesson}.json`); } catch (e) {
         if (n === renderCount) showProblem('This lesson could not be loaded.', [String(e.message || e)]);
         return;
@@ -79,8 +85,11 @@ async function render() {
     }
   }
   // Math practice problems (Math > Practice Problems): one checked question bank for the topic, like the lessons.
+  // Math is chapter-first (D26): the chapter named by the address (a chapter menu, one of its activities, or one of
+  // its lessons) owns the content. Its teacher's words, tests and misses come from the chapter's own week.
+  const chapter = route.section === 'math' ? chapterFor(lessons, { ch: route.ch, act: route.act, lesson: lesson?.id || null }) : null;
   let practice = null;
-  if (route.section === 'math' && route.act) {
+  if (route.section === 'math' && route.act && chapter?.id === 5) {
     try {
       practice = await loadJSON('data/practice/math.json');
       if (validateMathPractice(practice).length) practice = null;
@@ -88,12 +97,12 @@ async function render() {
   }
   // Topic 6: Area questions (Math > Topic 6: Area), checked against the week's teacher words before they are shown.
   let area = null;
-  if (route.section === 'math' && /^area/.test(route.act || '')) {
+  if ((route.section === 'math' && chapter?.id === 6) || route.section === 'tests') {
     try { area = await loadJSON('data/practice/area.json'); } catch { area = null; }
   }
   // Math Vocabulary questions (Math > Math Vocabulary and the Math Vocabulary practice test), checked like the lessons.
   let mathWords = null;
-  if ((route.section === 'math' && route.act) || route.section === 'tests') {
+  if ((route.section === 'math' && route.act && chapter?.id === 5) || route.section === 'tests') {
     try {
       mathWords = await loadJSON('data/practice/math-words.json');
       if (validateMathWords(mathWords).length) mathWords = null;
@@ -119,11 +128,29 @@ async function render() {
       if (list.weeks?.includes(weekId)) tests = await loadJSON(`data/tests/${weekId}.json`);
     } catch { testsProblem = true; }
   }
+  // The chapter's week: its teacher's words and class test dates, and (for its Chapter Test) its practice tests.
+  const chapterWeekId = chapter?.week && index.weeks.some((w) => w.id === chapter.week) ? chapter.week : null;
+  let chapterWeek = null;
+  if (chapterWeekId && chapterWeekId !== weekId) {
+    try { chapterWeek = await loadWeek(chapterWeekId); if (validateWeek(chapterWeek, chapterWeekId).length) chapterWeek = null; } catch { chapterWeek = null; }
+  }
+  if (route.section === 'math' && chapterWeekId && activityInfo('math', route.act)?.test) {
+    try {
+      const list = await loadJSON('data/tests/index.json');
+      if (list.weeks?.includes(chapterWeekId)) tests = await loadJSON(`data/tests/${chapterWeekId}.json`);
+    } catch { testsProblem = true; }
+  }
   if (n !== renderCount) return; // a newer navigation started while lessons were loading (keep its address)
   const stage = lesson ? (STAGE_IDS.includes(route.stage) ? route.stage : 'learn') : null;
   // An activity named in the address: a page to read (Learn My Words, a menu) or questions to answer (a run).
-  const info = route.act ? activityInfo(route.section, route.act) : null;
-  const act = info ? route.act : null;
+  // An earlier address (alias) opens the page that replaced it: "area" is the Chapter 6 menu, "lessons" the chapter list.
+  let info = route.act ? activityInfo(route.section, route.act) : null;
+  let chMenu = route.section === 'math' && !lesson && chapter && !info ? chapter.id : null;
+  if (info?.alias) {
+    if (typeof info.alias === 'string') info = activityInfo(route.section, info.alias);
+    else { chMenu = info.chapter && chapter ? chapter.id : null; info = null; }
+  }
+  const act = info ? info.id : null;
   const testKind = route.test && TEST_KINDS.includes(route.test) ? route.test : null;
   let week;
   try {
@@ -147,10 +174,15 @@ async function render() {
     }
     if (n !== renderCount) return;
   }
-  if (area && (area.week !== weekId || validateArea(area, week).length)) area = null;
+  // In Math, a chapter's activities use the chapter's own week (Chapter 6 keeps its Nov 3 words when an earlier
+  // week is chosen); the week picker, the header and every link keep the week the child chose.
+  const content = route.section === 'math' && chapterWeekId ? (chapterWeekId === weekId ? week : chapterWeek || week) : week;
+  const contentId = content.id || weekId;
+  // The Area bank belongs to its own week; a problem with it hides the Area activities (and says so) rather than show a wrong key.
+  if (area && (area.week !== contentId || validateArea(area, content).length)) area = null;
   if (tests) {
     let tp;
-    try { tp = validateTests(tests, week); } catch (e) { tp = [String(e.message || e)]; }
+    try { tp = validateTests(tests, content); } catch (e) { tp = [String(e.message || e)]; }
     if (tp.length) { tests = null; testsProblem = true; }
   }
 
@@ -165,19 +197,20 @@ async function render() {
   }
 
   const ctx = {
-    week, unit5Week: unit5Week || week, index, weekId, section: route.section, isCurrent: weekId === index.current, today: new Date(),
+    week: content, shownWeek: week, unit5Week: unit5Week || week, index, weekId: contentId, shownWeekId: weekId, section: route.section, isCurrent: weekId === index.current, today: new Date(),
+    chapter, chapterMenu: chMenu, chapterLink: (id) => buildHash('math', weekId, index.current, { ch: id }),
     link: (section, id = weekId) => buildHash(section, id, index.current),
     lessonLink: (id, st) => buildHash('math', weekId, index.current, { lesson: id, stage: st }),
     pictures, lessons, lesson, stage, lessonState: lesson ? stateFor(lesson.id, stage) : null,
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
-    tests, testsProblem, misses: missCounts(weekId), practice, mathWords, area, packet, page: info?.page ? act : null,
+    tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, packet, page: info?.page ? act : null,
   };
   ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
   // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.
   const canonical = buildHash(route.section, weekId, index.current, lesson ? { lesson: lesson.id, stage }
-    : ctx.run ? (ctx.run.mode === 'test' ? { test: testKind } : { act }) : ctx.page ? { act } : {});
+    : ctx.run ? (ctx.run.mode === 'test' && route.section === 'tests' ? { test: testKind } : { act }) : ctx.page ? { act } : chMenu ? { ch: chMenu } : {});
   if (location.hash && location.hash !== canonical) history.replaceState(null, '', canonical);
   mounted?.abort();
   mounted = null;
@@ -192,10 +225,19 @@ async function render() {
   if (lesson || ctx.run) {
     mounted = new AbortController();
     (lesson ? mountLesson : mountActivity)(app, ctx, mounted.signal);
-  } else if (ctx.page) {
-    // Pages to read only need their Print button (the Study Guide).
+  } else if (ctx.page || route.section === 'newsletter') {
+    // Pages to read only need their Print button (the Study Guides) and, on the Newsletter, Zoom in.
     mounted = new AbortController();
-    app.addEventListener('click', (e) => { if (e.target.closest('[data-act="print"]')) window.print(); }, { signal: mounted.signal });
+    app.addEventListener('click', (e) => {
+      if (e.target.closest('[data-act="print"]')) window.print();
+      const z = e.target.closest('[data-act="zoom"]');
+      if (z) {
+        const on = z.getAttribute('aria-pressed') !== 'true';
+        z.setAttribute('aria-pressed', String(on));
+        z.textContent = on ? 'Zoom out' : 'Zoom in';
+        app.querySelector('.flyer')?.classList.toggle('zoomed', on);
+      }
+    }, { signal: mounted.signal });
     mountReadButtons(app, mounted.signal);
   }
 

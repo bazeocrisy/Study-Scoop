@@ -233,6 +233,20 @@ ul.plain, ul.dates, ul.archive, ul.words, ul.checklist { list-style: none; margi
 .m-legend { display: grid; gap: 2px; justify-items: center; font-size: 1rem; }
 .m-legend .m-lab-a { color: var(--part-a); } .m-legend .m-lab-b { color: var(--part-b); }
 .m-sub-t { color: var(--ink); font-weight: 400; }
+/* Chapter 6 area pictures (js/lib/shapes.js): tiles, squared paper, composite figures and their side lengths */
+.g-paper { stroke: #b9d9e6; stroke-width: 1; }
+.g-tile { fill: var(--tile-b); stroke: var(--part-b); stroke-width: 1.5; }
+.g-over { fill: var(--tile-a); stroke: var(--part-a); fill-opacity: .9; }
+.g-empty { fill: var(--paper); }
+.g-outline { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: square; }
+.s-fill { fill: var(--tile-b); stroke: var(--tile-b); stroke-width: 1; }
+.s-part-a { fill: var(--tile-a); } .s-part-b { fill: var(--tile-b); } .s-part-c { fill: #fbe3b8; }
+.s-grid { stroke: var(--line-strong); stroke-width: 1; opacity: .6; }
+.s-cut { stroke: var(--ink); stroke-width: 2.5; stroke-dasharray: 7 5; }
+.s-outline { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: square; }
+.s-side { font: 700 14px var(--body); fill: var(--ink); }
+.s-unknown { font-size: 18px; fill: var(--part-a); font-weight: 800; }
+.s-area { font: 800 16px var(--display); fill: var(--ink); }
 .vjoin { display: block; width: 72px; height: 18px; color: var(--muted); }
 .vjoin path { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .m-pair { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 12px; justify-content: center; }
@@ -968,3 +982,46 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 /* Topic 6: Area (Learn Area): one card per word and per worked example. */
 .area-words, .area-examples { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 0.75rem; }
 .area-words > li, .area-examples > li { margin: 0; }
+
+/* Topic 6 Area Words: which words are on the Nov 3 test */
+.word-tag { display: inline-block; font-size: .85rem; font-weight: 700; border-radius: 999px; padding: 2px 10px; border: 1.5px solid currentColor; }
+.tag-test { color: var(--part-a); } .tag-review { color: var(--muted); }
+.review-lessons { display: grid; gap: 8px; padding-left: 1.4rem; }
+.review-lessons .muted { display: block; }
+
+/* ---------------------------------------------------------------- chapter-first Math and the newsletter flyer (D26) */
+.chapter-status { justify-self: start; padding: 1px 10px; border-radius: 999px; background: var(--sunk); color: var(--muted); font-size: .85rem; font-weight: 700; }
+.chapter-status.now { background: var(--teal-tint); color: var(--teal); }
+.menu-card.chapter-card.current { border-color: var(--teal); box-shadow: inset 4px 0 0 var(--teal), var(--shadow); }
+.math-week { border-top: 5px solid var(--berry); }
+.math-week h2 { margin-bottom: 4px; }
+.shortcut-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 10px; }
+.shortcut-list .shortcut { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 14px; border: 2px solid var(--line); border-radius: var(--r); background: var(--well); font-weight: 700; text-decoration: none; }
+.shortcut-list .shortcut:hover { border-color: var(--berry); }
+.shortcut-list .shortcut svg { width: 24px; height: 24px; flex: none; color: var(--berry); }
+.models-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.flyer .flyer-pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px; margin-top: 10px; }
+.flyer-page { margin: 0; }
+.flyer-scroll { overflow: auto; max-height: 80vh; border: 1px solid var(--line); border-radius: var(--r-sm); background: #fff; }
+.flyer-scroll img { display: block; width: 100%; height: auto; }
+.flyer.zoomed .flyer-pages { grid-template-columns: 1fr; }
+.flyer.zoomed .flyer-scroll img { width: 200%; max-width: none; }
+.flyer-page figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 6px; font-weight: 700; }
+.flyer-missing { border-left: 5px solid var(--line-strong); }
+@media print {
+  body[data-section="newsletter"] .flyer-scroll { max-height: none; overflow: visible; border: 0; }
+  body[data-section="newsletter"] .flyer-page { break-inside: avoid; page-break-after: always; }
+  body[data-section="newsletter"] .flyer.zoomed .flyer-scroll img { width: 100%; }
+  .shortcut-list { display: none; }
+}
+
+/* Review fixes (D26): full-size links are real touch targets; two chapters fill the row; guide and newsletter print cleanly. */
+.flyer-page figcaption a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; }
+@media (min-width: 700px) { .chapter-grid.count-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media print {
+  .guide-part, h2, h3 { break-after: avoid; page-break-after: avoid; }
+  .guide-sections > li, .guide-steps li, .card.work { break-inside: avoid; }
+  body[data-section="math"] .stage-nav, body[data-section="newsletter"] #h-archive, body[data-section="newsletter"] #h-archive + .archive { display: none; }
+  body[data-section="newsletter"] section:has(> #h-archive) { display: none; }
+  .print-answer { font-weight: 700; }
+}
