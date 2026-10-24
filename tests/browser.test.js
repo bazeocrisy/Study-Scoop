@@ -1547,7 +1547,8 @@ async function main() {
         const pr = await qPrompt();
         const w = W26.vocab.words.find((x) => x.fill === pr || x.sentence.replace(new RegExp(x.word + '[a-z]*', 'i'), '___') === pr);
         expect(w, 'an Oct 26 sentence: ' + pr);
-        if (k === 0) { await typeIn('produce' === w.word.toLowerCase() ? 'employee' : 'produce'); await checkIt(); expect((await actFb()).includes('means:'), 'a wrong word says what it means'); await press('#act-stage [data-act="help"]'); }
+        // The wrong word comes from this question's own word bank (the bank is shuffled per run), so it has a meaning to show.
+        if (k === 0) { await typeIn(await b.js('return [...document.querySelectorAll("#act-stage .bank-word")].map((x) => x.dataset.word).find((x) => x !== ' + JSON.stringify(w.word.toLowerCase()) + ');')); await checkIt(); expect((await actFb()).includes('means:'), 'a wrong word says what it means'); await press('#act-stage [data-act="help"]'); }
         await typeIn(w.word.toLowerCase());
         await checkIt();
         expect((await actFb()).startsWith('Yes!'), `${w.word}: ${await actFb()}`);
@@ -1683,14 +1684,17 @@ async function main() {
       await b.load(url('#tests?test=mathwords'));
       eq(await progress(), 'Question 1 of 12', '12 questions');
       const pool = AV.test;
+      // Miss exactly one question: the first multiple-choice one (the test is drawn at random, so question 1 may be a fill-in).
+      let missed = false;
       for (let k = 0; k < 12; k++) {
         const p = await qPrompt();
         const item = pool.find((it) => it.prompt === p);
         expect(item && ['Area', 'Square Unit', 'Multiply'].includes(item.word), `a Nov 3 word question: ${p}`);
         eq(await b.js('return document.querySelectorAll("#act-stage [data-act=help], #act-stage .feedback").length;'), 0, 'no hints');
         const fid = await formId();
-        if (item.type === 'choice') await b.js(`const f = document.querySelector('form[data-item="${fid}"]'); [...f.querySelectorAll('label.choice')].find((l) => l.textContent.trim() === ${JSON.stringify(item.options.find((o) => (k === 0 ? !o.correct : o.correct)).text)}).querySelector('input').click(); f.dispatchEvent(new Event('change', { bubbles: true }));`);
+        if (item.type === 'choice') await b.js(`const f = document.querySelector('form[data-item="${fid}"]'); [...f.querySelectorAll('label.choice')].find((l) => l.textContent.trim() === ${JSON.stringify(item.options.find((o) => (!missed ? !o.correct : o.correct)).text)}).querySelector('input').click(); f.dispatchEvent(new Event('change', { bubbles: true }));`);
         else await b.js(`const f = document.querySelector('form[data-item="${fid}"]'); f.querySelector('input[name=text]').value = ${JSON.stringify(item.answer)}; f.dispatchEvent(new Event('input', { bubbles: true }));`);
+        if (item.type === 'choice') missed = true;
         await press(k < 11 ? '[data-act="next"]' : '[data-act="submit"]');
       }
       eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '11 out of 12 right (92%)', 'score');
