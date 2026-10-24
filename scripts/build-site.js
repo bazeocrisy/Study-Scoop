@@ -8,6 +8,7 @@ import { validateIndex, validateWeek } from '../js/lib/validate.js';
 import { validateLesson, validateLessonIndex } from '../js/lib/lessons.js';
 import { validateMathPractice, validateMathWords, validateTests } from '../js/lib/activities.js';
 import { pictureName } from '../js/lib/data.js';
+import { validateArea } from '../js/lib/area.js';
 import { validatePacket } from '../js/lib/homework.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -20,7 +21,7 @@ export const ALLOW = [
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
   /^data\/lessons\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/,
   /^data\/tests\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
-  /^data\/practice\/(?:math|math-words)\.json$/,
+  /^data\/practice\/(?:math|math-words|area)\.json$/,
   /^data\/homework\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
   /^downloads\/homework-\d{4}-\d{2}-\d{2}\.pdf$/,
   /^images\/cone\.svg$/,
@@ -203,6 +204,14 @@ export function verifySite(dir) {
   if (has('data/practice/math.json')) problems.push(...validateMathPractice(readJSON(path.join(dir, 'data/practice/math.json'))));
   // Math Vocabulary questions: every property, definition and true-or-false key is checked before publishing.
   if (has('data/practice/math-words.json')) problems.push(...validateMathWords(readJSON(path.join(dir, 'data/practice/math-words.json'))));
+  // Topic 6: Area questions: every answer is worked out again from its picture or numbers, and every word question
+  // uses the teacher's exact definitions from its week.
+  if (has('data/practice/area.json')) {
+    const bank = readJSON(path.join(dir, 'data/practice/area.json'));
+    const rel = `data/${bank.week}.json`;
+    if (!has(rel)) problems.push(`data/practice/area.json: its week ${bank.week} is not published`);
+    else problems.push(...validateArea(bank, readJSON(path.join(dir, rel))));
+  }
   // The picture list must match the published pictures exactly (pages use it so they never ask for a missing file).
   if (has('data/pictures.json')) {
     const list = readJSON(path.join(dir, 'data/pictures.json'));

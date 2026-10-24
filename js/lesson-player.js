@@ -68,6 +68,14 @@ function readAloud(btn) {
   synth().speak(u);
 }
 
+/** Pages to read (Study Guide, Learn Area): their Read to me buttons, or none when the device has no voice. */
+export function mountReadButtons(app, signal) {
+  if (!synth()) { app.querySelectorAll('.read').forEach((b) => b.remove()); return; }
+  synth().getVoices();
+  signal.addEventListener('abort', stopReading);
+  app.addEventListener('click', (e) => { const b = e.target.closest('[data-act="read"]'); if (b) readAloud(b); }, { signal });
+}
+
 /** Attaches the lesson controls to the rendered page. `signal` removes the listeners on the next navigation. */
 export function mountLesson(app, ctx, signal) {
   const { lesson } = ctx;

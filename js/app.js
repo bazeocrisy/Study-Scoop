@@ -6,7 +6,9 @@ import { loadIndex, loadJSON, loadWeek } from './lib/data.js';
 import { buildHash, parseHash, resolveWeek } from './lib/router.js';
 import { validateIndex, validateWeek } from './lib/validate.js';
 import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
-import { mountLesson, stateFor, visitedStages } from './lesson-player.js';
+import { hasPropertyWords } from './lib/mathlearn.js';
+import { validateArea } from './lib/area.js';
+import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson-player.js';
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { missCounts, mountActivity, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
@@ -84,6 +86,11 @@ async function render() {
       if (validateMathPractice(practice).length) practice = null;
     } catch { practice = null; }
   }
+  // Topic 6: Area questions (Math > Topic 6: Area), checked against the week's teacher words before they are shown.
+  let area = null;
+  if (route.section === 'math' && /^area/.test(route.act || '')) {
+    try { area = await loadJSON('data/practice/area.json'); } catch { area = null; }
+  }
   // Math Vocabulary questions (Math > Math Vocabulary and the Math Vocabulary practice test), checked like the lessons.
   let mathWords = null;
   if ((route.section === 'math' && route.act) || route.section === 'tests') {
@@ -128,6 +135,19 @@ async function render() {
   if (n !== renderCount) return; // a newer navigation started while this week was loading
   const problems = validateWeek(week, weekId);
   if (problems.length) return showProblem('This week\'s information has a problem.', problems);
+  // Unit 5 (the multiplication properties) is not tied to one week: its teacher's words and class test date come
+  // from the week that announced them (lessons/index.json "teacherWeek"), so a later topic such as Area never
+  // hides them and an earlier week still shows them.
+  let unit5Week = hasPropertyWords(week) ? week : null;
+  if (!unit5Week && route.section === 'math') {
+    let teacherWeek = lessons?.teacherWeek;
+    if (!teacherWeek) { try { teacherWeek = (await loadJSON('data/lessons/index.json')).teacherWeek; } catch { teacherWeek = null; } }
+    if (teacherWeek && index.weeks.some((w) => w.id === teacherWeek)) {
+      try { const tw = await loadWeek(teacherWeek); if (!validateWeek(tw, teacherWeek).length && hasPropertyWords(tw)) unit5Week = tw; } catch { /* show the definitions only */ }
+    }
+    if (n !== renderCount) return;
+  }
+  if (area && (area.week !== weekId || validateArea(area, week).length)) area = null;
   if (tests) {
     let tp;
     try { tp = validateTests(tests, week); } catch (e) { tp = [String(e.message || e)]; }
@@ -145,14 +165,14 @@ async function render() {
   }
 
   const ctx = {
-    week, index, weekId, section: route.section, isCurrent: weekId === index.current, today: new Date(),
+    week, unit5Week: unit5Week || week, index, weekId, section: route.section, isCurrent: weekId === index.current, today: new Date(),
     link: (section, id = weekId) => buildHash(section, id, index.current),
     lessonLink: (id, st) => buildHash('math', weekId, index.current, { lesson: id, stage: st }),
     pictures, lessons, lesson, stage, lessonState: lesson ? stateFor(lesson.id, stage) : null,
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
-    tests, testsProblem, misses: missCounts(weekId), practice, mathWords, packet, page: info?.page ? act : null,
+    tests, testsProblem, misses: missCounts(weekId), practice, mathWords, area, packet, page: info?.page ? act : null,
   };
   ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
   // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.
@@ -176,6 +196,7 @@ async function render() {
     // Pages to read only need their Print button (the Study Guide).
     mounted = new AbortController();
     app.addEventListener('click', (e) => { if (e.target.closest('[data-act="print"]')) window.print(); }, { signal: mounted.signal });
+    mountReadButtons(app, mounted.signal);
   }
 
   // Word pictures are optional: drop the frame when a picture file does not exist.

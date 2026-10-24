@@ -1,6 +1,8 @@
 # Study Scoop — Project Status
 
 ## Current phase
+Oct 26–30 release (D24): weekly content for Oct 26–30 (spelling -er/-or with the supplied pictures, the four green vocabulary words, Topic 6: Area for the Nov 3 vocabulary test) and the release-test repair. Next: Chapter 6 lessons 6-1 to 6-6 (Assignment 007).
+
 Skill Builders Wave 1 (D22): Quick Math is now Skill Builders with Mental Add, Rounding and Times Tables.
 
 Step-by-step Help (D21) on `develop`: one Help button after a wrong answer, one step at a time, and a reason for every wrong answer, across lessons and all practice activities.

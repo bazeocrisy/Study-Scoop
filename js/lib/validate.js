@@ -93,7 +93,8 @@ function validateSpelling(sp, err) {
     if (seen.has(w.word.toLowerCase())) err(`${at}: "${w.word}" is listed twice`);
     seen.add(w.word.toLowerCase());
     if (w.word !== w.word.trim() || /\s/.test(w.word)) err(`${at}: "${w.word}" must be one word with no spaces`);
-    if (!isText(w.base)) err(`${at}.base is missing`);
+    // A word with no shorter base word ("doctor") says so with whole: true instead of a made-up base.
+    if (w.whole === true) { if (w.base !== undefined) err(`${at}: a whole word has no base`); } else if (!isText(w.base)) err(`${at}.base is missing`);
     if (!(w.rule in sp.rules)) err(`${at}: rule "${w.rule}" is not in spelling.rules`);
     if (!isText(w.sentence)) err(`${at}.sentence is missing`);
     else if (!w.sentence.toLowerCase().includes(w.word.toLowerCase())) err(`${at}: the sentence must use "${w.word}"`);

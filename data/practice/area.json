@@ -1,0 +1,1065 @@
+{
+ "week": "2026-10-26",
+ "topic": "Topic 6: Area",
+ "note": "Study Scoop Area practice (original questions). The teacher's three words and definitions come from data/2026-10-26.json; every answer is checked from its numbers by js/lib/area.js.",
+ "find": [
+  {
+   "id": "ac1",
+   "type": "number",
+   "prompt": "Each small square is 1 square unit. Count the square units. What is the area?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 2,
+    "cols": 3
+   },
+   "asks": "dots",
+   "answer": "2 × 3",
+   "hints": [
+    "Count the squares in one row. Then count how many rows there are.",
+    "Count every square once. Do not skip any, and do not count any twice."
+   ],
+   "show": [
+    "There are 2 rows with 3 squares in each row.",
+    "3 + 3 = 6.",
+    "The area is 6 square units."
+   ],
+   "yes": "Yes! The area is 6 square units.",
+   "explain": "2 rows of 3 squares make 6 squares, so the area is 6 square units."
+  },
+  {
+   "id": "ac2",
+   "type": "number",
+   "prompt": "Each small square is 1 square unit. Count the square units. What is the area?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 3,
+    "cols": 3
+   },
+   "asks": "dots",
+   "answer": "3 × 3",
+   "hints": [
+    "Count the squares in one row. Then count how many rows there are.",
+    "Count every square once. Do not skip any, and do not count any twice."
+   ],
+   "show": [
+    "There are 3 rows with 3 squares in each row.",
+    "3 + 3 + 3 = 9.",
+    "The area is 9 square units."
+   ],
+   "yes": "Yes! The area is 9 square units.",
+   "explain": "3 rows of 3 squares make 9 squares, so the area is 9 square units."
+  },
+  {
+   "id": "ac3",
+   "type": "number",
+   "prompt": "Each small square is 1 square unit. Count the square units. What is the area?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 2,
+    "cols": 5
+   },
+   "asks": "dots",
+   "answer": "2 × 5",
+   "hints": [
+    "Count the squares in one row. Then count how many rows there are.",
+    "Count every square once. Do not skip any, and do not count any twice."
+   ],
+   "show": [
+    "There are 2 rows with 5 squares in each row.",
+    "5 + 5 = 10.",
+    "The area is 10 square units."
+   ],
+   "yes": "Yes! The area is 10 square units.",
+   "explain": "2 rows of 5 squares make 10 squares, so the area is 10 square units."
+  },
+  {
+   "id": "ac4",
+   "type": "number",
+   "prompt": "Each small square is 1 square unit. Count the square units. What is the area?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 4,
+    "cols": 3
+   },
+   "asks": "dots",
+   "answer": "4 × 3",
+   "hints": [
+    "Count the squares in one row. Then count how many rows there are.",
+    "Count every square once. Do not skip any, and do not count any twice."
+   ],
+   "show": [
+    "There are 4 rows with 3 squares in each row.",
+    "3 + 3 + 3 + 3 = 12.",
+    "The area is 12 square units."
+   ],
+   "yes": "Yes! The area is 12 square units.",
+   "explain": "4 rows of 3 squares make 12 squares, so the area is 12 square units."
+  },
+  {
+   "id": "ac5",
+   "type": "number",
+   "prompt": "Each small square is 1 square unit. Count the square units. What is the area?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 3,
+    "cols": 5
+   },
+   "asks": "dots",
+   "answer": "3 × 5",
+   "hints": [
+    "Count the squares in one row. Then count how many rows there are.",
+    "Count every square once. Do not skip any, and do not count any twice."
+   ],
+   "show": [
+    "There are 3 rows with 5 squares in each row.",
+    "5 + 5 + 5 = 15.",
+    "The area is 15 square units."
+   ],
+   "yes": "Yes! The area is 15 square units.",
+   "explain": "3 rows of 5 squares make 15 squares, so the area is 15 square units."
+  },
+  {
+   "id": "ac6",
+   "type": "number",
+   "prompt": "Each small square is 1 square unit. Count the square units. What is the area?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 4,
+    "cols": 4
+   },
+   "asks": "dots",
+   "answer": "4 × 4",
+   "hints": [
+    "Count the squares in one row. Then count how many rows there are.",
+    "Count every square once. Do not skip any, and do not count any twice."
+   ],
+   "show": [
+    "There are 4 rows with 4 squares in each row.",
+    "4 + 4 + 4 + 4 = 16.",
+    "The area is 16 square units."
+   ],
+   "yes": "Yes! The area is 16 square units.",
+   "explain": "4 rows of 4 squares make 16 squares, so the area is 16 square units."
+  },
+  {
+   "id": "am1",
+   "type": "number",
+   "prompt": "This rectangle is 5 units long and 3 units wide. Multiply the length and the width. What is the area in square units?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 3,
+    "cols": 5,
+    "sideLabels": true
+   },
+   "asks": "dots",
+   "answer": "5 × 3",
+   "hints": [
+    "Find the length (the top side) and the width (the left side).",
+    "Multiply the length by the width. Do not add them."
+   ],
+   "show": [
+    "The length is 5 and the width is 3.",
+    "Multiply: 5 × 3 = 15.",
+    "The area is 15 square units."
+   ],
+   "yes": "Yes! 5 × 3 = 15, so the area is 15 square units.",
+   "explain": "Area of a rectangle = length × width: 5 × 3 = 15 square units."
+  },
+  {
+   "id": "am2",
+   "type": "number",
+   "prompt": "This rectangle is 7 units long and 2 units wide. Multiply the length and the width. What is the area in square units?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 2,
+    "cols": 7,
+    "sideLabels": true
+   },
+   "asks": "dots",
+   "answer": "7 × 2",
+   "hints": [
+    "Find the length (the top side) and the width (the left side).",
+    "Multiply the length by the width. Do not add them."
+   ],
+   "show": [
+    "The length is 7 and the width is 2.",
+    "Multiply: 7 × 2 = 14.",
+    "The area is 14 square units."
+   ],
+   "yes": "Yes! 7 × 2 = 14, so the area is 14 square units.",
+   "explain": "Area of a rectangle = length × width: 7 × 2 = 14 square units."
+  },
+  {
+   "id": "am3",
+   "type": "number",
+   "prompt": "This rectangle is 5 units long and 4 units wide. Multiply the length and the width. What is the area in square units?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 4,
+    "cols": 5,
+    "sideLabels": true
+   },
+   "asks": "dots",
+   "answer": "5 × 4",
+   "hints": [
+    "Find the length (the top side) and the width (the left side).",
+    "Multiply the length by the width. Do not add them."
+   ],
+   "show": [
+    "The length is 5 and the width is 4.",
+    "Multiply: 5 × 4 = 20.",
+    "The area is 20 square units."
+   ],
+   "yes": "Yes! 5 × 4 = 20, so the area is 20 square units.",
+   "explain": "Area of a rectangle = length × width: 5 × 4 = 20 square units."
+  },
+  {
+   "id": "am4",
+   "type": "number",
+   "prompt": "This rectangle is 5 units long and 5 units wide. Multiply the length and the width. What is the area in square units?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 5,
+    "cols": 5,
+    "sideLabels": true
+   },
+   "asks": "dots",
+   "answer": "5 × 5",
+   "hints": [
+    "Find the length (the top side) and the width (the left side).",
+    "Multiply the length by the width. Do not add them."
+   ],
+   "show": [
+    "The length is 5 and the width is 5.",
+    "Multiply: 5 × 5 = 25.",
+    "The area is 25 square units."
+   ],
+   "yes": "Yes! 5 × 5 = 25, so the area is 25 square units.",
+   "explain": "Area of a rectangle = length × width: 5 × 5 = 25 square units."
+  },
+  {
+   "id": "am5",
+   "type": "number",
+   "prompt": "This rectangle is 6 units long and 4 units wide. Multiply the length and the width. What is the area in square units?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 4,
+    "cols": 6,
+    "sideLabels": true
+   },
+   "asks": "dots",
+   "answer": "6 × 4",
+   "hints": [
+    "Find the length (the top side) and the width (the left side).",
+    "Multiply the length by the width. Do not add them."
+   ],
+   "show": [
+    "The length is 6 and the width is 4.",
+    "Multiply: 6 × 4 = 24.",
+    "The area is 24 square units."
+   ],
+   "yes": "Yes! 6 × 4 = 24, so the area is 24 square units.",
+   "explain": "Area of a rectangle = length × width: 6 × 4 = 24 square units."
+  },
+  {
+   "id": "am6",
+   "type": "number",
+   "prompt": "This rectangle is 8 units long and 3 units wide. Multiply the length and the width. What is the area in square units?",
+   "model": {
+    "type": "array",
+    "style": "tiles",
+    "rows": 3,
+    "cols": 8,
+    "sideLabels": true
+   },
+   "asks": "dots",
+   "answer": "8 × 3",
+   "hints": [
+    "Find the length (the top side) and the width (the left side).",
+    "Multiply the length by the width. Do not add them."
+   ],
+   "show": [
+    "The length is 8 and the width is 3.",
+    "Multiply: 8 × 3 = 24.",
+    "The area is 24 square units."
+   ],
+   "yes": "Yes! 8 × 3 = 24, so the area is 24 square units.",
+   "explain": "Area of a rectangle = length × width: 8 × 3 = 24 square units."
+  },
+  {
+   "id": "as1",
+   "type": "number",
+   "prompt": "A garden is 6 feet long and 3 feet wide. What is the area of the garden in square feet?",
+   "answer": "6 × 3",
+   "hints": [
+    "Find the two numbers that tell the length and the width.",
+    "Multiply the length and the width."
+   ],
+   "show": [
+    "The two sides are 6 and 3.",
+    "Multiply: 6 × 3 = 18.",
+    "The area of the garden is 18 square feet."
+   ],
+   "yes": "Yes! 6 × 3 = 18, so the area is 18 square feet.",
+   "explain": "6 × 3 = 18, so the area of the garden is 18 square feet."
+  },
+  {
+   "id": "as2",
+   "type": "number",
+   "prompt": "A sticker sheet has 5 rows of square stickers. There are 4 stickers in each row, and each sticker is 1 square inch. What is the area of the sticker sheet in square inches?",
+   "answer": "4 × 5",
+   "hints": [
+    "Find the two numbers that tell the length and the width.",
+    "Multiply the length and the width."
+   ],
+   "show": [
+    "The two sides are 4 and 5.",
+    "Multiply: 4 × 5 = 20.",
+    "The area of the sticker sheet is 20 square inches."
+   ],
+   "yes": "Yes! 4 × 5 = 20, so the area is 20 square inches.",
+   "explain": "4 × 5 = 20, so the area of the sticker sheet is 20 square inches."
+  },
+  {
+   "id": "as3",
+   "type": "number",
+   "prompt": "A patio is 7 meters long and 2 meters wide. What is the area of the patio in square meters?",
+   "answer": "7 × 2",
+   "hints": [
+    "Find the two numbers that tell the length and the width.",
+    "Multiply the length and the width."
+   ],
+   "show": [
+    "The two sides are 7 and 2.",
+    "Multiply: 7 × 2 = 14.",
+    "The area of the patio is 14 square meters."
+   ],
+   "yes": "Yes! 7 × 2 = 14, so the area is 14 square meters.",
+   "explain": "7 × 2 = 14, so the area of the patio is 14 square meters."
+  },
+  {
+   "id": "as4",
+   "type": "number",
+   "prompt": "A bulletin board is 9 feet long and 4 feet wide. What is the area of the bulletin board in square feet?",
+   "answer": "9 × 4",
+   "hints": [
+    "Find the two numbers that tell the length and the width.",
+    "Multiply the length and the width."
+   ],
+   "show": [
+    "The two sides are 9 and 4.",
+    "Multiply: 9 × 4 = 36.",
+    "The area of the bulletin board is 36 square feet."
+   ],
+   "yes": "Yes! 9 × 4 = 36, so the area is 36 square feet.",
+   "explain": "9 × 4 = 36, so the area of the bulletin board is 36 square feet."
+  },
+  {
+   "id": "ak1",
+   "type": "choice",
+   "prompt": "Which way finds the area of a rectangle that is 8 units long and 3 units wide?",
+   "target": "8 × 3",
+   "options": [
+    {
+     "text": "8 × 3",
+     "correct": true
+    },
+    {
+     "text": "8 + 3",
+     "why": "Adding the length and the width does not find the area. Multiply them."
+    },
+    {
+     "text": "8 + 3 + 8 + 3",
+     "why": "That adds the sides all the way around the outside. Area covers the inside, so multiply."
+    }
+   ],
+   "hints": [
+    "Area of a rectangle: multiply the length and the width."
+   ],
+   "show": [
+    "The length is 8 and the width is 3.",
+    "Multiply: 8 × 3 = 24 square units."
+   ],
+   "yes": "Yes! 8 × 3 = 24, so the area is 24 square units.",
+   "explain": "Multiply the length and the width: 8 × 3 = 24 square units."
+  },
+  {
+   "id": "ak2",
+   "type": "choice",
+   "prompt": "Which rectangle has an area of 12 square units?",
+   "target": "12",
+   "options": [
+    {
+     "text": "3 × 4",
+     "correct": true
+    },
+    {
+     "text": "2 × 5",
+     "why": "2 × 5 = 10. That area is 10 square units, not 12."
+    },
+    {
+     "text": "3 × 3",
+     "why": "3 × 3 = 9. That area is 9 square units, not 12."
+    }
+   ],
+   "hints": [
+    "Multiply the two numbers in each choice. Which one makes 12?"
+   ],
+   "show": [
+    "3 × 4 = 12.",
+    "So a rectangle 3 by 4 has an area of 12 square units."
+   ],
+   "yes": "Yes! 3 × 4 = 12 square units.",
+   "explain": "3 × 4 = 12, so a 3-by-4 rectangle has an area of 12 square units."
+  },
+  {
+   "id": "ak3",
+   "type": "choice",
+   "prompt": "Rug A is 3 feet long and 5 feet wide. Rug B is 4 feet long and 4 feet wide. Which rug has the greater area?",
+   "compare": [
+    [
+     3,
+     5
+    ],
+    [
+     4,
+     4
+    ]
+   ],
+   "compareNames": [
+    "Rug A",
+    "Rug B"
+   ],
+   "keepOrder": true,
+   "options": [
+    {
+     "text": "Rug A (15 square feet)",
+     "why": "3 × 5 = 15 and 4 × 4 = 16. 15 is less than 16."
+    },
+    {
+     "text": "Rug B (16 square feet)",
+     "correct": true
+    },
+    {
+     "text": "They have the same area",
+     "why": "Find each area: 3 × 5 = 15 and 4 × 4 = 16. They are not the same."
+    }
+   ],
+   "hints": [
+    "Find the area of each rug: multiply its length and width."
+   ],
+   "show": [
+    "Rug A: 3 × 5 = 15 square feet.",
+    "Rug B: 4 × 4 = 16 square feet.",
+    "16 is greater, so Rug B has the greater area."
+   ],
+   "yes": "Yes! Rug B covers 16 square feet. Rug A covers 15.",
+   "explain": "Rug A is 3 × 5 = 15 square feet and Rug B is 4 × 4 = 16 square feet, so Rug B has the greater area."
+  },
+  {
+   "id": "ak4",
+   "type": "choice",
+   "prompt": "A rectangle is covered by 12 unit squares. How do you write its area?",
+   "options": [
+    {
+     "text": "12 square units",
+     "correct": true
+    },
+    {
+     "text": "12 units",
+     "why": "Units measure a length, like the side of a shape. Area is counted in square units."
+    },
+    {
+     "text": "12 rows",
+     "why": "Rows are lines of squares. The area is the number of squares: square units."
+    }
+   ],
+   "hints": [
+    "Area counts squares. What kind of unit is a square?"
+   ],
+   "show": [
+    "Each square is 1 square unit.",
+    "12 squares make 12 square units."
+   ],
+   "yes": "Yes! The area is 12 square units.",
+   "explain": "Area is counted in square units: 12 unit squares make 12 square units."
+  }
+ ],
+ "words": [
+  {
+   "id": "wm-area",
+   "type": "choice",
+   "kind": "meaning",
+   "word": "Area",
+   "prompt": "What does \"Area\" mean on the class vocabulary sheet?",
+   "options": [
+    {
+     "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+     "correct": true
+    },
+    {
+     "text": "a square that is 1 unit tall and 1 unit wide",
+     "why": "That is what \"Square Unit\" means."
+    },
+    {
+     "text": "to find the area of a rectangle, you multiply the length and the width",
+     "why": "That is what \"Multiply\" means."
+    }
+   ],
+   "hints": [
+    "Read each choice. Which one is about covering the inside of a shape?"
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+   ],
+   "yes": "Yes! \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wm-squareunit",
+   "type": "choice",
+   "kind": "meaning",
+   "word": "Square Unit",
+   "prompt": "What does \"Square Unit\" mean on the class vocabulary sheet?",
+   "options": [
+    {
+     "text": "a square that is 1 unit tall and 1 unit wide",
+     "correct": true
+    },
+    {
+     "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+     "why": "That is what \"Area\" means."
+    },
+    {
+     "text": "to find the area of a rectangle, you multiply the length and the width",
+     "why": "That is what \"Multiply\" means."
+    }
+   ],
+   "hints": [
+    "Read each choice. Which one is about one small square?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+   ],
+   "yes": "Yes! \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wm-multiply",
+   "type": "choice",
+   "kind": "meaning",
+   "word": "Multiply",
+   "prompt": "What does \"Multiply\" mean on the class vocabulary sheet?",
+   "options": [
+    {
+     "text": "to find the area of a rectangle, you multiply the length and the width",
+     "correct": true
+    },
+    {
+     "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+     "why": "That is what \"Area\" means."
+    },
+    {
+     "text": "a square that is 1 unit tall and 1 unit wide",
+     "why": "That is what \"Square Unit\" means."
+    }
+   ],
+   "hints": [
+    "Read each choice. Which one is about length and width?"
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+   ],
+   "yes": "Yes! \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wn-area",
+   "type": "choice",
+   "kind": "name",
+   "word": "Area",
+   "prompt": "Which word means \"number of unit squares needed to cover the INSIDE of a shape or region\"?",
+   "keepOrder": false,
+   "options": [
+    {
+     "text": "Area",
+     "correct": true
+    },
+    {
+     "text": "Square Unit",
+     "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    },
+    {
+     "text": "Multiply",
+     "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    }
+   ],
+   "hints": [
+    "Think about the three Area words: Area, Square Unit and Multiply."
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the word is Area."
+   ],
+   "yes": "Yes! That is \"Area\".",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wn-squareunit",
+   "type": "choice",
+   "kind": "name",
+   "word": "Square Unit",
+   "prompt": "Which word means \"a square that is 1 unit tall and 1 unit wide\"?",
+   "keepOrder": false,
+   "options": [
+    {
+     "text": "Square Unit",
+     "correct": true
+    },
+    {
+     "text": "Area",
+     "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    },
+    {
+     "text": "Multiply",
+     "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    }
+   ],
+   "hints": [
+    "Think about the three Area words: Area, Square Unit and Multiply."
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the word is Square Unit."
+   ],
+   "yes": "Yes! That is \"Square Unit\".",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wn-multiply",
+   "type": "choice",
+   "kind": "name",
+   "word": "Multiply",
+   "prompt": "Which word means \"to find the area of a rectangle, you multiply the length and the width\"?",
+   "keepOrder": false,
+   "options": [
+    {
+     "text": "Multiply",
+     "correct": true
+    },
+    {
+     "text": "Area",
+     "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    },
+    {
+     "text": "Square Unit",
+     "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    }
+   ],
+   "hints": [
+    "Think about the three Area words: Area, Square Unit and Multiply."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the word is Multiply."
+   ],
+   "yes": "Yes! That is \"Multiply\".",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wt1",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Area",
+   "truth": true,
+   "prompt": "True or false? Area is the number of unit squares needed to cover the inside of a shape.",
+   "options": [
+    {
+     "text": "True",
+     "correct": true
+    },
+    {
+     "text": "False",
+     "why": "It is true. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Area\"."
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the statement is true."
+   ],
+   "yes": "Yes, it is true. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+   "explain": "True. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wt2",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Area",
+   "truth": false,
+   "prompt": "True or false? Area measures the edge around the outside of a shape.",
+   "options": [
+    {
+     "text": "True",
+     "why": "It is false. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    },
+    {
+     "text": "False",
+     "correct": true
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Area\"."
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the statement is false."
+   ],
+   "yes": "Yes, it is false. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+   "explain": "False. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wt3",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Square Unit",
+   "truth": true,
+   "prompt": "True or false? A square unit is a square that is 1 unit tall and 1 unit wide.",
+   "options": [
+    {
+     "text": "True",
+     "correct": true
+    },
+    {
+     "text": "False",
+     "why": "It is true. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Square Unit\"."
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the statement is true."
+   ],
+   "yes": "Yes, it is true. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+   "explain": "True. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wt4",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Square Unit",
+   "truth": false,
+   "prompt": "True or false? A square unit is 1 unit tall and 2 units wide.",
+   "options": [
+    {
+     "text": "True",
+     "why": "It is false. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    },
+    {
+     "text": "False",
+     "correct": true
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Square Unit\"."
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the statement is false."
+   ],
+   "yes": "Yes, it is false. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+   "explain": "False. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wt5",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Multiply",
+   "truth": true,
+   "prompt": "True or false? To find the area of a rectangle, you can multiply the length and the width.",
+   "options": [
+    {
+     "text": "True",
+     "correct": true
+    },
+    {
+     "text": "False",
+     "why": "It is true. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Multiply\"."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the statement is true."
+   ],
+   "yes": "Yes, it is true. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+   "explain": "True. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wt6",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Multiply",
+   "truth": false,
+   "prompt": "True or false? To find the area of a rectangle, you add the length and the width.",
+   "options": [
+    {
+     "text": "True",
+     "why": "It is false. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    },
+    {
+     "text": "False",
+     "correct": true
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Multiply\"."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the statement is false."
+   ],
+   "yes": "Yes, it is false. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+   "explain": "False. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wa1",
+   "type": "choice",
+   "kind": "use",
+   "word": "Square Unit",
+   "prompt": "A shape is covered by 9 small squares. Each one is 1 unit tall and 1 unit wide. What is each small square called?",
+   "options": [
+    {
+     "text": "Square Unit",
+     "correct": true
+    },
+    {
+     "text": "Area",
+     "why": "Area is the number of squares that cover the whole shape (9 here), not one small square."
+    },
+    {
+     "text": "Multiply",
+     "why": "Multiply is what you do with the length and the width. It is not the name of a square."
+    }
+   ],
+   "hints": [
+    "Which word names one square that is 1 unit tall and 1 unit wide?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So each small square is a square unit."
+   ],
+   "yes": "Yes! Each small square is one square unit.",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wa2",
+   "type": "choice",
+   "kind": "use",
+   "word": "Multiply",
+   "prompt": "A rectangle is 5 units long and 3 units wide. Which word tells what to do with 5 and 3 to find its area?",
+   "options": [
+    {
+     "text": "Multiply",
+     "correct": true
+    },
+    {
+     "text": "Square Unit",
+     "why": "A square unit is one small square. It does not tell you what to do with 5 and 3."
+    },
+    {
+     "text": "Area",
+     "why": "Area is what you are finding. The word that tells what to do is the action word."
+    }
+   ],
+   "hints": [
+    "The teacher's words say what you do with the length and the width."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "5 × 3 = 15, so the area is 15 square units."
+   ],
+   "yes": "Yes! Multiply: 5 × 3 = 15 square units.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. 5 × 3 = 15 square units."
+  },
+  {
+   "id": "wf1",
+   "type": "word",
+   "kind": "fill",
+   "word": "Area",
+   "prompt": "The number of unit squares needed to cover the inside of a shape is its ___.",
+   "answer": "area",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the answer is \"area\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! The number of unit squares needed to cover the inside of a shape is its area.",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wf2",
+   "type": "word",
+   "kind": "fill",
+   "word": "Square Unit",
+   "prompt": "A square that is 1 unit tall and 1 unit wide is one ___.",
+   "answer": "square unit",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the answer is \"square unit\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! A square that is 1 unit tall and 1 unit wide is one square unit.",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wf3",
+   "type": "word",
+   "kind": "fill",
+   "word": "Multiply",
+   "prompt": "To find how many squares cover a rectangle, ___ the length and the width.",
+   "answer": "multiply",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the answer is \"multiply\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! To find how many squares cover a rectangle, multiply the length and the width.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wf4",
+   "type": "word",
+   "kind": "fill",
+   "word": "Area",
+   "prompt": "The floor of the playhouse is covered by 12 unit squares, so its ___ is 12 square units.",
+   "answer": "area",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the answer is \"area\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! The floor of the playhouse is covered by 12 unit squares, so its area is 12 square units.",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wf5",
+   "type": "word",
+   "kind": "fill",
+   "word": "Square Unit",
+   "prompt": "Each tile on the bathroom floor is 1 foot long and 1 foot wide, so each tile covers one ___ (a square foot).",
+   "answer": "square unit",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the answer is \"square unit\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! Each tile on the bathroom floor is 1 foot long and 1 foot wide, so each tile covers one square unit (a square foot).",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wf6",
+   "type": "word",
+   "kind": "fill",
+   "word": "Multiply",
+   "prompt": "A rectangle has 4 rows with 6 squares in each row. You can ___ 4 × 6 instead of counting every square.",
+   "answer": "multiply",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the answer is \"multiply\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! A rectangle has 4 rows with 6 squares in each row. You can multiply 4 × 6 instead of counting every square.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  }
+ ]
+}
