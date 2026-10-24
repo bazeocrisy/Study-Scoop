@@ -5,6 +5,7 @@ import { showNewStep } from './lib/help-scroll.js';
 import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
 import { SKILL_SETS } from './lib/skills.js';
+import { AREA_SETS, areaItems } from './lib/area.js';
 import { packetItems } from './lib/homework.js';
 import { html } from './lib/html.js';
 import { activityInner } from './views/activity.js';
@@ -19,7 +20,7 @@ const missMap = (weekId, subject) => {
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
-export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
+export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'area', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
 // (Rounding questions also have a number `n`, but they are kept by their own id, which names the number and the place.)
@@ -60,6 +61,7 @@ function newRun(ctx, section, act) {
   if (act === 'learn' || act === 'flash' || act === 'wreview') run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} };
   else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
   else if (WORD_MODES[act]) { run.items = mathWordItems(ctx.mathWords, act, rand); run.unavailable = !ctx.mathWords; }
+  else if (AREA_SETS[act]) { run.items = areaItems(ctx.area, act, rand); run.unavailable = !ctx.area; }
   else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
   else if (section === 'skills') run.items = SKILL_SETS[act].make(rand);
   // The homework packet: every page at once, in order (not shuffled), like the paper packet.
@@ -74,7 +76,7 @@ export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
-  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (WORD_MODES[act] ? ctx.mathWords : ctx.practice));
+  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] ? ctx.area : ctx.practice));
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
     if (isMissesAct(old.act)) {

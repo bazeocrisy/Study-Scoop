@@ -53,6 +53,9 @@ export function teacherWord(week, prop) {
   return (week?.math?.words || []).find((w) => w.word.toLowerCase().includes(prop.key)) || null;
 }
 
+/** True when a week's math words are the teacher's property words (Unit 5), not another topic such as Area. */
+export const hasPropertyWords = (week) => PROPERTIES.some((p) => teacherWord(week, p));
+
 /** A property by its key ('identity', 'zero', 'commutative', 'associative', 'distributive'). */
 export const propertyByKey = (key) => PROPERTIES.find((p) => p.key === key) || null;
 

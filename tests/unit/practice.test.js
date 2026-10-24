@@ -106,7 +106,9 @@ test('Mixed Practice takes questions from every kind; each kind has its own ques
 });
 
 test('Math menus: five choices first, five on Practice Problems, five on Math Vocabulary', () => {
-  assert.deepEqual(menuItems('math').map((a) => a.label), ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide']);
+  // Topic 6: Area is listed first; the Math page shows it only in the Area week (views.test.js).
+  assert.deepEqual(menuItems('math').map((a) => a.label), ['Topic 6: Area', 'Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide']);
+  assert.deepEqual(menuItems('math', 'area').map((a) => a.label), ['Learn Area', 'Find the Area', 'Area Words', 'Practice My Misses']);
   assert.deepEqual(menuItems('math', 'practice').map((a) => a.id), ['props', 'split', 'breakapart', 'mixed', 'misses']);
   assert.deepEqual(menuItems('math', 'words').map((a) => a.label), ['Review My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']);
   assert.deepEqual(menuItems('spelling').map((a) => a.label), ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses']);

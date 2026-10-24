@@ -39,7 +39,7 @@ function learnWords(ctx) {
             <h3 id="rule-${g.id}">${g.label}</h3>
             ${g.help ? html`<p class="rule-help">${g.help}</p>` : ''}
             <ul class="words">
-              ${g.words.map((w) => html`<li><span class="word">${w.word}</span> <span class="base">from ${w.base}</span></li>`)}
+              ${g.words.map((w) => html`<li><span class="word">${w.word}</span> ${w.whole ? '' : html`<span class="base">from ${w.base}</span>`}</li>`)}
             </ul>
           </section>`)}
       </div>

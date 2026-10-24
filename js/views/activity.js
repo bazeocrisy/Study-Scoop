@@ -150,7 +150,7 @@ function testQuestion(ctx, run) {
       ${last ? html`<button type="button" class="btn btn-primary" data-act="submit">${run.warned ? 'Finish anyway' : 'Finish the test'}</button>`
         : html`<button type="button" class="btn btn-primary" data-act="next">Next question ›</button>`}
     </div>
-    <p class="hint">${NOT_SAVED} This is a Study Scoop practice test, not your teacher's test.</p>`;
+    <p class="hint">${NOT_SAVED} This is a Study Scoop practice test, not the class test.</p>`;
 }
 
 /** What the child answered, as text (results review). */
@@ -180,7 +180,7 @@ function testResults(ctx, run) {
       <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${run.pass} or more right means you passed. Look at the answers below, then practice and try again.`}</p>
       ${run.noSound ? html`<p class="notice">The sound was off for some words, so a grown-up read them. That is fine for practice.</p>` : ''}
       ${skills.length > 1 ? html`<table class="skills"><caption>Your score in each part</caption><tbody>${skills.map(([k, list]) => html`<tr><th scope="row">${SKILL_LABEL[k]}</th><td>${list.filter((it) => run.items_[it.id]?.status === 'correct').length} of ${list.length}</td></tr>`)}</tbody></table>` : ''}
-      <p class="print-only">${ctx.week.label} · Study Scoop practice test (not the teacher's test)</p>
+      <p class="print-only">${ctx.week.label} · Study Scoop practice test (not the class test)</p>
       ${s.missed.length ? html`<h3>Questions to look at again</h3>
         <ol class="review">${s.missed.map((it) => html`<li>
           <span class="qnum">Question ${run.items.indexOf(it) + 1}</span>
@@ -285,8 +285,8 @@ function studyCards(ctx, run) {
 function propertyCards(ctx, run) {
   const f = run.flash;
   const p = PROPERTIES[f.i];
-  const tw = teacherWord(ctx.week, p);
-  const d = definitionOf(ctx.week, p);
+  const tw = teacherWord(ctx.unit5Week || ctx.week, p);
+  const d = definitionOf(ctx.unit5Week || ctx.week, p);
   const last = f.i === PROPERTIES.length - 1;
   return html`
     ${stageTitle(`Property ${f.i + 1} of ${PROPERTIES.length}`)}
@@ -339,7 +339,7 @@ function definitionBlock(d) {
 function wordCards(ctx, run) {
   const f = run.flash;
   const p = PROPERTIES[f.i];
-  const d = definitionOf(ctx.week, p);
+  const d = definitionOf(ctx.unit5Week || ctx.week, p);
   const last = f.i === PROPERTIES.length - 1;
   return html`
     ${stageTitle(`Word ${f.i + 1} of ${PROPERTIES.length}`)}
@@ -379,7 +379,7 @@ export function testCenter(ctx, catalog) {
               ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
               : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
             <dl class="facts">
-              <div><dt>${c.dateLabel || 'Class test'}</dt><dd>${c.date ? formatLongDate(c.date) : 'No date given'}</dd></div>
+              <div><dt>${c.dateLabel || 'Class test'}</dt><dd>${c.date ? formatLongDate(c.date) : c.review || 'No date given'}</dd></div>
               <div><dt>Questions</dt><dd>${c.available ? c.count : '—'}</dd></div>
             </dl>
             ${c.coverage ? html`<p class="coverage">${c.coverage}</p>` : ''}

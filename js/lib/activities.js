@@ -4,7 +4,8 @@
 
 import { decompositionOf, normWord, validateQuiz } from './lessons.js';
 import { pictureName } from './data.js';
-import { PROPERTIES } from './mathlearn.js';
+import { PROPERTIES, hasPropertyWords } from './mathlearn.js';
+import { isAreaWeek, validateArea } from './area.js';
 
 // Each subject opens on a menu of these (menu-first navigation, DECISIONS D19). `page` marks a page to read
 // (no questions); `parent` puts an activity on a second menu (Math > Practice Problems).
@@ -24,6 +25,12 @@ export const ACTIVITIES = {
     { id: 'misses', label: 'Practice My Misses', about: 'Practice only the questions you missed.', icon: 'redo' },
   ],
   math: [
+    // Topic 6: Area (shown first, and only, in a week whose math words are Area, Square Unit and Multiply).
+    { id: 'area', label: 'Topic 6: Area', about: 'Learn the Area words, then practice for the Nov 3 test.', icon: 'grid', page: true, topic: 'area', start: true },
+    { id: 'arealearn', label: 'Learn Area', about: 'The teacher\'s three words, with pictures and worked examples.', icon: 'book', parent: 'area', page: true, start: true },
+    { id: 'areafind', label: 'Find the Area', about: 'Count square units, multiply length × width, and solve story problems.', icon: 'grid', parent: 'area', group: 'area' },
+    { id: 'areawords', label: 'Area Words', about: 'Multiple choice, true or false and fill in the blank about the three words.', icon: 'choice', parent: 'area', group: 'area' },
+    { id: 'areamisses', label: 'Practice My Misses', about: 'Practice only the Area questions you missed.', icon: 'redo', parent: 'area', group: 'area', misses: true },
     { id: 'learn', label: 'Learn the Properties', about: 'Meet the five multiplication properties, one at a time.', icon: 'book', start: true },
     { id: 'words', label: 'Math Vocabulary', about: 'Review the property words, then quiz yourself.', icon: 'cards', page: true },
     { id: 'practice', label: 'Practice Problems', about: 'Answer problems. Get a hint when you need one.', icon: 'pencil', page: true },
@@ -243,6 +250,9 @@ export function vocabItems(week, kind, rand = Math.random) {
 /** The ending the week practices ("-ing" -> "ing"). */
 const suffixOf = (sp, entry) => entry && /(?:^|-)or$/.test(entry.rule) ? 'or' : entry && /(?:^|-)er$/.test(entry.rule) ? 'er' : String(sp.pattern).replace(/^-/, '');
 const VOWEL = /[aeiou]/;
+/** A word with a shorter base word (helper from help); "doctor" has none (`whole: true` in the week file). */
+export const hasBase = (entry) => !entry.whole && typeof entry.base === 'string' && entry.base.trim() !== '';
+const baseOf = (entry) => (hasBase(entry) ? entry.base.toLowerCase() : null);
 
 /**
  * Which letters to hide: the first vowel of the base word (or its y) and the letter that shows the spelling
@@ -256,7 +266,7 @@ export function missingLetters(entry, sp) {
   const blanks = [];
   const fv = [...stem].findIndex((c) => VOWEL.test(c));
   if (fv >= 0) blanks.push(fv); else if (stem.includes('y')) blanks.push(stem.indexOf('y'));
-  const doubled = stem !== entry.base.toLowerCase() && end >= 2 && stem[end - 1] === stem[end - 2];
+  const doubled = hasBase(entry) && stem !== baseOf(entry) && end >= 2 && stem[end - 1] === stem[end - 2];
   const pattern = doubled ? end - 1 : end < w.length ? end : -1;
   if (pattern >= 0 && !blanks.some((b) => Math.abs(b - pattern) <= 1)) blanks.push(pattern);
   return blanks.sort((a, b) => a - b);
@@ -268,12 +278,13 @@ const ruleQuestion = (sp) => `Which rule does this word follow: ${Object.values(
 /** "Show me how" for a spelling word: base word, rule, word. */
 function spellSteps(entry, sp) {
   const help = sp.ruleHelp?.[entry.rule];
-  const w = entry.word.toLowerCase(), b = entry.base.toLowerCase();
+  const w = entry.word.toLowerCase(), b = baseOf(entry);
+  // The rule comes before it is used, and an example that is this very word is left out (it would give the word away early).
+  const example = help && !new RegExp(`\\b${w}\\b`, 'i').test(help) ? [`Example: ${help}.`] : [];
+  if (!b) return ['This word is not made from a shorter base word.', `${rulePhrase(sp, entry)}.`, ...example, `So the word is ${q(entry.word)}.`];
   const stem = w.slice(0, w.length - suffixOf(sp, entry).length);
   const change = stem === b ? '' : stem === b + b.slice(-1) ? `Double the last letter: ${b} becomes ${stem}.`
     : b.endsWith('e') && stem === b.slice(0, -1) ? `Drop the e: ${b} becomes ${stem}.` : '';
-  // The rule comes before it is used, and an example that is this very word is left out (it would give the word away early).
-  const example = help && !new RegExp(`\\b${w}\\b`, 'i').test(help) ? [`Example: ${help}.`] : [];
   return [`Start with ${q(entry.base)} and the ending ${q(suffixOf(sp, entry))}.`, `${rulePhrase(sp, entry)}.`, ...example,
     ...(change ? [change] : []), `So the word is ${q(entry.word)}.`];
 }
@@ -281,11 +292,15 @@ function spellSteps(entry, sp) {
 // Practice question ids are numbers (the word's place in the list), so the page source never names the word.
 const wordNo = (entry, sp) => sp.words.indexOf(entry) + 1;
 
+/** The second hint: the base word, or (for a word with none) where its tricky ending is. */
+const baseHint = (entry) => (hasBase(entry) ? `This word comes from ${q(entry.base)}.`
+  : 'This word is not made from a shorter word. Its last sound is like "er". Which letters spell it in this word?');
+
 export function lettersItem(entry, sp) {
   return {
     id: `ml-${wordNo(entry, sp)}`, n: wordNo(entry, sp), type: 'letters', word: entry.word.toLowerCase(), blanks: missingLetters(entry, sp),
     prompt: 'Listen to the word. Type the missing letters.', context: blankSentence(entry.sentence, entry.word), say: [entry.word, entry.sentence],
-    hints: [ruleQuestion(sp), `This word comes from ${q(entry.base)}.`],
+    hints: [ruleQuestion(sp), baseHint(entry)],
     retry: `Check the boxes with a dashed border. Remember: ${rulePhrase(sp, entry)}.`,
     yes: `Yes! ${entry.word}.`, explain: `${entry.word}: ${rulePhrase(sp, entry)}.`, show: spellSteps(entry, sp),
   };
@@ -293,7 +308,7 @@ export function lettersItem(entry, sp) {
 
 export function spellItem(entry, sp, { test = false, id } = {}) {
   const item = {
-    id: id || `sp-${wordNo(entry, sp)}`, n: wordNo(entry, sp), type: 'spell', answer: entry.word.toLowerCase(), base: entry.base,
+    id: id || `sp-${wordNo(entry, sp)}`, n: wordNo(entry, sp), type: 'spell', answer: entry.word.toLowerCase(), ...(hasBase(entry) ? { base: entry.base } : {}),
     say: [entry.word, entry.sentence, entry.word],
     prompt: 'Listen to the word and the sentence. Then type the word.',
     // Without sound, a grown-up reads the word: the screen never gives the spelling (or the base word) away.
@@ -301,15 +316,17 @@ export function spellItem(entry, sp, { test = false, id } = {}) {
     retry: 'Listen again, then check each letter.',
     yes: `Yes! ${entry.word}.`, explain: `${entry.word}: ${rulePhrase(sp, entry)}.`,
   };
-  if (!test) Object.assign(item, { hints: [ruleQuestion(sp), `This word comes from ${q(entry.base)}.`], show: spellSteps(entry, sp) });
+  if (!test) Object.assign(item, { hints: [ruleQuestion(sp), baseHint(entry)], show: spellSteps(entry, sp) });
   return item;
 }
 
 /** Words to practise a second time: the ones whose spelling changes before the ending first (doubled letter,
  *  dropped e), then the rest in list order. */
 function secondRound(sp, n) {
-  const changes = (e) => e.word.toLowerCase().slice(0, e.word.length - suffixOf(sp, e).length) !== e.base.toLowerCase();
-  return [...sp.words.filter(changes), ...sp.words.filter((e) => !changes(e))].slice(0, n);
+  const changes = (e) => hasBase(e) && e.word.toLowerCase().slice(0, e.word.length - suffixOf(sp, e).length) !== baseOf(e);
+  // "Add the ending" needs a base word, so words without one (doctor) are never picked for a second round.
+  const withBase = sp.words.filter(hasBase);
+  return [...withBase.filter(changes), ...withBase.filter((e) => !changes(e))].slice(0, n);
 }
 
 /** Missing Letters, second look: other letters of the same word are hidden (every other letter of the base part),
@@ -377,7 +394,9 @@ export function testFor(kind, week, tests, rand, mathWords = null) {
 export function testCatalog(week, tests, mathWords = null) {
   return TEST_KINDS.map((kind) => {
     const related = kind === 'mathwords';
-    const sched = week.tests.find((t) => t.kind === (related ? 'math' : kind)) || null;
+    // The Math Vocabulary test is about the Unit 5 property words: it helps with the week's math test only when
+    // that test is the properties test (not, say, the Topic 6 Area vocabulary test).
+    const sched = related && !hasPropertyWords(week) ? null : week.tests.find((t) => t.kind === (related ? 'math' : kind)) || null;
     const t = testFor(kind, week, tests, () => 0, mathWords);
     let reason = '';
     if (!t) reason = related ? 'The Math Vocabulary questions could not be loaded. Please try again later.'
@@ -385,7 +404,8 @@ export function testCatalog(week, tests, mathWords = null) {
     return {
       kind, subject: SUBJECT[kind], title: `${SUBJECT[kind]} Practice Test`,
       topic: t?.topic || sched?.detail || '', date: sched?.date || null, classTest: sched?.title || null,
-      dateLabel: related ? 'Helps with math test' : 'Class test',
+      dateLabel: related ? (hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : 'Class test',
+      review: related && !hasPropertyWords(week) ? 'Unit 5 (properties)' : '',
       count: t ? t.items.length : 0, coverage: t?.coverage || '', note: t?.note || '', available: Boolean(t), reason,
     };
   });
@@ -408,15 +428,20 @@ export function validateTests(tests, week) {
       if (it.hints || it.show) err(`${kind} ${it.id}: a test question cannot have hints or Show me how`);
       if (typeof it.explain !== 'string' || !it.explain.trim()) err(`${kind} ${it.id}: needs an explanation for the results`);
       if (kind === 'math' && !MATH_SKILLS.includes(it.skill)) err(`math ${it.id}: skill must be one of ${MATH_SKILLS.join(', ')}`);
+      // An Area week's math test is about Area only; a properties test never uses the Area skills.
+      if (kind === 'math' && AREA_SKILLS.includes(it.skill) !== isAreaWeek(week)) err(`math ${it.id}: skill ${it.skill} does not match this week's math topic`);
     }
+    if (kind === 'math' && isAreaWeek(week)) errors.push(...validateArea({ items: t.items }, week, { where: `tests/${week.id}.json math`, practice: false }));
     if (kind === 'vocab') errors.push(...vocabTestProblems(t, week).map((m) => `tests/${week.id}.json: vocab ${m}`));
   }
   return errors;
 }
 
 /** The groups a math test score is shown in on the results screen. */
-export const MATH_SKILLS = ['names', 'facts', 'arrays', 'breaking'];
-export const SKILL_LABEL = { names: 'Naming the properties', facts: 'Times 1, times 0 and turn-around facts', arrays: 'Rows, columns and split arrays', breaking: 'Breaking apart facts' };
+export const MATH_SKILLS = ['names', 'facts', 'arrays', 'breaking', 'areawords', 'areacount', 'areamultiply'];
+export const SKILL_LABEL = { names: 'Naming the properties', facts: 'Times 1, times 0 and turn-around facts', arrays: 'Rows, columns and split arrays', breaking: 'Breaking apart facts',
+  areawords: 'The Area words', areacount: 'Counting square units', areamultiply: 'Multiplying length × width' };
+const AREA_SKILLS = ['areawords', 'areacount', 'areamultiply'];
 
 /** Every vocabulary test question must be about its own word on this week's list and use the teacher definition exactly. */
 function vocabTestProblems(t, week) {

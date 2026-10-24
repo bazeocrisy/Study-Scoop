@@ -1,4 +1,5 @@
 {
+  "teacherWeek": "2026-10-19",
   "lessons": [
     { "id": "5-1", "title": "Understand the Distributive Property", "summary": "Decompose a fact into two easier facts, then add.", "strategy": "Break apart a factor" },
     { "id": "5-2", "title": "Use Properties to Multiply by 3", "summary": "A 3s fact is a 2s fact plus a 1s fact.", "strategy": "3 = 2 + 1" },
