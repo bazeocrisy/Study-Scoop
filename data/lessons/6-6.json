@@ -193,7 +193,7 @@
     },
     "steps": [
      {
-      "say": "Problem: a city garden has this shape. What is its area?",
+      "say": "1. Read: a city garden has this shape. What is its area?",
       "model": {
        "type": "shape",
        "rects": [
@@ -220,26 +220,24 @@
       }
      },
      {
-      "say": "Step 1: Split it into three rectangles."
+      "say": "2. Find the facts: the sides are in meters, and the garden is not one rectangle."
      },
      {
-      "say": "Step 2: Top part.",
-      "eq": "5 × 1 = 5"
+      "say": "3. Choose a model: split it into three rectangles, 5 by 1, 2 by 2 and 5 by 2."
      },
      {
-      "say": "Step 3: Middle part.",
-      "eq": "2 × 2 = 4"
+      "say": "4. Write the equation: multiply each part, then add.",
+      "eq": "5 × 1 + 2 × 2 + 5 × 2 = 19"
      },
      {
-      "say": "Step 4: Bottom part.",
-      "eq": "5 × 2 = 10"
-     },
-     {
-      "say": "Step 5: Add the parts.",
+      "say": "5. Calculate: 5 + 4 + 10.",
       "eq": "5 + 4 + 10 = 19"
      },
      {
-      "say": "Step 6: Label it: 19 square meters. Check: it is less than the 5 by 5 square it fits in (25)."
+      "say": "6. Label the answer: 19 square meters."
+     },
+     {
+      "say": "7. Check: the garden fits inside a 5 by 5 square (25), and 19 is less than 25. It makes sense."
      }
     ],
     "why": {
@@ -333,22 +331,27 @@
     },
     "steps": [
      {
-      "say": "Problem: a poster is 7 feet long and 3 feet wide. It is made 10 feet long. How much more area does it cover?"
+      "say": "1. Read: a poster is 7 feet long and 3 feet wide. It is made 10 feet long. How much more area does it cover?"
      },
      {
-      "say": "Step 1: Old poster.",
+      "say": "2. Find the facts: old poster 7 by 3 feet; new poster 10 by 3 feet."
+     },
+     {
+      "say": "3. Choose a model: the new poster is the old one plus a 3 by 3 part."
+     },
+     {
+      "say": "4. Write the equations: the old area and the new area.",
       "eq": "7 × 3 = 21"
      },
      {
-      "say": "Step 2: New poster.",
-      "eq": "10 × 3 = 30"
-     },
-     {
-      "say": "Step 3: Find the difference.",
+      "say": "5. Calculate: the new area, then the difference.",
       "eq": "30 - 21 = 9"
      },
      {
-      "say": "Step 4: It covers 9 more square feet. That is the new 3 by 3 part.",
+      "say": "6. Label the answer: 9 more square feet."
+     },
+     {
+      "say": "7. Check: the added part is 3 by 3, and 3 × 3 = 9. It matches.",
       "eq": "3 × 3 = 9"
      }
     ]
@@ -389,8 +392,9 @@
      }
     ],
     "show": [
-     "12 × 3 = 30 + 6 = 36.",
-     "The banner covers 36 square feet."
+     "Read and find the facts: 12 feet long, 3 feet wide.",
+     "Equation: 12 × 3. Split 12: 30 + 6 = 36.",
+     "Label: 36 square feet. Check: 10 × 3 = 30, so a bit more than 30 makes sense."
     ],
     "yes": "Yes! 36 square feet."
    },

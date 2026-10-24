@@ -191,6 +191,34 @@
     ]
    },
    {
+    "title": "A missing part",
+    "text": [
+     "If you know the whole area and one part, subtract to find the other part.",
+     "This figure covers 20 square units. The top part covers 12. The other part covers 20 - 12 = 8 square units."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       2
+      ],
+      [
+       4,
+       2,
+       2,
+       4
+      ]
+     ],
+     "unit": "units",
+     "show": "parts",
+     "areas": true
+    },
+    "caption": "12 + 8 = 20"
+   },
+   {
     "title": "A missing side",
     "text": [
      "Sometimes a side has no number. Use the sides you know.",

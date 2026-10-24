@@ -682,18 +682,18 @@
    {
     "id": "t1",
     "type": "fill",
-    "prompt": "Use the split picture. Break 8 into 5 + 3, then finish the equations to find the area in square centimeters.",
+    "prompt": "Use the split picture. Break 9 into 5 + 4, then finish the equations to find the area in square centimeters.",
     "lines": [
-     "4 × 8 = 4 × [a] + 4 × [b]",
+     "7 × 9 = 7 × [a] + 7 × [b]",
      "= [p] + [q]",
      "= [t]"
     ],
     "answer": {
      "a": 5,
-     "b": 3,
-     "p": 20,
-     "q": 12,
-     "t": 32
+     "b": 4,
+     "p": 35,
+     "q": 28,
+     "t": 63
     },
     "model": {
      "type": "shape",
@@ -702,13 +702,13 @@
        0,
        0,
        5,
-       4
+       7
       ],
       [
        5,
        0,
-       3,
-       4
+       4,
+       7
       ]
      ],
      "unit": "cm",
@@ -716,40 +716,40 @@
     },
     "areaBox": "t",
     "hints": [
-     "The picture splits the 8 into 5 and 3. The 4 stays the same.",
-     "Multiply 4 × 5 and 4 × 3, then add."
+     "The picture splits the 9 into 5 and 4. The 7 stays the same.",
+     "Multiply 7 × 5 and 7 × 4, then add."
     ],
     "mistakes": [
      {
       "when": {
-       "t": 20
+       "t": 35
       },
       "say": "That is only the first part. Add the second part."
      }
     ],
     "show": [
-     "4 × 5 = 20.",
-     "4 × 3 = 12.",
-     "20 + 12 = 32.",
-     "The area is 32 square centimeters."
+     "7 × 5 = 35.",
+     "7 × 4 = 28.",
+     "35 + 28 = 63.",
+     "The area is 63 square centimeters."
     ],
-    "yes": "Yes! 4 × 8 = 20 + 12 = 32 square centimeters."
+    "yes": "Yes! 7 × 9 = 35 + 28 = 63 square centimeters."
    },
    {
     "id": "t2",
     "type": "fill",
-    "prompt": "Use the split picture. Break 15 into 5 + 10, then finish the equations to find the area in square meters.",
+    "prompt": "Use the split picture. Break 15 into 10 + 5, then finish the equations to find the area in square meters.",
     "lines": [
-     "6 × 15 = 6 × [a] + 6 × [b]",
+     "4 × 15 = 4 × [a] + 4 × [b]",
      "= [p] + [q]",
      "= [t]"
     ],
     "answer": {
-     "a": 5,
-     "b": 10,
-     "p": 30,
-     "q": 60,
-     "t": 90
+     "a": 10,
+     "b": 5,
+     "p": 40,
+     "q": 20,
+     "t": 60
     },
     "model": {
      "type": "shape",
@@ -757,14 +757,14 @@
       [
        0,
        0,
-       5,
-       6
+       10,
+       4
       ],
       [
-       5,
-       0,
        10,
-       6
+       0,
+       5,
+       4
       ]
      ],
      "unit": "m",
@@ -772,40 +772,40 @@
     },
     "areaBox": "t",
     "hints": [
-     "The picture splits the 15 into 5 and 10. The 6 stays the same.",
-     "Multiply 6 × 5 and 6 × 10, then add."
+     "The picture splits the 15 into 10 and 5. The 4 stays the same.",
+     "Multiply 4 × 10 and 4 × 5, then add."
     ],
     "mistakes": [
      {
       "when": {
-       "t": 30
+       "t": 40
       },
       "say": "That is only the first part. Add the second part."
      }
     ],
     "show": [
-     "6 × 5 = 30.",
-     "6 × 10 = 60.",
-     "30 + 60 = 90.",
-     "The area is 90 square meters."
+     "4 × 10 = 40.",
+     "4 × 5 = 20.",
+     "40 + 20 = 60.",
+     "The area is 60 square meters."
     ],
-    "yes": "Yes! 6 × 15 = 30 + 60 = 90 square meters."
+    "yes": "Yes! 4 × 15 = 40 + 20 = 60 square meters."
    },
    {
     "id": "t3",
     "type": "fill",
-    "prompt": "Use the split picture. Break 13 into 10 + 3, then finish the equations to find the area in square inches.",
+    "prompt": "Use the split picture. Break 14 into 10 + 4, then finish the equations to find the area in square inches.",
     "lines": [
-     "8 × 13 = 8 × [a] + 8 × [b]",
+     "6 × 14 = 6 × [a] + 6 × [b]",
      "= [p] + [q]",
      "= [t]"
     ],
     "answer": {
      "a": 10,
-     "b": 3,
-     "p": 80,
+     "b": 4,
+     "p": 60,
      "q": 24,
-     "t": 104
+     "t": 84
     },
     "model": {
      "type": "shape",
@@ -814,13 +814,13 @@
        0,
        0,
        10,
-       8
+       6
       ],
       [
        10,
        0,
-       3,
-       8
+       4,
+       6
       ]
      ],
      "unit": "in.",
@@ -828,24 +828,24 @@
     },
     "areaBox": "t",
     "hints": [
-     "The picture splits the 13 into 10 and 3. The 8 stays the same.",
-     "Multiply 8 × 10 and 8 × 3, then add."
+     "The picture splits the 14 into 10 and 4. The 6 stays the same.",
+     "Multiply 6 × 10 and 6 × 4, then add."
     ],
     "mistakes": [
      {
       "when": {
-       "t": 80
+       "t": 60
       },
       "say": "That is only the first part. Add the second part."
      }
     ],
     "show": [
-     "8 × 10 = 80.",
-     "8 × 3 = 24.",
-     "80 + 24 = 104.",
-     "The area is 104 square inches."
+     "6 × 10 = 60.",
+     "6 × 4 = 24.",
+     "60 + 24 = 84.",
+     "The area is 84 square inches."
     ],
-    "yes": "Yes! 8 × 13 = 80 + 24 = 104 square inches."
+    "yes": "Yes! 6 × 14 = 60 + 24 = 84 square inches."
    },
    {
     "id": "t4",
@@ -1320,24 +1320,24 @@
    {
     "id": "t14",
     "type": "number",
-    "prompt": "A trampoline mat is 14 feet long and 7 feet wide. Break 14 into 10 + 4. What is its area in square feet?",
-    "answer": "7 × 14",
+    "prompt": "A trampoline mat is 13 feet long and 6 feet wide. Break 13 into 10 + 3. What is its area in square feet?",
+    "answer": "6 × 13",
     "hints": [
-     "Multiply 7 × 10 and 7 × 4, then add."
+     "Multiply 6 × 10 and 6 × 3, then add."
     ],
     "mistakes": [
      {
       "when": {
-       "answer": 70
+       "answer": 60
       },
-      "say": "That is only the 10 part. Add 7 × 4."
+      "say": "That is only the 10 part. Add 6 × 3."
      }
     ],
     "show": [
-     "7 × 10 = 70 and 7 × 4 = 28.",
-     "70 + 28 = 98 square feet."
+     "6 × 10 = 60 and 6 × 3 = 18.",
+     "60 + 18 = 78 square feet."
     ],
-    "yes": "Yes! 98 square feet."
+    "yes": "Yes! 78 square feet."
    },
    {
     "id": "t15",
@@ -1377,14 +1377,14 @@
     "type": "fill",
     "prompt": "Finish the equation.",
     "lines": [
-     "8 × 17 = 8 × 10 + 8 × [b]",
-     "= 80 + [q]",
+     "4 × 17 = 4 × 10 + 4 × [b]",
+     "= 40 + [q]",
      "= [t]"
     ],
     "answer": {
      "b": 7,
-     "q": 56,
-     "t": 136
+     "q": 28,
+     "t": 68
     },
     "model": {
      "type": "shape",
@@ -1393,13 +1393,13 @@
        0,
        0,
        10,
-       8
+       4
       ],
       [
        10,
        0,
        7,
-       8
+       4
       ]
      ],
      "unit": "ft",
@@ -1408,13 +1408,13 @@
     "areaBox": "t",
     "hints": [
      "Break 17 into 10 and one more number.",
-     "Multiply 8 × 7 for the second part, then add it to 80."
+     "Multiply 4 × 7 for the second part, then add it to 40."
     ],
     "show": [
-     "8 × 7 = 56.",
-     "80 + 56 = 136 square feet."
+     "4 × 7 = 28.",
+     "40 + 28 = 68 square feet."
     ],
-    "yes": "Yes! 136 square feet."
+    "yes": "Yes! 68 square feet."
    },
    {
     "id": "t17",

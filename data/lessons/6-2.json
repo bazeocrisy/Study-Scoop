@@ -1257,24 +1257,23 @@
    {
     "id": "x7",
     "type": "choice",
-    "prompt": "A desk covers 12 square feet. Which could be its sides?",
+    "prompt": "A desk top is covered by 3 rows of square-foot tiles, 4 tiles in each row, with no gaps. What is its area?",
     "options": [
      {
-      "text": "3 feet and 4 feet",
+      "text": "12 square feet",
       "correct": true
      },
      {
-      "text": "3 feet and 3 feet",
-      "why": "That covers 9 square feet."
+      "text": "7 square feet",
+      "why": "3 + 4 adds the rows and the tiles in a row. Count every tile."
      },
      {
-      "text": "2 feet and 4 feet",
-      "why": "That covers 8 square feet."
+      "text": "12 feet",
+      "why": "Area is in square feet."
      }
     ],
-    "target": "12",
     "show": [
-     "3 rows of 4 square feet = 12 square feet."
+     "4 + 4 + 4 = 12 square feet."
     ]
    },
    {

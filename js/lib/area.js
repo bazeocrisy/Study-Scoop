@@ -80,7 +80,7 @@ export const CH6_MISTAKES = [
   'Writing "12 feet" instead of "12 square feet".',
   'Counting only the tiles that are drawn when part of a shape is not tiled yet.',
   'Splitting a figure so that two parts overlap, or forgetting to add a part.',
-  'When splitting a side, changing the other side too: 3 × 17 is (3 × 10) + (3 × 7), not (2 × 10) + (1 × 7).',
+  'When splitting a side, forgetting to multiply one part: 3 × 17 is (3 × 10) + (3 × 7) = 51, not (3 × 10) + 7.',
 ];
 
 /**
@@ -111,7 +111,9 @@ export const CH6_GUIDE = {
       model: { type: 'shape', rects: [[0, 0, 7, 3]], unit: 'cm' }, caption: '7 cm long and 3 cm wide', eq: '7 × 3 = 21' },
     { id: 'composite', title: '6. Composite figures: split, then add', text: ['Split the figure into rectangles that do not overlap.', 'Find the area of each rectangle, then add the areas.'],
       model: { type: 'shape', rects: [[0, 0, 6, 2], [4, 2, 2, 3]], unit: 'units', show: 'parts', areas: true }, caption: '6 × 2 = 12 and 2 × 3 = 6', eq: '12 + 6 = 18' },
-    { id: 'split', title: '7. Split a side (the Distributive Property)', text: ['Break one side into two easier numbers, such as 13 = 10 + 3. Keep the other side.', 'Multiply each part, then add: 4 × 13 = (4 × 10) + (4 × 3).'],
+    { id: 'side', title: '7. A missing side', text: ['When a side has no number, use the sides you know.', 'The bottom is 8 units and the top part covers 5 of them, so the missing side is 8 - 5 = 3 units.'],
+      model: { type: 'shape', rects: [[0, 0, 5, 2], [0, 2, 8, 3]], unit: 'units', unknown: [[5, 2, 8, 2]] }, caption: 'The ? side: 8 - 5 = 3', eq: '8 - 5 = 3' },
+    { id: 'split', title: '8. Split a side (the Distributive Property)', text: ['Break one side into two easier numbers, such as 13 = 10 + 3. Keep the other side.', 'Multiply each part, then add: 4 × 13 = (4 × 10) + (4 × 3).'],
       model: { type: 'shape', rects: [[0, 0, 10, 4], [10, 0, 3, 4]], unit: 'units', show: 'parts', areas: true }, caption: '40 + 12 = 52', eq: '4 × 10 + 4 × 3 = 52' },
   ],
   steps: ['Read the problem.', 'Find the important numbers and units.', 'Picture the shape: one rectangle, or a figure to split.', 'Write an equation.', 'Calculate.', 'Label the answer in square units.', 'Check: does the answer make sense?'],

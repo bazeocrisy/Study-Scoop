@@ -36,6 +36,10 @@ test('the six Chapter 6 lessons, in the textbook\'s order, each with the full le
     const practice = new Set([...l.together.items, ...l.try.items].map((it) => `${it.prompt}|${JSON.stringify(it.model || it.models || null)}`));
     for (const it of l.test.items) assert.ok(!practice.has(`${it.prompt}|${JSON.stringify(it.model || it.models || null)}`), `${id} ${it.id} repeats a practice question`);
     assert.ok(new Set(l.try.items.map((it) => `${it.prompt}|${JSON.stringify(it.model || it.models || null)}`)).size === 20, `${id}: 20 different practice questions`);
+    // Practice Together and Try It Yourself never share a question (same words and picture, or the same numbers to fill in).
+    const key = (it) => `${it.prompt}|${JSON.stringify(it.model || it.models || null)}|${JSON.stringify(it.lines || it.text || null)}`;
+    const guided = new Set(l.together.items.map(key));
+    for (const it of l.try.items) assert.ok(!guided.has(key(it)), `${id} ${it.id} repeats a Practice Together question`);
   }
 });
 
