@@ -678,7 +678,7 @@ async function main() {
         ['Math', 'Choose Your Chapter', ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication']], 'Choose Your Chapter');
       eq(await b.js('return [...document.querySelectorAll("#app a")].filter((a) => /[?&](lesson|act)=/.test(a.getAttribute("href") || "")).length;'), 0, 'no lessons or activities before a chapter is chosen');
       for (const [ch, start] of [[5, '5-6'], [6, '6-3']]) {
-        await b.hash('#math');
+        if (ch !== 5) await b.hash('#math'); // Chapter 5 starts from the Math page already open
         await go(`.menu-card[href="#math?ch=${ch}"]`);
         eq(await b.js('return document.querySelector("#app h1").textContent;'), LESSON_CHAPTERS.find((c) => c.id === ch).title, `Chapter ${ch} menu`);
         await go(`.menu-card[href="#math?act=ch${ch}"]`);
