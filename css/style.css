@@ -1084,3 +1084,10 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 /* Spelling > Study Cards: word, picture and sentence, one card at a time */
 .spell-study .flash-word { margin: 0; }
 .spell-study .example { font-size: 1.35rem; line-height: 1.45; }
+
+/* Pick My Facts: once facts are picked and a mode chosen, the picker collapses to this strip */
+#tp-setup[hidden], #tp-summary[hidden] { display: none; }
+.tp-summary { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between;
+  margin: 0; padding: 12px 18px; border-radius: var(--r-lg); background: var(--honey-tint); border: 2px solid var(--honey); font-weight: 700; }
+.tp-summary span { color: var(--ink); }
+.tp-summary .btn { min-height: 40px; padding: 6px 14px; background: var(--paper); }

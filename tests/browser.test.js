@@ -1964,6 +1964,14 @@ async function main() {
       // Find the Fact: answer shown, two boxes, any order, a true fact without a 4 is asked again.
       await tp('#tp-mode-find');
       eq(await text('.tp-count'), 'Question 1 of 10 · 0 right', 'round of 10');
+      // Once facts are picked and a mode is chosen, the picker steps aside so the card stands on its own.
+      expect(await b.js('return document.getElementById("tp-setup").hidden;'), 'fact picker collapses once a mode is chosen');
+      expect(!(await b.js('return document.getElementById("tp-summary").hidden;')), 'a summary bar takes its place');
+      expect(!!(await b.js('return document.querySelector("[data-mode=\'quiz\']").offsetParent;')), 'the mode buttons stay reachable to switch modes');
+      await tp('[data-tp="edit-facts"]');
+      expect(!(await b.js('return document.getElementById("tp-setup").hidden;')), 'Change facts reopens the picker');
+      expect(await b.js('return document.getElementById("tp-summary").hidden;'), 'the summary bar hides while editing');
+      await tp('#tp-mode-find');
       const keyIn = async (digits) => { for (const d of String(digits)) await tp(`[data-key="${d}"]`); };
       for (let k = 0; k < 10; k++) {
         const ans = Number(await text('.tp-target'));
