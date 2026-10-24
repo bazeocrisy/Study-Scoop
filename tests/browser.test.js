@@ -55,7 +55,11 @@ const FREEZE_DATE = `(() => { const R = Date; const t = new R(2026, 9, 16, 12, 0
 let passed = 0;
 const failed = [];
 async function check(name, fn) {
-  try { await fn(); passed++; console.log(`  ok   ${name}`); } catch (e) { failed.push(name); console.log(`  FAIL ${name}\n       ${e.message}`); }
+  try { await fn(); passed++; console.log(`  ok   ${name}`); } catch (e) {
+    failed.push(name); console.log(`  FAIL ${name}\n       ${e.message}`);
+    // On GitHub Actions, each failure is also an annotation, so it can be read without opening the full log.
+    if (process.env.GITHUB_ACTIONS) console.log(`::error title=Browser check failed::${`${name}: ${e.message}`.replace(/%/g, '%25').replace(/\r?\n/g, ' ').slice(0, 900)}`);
+  }
 }
 function expect(cond, msg) { if (!cond) throw new Error(msg); }
 function eq(actual, expected, msg) {
