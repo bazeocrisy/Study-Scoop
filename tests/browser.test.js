@@ -1354,7 +1354,9 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".qnum").textContent, l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
         [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 7 × 7 = 5 × 7 + 2 × 7 = 49']], 'review');
       eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => r.lastElementChild.textContent);'), ['4 of 4', '2 of 3', '7 of 7', '5 of 6'], 'score per skill');
-      expect(await b.js(`return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href='${H19('#math')}']") && !!document.querySelector(".stage-nav a[href='${H19('#tests')}']");`), 'print, practise and Back to Tests');
+      expect(await b.js(`return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href='${H19('#math?act=practice')}']") && !!document.querySelector(".stage-nav a[href='${H19('#tests')}']");`), 'print, Chapter 5 practice and Back to Tests');
+      // The Oct 19 math test belongs to Chapter 5: its misses go to Chapter 5 > Practice Problems > Practice My Misses.
+      eq(await b.js(`return document.querySelector(".stage-nav a[href='${H19('#math?act=misses')}']")?.textContent.trim();`), 'Practice My Misses', 'misses in Chapter 5');
       await press('[data-act="restart"]');
       eq([await progress(), await b.js('return document.querySelectorAll("#act-stage input:checked").length;')], ['Question 1 of 20', 0], 'a fresh test');
     });
