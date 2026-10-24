@@ -3,11 +3,14 @@
   "chapters": [
     {
       "id": 5,
+      "name": "Multiplication Properties and Strategies",
       "title": "Chapter 5: Multiplication Properties and Strategies",
-      "summary": "Lessons 5-1 to 5-7: break apart facts to multiply by 3, 4, 6, 7, 8 and 9."
+      "summary": "Lessons 5-1 to 5-7: break apart facts to multiply by 3, 4, 6, 7, 8 and 9.",
+      "week": "2026-10-19"
     },
     {
       "id": 6,
+      "name": "Connect Area and Multiplication",
       "title": "Chapter 6: Connect Area and Multiplication",
       "summary": "Lessons 6-1 to 6-6: find area by tiling, counting, multiplying and splitting shapes.",
       "week": "2026-10-26"

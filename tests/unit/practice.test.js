@@ -1,10 +1,11 @@
 // Math > Practice Problems and Learn the Properties (DECISIONS D19): every answer key is worked out again here.
+import { chapterMenu } from '../../js/lib/chapters.js';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ACTIVITIES, mathItems, menuItems, propertyOf, rng, splitsOf, twoFacts, validateMathPractice } from '../../js/lib/activities.js';
+import { ACTIVITIES, activityInfo, mathItems, menuItems, propertyOf, rng, splitsOf, twoFacts, validateMathPractice } from '../../js/lib/activities.js';
 import { check, solution, modelEquation } from '../../js/lib/lessons.js';
 import { counts } from '../../js/lib/models.js';
 import { wrongFactsInText } from '../../js/lib/arith.js';
@@ -105,14 +106,22 @@ test('Mixed Practice takes questions from every kind; each kind has its own ques
   assert.deepEqual(mathItems(null, 'split'), []);
 });
 
-test('Math menus: five choices first, five on Practice Problems, five on Math Vocabulary', () => {
-  // Topic 6: Area is listed first; the Math page shows it only in the Area week (views.test.js).
-  assert.deepEqual(menuItems('math').map((a) => a.label), ['Topic 6: Area', 'Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide']);
-  assert.deepEqual(menuItems('math', 'area').map((a) => a.label), ['Learn Area', 'Area Words', 'Mixed Practice', 'Chapter 6 Review', 'Practice My Misses']);
+test('Math menus (D26): every chapter has the same six activities, each with its own sub-menus', () => {
+  const roles = ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test'];
+  assert.deepEqual(chapterMenu(5).map((r) => [r.label, r.act.id]), roles.map((l, k) => [l, ['learn', 'words', 'ch5', 'practice', 'guide', 'ch5test'][k]]));
+  assert.deepEqual(chapterMenu(6).map((r) => [r.label, r.act.id]), roles.map((l, k) => [l, ['arealearn', 'areawords', 'ch6', 'areapractice', 'ch6guide', 'ch6test'][k]]));
+  // Every Math activity names its chapter, and its sub-menu items are in the same chapter (chapter isolation).
+  for (const a of ACTIVITIES.math.filter((x) => !x.alias)) {
+    assert.ok([5, 6].includes(a.chapter), `${a.id} names its chapter`);
+    if (a.parent) assert.equal(activityInfo('math', a.parent).chapter, a.chapter, `${a.id} is on a menu of its own chapter`);
+  }
+  assert.deepEqual(menuItems('math', 'areapractice').map((a) => a.label), ['Mixed Practice', 'Practice My Misses']);
   assert.deepEqual(menuItems('math', 'areawords').map((a) => a.label), ['Review My Words', 'Flashcards', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']);
-  assert.deepEqual(menuItems('math', 'lessons').map((a) => a.id), ['ch5', 'ch6']);
   assert.deepEqual(menuItems('math', 'practice').map((a) => a.id), ['props', 'split', 'breakapart', 'mixed', 'misses']);
   assert.deepEqual(menuItems('math', 'words').map((a) => a.label), ['Review My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']);
+  // Earlier addresses still open the page that replaced them.
+  assert.equal(activityInfo('math', 'ch6review').alias, 'ch6guide');
+  assert.equal(activityInfo('math', 'area').chapter, 6);
   assert.deepEqual(menuItems('spelling').map((a) => a.label), ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses']);
   assert.deepEqual(menuItems('vocab').map((a) => a.label), ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']);
   assert.ok(Object.values(ACTIVITIES).flat().every((a) => a.label && a.about && a.icon));

@@ -26,6 +26,20 @@ export function activityView(ctx) {
 }
 
 function activityBar(ctx, run) {
+  // A Math chapter's activity or test (D26): Home > Math > Chapter N > (its menu) > the activity.
+  const chapter = run.subject === 'math' && ctx.chapter ? ctx.chapter : null;
+  if (chapter) {
+    const parent = parentOf(run);
+    const chapterCrumb = { label: `Chapter ${chapter.id}`, href: ctx.chapterLink(chapter.id) };
+    return subBar(ctx, {
+      tone: run.mode === 'test' ? 'tests' : 'math', title: run.title, goal: run.goal,
+      eyebrow: run.mode === 'test' ? `Study Scoop practice test · Chapter ${chapter.id}` : '',
+      trail: [{ label: 'Math', href: ctx.link('math') }, chapterCrumb, ...(parent ? [{ label: parent.label, href: ctx.actLink('math', parent.id) }] : []), { label: run.title }],
+      back: parent
+        ? [{ href: ctx.actLink('math', parent.id), label: `‹ Back to ${parent.label}` }, { href: chapterCrumb.href, label: `Back to Chapter ${chapter.id}` }]
+        : [{ href: chapterCrumb.href, label: `‹ Back to Chapter ${chapter.id}` }, { href: ctx.link('math'), label: 'Back to Math' }],
+    });
+  }
   if (run.mode === 'test' && run.subject !== 'skills') {
     return subBar(ctx, {
       tone: 'tests', title: run.title, goal: run.goal, eyebrow: `Study Scoop practice test · ${ctx.week.label.replace(/^Week of /, '')}`,
@@ -46,7 +60,8 @@ function activityBar(ctx, run) {
 /** The menu an activity was chosen from (Math > Practice Problems for the practice sets). */
 const parentOf = (run) => { const p = activityInfo(run.subject, run.act)?.parent; return p ? activityInfo(run.subject, p) : null; };
 /** "Choose another activity": back to the menu this activity was chosen from. */
-const menuLink = (ctx, run) => (parentOf(run) ? ctx.actLink(run.subject, parentOf(run).id) : ctx.link(run.subject));
+const menuLink = (ctx, run) => (parentOf(run) ? ctx.actLink(run.subject, parentOf(run).id)
+  : run.subject === 'math' && ctx.chapter ? ctx.chapterLink(ctx.chapter.id) : ctx.link(run.subject));
 /** The buttons at the end of an activity: Try again, Practice My Misses, Choose another activity, Home. */
 function endNav(ctx, run, { missed = false, again = 'Try again' } = {}) {
   return html`
@@ -170,8 +185,12 @@ function testResults(ctx, run) {
   const s = score(run.items, run.items_, run.pass);
   const skills = MATH_SKILLS.map((k) => [k, run.items.filter((it) => it.skill === k)]).filter(([, list]) => list.length);
   const answered = s.total - unanswered(run.items, { items: run.items_ }).length;
-  const [homeSection, homeAct] = run.areaVocab ? ['math', 'areawords'] : run.subject === 'math' && ctx.tests?.math?.title?.startsWith('Chapter 6') ? ['math', 'area'] : TEST_HOME[run.subject] || [run.subject, null];
+  // A math test belongs to a chapter (D26): its practice and its Practice My Misses are that chapter's.
+  const chId = run.areaVocab ? 6 : run.subject === 'math' ? run.chapter || null : run.subject === 'mathwords' ? 5 : null;
+  const CH_HOME = { 6: run.areaVocab ? ['areawords', 'avmisses'] : ['areapractice', 'areamisses'], 5: run.subject === 'mathwords' ? ['words', 'wmisses'] : ['practice', 'misses'] };
+  const [homeSection, homeAct, missAct] = chId ? ['math', ...CH_HOME[chId]] : [...(TEST_HOME[run.subject] || [run.subject, null]), null];
   const practiceHref = homeAct ? ctx.actLink(homeSection, homeAct) : ctx.link(homeSection);
+  const inChapter = run.subject === 'math' && ctx.chapter;
   // A Skill Builders test belongs to its skill: practice, misses and "back" all go to that skill's menu.
   const card = run.subject === 'skills' ? parentOf(run) : null;
   return html`
@@ -196,11 +215,13 @@ function testResults(ctx, run) {
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Take the test again</button>
         <button type="button" class="btn" data-act="print">Print my results</button>
-        ${s.missed.length && run.subject !== 'math' ? html`<a class="btn" href="${card ? ctx.actLink('skills', missesAct('skills', run.act)) : homeAct ? ctx.actLink(homeSection, run.areaVocab ? 'avmisses' : 'wmisses') : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
-        ${card ? '' : html`<a class="btn" href="${practiceHref}">Practice ${SUBJECT[run.subject]}</a>`}
+        ${s.missed.length && (run.subject !== 'math' || missAct) ? html`<a class="btn" href="${card ? ctx.actLink('skills', missesAct('skills', run.act)) : missAct ? ctx.actLink('math', missAct) : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
+        ${card ? '' : html`<a class="btn" href="${practiceHref}">${chId ? `Chapter ${chId} Practice` : `Practice ${SUBJECT[run.subject]}`}</a>`}
         <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
       </span>
-      ${card ? html`<a class="btn btn-primary" href="${ctx.actLink('skills', card.id)}">Back to ${card.label}</a>` : html`<a class="btn btn-primary" href="${ctx.link('tests')}">Back to Tests</a>`}
+      ${card ? html`<a class="btn btn-primary" href="${ctx.actLink('skills', card.id)}">Back to ${card.label}</a>`
+        : inChapter ? html`<a class="btn btn-primary" href="${ctx.chapterLink(ctx.chapter.id)}">Back to Chapter ${ctx.chapter.id}</a>`
+          : html`<a class="btn btn-primary" href="${ctx.link('tests')}">Back to Tests</a>`}
     </div>`;
 }
 

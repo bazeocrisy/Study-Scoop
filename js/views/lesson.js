@@ -1,7 +1,6 @@
 // One view for every lesson and stage (Learn It, Watch Me, Practice Together, Try It Yourself, Test, Parent Guide).
 // Pure: it renders the lesson data plus the in-memory progress (state). js/lesson-player.js handles clicks and typing.
 import { html } from '../lib/html.js';
-import { buildHash } from '../lib/router.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { PLACE } from '../lib/rounding.js';
@@ -48,8 +47,8 @@ function lessonBar(ctx, lesson, stage) {
   return html`
     ${subBar(ctx, {
       tone: 'math', eyebrow: `Lesson ${lesson.id}`, title: lesson.title, goal: stage === 'learn' ? lesson.goal : '',
-      trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Math Lessons', href: ctx.actLink('math', 'lessons') }, { label: `Chapter ${chapterOf(lesson.id)}`, href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
-      back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.link('math'), label: 'Back to Math' }],
+      trail: [{ label: 'Math', href: ctx.link('math') }, { label: `Chapter ${chapterOf(lesson.id)}`, href: ctx.chapterLink(chapterOf(lesson.id)) }, { label: `Chapter ${chapterOf(lesson.id)} Lessons`, href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
+      back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.chapterLink(chapterOf(lesson.id)), label: `Back to Chapter ${chapterOf(lesson.id)}` }],
     })}
     <div class="lesson-steps">
       <nav class="stepper" aria-label="Lesson steps">
@@ -435,7 +434,7 @@ function lessonExits(ctx) {
     <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>`;
 }
 
-/** A lesson's own chapter page (Math Lessons > Chapter 5 or Chapter 6). */
+/** A lesson's own chapter lesson list (Math > Chapter N > Chapter N Lessons). */
 const chapterLink = (ctx, lesson) => ctx.actLink('math', `ch${chapterOf(lesson?.id) || 5}`);
 
 /** The lesson after this one in its chapter (for "what next?"), or null for the last lesson. */
@@ -454,18 +453,12 @@ function testNext(ctx, lesson, passed) {
   const next = nextLesson(ctx, lesson);
   if (!passed) return { text: 'Then take the test again.', main: html`<button type="button" class="btn btn-primary" data-act="restart">Take the test again</button>`, retakeSecondary: false };
   if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
-  // The last Chapter 6 lesson: the Chapter 6 Review and the chapter practice test (in the week that has them).
-  const ch = (ctx.lessons?.chapters || []).find((c) => c.id === chapterOf(lesson.id));
-  if (ch?.week) {
-    const at = (opts) => buildHash(opts.test ? 'tests' : 'math', ch.week, ctx.index.current, opts);
-    return {
-      text: 'You finished the last lesson of Chapter 6! Review the chapter, then try the Chapter 6 Practice Test.',
-      main: html`<a class="btn" href="${at({ test: 'math' })}">Chapter 6 Practice Test</a><a class="btn btn-primary" href="${at({ act: 'ch6review' })}">Chapter 6 Review ›</a>`, retakeSecondary: true,
-    };
-  }
+  // The last lesson of a chapter: that chapter's Study Guide and Chapter Test (D26).
+  const ch = chapterOf(lesson.id);
+  const guide = ch === 6 ? 'ch6guide' : 'guide';
   return {
-    text: 'You finished the last lesson! Review with the Study Guide, then try the Math Practice Test.',
-    main: html`<a class="btn" href="${ctx.testLink('math')}">Math Practice Test</a><a class="btn btn-primary" href="${ctx.actLink('math', 'guide')}">Study Guide ›</a>`, retakeSecondary: true,
+    text: `You finished the last lesson of Chapter ${ch}! Review with the Chapter ${ch} Study Guide, then try the Chapter ${ch} Practice Test.`,
+    main: html`<a class="btn" href="${ctx.actLink('math', `ch${ch}test`)}">Chapter ${ch} Practice Test</a><a class="btn btn-primary" href="${ctx.actLink('math', guide)}">Chapter ${ch} Study Guide ›</a>`, retakeSecondary: true,
   };
 }
 

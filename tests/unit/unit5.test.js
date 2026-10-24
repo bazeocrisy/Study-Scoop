@@ -9,6 +9,7 @@ import { wrongFactsInText } from '../../js/lib/arith.js';
 import { check, decompositionOf, solution, validateLesson } from '../../js/lib/lessons.js';
 import { WORD_MODES, mathWordItems, mathWordsTest, propertyOf, rng, testCatalog, validateMathWords } from '../../js/lib/activities.js';
 import { PROPERTIES } from '../../js/lib/mathlearn.js';
+import { chapterFor } from '../../js/lib/chapters.js';
 import { buildHash } from '../../js/lib/router.js';
 import { mathView } from '../../js/views/math.js';
 import { testsView } from '../../js/views/tests.js';
@@ -32,7 +33,10 @@ function ctxFor(extra = {}) {
     actLink: (s, act) => buildHash(s, weekId, WEEKS.current, { act }),
     testLink: (kind) => buildHash('tests', weekId, WEEKS.current, { test: kind }),
     tests: readJSON('data/tests/2026-10-19.json'), misses: { vocab: 0, spelling: 0, math: 0, mathwords: 2 },
+    chapterLink: (id) => buildHash('math', weekId, WEEKS.current, { ch: id }),
     practice: readJSON('data/practice/math.json'), mathWords: MW, lessons: INDEX, pictures: { photos: [], drawings: [] }, ...extra,
+    // The page's chapter, as the app works it out from the address (D26).
+    chapter: extra.chapter !== undefined ? extra.chapter : chapterFor(INDEX, { ch: extra.chapterMenu || null, act: extra.page || extra.run?.act || null, lesson: extra.lesson?.id || null }),
   };
 }
 const clean = (out, label) => {
@@ -40,13 +44,14 @@ const clean = (out, label) => {
   assert.doesNotMatch(out, /undefined|\bnull\b|NaN|\[object /, `${label}: no missing values`);
 };
 
-test('Math Lessons: choose Chapter 5 or Chapter 6; each chapter lists its lessons, each open, each naming its strategy', () => {
+test('Math: choose Chapter 5 or Chapter 6; each chapter lists its lessons, each open, each naming its strategy', () => {
   assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6']);
   assert.deepEqual(INDEX.chapters.map((c) => c.id), [5, 6]);
   for (const l of INDEX.lessons) assert.ok(l.title && l.summary && l.strategy && l.chapter === Number(l.id[0]), l.id);
-  const chooser = mathView(ctxFor({ page: 'lessons' })).s;
-  clean(chooser, 'chapter menu');
-  assert.ok(chooser.includes('href="#math?act=ch5"') && chooser.includes('href="#math?act=ch6"'), 'both chapters');
+  const chooser = mathView(ctxFor({})).s;
+  clean(chooser, 'Choose Your Chapter');
+  assert.ok(chooser.includes('href="#math?ch=5"') && chooser.includes('href="#math?ch=6"'), 'both chapters');
+  for (const ch of [5, 6]) assert.ok(mathView(ctxFor({ chapterMenu: ch })).s.includes(`href="#math?act=ch${ch}"`), `Chapter ${ch} > Math Lessons`);
   assert.ok(chooser.includes('Chapter 6: Connect Area and Multiplication'), 'chapter 6 title');
   for (const ch of [5, 6]) {
     const out = mathView(ctxFor({ page: `ch${ch}` })).s;
@@ -179,8 +184,10 @@ test('Math > Math Vocabulary menu and Review My Words render for every property'
   clean(menu, 'words menu');
   for (const act of ['wreview', 'wchoice', 'wtf', 'wfill', 'wmisses']) assert.ok(menu.includes(`href="#math?act=${act}"`), act);
   assert.match(menu, /count-badge">2/, 'the misses badge counts Math Vocabulary misses');
-  const top = mathView(ctxFor()).s;
-  assert.deepEqual([...top.matchAll(/class="mc-title">([^<]+)/g)].map((m) => m[1].trim()), ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide']);
+  // Math > Chapter 5 lists its six activities (D26); its vocabulary is the property words.
+  const top = mathView(ctxFor({ chapterMenu: 5 })).s;
+  assert.deepEqual([...top.matchAll(/class="mc-title">([^<]+)/g)].map((m) => m[1].trim()), ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test']);
+  assert.match(menu, /href="#math\?ch=5"/, 'Back to Chapter 5');
   for (let i = 0; i < PROPERTIES.length; i++) {
     const run = { subject: 'math', act: 'wreview', mode: 'practice', title: 'Review My Words', goal: '', items: [], items_: {}, flash: { order: [0, 1, 2, 3, 4], i, flipped: false, marks: {} } };
     const out = mathView(ctxFor({ run })).s;
@@ -246,8 +253,8 @@ test('every lesson stage and every results screen renders, with Practice My Miss
     const chapter = INDEX.lessons.filter((l) => l.chapter === Number(lesson.id[0]));
     const k = chapter.findIndex((l) => l.id === lesson.id);
     if (k < chapter.length - 1) assert.ok(res.includes(`Next: Lesson ${chapter[k + 1].id}`), lesson.id);
-    else if (lesson.id === '5-7') assert.ok(res.includes('href="#math?act=guide"') && res.includes('href="#tests?test=math"'), 'last Chapter 5 lesson: Study Guide and Math Practice Test');
-    else assert.ok(res.includes('act=ch6review') && res.includes('test=math'), 'last Chapter 6 lesson: Chapter 6 Review and its practice test');
+    else if (lesson.id === '5-7') assert.ok(res.includes('href="#math?act=guide"') && res.includes('href="#math?act=ch5test"'), 'last Chapter 5 lesson: its Study Guide and Chapter Test');
+    else assert.ok(res.includes('href="#math?act=ch6guide"') && res.includes('href="#math?act=ch6test"'), 'last Chapter 6 lesson: its Study Guide and Chapter Test');
     // Back to Lessons goes to the lesson's own chapter.
     assert.ok(res.includes(`href="#math?act=ch${lesson.id[0]}"`) || res.includes(`act=ch${lesson.id[0]}"`), `${lesson.id}: Back to its chapter`);
   }

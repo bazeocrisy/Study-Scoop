@@ -83,6 +83,56 @@ export const CH6_MISTAKES = [
   'When splitting a side, changing the other side too: 3 × 17 is (3 × 10) + (3 × 7), not (2 × 10) + (1 × 7).',
 ];
 
+/**
+ * The Chapter 6 Study Guide (D26): Study Scoop's own explanations, one picture per idea (drawn from its numbers),
+ * the problem-solving steps, and a self-check with answers. `eq` lines and self-check `value`s are re-checked by
+ * the unit tests (tests/unit/chapters.test.js). The teacher's exact words are added from the week file.
+ */
+export const CH6_GUIDE = {
+  goals: [
+    'Explain what area is and name it in square units.',
+    'Tile a shape with no gaps and no overlaps, and count the unit squares.',
+    'Multiply the length and the width to find the area of a rectangle.',
+    'Split a composite figure into rectangles, find each area, and add.',
+    'Split one side of a rectangle (the Distributive Property) to multiply bigger numbers.',
+    'Solve area story problems and label the answer.',
+  ],
+  sections: [
+    { id: 'area', title: '1. What area means', teacher: 'Area', text: ['Area is how much flat space is inside a shape.', 'Cover the inside with unit squares and count them. This rectangle has 12.'],
+      model: { type: 'grid', cells: ['XXXX', 'XXXX', 'XXXX'] }, caption: '12 unit squares cover the inside', eq: '4 + 4 + 4 = 12' },
+    { id: 'unit', title: '2. Unit squares and square units', teacher: 'Square Unit', text: ['A unit square is 1 unit long on each side. It covers 1 square unit.', 'Name the unit: square centimeters, square inches, square feet or square meters.'],
+      model: { type: 'array', style: 'tiles', rows: 1, cols: 1, sideLabels: true }, caption: 'One square unit' },
+    { id: 'tile', title: '3. No gaps and no overlaps', text: ['Tiles must cover the whole inside. A gap leaves space that is not counted.', 'Tiles must not lie on top of each other. An overlap counts some space twice.'],
+      models: [{ type: 'grid', cells: ['XXXX', 'XXXX'] }, { type: 'grid', cells: ['XXXX', 'XXXX'], tiling: 'gaps' }, { type: 'grid', cells: ['XXXX', 'XXXX'], tiling: 'overlap' }],
+      captions: ['Correct', 'Gaps: wrong', 'Overlaps: wrong'] },
+    { id: 'count', title: '4. Count the unit squares', text: ['Count row by row, then add the rows.', 'A shape does not have to be a rectangle: count every square inside it.'],
+      model: { type: 'grid', cells: ['XXXXX', 'XXXXX', 'XXX..'], paper: true }, caption: 'Rows of 5, 5 and 3', eq: '5 + 5 + 3 = 13' },
+    { id: 'multiply', title: '5. Multiply the length and the width', teacher: 'Multiply', text: ['You do not have to count every square.', 'Area of a rectangle = length × width. Here 7 × 3 = 21 square centimeters.'],
+      model: { type: 'shape', rects: [[0, 0, 7, 3]], unit: 'cm' }, caption: '7 cm long and 3 cm wide', eq: '7 × 3 = 21' },
+    { id: 'composite', title: '6. Composite figures: split, then add', text: ['Split the figure into rectangles that do not overlap.', 'Find the area of each rectangle, then add the areas.'],
+      model: { type: 'shape', rects: [[0, 0, 6, 2], [4, 2, 2, 3]], unit: 'units', show: 'parts', areas: true }, caption: '6 × 2 = 12 and 2 × 3 = 6', eq: '12 + 6 = 18' },
+    { id: 'split', title: '7. Split a side (the Distributive Property)', text: ['Break one side into two easier numbers, such as 13 = 10 + 3. Keep the other side.', 'Multiply each part, then add: 4 × 13 = (4 × 10) + (4 × 3).'],
+      model: { type: 'shape', rects: [[0, 0, 10, 4], [10, 0, 3, 4]], unit: 'units', show: 'parts', areas: true }, caption: '40 + 12 = 52', eq: '4 × 10 + 4 × 3 = 52' },
+  ],
+  steps: ['Read the problem.', 'Find the important numbers and units.', 'Picture the shape: one rectangle, or a figure to split.', 'Write an equation.', 'Calculate.', 'Label the answer in square units.', 'Check: does the answer make sense?'],
+  example: {
+    story: 'A patio is 9 feet long and 6 feet wide. How much ground does it cover?',
+    model: { type: 'shape', rects: [[0, 0, 9, 6]], unit: 'ft' },
+    lines: ['The patio is a rectangle 9 feet long and 6 feet wide.', 'Area = length × width, so 9 × 6.', '9 × 6 = 54.', 'The patio covers 54 square feet.', 'Check: 9 × 6 is close to 10 × 6 = 60, so 54 makes sense.'],
+    eq: '9 × 6 = 54',
+  },
+  check: [
+    { q: 'A rectangle is covered by 4 rows of 6 unit squares, with no gaps and no overlaps. What is its area?', a: '24 square units', why: '6 + 6 + 6 + 6 = 24, or 4 × 6 = 24.', eq: '4 × 6', value: 24 },
+    { q: 'A garden is 7 meters long and 5 meters wide. What is its area?', a: '35 square meters', why: 'Multiply the length and the width: 7 × 5 = 35.', eq: '7 × 5', value: 35 },
+    { q: 'Some tiles inside a shape have a gap between them. Why is the number of tiles not the area?', a: 'The gap is inside the shape but not covered, so the count is too small.', why: 'Area counts every unit square needed to cover the whole inside.' },
+    { q: 'Each side of a square tile is 1 inch long. What is its area?', a: '1 square inch', why: 'A square 1 unit tall and 1 unit wide is one square unit. Here the unit is an inch.' },
+    { q: 'A figure splits into a 6 by 2 rectangle and a 2 by 3 rectangle that do not overlap. What is its area?', a: '18 square units', why: '6 × 2 = 12 and 2 × 3 = 6. Then 12 + 6 = 18.', eq: '6 × 2 + 2 × 3', value: 18 },
+    { q: '4 × 13 = (4 × 10) + (4 × ?). What is the missing number, and what is 4 × 13?', a: '3, and 4 × 13 = 52', why: '13 = 10 + 3. 4 × 10 = 40 and 4 × 3 = 12. 40 + 12 = 52.', eq: '4 × 10 + 4 × 3', value: 52 },
+    { q: 'A student says a rug 5 feet long and 3 feet wide covers 8 square feet. What went wrong?', a: 'The student added 5 + 3. Multiply: 5 × 3 = 15 square feet.', why: 'Adding two sides does not find area.', eq: '5 × 3', value: 15 },
+    { q: 'Rug A is 4 feet by 4 feet. Rug B is 3 feet by 6 feet. Which covers more floor?', a: 'Rug B: 18 square feet is more than 16 square feet.', why: '4 × 4 = 16 and 3 × 6 = 18.', eq: '3 × 6', value: 18 },
+  ],
+};
+
 /** Practice activities: Mixed Practice (problems) and the Area Words quizzes (vocabulary, with their own misses). */
 export const AREA_SETS = { areafind: ['find'], avchoice: ['vocab', 'choice'], avtf: ['vocab', 'truefalse'], avfill: ['vocab', 'fill'] };
 /** The card activities of Area Words: Review My Words and Flashcards. */

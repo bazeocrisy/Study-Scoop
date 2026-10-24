@@ -1,129 +1,119 @@
-// Math opens on its menu: Learn the Properties, Math Vocabulary, Practice Problems, Math Lessons, Study Guide (D19, D20).
-// When the address names a lesson (#math?lesson=5-1&stage=watch), the lesson view is shown instead.
+// Math is chapter-first (D26): Math opens on Choose Your Chapter; each chapter opens a menu with the same six
+// activities (Learn Vocabulary, Vocabulary Practice, Math Lessons, Practice Problems, Study Guide, Chapter Test),
+// each loading only that chapter's content. A lesson address (#math?lesson=6-1&stage=watch) shows the lesson.
 import { html } from '../lib/html.js';
 import { modelFigure } from '../lib/models.js';
-import { STAGES, chapterOf } from '../lib/lessons.js';
+import { STAGES } from '../lib/lessons.js';
 import { menuItems } from '../lib/activities.js';
 import { GUIDE_STEPS, GUIDE_WORDS, PROPERTIES, UNIT5, definitionOf, hasPropertyWords, propertyByKey, teacherExample, teacherWord } from '../lib/mathlearn.js';
-import { facts, menuPage, subBar, subjectMenu, testsNote } from './common.js';
+import { ICONS, crumbs, facts, subBar, subjectMenu, testsNote } from './common.js';
 import { lessonView, readButton } from './lesson.js';
-import { AREA_EXAMPLES, AREA_LEARN, AREA_TIPS, AREA_WORDS, CH6_MISTAKES, CH6_SUMMARY, isAreaWeek } from '../lib/area.js';
-import { formatLongDate } from '../lib/dates.js';
+import { AREA_EXAMPLES, AREA_LEARN, AREA_TIPS, AREA_WORDS, CH6_GUIDE, CH6_MISTAKES } from '../lib/area.js';
+import { chapterLessons, chapterList, chapterMenu, chapterStatus, recommendedChapter } from '../lib/chapters.js';
 import { activityView } from './activity.js';
 
 const MATH = (ctx) => ({ label: 'Math', href: ctx.link('math') });
-const BACK_MATH = (ctx) => ({ href: ctx.link('math'), label: '‹ Back to Math' });
+
+// ---------------------------------------------------------------- chapter-first Math (D26)
+
+/** The chapter this page belongs to (from the address), with its crumb and Back links. */
+const chapterOfPage = (ctx) => ctx.chapter || null;
+const CHAPTER = (ctx, c = chapterOfPage(ctx)) => (c ? { label: `Chapter ${c.id}`, href: ctx.chapterLink(c.id) } : null);
+/** "Home > Math > Chapter 6 > <page>" and "‹ Back to Chapter 6 · Back to Math". */
+function chapterBar(ctx, { title, goal, crumbs: extra = [], back = [] }) {
+  const c = chapterOfPage(ctx);
+  return subBar(ctx, {
+    tone: 'math', title, goal,
+    trail: [MATH(ctx), ...(c ? [CHAPTER(ctx, c)] : []), ...extra, { label: title }],
+    back: [...back, ...(c ? [{ href: ctx.chapterLink(c.id), label: back.length ? `Back to Chapter ${c.id}` : `‹ Back to Chapter ${c.id}` }] : []), { href: ctx.link('math'), label: 'Back to Math' }],
+  });
+}
+const backToChapter = (ctx) => {
+  const c = chapterOfPage(ctx);
+  return c ? html`<a class="btn" href="${ctx.chapterLink(c.id)}">‹ Back to Chapter ${c.id}</a>` : html`<a class="btn" href="${ctx.link('math')}">‹ Back to Math</a>`;
+};
 
 export function mathView(ctx) {
   if (ctx.lesson) return lessonView(ctx);
   if (ctx.run) return activityView(ctx);
-  if (ctx.page === 'practice') return practiceMenu(ctx);
-  if (ctx.page === 'words') return wordsMenu(ctx);
-  if (ctx.page === 'lessons') return chaptersMenu(ctx);
-  if (ctx.page === 'ch5' || ctx.page === 'ch6') return lessonsMenu(ctx, Number(ctx.page.slice(2)));
-  if (ctx.page === 'guide') return studyGuide(ctx);
-  const AREA_PAGES = { area: areaMenu, arealearn: areaLearn, areawords: areaWordsMenu, ch6review: chapter6Review };
-  if (AREA_PAGES[ctx.page]) return isAreaWeek(ctx.week) ? AREA_PAGES[ctx.page](ctx) : notThisWeek(ctx);
-  const m = ctx.week.math;
-  const area = isAreaWeek(ctx.week);
-  return menuPage(ctx, 'math', {
-    title: 'Math', context: m ? `${m.title}${m.test ? ` · Math test: ${m.test}` : ''}` : 'Topic 5: Properties of Multiplication',
-    // Topic 6: Area comes first in its week; Unit 5 (the properties) stays below it, with nothing removed.
-    items: menuItems('math').filter((a) => a.topic !== 'area' || area).map((a) => (area && !a.topic ? { ...a, start: false } : a)),
-    after: html`${area ? html`<p class="hint menu-foot">Unit 5 (the multiplication properties) is still here for review: Learn the Properties, Math Vocabulary, Practice Problems, Math Lessons and the Study Guide.</p>` : ''}${testsNote(ctx, 'The weekly Math Test')}`,
-  });
+  if (ctx.chapterMenu) return chapterPage(ctx, ctx.chapterMenu);
+  const PAGES = {
+    words: wordsMenu, practice: practiceMenu, guide: studyGuide, ch5: lessonsMenu,
+    arealearn: areaLearn, areawords: areaWordsMenu, areapractice: areaPracticeMenu, ch6guide: chapter6Guide, ch6: lessonsMenu,
+  };
+  if (PAGES[ctx.page]) return PAGES[ctx.page](ctx);
+  return chooseChapter(ctx);
 }
 
-const AREA = (ctx) => ({ label: 'Topic 6: Area', href: ctx.actLink('math', 'area') });
-
-/** An Area page asked for in a week without Topic 6 (an old link): say so and offer this week. */
-function notThisWeek(ctx) {
+/** Math: Choose Your Chapter. One card per registered chapter; the week only recommends one. */
+function chooseChapter(ctx) {
+  const shown = ctx.shownWeek || ctx.week;
+  const list = chapterList(ctx.lessons);
+  const now = recommendedChapter(shown, ctx.lessons);
+  const lessonCount = (id) => chapterLessons(ctx.lessons, id).length;
   return html`
-    ${subBar(ctx, { tone: 'math', title: 'Topic 6: Area', goal: 'Area is the Topic 6 math topic.', trail: [MATH(ctx), { label: 'Topic 6: Area' }], back: [BACK_MATH(ctx)] })}
-    <p class="card">Area is not this week's math topic. <a href="${ctx.link('math', ctx.index.current)}">Go to this week's Math</a> or go back to Math for ${ctx.week.label.replace(/^Week of /, '')}.</p>
-    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><span></span></div>`;
+    <div class="page-head menu-head subject-math">
+      ${crumbs(ctx, [{ label: 'Math' }])}
+      <h1 tabindex="-1">Math</h1>
+      <p class="week-of">${shown.label}</p>
+      <p class="intro">${now ? html`This week your class is studying <strong>Chapter ${now.id}: ${now.name}</strong>. Every chapter is open.` : 'Every chapter is open. Choose one to start.'}</p>
+    </div>
+    ${ctx.isCurrent ? '' : html`<p class="notice" role="note">You are looking at an earlier week.
+      <a href="${ctx.link('math', ctx.index.current)}">Go to this week</a></p>`}
+    <section class="menu" aria-labelledby="h-menu">
+      <h2 id="h-menu" class="ask">Choose Your Chapter</h2>
+      ${list.length ? html`<ul class="menu-grid chapter-grid subject-math count-${list.length}">
+        ${list.map((c) => {
+          const status = chapterStatus(c, shown);
+          return html`<li><a class="menu-card chapter-card${now?.id === c.id ? ' current' : ''}" href="${ctx.chapterLink(c.id)}" data-chapter="${c.id}">
+            <span class="mc-icon">${ICONS[c.id === 6 ? 'grid' : 'steps']}</span>
+            <span class="mc-text">
+              <span class="chapter-status${now?.id === c.id ? ' now' : ''}">${status}</span>
+              <span class="mc-title">Chapter ${c.id}: ${c.name}</span>
+              <span class="mc-about">${lessonCount(c.id)} lessons. ${c.summary.replace(/^Lessons [^:]*: /, '')}</span>
+            </span>
+            <span class="mc-go" aria-hidden="true">›</span>
+          </a></li>`;
+        })}
+      </ul>` : html`<p class="card">The chapters could not be loaded. Please try again later.</p>`}
+    </section>
+    ${testsNote(ctx, 'The weekly practice tests')}`;
 }
 
-/** Math > Topic 6: Area: Learn Area, the Chapter 6 lessons, Area Words, Mixed Practice, Chapter 6 Review and misses. */
-function areaMenu(ctx) {
-  const t = ctx.week.tests.find((x) => x.kind === 'math');
-  const items = menuItems('math', 'area');
-  const lessonsCard = { id: 'ch6', label: 'Chapter 6 Lessons', about: 'Lessons 6-1 to 6-6: Learn It, Watch Me, Practice Together, Try It Yourself and a test.', icon: 'steps' };
-  const ordered = [items[0], lessonsCard, ...items.slice(1)];
+/** Math > Chapter N: the same six activities for every chapter, each with this chapter's own content. */
+function chapterPage(ctx, id) {
+  const c = chapterList(ctx.lessons).find((x) => x.id === id);
+  const shown = ctx.shownWeek || ctx.week;
+  const menu = chapterMenu(id);
+  const misses = id === 6 ? (ctx.misses?.area || 0) + (ctx.misses?.areavocab || 0) : (ctx.misses?.math || 0) + (ctx.misses?.mathwords || 0);
+  const first = menu.find((r) => r.act.start) || menu[0];
   return html`
     ${subBar(ctx, {
-      tone: 'math', title: 'Topic 6: Area', goal: `Chapter 6: Connect Area and Multiplication. The Nov 3 words: ${AREA_WORDS.join(', ')}.${t ? ` ${t.title}: ${formatLongDate(t.date)}.` : ''}`,
-      trail: [MATH(ctx), { label: 'Topic 6: Area' }], back: [BACK_MATH(ctx)],
+      tone: 'math', title: `Chapter ${id}: ${c?.name || ''}`, eyebrow: c ? chapterStatus(c, shown) : '',
+      goal: c ? `${chapterLessons(ctx.lessons, id).length} lessons. ${c.summary.replace(/^Lessons [^:]*: /, '')}` : '',
+      trail: [MATH(ctx), { label: `Chapter ${id}` }], back: [{ href: ctx.link('math'), label: '‹ Back to Math' }],
     })}
     <section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to do?</h2>
-      ${subjectMenu(ctx, 'math', ordered, { misses: ctx.misses?.area })}</section>
-    <p class="hint menu-foot">Practice tests in <a href="${ctx.link('tests')}">Tests</a>: the Math Vocabulary Practice Test (the Nov 3 words) and the Chapter 6 Practice Test (all six lessons).</p>
-    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><a class="btn btn-primary" href="${ctx.actLink('math', 'arealearn')}">Start: Learn Area ›</a></div>`;
-}
-
-/** Math > Topic 6: Area > Area Words: Review My Words, Flashcards, three quizzes and Practice My Misses. */
-function areaWordsMenu(ctx) {
-  return html`
-    ${subBar(ctx, {
-      tone: 'math', title: 'Area Words', goal: `The Nov 3 vocabulary test words (${AREA_WORDS.join(', ')}) and the Chapter 6 review words.`,
-      trail: [MATH(ctx), AREA(ctx), { label: 'Area Words' }], back: [{ href: ctx.actLink('math', 'area'), label: '‹ Back to Topic 6: Area' }, { href: ctx.link('math'), label: 'Back to Math' }],
-    })}
-    ${ctx.area ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to do?</h2>
-      ${subjectMenu(ctx, 'math', menuItems('math', 'areawords'), { misses: ctx.misses?.areavocab })}</section>`
-      : html`<p class="card">The Area Words could not be loaded. Please try again later.</p>`}
-    <p class="hint menu-foot">On the Nov 3 test: Area, Square Unit and Multiply (teacher's words). The other words are Chapter 6 review words. When you are ready, take the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a>.</p>
-    <div class="stage-nav"><a class="btn" href="${ctx.actLink('math', 'area')}">‹ Back to Topic 6: Area</a><span></span></div>`;
-}
-
-/** Math > Topic 6: Area > Chapter 6 Review: goals, words, worked examples, common mistakes and a visual summary. */
-function chapter6Review(ctx) {
-  const lessons = (ctx.lessons?.lessons || []).filter((l) => chapterOf(l.id) === 6);
-  const words = ctx.area?.vocab?.words || [];
-  return html`
-    ${subBar(ctx, {
-      tone: 'math', title: 'Chapter 6 Review', goal: 'Connect Area and Multiplication: everything in one place, then the chapter practice test.',
-      trail: [MATH(ctx), AREA(ctx), { label: 'Chapter 6 Review' }], back: [{ href: ctx.actLink('math', 'area'), label: '‹ Back to Topic 6: Area' }, { href: ctx.link('math'), label: 'Back to Math' }],
-    })}
-    <p class="print-only">${ctx.week.label} · Study Scoop: Chapter 6 review (not a teacher test)</p>
-    <section class="card" aria-labelledby="h-r-goals">
-      <h2 id="h-r-goals">The six lessons</h2>
-      <ol class="review-lessons">${lessons.map((l) => html`<li><a href="${ctx.lessonLink(l.id, 'learn')}">Lesson ${l.id}: ${l.title}</a> <span class="muted">${l.summary}</span></li>`)}</ol>
-    </section>
-    <section aria-labelledby="h-r-summary">
-      <h2 id="h-r-summary">The chapter in pictures</h2>
-      <ul class="area-examples review-pics">
-        ${CH6_SUMMARY.map((x) => html`<li class="card work has-pic"><div class="pic-card"><div class="models">${modelFigure(x.model)}</div></div>
-          <div><h3>${x.title}</h3><p>${facts(x.text)}</p>${x.eq ? html`<p class="equation">${facts(x.eq)}</p>` : ''}</div></li>`)}
+      <ul class="menu-grid subject-math count-${menu.length}">
+        ${menu.map((r) => html`<li><a class="menu-card" href="${ctx.actLink('math', r.act.id)}" data-role="${r.role}">
+          <span class="mc-icon">${ICONS[r.act.icon] || ''}</span>
+          <span class="mc-text">${r === first ? html`<span class="start-here">Start here</span>` : ''}<span class="mc-title">${r.label}</span>
+            <span class="mc-about">${r.act.about}</span></span>
+          <span class="mc-go" aria-hidden="true">›</span>
+        </a></li>`)}
       </ul>
     </section>
-    ${words.length ? html`<section class="card" aria-labelledby="h-r-words">
-      <h2 id="h-r-words">Words to know</h2>
-      <dl class="guide-words">${words.map((w) => html`<div><dt>${w.word} <span class="word-tag ${w.teacher ? 'tag-test' : 'tag-review'}">${w.teacher ? 'Nov 3 test word' : 'Chapter review'}</span></dt><dd>${w.teacher ? html`<span class="label">Teacher's words</span> ` : ''}${w.def}</dd></div>`)}</dl>
-    </section>` : ''}
-    <section class="card" aria-labelledby="h-r-mix">
-      <h2 id="h-r-mix">Common mistakes</h2>
-      <ul class="plain-list">${CH6_MISTAKES.map((x) => html`<li>${facts(x)}</li>`)}</ul>
-    </section>
-    <section class="card" aria-labelledby="h-r-next">
-      <h2 id="h-r-next">Practice, then test yourself</h2>
-      <p><a href="${ctx.actLink('math', 'areafind')}">Mixed Practice</a> (20 questions with Help), then the <a href="${ctx.testLink('math')}">Chapter 6 Practice Test</a> (27 questions from all six lessons, no hints). The practice test is Study Scoop's review, not a teacher test.</p>
-    </section>
-    <div class="stage-nav">
-      <a class="btn" href="${ctx.actLink('math', 'area')}">‹ Back to Topic 6: Area</a>
-      <span class="btn-row"><button type="button" class="btn" data-act="print">Print the review</button>
-      <a class="btn btn-primary" href="${ctx.testLink('math')}">Chapter 6 Practice Test ›</a></span>
-    </div>`;
+    ${misses ? html`<p class="hint menu-foot">You have ${misses} question${misses === 1 ? '' : 's'} to practice again: open Vocabulary Practice or Practice Problems, then Practice My Misses.</p>` : ''}
+    ${id === 6 ? html`<p class="hint menu-foot">For the class test on Tuesday, Nov 3 (Area, Square Unit and Multiply), take the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a> in Tests.</p>` : ''}
+    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a>${first ? html`<a class="btn btn-primary" href="${ctx.actLink('math', first.act.id)}">Start: ${first.label} ›</a>` : html`<span></span>`}</div>`;
 }
 
-/** Math > Topic 6: Area > Learn Area: the teacher's exact words, a picture for each word, and worked examples. */
+/** Chapter 6 > Learn Vocabulary. */
 function areaLearn(ctx) {
   const words = ctx.week.math.words;
   const teacher = (w) => words.find((x) => x.word.toLowerCase() === w.toLowerCase());
   return html`
-    ${subBar(ctx, {
-      tone: 'math', title: 'Learn Area', goal: 'The three Area words, with pictures and worked examples.',
-      trail: [MATH(ctx), AREA(ctx), { label: 'Learn Area' }], back: [{ href: ctx.actLink('math', 'area'), label: '‹ Back to Topic 6: Area' }, { href: ctx.link('math'), label: 'Back to Math' }],
-    })}
+    ${chapterBar(ctx, { title: 'Learn the Area Words', goal: 'The teacher\'s three words for the Nov 3 test, with pictures and worked examples.' })}
     <p class="print-only">${ctx.week.label} · Study Scoop: Topic 6 Area words</p>
     <section aria-labelledby="h-area-words">
       <h2 id="h-area-words">The three words</h2>
@@ -157,66 +147,42 @@ function areaLearn(ctx) {
       <ul class="plain-list">${AREA_TIPS.map((x) => html`<li>${facts(x)}</li>`)}</ul>
     </section>
     <div class="stage-nav">
-      <a class="btn" href="${ctx.actLink('math', 'area')}">‹ Back to Topic 6: Area</a>
+      ${backToChapter(ctx)}
       <span class="btn-row"><button type="button" class="btn" data-act="print">Print</button>
-      <a class="btn btn-primary" href="${ctx.actLink('math', 'areafind')}">Next: Find the Area ›</a></span>
+      <a class="btn btn-primary" href="${ctx.actLink('math', 'areawords')}">Next: Vocabulary Practice ›</a></span>
     </div>`;
 }
 
 /** Math > Practice Problems: a second menu with the kinds of problems. */
 function practiceMenu(ctx) {
   return html`
-    ${subBar(ctx, {
-      tone: 'math', title: 'Practice Problems', goal: 'Choose a kind of problem. You get hints and help while you practice.',
-      trail: [MATH(ctx), { label: 'Practice Problems' }], back: [BACK_MATH(ctx)],
-    })}
+    ${chapterBar(ctx, { title: 'Practice Problems', goal: 'Chapter 5 problems: choose a kind. You get hints and help while you practice.' })}
     ${ctx.practice
       ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to practice?</h2>
           ${subjectMenu(ctx, 'math', menuItems('math', 'practice'), { misses: ctx.misses?.math })}</section>`
       : html`<p class="card">The practice problems could not be loaded. Please try again later.</p>`}
-    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><a class="btn" href="${ctx.actLink('math', 'learn')}">Learn the Properties first</a></div>`;
+    <div class="stage-nav">${backToChapter(ctx)}<a class="btn" href="${ctx.actLink('math', 'learn')}">Learn the Properties first</a></div>`;
 }
 
 /** Math > Math Vocabulary: a second menu with Review My Words, three quizzes and Practice My Misses. */
 function wordsMenu(ctx) {
   return html`
-    ${subBar(ctx, {
-      tone: 'math', title: 'Math Vocabulary', goal: 'The five property words: Identity, Zero, Commutative, Associative and Distributive.',
-      trail: [MATH(ctx), { label: 'Math Vocabulary' }], back: [BACK_MATH(ctx)],
-    })}
+    ${chapterBar(ctx, { title: 'Math Vocabulary', goal: 'Chapter 5: the five property words, Identity, Zero, Commutative, Associative and Distributive.' })}
     ${ctx.mathWords
       ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to do?</h2>
           ${subjectMenu(ctx, 'math', menuItems('math', 'words'), { misses: ctx.misses?.mathwords })}</section>`
       : html`<p class="card">The Math Vocabulary questions could not be loaded. Please try again later.</p>`}
-    <p class="hint menu-foot">When you are ready, try the Math Vocabulary Practice Test in <a href="${ctx.link('tests')}">Tests</a>.</p>
-    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><span></span></div>`;
-}
-
-/** Math > Math Lessons: choose a chapter (Chapter 5 and Chapter 6), each with its own lesson list. */
-function chaptersMenu(ctx) {
-  const chapters = ctx.lessons?.chapters || [];
-  return html`
-    ${subBar(ctx, {
-      tone: 'math', title: 'Math Lessons', goal: 'Choose a chapter. Every lesson is open: start anywhere.',
-      trail: [MATH(ctx), { label: 'Math Lessons' }], back: [BACK_MATH(ctx)],
-    })}
-    ${chapters.length ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">Choose a chapter</h2>
-      ${subjectMenu(ctx, 'math', chapters.map((c) => ({ id: `ch${c.id}`, label: c.title, about: c.summary, icon: c.id === 6 ? 'grid' : 'steps' })))}</section>`
-      : html`<p class="card">The lessons could not be loaded. Please try again later.</p>`}
-    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><span></span></div>`;
+    <p class="hint menu-foot">When you are ready, take the <a href="${ctx.actLink('math', 'ch5test')}">Chapter 5 Practice Test</a>.</p>
+    <div class="stage-nav">${backToChapter(ctx)}<span></span></div>`;
 }
 
 /** Math > Math Lessons > Chapter N: each lesson with its steps as links, so Practice Together and Try It Yourself are easy to find. */
-function lessonsMenu(ctx, chapter) {
-  const lessons = (ctx.lessons?.lessons || []).filter((l) => chapterOf(l.id) === chapter);
-  const info = (ctx.lessons?.chapters || []).find((c) => c.id === chapter);
+function lessonsMenu(ctx) {
+  const chapter = ctx.chapter?.id;
+  const lessons = chapterLessons(ctx.lessons, chapter);
   const words = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
   return html`
-    ${subBar(ctx, {
-      tone: 'math', title: info?.title || `Chapter ${chapter}`, goal: `${words[lessons.length] || lessons.length} lessons. Each has five steps. Start at Learn It, or jump to any step. Every lesson is open.`,
-      trail: [MATH(ctx), { label: 'Math Lessons', href: ctx.actLink('math', 'lessons') }, { label: `Chapter ${chapter}` }],
-      back: [{ href: ctx.actLink('math', 'lessons'), label: '‹ Back to Chapters' }, { href: ctx.link('math'), label: 'Back to Math' }],
-    })}
+    ${chapterBar(ctx, { title: `Chapter ${chapter} Lessons`, goal: `${words[lessons.length] || lessons.length} lessons. Each has five steps. Start at Learn It, or jump to any step. Every lesson is open.` })}
     ${lessons.length ? html`
       <ol class="lesson-list">
         ${lessons.map((l) => html`
@@ -231,7 +197,7 @@ function lessonsMenu(ctx, chapter) {
             <a class="btn btn-primary" href="${ctx.lessonLink(l.id, 'learn')}">Start<span class="sr-only"> Lesson ${l.id}</span></a>
           </li>`)}
       </ol>` : html`<p class="card">The lessons could not be loaded. Please try again later.</p>`}
-    <div class="stage-nav"><a class="btn" href="${ctx.actLink('math', 'lessons')}">‹ Back to Chapters</a>${chapter === 6 ? html`<a class="btn" href="${ctx.actLink('math', 'ch6review')}">Chapter 6 Review</a>` : html`<span></span>`}</div>`;
+    <div class="stage-nav">${backToChapter(ctx)}<a class="btn" href="${ctx.actLink('math', chapter === 6 ? 'ch6guide' : 'guide')}">Chapter ${chapter} Study Guide</a></div>`;
 }
 
 /** Math > Study Guide: a short, printable review of Unit 5. Part 1 is the Multiplication Properties test topic;
@@ -243,10 +209,7 @@ function studyGuide(ctx) {
   const dist = propertyByKey('distributive');
   const tex = teacherExample(teacherWord(u5, dist));
   return html`
-    ${subBar(ctx, {
-      tone: 'math', title: 'Study Guide', goal: 'Unit 5: Use properties to multiply by 3, 4, 6, 7, 8 and 9',
-      trail: [MATH(ctx), { label: 'Study Guide' }], back: [BACK_MATH(ctx)],
-    })}
+    ${chapterBar(ctx, { title: 'Chapter 5 Study Guide', goal: 'Unit 5: Use properties to multiply by 3, 4, 6, 7, 8 and 9' })}
     <p class="print-only">${ctx.week.label} · Study Scoop study guide (Unit 5)</p>
     <section class="card" aria-labelledby="h-g-goals">
       <h2 id="h-g-goals">Unit 5 goals</h2>
@@ -293,7 +256,7 @@ function studyGuide(ctx) {
       </table></div>
       <p><span class="label">Story problems</span> Find the equal groups, write the fact, use a strategy, and check that the answer makes sense.</p>
       ${ctx.lessons?.lessons?.length ? html`<p class="label">Go back to a lesson</p>
-        <ul class="guide-lessons">${ctx.lessons.lessons.filter((l) => chapterOf(l.id) === 5).map((l) => html`<li><a href="${ctx.lessonLink(l.id, 'learn')}">Lesson ${l.id}: ${l.title}</a>${l.strategy ? html` <span class="muted">(${facts(l.strategy)})</span>` : ''}</li>`)}</ul>` : ''}
+        <ul class="guide-lessons">${chapterLessons(ctx.lessons, 5).map((l) => html`<li><a href="${ctx.lessonLink(l.id, 'learn')}">Lesson ${l.id}: ${l.title}</a>${l.strategy ? html` <span class="muted">(${facts(l.strategy)})</span>` : ''}</li>`)}</ul>` : ''}
     </section>
     <div class="two-col">
       <section class="card" aria-labelledby="h-g-pat">
@@ -322,10 +285,100 @@ function studyGuide(ctx) {
     <section class="card" aria-labelledby="h-g-ready">
       <h3 id="h-g-ready">9. Am I ready?</h3>
       <ul class="ready">${GUIDE_STEPS.ready.map((x) => html`<li>${x}</li>`)}</ul>
-      <p>Not sure yet? Try <a href="${ctx.actLink('math', 'practice')}">Practice Problems</a> or <a href="${ctx.actLink('math', 'words')}">Math Vocabulary</a>. When you are ready, take the <a href="${ctx.testLink('math')}">Math Practice Test</a>.</p>
+      <p>Not sure yet? Try <a href="${ctx.actLink('math', 'practice')}">Practice Problems</a> or <a href="${ctx.actLink('math', 'words')}">Math Vocabulary</a>. When you are ready, take the <a href="${ctx.actLink('math', 'ch5test')}">Chapter 5 Practice Test</a>.</p>
     </section>
     <div class="stage-nav">
-      <a class="btn" href="${ctx.link('math')}">‹ Back to Math</a>
+      ${backToChapter(ctx)}
       <button type="button" class="btn btn-primary" data-act="print">Print the study guide</button>
+    </div>`;
+}
+
+/** Chapter 6 > Vocabulary Practice: Review My Words, Flashcards, three quizzes and Practice My Misses. */
+function areaWordsMenu(ctx) {
+  return html`
+    ${chapterBar(ctx, { title: 'Area Words', goal: `The Nov 3 vocabulary test words (${AREA_WORDS.join(', ')}) and the Chapter 6 review words.` })}
+    ${ctx.area ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to do?</h2>
+      ${subjectMenu(ctx, 'math', menuItems('math', 'areawords'), { misses: ctx.misses?.areavocab })}</section>`
+      : html`<p class="card">The Area Words could not be loaded. Please try again later.</p>`}
+    <p class="hint menu-foot">On the Nov 3 test: Area, Square Unit and Multiply (teacher's words). The other words are Chapter 6 review words. When you are ready, take the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a>.</p>
+    <div class="stage-nav">${backToChapter(ctx)}<span></span></div>`;
+}
+
+/** Chapter 6 > Practice Problems: Mixed Practice (20 area problems with Help) and Practice My Misses. */
+function areaPracticeMenu(ctx) {
+  return html`
+    ${chapterBar(ctx, { title: 'Area Practice Problems', goal: 'Chapter 6 problems: count square units, multiply length × width, split shapes and solve story problems.' })}
+    ${ctx.area ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to practice?</h2>
+      ${subjectMenu(ctx, 'math', menuItems('math', 'areapractice'), { misses: ctx.misses?.area })}</section>`
+      : html`<p class="card">The area problems could not be loaded. Please try again later.</p>`}
+    <p class="hint menu-foot">Each lesson also has 20 Try It Yourself questions: open <a href="${ctx.actLink('math', 'ch6')}">Chapter 6 Lessons</a>. Questions you miss on the Chapter 6 Practice Test come here too, in Practice My Misses.</p>
+    <div class="stage-nav">${backToChapter(ctx)}<a class="btn" href="${ctx.actLink('math', 'ch6test')}">Chapter 6 Practice Test ›</a></div>`;
+}
+
+/** Chapter 6 > Study Guide: area from tiling to story problems, mistakes to avoid and a self-check, ready to print. */
+function chapter6Guide(ctx) {
+  const G = CH6_GUIDE;
+  const teacher = (w) => (ctx.week.math?.words || []).find((x) => x.word.toLowerCase() === String(w).toLowerCase());
+  const words = ctx.area?.vocab?.words || [];
+  const lessons = chapterLessons(ctx.lessons, 6);
+  return html`
+    ${chapterBar(ctx, { title: 'Chapter 6 Study Guide', goal: 'Connect Area and Multiplication: what to know, how to do it, and a self-check.' })}
+    <p class="print-only">Study Scoop · Chapter 6 Study Guide (Study Scoop's review, not a teacher test)</p>
+    <section class="card" aria-labelledby="h-c6-goals">
+      <h2 id="h-c6-goals">Chapter 6 goals</h2>
+      <ul class="ready">${G.goals.map((g) => html`<li>${g}</li>`)}</ul>
+    </section>
+    <h2 class="guide-part">Part 1: What to know</h2>
+    <ul class="area-examples guide-sections">
+      ${G.sections.map((x) => html`<li class="card work has-pic" id="g6-${x.id}">
+        <div class="pic-card"><div class="models${x.models ? ' models-row' : ''}">${x.models ? x.models.map((m, k) => modelFigure(m, x.captions[k])) : modelFigure(x.model, x.caption)}</div></div>
+        <div>
+          <h3>${x.title}</h3>
+          ${x.teacher && teacher(x.teacher) ? html`<p class="teacher-line"><span class="label">Teacher's words: ${x.teacher}</span> <span class="def">${teacher(x.teacher).def}</span></p>` : ''}
+          ${x.text.map((t) => html`<p>${facts(t)}</p>`)}
+          ${x.eq ? html`<p class="equation">${facts(x.eq)}</p>` : ''}
+        </div>
+      </li>`)}
+    </ul>
+    <h2 class="guide-part">Part 2: Solve an area problem</h2>
+    <div class="two-col">
+      <section class="card" aria-labelledby="h-c6-steps">
+        <h3 id="h-c6-steps">The seven steps</h3>
+        <ol class="guide-steps">${G.steps.map((x) => html`<li>${x}</li>`)}</ol>
+      </section>
+      <section class="card work" aria-labelledby="h-c6-ex">
+        <h3 id="h-c6-ex">Worked example</h3>
+        <p>${G.example.story}</p>
+        <div class="models">${modelFigure(G.example.model)}</div>
+        <ol class="steps">${G.example.lines.map((x, i) => html`<li><span class="sn" aria-hidden="true">${i + 1}</span><span>${facts(x)}</span></li>`)}</ol>
+      </section>
+    </div>
+    <div class="two-col">
+      <section class="card" aria-labelledby="h-c6-mix">
+        <h3 id="h-c6-mix">Common mistakes</h3>
+        <ul class="plain-list">${CH6_MISTAKES.map((x) => html`<li>${facts(x)}</li>`)}</ul>
+      </section>
+      ${words.length ? html`<section class="card" aria-labelledby="h-c6-words">
+        <h3 id="h-c6-words">Words to know</h3>
+        <dl class="guide-words">${words.map((w) => html`<div><dt>${w.word} <span class="word-tag ${w.teacher ? 'tag-test' : 'tag-review'}">${w.teacher ? 'Nov 3 test word' : 'Chapter review'}</span></dt><dd>${w.teacher ? html`<span class="label">Teacher's words</span> ` : ''}${w.def}</dd></div>`)}</dl>
+      </section>` : ''}
+    </div>
+    <h2 class="guide-part">Part 3: Check yourself</h2>
+    <section class="card" aria-labelledby="h-c6-check">
+      <h3 id="h-c6-check">Self-check</h3>
+      <ol class="guide-steps">${G.check.map((c) => html`<li>${facts(c.q)}</li>`)}</ol>
+      <details class="answers no-print"><summary>Show the answers</summary>
+        <ol>${G.check.map((c) => html`<li><strong>${facts(c.a)}</strong> ${facts(c.why)}</li>`)}</ol></details>
+      <div class="print-only"><p class="label">Answers</p><ol>${G.check.map((c) => html`<li>${facts(c.a)} ${facts(c.why)}</li>`)}</ol></div>
+    </section>
+    <section class="card" aria-labelledby="h-c6-next">
+      <h3 id="h-c6-next">Go back to a lesson</h3>
+      <ul class="guide-lessons">${lessons.map((l) => html`<li><a href="${ctx.lessonLink(l.id, 'learn')}">Lesson ${l.id}: ${l.title}</a></li>`)}</ul>
+      <p>Not sure yet? Try <a href="${ctx.actLink('math', 'areapractice')}">Practice Problems</a> or <a href="${ctx.actLink('math', 'areawords')}">Area Words</a>. When you are ready, take the <a href="${ctx.actLink('math', 'ch6test')}">Chapter 6 Practice Test</a> (Study Scoop's review of all six lessons, not the class test).</p>
+    </section>
+    <div class="stage-nav">
+      ${backToChapter(ctx)}
+      <span class="btn-row"><button type="button" class="btn" data-act="print">Print the study guide</button>
+      <a class="btn btn-primary" href="${ctx.actLink('math', 'ch6test')}">Chapter 6 Practice Test ›</a></span>
     </div>`;
 }

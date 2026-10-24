@@ -988,3 +988,29 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 .tag-test { color: var(--part-a); } .tag-review { color: var(--muted); }
 .review-lessons { display: grid; gap: 8px; padding-left: 1.4rem; }
 .review-lessons .muted { display: block; }
+
+/* ---------------------------------------------------------------- chapter-first Math and the newsletter flyer (D26) */
+.chapter-status { justify-self: start; padding: 1px 10px; border-radius: 999px; background: var(--sunk); color: var(--muted); font-size: .85rem; font-weight: 700; }
+.chapter-status.now { background: var(--teal-tint); color: var(--teal); }
+.menu-card.chapter-card.current { border-color: var(--teal); box-shadow: inset 4px 0 0 var(--teal), var(--shadow); }
+.math-week { border-top: 5px solid var(--berry); }
+.math-week h2 { margin-bottom: 4px; }
+.shortcut-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); gap: 10px; }
+.shortcut-list .shortcut { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 14px; border: 2px solid var(--line); border-radius: var(--r); background: var(--well); font-weight: 700; text-decoration: none; }
+.shortcut-list .shortcut:hover { border-color: var(--berry); }
+.shortcut-list .shortcut svg { width: 24px; height: 24px; flex: none; color: var(--berry); }
+.models-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.flyer .flyer-pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 16px; margin-top: 10px; }
+.flyer-page { margin: 0; }
+.flyer-scroll { overflow: auto; max-height: 80vh; border: 1px solid var(--line); border-radius: var(--r-sm); background: #fff; }
+.flyer-scroll img { display: block; width: 100%; height: auto; }
+.flyer.zoomed .flyer-pages { grid-template-columns: 1fr; }
+.flyer.zoomed .flyer-scroll img { width: 200%; max-width: none; }
+.flyer-page figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 6px; font-weight: 700; }
+.flyer-missing { border-left: 5px solid var(--line-strong); }
+@media print {
+  body[data-section="newsletter"] .flyer-scroll { max-height: none; overflow: visible; border: 0; }
+  body[data-section="newsletter"] .flyer-page { break-inside: avoid; page-break-after: always; }
+  body[data-section="newsletter"] .flyer.zoomed .flyer-scroll img { width: 100%; }
+  .shortcut-list { display: none; }
+}

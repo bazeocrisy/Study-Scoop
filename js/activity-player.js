@@ -46,9 +46,18 @@ function newRun(ctx, section, act) {
   if (section === 'tests') {
     const t = testFor(act, ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);
     if (!t) return null;
-    return { ...base, ...t, subject: act, group: act, act, mode: 'test', goal: `${t.topic} · ${t.items.length} questions` };
+    // The weekly math test belongs to the week's chapter (D26): its misses go to that chapter's Practice My Misses.
+    const chapter = act === 'math' && ctx.week.mathChapter ? ctx.week.mathChapter : null;
+    return { ...base, ...t, subject: act, group: chapter === 6 ? 'area' : act, act, mode: 'test', chapter, goal: `${t.topic} · ${t.items.length} questions` };
   }
   const info = activityInfo(section, act);
+  // A Math chapter's practice test (D26): the chapter's own test, taken inside the chapter (no Help until the end).
+  if (section === 'math' && info.test) {
+    const t = testFor('math', ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);
+    if (!t) return { ...base, subject: section, group: missGroup(section, act), act, mode: 'test', title: info.label, goal: info.about, unavailable: true, chapter: info.chapter };
+    return { ...base, ...t, kind: 'math', subject: section, group: missGroup(section, act), act, mode: 'test', title: info.label, chapter: info.chapter,
+      goal: `${t.topic} · ${t.items.length} questions` };
+  }
   // Skill Builders tests are tests (no Help until the end), kept on the skill's own menu.
   if (section === 'skills' && info.test) {
     const set = SKILL_SETS[act];
@@ -76,7 +85,7 @@ export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
-  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] || AREA_CARDS.includes(act) ? ctx.area : ctx.practice));
+  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (activityInfo(section, act)?.test && section === 'math' ? ctx.tests : WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] || AREA_CARDS.includes(act) ? ctx.area : ctx.practice));
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
     if (isMissesAct(old.act)) {
@@ -363,6 +372,9 @@ export function mountActivity(app, ctx, signal) {
         } else if (st.status !== 'correct' && run.subject === 'vocab') {
           const w = ctx.week.vocab.words.find((x) => x.word === it.word);
           if (w) addMiss(ctx.weekId, 'vocab', vocabPractice({ ...it, id: `test-${it.id}` }, w));
+        } else if (st.status !== 'correct' && run.subject === 'math' && run.chapter) {
+          // A missed chapter test question goes to the chapter's Practice My Misses, in its practice form when it has one.
+          addMiss(ctx.weekId, run.group, it.practice ? { ...it.practice, id: `test-${it.id}` } : { ...it, id: `test-${it.id}` });
         } else if (st.status !== 'correct' && run.subject === 'skills') {
           // A missed Skill Builders test question goes to the skill's Practice My Misses in its practice form (with Help).
           addMiss(ctx.weekId, run.group, it.practice || it);
