@@ -11,7 +11,7 @@ import { validateArea } from './lib/area.js';
 import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson-player.js';
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { chapterFor, validateChapters } from './lib/chapters.js';
-import { missCounts, mountActivity, runFor } from './activity-player.js';
+import { missCounts, mountActivity, mountTimesApp, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
 import { validatePacket } from './lib/homework.js';
 import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
@@ -225,6 +225,9 @@ async function render() {
   if (lesson || ctx.run) {
     mounted = new AbortController();
     (lesson ? mountLesson : mountActivity)(app, ctx, mounted.signal);
+  } else if (ctx.page === 'timesapp') {
+    mounted = new AbortController();
+    mountTimesApp(app, ctx, mounted.signal);
   } else if (ctx.page || route.section === 'newsletter') {
     // Pages to read only need their Print button (the Study Guides) and, on the Newsletter, Zoom in.
     mounted = new AbortController();

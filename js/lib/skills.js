@@ -223,12 +223,45 @@ export function roundTest(rand) {
 
 // ---------------------------------------------------------------- Times Tables
 
-/** How to find a × b with a fact you know (the Unit 5 strategies). Breaks the harder factor. */
+/** How to find a × b with a fact you know. Handles 0–12. */
 function timesHelp(a, b) {
+  const P = a * b;
+  // Special rules for 0 and 1 (identity/zero property).
+  if (a === 0 || b === 0) {
+    return {
+      hints: ['Any number times 0 is always 0.', 'Zero groups of anything is nothing.'],
+      show: [`${a} × ${b} = 0.`],
+    };
+  }
+  if (a === 1 || b === 1) {
+    const other = a === 1 ? b : a;
+    return {
+      hints: ['Any number times 1 stays the same.', 'One group of anything is just that amount.'],
+      show: [`1 × ${other} = ${other}.`],
+    };
+  }
+  if (a === 11 || b === 11) {
+    const other = a === 11 ? b : a;
+    return {
+      hints: [
+        other <= 9 ? `× 11: write the digit ${other} twice.` : `Break 11 into 10 + 1: find 10 × ${other}, then add ${other}.`,
+        other <= 9 ? `${other} appears in both the tens and ones place.` : 'Find each part, then add.',
+      ],
+      show: other <= 9
+        ? [`${other} in the tens, ${other} in the ones: ${P}.`]
+        : [`10 × ${other} = ${10 * other}.`, `${10 * other} + ${other} = ${P}.`],
+    };
+  }
+  if (a === 12 || b === 12) {
+    const other = a === 12 ? b : a;
+    return {
+      hints: [`Break 12 into 10 + 2: find 10 × ${other} and 2 × ${other}.`, 'Find each part, then add.'],
+      show: [`10 × ${other} = ${10 * other}.`, `2 × ${other} = ${2 * other}.`, `${10 * other} + ${2 * other} = ${P}.`],
+    };
+  }
   // The factor whose rule we use: a 10, 2 or 5 first (they are easiest), otherwise the one that needs breaking apart.
   const easy = [10, 2, 5].find((x) => a === x || b === x);
   const [f, g] = easy ? [easy, a === easy ? b : a] : [a, b].sort((x, y) => rank(y) - rank(x));
-  const P = a * b;
   const parts = {
     2: { hint: `× 2 is a double: ${g} + ${g}.`, show: [`${g} + ${g} = ${P}.`] },
     3: { hint: `Break 3 into 2 + 1: double ${g}, then add one more ${g}.`, show: [`2 × ${g} = ${2 * g}.`, `${2 * g} + ${g} = ${P}.`] },
@@ -282,6 +315,78 @@ function distinctFacts(n, make, rand) {
   return out;
 }
 
+// ---------------------------------------------------------------- Times Tables App (family-based, 0–12)
+
+/** All fact pairs for a set of fact families (selected tables 0–12). Each pair appears once, in random order. */
+function familyPairs(families, rand) {
+  const pairs = [];
+  const seen = new Set();
+  for (const f of families) {
+    for (let b = 0; b <= 12; b++) {
+      const key = [Math.min(f, b), Math.max(f, b)].join('x');
+      if (!seen.has(key)) { seen.add(key); pairs.push([f, b]); }
+    }
+  }
+  // Shuffle: Fisher-Yates
+  for (let i = pairs.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+  }
+  return pairs;
+}
+
+/** Flashcard object for a single fact (used by the Times App flash mode). */
+export function timesFlashCard(a, b) {
+  const h = timesHelp(a, b);
+  return { a, b, product: a * b, show: h.show, hints: h.hints };
+}
+
+/** All flash cards for the selected families (0–12), shuffled. */
+export function timesFamilyFlash(families, rand) {
+  return familyPairs(families, rand).map(([a, b]) => timesFlashCard(a, b));
+}
+
+/** Practice items (type: 'number') for the selected families (0–12), shuffled. */
+export function timesFamilyPractice(families, rand) {
+  return familyPairs(families, rand).map(([a, b]) => timesItem(a, b));
+}
+
+/**
+ * Find-It items: child sees the product, types the two factors.
+ * type: 'blanks', two boxes [a] and [b], either order accepted.
+ * If the child types a correct fact from the wrong family, a nudge message fires.
+ */
+export function timesFamilyFind(families, rand) {
+  return familyPairs(families, rand).map(([a, b]) => {
+    const P = a * b;
+    // Build all OTHER valid factor pairs for this product (from outside the selected families)
+    const wrongFamilyNudges = [];
+    for (let x = 0; x <= 12; x++) {
+      for (let y = x; y <= 12; y++) {
+        if (x * y === P && !families.includes(x) && !families.includes(y)) {
+          wrongFamilyNudges.push({ when: { a: x, b: y }, say: `${x} × ${y} = ${P} too! But practice your selected facts.` });
+          if (x !== y) wrongFamilyNudges.push({ when: { a: y, b: x }, say: `${y} × ${x} = ${P} too! But practice your selected facts.` });
+        }
+      }
+    }
+    const accept = a !== b ? [{ a: b, b: a }] : [];
+    return {
+      id: `timesfind-${a}x${b}`,
+      type: 'blanks',
+      kind: 'timesfind',
+      prompt: `The answer is ${P}. What two numbers were multiplied?`,
+      lines: [`[a] × [b] = ${P}`],
+      answer: { a, b },
+      accept,
+      hints: [`Think about the ${families.length === 1 ? `${families[0]}s` : 'facts you picked'}.`, `What times what equals ${P}?`],
+      show: [`${a} × ${b} = ${P}.`],
+      yes: `Yes! ${a} × ${b} = ${P}.`,
+      explain: `${a} × ${b} = ${P}.`,
+      mistakes: wrongFamilyNudges,
+    };
+  });
+}
+
 /** A test question: the Help steps stay with it (Practice My Misses uses them) but the test page never shows them. */
 function clean(it) {
   const out = { ...it };
@@ -302,4 +407,6 @@ export const SKILL_SETS = {
   timesall: { make: timesFacts },
   timestricky: { make: timesTricky },
   timestest: { make: timesTest, pass: 10, title: 'Times Tables Test', coverage: 'Multiplication facts from the 2s to the 10s, more of them with a 6, 7, 8 or 9.' },
+  // Note: timesFamilyFlash / timesFamilyPractice / timesFamilyFind are used directly by mountTimesApp in
+  // activity-player.js and are NOT registered here — their item count varies by family selection.
 };

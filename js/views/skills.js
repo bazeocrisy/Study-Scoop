@@ -5,8 +5,8 @@ import { html } from '../lib/html.js';
 import { menuItems, activityInfo } from '../lib/activities.js';
 import { roundItem, roundParts, timesItem } from '../lib/skills.js';
 import { PLACE } from '../lib/rounding.js';
-import { menuPage, subBar, subjectMenu } from './common.js';
-import { activityView } from './activity.js';
+import { menuPage, subBar, subjectMenu, ICONS } from './common.js';
+import { activityView, activityInner, timesFlashView, timesFindView } from './activity.js';
 import { readButton } from './lesson.js';
 
 const HOME = (ctx) => ({ label: 'Skill Builders', href: ctx.link('skills') });
@@ -15,12 +15,75 @@ const LEARN = { addlearn: 'add', roundlearn: 'round', timeslearn: 'times' };
 
 export function skillsView(ctx) {
   if (ctx.run) return activityView(ctx);
+  if (ctx.page === 'timesapp') return timesAppView(ctx);
   if (GROUP[ctx.page]) return cardMenu(ctx, activityInfo('skills', ctx.page));
   if (LEARN[ctx.page]) return learnPage(ctx, activityInfo('skills', LEARN[ctx.page]), ctx.page);
   return menuPage(ctx, 'skills', {
     title: 'Skill Builders', items: menuItems('skills'),
     context: 'Short skills to practise any week. Each one has Learn It, practice with Help, and a test.',
   });
+}
+
+// ---------------------------------------------------------------- Times Tables App
+
+/** Times Tables App: fact-family selector + three-tab practice experience. */
+function timesAppView(ctx) {
+  const info = activityInfo('skills', 'timesapp');
+  const timesCard = activityInfo('skills', 'times');
+  // Tab from query param; families from run state on the ctx
+  const tab = ctx.timesTab || 'flash';
+  const families = ctx.timesFamilies || [];
+
+  return html`
+    ${subBar(ctx, {
+      tone: 'skills', title: 'Practice Facts', goal: 'Pick your fact families, then flash, practice or find the fact.',
+      trail: [HOME(ctx), { label: 'Times Tables', href: ctx.actLink('skills', 'times') }, { label: 'Practice Facts' }],
+      back: [{ href: ctx.actLink('skills', 'times'), label: '‹ Back to Times Tables' }],
+    })}
+    <div class="times-app">
+      <section class="times-selector" aria-labelledby="h-selector">
+        <h2 id="h-selector" class="times-selector-title">Pick your fact families</h2>
+        <p class="hint">Choose one or more. Your picks stay while you switch between Flash, Practice and Find It.</p>
+        <div class="times-family-grid" role="group" aria-label="Fact families 0 through 12">
+          ${Array.from({ length: 13 }, (_, n) => {
+            const sel = families.includes(n);
+            return html`<button type="button"
+              class="times-family-btn${sel ? ' is-selected' : ''}"
+              data-act="times-family"
+              data-n="${n}"
+              aria-pressed="${sel ? 'true' : 'false'}"
+              aria-label="${n}s fact family${sel ? ' (selected)' : ''}">${n}s</button>`;
+          })}
+        </div>
+        ${families.length === 0 ? html`<p class="hint times-pick-hint" role="status">Pick at least one fact family to start.</p>` : html`<p class="hint times-pick-hint" role="status">Selected: ${families.map((f) => `${f}s`).join(', ')}.</p>`}
+      </section>
+
+      <div class="times-tabs" role="tablist" aria-label="Practice mode">
+        ${['flash', 'practice', 'find'].map((t) => {
+          const labels = { flash: 'Flash', practice: 'Practice', find: 'Find It' };
+          return html`<button type="button" role="tab"
+            class="times-tab${tab === t ? ' is-active' : ''}"
+            data-act="times-tab"
+            data-tab="${t}"
+            aria-selected="${tab === t ? 'true' : 'false'}"
+            aria-controls="times-panel"
+            id="times-tab-${t}">${labels[t]}</button>`;
+        })}
+      </div>
+
+      <div class="times-panel" id="times-panel" role="tabpanel" aria-labelledby="times-tab-${tab}">
+        ${families.length === 0
+          ? html`<div class="card times-empty"><p>Pick a fact family above to begin.</p></div>`
+          : tab === 'flash' ? timesFlashView(ctx)
+          : tab === 'practice' ? timesFlashView(ctx, 'practice')
+          : timeFindPanel(ctx)}
+      </div>
+    </div>`;
+}
+
+/** Find It tab panel wrapper */
+function timeFindPanel(ctx) {
+  return timesFindView(ctx);
 }
 
 /** One skill's menu: Learn It, its practice sets, Practice My Misses and its test. */
