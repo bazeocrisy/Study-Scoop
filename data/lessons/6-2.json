@@ -424,8 +424,8 @@
      "Count the squares in each figure."
     ],
     "show": [
-     "Figure A: 3 rows of 4 makes 12.",
-     "Figure B: 2 rows of 5 makes 10."
+     "Figure A: 3 rows of 4 make 12.",
+     "Figure B: 2 rows of 5 make 10."
     ],
     "yes": "Yes! Figure A has 12 square units."
    },
@@ -481,8 +481,8 @@
      "Count the square feet on each rug."
     ],
     "show": [
-     "Rug 1: 2 rows of 6 makes 12 square feet.",
-     "Rug 2: 3 rows of 4 makes 12 square feet.",
+     "Rug 1: 2 rows of 6 make 12 square feet.",
+     "Rug 2: 3 rows of 4 make 12 square feet.",
      "They are the same."
     ],
     "yes": "Yes! Both cover 12 square feet, even though their shapes are different."
@@ -842,7 +842,7 @@
     "options": [
      {
       "text": "Figure A",
-      "why": "Figure A has 2 rows of 6 makes 12."
+      "why": "Figure A has 2 rows of 6: 12 squares."
      },
      {
       "text": "Figure B",
@@ -850,7 +850,7 @@
      },
      {
       "text": "Figure C",
-      "why": "Figure C has 4 rows of 4 makes 16."
+      "why": "Figure C has 4 rows of 4: 16 squares."
      }
     ],
     "models": [
@@ -1170,7 +1170,7 @@
     },
     "asks": "area",
     "show": [
-     "3 rows of 6 makes 18 square feet."
+     "3 rows of 6 make 18 square feet."
     ]
    },
    {
@@ -1206,7 +1206,7 @@
      },
      {
       "text": "Figure B",
-      "why": "Figure B has 3 rows of 5 makes 15."
+      "why": "Figure B has 3 rows of 5: 15 squares."
      }
     ],
     "models": [
@@ -1297,7 +1297,7 @@
     },
     "asks": "area",
     "show": [
-     "2 rows of 7 makes 14 square meters."
+     "2 rows of 7 make 14 square meters."
     ]
    },
    {

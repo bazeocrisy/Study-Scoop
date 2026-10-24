@@ -15,8 +15,8 @@
   }
  ],
  "glossary": {
-  "unit square": "a square that is 1 unit long on each side",
-  "square unit": "how we name area: one unit square covers 1 square unit",
+  "unit square": "the square we tile with: each side is 1 unit long",
+  "square unit": "a square that is 1 unit tall and 1 unit wide",
   "tiling": "covering a shape with unit squares, with no gaps and no overlaps",
   "area": "how much flat space is inside a shape"
  },
@@ -42,11 +42,11 @@
     ]
    },
    {
-    "title": "A unit square",
+    "title": "A square unit",
     "teacher": true,
     "text": [
-     "A unit square is 1 unit tall and 1 unit wide.",
-     "One unit square covers 1 square unit. We write area in square units."
+     "Your teacher's words: a square unit is \"a square that is 1 unit tall and 1 unit wide\".",
+     "We tile with these squares (unit squares), and we write area in square units."
     ],
     "model": {
      "type": "shape",
@@ -60,10 +60,10 @@
      ],
      "unit": "unit"
     },
-    "caption": "One unit square",
+    "caption": "One square unit",
     "words": [
-     "unit square",
-     "square unit"
+     "square unit",
+     "unit square"
     ]
    },
    {
@@ -81,7 +81,7 @@
       "XXXXX"
      ]
     },
-    "caption": "A correct tiling: every square touches its neighbours.",
+    "caption": "A correct tiling: every square touches its neighbors.",
     "words": [
      "tiling"
     ]
@@ -227,8 +227,7 @@
       "eq": "4 + 4 + 4 = 12"
      },
      {
-      "say": "Step 5: Name the unit. The area is 12 square units.",
-      "eq": "3 × 4 = 12"
+      "say": "Step 5: Name the unit. The area is 12 square units."
      }
     ],
     "why": {
@@ -318,8 +317,8 @@
        "correct": true
       },
       {
-       "text": "The squares are the wrong colour.",
-       "why": "Colour does not matter. Covering the whole inside does."
+       "text": "The squares are the wrong color.",
+       "why": "Color does not matter. Covering the whole inside does."
       },
       {
        "text": "There are too many squares.",
@@ -554,23 +553,23 @@
    {
     "id": "g6",
     "type": "choice",
-    "prompt": "A unit square is how long on each side?",
+    "prompt": "How long is each side of a unit square?",
     "options": [
      {
-      "text": "1 unit and 1 unit",
+      "text": "1 unit",
       "correct": true
      },
      {
-      "text": "1 unit and 2 units",
-      "why": "A unit square has 4 equal sides. Each is 1 unit."
+      "text": "2 units",
+      "why": "A 2-unit side is too long. A unit square has 4 equal sides, each 1 unit."
      },
      {
-      "text": "2 units and 2 units",
-      "why": "That is bigger than a unit square. It would cover 4 unit squares."
+      "text": "4 units",
+      "why": "A unit square has 4 sides, but each side is only 1 unit long."
      }
     ],
     "hints": [
-     "The teacher said: \"a square that is 1 unit tall and 1 unit wide\"."
+     "A unit square is named for 1 unit. How long is each side?"
     ],
     "show": [
      "A unit square is 1 unit tall and 1 unit wide."
@@ -1032,8 +1031,8 @@
      "Count the unit squares in each figure."
     ],
     "show": [
-     "Figure A: 3 rows of 4 makes 12 square units.",
-     "Figure B: 2 rows of 5 makes 10 square units.",
+     "Figure A: 3 rows of 4 make 12 square units.",
+     "Figure B: 2 rows of 5 make 10 square units.",
      "12 is more than 10, so Figure A covers more."
     ],
     "yes": "Yes! 12 square units is more than 10."
@@ -1376,7 +1375,7 @@
     "options": [
      {
       "text": "Figure A",
-      "why": "Figure A has 2 rows of 6 makes 12 squares. Figure B has 14."
+      "why": "Figure A has 2 rows of 6: 12 squares. Figure B has 14."
      },
      {
       "text": "Figure B",

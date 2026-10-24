@@ -934,7 +934,7 @@
      }
     ],
     "hints": [
-     "Sides in feet → area in square feet."
+     "The sides are in feet. What kind of unit names an area?"
     ],
     "show": [
      "The area is in square feet."
@@ -951,12 +951,12 @@
       "correct": true
      },
      {
-      "text": "9 feet and 9 feet",
-      "why": "9 × 9 = 81."
+      "text": "5 feet and 4 feet",
+      "why": "5 × 4 = 20."
      },
      {
-      "text": "8 feet and 10 feet",
-      "why": "8 × 10 = 80."
+      "text": "4 feet and 4 feet",
+      "why": "4 × 4 = 16."
      }
     ],
     "target": "18",
@@ -1257,8 +1257,8 @@
       "why": "5 × 5 = 25."
      },
      {
-      "text": "10 feet and 20 feet",
-      "why": "10 × 20 = 200."
+      "text": "4 feet and 7 feet",
+      "why": "4 × 7 = 28."
      }
     ],
     "target": "30",

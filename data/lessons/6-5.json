@@ -133,7 +133,7 @@
      },
      "areaBox": "t",
      "hints": [
-      "3 × 6 = 18. Then add 30 + 18."
+      "Multiply 3 × 6 for the right part. Then add it to 30."
      ],
      "yes": "Yes! 30 + 18 = 48."
     }
@@ -656,7 +656,7 @@
     "prompt": "Use 10 + 4 to find the area of a rectangle 14 feet long and 7 feet wide. What is the area in square feet?",
     "answer": "7 × 14",
     "hints": [
-     "7 × 10 = 70 and 7 × 4 = 28.",
+     "Split 14 into 10 + 4. Multiply 7 by each part.",
      "Add the two parts."
     ],
     "mistakes": [
@@ -1076,16 +1076,16 @@
     "type": "fill",
     "prompt": "Use the split picture. Break 7 into 5 + 2, then finish the equations to find the area in square centimeters.",
     "lines": [
-     "7 × 7 = 7 × [a] + 7 × [b]",
+     "6 × 7 = 6 × [a] + 6 × [b]",
      "= [p] + [q]",
      "= [t]"
     ],
     "answer": {
      "a": 5,
      "b": 2,
-     "p": 35,
-     "q": 14,
-     "t": 49
+     "p": 30,
+     "q": 12,
+     "t": 42
     },
     "model": {
      "type": "shape",
@@ -1094,13 +1094,13 @@
        0,
        0,
        5,
-       7
+       6
       ],
       [
        5,
        0,
        2,
-       7
+       6
       ]
      ],
      "unit": "cm",
@@ -1108,24 +1108,24 @@
     },
     "areaBox": "t",
     "hints": [
-     "The picture splits the 7 into 5 and 2. The 7 stays the same.",
-     "Multiply 7 × 5 and 7 × 2, then add."
+     "The picture splits the 7 into 5 and 2. The 6 stays the same.",
+     "Multiply 6 × 5 and 6 × 2, then add."
     ],
     "mistakes": [
      {
       "when": {
-       "t": 35
+       "t": 30
       },
       "say": "That is only the first part. Add the second part."
      }
     ],
     "show": [
-     "7 × 5 = 35.",
-     "7 × 2 = 14.",
-     "35 + 14 = 49.",
-     "The area is 49 square centimeters."
+     "6 × 5 = 30.",
+     "6 × 2 = 12.",
+     "30 + 12 = 42.",
+     "The area is 42 square centimeters."
     ],
-    "yes": "Yes! 7 × 7 = 35 + 14 = 49 square centimeters."
+    "yes": "Yes! 6 × 7 = 30 + 12 = 42 square centimeters."
    },
    {
     "id": "t9",
@@ -1323,7 +1323,7 @@
     "prompt": "A trampoline mat is 14 feet long and 7 feet wide. Break 14 into 10 + 4. What is its area in square feet?",
     "answer": "7 × 14",
     "hints": [
-     "7 × 10 = 70 and 7 × 4 = 28."
+     "Multiply 7 × 10 and 7 × 4, then add."
     ],
     "mistakes": [
      {
@@ -1334,6 +1334,7 @@
      }
     ],
     "show": [
+     "7 × 10 = 70 and 7 × 4 = 28.",
      "70 + 28 = 98 square feet."
     ],
     "yes": "Yes! 98 square feet."
@@ -1364,7 +1365,7 @@
     },
     "asks": "area",
     "hints": [
-     "5 × 10 = 50 and 5 × 6 = 30."
+     "Multiply 5 × 10 and 5 × 6, then add."
     ],
     "show": [
      "50 + 30 = 80 square meters."
@@ -1406,8 +1407,8 @@
     },
     "areaBox": "t",
     "hints": [
-     "17 = 10 + 7.",
-     "8 × 7 = 56."
+     "Break 17 into 10 and one more number.",
+     "Multiply 8 × 7 for the second part, then add it to 80."
     ],
     "show": [
      "8 × 7 = 56.",
@@ -1927,7 +1928,7 @@
     "heading": "Try it with real things",
     "list": [
      "Draw a long rectangle on graph paper, cut it with a line at 10, and find both parts.",
-     "Practise splitting numbers at 10: 14 = 10 + 4, 17 = 10 + 7."
+     "Practice splitting numbers at 10: 14 = 10 + 4, 17 = 10 + 7."
     ]
    },
    {

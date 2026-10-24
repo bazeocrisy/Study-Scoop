@@ -672,7 +672,7 @@ async function main() {
       eq(await b.js('return [document.querySelector("#app h1").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent)];'),
         ['Math Lessons', ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication']], 'Choose a chapter');
       for (const [ch, start] of [[5, '5-6'], [6, '6-3']]) {
-        await b.hash('#math?act=lessons');
+        if (ch === 6) await b.hash('#math?act=lessons');
         await go(`.menu-card[href="#math?act=ch${ch}"]`);
         const list = LESSON_INDEX.filter((l) => l.chapter === ch);
         eq(await b.js('return [...document.querySelectorAll(".lesson-card .lesson-num")].map((n) => n.textContent);'), list.map((l) => l.id), `Chapter ${ch}: its lessons in order`);
@@ -1717,7 +1717,7 @@ async function main() {
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-26"; s.dispatchEvent(new Event("change"));');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.querySelector(".test-math .topic").textContent];'), ['#tests', 'Topic 6: Area'], 'back to Oct 26');
+      eq(await b.js('return [location.hash, document.querySelector(".test-math .topic").textContent];'), ['#tests', 'Chapter 6: Connect Area and Multiplication'], 'back to Oct 26');
       await b.hash('#math?act=area');
       await b.hash(H19('#math?act=area'));
       expect((await b.js('return document.getElementById("app").textContent;')).includes('Area is not this week'), 'an Area link in Oct 19 says Area is another week');

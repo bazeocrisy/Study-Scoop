@@ -293,7 +293,7 @@ function studyGuide(ctx) {
       </table></div>
       <p><span class="label">Story problems</span> Find the equal groups, write the fact, use a strategy, and check that the answer makes sense.</p>
       ${ctx.lessons?.lessons?.length ? html`<p class="label">Go back to a lesson</p>
-        <ul class="guide-lessons">${ctx.lessons.lessons.map((l) => html`<li><a href="${ctx.lessonLink(l.id, 'learn')}">Lesson ${l.id}: ${l.title}</a>${l.strategy ? html` <span class="muted">(${facts(l.strategy)})</span>` : ''}</li>`)}</ul>` : ''}
+        <ul class="guide-lessons">${ctx.lessons.lessons.filter((l) => chapterOf(l.id) === 5).map((l) => html`<li><a href="${ctx.lessonLink(l.id, 'learn')}">Lesson ${l.id}: ${l.title}</a>${l.strategy ? html` <span class="muted">(${facts(l.strategy)})</span>` : ''}</li>`)}</ul>` : ''}
     </section>
     <div class="two-col">
       <section class="card" aria-labelledby="h-g-pat">

@@ -191,7 +191,44 @@
     ]
    },
    {
-    "title": "Check: which split is correct?",
+    "title": "A missing side",
+    "text": [
+     "Sometimes a side has no number. Use the sides you know.",
+     "The bottom is 8 units. The top part covers 5 of them. So the side marked ? is 8 - 5 = 3 units."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       2
+      ],
+      [
+       0,
+       2,
+       8,
+       3
+      ]
+     ],
+     "unit": "units",
+     "unknown": [
+      [
+       5,
+       2,
+       8,
+       2
+      ]
+     ]
+    },
+    "caption": "The ? side: 8 - 5 = 3",
+    "words": [
+     "decompose"
+    ]
+   },
+   {
+    "title": "Check: find the area",
     "item": {
      "id": "r2",
      "type": "choice",
@@ -211,7 +248,7 @@
       }
      ],
      "hints": [
-      "5 × 2 = 10 and 2 × 3 = 6."
+      "Multiply each part: 5 × 2 and 2 × 3. Then add."
      ],
      "yes": "Yes! 10 + 6 = 16 square units."
     }
@@ -1178,7 +1215,7 @@
      },
      {
       "text": "5 × 2 + 2 × 5",
-      "why": "The 2 by 5 part overlaps the 5 by 2 part, so two squares are counted twice."
+      "why": "The 2 by 5 part overlaps the 5 by 2 part: a 2 by 2 block, 4 squares, is counted twice (10 + 10 = 20, not 16)."
      },
      {
       "text": "5 + 2 + 2 + 3",
@@ -1231,9 +1268,10 @@
      }
     ],
     "hints": [
-     "6 × 4 = 24 and 3 × 2 = 6."
+     "Find each part: 6 × 4 and 3 × 2. Then add."
     ],
     "show": [
+     "6 × 4 = 24 and 3 × 2 = 6.",
      "24 + 6 = 30."
     ],
     "yes": "Yes! 30 square units."
@@ -1478,7 +1516,7 @@
       "when": {
        "answer": 4
       },
-      "say": "That is only one part of the figure. Add the other part."
+      "say": "That is only one part of the figure. Add the other parts."
      }
     ],
     "show": [
@@ -1765,7 +1803,7 @@
    {
     "id": "x8",
     "type": "choice",
-    "prompt": "Why can a figure be split in more than one way?",
+    "prompt": "Why do different splits of a figure give the same area?",
     "options": [
      {
       "text": "Every split covers the same figure, so the area is the same.",
@@ -1777,7 +1815,7 @@
      },
      {
       "text": "It cannot.",
-      "why": "Most L shapes can be split across or up and down."
+      "why": "It can: the figure is the same, so every split gives the same area."
      }
     ],
     "show": [

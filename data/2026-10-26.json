@@ -102,7 +102,7 @@
         "word": "pitcher",
         "base": "pitch",
         "rule": "er",
-        "sentence": "The pitcher threw a fast ball."
+        "sentence": "The pitcher threw a fastball."
       },
       {
         "word": "helper",
@@ -156,7 +156,7 @@
         "word": "bigger",
         "base": "big",
         "rule": "double-er",
-        "sentence": "The bigger apple is next to a small one."
+        "sentence": "This apple is bigger than that one."
       },
       {
         "word": "bolder",
@@ -174,7 +174,7 @@
         "word": "talker",
         "base": "talk",
         "rule": "er",
-        "sentence": "The talker shared an exciting story."
+        "sentence": "My little brother is a fast talker."
       },
       {
         "word": "teacher",

@@ -124,7 +124,7 @@
    {
     "title": "Compare areas",
     "text": [
-     "A garden 4 yards by 4 yards covers 16 square yards. One 3 yards by 5 yards covers 15.",
+     "A garden 4 yards by 4 yards covers 16 square yards. One 3 yards by 5 yards covers 15 square yards.",
      "16 is more than 15, so the square garden is bigger, even though it is not longer."
     ]
    },
@@ -140,10 +140,10 @@
     "item": {
      "id": "r2",
      "type": "choice",
-     "prompt": "A poster covers 3 × 7 = 21 of what?",
+     "prompt": "A poster is 7 feet long and 3 feet wide. It covers 3 × 7 = 21 of what?",
      "options": [
       {
-       "text": "21 square feet (if the sides are in feet)",
+       "text": "21 square feet",
        "correct": true
       },
       {
@@ -155,7 +155,7 @@
        "why": "The number tells how much space one poster covers."
       }
      ],
-     "yes": "Yes! Area is labelled in square units."
+     "yes": "Yes! Area is labeled in square units."
     }
    }
   ]
@@ -378,7 +378,7 @@
     "asks": "area",
     "hints": [
      "Area = length × width.",
-     "Split 12 into 10 + 2: 30 + 6."
+     "Split 12 into 10 + 2 and multiply each part by 3."
     ],
     "mistakes": [
      {
@@ -400,11 +400,11 @@
     "prompt": "Ray's garden is 4 yards by 4 yards. Bo's garden is 3 yards by 5 yards. Whose garden is bigger?",
     "options": [
      {
-      "text": "Ray's (16 square yards)",
+      "text": "Ray's garden",
       "correct": true
      },
      {
-      "text": "Bo's (15 square yards)",
+      "text": "Bo's garden",
       "why": "3 × 5 = 15 is less than 4 × 4 = 16."
      },
      {
@@ -517,7 +517,7 @@
      "Check both ways with the numbers."
     ],
     "show": [
-     "Jo: 3 panels of 8 makes 24.",
+     "Jo: 3 panels of 8 make 24.",
      "Max: one 6 by 4 rectangle = 24."
     ],
     "yes": "Yes! Both find 24 square units."
@@ -795,7 +795,7 @@
       "when": {
        "answer": 6
       },
-      "say": "That is only one part of the figure. Add the other part."
+      "say": "That is only one part of the figure. Add the other parts."
      }
     ],
     "show": [
@@ -863,7 +863,7 @@
    {
     "id": "t10",
     "type": "choice",
-    "prompt": "Which equation finds how much of a 9 by 5 wall a mural covers if it covers the whole wall?",
+    "prompt": "A mural covers a whole wall that is 9 feet long and 5 feet wide. Which equation finds how much wall it covers?",
     "options": [
      {
       "text": "9 × 5 = 45",
@@ -918,7 +918,7 @@
     "prompt": "A student says a 4 by 6 rug covers 20 square feet because 4 + 6 + 4 + 6 = 20. What went wrong?",
     "options": [
      {
-      "text": "He added the sides. Area is 4 × 6 = 24 square feet.",
+      "text": "The student added the sides. Area is 4 × 6 = 24 square feet.",
       "correct": true
      },
      {
@@ -944,19 +944,19 @@
     "prompt": "A fabric piece covers 24 square inches. Which could be its length and width? Choose all that are right.",
     "options": [
      {
-      "text": "4 and 6",
+      "text": "4 inches and 6 inches",
       "correct": true
      },
      {
-      "text": "3 and 8",
+      "text": "3 inches and 8 inches",
       "correct": true
      },
      {
-      "text": "2 and 12",
+      "text": "2 inches and 12 inches",
       "correct": true
      },
      {
-      "text": "5 and 5",
+      "text": "5 inches and 5 inches",
       "why": "5 × 5 = 25."
      }
     ],
@@ -1030,7 +1030,7 @@
    {
     "id": "t16",
     "type": "blanks",
-    "prompt": "A room is split into a 6 by 4 part and a 3 by 2 part. Find the area.",
+    "prompt": "A room is split into a 6 by 4 part and a 3 by 2 part. Find the area in square meters.",
     "text": [
      "6 × 4 = [a]",
      "3 × 2 = [b]",
@@ -1137,7 +1137,7 @@
       "when": {
        "answer": 12
       },
-      "say": "That is only one part of the figure. Add the other part."
+      "say": "That is only one part of the figure. Add the other parts."
      }
     ],
     "show": [
@@ -1357,15 +1357,15 @@
     "prompt": "Which could be the sides of a rug that covers 18 square feet? Choose all that are right.",
     "options": [
      {
-      "text": "3 and 6",
+      "text": "3 feet and 6 feet",
       "correct": true
      },
      {
-      "text": "2 and 9",
+      "text": "2 feet and 9 feet",
       "correct": true
      },
      {
-      "text": "4 and 5",
+      "text": "4 feet and 5 feet",
       "why": "4 × 5 = 20."
      }
     ],
@@ -1385,7 +1385,7 @@
    {
     "id": "x10",
     "type": "choice",
-    "prompt": "Which equation finds how much floor a 10 by 8 rug covers?",
+    "prompt": "A rug is 10 feet long and 8 feet wide. Which equation finds how much floor it covers?",
     "options": [
      {
       "text": "10 × 8 = 80",
@@ -1411,7 +1411,7 @@
   "sections": [
    {
     "heading": "What your child is learning",
-    "text": "Your child solves real-world area problems: finding the numbers, using or drawing a picture, writing an equation, solving, labelling the answer in square units, and checking it makes sense."
+    "text": "Your child solves real-world area problems: finding the numbers, using or drawing a picture, writing an equation, solving, labeling the answer in square units, and checking it makes sense."
    },
    {
     "heading": "Try it with real things",

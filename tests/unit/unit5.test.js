@@ -199,7 +199,8 @@ test('the Study Guide covers the unit: goals, five properties, strategies, patte
   // The class test date is shown only for the Multiplication Properties part.
   assert.match(out, /Part 1: Multiplication Properties.*class math test/s);
   assert.match(out, /Part 2: Strategies from Lessons 5-2 to 5-7 <span class="part-note">\(for practice\)/);
-  for (const l of INDEX.lessons) assert.ok(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), l.id);
+  // The Unit 5 study guide links the Chapter 5 lessons only; Chapter 6 has its own Review Center.
+  for (const l of INDEX.lessons) assert.equal(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), l.id.startsWith('5-'), l.id);
 });
 
 test('Tests: the Test Center has four practice tests, and the Math Vocabulary card is not called a class test', () => {

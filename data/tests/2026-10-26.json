@@ -140,7 +140,7 @@
         },
         "asks": "area",
         "skill": "l62",
-        "explain": "4 rows of 5 makes 20 square centimeters."
+        "explain": "4 rows of 5 make 20 square centimeters."
       },
       {
         "id": "c7",
@@ -174,11 +174,11 @@
           },
           {
             "text": "Figure B",
-            "why": "Figure B has 4 rows of 4 makes 16."
+            "why": "Figure B has 4 rows of 4: 16 squares."
           },
           {
             "text": "Figure C",
-            "why": "Figure C has 2 rows of 8 makes 16."
+            "why": "Figure C has 2 rows of 8: 16 squares."
           }
         ],
         "models": [
@@ -211,7 +211,7 @@
           }
         ],
         "skill": "l62",
-        "explain": "Figure A: 3 rows of 6 makes 18."
+        "explain": "Figure A: 3 rows of 6 make 18."
       },
       {
         "id": "c9",
@@ -314,8 +314,8 @@
             "why": "4 × 5 = 20."
           },
           {
-            "text": "12 feet and 12 feet",
-            "why": "12 × 12 = 144."
+            "text": "5 feet and 5 feet",
+            "why": "5 × 5 = 25."
           }
         ],
         "target": "24",
@@ -765,7 +765,7 @@
         "type": "choice",
         "kind": "context",
         "word": "Trustworthy",
-        "prompt": "Read the sentence: \"Our trustworthy neighbor always keeps her promises.\" What does \"trustworthy\" mean on the class vocabulary sheet?",
+        "prompt": "Read the sentence: \"Our class picked a trustworthy helper to carry the lunch money to the office.\" What does \"trustworthy\" mean on the class vocabulary sheet?",
         "options": [
           {
             "text": "To prevent something from continuing as usual",
@@ -957,7 +957,7 @@
         "type": "choice",
         "kind": "context",
         "word": "Irritating",
-        "prompt": "Read the sentence: \"The irritating sound continued during homework.\" What does \"irritating\" mean?",
+        "prompt": "Read the sentence: \"The irritating squeak of my chair made it hard to enjoy my book.\" What does \"irritating\" mean?",
         "options": [
           {
             "text": "To anger or bother",

@@ -43,6 +43,8 @@ Assignment 005 (implementation) on `develop`: eighth section **Tests** (weekly S
 - B4: vocabulary sheet photo so definitions can be checked (kept out of the repo)
 - B5: word pictures that contain text
 - B6–B8: Find My Factors rules, Lesson 5-1/5-2 objectives, Quick Math specification
+- Chapter 6 vocabulary: the class sheet defines *Distracted* as "To prevent something from continuing as usual", which reads closer to *interrupted*. Study Scoop keeps the teacher's words; worth confirming with the teacher
+- Chapter 6 story names (Omar, Lena, Ana, Ben, Ray, Bo, Jo, Max) are invented; owner to confirm none match a classmate
 
 ## Next
 New work goes to `develop` and appears on the live preview. The owner tests it there; each merge into `main` needs the owner's explicit approval of that pull request. Do not merge image PRs #2 and #3 until approved. Release steps: `docs/DEPLOYMENT.md`.

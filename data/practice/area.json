@@ -427,6 +427,16 @@
    "id": "ak3",
    "type": "choice",
    "prompt": "Rug A is 3 feet long and 5 feet wide. Rug B is 4 feet long and 4 feet wide. Which rug has the greater area?",
+   "compareSides": [
+    [
+     3,
+     5
+    ],
+    [
+     4,
+     4
+    ]
+   ],
    "compareNames": [
     "Rug A",
     "Rug B"
@@ -434,11 +444,11 @@
    "keepOrder": true,
    "options": [
     {
-     "text": "Rug A (15 square feet)",
+     "text": "Rug A",
      "why": "3 × 5 = 15 and 4 × 4 = 16. 15 is less than 16."
     },
     {
-     "text": "Rug B (16 square feet)",
+     "text": "Rug B",
      "correct": true
     },
     {
@@ -454,18 +464,8 @@
     "Rug B: 4 × 4 = 16 square feet.",
     "16 is greater, so Rug B has the greater area."
    ],
-   "yes": "Yes! Rug B covers 16 square feet. Rug A covers 15.",
-   "explain": "Rug A is 3 × 5 = 15 square feet and Rug B is 4 × 4 = 16 square feet, so Rug B has the greater area.",
-   "compareSides": [
-    [
-     3,
-     5
-    ],
-    [
-     4,
-     4
-    ]
-   ]
+   "yes": "Yes! Rug B covers 16 square feet. Rug A covers 15 square feet.",
+   "explain": "Rug A is 3 × 5 = 15 square feet and Rug B is 4 × 4 = 16 square feet, so Rug B has the greater area."
   },
   {
    "id": "ak4",
@@ -494,6 +494,572 @@
    ],
    "yes": "Yes! The area is 12 square units.",
    "explain": "Area is counted in square units: 12 unit squares make 12 square units."
+  }
+ ],
+ "words": [
+  {
+   "id": "wm-area",
+   "type": "choice",
+   "kind": "meaning",
+   "word": "Area",
+   "prompt": "What does \"Area\" mean on the class vocabulary sheet?",
+   "options": [
+    {
+     "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+     "correct": true
+    },
+    {
+     "text": "a square that is 1 unit tall and 1 unit wide",
+     "why": "That is what \"Square Unit\" means."
+    },
+    {
+     "text": "to find the area of a rectangle, you multiply the length and the width",
+     "why": "That is what \"Multiply\" means."
+    }
+   ],
+   "hints": [
+    "Read each choice. Which one is about covering the inside of a shape?"
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+   ],
+   "yes": "Yes! \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wm-squareunit",
+   "type": "choice",
+   "kind": "meaning",
+   "word": "Square Unit",
+   "prompt": "What does \"Square Unit\" mean on the class vocabulary sheet?",
+   "options": [
+    {
+     "text": "a square that is 1 unit tall and 1 unit wide",
+     "correct": true
+    },
+    {
+     "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+     "why": "That is what \"Area\" means."
+    },
+    {
+     "text": "to find the area of a rectangle, you multiply the length and the width",
+     "why": "That is what \"Multiply\" means."
+    }
+   ],
+   "hints": [
+    "Read each choice. Which one is about one small square?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+   ],
+   "yes": "Yes! \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wm-multiply",
+   "type": "choice",
+   "kind": "meaning",
+   "word": "Multiply",
+   "prompt": "What does \"Multiply\" mean on the class vocabulary sheet?",
+   "options": [
+    {
+     "text": "to find the area of a rectangle, you multiply the length and the width",
+     "correct": true
+    },
+    {
+     "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+     "why": "That is what \"Area\" means."
+    },
+    {
+     "text": "a square that is 1 unit tall and 1 unit wide",
+     "why": "That is what \"Square Unit\" means."
+    }
+   ],
+   "hints": [
+    "Read each choice. Which one is about length and width?"
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+   ],
+   "yes": "Yes! \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wn-area",
+   "type": "choice",
+   "kind": "name",
+   "word": "Area",
+   "prompt": "Which word means \"number of unit squares needed to cover the INSIDE of a shape or region\"?",
+   "keepOrder": false,
+   "options": [
+    {
+     "text": "Area",
+     "correct": true
+    },
+    {
+     "text": "Square Unit",
+     "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    },
+    {
+     "text": "Multiply",
+     "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    }
+   ],
+   "hints": [
+    "Think about the three Area words: Area, Square Unit and Multiply."
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the word is Area."
+   ],
+   "yes": "Yes! That is \"Area\".",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wn-squareunit",
+   "type": "choice",
+   "kind": "name",
+   "word": "Square Unit",
+   "prompt": "Which word means \"a square that is 1 unit tall and 1 unit wide\"?",
+   "keepOrder": false,
+   "options": [
+    {
+     "text": "Square Unit",
+     "correct": true
+    },
+    {
+     "text": "Area",
+     "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    },
+    {
+     "text": "Multiply",
+     "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    }
+   ],
+   "hints": [
+    "Think about the three Area words: Area, Square Unit and Multiply."
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the word is Square Unit."
+   ],
+   "yes": "Yes! That is \"Square Unit\".",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wn-multiply",
+   "type": "choice",
+   "kind": "name",
+   "word": "Multiply",
+   "prompt": "Which word means \"to find the area of a rectangle, you multiply the length and the width\"?",
+   "keepOrder": false,
+   "options": [
+    {
+     "text": "Multiply",
+     "correct": true
+    },
+    {
+     "text": "Area",
+     "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    },
+    {
+     "text": "Square Unit",
+     "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    }
+   ],
+   "hints": [
+    "Think about the three Area words: Area, Square Unit and Multiply."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the word is Multiply."
+   ],
+   "yes": "Yes! That is \"Multiply\".",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wt1",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Area",
+   "truth": true,
+   "prompt": "True or false? Area is the number of unit squares needed to cover the inside of a shape.",
+   "options": [
+    {
+     "text": "True",
+     "correct": true
+    },
+    {
+     "text": "False",
+     "why": "It is true. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Area\"."
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the statement is true."
+   ],
+   "yes": "Yes, it is true. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+   "explain": "True. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wt2",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Area",
+   "truth": false,
+   "prompt": "True or false? Area measures the edge around the outside of a shape.",
+   "options": [
+    {
+     "text": "True",
+     "why": "It is false. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+    },
+    {
+     "text": "False",
+     "correct": true
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Area\"."
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the statement is false."
+   ],
+   "yes": "Yes, it is false. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+   "explain": "False. \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wt3",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Square Unit",
+   "truth": true,
+   "prompt": "True or false? A square unit is a square that is 1 unit tall and 1 unit wide.",
+   "options": [
+    {
+     "text": "True",
+     "correct": true
+    },
+    {
+     "text": "False",
+     "why": "It is true. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Square Unit\"."
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the statement is true."
+   ],
+   "yes": "Yes, it is true. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+   "explain": "True. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wt4",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Square Unit",
+   "truth": false,
+   "prompt": "True or false? A square unit is 1 unit tall and 2 units wide.",
+   "options": [
+    {
+     "text": "True",
+     "why": "It is false. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+    },
+    {
+     "text": "False",
+     "correct": true
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Square Unit\"."
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the statement is false."
+   ],
+   "yes": "Yes, it is false. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+   "explain": "False. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wt5",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Multiply",
+   "truth": true,
+   "prompt": "True or false? To find the area of a rectangle, you can multiply the length and the width.",
+   "options": [
+    {
+     "text": "True",
+     "correct": true
+    },
+    {
+     "text": "False",
+     "why": "It is true. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Multiply\"."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the statement is true."
+   ],
+   "yes": "Yes, it is true. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+   "explain": "True. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wt6",
+   "type": "choice",
+   "kind": "tf",
+   "word": "Multiply",
+   "truth": false,
+   "prompt": "True or false? To find the area of a rectangle, you add the length and the width.",
+   "options": [
+    {
+     "text": "True",
+     "why": "It is false. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+    },
+    {
+     "text": "False",
+     "correct": true
+    }
+   ],
+   "hints": [
+    "Remember the teacher's words for \"Multiply\"."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the statement is false."
+   ],
+   "yes": "Yes, it is false. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+   "explain": "False. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wa1",
+   "type": "choice",
+   "kind": "use",
+   "word": "Square Unit",
+   "prompt": "A shape is covered by 9 small squares. Each one is 1 unit tall and 1 unit wide. What is each small square called?",
+   "options": [
+    {
+     "text": "Square Unit",
+     "correct": true
+    },
+    {
+     "text": "Area",
+     "why": "Area is the number of squares that cover the whole shape (9 here), not one small square."
+    },
+    {
+     "text": "Multiply",
+     "why": "Multiply is what you do with the length and the width. It is not the name of a square."
+    }
+   ],
+   "hints": [
+    "Which word names one square that is 1 unit tall and 1 unit wide?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So each small square is a square unit."
+   ],
+   "yes": "Yes! Each small square is one square unit.",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wa2",
+   "type": "choice",
+   "kind": "use",
+   "word": "Multiply",
+   "prompt": "A rectangle is 5 units long and 3 units wide. Which word tells what to do with 5 and 3 to find its area?",
+   "options": [
+    {
+     "text": "Multiply",
+     "correct": true
+    },
+    {
+     "text": "Square Unit",
+     "why": "A square unit is one small square. It does not tell you what to do with 5 and 3."
+    },
+    {
+     "text": "Area",
+     "why": "Area is what you are finding. The word that tells what to do is the action word."
+    }
+   ],
+   "hints": [
+    "The teacher's words say what you do with the length and the width."
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "5 × 3 = 15, so the area is 15 square units."
+   ],
+   "yes": "Yes! Multiply: 5 × 3 = 15 square units.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. 5 × 3 = 15 square units."
+  },
+  {
+   "id": "wf1",
+   "type": "word",
+   "kind": "fill",
+   "word": "Area",
+   "prompt": "The number of unit squares needed to cover the inside of a shape is its ___.",
+   "answer": "area",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the answer is \"area\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! The number of unit squares needed to cover the inside of a shape is its area.",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wf2",
+   "type": "word",
+   "kind": "fill",
+   "word": "Square Unit",
+   "prompt": "A square that is 1 unit tall and 1 unit wide is one ___.",
+   "answer": "square unit",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the answer is \"square unit\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! A square that is 1 unit tall and 1 unit wide is one square unit.",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wf3",
+   "type": "word",
+   "kind": "fill",
+   "word": "Multiply",
+   "prompt": "To find how many squares cover a rectangle, ___ the length and the width.",
+   "answer": "multiply",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the answer is \"multiply\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! To find how many squares cover a rectangle, multiply the length and the width.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+  },
+  {
+   "id": "wf4",
+   "type": "word",
+   "kind": "fill",
+   "word": "Area",
+   "prompt": "The floor of the playhouse is covered by 12 unit squares, so its ___ is 12 square units.",
+   "answer": "area",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
+    "So the answer is \"area\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! The floor of the playhouse is covered by 12 unit squares, so its area is 12 square units.",
+   "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+  },
+  {
+   "id": "wf5",
+   "type": "word",
+   "kind": "fill",
+   "word": "Square Unit",
+   "prompt": "Each tile on the bathroom floor is 1 foot long and 1 foot wide, so each tile covers one ___ (a square foot).",
+   "answer": "square unit",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
+    "So the answer is \"square unit\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! Each tile on the bathroom floor is 1 foot long and 1 foot wide, so each tile covers one square unit (a square foot).",
+   "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+  },
+  {
+   "id": "wf6",
+   "type": "word",
+   "kind": "fill",
+   "word": "Multiply",
+   "prompt": "A rectangle has 4 rows with 6 squares in each row. You can ___ 4 × 6 instead of counting every square.",
+   "answer": "multiply",
+   "bank": [
+    "area",
+    "multiply",
+    "square unit"
+   ],
+   "wrongWords": {
+    "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+    "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence."
+   },
+   "hints": [
+    "Read the sentence again. Which word from the word bank fits?"
+   ],
+   "show": [
+    "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
+    "So the answer is \"multiply\"."
+   ],
+   "retry": "Read the sentence again. Which word from the word bank fits?",
+   "yes": "Yes! A rectangle has 4 rows with 6 squares in each row. You can multiply 4 × 6 instead of counting every square.",
+   "explain": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
   }
  ],
  "vocab": {
@@ -704,8 +1270,8 @@
       "why": "That is what \"Area\" means."
      },
      {
-      "text": "the units we use to name an area, such as square inches, square feet or square meters",
-      "why": "That is what \"Square Units\" means."
+      "text": "a figure made of two or more smaller figures",
+      "why": "That is what \"Composite Figure\" means."
      },
      {
       "text": "to find the area of a rectangle, you multiply the length and the width",
@@ -762,20 +1328,20 @@
     "prompt": "What does \"Unit Square\" mean?",
     "options": [
      {
-      "text": "a square that is 1 unit tall and 1 unit wide",
-      "why": "That is what \"Square Unit\" means."
+      "text": "a square whose sides are each 1 unit long",
+      "correct": true
+     },
+     {
+      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+      "why": "That is what \"Area\" means."
      },
      {
       "text": "the operation that finds the total of equal groups, such as equal rows of squares",
       "why": "That is what \"Multiplication\" means."
      },
      {
-      "text": "a square whose sides are each 1 unit long",
-      "correct": true
-     },
-     {
-      "text": "a figure made of two or more smaller figures",
-      "why": "That is what \"Composite Figure\" means."
+      "text": "to find the area of a rectangle, you multiply the length and the width",
+      "why": "That is what \"Multiply\" means."
      }
     ],
     "hints": [
@@ -795,20 +1361,20 @@
     "prompt": "What does \"Square Units\" mean?",
     "options": [
      {
-      "text": "to find the area of a rectangle, you multiply the length and the width",
-      "why": "That is what \"Multiply\" means."
+      "text": "to break a figure or a number into smaller parts",
+      "why": "That is what \"Decompose\" means."
+     },
+     {
+      "text": "a figure made of two or more smaller figures",
+      "why": "That is what \"Composite Figure\" means."
+     },
+     {
+      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+      "why": "That is what \"Area\" means."
      },
      {
       "text": "the units we use to name an area, such as square inches, square feet or square meters",
       "correct": true
-     },
-     {
-      "text": "a square whose sides are each 1 unit long",
-      "why": "That is what \"Unit Square\" means."
-     },
-     {
-      "text": "the operation that finds the total of equal groups, such as equal rows of squares",
-      "why": "That is what \"Multiplication\" means."
      }
     ],
     "hints": [
@@ -828,16 +1394,16 @@
     "prompt": "What does \"Decompose\" mean?",
     "options": [
      {
-      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
-      "why": "That is what \"Area\" means."
-     },
-     {
-      "text": "to find the area of a rectangle, you multiply the length and the width",
-      "why": "That is what \"Multiply\" means."
+      "text": "the operation that finds the total of equal groups, such as equal rows of squares",
+      "why": "That is what \"Multiplication\" means."
      },
      {
       "text": "a figure made of two or more smaller figures",
       "why": "That is what \"Composite Figure\" means."
+     },
+     {
+      "text": "the units we use to name an area, such as square inches, square feet or square meters",
+      "why": "That is what \"Square Units\" means."
      },
      {
       "text": "to break a figure or a number into smaller parts",
@@ -1037,8 +1603,8 @@
       "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
      },
      {
-      "text": "Square Units",
-      "why": "\"Square Units\" means: the units we use to name an area, such as square inches, square feet or square meters."
+      "text": "Composite Figure",
+      "why": "\"Composite Figure\" means: a figure made of two or more smaller figures."
      },
      {
       "text": "Multiplication",
@@ -1063,8 +1629,8 @@
     "prompt": "Which word means \"the units we use to name an area, such as square inches, square feet or square meters\"?",
     "options": [
      {
-      "text": "Decompose",
-      "why": "\"Decompose\" means: to break a figure or a number into smaller parts."
+      "text": "Multiplication",
+      "why": "\"Multiplication\" means: the operation that finds the total of equal groups, such as equal rows of squares."
      },
      {
       "text": "Composite Figure",
@@ -1460,11 +2026,11 @@
     "kind": "tf",
     "word": "Square Unit",
     "truth": false,
-    "prompt": "True or false? \"Square Unit\" means \"the units we use to name an area, such as square inches, square feet or square meters\".",
+    "prompt": "True or false? \"Square Unit\" means \"a figure made of two or more smaller figures\".",
     "options": [
      {
       "text": "True",
-      "why": "It is false. That is what \"Square Units\" means. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+      "why": "It is false. That is what \"Composite Figure\" means. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
      },
      {
       "text": "False",
@@ -1960,14 +2526,14 @@
     "answer": "square unit",
     "bank": [
      "area",
-     "square unit",
-     "square units",
-     "unit square"
+     "decompose",
+     "multiply",
+     "square unit"
     ],
     "wrongWords": {
      "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
-     "square units": "\"Square Units\" means: the units we use to name an area, such as square inches, square feet or square meters. That does not fit this sentence.",
-     "unit square": "\"Unit Square\" means: a square whose sides are each 1 unit long. That does not fit this sentence."
+     "decompose": "\"Decompose\" means: to break a figure or a number into smaller parts. That does not fit this sentence.",
+     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -1985,18 +2551,18 @@
     "type": "word",
     "kind": "fill",
     "word": "Square Unit",
-    "prompt": "Each small square on the grid is one ___, so 9 of them make an area of 9.",
+    "prompt": "A square 1 centimeter tall and 1 centimeter wide is one ___. Its name is a square centimeter.",
     "answer": "square unit",
     "bank": [
+     "area",
+     "multiplication",
      "multiply",
-     "square unit",
-     "square units",
-     "unit square"
+     "square unit"
     ],
     "wrongWords": {
-     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence.",
-     "square units": "\"Square Units\" means: the units we use to name an area, such as square inches, square feet or square meters. That does not fit this sentence.",
-     "unit square": "\"Unit Square\" means: a square whose sides are each 1 unit long. That does not fit this sentence."
+     "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+     "multiplication": "\"Multiplication\" means: the operation that finds the total of equal groups, such as equal rows of squares. That does not fit this sentence.",
+     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2006,7 +2572,7 @@
      "So the answer is \"square unit\"."
     ],
     "retry": "Read the sentence again. Which word from the word bank fits?",
-    "yes": "Yes! Each small square on the grid is one square unit, so 9 of them make an area of 9.",
+    "yes": "Yes! A square 1 centimeter tall and 1 centimeter wide is one square unit. Its name is a square centimeter.",
     "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
    },
    {
@@ -2133,15 +2699,15 @@
     "prompt": "Tiling means covering a shape with copies of one ___, with no gaps and no overlaps.",
     "answer": "unit square",
     "bank": [
+     "area",
+     "composite figure",
      "decompose",
-     "multiplication",
-     "multiply",
      "unit square"
     ],
     "wrongWords": {
-     "decompose": "\"Decompose\" means: to break a figure or a number into smaller parts. That does not fit this sentence.",
-     "multiplication": "\"Multiplication\" means: the operation that finds the total of equal groups, such as equal rows of squares. That does not fit this sentence.",
-     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
+     "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+     "composite figure": "\"Composite Figure\" means: a figure made of two or more smaller figures. That does not fit this sentence.",
+     "decompose": "\"Decompose\" means: to break a figure or a number into smaller parts. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2164,13 +2730,13 @@
     "bank": [
      "area",
      "composite figure",
-     "square units",
+     "multiplication",
      "unit square"
     ],
     "wrongWords": {
      "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
      "composite figure": "\"Composite Figure\" means: a figure made of two or more smaller figures. That does not fit this sentence.",
-     "square units": "\"Square Units\" means: the units we use to name an area, such as square inches, square feet or square meters. That does not fit this sentence."
+     "multiplication": "\"Multiplication\" means: the operation that finds the total of equal groups, such as equal rows of squares. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2191,15 +2757,15 @@
     "prompt": "Area is always named in ___, such as square feet or square inches.",
     "answer": "square units",
     "bank": [
+     "decompose",
      "multiplication",
      "multiply",
-     "square unit",
      "square units"
     ],
     "wrongWords": {
+     "decompose": "\"Decompose\" means: to break a figure or a number into smaller parts. That does not fit this sentence.",
      "multiplication": "\"Multiplication\" means: the operation that finds the total of equal groups, such as equal rows of squares. That does not fit this sentence.",
-     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence.",
-     "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence."
+     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2220,15 +2786,15 @@
     "prompt": "An answer of 30 square meters is written in ___.",
     "answer": "square units",
     "bank": [
+     "decompose",
+     "multiplication",
      "multiply",
-     "square unit",
-     "square units",
-     "unit square"
+     "square units"
     ],
     "wrongWords": {
-     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence.",
-     "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
-     "unit square": "\"Unit Square\" means: a square whose sides are each 1 unit long. That does not fit this sentence."
+     "decompose": "\"Decompose\" means: to break a figure or a number into smaller parts. That does not fit this sentence.",
+     "multiplication": "\"Multiplication\" means: the operation that finds the total of equal groups, such as equal rows of squares. That does not fit this sentence.",
+     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2249,14 +2815,14 @@
     "prompt": "To find the area of an L shape, ___ it into two rectangles.",
     "answer": "decompose",
     "bank": [
+     "composite figure",
      "decompose",
      "multiplication",
-     "multiply",
      "square units"
     ],
     "wrongWords": {
+     "composite figure": "\"Composite Figure\" means: a figure made of two or more smaller figures. That does not fit this sentence.",
      "multiplication": "\"Multiplication\" means: the operation that finds the total of equal groups, such as equal rows of squares. That does not fit this sentence.",
-     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence.",
      "square units": "\"Square Units\" means: the units we use to name an area, such as square inches, square feet or square meters. That does not fit this sentence."
     },
     "hints": [
@@ -2278,15 +2844,15 @@
     "prompt": "When you ___ 8 into 5 + 3, you break it into smaller parts.",
     "answer": "decompose",
     "bank": [
+     "area",
      "decompose",
      "multiply",
-     "square units",
-     "unit square"
+     "square units"
     ],
     "wrongWords": {
+     "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
      "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence.",
-     "square units": "\"Square Units\" means: the units we use to name an area, such as square inches, square feet or square meters. That does not fit this sentence.",
-     "unit square": "\"Unit Square\" means: a square whose sides are each 1 unit long. That does not fit this sentence."
+     "square units": "\"Square Units\" means: the units we use to name an area, such as square inches, square feet or square meters. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2366,14 +2932,14 @@
     "answer": "multiplication",
     "bank": [
      "area",
-     "composite figure",
-     "decompose",
-     "multiplication"
+     "multiplication",
+     "square unit",
+     "unit square"
     ],
     "wrongWords": {
      "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
-     "composite figure": "\"Composite Figure\" means: a figure made of two or more smaller figures. That does not fit this sentence.",
-     "decompose": "\"Decompose\" means: to break a figure or a number into smaller parts. That does not fit this sentence."
+     "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
+     "unit square": "\"Unit Square\" means: a square whose sides are each 1 unit long. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2394,15 +2960,15 @@
     "prompt": "Equal rows of squares are a ___ problem.",
     "answer": "multiplication",
     "bank": [
-     "composite figure",
+     "area",
      "multiplication",
-     "square unit",
-     "unit square"
+     "multiply",
+     "square unit"
     ],
     "wrongWords": {
-     "composite figure": "\"Composite Figure\" means: a figure made of two or more smaller figures. That does not fit this sentence.",
-     "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
-     "unit square": "\"Unit Square\" means: a square whose sides are each 1 unit long. That does not fit this sentence."
+     "area": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region. That does not fit this sentence.",
+     "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence.",
+     "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence."
     },
     "hints": [
      "Read the sentence again. Which word from the word bank fits?"
@@ -2424,13 +2990,13 @@
     "answer": "area",
     "bank": [
      "area",
+     "composite figure",
      "multiply",
-     "square unit",
      "unit square"
     ],
     "wrongWords": {
+     "composite figure": "\"Composite Figure\" means: a figure made of two or more smaller figures. That does not fit this sentence.",
      "multiply": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width. That does not fit this sentence.",
-     "square unit": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide. That does not fit this sentence.",
      "unit square": "\"Unit Square\" means: a square whose sides are each 1 unit long. That does not fit this sentence."
     },
     "hints": [
@@ -2454,8 +3020,8 @@
     "prompt": "Which is the meaning of \"Area\"?",
     "options": [
      {
-      "text": "a square whose sides are each 1 unit long",
-      "why": "That is what \"Unit Square\" means."
+      "text": "a square that is 1 unit tall and 1 unit wide",
+      "why": "That is what \"Square Unit\" means."
      },
      {
       "text": "to find the area of a rectangle, you multiply the length and the width",
@@ -2464,10 +3030,6 @@
      {
       "text": "number of unit squares needed to cover the INSIDE of a shape or region",
       "correct": true
-     },
-     {
-      "text": "a square that is 1 unit tall and 1 unit wide",
-      "why": "That is what \"Square Unit\" means."
      }
     ],
     "yes": "Yes! \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
@@ -2487,16 +3049,12 @@
       "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
      },
      {
-      "text": "Decompose",
-      "why": "\"Decompose\" means: to break a figure or a number into smaller parts."
+      "text": "Area",
+      "correct": true
      },
      {
       "text": "Multiply",
       "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
-     },
-     {
-      "text": "Area",
-      "correct": true
      }
     ],
     "yes": "Yes! That is \"Area\".",
@@ -2556,20 +3114,16 @@
     "prompt": "On the class vocabulary sheet, what are the teacher's words for \"Area\"?",
     "options": [
      {
-      "text": "to find the area of a rectangle, you multiply the length and the width",
-      "why": "That is what \"Multiply\" means."
-     },
-     {
       "text": "a square that is 1 unit tall and 1 unit wide",
       "why": "That is what \"Square Unit\" means."
      },
      {
-      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
-      "correct": true
+      "text": "to find the area of a rectangle, you multiply the length and the width",
+      "why": "That is what \"Multiply\" means."
      },
      {
-      "text": "a square whose sides are each 1 unit long",
-      "why": "That is what \"Unit Square\" means."
+      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+      "correct": true
      }
     ],
     "yes": "Yes! \"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region.",
@@ -2585,16 +3139,12 @@
     "prompt": "Which vocabulary word goes with \"number of unit squares needed to cover the INSIDE of a shape or region\"?",
     "options": [
      {
-      "text": "Multiply",
-      "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
-     },
-     {
-      "text": "Decompose",
-      "why": "\"Decompose\" means: to break a figure or a number into smaller parts."
-     },
-     {
       "text": "Square Unit",
       "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+     },
+     {
+      "text": "Multiply",
+      "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
      },
      {
       "text": "Area",
@@ -2658,20 +3208,16 @@
     "prompt": "Which is the meaning of \"Square Unit\"?",
     "options": [
      {
-      "text": "to find the area of a rectangle, you multiply the length and the width",
-      "why": "That is what \"Multiply\" means."
+      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+      "why": "That is what \"Area\" means."
      },
      {
       "text": "a square that is 1 unit tall and 1 unit wide",
       "correct": true
      },
      {
-      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
-      "why": "That is what \"Area\" means."
-     },
-     {
-      "text": "a square whose sides are each 1 unit long",
-      "why": "That is what \"Unit Square\" means."
+      "text": "to find the area of a rectangle, you multiply the length and the width",
+      "why": "That is what \"Multiply\" means."
      }
     ],
     "yes": "Yes! \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
@@ -2687,20 +3233,16 @@
     "prompt": "Which word matches this meaning: \"a square that is 1 unit tall and 1 unit wide\"?",
     "options": [
      {
-      "text": "Square Unit",
-      "correct": true
+      "text": "Multiply",
+      "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
      },
      {
       "text": "Area",
       "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
      },
      {
-      "text": "Decompose",
-      "why": "\"Decompose\" means: to break a figure or a number into smaller parts."
-     },
-     {
-      "text": "Multiply",
-      "why": "\"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+      "text": "Square Unit",
+      "correct": true
      }
     ],
     "yes": "Yes! That is \"Square Unit\".",
@@ -2760,20 +3302,16 @@
     "prompt": "On the class vocabulary sheet, what are the teacher's words for \"Square Unit\"?",
     "options": [
      {
-      "text": "to find the area of a rectangle, you multiply the length and the width",
-      "why": "That is what \"Multiply\" means."
-     },
-     {
       "text": "number of unit squares needed to cover the INSIDE of a shape or region",
       "why": "That is what \"Area\" means."
      },
      {
-      "text": "a square that is 1 unit tall and 1 unit wide",
-      "correct": true
+      "text": "to find the area of a rectangle, you multiply the length and the width",
+      "why": "That is what \"Multiply\" means."
      },
      {
-      "text": "a square whose sides are each 1 unit long",
-      "why": "That is what \"Unit Square\" means."
+      "text": "a square that is 1 unit tall and 1 unit wide",
+      "correct": true
      }
     ],
     "yes": "Yes! \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide.",
@@ -2789,16 +3327,12 @@
     "prompt": "Which vocabulary word goes with \"a square that is 1 unit tall and 1 unit wide\"?",
     "options": [
      {
-      "text": "Decompose",
-      "why": "\"Decompose\" means: to break a figure or a number into smaller parts."
+      "text": "Square Unit",
+      "correct": true
      },
      {
       "text": "Area",
       "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
-     },
-     {
-      "text": "Square Unit",
-      "correct": true
      },
      {
       "text": "Multiply",
@@ -2862,20 +3396,16 @@
     "prompt": "Which is the meaning of \"Multiply\"?",
     "options": [
      {
+      "text": "a square that is 1 unit tall and 1 unit wide",
+      "why": "That is what \"Square Unit\" means."
+     },
+     {
       "text": "number of unit squares needed to cover the INSIDE of a shape or region",
       "why": "That is what \"Area\" means."
      },
      {
-      "text": "a square whose sides are each 1 unit long",
-      "why": "That is what \"Unit Square\" means."
-     },
-     {
       "text": "to find the area of a rectangle, you multiply the length and the width",
       "correct": true
-     },
-     {
-      "text": "a square that is 1 unit tall and 1 unit wide",
-      "why": "That is what \"Square Unit\" means."
      }
     ],
     "yes": "Yes! \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
@@ -2891,20 +3421,16 @@
     "prompt": "Which word matches this meaning: \"to find the area of a rectangle, you multiply the length and the width\"?",
     "options": [
      {
+      "text": "Multiply",
+      "correct": true
+     },
+     {
       "text": "Square Unit",
       "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
      },
      {
       "text": "Area",
       "why": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
-     },
-     {
-      "text": "Decompose",
-      "why": "\"Decompose\" means: to break a figure or a number into smaller parts."
-     },
-     {
-      "text": "Multiply",
-      "correct": true
      }
     ],
     "yes": "Yes! That is \"Multiply\".",
@@ -2964,20 +3490,16 @@
     "prompt": "On the class vocabulary sheet, what are the teacher's words for \"Multiply\"?",
     "options": [
      {
-      "text": "a square whose sides are each 1 unit long",
-      "why": "That is what \"Unit Square\" means."
-     },
-     {
-      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
-      "why": "That is what \"Area\" means."
-     },
-     {
       "text": "to find the area of a rectangle, you multiply the length and the width",
       "correct": true
      },
      {
       "text": "a square that is 1 unit tall and 1 unit wide",
       "why": "That is what \"Square Unit\" means."
+     },
+     {
+      "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+      "why": "That is what \"Area\" means."
      }
     ],
     "yes": "Yes! \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width.",
@@ -2993,16 +3515,12 @@
     "prompt": "Which vocabulary word goes with \"to find the area of a rectangle, you multiply the length and the width\"?",
     "options": [
      {
-      "text": "Multiply",
-      "correct": true
-     },
-     {
-      "text": "Decompose",
-      "why": "\"Decompose\" means: to break a figure or a number into smaller parts."
-     },
-     {
       "text": "Square Unit",
       "why": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+     },
+     {
+      "text": "Multiply",
+      "correct": true
      },
      {
       "text": "Area",
