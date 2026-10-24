@@ -1,6 +1,8 @@
 # Study Scoop — Project Status
 
 ## Current phase
+Chapter-first Math (D26): Math opens on Choose Your Chapter; Chapter 5 and Chapter 6 each have Learn Vocabulary, Vocabulary Practice, Math Lessons, Practice Problems, Study Guide and Chapter Test, loading only their own content. This Week recommends the week's chapter (Oct 26–30: Chapter 6; Oct 12–23: Chapter 5) with shortcuts. The Newsletter shows the privacy-reviewed Oct 26–30 flyer (zoom, print); Oct 12 and Oct 19 flyers were never supplied and show as unavailable. Reusable workflows: `.claude/skills/build-chapter`, `.claude/skills/update-week`, `.claude/agents`.
+
 Oct 26–30 release (D24): weekly content for Oct 26–30 (spelling -er/-or with the supplied pictures, the four green vocabulary words, Topic 6: Area for the Nov 3 vocabulary test) and the release-test repair. Chapter 6 (D25): lessons 6-1 to 6-6, Area Words, Chapter 6 Review, the Chapter 6 Practice Test (27) and the Nov 3 Math Vocabulary Practice Test (12).
 
 Skill Builders Wave 1 (D22): Quick Math is now Skill Builders with Mental Add, Rounding and Times Tables.

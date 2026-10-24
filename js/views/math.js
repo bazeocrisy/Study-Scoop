@@ -70,14 +70,14 @@ function chooseChapter(ctx) {
             <span class="mc-text">
               <span class="chapter-status${now?.id === c.id ? ' now' : ''}">${status}</span>
               <span class="mc-title">Chapter ${c.id}: ${c.name}</span>
-              <span class="mc-about">${lessonCount(c.id)} lessons. ${c.summary.replace(/^Lessons [^:]*: /, '')}</span>
+              <span class="mc-about">${lessonCount(c.id)} lessons: ${c.summary.replace(/^Lessons [^:]*: /, '')}</span>
             </span>
             <span class="mc-go" aria-hidden="true">›</span>
           </a></li>`;
         })}
       </ul>` : html`<p class="card">The chapters could not be loaded. Please try again later.</p>`}
     </section>
-    ${testsNote(ctx, 'The weekly practice tests')}`;
+    ${testsNote(ctx, 'Every weekly practice test')}`;
 }
 
 /** Math > Chapter N: the same six activities for every chapter, each with this chapter's own content. */
@@ -90,7 +90,7 @@ function chapterPage(ctx, id) {
   return html`
     ${subBar(ctx, {
       tone: 'math', title: `Chapter ${id}: ${c?.name || ''}`, eyebrow: c ? chapterStatus(c, shown) : '',
-      goal: c ? `${chapterLessons(ctx.lessons, id).length} lessons. ${c.summary.replace(/^Lessons [^:]*: /, '')}` : '',
+      goal: c ? `${chapterLessons(ctx.lessons, id).length} lessons: ${c.summary.replace(/^Lessons [^:]*: /, '')}` : '',
       trail: [MATH(ctx), { label: `Chapter ${id}` }], back: [{ href: ctx.link('math'), label: '‹ Back to Math' }],
     })}
     <section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to do?</h2>
@@ -334,7 +334,7 @@ function chapter6Guide(ctx) {
         <div class="pic-card"><div class="models${x.models ? ' models-row' : ''}">${x.models ? x.models.map((m, k) => modelFigure(m, x.captions[k])) : modelFigure(x.model, x.caption)}</div></div>
         <div>
           <h3>${x.title}</h3>
-          ${x.teacher && teacher(x.teacher) ? html`<p class="teacher-line"><span class="label">Teacher's words: ${x.teacher}</span> <span class="def">${teacher(x.teacher).def}</span></p>` : ''}
+          ${x.teacher && teacher(x.teacher) ? html`<blockquote class="teacher-words"><span class="label">Teacher's words: ${x.teacher}</span><span class="def">${teacher(x.teacher).def}</span></blockquote>` : ''}
           ${x.text.map((t) => html`<p>${facts(t)}</p>`)}
           ${x.eq ? html`<p class="equation">${facts(x.eq)}</p>` : ''}
         </div>

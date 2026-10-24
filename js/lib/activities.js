@@ -33,7 +33,7 @@ export const ACTIVITIES = {
     { id: 'ch5', chapter: 5, role: 'lessons', label: 'Chapter 5 Lessons', about: 'Lessons 5-1 to 5-7: Learn It, Watch Me, Practice Together, Try It Yourself and a test.', icon: 'steps', page: true },
     { id: 'practice', chapter: 5, role: 'practice', label: 'Practice Problems', about: 'Properties, split arrays and breaking apart a factor, with hints.', icon: 'pencil', page: true },
     { id: 'guide', chapter: 5, role: 'guide', label: 'Chapter 5 Study Guide', about: 'The five properties and the strategies for 3, 4, 6, 7, 8 and 9, ready to print.', icon: 'list', page: true },
-    { id: 'ch5test', chapter: 5, role: 'test', label: 'Chapter 5 Practice Test', about: 'Questions from the whole chapter. No hints until the end.', icon: 'list', test: true, group: 'math' },
+    { id: 'ch5test', chapter: 5, role: 'test', label: 'Chapter 5 Practice Test', about: 'Questions from the whole chapter. No hints until the end.', icon: 'choice', test: true, group: 'math' },
     { id: 'props', chapter: 5, label: 'Identify the Property', about: 'Look at a fact. Which property does it show?', icon: 'choice', parent: 'practice' },
     { id: 'split', chapter: 5, label: 'Match the Split Array', about: 'A line splits an array. Pick the matching facts.', icon: 'grid', parent: 'practice' },
     { id: 'breakapart', chapter: 5, label: 'Break Apart a Factor', about: 'Break a fact into two easier facts.', icon: 'puzzle', parent: 'practice' },
@@ -51,7 +51,7 @@ export const ACTIVITIES = {
     { id: 'ch6', chapter: 6, role: 'lessons', label: 'Chapter 6 Lessons', about: 'Lessons 6-1 to 6-6: Learn It, Watch Me, Practice Together, Try It Yourself and a test.', icon: 'grid', page: true },
     { id: 'areapractice', chapter: 6, role: 'practice', label: 'Area Practice Problems', about: 'Count square units, multiply length × width, and solve story problems, with hints.', icon: 'pencil', page: true },
     { id: 'ch6guide', chapter: 6, role: 'guide', label: 'Chapter 6 Study Guide', about: 'Area from tiling to story problems: examples, mistakes to avoid and a self-check, ready to print.', icon: 'list', page: true },
-    { id: 'ch6test', chapter: 6, role: 'test', label: 'Chapter 6 Practice Test', about: '27 questions from all six lessons. No hints until the end.', icon: 'list', test: true, group: 'area' },
+    { id: 'ch6test', chapter: 6, role: 'test', label: 'Chapter 6 Practice Test', about: '27 questions from all six lessons. No hints until the end.', icon: 'choice', test: true, group: 'area' },
     { id: 'areafind', chapter: 6, label: 'Mixed Practice', about: 'Count square units, multiply length × width, and solve story problems.', icon: 'pencil', parent: 'areapractice', group: 'area' },
     { id: 'areamisses', chapter: 6, label: 'Practice My Misses', about: 'Practice only the area problems you missed (practice and the chapter test).', icon: 'redo', parent: 'areapractice', group: 'area', misses: true },
     // Chapter 6 vocabulary: its own misses, apart from the area problems.
