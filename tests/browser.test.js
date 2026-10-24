@@ -1908,7 +1908,7 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), ['Mental Add', 'Rounding', 'Times Tables'], 'skill cards');
       for (const [card, labels] of [['add', ['Learn It', 'Quick Facts', 'Break It Apart', 'Practice My Misses', 'Mental Add Test']],
         ['round', ['Learn It', 'Nearest 10', 'Nearest 100', 'Practice My Misses', 'Rounding Test']],
-        ['times', ['Learn It', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
+        ['times', ['Learn It', 'Pick My Facts', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
         await b.load(url('#skills'));
         await go(`.menu-card[href="#skills?act=${card}"]`);
         eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), labels, `${card} menu`);
@@ -1922,6 +1922,63 @@ async function main() {
       await b.load(url('#skills?act=roundlearn'));
       eq(await b.js('return [...document.querySelectorAll(".round-pic")].slice(0, 4).map((p) => [p.querySelector(".is-under").textContent, p.querySelector(".is-arrow").textContent]);'),
         [['4', '5'], ['6', '3'], ['3', '4'], ['9', '7']], '45, 63, 347, 897');
+    });
+
+    await check('Times Tables > Pick My Facts: pick one or many facts; flashcards flip; Find the Fact takes either order and asks for a picked fact; Quick Quiz; misses list', async () => {
+      await b.load(url('#skills?act=timespick'));
+      const tp = (sel) => b.js(`document.querySelector(${JSON.stringify(sel)}).click();`);
+      const text = (sel) => b.js(`return document.querySelector(${JSON.stringify(sel)})?.textContent.replace(/\\s+/g, ' ').trim() || '';`);
+      eq(await text('h1'), 'Pick My Facts', 'title');
+      eq(await text('#tp-stage'), 'Tap a number above to pick a fact.', 'asks for a fact first');
+      // Flashcards: one fact (the 4s), 10 cards, tap to flip.
+      await tp('[data-fact="4"]');
+      eq(await b.js('return document.querySelector("[data-fact=\'4\']").getAttribute("aria-pressed");'), 'true', '4 picked');
+      eq(await text('.tp-count'), 'Card 1 of 10', '10 cards for the 4s');
+      const front = await text('.tp-card .tp-big');
+      expect(/^4 × ([1-9]|10)$/.test(front), `front: ${front}`);
+      await b.clickAt('.tp-card');
+      eq(await text('.tp-card .tp-big'), String(4 * Number(front.split('× ')[1])), 'back shows the answer');
+      await tp('[data-fact="7"]');
+      eq(await text('.tp-count'), 'Card 1 of 20', 'two facts: 20 cards');
+      await tp('#tp-max-12');
+      eq(await text('.tp-count'), 'Card 1 of 24', 'up to × 12: 24 cards');
+      await tp('#tp-max-10');
+      await tp('[data-fact="7"]');
+      // Find the Fact: answer shown, two boxes, any order, a true fact without a 4 is asked again.
+      await tp('#tp-mode-find');
+      eq(await text('.tp-count'), 'Question 1 of 10 · 0 right', 'round of 10');
+      const keyIn = async (digits) => { for (const d of String(digits)) await tp(`[data-key="${d}"]`); };
+      for (let k = 0; k < 10; k++) {
+        const ans = Number(await text('.tp-target'));
+        const other = ans / 4;
+        if (k === 0) {
+          await keyIn(1); await tp('[data-box="1"]'); await keyIn(1); await tp('[data-key="ok"]');
+          expect((await text('.tp-msg')).startsWith(`1 × 1 = 1, not ${ans}.`), `wrong: ${await text('.tp-msg')}`);
+          await b.js('await new Promise((r) => setTimeout(r, 800));');
+          if (ans === 24) { await keyIn(3); await keyIn(8); await tp('[data-key="ok"]'); expect((await text('.tp-msg')).startsWith('Yes, 3 × 8 = 24! Now find one that uses ×4'), 'asks for the 4s'); }
+        }
+        // Either order counts: the second question is typed turned around.
+        if (k === 1) { await keyIn(other); if (other === 1) await tp('[data-box="1"]'); await keyIn(4); }
+        else { await keyIn(4); await keyIn(other); }
+        await tp('[data-key="ok"]');
+        expect((await text('.tp-msg')).includes(`= ${ans}`), `right: ${await text('.tp-msg')}`);
+        await tp('[data-tp="go"]');
+      }
+      eq(await text('.tp-score'), '9 out of 10', 'first question took two tries');
+      // Quick Quiz: miss one twice, it goes on the practice list and into Practice the ones I missed.
+      await tp('#tp-mode-quiz');
+      for (let k = 0; k < 10; k++) {
+        const [a, bb] = (await b.js('return [...document.querySelectorAll(".tp-eq .tp-num")].map((x) => Number(x.textContent));'));
+        if (k === 0) {
+          for (let t = 0; t < 2; t++) { await keyIn(0); await tp('[data-key="ok"]'); if (!t) await b.js('await new Promise((r) => setTimeout(r, 800));'); }
+          eq(await text('.tp-msg'), `${a} × ${bb} = ${a * bb}. This one goes on your practice list.`, 'missed twice');
+        } else { await keyIn(a * bb); await tp('[data-key="ok"]'); }
+        await tp('[data-tp="go"]');
+      }
+      eq(await text('.tp-score'), '9 out of 10', 'quiz score');
+      eq(await b.js('return document.querySelectorAll(".tp-missed li").length;'), 1, 'one fact to practice');
+      await tp('[data-tp="redo"]');
+      eq(await text('.tp-count'), 'Question 1 of 1 · 0 right', 'practice the missed fact');
     });
 
     await check('Rounding > Nearest 10: tap a digit to underline it, the arrow appears, each wrong step says why, Help step by step, 20 questions, results and misses', async () => {

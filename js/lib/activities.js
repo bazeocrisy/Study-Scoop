@@ -83,6 +83,7 @@ export const ACTIVITIES = {
     { id: 'roundmisses', label: 'Practice My Misses', about: 'Practice only the numbers you missed.', icon: 'redo', parent: 'round', group: 'skillround', misses: true },
     { id: 'roundtest', label: 'Rounding Test', about: '10 questions. No help until the end.', icon: 'list', parent: 'round', group: 'skillround', test: true },
     { id: 'timeslearn', label: 'Learn It', about: 'A way to find every fact from one you know.', icon: 'book', parent: 'times', page: true, start: true },
+    { id: 'timespick', label: 'Pick My Facts', about: 'Choose one fact or many. Flashcards, Find the Fact and a quick quiz.', icon: 'cards', parent: 'times', page: true },
     { id: 'timesall', label: 'All Facts', about: 'Facts from the 2s to the 10s.', icon: 'cards', parent: 'times', group: 'skilltimes' },
     { id: 'timestricky', label: 'Tricky Facts', about: 'Facts with a 6, 7, 8 or 9.', icon: 'mix', parent: 'times', group: 'skilltimes' },
     { id: 'timesmisses', label: 'Practice My Misses', about: 'Practice only the facts you missed.', icon: 'redo', parent: 'times', group: 'skilltimes', misses: true },

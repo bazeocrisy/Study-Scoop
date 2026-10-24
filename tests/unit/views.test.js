@@ -95,13 +95,18 @@ test('Skill Builders opens on three skill cards, each with Learn It, practice, P
   const home = skillsView(ctx).s;
   for (const name of ['Mental Add', 'Rounding', 'Times Tables']) assert.ok(home.includes(name), name);
   assert.doesNotMatch(home, /Coming soon|<input|<select/);
-  for (const [card, acts] of [['add', ['addlearn', 'addfacts', 'addsplit', 'addmisses', 'addtest']], ['round', ['roundlearn', 'roundten', 'roundhun', 'roundmisses', 'roundtest']], ['times', ['timeslearn', 'timesall', 'timestricky', 'timesmisses', 'timestest']]]) {
+  for (const [card, acts] of [['add', ['addlearn', 'addfacts', 'addsplit', 'addmisses', 'addtest']], ['round', ['roundlearn', 'roundten', 'roundhun', 'roundmisses', 'roundtest']], ['times', ['timeslearn', 'timespick', 'timesall', 'timestricky', 'timesmisses', 'timestest']]]) {
     const menu = skillsView({ ...ctx, page: card }).s;
     for (const a of acts) assert.match(menu, new RegExp(`act=${a}\\b`), `${card} menu links ${a}`);
     const learn = skillsView({ ...ctx, page: `${card}learn` }).s;
     assert.match(learn, /<h1[^>]*>[^<]+: Learn It</, `${card} Learn It`);
     assert.doesNotMatch(learn, /undefined|NaN|\[object /);
   }
+  const pick = skillsView({ ...ctx, page: 'timespick' }).s;
+  assert.match(pick, /<h1[^>]*>Pick My Facts</);
+  for (let n = 1; n <= 12; n++) assert.match(pick, new RegExp(`data-fact="${n}"`), `fact ${n}`);
+  for (const m of ['flash', 'find', 'quiz']) assert.match(pick, new RegExp(`data-mode="${m}"`), m);
+  assert.doesNotMatch(pick, /undefined|NaN|\[object /);
 });
 
 test('Math opens on Choose Your Chapter; each chapter opens its own six activities and lists only its own lessons (D26)', () => {

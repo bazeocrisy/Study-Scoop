@@ -1025,3 +1025,58 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
   body[data-section="newsletter"] section:has(> #h-archive) { display: none; }
   .print-answer { font-weight: 700; }
 }
+
+/* Times Tables > Pick My Facts: pick facts, then Flashcards, Find the Fact or Quick Quiz (js/times-practice.js) */
+.tp { display: grid; gap: 18px; min-width: 0; }
+.tp-pick { display: grid; gap: 14px; }
+.tp-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: space-between; }
+.tp-row .btn-row .btn { min-height: 44px; padding: 6px 16px; }
+.tp-row .label { font-weight: 700; color: var(--muted); }
+.tp-chips { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 480px) { .tp-chips { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.tp-chip { font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.6rem; min-height: 56px; border-radius: var(--r);
+  border: 2px solid var(--line-strong); background: var(--well); color: var(--ink); cursor: pointer; }
+.tp-chip:hover { background: var(--sunk); }
+.tp-chip[aria-pressed="true"] { background: var(--berry); border-color: var(--berry); color: var(--on-berry); }
+.tp-seg { display: inline-flex; gap: 0; margin: 0; }
+.tp-seg .btn { min-height: 44px; border-radius: 0; }
+.tp-seg .btn:first-child { border-radius: var(--r-sm) 0 0 var(--r-sm); }
+.tp-seg .btn:last-child { border-radius: 0 var(--r-sm) var(--r-sm) 0; margin-left: -2px; }
+.tp-modes { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+.tp-mode { font: inherit; display: grid; gap: 2px; text-align: left; padding: 14px 16px; min-height: 84px; border-radius: var(--r-lg); cursor: pointer;
+  background: var(--paper); color: var(--ink); border: 2px solid var(--line); border-left: 8px solid var(--tone, var(--honey)); }
+.tp-mode:hover { border-color: var(--tone, var(--honey)); }
+.tp-mode[aria-pressed="true"] { background: var(--tone-tint, var(--honey-tint)); border-color: var(--tone, var(--honey)); }
+.tp-mode-t { font-family: var(--display); font-weight: 800; font-size: 1.3rem; line-height: 1.2; }
+.tp-mode-a { color: var(--muted); font-size: 1rem; }
+.tp-stage { display: grid; gap: 16px; justify-items: center; text-align: center; min-height: 380px; align-content: center; border-top: 6px solid var(--teal); }
+.tp-empty { color: var(--muted); font-weight: 700; }
+.tp-count { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tp-label { font-size: .9rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.tp-big { font-family: var(--display); font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.tp-target { font-size: clamp(4rem, 18vw, 6.5rem); color: var(--berry); }
+.tp-score { font-size: clamp(3rem, 12vw, 4.5rem); color: var(--ok); }
+.tp-card { font: inherit; color: var(--ink); cursor: pointer; width: min(100%, 440px); min-height: 260px; display: grid; gap: 10px; place-items: center; align-content: center;
+  padding: 20px; border-radius: var(--r-lg); border: 3px solid var(--berry); background: var(--berry-tint); }
+.tp-card.is-flipped { border-color: var(--teal); background: var(--teal-tint); }
+.tp-card .tp-big { font-size: clamp(3.5rem, 15vw, 6rem); }
+.tp-card-note { font-weight: 700; color: var(--muted); }
+.tp-eq { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+.tp-op { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 8vw, 3rem); color: var(--muted); }
+.tp-num { font-family: var(--display); font-weight: 800; font-size: clamp(2.5rem, 10vw, 3.5rem); font-variant-numeric: tabular-nums; }
+.tp-box { font: inherit; font-family: var(--display); font-weight: 800; font-size: clamp(2.2rem, 9vw, 3.2rem); font-variant-numeric: tabular-nums; color: var(--ink);
+  width: clamp(4.5rem, 20vw, 6rem); height: clamp(4.5rem, 20vw, 5.75rem); border-radius: var(--r); border: 3px dashed var(--line-strong); background: var(--well); cursor: pointer; }
+.tp-box.wide { width: clamp(6rem, 26vw, 7.75rem); }
+.tp-box.is-active { border-style: solid; border-color: var(--honey); background: var(--honey-tint); }
+.tp-box.is-right { border-style: solid; border-color: var(--ok); background: var(--ok-tint); }
+.tp-box.is-wrong, .tp-box.is-shown { border-style: solid; border-color: var(--notyet); background: var(--notyet-tint); }
+.tp-note { color: var(--muted); font-weight: 700; }
+.tp-note strong { color: var(--ink); }
+.tp-msg { min-height: 2.8em; max-width: 34ch; font-weight: 700; font-size: 1.15rem; }
+.tp-msg.ok { color: var(--ok); } .tp-msg.notyet { color: var(--notyet); } .tp-msg.info { color: var(--ink); }
+.tp-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: min(100%, 320px); }
+.tp-key { font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.8rem; min-height: 58px; border-radius: var(--r); border: 2px solid var(--line-strong); background: var(--well); color: var(--ink); cursor: pointer; }
+.tp-key:hover { background: var(--sunk); }
+.tp-key.tp-check { font-family: var(--body); font-size: 1.15rem; background: var(--berry); border-color: var(--berry); color: var(--on-berry); }
+.tp-missed { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.tp-missed li { font-family: var(--display); font-weight: 800; font-size: 1.25rem; padding: 4px 12px; border-radius: var(--r-sm); background: var(--notyet-tint); border: 2px solid var(--notyet); font-variant-numeric: tabular-nums; }

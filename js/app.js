@@ -12,6 +12,7 @@ import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { chapterFor, validateChapters } from './lib/chapters.js';
 import { missCounts, mountActivity, runFor } from './activity-player.js';
+import { mountTimesPractice } from './times-practice.js';
 import { testsView } from './views/tests.js';
 import { validatePacket } from './lib/homework.js';
 import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
@@ -239,6 +240,7 @@ async function render() {
       }
     }, { signal: mounted.signal });
     mountReadButtons(app, mounted.signal);
+    if (ctx.page === 'timespick') mountTimesPractice(app, mounted.signal);
   }
 
   // Word pictures are optional: drop the frame when a picture file does not exist.
