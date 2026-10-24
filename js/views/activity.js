@@ -78,6 +78,132 @@ function endNav(ctx, run, { missed = false, again = 'Try again' } = {}) {
 /** The heading the keyboard focus lands on: it says where the child is ("Question 3 of 12"). */
 const stageTitle = (text) => html`<div class="stage-title"><h2 id="stage-h" tabindex="-1">${text}</h2></div>`;
 
+// ---------------------------------------------------------------- Times Tables App (exported)
+
+/**
+ * Vertical flashcard for the Times App.
+ * mode = 'flash' (tap to flip) or 'practice' (show product + strategy steps).
+ */
+export function timesFlashView(ctx, mode = 'flash') {
+  const run = ctx.timesRun;
+  if (!run || !run.cards || run.cards.length === 0) {
+    return html`<div class="card times-empty"><p>No facts to practice. Pick a fact family above.</p></div>`;
+  }
+  const f = run.flash;
+  const card = run.cards[f.order[f.i]];
+  const total = run.cards.length;
+
+  if (mode === 'practice') {
+    // Practice mode: show question, child types answer
+    const item = run.practiceItems[f.order[f.i]];
+    const st = run.items_[item.id] || {};
+    return html`
+      <p class="times-card-count" aria-live="polite">Fact ${f.i + 1} of ${total}</p>
+      <div class="times-practice-card card">
+        <div class="times-vert-eq" aria-label="${item.prompt}">
+          <span class="times-factor">${item.prompt.split('×')[0].trim()}</span>
+          <span class="times-op">× <span class="times-factor">${item.prompt.split('×')[1].replace('= ?', '').trim()}</span></span>
+          <span class="times-line" aria-hidden="true"></span>
+          <span class="times-product">?</span>
+        </div>
+        <div class="times-answer-area">
+          <label class="sr-only" for="times-ans">Answer</label>
+          <input id="times-ans" class="times-input" type="number" inputmode="numeric" min="0" max="144"
+            data-act="times-answer" data-id="${item.id}" autocomplete="off" aria-label="Type the answer" value="${st.resp?.v || ''}">
+          <button type="button" class="btn btn-primary" data-act="times-check" data-id="${item.id}">Check</button>
+        </div>
+        ${st.status === 'correct' ? html`<p class="fb-yes" role="alert">${item.yes}</p>` : ''}
+        ${st.status === 'wrong' ? html`<p class="fb-no" role="alert">Not quite. ${item.hints[0]}</p>` : ''}
+        ${st.shown ? html`<ol class="steps times-steps">${item.show.map((s, k) => html`<li><span class="sn" aria-hidden="true">${k + 1}</span><span>${s}</span></li>`)}</ol>` : ''}
+      </div>
+      <div class="stage-nav">
+        <button type="button" class="btn" data-act="times-card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
+        <button type="button" class="btn btn-primary" data-act="times-card-next">${f.i === total - 1 ? 'Start over' : 'Next ›'}</button>
+      </div>`;
+  }
+
+  // Flash mode: tap the card to flip
+  const [factorA, factorB] = [card.a, card.b];
+  const frontLabel = `Front of the card. ${factorA} times ${factorB}. Say the answer out loud, then tap the card to check.`;
+  const backLabel = `Back of the card. ${factorA} times ${factorB} equals ${card.product}.`;
+  return html`
+    <p class="times-card-count" aria-live="polite">Card ${f.i + 1} of ${total}</p>
+    <button type="button"
+      class="times-flashcard${f.flipped ? ' is-flipped' : ''}"
+      data-act="flip"
+      aria-describedby="times-flip-help"
+      aria-label="${f.flipped ? backLabel : frontLabel}">
+      ${f.flipped ? html`
+        <span class="face back">
+          <span class="times-vert-eq" aria-hidden="true">
+            <span class="times-factor">${factorA}</span>
+            <span class="times-op">×</span>
+            <span class="times-factor">${factorB}</span>
+            <span class="times-line"></span>
+            <span class="times-product">${card.product}</span>
+          </span>
+          <span class="times-strategy">${card.show[0]}</span>
+        </span>` : html`
+        <span class="face front">
+          <span class="times-vert-eq" aria-hidden="true">
+            <span class="times-factor">${factorA}</span>
+            <span class="times-op">×</span>
+            <span class="times-factor">${factorB}</span>
+            <span class="times-line"></span>
+            <span class="times-product">?</span>
+          </span>
+          <span class="times-tap-cue">Say the answer. Then tap to check.</span>
+        </span>`}
+    </button>
+    <p class="sr-only" id="times-flip-help">Press Enter or Space to turn the card over.</p>
+    <div class="btn-row center flash-tools">
+      <button type="button" class="btn btn-primary flip-btn" data-act="flip">Flip Card</button>
+      <button type="button" class="btn" data-act="times-shuffle">Shuffle</button>
+    </div>
+    <div class="stage-nav">
+      <button type="button" class="btn" data-act="times-card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
+      <button type="button" class="btn btn-primary" data-act="times-card-next">${f.i === total - 1 ? 'Start over' : 'Next ›'}</button>
+    </div>`;
+}
+
+/** Find It view: child sees the product, types the two factors. */
+export function timesFindView(ctx) {
+  const run = ctx.timesRun;
+  if (!run || !run.findItems || run.findItems.length === 0) {
+    return html`<div class="card times-empty"><p>No facts to practice. Pick a fact family above.</p></div>`;
+  }
+  const i = run.findI || 0;
+  const item = run.findItems[i];
+  const total = run.findItems.length;
+  const st = run.findState_[item.id] || {};
+
+  const wrongFamily = st.wrongFamily;
+  return html`
+    <p class="times-card-count" aria-live="polite">Fact ${i + 1} of ${total}</p>
+    <div class="card times-find-card">
+      <p class="times-find-prompt">The answer is <strong class="times-big-product">${item.answer.a * item.answer.b}</strong>.</p>
+      <p class="times-find-ask">What two numbers were multiplied?</p>
+      <div class="times-find-boxes" role="group" aria-label="Enter the two factors">
+        <label class="sr-only" for="find-a">First factor</label>
+        <input id="find-a" class="times-box" type="number" inputmode="numeric" min="0" max="12"
+          data-find="a" aria-label="First number" autocomplete="off" value="${st.va || ''}" ${st.correct ? 'disabled' : ''}>
+        <span class="times-find-times" aria-hidden="true">×</span>
+        <label class="sr-only" for="find-b">Second factor</label>
+        <input id="find-b" class="times-box" type="number" inputmode="numeric" min="0" max="12"
+          data-find="b" aria-label="Second number" autocomplete="off" value="${st.vb || ''}" ${st.correct ? 'disabled' : ''}>
+        <span class="times-find-eq" aria-hidden="true">= ${item.answer.a * item.answer.b}</span>
+      </div>
+      ${!st.correct ? html`<button type="button" class="btn btn-primary" data-act="find-check" data-id="${item.id}">Check</button>` : ''}
+      ${st.correct ? html`<p class="fb-yes" role="alert">${item.yes}</p>` : ''}
+      ${wrongFamily ? html`<p class="fb-nudge" role="alert">${wrongFamily}</p>` : ''}
+      ${st.wrong ? html`<p class="fb-no" role="alert">Try again! Think about the facts you picked.</p>` : ''}
+    </div>
+    <div class="stage-nav">
+      <button type="button" class="btn" data-act="find-prev"${i === 0 ? ' disabled' : ''}>‹ Previous</button>
+      <button type="button" class="btn btn-primary" data-act="find-next">${i === total - 1 ? 'Start over' : 'Next ›'}</button>
+    </div>`;
+}
+
 /** Just the area below the title bar (redrawn in place after each action). */
 export function activityInner(ctx) {
   const run = ctx.run;

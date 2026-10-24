@@ -1025,3 +1025,108 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
   body[data-section="newsletter"] section:has(> #h-archive) { display: none; }
   .print-answer { font-weight: 700; }
 }
+
+/* ---------------------------------------------------------------- Times Tables App */
+.times-app { display: grid; gap: 28px; max-width: 680px; margin: 0 auto; padding: 0 4px 40px; }
+
+/* Fact-family selector */
+.times-selector { }
+.times-selector-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 6px; }
+.times-family-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 10px; }
+.times-family-btn {
+  min-width: 52px; min-height: 44px; padding: 6px 10px;
+  font: inherit; font-weight: 700; font-size: .95rem;
+  background: var(--card); border: 2px solid var(--line); border-radius: 8px;
+  color: var(--ink); cursor: pointer; transition: background .12s, border-color .12s;
+}
+.times-family-btn:hover { border-color: var(--teal); background: var(--teal-light, #e6f7f5); }
+.times-family-btn.is-selected { background: var(--teal); border-color: var(--teal); color: #fff; }
+.times-family-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.times-pick-hint { margin: 4px 0 0; font-size: .9rem; color: var(--muted); }
+
+/* Tab bar */
+.times-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--line); }
+.times-tab {
+  padding: 10px 20px; font: inherit; font-weight: 600; font-size: 1rem;
+  background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px;
+  color: var(--muted); cursor: pointer; transition: color .12s, border-color .12s;
+}
+.times-tab:hover { color: var(--ink); }
+.times-tab.is-active { color: var(--teal); border-bottom-color: var(--teal); }
+.times-tab:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px 4px 0 0; }
+
+/* Panel */
+.times-panel { min-height: 200px; }
+.times-empty { text-align: center; padding: 32px 20px; color: var(--muted); }
+.times-card-count { margin: 0 0 12px; font-size: .9rem; color: var(--muted); text-align: center; }
+
+/* Flash card */
+button.times-flashcard {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; max-width: 360px; margin: 0 auto 16px;
+  min-height: 260px; padding: 24px 20px;
+  background: var(--card); border: 3px solid var(--teal); border-radius: 16px;
+  font: inherit; color: var(--ink); cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+}
+button.times-flashcard:hover { border-color: var(--teal); box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+button.times-flashcard.is-flipped { border-color: var(--berry); }
+button.times-flashcard:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
+.times-flashcard .face { width: 100%; display: grid; gap: 14px; justify-items: center; }
+
+/* Vertical equation layout */
+.times-vert-eq {
+  display: grid; justify-items: end; row-gap: 2px;
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(2.6rem, 10vw, 4rem); line-height: 1.1;
+  width: 4.5ch; /* enough for two digits */
+}
+.times-op { display: flex; gap: .3ch; align-items: baseline; }
+.times-line {
+  display: block; height: 4px; width: 100%; border-radius: 2px;
+  background: var(--ink); margin: 4px 0;
+  grid-column: 1; justify-self: stretch;
+}
+.times-product { color: var(--teal); }
+button.times-flashcard.is-flipped .times-product { color: var(--berry); }
+
+/* Strategy hint on back of card */
+.times-strategy { font-size: .95rem; color: var(--muted); font-weight: 400; font-family: var(--body); text-align: center; }
+.times-tap-cue { font-size: .85rem; color: var(--muted); font-family: var(--body); font-weight: 400; text-align: center; }
+
+/* Practice mode card */
+.times-practice-card { padding: 24px 20px; text-align: center; }
+.times-answer-area { display: flex; gap: 10px; align-items: center; justify-content: center; margin: 16px 0 10px; flex-wrap: wrap; }
+.times-input {
+  width: 80px; padding: 8px 10px; font: inherit; font-size: 1.4rem; font-weight: 700;
+  text-align: center; border: 2px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink);
+}
+.times-input:focus { outline: 3px solid var(--focus); border-color: var(--focus); }
+.times-steps { margin-top: 12px; }
+
+/* Find It mode */
+.times-find-card { padding: 24px 20px; text-align: center; }
+.times-find-prompt { font-size: 1.05rem; margin: 0 0 6px; }
+.times-big-product { font-family: var(--display); font-size: 2.4rem; font-weight: 800; color: var(--teal); }
+.times-find-ask { margin: 0 0 16px; color: var(--muted); font-size: .95rem; }
+.times-find-boxes {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--display); font-size: 1.6rem; font-weight: 700; margin: 0 0 16px; flex-wrap: wrap;
+}
+.times-box {
+  width: 64px; padding: 8px; font: inherit; font-size: 1.4rem; font-weight: 700;
+  text-align: center; border: 2px solid var(--line); border-radius: 8px;
+  background: var(--card); color: var(--ink);
+}
+.times-box:focus { outline: 3px solid var(--focus); border-color: var(--focus); }
+.times-find-times, .times-find-eq { color: var(--muted); }
+.fb-nudge { color: var(--berry); font-weight: 600; margin: 8px 0 0; }
+
+@media (max-width: 440px) {
+  .times-tab { padding: 9px 12px; font-size: .9rem; }
+  .times-family-grid { gap: 6px; }
+  .times-family-btn { min-width: 44px; font-size: .88rem; }
+  button.times-flashcard { min-height: 220px; }
+  .times-vert-eq { font-size: clamp(2rem, 10vw, 3rem); }
+}
