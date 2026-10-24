@@ -82,6 +82,7 @@ const stageTitle = (text) => html`<div class="stage-title"><h2 id="stage-h" tabi
 export function activityInner(ctx) {
   const run = ctx.run;
   if (run.act === 'flash') return flashcards(ctx, run);
+  if (run.act === 'cards') return spellingStudyCards(ctx, run);
   if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
   if (run.act === 'wreview') return wordCards(ctx, run);
   if (run.act === 'avreview' || run.act === 'avflash') return run.unavailable ? emptyRun(ctx, run) : (run.act === 'avreview' ? areaWordCards(ctx, run) : areaFlashcards(ctx, run));
@@ -276,6 +277,29 @@ function flashcards(ctx, run) {
         : html`<button type="button" class="btn btn-primary" data-act="card-next">Next ›</button>`}
     </div>
     <p class="hint">Marks are not saved. They clear when you close or refresh this page.</p>`;
+}
+
+/** Spelling > Study Cards: one word at a time with its picture and sentence, and Next to keep going.
+ *  For studying only (the word is shown), never a test (D13). */
+function spellingStudyCards(ctx, run) {
+  const f = run.flash;
+  const words = ctx.week.spelling.words;
+  const w = words[f.order[f.i]];
+  const last = f.i === words.length - 1;
+  return html`
+    ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
+    <div class="card study-one spell-study">
+      ${wordPicture(ctx, [w.word, w.img], `Picture for the word "${w.word}"`)}
+      <div class="study-text">
+        <div class="instruct-head"><h3 class="flash-word">${w.word}</h3>${readButton([w.word, w.sentence], 'this card')}</div>
+        ${w.sentence ? html`<p class="example"><span class="tag">In a sentence</span> ${w.sentence}</p>` : ''}
+      </div>
+    </div>
+    <div class="stage-nav">
+      <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
+      ${last ? html`<span class="btn-row"><button type="button" class="btn" data-act="restart">Start over</button><a class="btn btn-primary" href="${menuLink(ctx, run)}">Done: choose an activity</a></span>`
+        : html`<button type="button" class="btn btn-primary" data-act="card-next">Next ›</button>`}
+    </div>`;
 }
 
 function studyCards(ctx, run) {
