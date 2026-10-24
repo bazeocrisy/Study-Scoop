@@ -1081,7 +1081,9 @@ button.times-flashcard:focus-visible { outline: 4px solid var(--focus); outline-
   font-size: clamp(2.6rem, 10vw, 4rem); line-height: 1.1;
   width: 4.5ch; /* enough for two digits */
 }
-.times-op { display: flex; gap: .3ch; align-items: baseline; }
+.times-vert-eq .times-factor,
+.times-vert-eq .times-product { display: block; }
+.times-op { display: flex; gap: .3ch; align-items: baseline; justify-content: flex-end; width: 100%; }
 .times-line {
   display: block; height: 4px; width: 100%; border-radius: 2px;
   background: var(--ink); margin: 4px 0;
