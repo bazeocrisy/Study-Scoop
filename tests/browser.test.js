@@ -58,7 +58,11 @@ const FREEZE_DATE = `(() => { const R = Date; const t = new R(2026, 9, 16, 12, 0
 let passed = 0;
 const failed = [];
 async function check(name, fn) {
-  try { await fn(); passed++; console.log(`  ok   ${name}`); } catch (e) { failed.push(name); console.log(`  FAIL ${name}\n       ${e.message}`); }
+  try { await fn(); passed++; console.log(`  ok   ${name}`); } catch (e) {
+    failed.push(name); console.log(`  FAIL ${name}\n       ${e.message}`);
+    // On GitHub Actions, each failure is also an annotation, so it can be read without opening the full log.
+    if (process.env.GITHUB_ACTIONS) console.log(`::error title=Browser check failed::${`${name}: ${e.message}`.replace(/%/g, '%25').replace(/\r?\n/g, ' ').slice(0, 900)}`);
+  }
 }
 function expect(cond, msg) { if (!cond) throw new Error(msg); }
 function eq(actual, expected, msg) {
@@ -1569,8 +1573,13 @@ async function main() {
         const pr = await qPrompt();
         const w = W26.vocab.words.find((x) => x.fill === pr || x.sentence.replace(new RegExp(x.word + '[a-z]*', 'i'), '___') === pr);
         expect(w, 'an Oct 26 sentence: ' + pr);
-        // The wrong word comes from this question's own word bank (the bank is shuffled per run), so it has a meaning to show.
-        if (k === 0) { await typeIn(await b.js('return [...document.querySelectorAll("#act-stage .bank-word")].map((x) => x.dataset.word).find((x) => x !== ' + JSON.stringify(w.word.toLowerCase()) + ');')); await checkIt(); expect((await actFb()).includes('means:'), 'a wrong word says what it means'); await press('#act-stage [data-act="help"]'); }
+        if (k === 0) {
+          // Another word from this question's own word bank: the feedback says what that word means.
+          const other = await b.js(`return [...document.querySelectorAll('#act-stage .bank-word')].map((x) => x.dataset.word).find((x) => x !== ${JSON.stringify(w.word.toLowerCase())});`);
+          await typeIn(other); await checkIt();
+          expect((await actFb()).includes('means:'), `a wrong word from the bank says what it means (${other}): ${await actFb()}`);
+          await press('#act-stage [data-act="help"]');
+        }
         await typeIn(w.word.toLowerCase());
         await checkIt();
         expect((await actFb()).startsWith('Yes!'), `${w.word}: ${await actFb()}`);
