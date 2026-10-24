@@ -1533,7 +1533,13 @@ async function main() {
         const pr = await qPrompt();
         const w = W26.vocab.words.find((x) => x.fill === pr || x.sentence.replace(new RegExp(x.word + '[a-z]*', 'i'), '___') === pr);
         expect(w, 'an Oct 26 sentence: ' + pr);
-        if (k === 0) { await typeIn('produce' === w.word.toLowerCase() ? 'employee' : 'produce'); await checkIt(); expect((await actFb()).includes('means:'), 'a wrong word says what it means'); await press('#act-stage [data-act="help"]'); }
+        if (k === 0) {
+          // Another word from this question's own word bank: the feedback says what that word means.
+          const other = await b.js(`return [...document.querySelectorAll('#act-stage .bank-word')].map((x) => x.dataset.word).find((x) => x !== ${JSON.stringify(w.word.toLowerCase())});`);
+          await typeIn(other); await checkIt();
+          expect((await actFb()).includes('means:'), `a wrong word from the bank says what it means (${other}): ${await actFb()}`);
+          await press('#act-stage [data-act="help"]');
+        }
         await typeIn(w.word.toLowerCase());
         await checkIt();
         expect((await actFb()).startsWith('Yes!'), `${w.word}: ${await actFb()}`);
