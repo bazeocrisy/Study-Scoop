@@ -12,16 +12,28 @@ const ROUND = 10;
 export function mountTimesPractice(app, signal) {
   const root = app.querySelector('#tp');
   const stage = app.querySelector('#tp-stage');
+  const setupEl = app.querySelector('#tp-setup');
+  const summaryEl = app.querySelector('#tp-summary');
+  const summaryText = app.querySelector('#tp-summary-text');
   if (!root || !stage) return;
-  const S = { facts: new Set(), max: 10, mode: 'flash', deck: [], i: 0, flipped: false,
+  const S = { facts: new Set(), max: 10, mode: 'flash', open: true, deck: [], i: 0, flipped: false,
     round: [], r: 0, tries: 0, score: 0, missed: [], boxes: [], active: 0, locked: false };
   const facts = () => [...S.facts].sort((a, b) => a - b);
   const factList = () => facts().map((f) => `×${f}`).join(', ');
+  const MODE_LABEL = { flash: 'Flashcards', find: 'Find the Fact', quiz: 'Quick Quiz' };
 
   function sync() {
     for (const b of root.querySelectorAll('[data-fact]')) b.setAttribute('aria-pressed', String(S.facts.has(Number(b.dataset.fact))));
     for (const b of root.querySelectorAll('[data-max]')) b.setAttribute('aria-pressed', String(Number(b.dataset.max) === S.max));
     for (const b of root.querySelectorAll('[data-mode]')) b.setAttribute('aria-pressed', String(b.dataset.mode === S.mode));
+    // Once facts are picked and a mode chosen, the fact picker steps out of the way so the card stands alone;
+    // "Change facts" brings it back. The mode buttons stay put so switching modes never needs it.
+    if (setupEl && summaryEl) {
+      const collapsed = !S.open && S.facts.size > 0;
+      setupEl.hidden = collapsed;
+      summaryEl.hidden = !collapsed;
+      if (collapsed && summaryText) summaryText.textContent = `Practicing ${factList()} up to × ${S.max} · ${MODE_LABEL[S.mode]}`;
+    }
   }
 
   function start(list) {
@@ -164,7 +176,7 @@ export function mountTimesPractice(app, signal) {
     if (!t || !root.contains(t)) return;
     if (t.dataset.fact) { const n = Number(t.dataset.fact); S.facts.has(n) ? S.facts.delete(n) : S.facts.add(n); sync(); return start(); }
     if (t.dataset.max) { S.max = Number(t.dataset.max); sync(); return start(); }
-    if (t.dataset.mode) { S.mode = t.dataset.mode; sync(); return start(); }
+    if (t.dataset.mode) { S.mode = t.dataset.mode; if (S.facts.size) S.open = false; sync(); return start(); }
     if (t.dataset.box) { if (!S.locked) { S.active = Number(t.dataset.box); paintBoxes(); } return; }
     if (t.dataset.key) return press(t.dataset.key);
     switch (t.dataset.tp) {
@@ -177,6 +189,7 @@ export function mountTimesPractice(app, signal) {
       case 'go': S.r++; return newQuestion();
       case 'again': return start();
       case 'redo': return start(shuffled(S.redo || []));
+      case 'edit-facts': S.open = true; return sync();
       default:
     }
   }, { signal });

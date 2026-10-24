@@ -115,7 +115,7 @@ function pickPage(ctx, card) {
       back: [{ href: ctx.actLink('skills', card.id), label: `‹ Back to ${card.label}` }],
     })}
     <div class="tp" id="tp">
-      <section class="card tp-pick" aria-labelledby="tp-h-facts">
+      <section class="card tp-pick" id="tp-setup" aria-labelledby="tp-h-facts">
         <div class="tp-row"><h2 id="tp-h-facts">1. Which facts?</h2>
           <p class="btn-row"><button type="button" class="btn" data-tp="all">All</button><button type="button" class="btn" data-tp="clear">Clear</button></p></div>
         <div class="tp-chips" role="group" aria-label="Facts">
@@ -124,6 +124,10 @@ function pickPage(ctx, card) {
         <div class="tp-row"><span class="label">Multiply up to</span>
           <p class="tp-seg" role="group" aria-label="Multiply up to"><button type="button" class="btn" id="tp-max-10" data-max="10" aria-pressed="true">× 10</button><button type="button" class="btn" id="tp-max-12" data-max="12" aria-pressed="false">× 12</button></p></div>
       </section>
+      <p class="tp-summary" id="tp-summary" hidden>
+        <span id="tp-summary-text"></span>
+        <button type="button" class="btn" data-tp="edit-facts">Change facts</button>
+      </p>
       <section aria-labelledby="tp-h-mode">
         <h2 id="tp-h-mode" class="ask">2. How do you want to practice?</h2>
         <div class="tp-modes" role="group" aria-label="Practice mode">
