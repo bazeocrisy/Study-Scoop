@@ -10,7 +10,7 @@ export function weekView(ctx) {
   // The week recommends its Math chapter; the Math library keeps every chapter open (D26).
   const now = recommendedChapter(week, ctx.lessons);
   return html`
-    ${pageHead('This Week', ctx, null, html`<a class="btn" href="${ctx.link('newsletter')}" data-flyer>View Original Newsletter</a>`)}
+    ${pageHead('This Week', ctx, null, week.flyer?.reviewed ? html`<a class="btn" href="${ctx.link('newsletter')}" data-flyer>View Original Newsletter</a>` : '')}
     ${now ? mathCard(ctx, now) : ''}
 
     <section aria-labelledby="h-tests">

@@ -1014,3 +1014,14 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
   body[data-section="newsletter"] .flyer.zoomed .flyer-scroll img { width: 100%; }
   .shortcut-list { display: none; }
 }
+
+/* Review fixes (D26): full-size links are real touch targets; two chapters fill the row; guide and newsletter print cleanly. */
+.flyer-page figcaption a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px; }
+@media (min-width: 700px) { .chapter-grid.count-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media print {
+  .guide-part, h2, h3 { break-after: avoid; page-break-after: avoid; }
+  .guide-sections > li, .guide-steps li, .card.work { break-inside: avoid; }
+  body[data-section="math"] .stage-nav, body[data-section="newsletter"] #h-archive, body[data-section="newsletter"] #h-archive + .archive { display: none; }
+  body[data-section="newsletter"] section:has(> #h-archive) { display: none; }
+  .print-answer { font-weight: 700; }
+}

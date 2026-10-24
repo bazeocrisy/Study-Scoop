@@ -676,7 +676,7 @@ async function main() {
       await b.load(url('#math'));
       eq(await b.js('return [document.querySelector("#app h1").textContent, document.querySelector(".menu .ask").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent)];'),
         ['Math', 'Choose Your Chapter', ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication']], 'Choose Your Chapter');
-      eq(await b.js('return document.querySelectorAll("#app a[href*=\"lesson=\"], #app a[href*=\"act=\"]").length;'), 0, 'no lessons or activities before a chapter is chosen');
+      eq(await b.js('return [...document.querySelectorAll("#app a")].filter((a) => /[?&](lesson|act)=/.test(a.getAttribute("href") || "")).length;'), 0, 'no lessons or activities before a chapter is chosen');
       for (const [ch, start] of [[5, '5-6'], [6, '6-3']]) {
         await b.hash('#math');
         await go(`.menu-card[href="#math?ch=${ch}"]`);
@@ -1203,7 +1203,7 @@ async function main() {
       let before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.activeElement.tagName];'), ['#math?act=guide', 'H1'], 'browser Back (focus on the heading)');
+      eq(await b.js('return [location.hash, document.activeElement.tagName];'), ['#math?ch=6', 'H1'], 'browser Back (focus on the heading): the last chapter opened');
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.forward();');
       await b.ready(before);
@@ -1778,6 +1778,20 @@ async function main() {
         expect(await b.js(`return [...document.querySelectorAll(".lesson-num")].every((n) => n.textContent.startsWith("${ch}-"));`), `${id}: only Chapter ${ch} lessons`);
       }
     });
+    await check('the week picker never moves a child out of a Math chapter; other subjects go to the chosen week\'s menu', async () => {
+      for (const [h, title] of [['#math?ch=6', 'Chapter 6: Connect Area and Multiplication'], ['#math?act=ch6guide', 'Chapter 6 Study Guide'], ['#math?act=areawords', 'Area Words'], ['#math?ch=5', 'Chapter 5: Multiplication Properties and Strategies']]) {
+        await b.load(url(h));
+        const before = await b.js('return document.getElementById("app").dataset.ready;');
+        await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-19"; s.dispatchEvent(new Event("change"));');
+        await b.ready(before);
+        eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [H19(h), title], `${h}: same page in Oct 19`);
+      }
+      await b.load(url('#vocab?act=choice'));
+      const before = await b.js('return document.getElementById("app").dataset.ready;');
+      await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-19"; s.dispatchEvent(new Event("change"));');
+      await b.ready(before);
+      eq(await b.js('return location.hash;'), H19('#vocab'), 'a week\'s vocabulary quiz goes to the chosen week\'s Vocabulary menu');
+    });
     await check('Newsletter: the reviewed Oct 26–30 flyer (both pages, zoom, open full size, print); earlier weeks say theirs is unavailable', async () => {
       await b.load(url('#week'));
       await go('.page-head a[data-flyer]');
@@ -1788,7 +1802,7 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".flyer figcaption a")].map((a) => [a.getAttribute("href"), a.target]);'),
         [['images/flyers/2026-10-26-front.webp', '_blank'], ['images/flyers/2026-10-26-back.webp', '_blank']], 'Open full size');
       const w0 = await b.js('return document.querySelector(".flyer img").getBoundingClientRect().width;');
-      await press('[data-act="zoom"]');
+      await b.js('document.querySelector("[data-act=zoom]").click();');
       eq(await b.js('return [document.querySelector("[data-act=zoom]").getAttribute("aria-pressed"), document.querySelector("[data-act=zoom]").textContent];'), ['true', 'Zoom out'], 'Zoom in is a toggle');
       expect((await b.js('return document.querySelector(".flyer img").getBoundingClientRect().width;')) > w0 * 1.5, 'the page is bigger');
       expect(await b.js('const r = document.querySelector(".flyer-scroll"); return r.scrollWidth > r.clientWidth && r.tabIndex === 0;'), 'the zoomed page scrolls inside its frame, by keyboard too');

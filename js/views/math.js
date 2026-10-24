@@ -368,8 +368,8 @@ function chapter6Guide(ctx) {
       <h3 id="h-c6-check">Self-check</h3>
       <ol class="guide-steps">${G.check.map((c) => html`<li>${facts(c.q)}</li>`)}</ol>
       <details class="answers no-print"><summary>Show the answers</summary>
-        <ol>${G.check.map((c) => html`<li><strong>${facts(c.a)}</strong> ${facts(c.why)}</li>`)}</ol></details>
-      <div class="print-only"><p class="label">Answers</p><ol>${G.check.map((c) => html`<li>${facts(c.a)} ${facts(c.why)}</li>`)}</ol></div>
+        <ol>${G.check.map((c) => html`<li><strong>${facts(c.a.replace(/\.$/, ''))}</strong>. ${facts(c.why)}</li>`)}</ol></details>
+      <div class="print-only"><p class="label">Answers</p><ol>${G.check.map((c) => html`<li><span class="print-answer">${facts(c.a.replace(/\.$/, ''))}</span>. ${facts(c.why)}</li>`)}</ol></div>
     </section>
     <section class="card" aria-labelledby="h-c6-next">
       <h3 id="h-c6-next">Go back to a lesson</h3>

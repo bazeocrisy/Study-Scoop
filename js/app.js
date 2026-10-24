@@ -50,7 +50,11 @@ async function start() {
   select.innerHTML = html`${index.weeks.map((w) => html`
     <option value="${w.id}">${w.label}${w.id === index.current ? ' (this week)' : ''}</option>`)}`.s;
   select.addEventListener('change', () => {
-    location.hash = buildHash(parseHash(location.hash, SECTION_IDS).section, select.value, index.current);
+    const r = parseHash(location.hash, SECTION_IDS);
+    // Math chapters do not change with the week (D26): a chapter menu, chapter page or lesson keeps its place.
+    // Other subjects' activities belong to their week, so they go to the chosen week's menu.
+    const keep = r.section === 'math' ? (r.lesson ? { lesson: r.lesson, stage: r.stage } : r.act ? { act: r.act } : r.ch ? { ch: r.ch } : {}) : {};
+    location.hash = buildHash(r.section, select.value, index.current, keep);
   });
   // Which word pictures exist (so no page asks for a missing file). Pictures are optional: no list, no pictures.
   try { pictures = await loadJSON('data/pictures.json'); } catch { /* keep the empty list */ }

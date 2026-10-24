@@ -126,7 +126,8 @@ test('the week recommends its chapter; the Math library keeps every chapter open
       assert.ok(card.includes(`act=${act}"`), `${id}: ${role} shortcut`);
     }
     for (const re of ONLY[ch === 5 ? 6 : 5]) assert.doesNotMatch(card, re, `${id}: the card never opens the other chapter`);
-    assert.match(out, /View Original Newsletter/);
+    // The button shows only when the week has a reviewed flyer (Oct 26); other weeks have none to show.
+    if (WEEK[id].flyer) assert.match(out, /View Original Newsletter/); else assert.doesNotMatch(out, /View Original Newsletter/);
   }
 });
 
