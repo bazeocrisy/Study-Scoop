@@ -5,7 +5,7 @@ Chapter-first Math (D26): Math opens on Choose Your Chapter; Chapter 5 and Chapt
 
 Oct 26–30 release (D24): weekly content for Oct 26–30 (spelling -er/-or with the supplied pictures, the four green vocabulary words, Topic 6: Area for the Nov 3 vocabulary test) and the release-test repair. Chapter 6 (D25): lessons 6-1 to 6-6, Area Words, Chapter 6 Review, the Chapter 6 Practice Test (27) and the Nov 3 Math Vocabulary Practice Test (12).
 
-Pick My Facts (D27, on `feature/times-pick-my-facts`): Times Tables has a new Pick My Facts page — choose one fact or many, then Flashcards, Find the Fact (answer → fill in the two numbers) or Quick Quiz.
+Pick My Facts (D27, on `feature/times-pick-my-facts`): Times Tables has a new Pick My Facts page — choose one fact or many, then Flashcards, Find the Fact (answer → fill in the two numbers) or Quick Quiz. Spelling has a new Study Cards mode: word, picture and sentence, with Next to keep going.
 
 Skill Builders Wave 1 (D22): Quick Math is now Skill Builders with Mental Add, Rounding and Times Tables.
 

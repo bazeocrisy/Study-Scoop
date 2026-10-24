@@ -71,7 +71,7 @@ for (const [index, id, week] of cases) {
 
   test(`${id} spelling opens on its menu; Learn My Words lists every word once, under its rule`, () => {
     const menu = spellingView(ctxFor(index, id, 'spelling', week)).s;
-    for (const name of ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen &amp; Spell', 'Practice My Misses']) assert.ok(menu.includes(name), name);
+    for (const name of ['Learn My Words', 'Study Cards', 'Flashcards', 'Missing Letters', 'Listen &amp; Spell', 'Practice My Misses']) assert.ok(menu.includes(name), name);
     assert.ok(!menu.includes('<span class="word">'), 'the word list is not on the menu');
     const out = spellingView({ ...ctxFor(index, id, 'spelling', week), page: 'learn' }).s;
     for (const w of week.spelling.words) {

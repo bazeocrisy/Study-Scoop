@@ -67,7 +67,7 @@ function newRun(ctx, section, act) {
   }
   const run = { ...base, subject: section, group: missGroup(section, act), act, mode: 'practice', title: info.label, goal: info.about };
   const cards = cardsFor(ctx, section, act);
-  if (act === 'learn' || act === 'flash' || act === 'wreview' || AREA_CARDS.includes(act)) { run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} }; if (AREA_CARDS.includes(act)) run.unavailable = !cards.length; }
+  if (act === 'learn' || act === 'flash' || act === 'cards' || act === 'wreview' || AREA_CARDS.includes(act)) { run.flash = { order: cards.map((_, k) => k), i: 0, flipped: false, marks: {} }; if (AREA_CARDS.includes(act)) run.unavailable = !cards.length; }
   else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
   else if (WORD_MODES[act]) { run.items = mathWordItems(ctx.mathWords, act, rand); run.unavailable = !ctx.mathWords; }
   else if (AREA_SETS[act]) { run.items = areaItems(ctx.area, act, rand); run.unavailable = !ctx.area; }

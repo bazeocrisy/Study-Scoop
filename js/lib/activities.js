@@ -12,6 +12,7 @@ import { areaVocabTest, isAreaWeek } from './area.js';
 export const ACTIVITIES = {
   spelling: [
     { id: 'learn', label: 'Learn My Words', about: 'See this week\'s words, pictures and spelling rules.', icon: 'book', page: true },
+    { id: 'cards', label: 'Study Cards', about: 'See each word, its picture and a sentence.', icon: 'book' },
     { id: 'flash', label: 'Flashcards', about: 'Tap a card to turn it over and see the word.', icon: 'cards' },
     { id: 'letters', label: 'Missing Letters', about: 'Hear a word, then type the missing letters.', icon: 'puzzle' },
     { id: 'listen', label: 'Listen & Spell', about: 'Hear a word and a sentence, then type the word. At the end, add the ending yourself.', icon: 'ear' },

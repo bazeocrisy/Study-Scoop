@@ -1080,3 +1080,7 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 .tp-key.tp-check { font-family: var(--body); font-size: 1.15rem; background: var(--berry); border-color: var(--berry); color: var(--on-berry); }
 .tp-missed { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .tp-missed li { font-family: var(--display); font-weight: 800; font-size: 1.25rem; padding: 4px 12px; border-radius: var(--r-sm); background: var(--notyet-tint); border: 2px solid var(--notyet); font-variant-numeric: tabular-nums; }
+
+/* Spelling > Study Cards: word, picture and sentence, one card at a time */
+.spell-study .flash-word { margin: 0; }
+.spell-study .example { font-size: 1.35rem; line-height: 1.45; }
