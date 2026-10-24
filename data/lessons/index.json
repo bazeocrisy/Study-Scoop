@@ -1,12 +1,109 @@
 {
   "teacherWeek": "2026-10-19",
+  "chapters": [
+    {
+      "id": 5,
+      "title": "Chapter 5: Multiplication Properties and Strategies",
+      "summary": "Lessons 5-1 to 5-7: break apart facts to multiply by 3, 4, 6, 7, 8 and 9."
+    },
+    {
+      "id": 6,
+      "title": "Chapter 6: Connect Area and Multiplication",
+      "summary": "Lessons 6-1 to 6-6: find area by tiling, counting, multiplying and splitting shapes.",
+      "week": "2026-10-26"
+    }
+  ],
   "lessons": [
-    { "id": "5-1", "title": "Understand the Distributive Property", "summary": "Decompose a fact into two easier facts, then add.", "strategy": "Break apart a factor" },
-    { "id": "5-2", "title": "Use Properties to Multiply by 3", "summary": "A 3s fact is a 2s fact plus a 1s fact.", "strategy": "3 = 2 + 1" },
-    { "id": "5-3", "title": "Use Properties to Multiply by 4", "summary": "A 4s fact is double the 2s fact.", "strategy": "4 = 2 + 2" },
-    { "id": "5-4", "title": "Use Properties to Multiply by 6", "summary": "Use the 5s fact and add one more group, or double the 3s fact.", "strategy": "6 = 5 + 1 or 3 + 3" },
-    { "id": "5-5", "title": "Use Properties to Multiply by 8", "summary": "Double the 4s fact, or add the 5s fact and the 3s fact.", "strategy": "8 = 4 + 4 or 5 + 3" },
-    { "id": "5-6", "title": "Use Properties to Multiply by 7 and 9", "summary": "Start with a 5s fact. Add the 2s fact for 7s, or the 4s fact for 9s.", "strategy": "7 = 5 + 2 and 9 = 5 + 4" },
-    { "id": "5-7", "title": "Solve Multiplication Problems", "summary": "Find the equal groups, write the fact, and use a strategy to solve.", "strategy": "Equal groups and arrays" }
+    {
+      "id": "5-1",
+      "title": "Understand the Distributive Property",
+      "summary": "Decompose a fact into two easier facts, then add.",
+      "strategy": "Break apart a factor",
+      "chapter": 5
+    },
+    {
+      "id": "5-2",
+      "title": "Use Properties to Multiply by 3",
+      "summary": "A 3s fact is a 2s fact plus a 1s fact.",
+      "strategy": "3 = 2 + 1",
+      "chapter": 5
+    },
+    {
+      "id": "5-3",
+      "title": "Use Properties to Multiply by 4",
+      "summary": "A 4s fact is double the 2s fact.",
+      "strategy": "4 = 2 + 2",
+      "chapter": 5
+    },
+    {
+      "id": "5-4",
+      "title": "Use Properties to Multiply by 6",
+      "summary": "Use the 5s fact and add one more group, or double the 3s fact.",
+      "strategy": "6 = 5 + 1 or 3 + 3",
+      "chapter": 5
+    },
+    {
+      "id": "5-5",
+      "title": "Use Properties to Multiply by 8",
+      "summary": "Double the 4s fact, or add the 5s fact and the 3s fact.",
+      "strategy": "8 = 4 + 4 or 5 + 3",
+      "chapter": 5
+    },
+    {
+      "id": "5-6",
+      "title": "Use Properties to Multiply by 7 and 9",
+      "summary": "Start with a 5s fact. Add the 2s fact for 7s, or the 4s fact for 9s.",
+      "strategy": "7 = 5 + 2 and 9 = 5 + 4",
+      "chapter": 5
+    },
+    {
+      "id": "5-7",
+      "title": "Solve Multiplication Problems",
+      "summary": "Find the equal groups, write the fact, and use a strategy to solve.",
+      "strategy": "Equal groups and arrays",
+      "chapter": 5
+    },
+    {
+      "id": "6-1",
+      "title": "Understand Area",
+      "summary": "Cover a shape with unit squares, no gaps and no overlaps, and count them.",
+      "strategy": "Tile and count",
+      "chapter": 6
+    },
+    {
+      "id": "6-2",
+      "title": "Count Unit Squares to Determine Area",
+      "summary": "Count unit squares in rows and columns, and name the area with its unit.",
+      "strategy": "Count by rows",
+      "chapter": 6
+    },
+    {
+      "id": "6-3",
+      "title": "Use Multiplication to Determine Area",
+      "summary": "Multiply the length and the width of a rectangle.",
+      "strategy": "Area = length × width",
+      "chapter": 6
+    },
+    {
+      "id": "6-4",
+      "title": "Determine the Area of a Composite Figure",
+      "summary": "Split a figure into rectangles, find each area, and add.",
+      "strategy": "Split, multiply, add",
+      "chapter": 6
+    },
+    {
+      "id": "6-5",
+      "title": "Use the Distributive Property to Determine Area",
+      "summary": "Break a side into two parts, find both areas, and add (Chapter 5 strategy).",
+      "strategy": "8 × 6 = (5 × 6) + (3 × 6)",
+      "chapter": 6
+    },
+    {
+      "id": "6-6",
+      "title": "Solve Area Problems",
+      "summary": "Solve real-world area problems and label the answer in square units.",
+      "strategy": "Read, picture, equation, label",
+      "chapter": 6
+    }
   ]
 }

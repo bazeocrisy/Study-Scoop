@@ -1,0 +1,1402 @@
+{
+ "id": "6-2",
+ "title": "Count Unit Squares to Determine Area",
+ "chapter": 6,
+ "goal": "I can count unit squares in rows and columns to find area, and name it with the right square unit.",
+ "catchAll": "Count the squares row by row. Then name the area with its unit: square centimeters, square feet …",
+ "teacher": [
+  {
+   "term": "Area",
+   "def": "number of unit squares needed to cover the INSIDE of a shape or region"
+  },
+  {
+   "term": "Square Unit",
+   "def": "a square that is 1 unit tall and 1 unit wide"
+  }
+ ],
+ "glossary": {
+  "row": "a line of squares going across",
+  "column": "a line of squares going up and down",
+  "square foot": "a square 1 foot long on each side",
+  "square centimeter": "a square 1 centimeter long on each side"
+ },
+ "learn": {
+  "screens": [
+   {
+    "title": "Rows and columns",
+    "text": [
+     "Squares in a rectangle line up in rows (across) and columns (up and down).",
+     "This rectangle has 4 rows. Each row has 5 squares."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "caption": "4 rows of 5 unit squares",
+    "words": [
+     "row",
+     "column"
+    ]
+   },
+   {
+    "title": "Count by rows",
+    "text": [
+     "Count one row: 5.",
+     "Then count on by 5 for each row: 5, 10, 15, 20.",
+     "The area is 20 square units."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    }
+   },
+   {
+    "title": "Squares can have real sizes",
+    "text": [
+     "A unit square can be 1 centimeter, 1 inch, 1 foot or 1 meter on each side.",
+     "Name the area with the unit: 6 squares that are 1 foot on each side cover 6 square feet."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       3,
+       2
+      ]
+     ],
+     "unit": "ft",
+     "tiles": true
+    },
+    "caption": "Each square is 1 square foot. Area: 6 square feet.",
+    "words": [
+     "square foot",
+     "square centimeter"
+    ]
+   },
+   {
+    "title": "Check: name the unit",
+    "item": {
+     "id": "r1",
+     "type": "choice",
+     "prompt": "Each square is 1 centimeter long on each side. A shape is covered by 8 of them. What is its area?",
+     "options": [
+      {
+       "text": "8 centimeters",
+       "why": "Centimeters measure a length. Area is in square centimeters."
+      },
+      {
+       "text": "8 square centimeters",
+       "correct": true
+      },
+      {
+       "text": "8 square feet",
+       "why": "The squares are 1 centimeter on each side, not 1 foot."
+      }
+     ],
+     "yes": "Yes! 8 square centimeters."
+    }
+   },
+   {
+    "title": "Shapes that are not rectangles",
+    "text": [
+     "Some shapes are not rectangles. Count only the squares inside the shape.",
+     "Count row by row and add: 3 + 3 + 1 = 7 square units."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX",
+      "XXX",
+      "X.."
+     ],
+     "paper": true
+    },
+    "caption": "Count only the shaded squares."
+   },
+   {
+    "title": "Check: count the shape",
+    "item": {
+     "id": "r2",
+     "type": "number",
+     "prompt": "What is the area of the shaded shape in square units?",
+     "answer": "2 + 2 + 4",
+     "model": {
+      "type": "grid",
+      "cells": [
+       "XX..",
+       "XX..",
+       "XXXX"
+      ],
+      "paper": true
+     },
+     "asks": "tiles",
+     "hints": [
+      "Count the shaded squares in each row. Leave out the empty ones."
+     ],
+     "yes": "Yes! 2 + 2 + 4 = 8 square units."
+    }
+   }
+  ]
+ },
+ "watch": {
+  "takeaway": "Count every square inside the shape once, row by row, and name the area with its square unit.",
+  "examples": [
+   {
+    "title": "Example A: 4 rows of 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "steps": [
+     {
+      "say": "Problem: find the area of the rectangle."
+     },
+     {
+      "say": "Step 1: Count the squares in one row.",
+      "eq": "5 = 5"
+     },
+     {
+      "say": "Step 2: Count the rows: 4."
+     },
+     {
+      "say": "Step 3: Count on by 5 for each row: 5, 10, 15, 20.",
+      "eq": "5 + 5 + 5 + 5 = 20"
+     },
+     {
+      "say": "Step 4: Name the unit: 20 square units."
+     }
+    ],
+    "why": {
+     "id": "wA",
+     "type": "choice",
+     "prompt": "Why can we count on by 5?",
+     "options": [
+      {
+       "text": "Every row has 5 squares.",
+       "correct": true
+      },
+      {
+       "text": "Because there are 5 rows.",
+       "why": "There are 4 rows. Each row has 5 squares."
+      },
+      {
+       "text": "Because 5 is odd.",
+       "why": "Odd or even does not matter. Each row has 5."
+      }
+     ],
+     "yes": "Yes! Equal rows let us count on by the same number."
+    }
+   },
+   {
+    "title": "Example B: a shape on squared paper",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX.",
+      "XXXX",
+      "X..."
+     ],
+     "paper": true
+    },
+    "steps": [
+     {
+      "say": "Problem: what is the area of the shaded shape?"
+     },
+     {
+      "say": "Step 1: Count the shaded squares in the top row: 3."
+     },
+     {
+      "say": "Step 2: The middle row has 4 shaded squares."
+     },
+     {
+      "say": "Step 3: The bottom row has 1 shaded square. The empty squares are not part of the shape."
+     },
+     {
+      "say": "Step 4: Add the rows.",
+      "eq": "3 + 4 + 1 = 8"
+     },
+     {
+      "say": "Step 5: The area is 8 square units."
+     }
+    ]
+   },
+   {
+    "title": "Example C: square feet",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       4,
+       3
+      ]
+     ],
+     "unit": "ft",
+     "tiles": true
+    },
+    "steps": [
+     {
+      "say": "Problem: a rug is covered by squares that are 1 foot on each side. What is its area?"
+     },
+     {
+      "say": "Step 1: Each square is 1 square foot."
+     },
+     {
+      "say": "Step 2: Count: 3 rows of 4.",
+      "eq": "4 + 4 + 4 = 12"
+     },
+     {
+      "say": "Step 3: The rug covers 12 square feet."
+     }
+    ]
+   }
+  ]
+ },
+ "together": {
+  "intro": "Let's do some together. Press Help if you get stuck.",
+  "items": [
+   {
+    "id": "g1",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "3 × 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 5, then 5 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 8
+      },
+      "say": "3 + 5 = 8 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 3 rows with 5 tiles in each row.",
+     "5 + 5 + 5 = 15.",
+     "The area is 15 square units."
+    ],
+    "yes": "Yes! 15 tiles cover it, so the area is 15 square units."
+   },
+   {
+    "id": "g2",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "4 + 2 + 2",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XX..",
+      "XX.."
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the shaded squares in each row.",
+     "The rows have 4, 2 and 2."
+    ],
+    "show": [
+     "4 + 2 + 2 = 8.",
+     "The area is 8 square units."
+    ],
+    "yes": "Yes! 8 square units."
+   },
+   {
+    "id": "g3",
+    "type": "choice",
+    "prompt": "Each square is 1 inch on each side. 10 squares cover a card. What is the area of the card?",
+    "options": [
+     {
+      "text": "10 square inches",
+      "correct": true
+     },
+     {
+      "text": "10 inches",
+      "why": "Inches measure a length. Area is in square inches."
+     },
+     {
+      "text": "10 square feet",
+      "why": "The squares are 1 inch on each side."
+     }
+    ],
+    "hints": [
+     "Use the size of one square to name the unit."
+    ],
+    "show": [
+     "Each square is 1 square inch.",
+     "10 of them cover 10 square inches."
+    ],
+    "yes": "Yes! 10 square inches."
+   },
+   {
+    "id": "g4",
+    "type": "number",
+    "prompt": "This rug is covered by squares that are 1 foot on each side. What is its area in square feet?",
+    "answer": "2 × 6",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       2
+      ]
+     ],
+     "unit": "ft",
+     "tiles": true
+    },
+    "asks": "area",
+    "hints": [
+     "Count the squares in one row, then add the other row."
+    ],
+    "show": [
+     "There are 2 rows of 6.",
+     "6 + 6 = 12.",
+     "The area is 12 square feet."
+    ],
+    "yes": "Yes! 12 square feet."
+   },
+   {
+    "id": "g5",
+    "type": "choice",
+    "prompt": "Which rectangle has an area of 12 square units?",
+    "options": [
+     {
+      "text": "Figure A",
+      "correct": true
+     },
+     {
+      "text": "Figure B",
+      "why": "Figure B has 2 rows of 5: 10 square units."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXX",
+       "XXXXX"
+      ],
+      "caption": "Figure B"
+     }
+    ],
+    "hints": [
+     "Count the squares in each figure."
+    ],
+    "show": [
+     "Figure A: 3 rows of 4 makes 12.",
+     "Figure B: 2 rows of 5 makes 10."
+    ],
+    "yes": "Yes! Figure A has 12 square units."
+   },
+   {
+    "id": "g6",
+    "type": "choice",
+    "prompt": "Two rugs: one is 2 feet by 6 feet, one is 3 feet by 4 feet. Which covers more area?",
+    "options": [
+     {
+      "text": "The 2 by 6 rug",
+      "why": "It covers 12 square feet. So does the other."
+     },
+     {
+      "text": "The 3 by 4 rug",
+      "why": "It covers 12 square feet. So does the other."
+     },
+     {
+      "text": "They cover the same area",
+      "correct": true
+     }
+    ],
+    "models": [
+     {
+      "type": "shape",
+      "rects": [
+       [
+        0,
+        0,
+        6,
+        2
+       ]
+      ],
+      "unit": "ft",
+      "tiles": true,
+      "caption": "Rug 1"
+     },
+     {
+      "type": "shape",
+      "rects": [
+       [
+        0,
+        0,
+        4,
+        3
+       ]
+      ],
+      "unit": "ft",
+      "tiles": true,
+      "caption": "Rug 2"
+     }
+    ],
+    "hints": [
+     "Count the square feet on each rug."
+    ],
+    "show": [
+     "Rug 1: 2 rows of 6 makes 12 square feet.",
+     "Rug 2: 3 rows of 4 makes 12 square feet.",
+     "They are the same."
+    ],
+    "yes": "Yes! Both cover 12 square feet, even though their shapes are different."
+   }
+  ]
+ },
+ "try": {
+  "pass": 16,
+  "items": [
+   {
+    "id": "t1",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "2 × 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 4, then 4 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 6
+      },
+      "say": "2 + 4 = 6 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 2 rows with 4 tiles in each row.",
+     "4 + 4 = 8.",
+     "The area is 8 square units."
+    ],
+    "yes": "Yes! 8 tiles cover it, so the area is 8 square units."
+   },
+   {
+    "id": "t2",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "3 × 6",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 6, then 6 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 9
+      },
+      "say": "3 + 6 = 9 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 3 rows with 6 tiles in each row.",
+     "6 + 6 + 6 = 18.",
+     "The area is 18 square units."
+    ],
+    "yes": "Yes! 18 tiles cover it, so the area is 18 square units."
+   },
+   {
+    "id": "t3",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "5 × 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XXXX",
+      "XXXX",
+      "XXXX",
+      "XXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 4, then 4 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 9
+      },
+      "say": "5 + 4 = 9 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 5 rows with 4 tiles in each row.",
+     "4 + 4 + 4 + 4 + 4 = 20.",
+     "The area is 20 square units."
+    ],
+    "yes": "Yes! 20 tiles cover it, so the area is 20 square units."
+   },
+   {
+    "id": "t4",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "4 × 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XXXX",
+      "XXXX",
+      "XXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 4, then 4 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 8
+      },
+      "say": "4 + 4 = 8 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 4 rows with 4 tiles in each row.",
+     "4 + 4 + 4 + 4 = 16.",
+     "The area is 16 square units."
+    ],
+    "yes": "Yes! 16 tiles cover it, so the area is 16 square units."
+   },
+   {
+    "id": "t5",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "3 + 3 + 1 + 1",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX",
+      "XXX",
+      "X..",
+      "X.."
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the shaded squares in each row."
+    ],
+    "show": [
+     "3 + 3 + 1 + 1 = 8.",
+     "The area is 8 square units."
+    ],
+    "yes": "Yes! 8 square units."
+   },
+   {
+    "id": "t6",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "1 + 3 + 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "..X..",
+      ".XXX.",
+      "XXXXX"
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the shaded squares in each row."
+    ],
+    "show": [
+     "1 + 3 + 5 = 9.",
+     "The area is 9 square units."
+    ],
+    "yes": "Yes! 9 square units."
+   },
+   {
+    "id": "t7",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "2 + 2 + 2 + 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XX..",
+      "XX..",
+      "XX..",
+      "XXXX"
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the shaded squares in each row."
+    ],
+    "show": [
+     "2 + 2 + 2 + 4 = 10.",
+     "The area is 10 square units."
+    ],
+    "yes": "Yes! 10 square units."
+   },
+   {
+    "id": "t8",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "5 + 5 + 3",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "..XXX"
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the shaded squares in each row."
+    ],
+    "show": [
+     "5 + 5 + 3 = 13.",
+     "The area is 13 square units."
+    ],
+    "yes": "Yes! 13 square units."
+   },
+   {
+    "id": "t9",
+    "type": "number",
+    "prompt": "Each square is 1 square centimeter. What is the area in square centimeters?",
+    "answer": "3 × 7",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       3
+      ]
+     ],
+     "unit": "cm",
+     "tiles": true
+    },
+    "asks": "area",
+    "hints": [
+     "Count one row, then count the rows."
+    ],
+    "show": [
+     "3 rows of 7.",
+     "7 + 7 + 7 = 21.",
+     "The area is 21 square centimeters."
+    ],
+    "yes": "Yes! 21 square centimeters."
+   },
+   {
+    "id": "t10",
+    "type": "number",
+    "prompt": "Each square is 1 square meter. What is the area in square meters?",
+    "answer": "2 × 5",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       2
+      ]
+     ],
+     "unit": "m",
+     "tiles": true
+    },
+    "asks": "area",
+    "hints": [
+     "Count one row, then the other."
+    ],
+    "show": [
+     "2 rows of 5.",
+     "5 + 5 = 10.",
+     "The area is 10 square meters."
+    ],
+    "yes": "Yes! 10 square meters."
+   },
+   {
+    "id": "t11",
+    "type": "choice",
+    "prompt": "Squares 1 meter on each side cover a floor. 15 of them fit. What is the area?",
+    "options": [
+     {
+      "text": "15 square meters",
+      "correct": true
+     },
+     {
+      "text": "15 meters",
+      "why": "Meters measure a length. Area is in square meters."
+     },
+     {
+      "text": "15 square centimeters",
+      "why": "The squares are 1 meter on each side, not 1 centimeter."
+     }
+    ],
+    "hints": [
+     "Name the area with the size of one square."
+    ],
+    "show": [
+     "Each square is 1 square meter.",
+     "15 of them cover 15 square meters."
+    ],
+    "yes": "Yes! 15 square meters."
+   },
+   {
+    "id": "t12",
+    "type": "choice",
+    "prompt": "How do you decide which unit to use for area?",
+    "options": [
+     {
+      "text": "Use the size of one unit square.",
+      "correct": true
+     },
+     {
+      "text": "Always use square feet.",
+      "why": "The unit depends on the squares used."
+     },
+     {
+      "text": "Count the corners.",
+      "why": "Corners do not tell the unit."
+     }
+    ],
+    "hints": [
+     "What size is each square?"
+    ],
+    "show": [
+     "If each square is 1 inch on each side, the area is in square inches."
+    ],
+    "yes": "Yes! The unit square decides the unit."
+   },
+   {
+    "id": "t13",
+    "type": "choice",
+    "prompt": "Which rectangle has an area of 15 square units?",
+    "options": [
+     {
+      "text": "Figure A",
+      "why": "Figure A has 2 rows of 6 makes 12."
+     },
+     {
+      "text": "Figure B",
+      "correct": true
+     },
+     {
+      "text": "Figure C",
+      "why": "Figure C has 4 rows of 4 makes 16."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXXX",
+       "XXXXXX"
+      ],
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXX",
+       "XXXXX",
+       "XXXXX"
+      ],
+      "caption": "Figure B"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "caption": "Figure C"
+     }
+    ],
+    "hints": [
+     "Count the squares in each figure."
+    ],
+    "show": [
+     "A: 12. B: 15. C: 16.",
+     "Figure B has 15 square units."
+    ],
+    "yes": "Yes! Figure B."
+   },
+   {
+    "id": "t14",
+    "type": "choice",
+    "prompt": "A table covers 20 square feet. Which could be its sides?",
+    "options": [
+     {
+      "text": "4 feet and 5 feet",
+      "correct": true
+     },
+     {
+      "text": "2 feet and 5 feet",
+      "why": "2 rows of 5 is only 10 square feet."
+     },
+     {
+      "text": "5 feet and 5 feet",
+      "why": "5 rows of 5 is 25 square feet."
+     }
+    ],
+    "target": "20",
+    "hints": [
+     "Picture the rows of square feet. Which choice makes 20?"
+    ],
+    "show": [
+     "4 rows of 5 square feet: 5 + 5 + 5 + 5 = 20."
+    ],
+    "yes": "Yes! 4 by 5 covers 20 square feet."
+   },
+   {
+    "id": "t15",
+    "type": "choice",
+    "prompt": "A garden has 3 rows of planter boxes, 6 boxes in each row. Each box is 1 square foot. What is the area of the garden?",
+    "options": [
+     {
+      "text": "18 square feet",
+      "correct": true
+     },
+     {
+      "text": "9 square feet",
+      "why": "3 + 6 = 9 adds one row and one column. Count every box."
+     },
+     {
+      "text": "6 square feet",
+      "why": "That is only one row."
+     }
+    ],
+    "hints": [
+     "Count the boxes in one row, then add the rows."
+    ],
+    "show": [
+     "6 + 6 + 6 = 18.",
+     "The garden covers 18 square feet."
+    ],
+    "yes": "Yes! 18 square feet."
+   },
+   {
+    "id": "t16",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "4 + 4 + 4 + 2",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXX",
+      "XXXX",
+      "XXXX",
+      "XX.."
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count each row of shaded squares."
+    ],
+    "show": [
+     "4 + 4 + 4 + 2 = 14.",
+     "The area is 14 square units."
+    ],
+    "yes": "Yes! 14 square units."
+   },
+   {
+    "id": "t17",
+    "type": "choice",
+    "prompt": "Two shapes are drawn on squared paper. Which has the greater area?",
+    "options": [
+     {
+      "text": "Figure A",
+      "correct": true
+     },
+     {
+      "text": "Figure B",
+      "why": "Figure B has 8 squares. Figure A has 9."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXX",
+       "XXX",
+       "XXX"
+      ],
+      "paper": true,
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX"
+      ],
+      "paper": true,
+      "caption": "Figure B"
+     }
+    ],
+    "compare": true,
+    "hints": [
+     "Count the shaded squares in each."
+    ],
+    "show": [
+     "Figure A: 9 square units.",
+     "Figure B: 8 square units."
+    ],
+    "yes": "Yes! 9 is more than 8."
+   },
+   {
+    "id": "t18",
+    "type": "choice",
+    "prompt": "Why do we count row by row?",
+    "options": [
+     {
+      "text": "So no square is skipped or counted twice.",
+      "correct": true
+     },
+     {
+      "text": "Because columns do not count.",
+      "why": "Columns work too. Counting in order keeps track."
+     },
+     {
+      "text": "To make the area bigger.",
+      "why": "The way you count does not change the area."
+     }
+    ],
+    "hints": [
+     "Think about keeping track."
+    ],
+    "show": [
+     "Counting in order keeps track of every square."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t19",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "3 × 8",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXXXX",
+      "XXXXXXXX",
+      "XXXXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Count the tiles in one row. Then count how many rows there are.",
+     "Add one row at a time: 8, then 8 more, and so on."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 11
+      },
+      "say": "3 + 8 = 11 counts one row and one column. Count every tile inside."
+     }
+    ],
+    "show": [
+     "There are 3 rows with 8 tiles in each row.",
+     "8 + 8 + 8 = 24.",
+     "The area is 24 square units."
+    ],
+    "yes": "Yes! 24 tiles cover it, so the area is 24 square units."
+   },
+   {
+    "id": "t20",
+    "type": "number",
+    "prompt": "Each square is 1 square inch. What is the area of this card in square inches?",
+    "answer": "4 × 3",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       3,
+       4
+      ]
+     ],
+     "unit": "in.",
+     "tiles": true
+    },
+    "asks": "area",
+    "hints": [
+     "Count one row, then count the rows."
+    ],
+    "show": [
+     "4 rows of 3.",
+     "3 + 3 + 3 + 3 = 12.",
+     "The area is 12 square inches."
+    ],
+    "yes": "Yes! 12 square inches."
+   }
+  ]
+ },
+ "test": {
+  "pass": 8,
+  "items": [
+   {
+    "id": "x1",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "4 × 6",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "show": [
+     "There are 4 rows with 6 tiles in each row.",
+     "6 + 6 + 6 + 6 = 24.",
+     "The area is 24 square units."
+    ],
+    "yes": "Yes! 24 tiles cover it, so the area is 24 square units."
+   },
+   {
+    "id": "x2",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "3 + 3 + 3 + 1",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXX",
+      "XXX",
+      "XXX",
+      "..X"
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "show": [
+     "3 + 3 + 3 + 1 = 10 square units."
+    ]
+   },
+   {
+    "id": "x3",
+    "type": "number",
+    "prompt": "Each square is 1 square foot. What is the area in square feet?",
+    "answer": "3 × 6",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       3
+      ]
+     ],
+     "unit": "ft",
+     "tiles": true
+    },
+    "asks": "area",
+    "show": [
+     "3 rows of 6 makes 18 square feet."
+    ]
+   },
+   {
+    "id": "x4",
+    "type": "choice",
+    "prompt": "Squares 1 centimeter on each side cover a sticker. 9 of them fit. What is its area?",
+    "options": [
+     {
+      "text": "9 centimeters",
+      "why": "Area is in square centimeters."
+     },
+     {
+      "text": "9 square centimeters",
+      "correct": true
+     },
+     {
+      "text": "9 square inches",
+      "why": "The squares are 1 centimeter on each side."
+     }
+    ],
+    "show": [
+     "The right answer is: 9 square centimeters."
+    ]
+   },
+   {
+    "id": "x5",
+    "type": "choice",
+    "prompt": "Which rectangle has an area of 16 square units?",
+    "options": [
+     {
+      "text": "Figure A",
+      "correct": true
+     },
+     {
+      "text": "Figure B",
+      "why": "Figure B has 3 rows of 5 makes 15."
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXX",
+       "XXXXX",
+       "XXXXX"
+      ],
+      "caption": "Figure B"
+     }
+    ],
+    "show": [
+     "A: 16. B: 15."
+    ]
+   },
+   {
+    "id": "x6",
+    "type": "number",
+    "prompt": "What is the area of the shaded shape in square units?",
+    "answer": "1 + 2 + 3 + 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "X...",
+      "XX..",
+      "XXX.",
+      "XXXX"
+     ],
+     "paper": true
+    },
+    "asks": "tiles",
+    "show": [
+     "1 + 2 + 3 + 4 = 10 square units."
+    ]
+   },
+   {
+    "id": "x7",
+    "type": "choice",
+    "prompt": "A desk covers 12 square feet. Which could be its sides?",
+    "options": [
+     {
+      "text": "3 feet and 4 feet",
+      "correct": true
+     },
+     {
+      "text": "3 feet and 3 feet",
+      "why": "That covers 9 square feet."
+     },
+     {
+      "text": "2 feet and 4 feet",
+      "why": "That covers 8 square feet."
+     }
+    ],
+    "target": "12",
+    "show": [
+     "3 rows of 4 square feet = 12 square feet."
+    ]
+   },
+   {
+    "id": "x8",
+    "type": "number",
+    "prompt": "Each square is 1 square meter. What is the area in square meters?",
+    "answer": "2 × 7",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       2
+      ]
+     ],
+     "unit": "m",
+     "tiles": true
+    },
+    "asks": "area",
+    "show": [
+     "2 rows of 7 makes 14 square meters."
+    ]
+   },
+   {
+    "id": "x9",
+    "type": "choice",
+    "prompt": "Which shape has the greater area?",
+    "options": [
+     {
+      "text": "Figure A",
+      "why": "Figure A has 10 squares. Figure B has 12."
+     },
+     {
+      "text": "Figure B",
+      "correct": true
+     }
+    ],
+    "models": [
+     {
+      "type": "grid",
+      "cells": [
+       "XXXXX",
+       "XXXXX"
+      ],
+      "paper": true,
+      "caption": "Figure A"
+     },
+     {
+      "type": "grid",
+      "cells": [
+       "XXXX",
+       "XXXX",
+       "XXXX"
+      ],
+      "paper": true,
+      "caption": "Figure B"
+     }
+    ],
+    "compare": true,
+    "show": [
+     "A: 10. B: 12."
+    ]
+   },
+   {
+    "id": "x10",
+    "type": "number",
+    "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
+    "answer": "5 × 5",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "show": [
+     "There are 5 rows with 5 tiles in each row.",
+     "5 + 5 + 5 + 5 + 5 = 25.",
+     "The area is 25 square units."
+    ],
+    "yes": "Yes! 25 tiles cover it, so the area is 25 square units."
+   }
+  ]
+ },
+ "parent": {
+  "sections": [
+   {
+    "heading": "What your child is learning",
+    "text": "Your child counts unit squares in rows and columns to find area, including shapes that are not rectangles, and names the area with its unit (square centimeters, square inches, square feet, square meters)."
+   },
+   {
+    "heading": "Try it with real things",
+    "list": [
+     "Measure a book cover with 1-inch sticky squares and count them.",
+     "Draw shapes on graph paper and count the squares inside."
+    ]
+   },
+   {
+    "heading": "Questions to ask",
+    "list": [
+     "How many squares are in one row?",
+     "What size is each square, so what unit do we use?"
+    ]
+   },
+   {
+    "heading": "Common mistakes",
+    "list": [
+     "Counting the empty squares on the paper as part of the shape.",
+     "Writing feet instead of square feet.",
+     "Adding one row and one column instead of counting every square."
+    ]
+   },
+   {
+    "heading": "About these questions",
+    "text": "Lesson 6-2 follows the order of the class textbook chapter. The explanations, pictures and questions are Study Scoop's own; the teacher's words are marked as the teacher's."
+   }
+  ]
+ }
+}

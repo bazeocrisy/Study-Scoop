@@ -110,8 +110,8 @@ test('Math opens on its four choices; Math Lessons links every lesson step', () 
     assert.ok(math.includes(`href="#math?act=${act}"`), act);
   }
   assert.match(math, /What would you like to do\?/);
-  const lessons = mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'lessons' }).s;
-  for (const id of ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']) {
+  const lessons = mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'ch5' }).s + mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'ch6' }).s;
+  for (const id of ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6']) {
     for (const st of ['learn', 'watch', 'together', 'try', 'test']) assert.ok(lessons.includes(`href="#math?lesson=${id}&amp;stage=${st}"`), `${id} ${st}`);
   }
   const practice = mathView({ ...ctxFor(historicalIndex, '2026-10-19', 'math', week), page: 'practice' }).s;

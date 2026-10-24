@@ -1,10 +1,11 @@
 // One view for every lesson and stage (Learn It, Watch Me, Practice Together, Try It Yourself, Test, Parent Guide).
 // Pure: it renders the lesson data plus the in-memory progress (state). js/lesson-player.js handles clicks and typing.
 import { html } from '../lib/html.js';
+import { buildHash } from '../lib/router.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { PLACE } from '../lib/rounding.js';
-import { STAGES, STAGE_IDS, answerText, boxes, helpSteps, score, stageLabel } from '../lib/lessons.js';
+import { STAGES, STAGE_IDS, answerText, boxes, helpSteps, score, stageLabel, chapterOf } from '../lib/lessons.js';
 import { ICONS, facts, scoreLine, subBar } from './common.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
@@ -47,8 +48,8 @@ function lessonBar(ctx, lesson, stage) {
   return html`
     ${subBar(ctx, {
       tone: 'math', eyebrow: `Lesson ${lesson.id}`, title: lesson.title, goal: stage === 'learn' ? lesson.goal : '',
-      trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Math Lessons', href: ctx.actLink('math', 'lessons') }, { label: `Lesson ${lesson.id}` }],
-      back: [{ href: ctx.actLink('math', 'lessons'), label: '‹ Back to Lessons' }, { href: ctx.link('math'), label: 'Back to Math' }],
+      trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Math Lessons', href: ctx.actLink('math', 'lessons') }, { label: `Chapter ${chapterOf(lesson.id)}`, href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
+      back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.link('math'), label: 'Back to Math' }],
     })}
     <div class="lesson-steps">
       <nav class="stepper" aria-label="Lesson steps">
@@ -161,7 +162,7 @@ export function itemCard(lesson, item, stage, state) {
   const inline = item.type === 'number' && /=\s*\?\s*$/.test(item.prompt);
   return html`
     <div class="work${pics.length ? ' has-pic' : ''}">
-      ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m))}</div></div>` : ''}
+      ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m, m.caption))}</div></div>` : ''}
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
         <div class="instruct-head">${item.type === 'choice' || item.type === 'multi' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' || item.type === 'letters' ? '' : readButton(sayItem(item), 'the question')}</div>
         ${answerArea(item, resp, st, test, done)}
@@ -430,13 +431,16 @@ export function unanswered(items, state) {
 
 /** Where a finished lesson stage can go: Back to Lessons and Home (with its icon and its word). */
 function lessonExits(ctx) {
-  return html`<a class="btn" href="${ctx.actLink('math', 'lessons')}">‹ Back to Lessons</a>
+  return html`<a class="btn" href="${chapterLink(ctx, ctx.lesson)}">‹ Back to Lessons</a>
     <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>`;
 }
 
-/** The lesson after this one (for "what next?"), or null for the last lesson. */
+/** A lesson's own chapter page (Math Lessons > Chapter 5 or Chapter 6). */
+const chapterLink = (ctx, lesson) => ctx.actLink('math', `ch${chapterOf(lesson?.id) || 5}`);
+
+/** The lesson after this one in its chapter (for "what next?"), or null for the last lesson. */
 function nextLesson(ctx, lesson) {
-  const list = ctx.lessons?.lessons || [];
+  const list = (ctx.lessons?.lessons || []).filter((l) => chapterOf(l.id) === chapterOf(lesson.id));
   const k = list.findIndex((l) => l.id === lesson.id);
   return k >= 0 && k < list.length - 1 ? list[k + 1] : null;
 }
@@ -450,6 +454,15 @@ function testNext(ctx, lesson, passed) {
   const next = nextLesson(ctx, lesson);
   if (!passed) return { text: 'Then take the test again.', main: html`<button type="button" class="btn btn-primary" data-act="restart">Take the test again</button>`, retakeSecondary: false };
   if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
+  // The last Chapter 6 lesson: the Chapter 6 Review and the chapter practice test (in the week that has them).
+  const ch = (ctx.lessons?.chapters || []).find((c) => c.id === chapterOf(lesson.id));
+  if (ch?.week) {
+    const at = (opts) => buildHash(opts.test ? 'tests' : 'math', ch.week, ctx.index.current, opts);
+    return {
+      text: 'You finished the last lesson of Chapter 6! Review the chapter, then try the Chapter 6 Practice Test.',
+      main: html`<a class="btn" href="${at({ test: 'math' })}">Chapter 6 Practice Test</a><a class="btn btn-primary" href="${at({ act: 'ch6review' })}">Chapter 6 Review ›</a>`, retakeSecondary: true,
+    };
+  }
   return {
     text: 'You finished the last lesson! Review with the Study Guide, then try the Math Practice Test.',
     main: html`<a class="btn" href="${ctx.testLink('math')}">Math Practice Test</a><a class="btn btn-primary" href="${ctx.actLink('math', 'guide')}">Study Guide ›</a>`, retakeSecondary: true,

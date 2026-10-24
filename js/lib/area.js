@@ -65,13 +65,56 @@ export const AREA_TIPS = [
   'Say the unit: square units, square feet, square inches or square meters.',
 ];
 
-/** Practice activities: Find the Area (problems) and Area Words (vocabulary). Their misses share one list. */
-export const AREA_SETS = { areafind: 'find', areawords: 'words' };
+/** Chapter 6 Review: one picture per lesson (each drawn from its numbers) and the mistakes to watch for. */
+export const CH6_SUMMARY = [
+  { title: '6-1 Understand Area', text: 'Cover the inside with unit squares, no gaps and no overlaps, and count them.', model: { type: 'grid', cells: ['XXXX', 'XXXX', 'XXXX'] }, eq: '4 + 4 + 4 = 12' },
+  { title: '6-2 Count Unit Squares', text: 'Count row by row, and name the unit: each square is 1 square foot here.', model: { type: 'shape', rects: [[0, 0, 5, 2]], unit: 'ft', tiles: true }, eq: '5 + 5 = 10' },
+  { title: '6-3 Multiply', text: 'Area of a rectangle = length × width.', model: { type: 'shape', rects: [[0, 0, 7, 3]], unit: 'cm' }, eq: '7 × 3 = 21' },
+  { title: '6-4 Composite Figures', text: 'Split into rectangles with no overlap, find each area, and add.', model: { type: 'shape', rects: [[0, 0, 6, 2], [4, 2, 2, 3]], unit: 'units', show: 'parts', areas: true }, eq: '12 + 6 = 18' },
+  { title: '6-5 Split a Side', text: 'Break one side into two parts. Keep the other side. Add the two areas.', model: { type: 'shape', rects: [[0, 0, 5, 6], [5, 0, 3, 6]], unit: 'units', show: 'parts', areas: true }, eq: '8 × 6 = 30 + 18 = 48' },
+  { title: '6-6 Area Problems', text: 'Find the numbers, picture the shape, write an equation, and label the answer.', model: { type: 'shape', rects: [[0, 0, 10, 4], [10, 0, 5, 4]], unit: 'ft', show: 'parts', areas: true }, eq: '15 × 4 = 40 + 20 = 60' },
+];
+export const CH6_MISTAKES = [
+  'Adding the sides instead of multiplying: a 4 by 3 rectangle is 4 × 3 = 12, not 4 + 3 = 7.',
+  'Adding all four sides (that goes around the outside) when the question asks what is covered.',
+  'Writing "12 feet" instead of "12 square feet".',
+  'Counting only the tiles that are drawn when part of a shape is not tiled yet.',
+  'Splitting a figure so that two parts overlap, or forgetting to add a part.',
+  'When splitting a side, changing the other side too: 3 × 17 is (3 × 10) + (3 × 7), not (2 × 10) + (1 × 7).',
+];
+
+/** Practice activities: Mixed Practice (problems) and the Area Words quizzes (vocabulary, with their own misses). */
+export const AREA_SETS = { areafind: ['find'], avchoice: ['vocab', 'choice'], avtf: ['vocab', 'truefalse'], avfill: ['vocab', 'fill'] };
+/** The card activities of Area Words: Review My Words and Flashcards. */
+export const AREA_CARDS = ['avreview', 'avflash'];
+export const areaVocabWords = (bank) => bank?.vocab?.words || [];
 
 /** The questions for one Area practice activity, shuffled (True/False options stay in order). */
 export function areaItems(bank, act, rand = Math.random) {
-  const list = bank?.[AREA_SETS[act]] || [];
+  const list = (AREA_SETS[act] || []).reduce((o, k) => o?.[k], bank) || [];
   return shuffle(list, rand).map((it) => (it.type === 'choice' && it.options.length > 2 && !it.keepOrder ? { ...it, options: shuffle(it.options, rand) } : it));
+}
+
+/**
+ * The Nov 3 Math Vocabulary practice test: the teacher's three words only, four questions each (meaning, which word,
+ * true or false, fill in the blank), picked from the test's own pool so a retake can differ. No hints.
+ */
+export function areaVocabTest(bank, rand = Math.random) {
+  const pool = bank?.vocab?.test || [];
+  const picked = [];
+  for (const w of AREA_WORDS) {
+    for (const kind of ['meaning', 'name', 'tf', 'fill']) {
+      const forms = pool.filter((it) => it.word === w && it.kind === kind);
+      if (forms.length) picked.push(forms[Math.floor(rand() * forms.length)]);
+    }
+  }
+  const items = shuffle(picked, rand).map((it, i) => ({ ...it, id: `q${i + 1}`, ...(it.type === 'choice' && it.options.length > 2 ? { options: shuffle(it.options, rand) } : {}) }));
+  return {
+    kind: 'mathwords', title: 'Math Vocabulary Practice Test', topic: 'Nov 3 words: Area, Square Unit, Multiply', items, pass: Math.ceil(items.length * 0.8), areaVocab: true,
+    coverage: `${items.length} questions about the three words on the Nov 3 vocabulary test, with the teacher's exact definitions.`,
+    note: 'A Study Scoop practice test for the class Topic 6 vocabulary test. It does not cover the six Area lessons.',
+    instructions: 'Answer each question. There are no hints during the test. You will see your score and the answers at the end.',
+  };
 }
 
 const MODEL_ANSWER = (m) => m.rows * m.cols;
@@ -87,7 +130,7 @@ export function validateArea(bank, week, { where = 'practice/area.json', practic
   if (!bank || typeof bank !== 'object') return [`${where} must be an object`];
   const defs = Object.fromEntries((week?.math?.words || []).map((w) => [normWord(w.word), w.def]));
   if (week && !isAreaWeek(week)) err('its week is not Topic 6: Area');
-  const lists = practice ? ['find', 'words'] : ['items'];
+  const lists = practice ? ['find'] : ['items'];
   for (const k of lists) {
     const list = bank[k];
     if (!Array.isArray(list) || (practice && list.length !== 20)) { err(`${k} needs ${practice ? 'exactly 20' : 'a list of'} questions`); continue; }
@@ -96,14 +139,85 @@ export function validateArea(bank, week, { where = 'practice/area.json', practic
     if (new Set(list.map((it) => `${normWord(it.prompt)}|${JSON.stringify(it.model || null)}`)).size !== list.length) err(`${k}: two questions are the same`);
     for (const it of list) errors.push(...areaItemProblems(it, defs, practice).map((m) => `${where} ${k} ${it.id}: ${m}`));
   }
-  if (practice) {
-    const words = bank.words || [];
-    for (const w of AREA_WORDS) if (words.filter((it) => it.word === w).length < 4) err(`words: needs at least 4 questions about ${w}`);
-    const tf = words.filter((it) => it.kind === 'tf');
-    const trues = tf.filter((it) => it.truth).length;
-    if (tf.length && Math.abs(trues * 2 - tf.length) > 1) err(`words: about half the true-or-false statements must be true (${trues} of ${tf.length})`);
-  }
+  if (practice) errors.push(...vocabProblems(bank.vocab, defs).map((m) => `${where} vocab: ${m}`));
   return errors;
+}
+
+/**
+ * Area Words: the three teacher words with the teacher's exact definitions (and only they are on the Nov 3 test),
+ * the chapter review words, 20 questions in each quiz, keys worked out from the definitions.
+ */
+function vocabProblems(v, defs) {
+  const out = [];
+  if (!v || typeof v !== 'object') return ['is missing'];
+  const words = v.words || [];
+  const D = Object.fromEntries(words.map((w) => [w.word, w.def]));
+  for (const w of AREA_WORDS) {
+    const entry = words.find((x) => x.word === w);
+    if (!entry?.teacher) out.push(`${w} must be listed as a teacher word`);
+    else if (entry.def !== defs[normWord(w)]) out.push(`${w}: the definition must be the teacher's, word for word`);
+  }
+  for (const w of words) {
+    if (!w.teacher && AREA_WORDS.includes(w.word)) out.push(`${w.word} is a teacher word`);
+    if (w.teacher && !AREA_WORDS.includes(w.word)) out.push(`${w.word} is not on the teacher's list; mark it as a review word`);
+    for (const k of ['def', 'kid', 'example']) if (typeof w[k] !== 'string' || !w[k].trim()) out.push(`${w.word}: ${k} is missing`);
+    if (!w.model) out.push(`${w.word}: needs a picture`);
+  }
+  if (new Set(Object.values(D)).size !== words.length) out.push('two words have the same definition');
+  for (const mode of ['choice', 'truefalse', 'fill']) {
+    const list = v[mode];
+    if (!Array.isArray(list) || list.length !== 20) { out.push(`${mode} needs exactly 20 questions`); continue; }
+    out.push(...validateQuiz(list, 1, mode));
+    if (new Set(list.map((it) => normWord(it.prompt))).size !== list.length) out.push(`${mode}: two questions are the same`);
+    for (const w of AREA_WORDS) if (list.filter((it) => it.word === w).length < 3) out.push(`${mode}: needs at least 3 questions about ${w}`);
+    for (const it of list) out.push(...wordItemProblems(it, D, true).map((m) => `${mode} ${it.id}: ${m}`));
+  }
+  const tf = v.truefalse || [];
+  if (tf.filter((it) => it.truth).length * 2 !== tf.length) out.push('truefalse: half the statements must be true');
+  const pool = v.test || [];
+  if (!pool.length) out.push('test pool is missing');
+  out.push(...validateQuiz(pool, 1, 'test'));
+  const practicePrompts = new Set(['choice', 'truefalse', 'fill'].flatMap((m) => (v[m] || []).map((it) => normWord(it.prompt))));
+  for (const it of pool) {
+    if (!AREA_WORDS.includes(it.word)) out.push(`test ${it.id}: "${it.word}" is not one of the Nov 3 words`);
+    if (it.hints || it.show) out.push(`test ${it.id}: a test question cannot have hints or Show me how`);
+    if (practicePrompts.has(normWord(it.prompt))) out.push(`test ${it.id}: the same question is in practice`);
+    out.push(...wordItemProblems(it, D, false).map((m) => `test ${it.id}: ${m}`));
+    if (it.type === 'choice' && it.options.some((o) => !AREA_WORDS.includes(o.text) && !AREA_WORDS.some((w) => D[w] === o.text) && !['True', 'False'].includes(o.text)
+      && !Object.keys(D).includes(o.text) && !Object.values(D).includes(o.text))) out.push(`test ${it.id}: every choice must be a word or a definition`);
+  }
+  for (const w of AREA_WORDS) for (const kind of ['meaning', 'name', 'tf', 'fill']) if (!pool.some((it) => it.word === w && it.kind === kind)) out.push(`test: needs a ${kind} question about ${w}`);
+  return out;
+}
+
+/** A vocabulary question's key, worked out from the definitions. */
+function wordItemProblems(it, D, practice) {
+  const out = [];
+  const correct = it.options?.find((o) => o.correct)?.text;
+  if (!D[it.word]) return [`"${it.word}" is not an Area word`];
+  if (practice && (!Array.isArray(it.hints) || !it.hints.length)) out.push('needs a hint');
+  if (typeof it.explain !== 'string' || !it.explain.trim()) out.push('needs an explanation');
+  if (it.kind === 'meaning') {
+    if (correct !== D[it.word]) out.push(`the key must be the definition of ${it.word}`);
+    for (const o of it.options) if (!o.correct && !Object.values(D).includes(o.text)) out.push(`"${o.text}" must be another word's definition`);
+  }
+  if (it.kind === 'name') {
+    if (!it.prompt.includes(`"${D[it.word]}"`)) out.push(`the question must quote the definition of ${it.word}`);
+    if (correct !== it.word) out.push(`the key must be ${it.word}`);
+  }
+  if (it.kind === 'tf') {
+    const stated = Object.keys(D).find((w) => it.prompt.endsWith(`means "${D[w]}".`));
+    if (!stated) out.push('the statement must quote a definition');
+    else if ((stated === it.word) !== Boolean(it.truth)) out.push('"truth" does not match the statement');
+  }
+  if (it.kind === 'tf' || it.kind === 'tf-example') {
+    if ((correct === 'True') !== Boolean(it.truth)) out.push('the answer key does not match "truth"');
+  }
+  if (it.type === 'word') {
+    if (normWord(it.answer) !== normWord(it.word)) out.push(`the answer must be ${it.word.toLowerCase()}`);
+    for (const b of it.bank || []) if (!Object.keys(D).some((w) => normWord(w) === normWord(b))) out.push(`"${b}" in the word bank is not an Area word`);
+  }
+  return out;
 }
 
 function areaItemProblems(it, defs, practice) {
@@ -134,8 +248,8 @@ function areaItemProblems(it, defs, practice) {
   }
   // "Which rectangle has an area of N?" style questions: `target` is checked against every option (validateQuiz),
   // and the compare questions name the bigger area.
-  if (it.compare) {
-    const areas = it.compare.map(([a, b]) => a * b);
+  if (it.compareSides) {
+    const areas = it.compareSides.map(([a, b]) => a * b);
     if (areas[0] === areas[1]) out.push('the two areas must be different');
     const big = areas[0] > areas[1] ? 0 : 1;
     if (!String(correct || '').startsWith(it.compareNames[big])) out.push(`the key must be ${it.compareNames[big]}, the greater area`);

@@ -233,6 +233,20 @@ ul.plain, ul.dates, ul.archive, ul.words, ul.checklist { list-style: none; margi
 .m-legend { display: grid; gap: 2px; justify-items: center; font-size: 1rem; }
 .m-legend .m-lab-a { color: var(--part-a); } .m-legend .m-lab-b { color: var(--part-b); }
 .m-sub-t { color: var(--ink); font-weight: 400; }
+/* Chapter 6 area pictures (js/lib/shapes.js): tiles, squared paper, composite figures and their side lengths */
+.g-paper { stroke: #b9d9e6; stroke-width: 1; }
+.g-tile { fill: var(--tile-b); stroke: var(--part-b); stroke-width: 1.5; }
+.g-over { fill: var(--tile-a); stroke: var(--part-a); fill-opacity: .9; }
+.g-empty { fill: var(--paper); }
+.g-outline { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: square; }
+.s-fill { fill: var(--tile-b); stroke: var(--tile-b); stroke-width: 1; }
+.s-part-a { fill: var(--tile-a); } .s-part-b { fill: var(--tile-b); } .s-part-c { fill: #fbe3b8; }
+.s-grid { stroke: var(--line-strong); stroke-width: 1; opacity: .6; }
+.s-cut { stroke: var(--ink); stroke-width: 2.5; stroke-dasharray: 7 5; }
+.s-outline { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: square; }
+.s-side { font: 700 14px var(--body); fill: var(--ink); }
+.s-unknown { font-size: 18px; fill: var(--part-a); font-weight: 800; }
+.s-area { font: 800 16px var(--display); fill: var(--ink); }
 .vjoin { display: block; width: 72px; height: 18px; color: var(--muted); }
 .vjoin path { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .m-pair { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 12px; justify-content: center; }
@@ -968,3 +982,9 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 /* Topic 6: Area (Learn Area): one card per word and per worked example. */
 .area-words, .area-examples { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 0.75rem; }
 .area-words > li, .area-examples > li { margin: 0; }
+
+/* Topic 6 Area Words: which words are on the Nov 3 test */
+.word-tag { display: inline-block; font-size: .85rem; font-weight: 700; border-radius: 999px; padding: 2px 10px; border: 1.5px solid currentColor; }
+.tag-test { color: var(--part-a); } .tag-review { color: var(--muted); }
+.review-lessons { display: grid; gap: 8px; padding-left: 1.4rem; }
+.review-lessons .muted { display: block; }

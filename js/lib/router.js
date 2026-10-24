@@ -5,7 +5,8 @@
 
 export const DEFAULT_SECTION = 'week';
 const LESSON_ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-const WORD = /^[a-z]+$/;
+// Activity and test names: lowercase letters, then letters or digits ("ch6review").
+const WORD = /^[a-z][a-z0-9]*$/;
 /** Sections that open on a menu of activities (#math?act=practice, #spelling?act=flash). */
 const SUBJECTS = ['spelling', 'vocab', 'math', 'skills', 'homework'];
 

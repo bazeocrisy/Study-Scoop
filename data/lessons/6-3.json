@@ -1,0 +1,1352 @@
+{
+ "id": "6-3",
+ "title": "Use Multiplication to Determine Area",
+ "chapter": 6,
+ "goal": "I can find the area of a rectangle by multiplying its length and width.",
+ "catchAll": "Area of a rectangle = length × width. Then name the unit: square units, square feet …",
+ "teacher": [
+  {
+   "term": "Multiply",
+   "def": "to find the area of a rectangle, you multiply the length and the width"
+  },
+  {
+   "term": "Area",
+   "def": "number of unit squares needed to cover the INSIDE of a shape or region"
+  }
+ ],
+ "glossary": {
+  "length": "how long the rectangle is (the side along the top)",
+  "width": "how wide the rectangle is (the side along the left)",
+  "multiply": "find the total of equal rows: 4 rows of 5 is 4 × 5 = 20"
+ },
+ "learn": {
+  "screens": [
+   {
+    "title": "Rows are equal groups",
+    "text": [
+     "A rectangle covered by squares has equal rows.",
+     "4 rows of 5 squares is 4 × 5. Multiplying is a quick way to count them all: 20."
+    ],
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "caption": "4 rows of 5: 4 × 5 = 20",
+    "words": [
+     "multiply"
+    ]
+   },
+   {
+    "title": "Length × width",
+    "teacher": true,
+    "text": [
+     "The length tells how many squares fit in a row. The width tells how many rows there are.",
+     "So area = length × width. You can multiply without drawing every square."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       3
+      ]
+     ],
+     "unit": "cm"
+    },
+    "caption": "7 cm × 3 cm = 21 square centimeters",
+    "words": [
+     "length",
+     "width"
+    ]
+   },
+   {
+    "title": "Check: multiply",
+    "item": {
+     "id": "r1",
+     "type": "number",
+     "prompt": "A rectangle is 6 units long and 2 units wide. What is its area in square units?",
+     "answer": "6 × 2",
+     "model": {
+      "type": "shape",
+      "rects": [
+       [
+        0,
+        0,
+        6,
+        2
+       ]
+      ]
+     },
+     "asks": "area",
+     "hints": [
+      "Multiply the length and the width."
+     ],
+     "mistakes": [
+      {
+       "when": {
+        "answer": 8
+       },
+       "say": "6 + 2 = 8 adds the sides. Multiply: 6 × 2."
+      }
+     ],
+     "yes": "Yes! 6 × 2 = 12 square units."
+    }
+   },
+   {
+    "title": "Squares are rectangles too",
+    "text": [
+     "A square has the same length and width.",
+     "A square 5 cm on each side: 5 × 5 = 25 square centimeters."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       5
+      ]
+     ],
+     "unit": "cm"
+    },
+    "caption": "5 × 5 = 25"
+   },
+   {
+    "title": "Say the unit",
+    "text": [
+     "Sides in centimeters give square centimeters. Sides in feet give square feet.",
+     "Always write the area with a square unit."
+    ],
+    "pairs": [
+     "7 cm × 3 cm → 21 square centimeters",
+     "8 ft × 5 ft → 40 square feet"
+    ]
+   },
+   {
+    "title": "Check: which equation?",
+    "item": {
+     "id": "r2",
+     "type": "choice",
+     "prompt": "Which equation finds the area of a rectangle 9 feet long and 4 feet wide?",
+     "options": [
+      {
+       "text": "9 × 4 = 36",
+       "correct": true
+      },
+      {
+       "text": "9 + 4 = 13",
+       "why": "Adding the sides does not find area."
+      },
+      {
+       "text": "9 + 4 + 9 + 4 = 26",
+       "why": "That adds all the sides around the outside. Area covers the inside."
+      }
+     ],
+     "target": "9 × 4",
+     "yes": "Yes! 9 × 4 = 36 square feet."
+    }
+   }
+  ]
+ },
+ "watch": {
+  "takeaway": "Area of a rectangle = length × width. Multiplying gives the same answer as counting every square, faster.",
+  "examples": [
+   {
+    "title": "Example A: 7 cm by 3 cm",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       3
+      ]
+     ],
+     "unit": "cm"
+    },
+    "steps": [
+     {
+      "say": "Problem: what is the area of the rectangle?"
+     },
+     {
+      "say": "Step 1: Find the length: 7 centimeters."
+     },
+     {
+      "say": "Step 2: Find the width: 3 centimeters."
+     },
+     {
+      "say": "Step 3: Write the equation: area = length × width.",
+      "eq": "7 × 3 = 21"
+     },
+     {
+      "say": "Step 4: Name the unit: 21 square centimeters."
+     },
+     {
+      "say": "Step 5: Check with the picture: 3 rows of 7 squares.",
+      "model": {
+       "type": "shape",
+       "rects": [
+        [
+         0,
+         0,
+         7,
+         3
+        ]
+       ],
+       "unit": "cm",
+       "tiles": true
+      },
+      "eq": "7 + 7 + 7 = 21"
+     }
+    ],
+    "why": {
+     "id": "wA",
+     "type": "choice",
+     "prompt": "Why does 7 × 3 give the same answer as counting?",
+     "options": [
+      {
+       "text": "There are 3 equal rows of 7 squares.",
+       "correct": true
+      },
+      {
+       "text": "Because 7 and 3 are both odd.",
+       "why": "Odd numbers do not matter. Equal rows do."
+      },
+      {
+       "text": "It does not; counting is different.",
+       "why": "Both give 21: 3 rows of 7 is 7 × 3."
+      }
+     ],
+     "yes": "Yes! Multiplying counts equal rows."
+    }
+   },
+   {
+    "title": "Example B: a grid with no numbers",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX"
+     ]
+    },
+    "steps": [
+     {
+      "say": "Problem: the side lengths are not written. What is the area?"
+     },
+     {
+      "say": "Step 1: Count the squares in one row: 6. That is the length."
+     },
+     {
+      "say": "Step 2: Count the rows: 4. That is the width."
+     },
+     {
+      "say": "Step 3: Write the equation.",
+      "eq": "6 × 4 = 24"
+     },
+     {
+      "say": "Step 4: The area is 24 square units."
+     }
+    ]
+   },
+   {
+    "title": "Example C: a square window",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       5
+      ]
+     ],
+     "unit": "ft"
+    },
+    "steps": [
+     {
+      "say": "Problem: a square window is 5 feet on each side. What is its area?"
+     },
+     {
+      "say": "Step 1: A square has the same length and width: 5 and 5."
+     },
+     {
+      "say": "Step 2: Multiply.",
+      "eq": "5 × 5 = 25"
+     },
+     {
+      "say": "Step 3: The window covers 25 square feet."
+     }
+    ]
+   }
+  ]
+ },
+ "together": {
+  "intro": "Let's do some together. Press Help if you get stuck.",
+  "items": [
+   {
+    "id": "g1",
+    "type": "number",
+    "prompt": "This rectangle is 8 centimeters long and 3 centimeters wide. What is its area in square centimeters?",
+    "answer": "8 × 3",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       8,
+       3
+      ]
+     ],
+     "unit": "cm"
+    },
+    "asks": "area",
+    "hints": [
+     "Area of a rectangle: multiply the length and the width.",
+     "Multiply 8 × 3."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 11
+      },
+      "say": "8 + 3 = 11 adds the sides. To find area, multiply: 8 × 3."
+     }
+    ],
+    "show": [
+     "The length is 8 centimeters. The width is 3 centimeters.",
+     "8 × 3 = 24.",
+     "The area is 24 square centimeters."
+    ],
+    "yes": "Yes! 8 × 3 = 24 square centimeters."
+   },
+   {
+    "id": "g2",
+    "type": "number",
+    "prompt": "Count the rows and the squares in a row. What is the area in square units?",
+    "answer": "5 × 3",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXX",
+      "XXXXX",
+      "XXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Squares in one row: the length. Number of rows: the width.",
+     "Multiply 5 × 3."
+    ],
+    "show": [
+     "5 squares in a row, 3 rows.",
+     "5 × 3 = 15.",
+     "The area is 15 square units."
+    ],
+    "yes": "Yes! 5 × 3 = 15 square units."
+   },
+   {
+    "id": "g3",
+    "type": "choice",
+    "prompt": "Which equation matches this rectangle?",
+    "options": [
+     {
+      "text": "6 × 4",
+      "correct": true
+     },
+     {
+      "text": "6 × 6",
+      "why": "The width is 4, not 6."
+     },
+     {
+      "text": "6 + 4",
+      "why": "Adding the sides does not find area."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       4
+      ]
+     ],
+     "unit": "m"
+    },
+    "target": "6 × 4",
+    "hints": [
+     "Find the length and the width on the picture."
+    ],
+    "show": [
+     "Length 6 m, width 4 m.",
+     "6 × 4 = 24 square meters."
+    ],
+    "yes": "Yes! 6 × 4 = 24 square meters."
+   },
+   {
+    "id": "g4",
+    "type": "number",
+    "prompt": "A square is 6 inches on each side. What is its area in square inches?",
+    "answer": "6 × 6",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       6
+      ]
+     ],
+     "unit": "in."
+    },
+    "asks": "area",
+    "hints": [
+     "A square has the same length and width."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 12
+      },
+      "say": "6 + 6 = 12 adds two sides. Multiply 6 × 6."
+     }
+    ],
+    "show": [
+     "6 × 6 = 36.",
+     "The area is 36 square inches."
+    ],
+    "yes": "Yes! 36 square inches."
+   },
+   {
+    "id": "g5",
+    "type": "choice",
+    "prompt": "A wall is 9 feet long and 8 feet wide. What is its area?",
+    "options": [
+     {
+      "text": "72 square feet",
+      "correct": true
+     },
+     {
+      "text": "17 square feet",
+      "why": "9 + 8 = 17 adds the sides. Multiply."
+     },
+     {
+      "text": "72 feet",
+      "why": "Area is in square feet."
+     }
+    ],
+    "hints": [
+     "Multiply 9 × 8. Then name the unit."
+    ],
+    "show": [
+     "9 × 8 = 72.",
+     "The wall covers 72 square feet."
+    ],
+    "yes": "Yes! 72 square feet."
+   },
+   {
+    "id": "g6",
+    "type": "choice",
+    "prompt": "Why can we multiply instead of counting every square?",
+    "options": [
+     {
+      "text": "The rows are equal, so multiplying counts them all.",
+      "correct": true
+     },
+     {
+      "text": "Multiplying always gives a bigger number.",
+      "why": "Multiplying gives exactly the number of squares."
+     },
+     {
+      "text": "Counting is wrong.",
+      "why": "Counting is right too. Multiplying is just faster."
+     }
+    ],
+    "hints": [
+     "Think: 3 rows of 7 is 7 + 7 + 7."
+    ],
+    "show": [
+     "Each row has the same number of squares.",
+     "Equal rows are a multiplication."
+    ],
+    "yes": "Yes!"
+   }
+  ]
+ },
+ "try": {
+  "pass": 16,
+  "items": [
+   {
+    "id": "t1",
+    "type": "number",
+    "prompt": "This rectangle is 5 feet long and 4 feet wide. What is its area in square feet?",
+    "answer": "5 × 4",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
+       4
+      ]
+     ],
+     "unit": "ft"
+    },
+    "asks": "area",
+    "hints": [
+     "Area of a rectangle: multiply the length and the width.",
+     "Multiply 5 × 4."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 9
+      },
+      "say": "5 + 4 = 9 adds the sides. To find area, multiply: 5 × 4."
+     }
+    ],
+    "show": [
+     "The length is 5 feet. The width is 4 feet.",
+     "5 × 4 = 20.",
+     "The area is 20 square feet."
+    ],
+    "yes": "Yes! 5 × 4 = 20 square feet."
+   },
+   {
+    "id": "t2",
+    "type": "number",
+    "prompt": "This rectangle is 8 centimeters long and 2 centimeters wide. What is its area in square centimeters?",
+    "answer": "8 × 2",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       8,
+       2
+      ]
+     ],
+     "unit": "cm"
+    },
+    "asks": "area",
+    "hints": [
+     "Area of a rectangle: multiply the length and the width.",
+     "Multiply 8 × 2."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 10
+      },
+      "say": "8 + 2 = 10 adds the sides. To find area, multiply: 8 × 2."
+     }
+    ],
+    "show": [
+     "The length is 8 centimeters. The width is 2 centimeters.",
+     "8 × 2 = 16.",
+     "The area is 16 square centimeters."
+    ],
+    "yes": "Yes! 8 × 2 = 16 square centimeters."
+   },
+   {
+    "id": "t3",
+    "type": "number",
+    "prompt": "This rectangle is 7 meters long and 6 meters wide. What is its area in square meters?",
+    "answer": "7 × 6",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       6
+      ]
+     ],
+     "unit": "m"
+    },
+    "asks": "area",
+    "hints": [
+     "Area of a rectangle: multiply the length and the width.",
+     "Multiply 7 × 6."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 13
+      },
+      "say": "7 + 6 = 13 adds the sides. To find area, multiply: 7 × 6."
+     }
+    ],
+    "show": [
+     "The length is 7 meters. The width is 6 meters.",
+     "7 × 6 = 42.",
+     "The area is 42 square meters."
+    ],
+    "yes": "Yes! 7 × 6 = 42 square meters."
+   },
+   {
+    "id": "t4",
+    "type": "number",
+    "prompt": "This rectangle is 9 inches long and 3 inches wide. What is its area in square inches?",
+    "answer": "9 × 3",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       9,
+       3
+      ]
+     ],
+     "unit": "in."
+    },
+    "asks": "area",
+    "hints": [
+     "Area of a rectangle: multiply the length and the width.",
+     "Multiply 9 × 3."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 12
+      },
+      "say": "9 + 3 = 12 adds the sides. To find area, multiply: 9 × 3."
+     }
+    ],
+    "show": [
+     "The length is 9 inches. The width is 3 inches.",
+     "9 × 3 = 27.",
+     "The area is 27 square inches."
+    ],
+    "yes": "Yes! 9 × 3 = 27 square inches."
+   },
+   {
+    "id": "t5",
+    "type": "number",
+    "prompt": "This rectangle is 10 meters long and 6 meters wide. What is its area in square meters?",
+    "answer": "10 × 6",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       6
+      ]
+     ],
+     "unit": "m"
+    },
+    "asks": "area",
+    "hints": [
+     "Area of a rectangle: multiply the length and the width.",
+     "Multiply 10 × 6."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 16
+      },
+      "say": "10 + 6 = 16 adds the sides. To find area, multiply: 10 × 6."
+     }
+    ],
+    "show": [
+     "The length is 10 meters. The width is 6 meters.",
+     "10 × 6 = 60.",
+     "The area is 60 square meters."
+    ],
+    "yes": "Yes! 10 × 6 = 60 square meters."
+   },
+   {
+    "id": "t6",
+    "type": "number",
+    "prompt": "This rectangle is 8 feet long and 5 feet wide. What is its area in square feet?",
+    "answer": "8 × 5",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       8,
+       5
+      ]
+     ],
+     "unit": "ft"
+    },
+    "asks": "area",
+    "hints": [
+     "Area of a rectangle: multiply the length and the width.",
+     "Multiply 8 × 5."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 13
+      },
+      "say": "8 + 5 = 13 adds the sides. To find area, multiply: 8 × 5."
+     }
+    ],
+    "show": [
+     "The length is 8 feet. The width is 5 feet.",
+     "8 × 5 = 40.",
+     "The area is 40 square feet."
+    ],
+    "yes": "Yes! 8 × 5 = 40 square feet."
+   },
+   {
+    "id": "t7",
+    "type": "number",
+    "prompt": "Count the rows and the squares in a row. What is the area in square units?",
+    "answer": "7 × 3",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXXX",
+      "XXXXXXX",
+      "XXXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Length: squares in one row. Width: rows."
+    ],
+    "show": [
+     "7 × 3 = 21.",
+     "The area is 21 square units."
+    ],
+    "yes": "Yes! 21 square units."
+   },
+   {
+    "id": "t8",
+    "type": "number",
+    "prompt": "Count the rows and the squares in a row. What is the area in square units?",
+    "answer": "8 × 4",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXXXX",
+      "XXXXXXXX",
+      "XXXXXXXX",
+      "XXXXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "hints": [
+     "Length: squares in one row. Width: rows."
+    ],
+    "show": [
+     "8 × 4 = 32.",
+     "The area is 32 square units."
+    ],
+    "yes": "Yes! 32 square units."
+   },
+   {
+    "id": "t9",
+    "type": "choice",
+    "prompt": "Which equation finds the area of this rectangle?",
+    "options": [
+     {
+      "text": "3 × 8",
+      "correct": true
+     },
+     {
+      "text": "3 + 8",
+      "why": "Adding the sides does not find area."
+     },
+     {
+      "text": "3 × 3",
+      "why": "The length is 8, not 3."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       8,
+       3
+      ]
+     ],
+     "unit": "cm"
+    },
+    "target": "3 × 8",
+    "hints": [
+     "Use both side lengths."
+    ],
+    "show": [
+     "3 × 8 = 24 square centimeters."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t10",
+    "type": "choice",
+    "prompt": "Which rectangle has an area of 24 square units?",
+    "options": [
+     {
+      "text": "6 × 4",
+      "correct": true
+     },
+     {
+      "text": "5 × 4",
+      "why": "5 × 4 = 20."
+     },
+     {
+      "text": "7 × 3",
+      "why": "7 × 3 = 21."
+     }
+    ],
+    "target": "24",
+    "hints": [
+     "Multiply each pair."
+    ],
+    "show": [
+     "6 × 4 = 24."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t11",
+    "type": "number",
+    "prompt": "A square is 4 yards on each side. What is its area in square yards?",
+    "answer": "4 × 4",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       4,
+       4
+      ]
+     ],
+     "unit": "yd"
+    },
+    "asks": "area",
+    "hints": [
+     "A square has equal sides. Multiply."
+    ],
+    "show": [
+     "4 × 4 = 16.",
+     "16 square yards."
+    ],
+    "yes": "Yes! 16 square yards."
+   },
+   {
+    "id": "t12",
+    "type": "number",
+    "prompt": "A notebook cover is 10 inches long and 8 inches wide. What is its area in square inches?",
+    "answer": "10 × 8",
+    "hints": [
+     "Multiply the length and the width."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 18
+      },
+      "say": "10 + 8 = 18 adds the sides. Multiply."
+     }
+    ],
+    "show": [
+     "10 × 8 = 80.",
+     "80 square inches."
+    ],
+    "yes": "Yes! 80 square inches."
+   },
+   {
+    "id": "t13",
+    "type": "number",
+    "prompt": "A window is 8 feet long and 5 feet wide. What is its area in square feet?",
+    "answer": "8 × 5",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       8,
+       5
+      ]
+     ],
+     "unit": "ft"
+    },
+    "asks": "area",
+    "hints": [
+     "Multiply the length and the width."
+    ],
+    "show": [
+     "8 × 5 = 40.",
+     "40 square feet."
+    ],
+    "yes": "Yes! 40 square feet."
+   },
+   {
+    "id": "t14",
+    "type": "number",
+    "prompt": "A baking sheet is 9 inches long and 7 inches wide. What is its area in square inches?",
+    "answer": "9 × 7",
+    "hints": [
+     "Multiply 9 × 7."
+    ],
+    "show": [
+     "9 × 7 = 63.",
+     "63 square inches."
+    ],
+    "yes": "Yes! 63 square inches."
+   },
+   {
+    "id": "t15",
+    "type": "choice",
+    "prompt": "The sides of a rug are in feet. What unit is its area?",
+    "options": [
+     {
+      "text": "square feet",
+      "correct": true
+     },
+     {
+      "text": "feet",
+      "why": "Feet measure a side. Area is square feet."
+     },
+     {
+      "text": "square inches",
+      "why": "The sides are in feet."
+     }
+    ],
+    "hints": [
+     "Sides in feet → area in square feet."
+    ],
+    "show": [
+     "The area is in square feet."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t16",
+    "type": "choice",
+    "prompt": "A closet floor is 18 square feet. Which could be its length and width?",
+    "options": [
+     {
+      "text": "6 feet and 3 feet",
+      "correct": true
+     },
+     {
+      "text": "9 feet and 9 feet",
+      "why": "9 × 9 = 81."
+     },
+     {
+      "text": "8 feet and 10 feet",
+      "why": "8 × 10 = 80."
+     }
+    ],
+    "target": "18",
+    "hints": [
+     "Which pair multiplies to 18?"
+    ],
+    "show": [
+     "6 × 3 = 18."
+    ],
+    "yes": "Yes! 6 × 3 = 18."
+   },
+   {
+    "id": "t17",
+    "type": "choice",
+    "prompt": "Ana counted 21 squares in a 7 by 3 rectangle. Ben multiplied 7 × 3. Who is right?",
+    "options": [
+     {
+      "text": "Both: 7 × 3 = 21",
+      "correct": true
+     },
+     {
+      "text": "Only Ana",
+      "why": "Ben is right too. 7 × 3 = 21."
+     },
+     {
+      "text": "Only Ben",
+      "why": "Ana is right too. Counting gives 21."
+     }
+    ],
+    "hints": [
+     "Is 7 × 3 equal to 21?"
+    ],
+    "show": [
+     "Counting and multiplying both give 21."
+    ],
+    "yes": "Yes! Multiplying is a fast way to count."
+   },
+   {
+    "id": "t18",
+    "type": "number",
+    "prompt": "A poster is 6 feet long and 3 feet wide. What is its area in square feet?",
+    "answer": "6 × 3",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       3
+      ]
+     ],
+     "unit": "ft"
+    },
+    "asks": "area",
+    "hints": [
+     "Multiply."
+    ],
+    "show": [
+     "6 × 3 = 18.",
+     "18 square feet."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t19",
+    "type": "number",
+    "prompt": "A square mat is 7 meters on each side. What is its area in square meters?",
+    "answer": "7 × 7",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       7
+      ]
+     ],
+     "unit": "m"
+    },
+    "asks": "area",
+    "hints": [
+     "A square: length and width are both 7."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 14
+      },
+      "say": "7 + 7 = 14 adds two sides. Multiply 7 × 7."
+     }
+    ],
+    "show": [
+     "7 × 7 = 49.",
+     "49 square meters."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t20",
+    "type": "choice",
+    "prompt": "A rectangle is 5 cm long and 4 cm wide. Which is its area?",
+    "options": [
+     {
+      "text": "20 square centimeters",
+      "correct": true
+     },
+     {
+      "text": "9 square centimeters",
+      "why": "5 + 4 = 9 adds the sides."
+     },
+     {
+      "text": "18 centimeters",
+      "why": "That adds all four sides. Area is 5 × 4."
+     }
+    ],
+    "hints": [
+     "Multiply, then name the unit."
+    ],
+    "show": [
+     "5 × 4 = 20 square centimeters."
+    ],
+    "yes": "Yes!"
+   }
+  ]
+ },
+ "test": {
+  "pass": 8,
+  "items": [
+   {
+    "id": "x1",
+    "type": "number",
+    "prompt": "This rectangle is 6 centimeters long and 5 centimeters wide. What is its area in square centimeters?",
+    "answer": "6 × 5",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       5
+      ]
+     ],
+     "unit": "cm"
+    },
+    "asks": "area",
+    "show": [
+     "The length is 6 centimeters. The width is 5 centimeters.",
+     "6 × 5 = 30.",
+     "The area is 30 square centimeters."
+    ],
+    "yes": "Yes! 6 × 5 = 30 square centimeters."
+   },
+   {
+    "id": "x2",
+    "type": "number",
+    "prompt": "This rectangle is 9 feet long and 4 feet wide. What is its area in square feet?",
+    "answer": "9 × 4",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       9,
+       4
+      ]
+     ],
+     "unit": "ft"
+    },
+    "asks": "area",
+    "show": [
+     "The length is 9 feet. The width is 4 feet.",
+     "9 × 4 = 36.",
+     "The area is 36 square feet."
+    ],
+    "yes": "Yes! 9 × 4 = 36 square feet."
+   },
+   {
+    "id": "x3",
+    "type": "number",
+    "prompt": "Count the rows and the squares in a row. What is the area in square units?",
+    "answer": "6 × 3",
+    "model": {
+     "type": "grid",
+     "cells": [
+      "XXXXXX",
+      "XXXXXX",
+      "XXXXXX"
+     ]
+    },
+    "asks": "tiles",
+    "show": [
+     "6 × 3 = 18 square units."
+    ]
+   },
+   {
+    "id": "x4",
+    "type": "choice",
+    "prompt": "Which equation finds the area of this rectangle?",
+    "options": [
+     {
+      "text": "7 + 2",
+      "why": "Adding does not find area."
+     },
+     {
+      "text": "7 × 2",
+      "correct": true
+     },
+     {
+      "text": "7 × 7",
+      "why": "The width is 2."
+     }
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       2
+      ]
+     ],
+     "unit": "m"
+    },
+    "target": "7 × 2",
+    "show": [
+     "7 × 2 = 14 square meters."
+    ]
+   },
+   {
+    "id": "x5",
+    "type": "number",
+    "prompt": "A square is 8 inches on each side. What is its area in square inches?",
+    "answer": "8 × 8",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       8,
+       8
+      ]
+     ],
+     "unit": "in."
+    },
+    "asks": "area",
+    "show": [
+     "8 × 8 = 64 square inches."
+    ]
+   },
+   {
+    "id": "x6",
+    "type": "number",
+    "prompt": "A mural is 9 feet long and 8 feet wide. What is its area in square feet?",
+    "answer": "9 × 8",
+    "show": [
+     "9 × 8 = 72 square feet."
+    ]
+   },
+   {
+    "id": "x7",
+    "type": "choice",
+    "prompt": "A rug has sides in meters. What unit is its area?",
+    "options": [
+     {
+      "text": "meters",
+      "why": "Area is in square meters."
+     },
+     {
+      "text": "square meters",
+      "correct": true
+     },
+     {
+      "text": "square feet",
+      "why": "The sides are in meters."
+     }
+    ],
+    "show": [
+     "Square meters."
+    ]
+   },
+   {
+    "id": "x8",
+    "type": "choice",
+    "prompt": "Which could be the sides of a rectangle with an area of 30 square feet?",
+    "options": [
+     {
+      "text": "5 feet and 6 feet",
+      "correct": true
+     },
+     {
+      "text": "5 feet and 5 feet",
+      "why": "5 × 5 = 25."
+     },
+     {
+      "text": "10 feet and 20 feet",
+      "why": "10 × 20 = 200."
+     }
+    ],
+    "target": "30",
+    "show": [
+     "5 × 6 = 30."
+    ]
+   },
+   {
+    "id": "x9",
+    "type": "number",
+    "prompt": "This rectangle is 10 meters long and 4 meters wide. What is its area in square meters?",
+    "answer": "10 × 4",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       4
+      ]
+     ],
+     "unit": "m"
+    },
+    "asks": "area",
+    "show": [
+     "The length is 10 meters. The width is 4 meters.",
+     "10 × 4 = 40.",
+     "The area is 40 square meters."
+    ],
+    "yes": "Yes! 10 × 4 = 40 square meters."
+   },
+   {
+    "id": "x10",
+    "type": "choice",
+    "prompt": "Why does multiplying give the same area as counting the squares?",
+    "options": [
+     {
+      "text": "A rectangle has equal rows, and multiplying adds equal rows.",
+      "correct": true
+     },
+     {
+      "text": "It does not; they are different.",
+      "why": "They are the same: both count every square."
+     },
+     {
+      "text": "Because the numbers are small.",
+      "why": "It works for any rectangle."
+     }
+    ],
+    "show": [
+     "Equal rows make a multiplication."
+    ]
+   }
+  ]
+ },
+ "parent": {
+  "sections": [
+   {
+    "heading": "What your child is learning",
+    "text": "Your child finds the area of a rectangle by multiplying length × width (the teacher's words: \"to find the area of a rectangle, you multiply the length and the width\"), and labels it in square units."
+   },
+   {
+    "heading": "Try it with real things",
+    "list": [
+     "Measure a book or a placemat with a ruler and multiply the sides.",
+     "Draw a rectangle on graph paper, count the squares, then check by multiplying."
+    ]
+   },
+   {
+    "heading": "Questions to ask",
+    "list": [
+     "Which side is the length? Which is the width?",
+     "What unit are the sides in? So what unit is the area?"
+    ]
+   },
+   {
+    "heading": "Common mistakes",
+    "list": [
+     "Adding the sides (7 + 3) instead of multiplying (7 × 3).",
+     "Writing \"21 cm\" instead of \"21 square centimeters\".",
+     "Adding all four sides (that measures around the outside)."
+    ]
+   },
+   {
+    "heading": "About these questions",
+    "text": "Lesson 6-3 follows the order of the class textbook chapter. The explanations, pictures and questions are Study Scoop's own; the teacher's words are marked as the teacher's."
+   }
+  ]
+ }
+}

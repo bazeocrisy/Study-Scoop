@@ -69,6 +69,7 @@ export function activityInner(ctx) {
   if (run.act === 'flash') return flashcards(ctx, run);
   if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
   if (run.act === 'wreview') return wordCards(ctx, run);
+  if (run.act === 'avreview' || run.act === 'avflash') return run.unavailable ? emptyRun(ctx, run) : (run.act === 'avreview' ? areaWordCards(ctx, run) : areaFlashcards(ctx, run));
   if (!run.items.length) return emptyRun(ctx, run);
   if (run.packet) return packetPage(ctx, run);
   if (run.mode === 'test') return run.submitted ? testResults(ctx, run) : testQuestion(ctx, run);
@@ -169,7 +170,7 @@ function testResults(ctx, run) {
   const s = score(run.items, run.items_, run.pass);
   const skills = MATH_SKILLS.map((k) => [k, run.items.filter((it) => it.skill === k)]).filter(([, list]) => list.length);
   const answered = s.total - unanswered(run.items, { items: run.items_ }).length;
-  const [homeSection, homeAct] = TEST_HOME[run.subject] || [run.subject, null];
+  const [homeSection, homeAct] = run.areaVocab ? ['math', 'areawords'] : run.subject === 'math' && ctx.tests?.math?.title?.startsWith('Chapter 6') ? ['math', 'area'] : TEST_HOME[run.subject] || [run.subject, null];
   const practiceHref = homeAct ? ctx.actLink(homeSection, homeAct) : ctx.link(homeSection);
   // A Skill Builders test belongs to its skill: practice, misses and "back" all go to that skill's menu.
   const card = run.subject === 'skills' ? parentOf(run) : null;
@@ -195,7 +196,7 @@ function testResults(ctx, run) {
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Take the test again</button>
         <button type="button" class="btn" data-act="print">Print my results</button>
-        ${s.missed.length && run.subject !== 'math' ? html`<a class="btn" href="${card ? ctx.actLink('skills', missesAct('skills', run.act)) : homeAct ? ctx.actLink(homeSection, 'wmisses') : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
+        ${s.missed.length && run.subject !== 'math' ? html`<a class="btn" href="${card ? ctx.actLink('skills', missesAct('skills', run.act)) : homeAct ? ctx.actLink(homeSection, run.areaVocab ? 'avmisses' : 'wmisses') : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
         ${card ? '' : html`<a class="btn" href="${practiceHref}">Practice ${SUBJECT[run.subject]}</a>`}
         <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
       </span>
@@ -359,6 +360,70 @@ function wordCards(ctx, run) {
       ${f.i > 0 ? html`<button type="button" class="btn" data-act="card-prev">‹ Previous</button>` : html`<span></span>`}
       ${last ? html`<a class="btn btn-primary" href="${ctx.actLink('math', 'words')}">Done: choose a quiz ›</a>`
         : html`<button type="button" class="btn btn-primary" data-act="card-next">Next: ${PROPERTIES[f.i + 1].name.replace(' Property', '')} ›</button>`}
+    </div>`;
+}
+
+/** The tag on an Area word: on the Nov 3 test (teacher's words), or a Chapter 6 review word. */
+const areaTag = (w) => html`<span class="word-tag ${w.teacher ? 'tag-test' : 'tag-review'}">${w.teacher ? 'Nov 3 test word' : 'Chapter review word'}</span>`;
+
+/** Topic 6 > Area Words > Review My Words: one word per card, with its picture, meaning and an example. */
+function areaWordCards(ctx, run) {
+  const words = ctx.area.vocab.words;
+  const f = run.flash;
+  const w = words[f.order[f.i]];
+  const last = f.i === words.length - 1;
+  return html`
+    ${stageTitle(`Word ${f.i + 1} of ${words.length}`)}
+    <div class="work has-pic word-card">
+      <div class="card pic-card"><div class="models">${modelFigure(w.model)}</div></div>
+      <div class="card">
+        <div class="instruct-head"><h3 class="vocab-word">${w.word}</h3>${readButton([w.word, `${w.teacher ? "Teacher's words" : 'Meaning'}: ${w.def}`, `In other words: ${w.kid}`, `Example: ${w.example}`], 'this word')}</div>
+        <p>${areaTag(w)}</p>
+        <blockquote class="teacher-words"><span class="label">${w.teacher ? "Teacher's words" : 'Meaning'}</span><span class="def">${w.def}</span></blockquote>
+        <p class="kid-words"><span class="label">In other words</span>${facts(w.kid)}</p>
+        <p class="example"><span class="tag">Example</span> ${facts(w.example)}</p>
+      </div>
+    </div>
+    <div class="stage-nav">
+      ${f.i > 0 ? html`<button type="button" class="btn" data-act="card-prev">‹ Previous</button>` : html`<span></span>`}
+      ${last ? html`<a class="btn btn-primary" href="${menuLink(ctx, run)}">Done: choose a quiz ›</a>`
+        : html`<button type="button" class="btn btn-primary" data-act="card-next">Next: ${words[f.order[f.i + 1]].word} ›</button>`}
+    </div>`;
+}
+
+/** Topic 6 > Area Words > Flashcards: the front shows the picture and the meaning; the back shows the word. */
+function areaFlashcards(ctx, run) {
+  const words = ctx.area.vocab.words;
+  const f = run.flash;
+  const w = words[f.order[f.i]];
+  return html`
+    ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
+    <button type="button" class="flashcard${f.flipped ? ' is-flipped' : ''}" data-act="flip" aria-describedby="flip-help"
+      aria-label="${f.flipped ? `Back of the card: ${w.word}. ${w.example}` : `Front of the card. Which word means: ${w.def}? Say the word, then turn the card over.`}">
+      ${f.flipped ? html`
+        <span class="face back">
+          <span class="side-label">Back of the card</span>
+          <span class="flash-word">${w.word}</span>
+          ${areaTag(w)}
+          <span class="sentence">${w.example}</span>
+        </span>` : html`
+        <span class="face front">
+          <span class="side-label">Front of the card</span>
+          <span class="models">${modelFigure(w.model)}</span>
+          <span class="flash-clue">Which word means:</span>
+          <span class="sentence">${w.def}</span>
+          <span class="tap">Say the word out loud. Then tap the card to check.</span>
+        </span>`}
+    </button>
+    <p class="sr-only" id="flip-help">Press Enter or Space to turn the card over.</p>
+    <div class="btn-row center flash-tools">
+      <button type="button" class="btn btn-primary flip-btn" data-act="flip">Flip Card</button>
+      <button type="button" class="btn" data-act="shuffle">Shuffle</button>
+    </div>
+    <div class="stage-nav">
+      <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
+      ${f.i === words.length - 1 ? html`<a class="btn btn-primary" href="${menuLink(ctx, run)}">Done: choose another activity</a>`
+        : html`<button type="button" class="btn btn-primary" data-act="card-next">Next ›</button>`}
     </div>`;
 }
 

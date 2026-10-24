@@ -40,11 +40,20 @@ const clean = (out, label) => {
   assert.doesNotMatch(out, /undefined|\bnull\b|NaN|\[object /, `${label}: no missing values`);
 };
 
-test('Math Lessons lists seven lessons, each open, each naming its strategy', () => {
-  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7']);
-  for (const l of INDEX.lessons) assert.ok(l.title && l.summary && l.strategy, l.id);
-  const out = mathView(ctxFor({ page: 'lessons' })).s;
-  clean(out, 'lessons menu');
+test('Math Lessons: choose Chapter 5 or Chapter 6; each chapter lists its lessons, each open, each naming its strategy', () => {
+  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6']);
+  assert.deepEqual(INDEX.chapters.map((c) => c.id), [5, 6]);
+  for (const l of INDEX.lessons) assert.ok(l.title && l.summary && l.strategy && l.chapter === Number(l.id[0]), l.id);
+  const chooser = mathView(ctxFor({ page: 'lessons' })).s;
+  clean(chooser, 'chapter menu');
+  assert.ok(chooser.includes('href="#math?act=ch5"') && chooser.includes('href="#math?act=ch6"'), 'both chapters');
+  assert.ok(chooser.includes('Chapter 6: Connect Area and Multiplication'), 'chapter 6 title');
+  for (const ch of [5, 6]) {
+    const out = mathView(ctxFor({ page: `ch${ch}` })).s;
+    clean(out, `chapter ${ch} menu`);
+    for (const l of INDEX.lessons) assert.equal(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), l.chapter === ch, `${l.id} listed only in its chapter`);
+  }
+  const out = mathView(ctxFor({ page: 'ch5' })).s + mathView(ctxFor({ page: 'ch6' })).s;
   for (const l of INDEX.lessons) {
     assert.ok(out.includes(`Lesson ${l.id}: ${l.title.replace(/'/g, '&#39;')}`), l.id);
     assert.ok(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), `${l.id} can be started`);
@@ -230,10 +239,16 @@ test('every lesson stage and every results screen renders, with Practice My Miss
     const testItems = Object.fromEntries(lesson.test.items.map((it) => [it.id, { status: 'correct', resp: Object.fromEntries(Object.entries(solution(it)).map(([k, v]) => [k, String(v)])) }]));
     const res = view('test', { i: 0, items: testItems, steps: {}, submitted: true });
     clean(res, `${lesson.id} test results`);
-    assert.match(res, /8 out of 8 right <span class="pct">\(100%\)/);
-    const k = INDEX.lessons.findIndex((l) => l.id === lesson.id);
-    if (k < INDEX.lessons.length - 1) assert.ok(res.includes(`Next: Lesson ${INDEX.lessons[k + 1].id}`), lesson.id);
-    else assert.ok(res.includes('href="#math?act=guide"') && res.includes('href="#tests?test=math"'), 'last lesson: Study Guide and Math Practice Test');
+    const n = lesson.test.items.length;
+    assert.ok(res.includes(`${n} out of ${n} right <span class="pct">(100%)`), `${lesson.id} perfect test score`);
+    // The next lesson in the same chapter; after a chapter's last lesson, that chapter's review.
+    const chapter = INDEX.lessons.filter((l) => l.chapter === Number(lesson.id[0]));
+    const k = chapter.findIndex((l) => l.id === lesson.id);
+    if (k < chapter.length - 1) assert.ok(res.includes(`Next: Lesson ${chapter[k + 1].id}`), lesson.id);
+    else if (lesson.id === '5-7') assert.ok(res.includes('href="#math?act=guide"') && res.includes('href="#tests?test=math"'), 'last Chapter 5 lesson: Study Guide and Math Practice Test');
+    else assert.ok(res.includes('act=ch6review') && res.includes('test=math'), 'last Chapter 6 lesson: Chapter 6 Review and its practice test');
+    // Back to Lessons goes to the lesson's own chapter.
+    assert.ok(res.includes(`href="#math?act=ch${lesson.id[0]}"`) || res.includes(`act=ch${lesson.id[0]}"`), `${lesson.id}: Back to its chapter`);
   }
 });
 

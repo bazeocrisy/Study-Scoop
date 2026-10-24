@@ -88,7 +88,7 @@ async function render() {
   }
   // Topic 6: Area questions (Math > Topic 6: Area), checked against the week's teacher words before they are shown.
   let area = null;
-  if (route.section === 'math' && /^area/.test(route.act || '')) {
+  if ((route.section === 'math' && /^(area|av|ch6review)/.test(route.act || '')) || route.section === 'tests') {
     try { area = await loadJSON('data/practice/area.json'); } catch { area = null; }
   }
   // Math Vocabulary questions (Math > Math Vocabulary and the Math Vocabulary practice test), checked like the lessons.
@@ -147,6 +147,7 @@ async function render() {
     }
     if (n !== renderCount) return;
   }
+  // The Area bank belongs to its own week; a problem with it hides the Area activities (and says so) rather than show a wrong key.
   if (area && (area.week !== weekId || validateArea(area, week).length)) area = null;
   if (tests) {
     let tp;
