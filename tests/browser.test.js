@@ -1289,8 +1289,11 @@ async function main() {
       await b.js('document.querySelector("[data-choice=stay]").click();');
       eq(await b.js('return [!!document.getElementById("leave-dialog"), location.hash];'), [false, '#tests?test=vocab'], 'Keep working stays');
       await b.js('document.querySelector("nav.tabs a[data-tab=math]").click();');
+      // Wait for the Math page to finish rendering before going back, or the next hash change can race it.
+      const ready = await b.js('return document.getElementById("app").dataset.ready || "";');
       await b.js('document.querySelector("[data-choice=go]").click();');
-      await b.waitFor('location.hash === "#math"');
+      await b.ready(ready);
+      eq(await b.js('return location.hash;'), '#math', 'Leave goes to Math');
       await b.hash('#tests?test=vocab');
       eq(await b.js('return document.querySelector("#act-stage input[name=choice]:checked")?.value;'), String(solution(first).choice), 'the answer is kept');
     });
