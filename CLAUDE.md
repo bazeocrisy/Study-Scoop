@@ -16,8 +16,14 @@
 ## Product
 Third-grade classroom learning hub. Weekly overview, spelling, vocabulary, math chapters, multiplication mastery, Quick Math, homework, newsletter and archived weeks. All learning activities are unlocked. Timers are optional. Hints belong in learn/practice, not scored tests.
 
+## Content ownership (D26, permanent)
+- **Chapters own Math content**: vocabulary, lessons, practice problems, study guide, chapter test and their Practice My Misses. Register a chapter in `data/lessons/index.json` and its six activities (roles vocab, vocabpractice, lessons, practice, guide, test) in `ACTIVITIES.math`. No week-based conditionals for Math content.
+- **Weeks own** the newsletter and original flyer, spelling, ELA vocabulary, homework, school-test dates and `mathChapter` (the recommended chapter). The week recommends; it never restricts the Math library.
+- Math opens on Choose Your Chapter. A chapter's screens never show another chapter's activities (tests/unit/chapters.test.js).
+- Workflows: `.claude/skills/build-chapter`, `.claude/skills/update-week`; lead and specialist reviewers in `.claude/agents`.
+
 ## Security / privacy / copyright
-The repository is PUBLIC. Do not add identifiable student information, personal records, unreviewed classroom materials, scanned textbook pages, or substantial copied textbook content. Do not add logins, analytics, student tracking, databases, paid APIs or persistent student data without a new approved design. Use original problems and validate all math answers.
+The repository is PUBLIC. Do not add identifiable student information, personal records, unreviewed classroom materials (a newsletter flyer is published only after a recorded privacy review, cropped to the page), scanned textbook pages, or substantial copied textbook content. Do not add logins, analytics, student tracking, databases, paid APIs or persistent student data without a new approved design. Use original problems and validate all math answers.
 
 ## Quality bar
 Responsive phone/tablet/Chromebook/desktop layouts, keyboard usability, accessible labeling and feedback, printable black-and-white study resources, automated regression tests, and a documented rollback plan.

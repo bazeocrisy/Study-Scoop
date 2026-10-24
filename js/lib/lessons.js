@@ -3,6 +3,7 @@
 
 import { chainHolds, evaluate, wrongFactsInText } from './arith.js';
 import { counts } from './models.js';
+import { gridCounts, shapeArea, shapeProblems } from './shapes.js';
 import { FROM_RIGHT, NEXT_PLACE, PLACE, roundParts } from './rounding.js';
 
 export const STAGES = [
@@ -12,6 +13,8 @@ export const STAGES = [
   { id: 'try', label: 'Try It Yourself' },
   { id: 'test', label: 'Test Your Knowledge' },
 ];
+/** The chapter a lesson belongs to: "6-3" is in Chapter 6. */
+export const chapterOf = (id) => Number(String(id).split('-')[0]) || 0;
 export const STAGE_IDS = [...STAGES.map((s) => s.id), 'parent'];
 export const stageLabel = (id) => (STAGES.find((s) => s.id === id) || { label: 'Parent Guide' }).label;
 
@@ -388,6 +391,21 @@ function validateModel(m, where, err) {
     if (!isInt(m.from, 0, 9999) || !isInt(m.to, 1, 10000) || m.to <= m.from || !isInt(m.dot, m.from, m.to)) err(`${where}: a number line needs from < to and a dot between them`);
     return;
   }
+  if (m.type === 'grid') {
+    const rows = Array.isArray(m.cells) ? m.cells : [];
+    if (!rows.length || rows.length > 12 || rows.some((r) => typeof r !== 'string' || !/^[Xo.]{1,12}$/.test(r))) err(`${where}: a grid needs 1-12 rows of X, o and . (at most 12 each)`);
+    else if (new Set(rows.map((r) => r.length)).size !== 1) err(`${where}: every grid row must be the same length`);
+    else if (!gridCounts(m).area) err(`${where}: the grid shape is empty`);
+    if (m.tiling !== undefined && !['gaps', 'overlap'].includes(m.tiling)) err(`${where}: tiling must be "gaps" or "overlap"`);
+    if (m.tiling && rows.some((r) => /o/.test(r))) err(`${where}: a wrong tiling shows tiles only`);
+    return;
+  }
+  if (m.type === 'shape') {
+    for (const p of shapeProblems(m)) err(`${where}: ${p}`);
+    if (m.show !== undefined && m.show !== 'parts') err(`${where}: show must be "parts"`);
+    if (m.unit !== undefined && !/^[a-z.]{1,6}$/.test(m.unit)) err(`${where}: unit must be a short word like "ft"`);
+    return;
+  }
   if (m.type !== 'array') return err(`${where}: unknown model type ${JSON.stringify(m.type)}`);
   if (!isInt(m.rows, 1, 12) || !isInt(m.cols, 1, 12)) err(`${where}: rows and cols must be whole numbers from 1 to 12`);
   if (m.labels !== undefined && !['facts', 'parts', 'none'].includes(m.labels)) err(`${where}: labels must be "facts", "parts" or "none"`);
@@ -432,6 +450,31 @@ function validateItem(item, where, err, ids) {
   const sol = (() => { try { return solution(item); } catch (e) { err(`${where}: ${e.message}`); return null; } })();
   if (!sol) return;
   const asText = Object.fromEntries(Object.entries(sol).map(([k, v]) => [k, String(v)]));
+  // Area pictures (Chapter 6): a box named by "areaBox" holds the figure's area, worked out from the picture.
+  if (item.areaBox !== undefined) {
+    const pic = item.model;
+    const want = pic?.type === 'shape' ? shapeArea(pic) : pic?.type === 'grid' ? gridCounts(pic).area : undefined;
+    if (want === undefined) err(`${where}: "areaBox" needs a shape or grid picture`);
+    else if (Number(sol[item.areaBox]) !== want) err(`${where}: the picture's area is ${want}, but box ${item.areaBox} says ${sol[item.areaBox]}`);
+  }
+  // "Which figure covers more?": the key names the picture with the greatest area, and no two are equal.
+  if (item.compare && item.type === 'choice') {
+    const areas = (item.models || []).map((m) => (m.type === 'grid' ? gridCounts(m).tiles : m.type === 'shape' ? shapeArea(m) : m.rows * m.cols));
+    const big = Math.max(...areas);
+    const key = item.options.findIndex((o) => o.correct);
+    if (areas.filter((a) => a === big).length !== 1) err(`${where}: compare needs one picture with the greatest area`);
+    else if (key !== areas.indexOf(big)) err(`${where}: the key must be the picture with the greatest area (picture ${areas.indexOf(big) + 1})`);
+  }
+  // "Which equations find the area?": an option is right exactly when its expression equals the picture's area.
+  if (item.areaOptions) {
+    const pic = item.model;
+    const want = pic?.type === 'shape' ? shapeArea(pic) : pic?.type === 'grid' ? gridCounts(pic).area : undefined;
+    if (want === undefined) err(`${where}: "areaOptions" needs a shape or grid picture`);
+    else (item.options || []).forEach((o, i) => {
+      let v = null; try { v = evaluate(o.text); } catch { v = null; }
+      if ((v === want) !== Boolean(o.correct)) err(`${where}: option ${i + 1} (${o.text}${v === null ? '' : ` = ${v}`}) is ${o.correct ? 'marked right but is not' : 'marked wrong but equals'} the area ${want}`);
+    });
+  }
   switch (item.type) {
     case 'number': {
       // A bare fact prompt ("8 × 3 = ?") must agree with its answer.
@@ -440,8 +483,11 @@ function validateItem(item, where, err, ids) {
       // "How many rows / columns?" about a picture: the answer must be what the picture shows.
       if (item.asks) {
         const pic = item.model;
-        const want = pic?.type === 'array' ? { rows: pic.rows, cols: pic.cols, dots: pic.rows * pic.cols }[item.asks] : undefined;
-        if (want === undefined) err(`${where}: "asks" must be rows, cols or dots, about an array picture`);
+        const g = pic?.type === 'grid' ? gridCounts(pic) : null;
+        const want = pic?.type === 'array' ? { rows: pic.rows, cols: pic.cols, dots: pic.rows * pic.cols }[item.asks]
+          : g ? { tiles: g.tiles, area: g.area, missing: g.area - g.tiles }[item.asks]
+            : pic?.type === 'shape' ? { area: shapeArea(pic) }[item.asks] : undefined;
+        if (want === undefined) err(`${where}: "asks" must be rows, cols or dots (array), tiles, area or missing (grid), or area (shape)`);
         else if (want !== sol.answer) err(`${where}: the picture has ${want} ${item.asks}, but the answer is ${sol.answer}`);
       }
       break;
@@ -549,6 +595,8 @@ function validateItem(item, where, err, ids) {
       if (!names.length) err(`${where}: blanks has no [boxes]`);
       else if (names.some((n) => !Number.isInteger(sol[n]))) err(`${where}: answer must give a whole number for every box`);
       else if (check(item, asText).status !== 'correct') err(`${where}: its own answer is not accepted`);
+      // Lines that are equations (Chapter 6 area work) must each be true with the answers filled in.
+      else if (item.equations) for (const l of item.text) { let ok = false; try { ok = chainHolds(fill(l, sol)); } catch { ok = false; } if (!ok) err(`${where}: "${l}" is not true with its answers`); }
       // A number line question ("47 is between [a] and [b] ... closer to [c] ... rounded [e]") must agree with its picture.
       if (item.numberLine && item.model?.type === 'numberline') {
         const m = item.model, near = Math.abs(m.dot - m.from) < Math.abs(m.to - m.dot) ? m.from : m.to;

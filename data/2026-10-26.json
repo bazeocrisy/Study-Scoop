@@ -1,6 +1,27 @@
 {
   "id": "2026-10-26",
   "label": "Week of October 26–30",
+  "mathChapter": 6,
+  "flyer": {
+    "reviewed": "2026-10-24",
+    "note": "Photographed by the family; cropped to the page. Reviewed: no student names, grades, teacher or school names, or contact details.",
+    "pages": [
+      {
+        "src": "images/flyers/2026-10-26-front.webp",
+        "label": "Front: newsletter",
+        "width": 1074,
+        "height": 1398,
+        "alt": "The class newsletter for the week of October 26 to 30: what we're learning (Math: Area; Reading: Because of Winn-Dixie; Writing: Opinion; Spelling: -er/-or; ELA: Pronouns; Science: Georgia Habitats), the 15 spelling words, quizzes and tests on Friday 10/30, announcements and homework."
+      },
+      {
+        "src": "images/flyers/2026-10-26-back.webp",
+        "label": "Back: vocabulary",
+        "width": 1074,
+        "height": 1398,
+        "alt": "The back of the newsletter: twelve Because of Winn-Dixie vocabulary words with definitions (the quiz is on the four green words: Trustworthy, Constellations, Irritating, Distracted) and the Math Topic 6 vocabulary for the 11/3 test: Area, Square Unit and Multiply."
+      }
+    ]
+  },
   "learning": [
     [
       "Math",
@@ -102,7 +123,7 @@
         "word": "pitcher",
         "base": "pitch",
         "rule": "er",
-        "sentence": "The pitcher threw a fast ball."
+        "sentence": "The pitcher threw a fastball."
       },
       {
         "word": "helper",
@@ -156,7 +177,7 @@
         "word": "bigger",
         "base": "big",
         "rule": "double-er",
-        "sentence": "The bigger apple is next to a small one."
+        "sentence": "This apple is bigger than that one."
       },
       {
         "word": "bolder",
@@ -174,7 +195,7 @@
         "word": "talker",
         "base": "talk",
         "rule": "er",
-        "sentence": "The talker shared an exciting story."
+        "sentence": "My little brother is a fast talker."
       },
       {
         "word": "teacher",

@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { validateIndex, validateWeek } from '../js/lib/validate.js';
 import { validateLesson, validateLessonIndex } from '../js/lib/lessons.js';
+import { validateChapters } from '../js/lib/chapters.js';
 import { validateMathPractice, validateMathWords, validateTests } from '../js/lib/activities.js';
 import { pictureName } from '../js/lib/data.js';
 import { validateArea } from '../js/lib/area.js';
@@ -26,6 +27,8 @@ export const ALLOW = [
   /^downloads\/homework-\d{4}-\d{2}-\d{2}\.pdf$/,
   /^images\/cone\.svg$/,
   /^images\/words\/[a-z0-9-]+\.(?:svg|webp)$/,
+  // Original newsletter flyers, only after a privacy review recorded in the week file (D26). Raw photos stay in images/newsletters (never published).
+  /^images\/flyers\/\d{4}-\d{2}-\d{2}-[a-z]+\.webp$/,
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
@@ -69,6 +72,8 @@ export function buildSite(out, src = REPO) {
   const lessons = new Set(fs.existsSync(lessonIndex) ? readJSON(lessonIndex).lessons.map((l) => `data/lessons/${l.id}.json`) : []);
   const testIndex = path.join(src, 'data/tests/index.json');
   const testWeeks = new Set(fs.existsSync(testIndex) ? readJSON(testIndex).weeks.filter((id) => listed.has(`data/${id}.json`)).map((id) => `data/tests/${id}.json`) : []);
+  // A flyer is published only when a listed week names it in its reviewed "flyer" (D26).
+  const flyers = new Set([...listed].flatMap((f) => { try { const w = readJSON(path.join(src, f)); return w.flyer?.reviewed ? (w.flyer.pages || []).map((pg) => pg.src) : []; } catch { return []; } }));
   const copied = [], skipped = [];
   for (const rel of SOURCES.flatMap((s) => walk(src, s))) {
     let why = null;
@@ -76,6 +81,7 @@ export function buildSite(out, src = REPO) {
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
     else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';
     else if (/^data\/tests\/(?!index\.json$)/.test(rel) && !testWeeks.has(rel)) why = 'not listed in data/tests/index.json (or its week is not published)';
+    else if (/^images\/flyers\//.test(rel) && !flyers.has(rel)) why = 'not named in a published week\'s privacy-reviewed flyer';
     if (why) { skipped.push(`${rel} (${why})`); continue; }
     fs.mkdirSync(path.dirname(path.join(out, rel)), { recursive: true });
     fs.copyFileSync(path.join(src, rel), path.join(out, rel));
@@ -148,7 +154,7 @@ export function verifySite(dir) {
   // and nothing unlisted is published (a draft lesson stays off the site, like a draft week).
   if (has('data/lessons/index.json')) {
     const lessonIndex = readJSON(path.join(dir, 'data/lessons/index.json'));
-    problems.push(...validateLessonIndex(lessonIndex));
+    problems.push(...validateLessonIndex(lessonIndex), ...validateChapters(lessonIndex));
     const ids = new Set((lessonIndex.lessons || []).map((l) => l.id));
     for (const rel of files.filter((f) => /^data\/lessons\/(?!index\.json$)/.test(f))) {
       if (!ids.has(rel.slice('data/lessons/'.length, -'.json'.length))) problems.push(`${rel} is published but not listed in data/lessons/index.json`);

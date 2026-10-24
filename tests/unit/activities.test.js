@@ -201,7 +201,7 @@ test('homework: only work actually received is marked received, with no workshee
 });
 
 test('activity screens render without missing values, and tests never show hints, feedback or spelling words', () => {
-  const ctx = (run) => ({ week: W19, weekId: W19.id, run, link: (s) => `#${s}`, actLink: (s, a) => `#${s}?act=${a}`, testLink: (k) => `#tests?test=${k}`, pictures: { photos: [], drawings: [] } });
+  const ctx = (run) => ({ week: W19, weekId: W19.id, run, link: (s) => `#${s}`, actLink: (s, a) => `#${s}?act=${a}`, chapterLink: (id) => `#math?ch=${id}`, testLink: (k) => `#tests?test=${k}`, pictures: { photos: [], drawings: [] } });
   for (const subject of ['vocab', 'spelling']) {
     for (const a of ACTIVITIES[subject]) {
       const items = a.id === 'misses' || a.id === 'cards' || a.id === 'flash' ? [] : subject === 'vocab' ? vocabItems(W19, a.id, rng(1)) : spellingItems(W19, a.id);

@@ -50,10 +50,31 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
     'data/practice/math.json', 'data/practice/math-words.json', 'data/practice/area.json', 'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
     ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2')),
     // Homework packets (D23): Study Scoop's own version of the week's homework and its printed PDF.
-    'data/homework/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/homework/index.json'), 'utf8')).weeks.flatMap((id) => [`data/homework/${id}.json`, `downloads/homework-${id}.pdf`])];
+    'data/homework/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/homework/index.json'), 'utf8')).weeks.flatMap((id) => [`data/homework/${id}.json`, `downloads/homework-${id}.pdf`]),
+    // Original newsletter flyers (D26): only the pages a listed week names in its privacy-reviewed "flyer".
+    ...weeks.flatMap((f) => JSON.parse(fs.readFileSync(path.join(REPO, f), 'utf8')).flyer?.pages.map((pg) => pg.src) || [])];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
   assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'fonts', 'images', 'index.html', 'js']);
+});
+
+test('a flyer image is published only when a listed week names it in a reviewed "flyer"; raw newsletter photos never (D26)', () => {
+  const src = tmp('flyer-src');
+  for (const x of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, x), path.join(src, x), { recursive: true });
+  put(src, 'images/flyers/2026-10-19-front.webp', 'not reviewed');
+  put(src, 'images/newsletters/2026-10-19.jpg', 'raw photo');
+  const out = tmp('flyer-out');
+  const result = buildSite(out, src);
+  assert.ok(result.skipped.includes("images/flyers/2026-10-19-front.webp (not named in a published week's privacy-reviewed flyer)"));
+  assert.ok(!fs.existsSync(path.join(out, 'images/newsletters')), 'raw photos are never published');
+  assert.ok(fs.existsSync(path.join(out, 'images/flyers/2026-10-26-front.webp')), 'the reviewed flyer is published');
+  // Without its review date, the week file is invalid and the flyer is not published.
+  const wk = JSON.parse(fs.readFileSync(path.join(src, 'data/2026-10-26.json'), 'utf8'));
+  delete wk.flyer.reviewed;
+  put(src, 'data/2026-10-26.json', JSON.stringify(wk));
+  const out2 = tmp('flyer-out2');
+  const r2 = buildSite(out2, src);
+  assert.ok(r2.skipped.some((x) => x.startsWith('images/flyers/2026-10-26-front.webp')));
 });
 
 test('a draft lesson (not listed) is left out, and a broken lesson fails verification', () => {

@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const BASE = '/Study-Scoop/';
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml',
-  '.json': 'application/json', '.png': 'image/png' };
+  '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.pdf': 'application/pdf', '.woff2': 'font/woff2' };
 
 /**
  * `root` is the folder served at BASE: the repository by default, or a built site folder (scripts/build-site.js).

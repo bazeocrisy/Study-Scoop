@@ -3,6 +3,7 @@
 // columns (splits the second factor), never through a dot. Colours come from CSS classes (no style attributes).
 
 import { html, raw } from './html.js';
+import { areaModelSvg, describeArea, gridCounts, shapeArea } from './shapes.js';
 
 const GAP = 30;      // distance between dot centres
 const R = 10.5;      // dot radius
@@ -12,6 +13,7 @@ const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 /** Accessible description of a model (what is drawn, never the answer to a question). */
 export function describe(m) {
+  if (m.type === 'grid' || m.type === 'shape') return describeArea(m);
   if (m.type === 'numberline') return `A number line from ${m.from} to ${m.to}${m.mid ? `, with ${(m.from + m.to) / 2} marked in the middle` : ''}, and a dot at ${m.dot}.`;
   if (m.type === 'plates') {
     if (m.plates === 0) return 'No plates at all.';
@@ -164,6 +166,8 @@ function platesSvg(m) {
 
 /** Counts used by tests: how many dots/tiles/plates are drawn in each part. */
 export function counts(m) {
+  if (m.type === 'grid') return gridCounts(m);
+  if (m.type === 'shape') return { area: shapeArea(m) };
   if (m.type === 'plates') return { plates: m.plates, dots: m.plates * m.each };
   if (m.type === 'pair') return { left: counts(m.left), right: counts(m.right) };
   if (m.type === 'numberline') return {};
@@ -184,6 +188,8 @@ function clean(m) {
     style: pick(a.style, ['dots', 'tiles']), labels: pick(a.labels, ['facts', 'parts', 'none']),
     sideLabels: Boolean(a.sideLabels), star: a.star ? [int(a.star[0]), int(a.star[1])] : undefined, alt: a.alt,
   });
+  // Area pictures (Chapter 6) are drawn by js/lib/shapes.js, which reads only letters and whole numbers.
+  if (m.type === 'grid' || m.type === 'shape') return { ...m, alt: m.alt };
   if (m.type === 'plates') return { type: 'plates', plates: int(m.plates), each: int(m.each), perRow: m.perRow ? int(m.perRow) : undefined, alt: m.alt };
   if (m.type === 'pair') return { type: 'pair', left: arr(m.left), right: arr(m.right), alt: m.alt };
   if (m.type === 'numberline') { const n = (v) => Math.max(0, Math.min(10000, Math.trunc(Number(v)) || 0)); return { type: 'numberline', from: n(m.from), to: n(m.to), dot: n(m.dot), mid: Boolean(m.mid), alt: m.alt }; }
@@ -205,7 +211,9 @@ function numberLineSvg(m) {
 export function modelFigure(model, caption) {
   const m = clean(model);
   let svg;
-  if (m.type === 'plates') {
+  if (m.type === 'grid' || m.type === 'shape') {
+    svg = areaModelSvg(m);
+  } else if (m.type === 'plates') {
     svg = m.plates === 0 ? '<span class="m-none">no plates</span>' : platesSvg(m);
   } else if (m.type === 'numberline') {
     svg = numberLineSvg(m);

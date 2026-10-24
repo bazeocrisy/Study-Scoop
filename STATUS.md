@@ -1,7 +1,9 @@
 # Study Scoop — Project Status
 
 ## Current phase
-Oct 26–30 release (D24): weekly content for Oct 26–30 (spelling -er/-or with the supplied pictures, the four green vocabulary words, Topic 6: Area for the Nov 3 vocabulary test) and the release-test repair. Next: Chapter 6 lessons 6-1 to 6-6 (Assignment 007).
+Chapter-first Math (D26): Math opens on Choose Your Chapter; Chapter 5 and Chapter 6 each have Learn Vocabulary, Vocabulary Practice, Math Lessons, Practice Problems, Study Guide and Chapter Test, loading only their own content. This Week recommends the week's chapter (Oct 26–30: Chapter 6; Oct 12–23: Chapter 5) with shortcuts. The Newsletter shows the privacy-reviewed Oct 26–30 flyer (zoom, print); Oct 12 and Oct 19 flyers were never supplied and show as unavailable. Reusable workflows: `.claude/skills/build-chapter`, `.claude/skills/update-week`, `.claude/agents`.
+
+Oct 26–30 release (D24): weekly content for Oct 26–30 (spelling -er/-or with the supplied pictures, the four green vocabulary words, Topic 6: Area for the Nov 3 vocabulary test) and the release-test repair. Chapter 6 (D25): lessons 6-1 to 6-6, Area Words, Chapter 6 Review, the Chapter 6 Practice Test (27) and the Nov 3 Math Vocabulary Practice Test (12).
 
 Skill Builders Wave 1 (D22): Quick Math is now Skill Builders with Mental Add, Rounding and Times Tables.
 
@@ -43,6 +45,8 @@ Assignment 005 (implementation) on `develop`: eighth section **Tests** (weekly S
 - B4: vocabulary sheet photo so definitions can be checked (kept out of the repo)
 - B5: word pictures that contain text
 - B6–B8: Find My Factors rules, Lesson 5-1/5-2 objectives, Quick Math specification
+- Chapter 6 vocabulary: the class sheet defines *Distracted* as "To prevent something from continuing as usual", which reads closer to *interrupted*. Study Scoop keeps the teacher's words; worth confirming with the teacher
+- Chapter 6 story names (Omar, Lena, Ana, Ben, Ray, Bo, Jo, Max) are invented; owner to confirm none match a classmate
 
 ## Next
 New work goes to `develop` and appears on the live preview. The owner tests it there; each merge into `main` needs the owner's explicit approval of that pull request. Do not merge image PRs #2 and #3 until approved. Release steps: `docs/DEPLOYMENT.md`.

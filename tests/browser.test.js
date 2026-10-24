@@ -41,6 +41,9 @@ const ACTIVITY_ROUTES = ['#vocab?act=learn', '#spelling?act=learn', '#math?act=l
   '#homework?week=2026-10-19&act=packet',
   // Topic 6: Area (Oct 26–30) and the Oct 19–23 pages kept for review.
   '#math?act=area', '#math?act=arealearn', '#math?act=areafind', '#math?act=areawords', '#math?act=areamisses',
+  // Chapter-first Math (D26): Choose Your Chapter, both chapter menus, and every chapter page and test.
+  '#math', '#math?ch=5', '#math?ch=6', '#math?act=areapractice', '#math?act=ch6guide', '#math?act=ch5test', '#math?act=ch6test', '#newsletter', '#newsletter?week=2026-10-19',
+  '#math?act=ch5', '#math?act=ch6', '#math?act=ch6review', '#math?act=avreview', '#math?act=avflash', '#math?act=avchoice', '#math?act=avtf', '#math?act=avfill', '#math?act=avmisses', '#tests?test=mathwords',
   '#spelling?week=2026-10-19&act=letters', '#tests?week=2026-10-19', '#tests?week=2026-10-19&test=math'];
 // `--site <folder>` serves a built site (scripts/build-site.js) instead of the repository, exactly as GitHub Pages would.
 const siteArg = process.argv.indexOf('--site');
@@ -124,7 +127,7 @@ async function main() {
       eq(cards, ['In 5 days | Math Test | Wednesday, October 21', 'In 7 days | Vocabulary Quiz | Friday, October 23',
         'In 7 days | Spelling Test | Friday, October 23'], 'test cards');
       eq(await b.js('return [...document.querySelectorAll(".test .action")].map((a) => a.getAttribute("href"));'),
-        ['#math', '#tests', '#vocab', '#tests', '#spelling', '#tests'].map(H19), 'study and practice-test links');
+        ['#math?ch=5', '#tests', '#vocab', '#tests', '#spelling', '#tests'].map(H19), 'study (the week\'s chapter: Chapter 5) and practice-test links');
     });
     await check('Oct 26–30 (this week) This Week counts down from Monday, Oct 26: green-word quiz, spelling test, Topic 6 vocabulary test', async () => {
       // A second frozen "today" for this check only (Monday, Oct 26, 2026, 8 AM).
@@ -136,7 +139,7 @@ async function main() {
         eq(cards, ['In 4 days | Academic Vocabulary Quiz | Friday, October 30', 'In 4 days | Spelling Test | Friday, October 30',
           'In 8 days | Math Topic 6 Vocabulary Test | Tuesday, November 3'], 'test cards');
         eq(await b.js('return [...document.querySelectorAll(".test .action")].map((a) => a.getAttribute("href"));'),
-          ['#vocab', '#tests', '#spelling', '#tests', '#math?act=area', '#tests'], 'study links (Area opens Topic 6) and practice-test links');
+          ['#vocab', '#tests', '#spelling', '#tests', '#math?ch=6', '#tests'], 'study links (the Nov 3 test opens Chapter 6) and practice-test links');
         expect((await b.js('return document.querySelector(".test-vocab").textContent;')).includes('Trustworthy, Constellations, Irritating, Distracted'), 'the quiz names the four green words');
         const learning = await b.js('return [...document.querySelectorAll(".learning div")].map((d) => d.querySelector("dt").textContent + " " + d.querySelector("dd").textContent);');
         eq(learning, ['Math Area', 'Reading Novel Study: Because of Winn-Dixie', 'Writing Opinion', 'Spelling -er / -or', 'ELA Pronouns', 'Science Georgia Habitats'], 'what we are learning');
@@ -419,7 +422,9 @@ async function main() {
     const answer = async (item, values) => {
       await b.js(`const f = document.querySelector('form[data-item="${item.id}"]'); const v = ${JSON.stringify(values)};
         if ('choice' in v) f.querySelector('input[name=choice][value="' + v.choice + '"]').click();
-        for (const [k, x] of Object.entries(v)) { const el = f.querySelector('[name="' + k + '"]'); if (el && el.type !== 'radio') el.value = String(x); }
+        // "Choose all that are right": tick exactly the listed boxes.
+        if ('multi' in v) f.querySelectorAll('input[type=checkbox][name=multi]').forEach((c) => { c.checked = String(v.multi).split(',').includes(c.value); });
+        for (const [k, x] of Object.entries(v)) { const el = f.querySelector('[name="' + k + '"]'); if (el && el.type !== 'radio' && el.type !== 'checkbox') el.value = String(x); }
         f.dispatchEvent(new Event('input', { bubbles: true }));`);
     };
     const press = async (selector) => {
@@ -438,10 +443,14 @@ async function main() {
     const fb = () => b.js('const e = document.querySelector("#lesson-stage .feedback:not(.info)"); if (!e) return ""; const c = e.cloneNode(true); c.querySelectorAll(".read").forEach((x) => x.remove()); return c.textContent.replace(/\\s+/g, " ").trim();');
 
     for (const id of [OCT19, OCT26]) await check(`${id}: Math > Learn the Properties: five cards, each picture matching its equation, with the teacher's words`, async () => {
-      // Unit 5 stays complete in the Area week, with the same teacher's words (from Oct 19).
+      // Math > Choose Your Chapter > Chapter 5 > Learn Vocabulary (D26). Chapter 5 is complete in every week,
+      // with the same teacher's words (from Oct 19).
       await b.load(url(inWeek('#math', id)));
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
-        [...(id === OCT26 ? ['Topic 6: Area'] : []), 'Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide'], id === OCT26 ? 'Topic 6 first, then all of Unit 5' : 'five choices first');
+        ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication'], 'Choose Your Chapter');
+      await go(`.menu-card[href="${inWeek('#math?ch=5', id)}"]`);
+      eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
+        ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test'], 'the six Chapter 5 activities');
       await go(`.menu-card[href="${inWeek('#math?act=learn', id)}"]`);
       const W = readJSON('data/2026-10-19.json');
       const seen = [];
@@ -473,7 +482,7 @@ async function main() {
       await press('[data-act="card-prev"]');
       eq(await b.js('return document.getElementById("stage-h").textContent;'), 'Property 4 of 5', 'Previous Property');
       await b.js('document.querySelector(".bar-btns a.back").click();');
-      await b.waitFor(`location.hash === ${JSON.stringify(inWeek('#math', id))}`);
+      await b.waitFor(`location.hash === ${JSON.stringify(inWeek('#math?ch=5', id))}`);
       // On a menu, Home is the first step of the crumbs.
       await b.js('document.querySelector(".crumbs a").click();');
       await b.waitFor('document.querySelector("#app h1")?.textContent === "This Week"');
@@ -654,10 +663,12 @@ async function main() {
     console.log('Unit 5: seven lessons, Math Vocabulary, results and misses (D20)');
     const MW = readJSON('data/practice/math-words.json');
     const LESSON_INDEX = readJSON('data/lessons/index.json').lessons;
+    const LESSON_CHAPTERS = readJSON('data/lessons/index.json').chapters;
     /** A wrong answer for a question: another choice, or the last box one more than its right value. */
     const wrongFor = (item) => {
       const sol = solution(item);
       if (item.type === 'choice') return { choice: item.options.findIndex((o) => !o.correct) };
+      if (item.type === 'multi') return { multi: String(item.options.findIndex((o) => !o.correct)) };
       const names = boxes(item);
       const last = names[names.length - 1];
       return { ...sol, [last]: Number(sol[last]) + 1 };
@@ -665,15 +676,23 @@ async function main() {
     const stageTitle = () => b.js('return document.getElementById("stage-h")?.textContent.trim() || "";');
     const formItem = () => b.js('return document.querySelector("form[data-item]")?.dataset.item || "";');
 
-    await check('Math > Math Lessons: seven open lessons, each card names its strategy, Start opens Learn It', async () => {
+    await check('Math > Choose Your Chapter > Chapter N > Math Lessons: each chapter lists only its own open lessons; Start opens Learn It', async () => {
       await b.load(url('#math'));
-      await go('.menu-card[href="#math?act=lessons"]');
-      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Math Lessons', 'h1');
-      eq(await b.js('return [...document.querySelectorAll(".lesson-card .lesson-num")].map((n) => n.textContent);'), LESSON_INDEX.map((l) => l.id), 'seven lessons in order');
-      eq(await b.js('return [...document.querySelectorAll(".lesson-card .strategy")].map((n) => n.textContent.replace("Strategy", "").trim());'), LESSON_INDEX.map((l) => l.strategy), 'strategies');
-      eq(await b.js('return document.querySelectorAll(".lesson-card [disabled], .lesson-card .locked").length;'), 0, 'nothing is locked');
-      await go('.lesson-card a.btn-primary[href="#math?lesson=5-6&stage=learn"]');
-      eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), ['#math?lesson=5-6&stage=learn', LESSON_INDEX[5].title], 'Lesson 5-6 opens');
+      eq(await b.js('return [document.querySelector("#app h1").textContent, document.querySelector(".menu .ask").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent)];'),
+        ['Math', 'Choose Your Chapter', ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication']], 'Choose Your Chapter');
+      eq(await b.js('return [...document.querySelectorAll("#app a")].filter((a) => /[?&](lesson|act)=/.test(a.getAttribute("href") || "")).length;'), 0, 'no lessons or activities before a chapter is chosen');
+      for (const [ch, start] of [[5, '5-6'], [6, '6-3']]) {
+        if (ch !== 5) await b.hash('#math'); // Chapter 5 starts from the Math page already open
+        await go(`.menu-card[href="#math?ch=${ch}"]`);
+        eq(await b.js('return document.querySelector("#app h1").textContent;'), LESSON_CHAPTERS.find((c) => c.id === ch).title, `Chapter ${ch} menu`);
+        await go(`.menu-card[href="#math?act=ch${ch}"]`);
+        const list = LESSON_INDEX.filter((l) => l.chapter === ch);
+        eq(await b.js('return [...document.querySelectorAll(".lesson-card .lesson-num")].map((n) => n.textContent);'), list.map((l) => l.id), `Chapter ${ch}: its lessons in order`);
+        eq(await b.js('return [...document.querySelectorAll(".lesson-card .strategy")].map((n) => n.textContent.replace("Strategy", "").trim());'), list.map((l) => l.strategy), 'strategies');
+        eq(await b.js('return document.querySelectorAll(".lesson-card [disabled], .lesson-card .locked").length;'), 0, 'nothing is locked');
+        await go(`.lesson-card a.btn-primary[href="#math?lesson=${start}&stage=learn"]`);
+        eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [`#math?lesson=${start}&stage=learn`, LESSON_INDEX.find((l) => l.id === start).title], `Lesson ${start} opens`);
+      }
     });
 
     for (const meta of LESSON_INDEX) {
@@ -745,11 +764,13 @@ async function main() {
           await press(k < L.test.items.length - 1 ? '[data-act="next"]' : '[data-act="submit"]');
         }
         eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), `${L.test.items.length} out of ${L.test.items.length} right (100%)`, 'test score');
-        const k = LESSON_INDEX.findIndex((l) => l.id === meta.id);
+        // What next: the next lesson of the same chapter; after a chapter's last lesson, its review.
+        const chapter = LESSON_INDEX.filter((l) => l.chapter === meta.chapter);
+        const k = chapter.findIndex((l) => l.id === meta.id);
         const primary = await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");');
-        eq(primary, k < LESSON_INDEX.length - 1 ? lessonHash(LESSON_INDEX[k + 1].id, 'learn') : '#math?act=guide', 'what next');
-        await go('.stage-nav a.btn[href="#math?act=lessons"]');
-        eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Math Lessons', 'Back to Lessons');
+        eq(primary, k < chapter.length - 1 ? lessonHash(chapter[k + 1].id, 'learn') : meta.chapter === 5 ? '#math?act=guide' : '#math?act=ch6guide', 'what next: the next lesson, or the chapter\'s Study Guide');
+        await go(`.stage-nav a.btn[href="#math?act=ch${meta.chapter}"]`);
+        eq(await b.js('return document.querySelector("#app h1").textContent;'), `Chapter ${meta.chapter} Lessons`, 'Back to Lessons (the chapter\'s own list)');
       });
     }
 
@@ -779,9 +800,9 @@ async function main() {
     });
 
     await check('Oct 19–23 Math > Math Vocabulary: five cards; Review My Words shows all five properties with Previous and Next', async () => {
-      await b.load(url(H19('#math')));
+      await b.load(url(H19('#math?ch=5')));
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
-        ['Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide'], 'Math menu');
+        ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test'], 'Chapter 5 menu');
       await go(`.menu-card[href="${H19('#math?act=words')}"]`);
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent.trim());'),
         ['Review My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'], 'Math Vocabulary menu');
@@ -862,12 +883,12 @@ async function main() {
       eq(got, routes.map(() => 'Question 1 of 20'), 'twenty each');
     });
 
-    await check('Tests: the Math Vocabulary practice test has no hints, keeps answers, scores, and links back to Math Vocabulary', async () => {
-      await b.load(url('#tests'));
+    await check('Oct 19–23 Tests: the Math Vocabulary practice test has no hints, keeps answers, scores, and links back to Math Vocabulary', async () => {
+      await b.load(url(H19('#tests')));
       eq(await b.js('return [...document.querySelectorAll(".test-card h3")].map((h) => h.textContent);'),
         ['Math Practice Test', 'Spelling Practice Test', 'Vocabulary Practice Test', 'Math Vocabulary Practice Test'], 'four tests');
-      // This week's math test is the Topic 6 Area vocabulary test, so the property-word test is labelled as Unit 5 review.
-      eq(await b.js('return [document.querySelector(".test-mathwords dt").textContent, document.querySelector(".test-mathwords dd").textContent];'), ['Review of', 'Unit 5 (properties)'], 'not called a class test');
+      // Oct 19–23: the property-word test helps with that week's Multiplication Properties test.
+      eq(await b.js('return document.querySelector(".test-mathwords dt").textContent;'), 'Helps with math test', 'not called a class test');
       await go('.test-mathwords a.btn-primary');
       eq(await b.js('return document.querySelector(".stage-title h2").textContent;'), 'Question 1 of 15', '15 questions');
       for (let k = 0; k < 15; k++) {
@@ -885,7 +906,7 @@ async function main() {
         await press(k < 14 ? '[data-act="next"]' : '[data-act="submit"]');
       }
       eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '15 out of 15 right (100%)', 'score');
-      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=words', '#week', '#tests'], 'Practice Math Vocabulary, Home, Back to Tests');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=words', '#week', '#tests'].map(H19), 'Practice Math Vocabulary, Home, Back to Tests');
     });
 
     for (const id of [OCT19, OCT26]) await check(`${id}: Study Guide: Unit 5 sections (with Unit 5's own test date), lesson links, and answers that print`, async () => {
@@ -1153,15 +1174,18 @@ async function main() {
       const MENUS = {
         spelling: ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses'],
         vocab: ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'],
-        math: ['Topic 6: Area', 'Learn the Properties', 'Math Vocabulary', 'Practice Problems', 'Math Lessons', 'Study Guide'],
+        // Math opens on Choose Your Chapter (D26); each card opens a chapter menu.
+        math: ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication'],
       };
+      const ASK = { spelling: 'What would you like to do?', vocab: 'What would you like to do?', math: 'Choose Your Chapter' };
+      const CRUMB = (subject, k, label) => (subject === 'math' ? `Chapter ${k + 5}` : label);
       const NAME = { spelling: 'Spelling', vocab: 'Vocabulary', math: 'Math' };
       for (const [subject, labels] of Object.entries(MENUS)) {
         await b.load(url('#week'));
         await b.js(`document.querySelector('nav.tabs a[data-tab="${subject}"]').click();`);
         await b.waitFor(`location.hash === "#${subject}" && document.querySelector("#app h1")?.textContent === ${JSON.stringify(NAME[subject])}`);
         eq(await b.js('return [document.querySelector(".ask").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim())];'),
-          ['What would you like to do?', labels], subject + ' menu');
+          [ASK[subject], labels], subject + ' menu');
         // The choices are on the first screen, even on a small laptop (no scrolling to find them).
         expect(await b.js('return document.querySelector(".menu-card").getBoundingClientRect().bottom < innerHeight;'), subject + ': first choice visible without scrolling');
         await b.viewport(1366, 768, false);
@@ -1172,7 +1196,7 @@ async function main() {
         for (const [k, href] of hrefs.entries()) {
           await b.hash(href);
           eq(await b.js('return document.querySelector("#app h1").textContent;'), labels[k], href + ' title');
-          eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', NAME[subject], labels[k]], href + ' crumbs');
+          eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', NAME[subject], CRUMB(subject, k, labels[k])], href + ' crumbs');
           eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => [a.textContent.trim(), a.getAttribute("href")]);'),
             [[`‹ Back to ${NAME[subject]}`, `#${subject}`], ['Home', '#week']], href + ' Back and Home');
         }
@@ -1183,7 +1207,7 @@ async function main() {
       let before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.activeElement.tagName];'), ['#math?act=guide', 'H1'], 'browser Back (focus on the heading)');
+      eq(await b.js('return [location.hash, document.activeElement.tagName];'), ['#math?ch=6', 'H1'], 'browser Back (focus on the heading): the last chapter opened');
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.forward();');
       await b.ready(before);
@@ -1193,12 +1217,13 @@ async function main() {
       const PRACTICE = readJSON('data/practice/math.json');
       const ITEM = new Map(Object.values(PRACTICE.sets).flat().map((it) => [it.id, it]));
       await b.load(url('#math'));
+      await go('.menu-card[href="#math?ch=5"]');
       await go('.menu-card[href="#math?act=practice"]');
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'),
         ['Identify the Property', 'Match the Split Array', 'Break Apart a Factor', 'Mixed Practice', 'Practice My Misses'], 'kinds of problems');
       await go('.menu-card[href="#math?act=split"]');
-      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Practice Problems', 'Match the Split Array'], 'crumbs');
-      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?act=practice', '#math', '#week'], 'Back to Practice Problems, Back to Math, Home');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Chapter 5', 'Practice Problems', 'Match the Split Array'], 'crumbs');
+      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?act=practice', '#math?ch=5', '#week'], 'Back to Practice Problems, Back to Chapter 5, Home');
       for (let k = 0; k < PRACTICE.sets.split.length; k++) {
         eq(await progress(), `Question ${k + 1} of ${PRACTICE.sets.split.length}`, 'progress');
         const item = ITEM.get(await formId());
@@ -1249,15 +1274,25 @@ async function main() {
       }
       await b.viewport(1366, 900, false);
     });
-    await check('Math > Math Lessons: both lessons with every step; a lesson has Back to Lessons, Back to Math and Home', async () => {
+    await check('Math > Chapter N > Math Lessons: every lesson with every step; a lesson has Back to Lessons, Back to Chapter and Home', async () => {
       await b.load(url('#math'));
-      await go('.menu-card[href="#math?act=lessons"]');
-      eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => [...c.querySelectorAll(".stage-links a")].map((a) => a.textContent.trim().replace(/\\s+/g, " ")));').then((x) => x.map((l) => l.length)), [5, 5, 5, 5, 5, 5, 5], 'seven lessons, five steps each');
+      await go('.menu-card[href="#math?ch=5"]');
+      await go('.menu-card[href="#math?act=ch5"]');
+      eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => [...c.querySelectorAll(".stage-links a")].map((a) => a.textContent.trim().replace(/\\s+/g, " ")));').then((x) => x.map((l) => l.length)), [5, 5, 5, 5, 5, 5, 5], 'seven Chapter 5 lessons, five steps each');
       await go('.stage-links a[href="#math?lesson=5-1&stage=together"]');
       eq(await b.js('return [document.getElementById("stage-h").textContent, [...document.querySelectorAll(".bar-btns a")].map((a) => [a.textContent.trim(), a.getAttribute("href")])];'),
-        ['Practice Together', [['‹ Back to Lessons', '#math?act=lessons'], ['Back to Math', '#math'], ['Home', '#week']]], 'Practice Together, with Back and Home');
+        ['Practice Together', [['‹ Back to Lessons', '#math?act=ch5'], ['Back to Chapter 5', '#math?ch=5'], ['Home', '#week']]], 'Practice Together, with Back and Home');
       await b.js('document.querySelector(".bar-btns a.back").click();');
-      await b.waitFor('location.hash === "#math?act=lessons"');
+      await b.waitFor('location.hash === "#math?act=ch5"');
+      await b.load(url('#math?act=ch6'));
+      eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => c.querySelectorAll(".stage-links a").length);'), [5, 5, 5, 5, 5, 5], 'six Chapter 6 lessons, five steps each');
+      await go('.stage-links a[href="#math?lesson=6-4&stage=test"]');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs a")].map((a) => [a.textContent.trim(), a.getAttribute("href")]);'),
+        [['Home', '#week'], ['Math', '#math'], ['Chapter 6', '#math?ch=6'], ['Chapter 6 Lessons', '#math?act=ch6']], 'Home > Math > Chapter 6 > Chapter 6 Lessons');
+      // Back never leads into the other chapter.
+      await b.js('document.querySelectorAll(".bar-btns a.back")[1].click();');
+      await b.waitFor('location.hash === "#math?ch=6"');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Chapter 6: Connect Area and Multiplication', 'Back to Chapter 6');
     });
     await check('leaving an unfinished test asks first; the answers are kept', async () => {
       await b.load(url('#tests'));
@@ -1275,8 +1310,11 @@ async function main() {
       await b.js('document.querySelector("[data-choice=stay]").click();');
       eq(await b.js('return [!!document.getElementById("leave-dialog"), location.hash];'), [false, '#tests?test=vocab'], 'Keep working stays');
       await b.js('document.querySelector("nav.tabs a[data-tab=math]").click();');
+      // Wait for the Math page to finish rendering before going back, or the next hash change can race it.
+      const ready = await b.js('return document.getElementById("app").dataset.ready || "";');
       await b.js('document.querySelector("[data-choice=go]").click();');
-      await b.waitFor('location.hash === "#math"');
+      await b.ready(ready);
+      eq(await b.js('return location.hash;'), '#math', 'Leave goes to Math');
       await b.hash('#tests?test=vocab');
       eq(await b.js('return document.querySelector("#act-stage input[name=choice]:checked")?.value;'), String(solution(first).choice), 'the answer is kept');
     });
@@ -1320,7 +1358,9 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".qnum").textContent, l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
         [['Question 2', 'Your answer: 6', 'Correct answer: 0'], ['Question 17', 'Your answer: No answer', 'Correct answer: 7 × 7 = 5 × 7 + 2 × 7 = 49']], 'review');
       eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => r.lastElementChild.textContent);'), ['4 of 4', '2 of 3', '7 of 7', '5 of 6'], 'score per skill');
-      expect(await b.js(`return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href='${H19('#math')}']") && !!document.querySelector(".stage-nav a[href='${H19('#tests')}']");`), 'print, practise and Back to Tests');
+      expect(await b.js(`return !!document.querySelector("[data-act=print]") && !!document.querySelector(".stage-nav a[href='${H19('#math?act=practice')}']") && !!document.querySelector(".stage-nav a[href='${H19('#tests')}']");`), 'print, Chapter 5 practice and Back to Tests');
+      // The Oct 19 math test belongs to Chapter 5: its misses go to Chapter 5 > Practice Problems > Practice My Misses.
+      eq(await b.js(`return document.querySelector(".stage-nav a[href='${H19('#math?act=misses')}']")?.textContent.trim();`), 'Practice My Misses', 'misses in Chapter 5');
       await press('[data-act="restart"]');
       eq([await progress(), await b.js('return document.querySelectorAll("#act-stage input:checked").length;')], ['Question 1 of 20', 0], 'a fresh test');
     });
@@ -1567,68 +1607,144 @@ async function main() {
       expect(await b.js('return document.body.textContent.includes("You passed!");'), '13 or more passes');
       eq(await b.js('return document.querySelectorAll(".review li").length;'), 1, 'one question to look at again, with its answer');
     });
-    await check('Oct 26 Test Center: four practice tests; the Area test, spelling, green-word vocabulary and Unit 5 review', async () => {
+    await check('Oct 26 Test Center: the Chapter 6 Practice Test, spelling, green-word vocabulary and the Nov 3 Math Vocabulary test', async () => {
       await b.load(url('#tests'));
-      eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".topic")?.textContent, c.querySelector(".facts div:first-child dd").textContent, c.querySelector(".facts div:last-child dd").textContent, !!c.querySelector("a.btn")]);'),
-        [['Math Practice Test', 'Topic 6: Area', 'Tuesday, November 3', '15', true], ['Spelling Practice Test', '-er / -or words', 'Friday, October 30', '15', true],
-          ['Vocabulary Practice Test', 'Because of Winn-Dixie — Four Green Words', 'Friday, October 30', '16', true], ['Math Vocabulary Practice Test', 'The five multiplication properties', 'Unit 5 (properties)', '15', true]], 'cards');
+      eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".topic")?.textContent, c.querySelector(".facts div:first-child dt").textContent, c.querySelector(".facts div:first-child dd").textContent, c.querySelector(".facts div:last-child dd").textContent, !!c.querySelector("a.btn")]);'),
+        [['Chapter 6 Practice Test', 'Chapter 6: Connect Area and Multiplication', 'Review of', 'Chapter 6 (all lessons)', '27', true],
+          ['Spelling Practice Test', '-er / -or words', 'Class test', 'Friday, October 30', '15', true],
+          ['Vocabulary Practice Test', 'Because of Winn-Dixie — Four Green Words', 'Class test', 'Friday, October 30', '16', true],
+          ['Math Vocabulary Practice Test', 'Nov 3 words: Area, Square Unit, Multiply', 'Class test', 'Tuesday, November 3', '12', true]], 'cards');
     });
-    await check('Oct 26 Math: Topic 6: Area menu, Learn Area, Find the Area (20), Area Words (20), misses, Back and Home', async () => {
+    const AV = AREA.vocab;
+    const avAll = [...AV.choice, ...AV.truefalse, ...AV.fill];
+    /** Answers the question on screen (choices are shuffled, so the right one is found by its text). */
+    const answerOnScreen = async (item, wrong = false) => {
+      if (item.type === 'choice') await pickText(item.options.find((o) => (wrong ? !o.correct : o.correct)).text);
+      else if (item.type === 'word') await typeIn(wrong ? 'xyz' : item.answer);
+      else await answer(item, wrong ? { answer: 999 } : solution(item));
+    };
+    await check('Oct 26 Math > Chapter 6: Learn Vocabulary, Practice Problems > Mixed Practice (20) with Help and misses, Back and Home', async () => {
       await b.load(url('#math'));
-      await go('.menu-card[href="#math?act=area"]');
-      eq(await b.js('return [document.querySelector("#app h1").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent.trim())];'),
-        ['Topic 6: Area', ['Learn Area', 'Find the Area', 'Area Words', 'Practice My Misses']], 'the Area menu');
+      await go('.menu-card[href="#math?ch=6"]');
+      eq(await b.js('return [document.querySelector("#app h1").textContent, [...document.querySelectorAll(".menu-card")].map((c) => [c.querySelector(".mc-title").textContent.trim(), c.getAttribute("href")])];'),
+        ['Chapter 6: Connect Area and Multiplication', [['Learn Vocabulary', '#math?act=arealearn'], ['Vocabulary Practice', '#math?act=areawords'], ['Math Lessons', '#math?act=ch6'],
+          ['Practice Problems', '#math?act=areapractice'], ['Study Guide', '#math?act=ch6guide'], ['Chapter Test', '#math?act=ch6test']]], 'the Chapter 6 menu: six activities, all Chapter 6');
       await go('.menu-card[href="#math?act=arealearn"]');
       eq(await b.js('return [...document.querySelectorAll(".area-word h3")].map((h) => h.textContent);'), ['1. Area', '2. Square Unit', '3. Multiply'], 'three words');
-      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?act=area', '#math', '#week'], 'Back to Topic 6, Back to Math, Home');
-      await go('.stage-nav a.btn-primary[href="#math?act=areafind"]');
-      const all = [...AREA.find, ...AREA.words];
-      for (const act of ['areafind', 'areawords']) {
-        if (act === 'areawords') await b.hash('#math?act=areawords');
-        eq(await progress(), 'Question 1 of 20', `${act}: 20 questions`);
-        for (let k = 0; k < 20; k++) {
-          const fid = await formId();
-          const item = all.find((it) => it.id === fid);
-          expect(item, 'a known Area question');
-          if (k === 0 && act === 'areafind') {
-            // A miss: for a length-and-width question, adding the two numbers is explained.
-            if (item.type === 'number') { await answer(item, { answer: 999 }); await checkIt(); expect((await actFb()).startsWith('Not yet'), 'Not yet'); }
-            else { await pickText(item.options.find((o) => !o.correct).text); await checkIt(); expect((await actFb()).startsWith('Not yet'), 'Not yet'); }
-            await press('#act-stage [data-act="help"]');
-            eq(await b.js('return document.querySelectorAll(".help-steps li").length;'), 1, 'Help opens one step');
-          }
-          if (item.type === 'choice') await pickText(item.options.find((o) => o.correct).text);
-          else await answer(item, solution(item));
-          await checkIt();
-          expect((await actFb()).startsWith('Yes'), `${item.id}: ${await actFb()}`);
-          await nextQ();
+      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?ch=6', '#math', '#week'], 'Back to Chapter 6, Back to Math, Home');
+      eq(await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");'), '#math?act=areawords', 'then Vocabulary Practice');
+      await b.hash('#math?act=areapractice');
+      eq(await b.js('return [document.querySelector("#app h1").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim())];'),
+        ['Area Practice Problems', ['Mixed Practice', 'Practice My Misses']], 'Chapter 6 Practice Problems');
+      await go('.menu-card[href="#math?act=areafind"]');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Chapter 6', 'Area Practice Problems', 'Mixed Practice'], 'Home > Math > Chapter 6 > Practice Problems');
+      eq(await progress(), 'Question 1 of 20', 'Mixed Practice: 20 questions');
+      for (let k = 0; k < 20; k++) {
+        const fid = await formId();
+        const item = AREA.find.find((it) => it.id === fid);
+        expect(item, 'a known Area question');
+        if (k === 0) {
+          await answerOnScreen(item, true); await checkIt();
+          expect((await actFb()).startsWith('Not yet'), 'Not yet');
+          await press('#act-stage [data-act="help"]');
+          eq(await b.js('return document.querySelectorAll(".help-steps li").length;'), 1, 'Help opens one step');
         }
+        await answerOnScreen(item); await checkIt();
+        expect((await actFb()).startsWith('Yes'), `${item.id}: ${await actFb()}`);
+        await nextQ();
       }
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '20 out of 20 right on the first try (100%)', 'Area Words results');
-      await b.hash('#math?act=area');
-      eq(await b.js('return document.querySelector(".menu-card.misses .count-badge")?.textContent.replace(/\\D/g, "");'), '1', 'one Area miss to practise');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'results');
+      eq(await b.js('return document.querySelector(".end-nav a.btn-primary").getAttribute("href");'), '#math?act=areapractice', 'Choose another activity: Chapter 6 Practice Problems');
+      await b.hash('#math?act=areapractice');
+      eq(await b.js('return document.querySelector(".menu-card.misses .count-badge")?.textContent.replace(/\\D/g, "");'), '1', 'one miss to practise');
       await go('.menu-card[href="#math?act=areamisses"]');
       eq(await progress(), 'Question 1 of 1', 'Practice My Misses');
       await b.hash('#math?act=misses');
       eq(await progress(), 'Nothing to practice yet', 'Unit 5 practice misses stay separate');
     });
-    await check('Oct 26 Math practice test (Area): 15 questions, no hints, score per part, review with answers', async () => {
-      await b.load(url('#tests?test=math'));
+    await check('Oct 26 Area Words: Review My Words and Flashcards (8 words), three 20-question quizzes, misses of their own', async () => {
+      await b.load(url('#math?act=areawords'));
+      eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent.trim());'),
+        ['Review My Words', 'Flashcards', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'], 'Area Words menu');
+      await go('.menu-card[href="#math?act=avreview"]');
+      const cards = [];
+      for (let k = 0; k < AV.words.length; k++) {
+        cards.push(await b.js('const c = document.getElementById("act-stage"); return [c.querySelector(".vocab-word").textContent, c.querySelector(".teacher-words .label").textContent, c.querySelector(".def").textContent, c.querySelector(".word-tag").textContent, c.querySelectorAll(".model-svg").length];'));
+        if (k < AV.words.length - 1) await press('[data-act="card-next"]');
+      }
+      eq(cards, AV.words.map((w) => [w.word, w.teacher ? "Teacher's words" : 'Meaning', w.def, w.teacher ? 'Nov 3 test word' : 'Chapter review word', 1]), 'every word: picture, tag and meaning');
+      for (const w of ['Area', 'Square Unit', 'Multiply']) eq(cards.find((c) => c[0] === w)[2], W26.math.words.find((x) => x.word === w).def, `${w}: teacher's words exactly`);
+      await b.hash('#math?act=avflash');
+      expect(!(await b.js('return document.getElementById("act-stage").textContent;')).includes(AV.words[0].word + ' '), 'the front does not name the word');
+      let before = await rendered();
+      await b.clickAt('.flashcard');
+      await afterAction(before);
+      eq(await b.js('return document.querySelector(".flash-word").textContent;'), AV.words[0].word, 'a click turns the card over');
+      before = await rendered(); await b.key('Enter'); await afterAction(before);
+      eq(await b.js('return document.querySelectorAll(".flashcard .flash-word").length;'), 0, 'Enter turns it back');
+      for (const [act, mode] of [['avchoice', 'choice'], ['avtf', 'truefalse'], ['avfill', 'fill']]) {
+        await b.hash(`#math?act=${act}`);
+        eq(await progress(), 'Question 1 of 20', `${act}: 20 questions`);
+        for (let k = 0; k < 20; k++) {
+          const fid = await formId();
+          const item = AV[mode].find((it) => it.id === fid);
+          expect(item, `${act}: a known question ${fid}`);
+          if (k === 0 && mode === 'choice') { await answerOnScreen(item, true); await checkIt(); expect((await actFb()).startsWith('Not yet'), 'a wrong choice'); }
+          await answerOnScreen(item); await checkIt();
+          expect((await actFb()).startsWith('Yes'), `${item.id}: ${await actFb()}`);
+          await nextQ();
+        }
+      }
+      await b.hash('#math?act=areawords');
+      eq(await b.js('return document.querySelector(".menu-card.misses .count-badge")?.textContent.replace(/\\D/g, "");'), '1', 'one word miss');
+      await b.hash('#math?act=areamisses');
+      eq(await progress(), 'Nothing to practice yet', 'Mixed Practice misses are kept apart');
+    });
+    // The Chapter 6 test, taken from Tests and from Math > Chapter 6 > Chapter Test (D26): the same 27 questions.
+    for (const [where, start] of [['Tests', '#tests?test=math'], ['Math > Chapter 6', '#math?act=ch6test']]) await check(`Oct 26 Chapter 6 Practice Test (from ${where}): 27 questions from all six lessons, no hints, a score for each lesson, review, misses in Chapter 6`, async () => {
+      await b.load(url(start));
       const items = T26.math.items;
-      eq(await progress(), 'Question 1 of 15', '15 questions');
+      eq(await progress(), 'Question 1 of 27', '27 questions');
       for (const [k, item] of items.entries()) {
         eq(await b.js('return document.querySelectorAll("#act-stage [data-act=help], #act-stage button[type=submit], #act-stage .feedback").length;'), 0, `no help on ${item.id}`);
-        if (item.model) eq(await b.js('return document.querySelectorAll("#act-stage .m-tile").length;'), item.model.rows * item.model.cols, `${item.id}: the picture has the right squares`);
-        if (item.id === 'm11') await answer(item, { answer: item.model.rows + item.model.cols });   // added instead of multiplied
+        if (item.model?.type === 'grid') eq(await b.js('return document.querySelectorAll("#act-stage .g-tile").length;'), item.model.cells.join('').split('X').length - 1, `${item.id}: the picture has its tiles`);
+        if (item.id === 'c9') await answer(item, { answer: 11 });   // 7 + 4: added instead of multiplied
         else await answer(item, item.type === 'word' ? { text: item.answer } : solution(item));
         if (k < items.length - 1) await press('[data-act="next"]');
       }
       await press('[data-act="submit"]');
-      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '14 out of 15 right (93%)', 'score');
-      eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => [r.firstElementChild.textContent, r.lastElementChild.textContent]);'),
-        [['The Area words', '5 of 5'], ['Counting square units', '5 of 5'], ['Multiplying length × width', '4 of 5']], 'score per part');
-      eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'),
-        [['Your answer: 11', 'Correct answer: 28']], 'review');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), '26 out of 27 right (96%)', 'score');
+      eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => r.lastElementChild.textContent);'), ['4 of 4', '4 of 4', '4 of 5', '4 of 4', '5 of 5', '5 of 5'], 'a score for each lesson');
+      eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'), [['Your answer: 11', 'Correct answer: 28']], 'review');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => [a.textContent.trim(), a.getAttribute("href")]);'),
+        [['Practice My Misses', '#math?act=areamisses'], ['Chapter 6 Practice', '#math?act=areapractice'], ['Home', '#week'],
+          where === 'Tests' ? ['Back to Tests', '#tests'] : ['Back to Chapter 6', '#math?ch=6']], 'Chapter 6 misses and practice; back where the test started');
+      await go('.stage-nav a[href="#math?act=areamisses"]');
+      eq(await progress(), 'Question 1 of 1', 'the missed test question is in Chapter 6 > Practice My Misses');
+      await b.hash('#math?act=misses');
+      eq(await progress(), 'Nothing to practice yet', 'never in Chapter 5\'s misses');
+    });
+    await check('Oct 26 Nov 3 Math Vocabulary test: 12 questions on Area, Square Unit and Multiply only; a miss goes to Area Words', async () => {
+      await b.load(url('#tests?test=mathwords'));
+      eq(await progress(), 'Question 1 of 12', '12 questions');
+      const pool = AV.test;
+      // Miss exactly one question: the first multiple-choice one (the test is drawn at random, so question 1 may be a fill-in).
+      let missed = false;
+      for (let k = 0; k < 12; k++) {
+        const p = await qPrompt();
+        const item = pool.find((it) => it.prompt === p);
+        expect(item && ['Area', 'Square Unit', 'Multiply'].includes(item.word), `a Nov 3 word question: ${p}`);
+        eq(await b.js('return document.querySelectorAll("#act-stage [data-act=help], #act-stage .feedback").length;'), 0, 'no hints');
+        const fid = await formId();
+        if (item.type === 'choice') await b.js(`const f = document.querySelector('form[data-item="${fid}"]'); [...f.querySelectorAll('label.choice')].find((l) => l.textContent.trim() === ${JSON.stringify(item.options.find((o) => (!missed ? !o.correct : o.correct)).text)}).querySelector('input').click(); f.dispatchEvent(new Event('change', { bubbles: true }));`);
+        else await b.js(`const f = document.querySelector('form[data-item="${fid}"]'); f.querySelector('input[name=text]').value = ${JSON.stringify(item.answer)}; f.dispatchEvent(new Event('input', { bubbles: true }));`);
+        if (item.type === 'choice') missed = true;
+        await press(k < 11 ? '[data-act="next"]' : '[data-act="submit"]');
+      }
+      eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '11 out of 12 right (92%)', 'score');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=avmisses', '#math?act=areawords', '#week', '#tests'], 'Practice My Misses (Area Words), Practice, Home, Back to Tests');
+      await go('.stage-nav a[href="#math?act=avmisses"]');
+      eq(await progress(), 'Question 1 of 1', 'the missed word is in Area Words > Practice My Misses');
     });
     await check('Oct 26 Homework: only what the newsletter says (no packet pages invented), and weeks never mix', async () => {
       await b.load(url('#homework'));
@@ -1649,10 +1765,109 @@ async function main() {
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-26"; s.dispatchEvent(new Event("change"));');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.querySelector(".test-math .topic").textContent];'), ['#tests', 'Topic 6: Area'], 'back to Oct 26');
-      await b.hash('#math?act=area');
+      eq(await b.js('return [location.hash, document.querySelector(".test-math .topic").textContent];'), ['#tests', 'Chapter 6: Connect Area and Multiplication'], 'back to Oct 26');
+      // A chapter does not change with the week (D26): in Oct 19, the old Area link opens the same Chapter 6.
       await b.hash(H19('#math?act=area'));
-      expect((await b.js('return document.getElementById("app").textContent;')).includes('Area is not this week'), 'an Area link in Oct 19 says Area is another week');
+      eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [H19('#math?ch=6'), 'Chapter 6: Connect Area and Multiplication'], 'Chapter 6 in the Oct 19 week');
+      await b.hash(H19('#math?act=areawords'));
+      expect(await b.js('return !!document.querySelector(".menu-card[href*=\'act=avreview\']");'), 'Area Words work in any week');
+      await b.hash(H19('#math'));
+      eq(await b.js('return [...document.querySelectorAll(".chapter-status")].map((x) => x.textContent);'), ['Currently studying', 'Coming up: open any time'], 'Oct 19 recommends Chapter 5; Chapter 6 stays open');
+    });
+
+    console.log('Chapter-first Math and the original newsletter (D26)');
+    await check('This Week recommends the week\'s chapter: shortcuts open only that chapter (Oct 26: Chapter 6; Oct 19: Chapter 5)', async () => {
+      for (const [id, ch, acts] of [[OCT26, 6, ['arealearn', 'ch6', 'areapractice', 'ch6guide']], [OCT19, 5, ['learn', 'ch5', 'practice', 'guide']]]) {
+        await b.load(url(inWeek('#week', id)));
+        eq(await b.js('return document.querySelector(".math-week h2").textContent;'), `Math this week: Chapter ${ch}: ${readJSON('data/lessons/index.json').chapters.find((c) => c.id === ch).name}`, `${id}: the week's chapter`);
+        eq(await b.js('return [...document.querySelectorAll(".math-week a")].map((a) => a.getAttribute("href"));'),
+          [...acts.map((a) => inWeek(`#math?act=${a}`, id)), inWeek(`#math?ch=${ch}`, id)], `${id}: Vocabulary, Lessons, Practice, Study Guide and the whole chapter`);
+        await go(`.math-week a[href="${inWeek(`#math?act=${acts[1]}`, id)}"]`);
+        eq(await b.js('return document.querySelector("#app h1").textContent;'), `Chapter ${ch} Lessons`, `${id}: the shortcut opens Chapter ${ch} Lessons`);
+        expect(await b.js(`return [...document.querySelectorAll(".lesson-num")].every((n) => n.textContent.startsWith("${ch}-"));`), `${id}: only Chapter ${ch} lessons`);
+      }
+    });
+    await check('the week picker never moves a child out of a Math chapter; other subjects go to the chosen week\'s menu', async () => {
+      for (const [h, title] of [['#math?ch=6', 'Chapter 6: Connect Area and Multiplication'], ['#math?act=ch6guide', 'Chapter 6 Study Guide'], ['#math?act=areawords', 'Area Words'], ['#math?ch=5', 'Chapter 5: Multiplication Properties and Strategies']]) {
+        await b.load(url(h));
+        const before = await b.js('return document.getElementById("app").dataset.ready;');
+        await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-19"; s.dispatchEvent(new Event("change"));');
+        await b.ready(before);
+        eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [H19(h), title], `${h}: same page in Oct 19`);
+      }
+      await b.load(url('#vocab?act=choice'));
+      const before = await b.js('return document.getElementById("app").dataset.ready;');
+      await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-19"; s.dispatchEvent(new Event("change"));');
+      await b.ready(before);
+      eq(await b.js('return location.hash;'), H19('#vocab'), 'a week\'s vocabulary quiz goes to the chosen week\'s Vocabulary menu');
+    });
+    await check('Newsletter: the reviewed Oct 26–30 flyer (both pages, zoom, open full size, print); earlier weeks say theirs is unavailable', async () => {
+      await b.load(url('#week'));
+      await go('.page-head a[data-flyer]');
+      eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), ['#newsletter', 'Newsletter'], 'View Original Newsletter');
+      await b.waitFor('[...document.querySelectorAll(".flyer img")].every((i) => i.complete && i.naturalWidth > 0)');
+      eq(await b.js('return [...document.querySelectorAll(".flyer img")].map((i) => [i.getAttribute("src"), i.naturalWidth > 1000, i.alt.length > 40]);'),
+        [['images/flyers/2026-10-26-front.webp', true, true], ['images/flyers/2026-10-26-back.webp', true, true]], 'both pages, full resolution, described');
+      eq(await b.js('return [...document.querySelectorAll(".flyer figcaption a")].map((a) => [a.getAttribute("href"), a.target]);'),
+        [['images/flyers/2026-10-26-front.webp', '_blank'], ['images/flyers/2026-10-26-back.webp', '_blank']], 'Open full size');
+      const w0 = await b.js('return document.querySelector(".flyer img").getBoundingClientRect().width;');
+      await b.js('document.querySelector("[data-act=zoom]").click();');
+      eq(await b.js('return [document.querySelector("[data-act=zoom]").getAttribute("aria-pressed"), document.querySelector("[data-act=zoom]").textContent];'), ['true', 'Zoom out'], 'Zoom in is a toggle');
+      expect((await b.js('return document.querySelector(".flyer img").getBoundingClientRect().width;')) > w0 * 1.5, 'the page is bigger');
+      expect(await b.js('const r = document.querySelector(".flyer-scroll"); return r.scrollWidth > r.clientWidth && r.tabIndex === 0;'), 'the zoomed page scrolls inside its frame, by keyboard too');
+      expect(await b.js('return document.documentElement.scrollWidth <= innerWidth;'), 'the page itself does not scroll sideways');
+      expect(await b.js('return !!document.querySelector("[data-act=print]");'), 'Print the newsletter');
+      await b.media('print');
+      expect(await b.js('return getComputedStyle(document.querySelector(".flyer img")).display !== "none" && getComputedStyle(document.querySelector("[data-act=zoom]").parentElement).display === "none";'), 'printing shows the flyer, not the buttons');
+      await b.media('');
+      for (const id of [OCT19, '2026-10-12']) {
+        await b.load(url(inWeek('#newsletter', id)));
+        expect((await b.js('return document.querySelector(".flyer").textContent;')).includes('is not available on Study Scoop'), `${id}: unavailable`);
+        eq(await b.js('return document.querySelectorAll(".flyer img, img[src*=newsletters], img[src*=flyers]").length;'), 0, `${id}: no flyer image from another week`);
+        expect(await b.js('return !!document.querySelector(".spelling-list li");'), `${id}: the summary is still there`);
+      }
+    });
+    await check('Study Guides: Chapter 6\'s covers area with the teacher\'s words and a self-check; Chapter 5\'s stays the Unit 5 guide', async () => {
+      await b.load(url('#math?ch=6'));
+      await go('.menu-card[href="#math?act=ch6guide"]');
+      const text = await b.js('return document.getElementById("app").textContent;');
+      for (const t of ['What area means', 'No gaps and no overlaps', 'Count the unit squares', 'Multiply the length and the width', 'Composite figures', 'Distributive Property', 'The seven steps', 'Worked example', 'Common mistakes', 'Self-check'])
+        expect(text.includes(t), `Chapter 6 guide: ${t}`);
+      for (const w of W26.math.words) expect(text.includes(w.def), `teacher's words: ${w.word}`);
+      for (const t of ['Commutative', 'Identity Property', 'Multiply by 3, 4, 6, 7, 8 and 9']) expect(!text.includes(t), `no Chapter 5 guide content: ${t}`);
+      expect(await b.js('return document.querySelectorAll(".guide-sections .model-svg, .guide-sections svg").length >= 7;'), 'a picture for each idea');
+      await b.js('document.querySelector(".answers summary").click();');
+      expect(await b.js('return document.querySelector(".answers").open;'), 'Show the answers');
+      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?ch=6', '#math', '#week'], 'Back to Chapter 6, Back to Math, Home');
+      await b.load(url('#math?ch=5'));
+      await go('.menu-card[href="#math?act=guide"]');
+      const t5 = await b.js('return document.getElementById("app").textContent;');
+      expect(t5.includes('The five properties') && !t5.includes('What area means') && !t5.includes('Square Unit'), 'Chapter 5 guide only');
+    });
+    await check('Chapter 5 > Chapter Test: the Unit 5 test inside Chapter 5, no hints, results lead back to Chapter 5', async () => {
+      await b.load(url('#math?ch=5'));
+      await go('.menu-card[href="#math?act=ch5test"]');
+      eq(await progress(), `Question 1 of ${T19.math.items.length}`, 'the whole Chapter 5 test');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Chapter 5', 'Chapter 5 Practice Test'], 'crumbs');
+      eq(await b.js('return document.querySelectorAll("#act-stage [data-act=help], #act-stage .feedback").length;'), 0, 'no hints');
+      for (const [k, item] of T19.math.items.entries()) {
+        await answer(item, item.type === 'word' ? { text: item.answer } : solution(item));
+        if (k < T19.math.items.length - 1) await press('[data-act="next"]');
+      }
+      await press('[data-act="submit"]');
+      eq(await b.js('return document.querySelector(".summary-score").textContent;'), `${T19.math.items.length} out of ${T19.math.items.length} right (100%)`, 'score');
+      eq(await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");'), '#math?ch=5', 'Back to Chapter 5');
+    });
+    await check('responsive: Math, both chapters, This Week, the Newsletter and the Chapter 6 guide fit at 360, 390, 768, 1024, 1366 and 1920 px', async () => {
+      for (const [w, h] of [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]]) {
+        await b.viewport(w, h, w < 1024);
+        for (const r of ['#math', '#math?ch=5', '#math?ch=6', '#week', '#newsletter', '#math?act=ch6guide', '#math?act=areapractice']) {
+          await b.load(url(r));
+          expect(await b.js('return document.documentElement.scrollWidth <= innerWidth + 1;'), `${r} at ${w}px: no sideways scrolling`);
+          expect(await b.js('return [...document.querySelectorAll(".menu-card, .shortcut, .bar-btns a, .stage-nav .btn")].every((el) => { const r = el.getBoundingClientRect(); return !r.width || (r.height >= 44 && r.right <= innerWidth + 1); });'), `${r} at ${w}px: controls are big enough and on screen`);
+        }
+      }
+      await b.viewport(1366, 900, false);
     });
 
     console.log('Skill Builders (D22)');
