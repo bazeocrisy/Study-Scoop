@@ -70,7 +70,7 @@
       "title": "Homework packet",
       "due": "Sent home Monday, due Friday",
       "source": "newsletter",
-      "description": "The newsletter does not list individual math worksheet pages. Add specifics when the packet is received."
+      "description": "The newsletter does not list the pages in the packet. Use the paper packet that comes home on Monday."
     },
     {
       "title": "Reading Log",
@@ -88,12 +88,14 @@
     "rules": {
       "er": "Add -er to the base word",
       "double-er": "Double the last consonant, then add -er",
-      "or": "Words ending in -or"
+      "or": "Add -or to the base word",
+      "whole-or": "The ending sounds like \"er\" but is spelled -or"
     },
     "ruleHelp": {
       "er": "help → helper",
       "double-er": "run → runner; swim → swimmer",
-      "or": "act → actor"
+      "or": "act → actor",
+      "whole-or": "color, mirror"
     },
     "words": [
       {
@@ -106,7 +108,7 @@
         "word": "helper",
         "base": "help",
         "rule": "er",
-        "sentence": "The helper passed out papers."
+        "sentence": "The helper picked up the books."
       },
       {
         "word": "boxer",
@@ -134,9 +136,9 @@
       },
       {
         "word": "tractor",
-        "base": "tract",
-        "rule": "or",
-        "sentence": "A tractor pulled a wagon across the field."
+        "rule": "whole-or",
+        "sentence": "The tractor rolled across the farm field.",
+        "whole": true
       },
       {
         "word": "shipper",
@@ -146,21 +148,21 @@
       },
       {
         "word": "doctor",
-        "base": "doct",
-        "rule": "or",
-        "sentence": "The doctor listened to my heartbeat."
+        "rule": "whole-or",
+        "sentence": "The doctor listened to my heartbeat.",
+        "whole": true
       },
       {
         "word": "bigger",
         "base": "big",
         "rule": "double-er",
-        "sentence": "The bigger pumpkin was on the porch."
+        "sentence": "The bigger apple is next to a small one."
       },
       {
         "word": "bolder",
         "base": "bold",
         "rule": "er",
-        "sentence": "She used a bolder color in her painting."
+        "sentence": "She felt bolder at the microphone this time."
       },
       {
         "word": "conductor",
@@ -203,7 +205,7 @@
         "word": "Exception",
         "def": "A case where a rule does not apply",
         "sentence": "The extra recess was an exception to the rule.",
-        "fill": "Everyone followed the rule except one ___."
+        "fill": "Pets are not allowed in the library, but a guide dog is an ___."
       },
       {
         "word": "Installment",
@@ -233,7 +235,7 @@
         "word": "Ignorant",
         "def": "lacking knowledge or awareness in general",
         "sentence": "Before the lesson, I was ignorant about how bees communicate.",
-        "fill": "I was ___ about constellations before the science lesson."
+        "fill": "I was ___ about how volcanoes work until I read a book about them."
       },
       {
         "word": "Melancholy",
@@ -309,7 +311,7 @@
           3,
           12
         ],
-        "fill": "To find a rectangular area's total using its length and width, ___."
+        "fill": "To find the area of a rectangle, ___ the length and the width."
       }
     ]
   }

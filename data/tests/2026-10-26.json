@@ -1,5 +1,269 @@
 {
   "id": "2026-10-26",
+  "math": {
+    "topic": "Topic 6: Area",
+    "coverage": "The three Area words (Area, Square Unit, Multiply) and finding the area of rectangles by counting square units or multiplying the length and the width.",
+    "instructions": "Answer each question. You can go back before you finish. There are no hints during the test. You will see your score and the answers at the end.",
+    "note": "The class test on Tuesday, Nov 3 is a vocabulary test on Area, Square Unit and Multiply. This Study Scoop practice test checks those words and using them to find area.",
+    "pass": 12,
+    "items": [
+      {
+        "id": "m1",
+        "type": "choice",
+        "skill": "areawords",
+        "word": "Area",
+        "kind": "meaning",
+        "prompt": "What does \"Area\" mean?",
+        "options": [
+          {
+            "text": "a square that is 1 unit tall and 1 unit wide",
+            "why": "That is what \"Square Unit\" means."
+          },
+          {
+            "text": "to find the area of a rectangle, you multiply the length and the width",
+            "why": "That is what \"Multiply\" means."
+          },
+          {
+            "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+            "correct": true
+          }
+        ],
+        "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+      },
+      {
+        "id": "m2",
+        "type": "choice",
+        "skill": "areawords",
+        "word": "Square Unit",
+        "kind": "meaning",
+        "prompt": "Read the sentence: \"Each tile on the floor is one square unit.\" What is a square unit?",
+        "options": [
+          {
+            "text": "to find the area of a rectangle, you multiply the length and the width",
+            "why": "That is what \"Multiply\" means."
+          },
+          {
+            "text": "a square that is 1 unit tall and 1 unit wide",
+            "correct": true
+          },
+          {
+            "text": "number of unit squares needed to cover the INSIDE of a shape or region",
+            "why": "That is what \"Area\" means."
+          }
+        ],
+        "explain": "\"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+      },
+      {
+        "id": "m3",
+        "type": "choice",
+        "skill": "areawords",
+        "word": "Multiply",
+        "kind": "tf",
+        "truth": false,
+        "prompt": "True or false? To find the area of a rectangle, you subtract the width from the length.",
+        "options": [
+          {
+            "text": "True",
+            "why": "It is false. You multiply the length and the width."
+          },
+          {
+            "text": "False",
+            "correct": true
+          }
+        ],
+        "explain": "False. \"Multiply\" means: to find the area of a rectangle, you multiply the length and the width."
+      },
+      {
+        "id": "m4",
+        "type": "choice",
+        "skill": "areawords",
+        "word": "Square Unit",
+        "kind": "tf",
+        "truth": true,
+        "prompt": "True or false? A square that is 1 unit tall and 1 unit wide is one square unit.",
+        "options": [
+          {
+            "text": "True",
+            "correct": true
+          },
+          {
+            "text": "False",
+            "why": "It is true. That is exactly what a square unit is."
+          }
+        ],
+        "explain": "True. \"Square Unit\" means: a square that is 1 unit tall and 1 unit wide."
+      },
+      {
+        "id": "m5",
+        "type": "word",
+        "skill": "areawords",
+        "word": "Area",
+        "kind": "fill",
+        "prompt": "A tablet screen is covered by 20 unit squares, so its ___ is 20 square units.",
+        "answer": "area",
+        "bank": [
+          "area",
+          "multiply",
+          "square unit"
+        ],
+        "explain": "\"Area\" means: number of unit squares needed to cover the INSIDE of a shape or region."
+      },
+      {
+        "id": "m6",
+        "type": "number",
+        "skill": "areacount",
+        "prompt": "Each small square is 1 square unit. What is the area of the rectangle?",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 2,
+          "cols": 4
+        },
+        "asks": "dots",
+        "answer": "2 × 4",
+        "yes": "Yes! 8 square units.",
+        "explain": "2 rows of 4 squares: 2 × 4 = 8 square units."
+      },
+      {
+        "id": "m7",
+        "type": "number",
+        "skill": "areacount",
+        "prompt": "Each small square is 1 square unit. What is the area of the rectangle?",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 3,
+          "cols": 4
+        },
+        "asks": "dots",
+        "answer": "3 × 4",
+        "yes": "Yes! 12 square units.",
+        "explain": "3 rows of 4 squares: 3 × 4 = 12 square units."
+      },
+      {
+        "id": "m8",
+        "type": "number",
+        "skill": "areacount",
+        "prompt": "Each small square is 1 square unit. What is the area of the rectangle?",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 2,
+          "cols": 6
+        },
+        "asks": "dots",
+        "answer": "2 × 6",
+        "yes": "Yes! 12 square units.",
+        "explain": "2 rows of 6 squares: 2 × 6 = 12 square units."
+      },
+      {
+        "id": "m9",
+        "type": "number",
+        "skill": "areacount",
+        "prompt": "Each small square is 1 square unit. What is the area of the rectangle?",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 5,
+          "cols": 3
+        },
+        "asks": "dots",
+        "answer": "5 × 3",
+        "yes": "Yes! 15 square units.",
+        "explain": "5 rows of 3 squares: 5 × 3 = 15 square units."
+      },
+      {
+        "id": "m10",
+        "type": "number",
+        "skill": "areacount",
+        "prompt": "Each small square is 1 square unit. What is the area of the rectangle?",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 3,
+          "cols": 7
+        },
+        "asks": "dots",
+        "answer": "3 × 7",
+        "yes": "Yes! 21 square units.",
+        "explain": "3 rows of 7 squares: 3 × 7 = 21 square units."
+      },
+      {
+        "id": "m11",
+        "type": "number",
+        "skill": "areamultiply",
+        "prompt": "This rectangle is 7 units long and 4 units wide. What is its area in square units?",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 4,
+          "cols": 7,
+          "sideLabels": true
+        },
+        "asks": "dots",
+        "answer": "7 × 4",
+        "yes": "Yes! 28 square units.",
+        "explain": "Length × width: 7 × 4 = 28 square units."
+      },
+      {
+        "id": "m12",
+        "type": "number",
+        "skill": "areamultiply",
+        "prompt": "This rectangle is 5 units long and 6 units wide. What is its area in square units?",
+        "model": {
+          "type": "array",
+          "style": "tiles",
+          "rows": 6,
+          "cols": 5,
+          "sideLabels": true
+        },
+        "asks": "dots",
+        "answer": "5 × 6",
+        "yes": "Yes! 30 square units.",
+        "explain": "Length × width: 5 × 6 = 30 square units."
+      },
+      {
+        "id": "m13",
+        "type": "number",
+        "skill": "areamultiply",
+        "prompt": "A classroom rug is 8 feet long and 5 feet wide. What is the area of the rug in square feet?",
+        "answer": "8 × 5",
+        "yes": "Yes! 40 square feet.",
+        "explain": "8 × 5 = 40, so the rug covers 40 square feet."
+      },
+      {
+        "id": "m14",
+        "type": "number",
+        "skill": "areamultiply",
+        "prompt": "A picture is 6 inches long and 6 inches wide. What is the area of the picture in square inches?",
+        "answer": "6 × 6",
+        "yes": "Yes! 36 square inches.",
+        "explain": "6 × 6 = 36, so the area of the picture is 36 square inches."
+      },
+      {
+        "id": "m15",
+        "type": "choice",
+        "skill": "areamultiply",
+        "prompt": "Which way finds the area of a rectangle that is 9 units long and 2 units wide?",
+        "target": "9 × 2",
+        "options": [
+          {
+            "text": "9 × 2",
+            "correct": true
+          },
+          {
+            "text": "9 + 2",
+            "why": "Adding the length and the width does not find the area."
+          },
+          {
+            "text": "9 + 2 + 9 + 2",
+            "why": "That adds the sides around the outside. Area covers the inside, so multiply."
+          }
+        ],
+        "explain": "Multiply the length and the width: 9 × 2 = 18 square units."
+      }
+    ]
+  },
   "vocab": {
     "topic": "Because of Winn-Dixie — Four Green Words",
     "coverage": "Trustworthy, Constellations, Irritating, and Distracted only (Oct 30 green-word quiz)",
@@ -15,12 +279,12 @@
         "prompt": "What does the word \"Trustworthy\" mean?",
         "options": [
           {
-            "text": "A group of stars in the night sky that make up a picture or a pattern",
-            "why": "That is the definition of Constellations."
-          },
-          {
             "text": "The ability to keep promises",
             "correct": true
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the definition of Constellations."
           },
           {
             "text": "To anger or bother",
@@ -46,7 +310,7 @@
           },
           {
             "text": "False",
-            "why": "That is the definition of Trustworthy."
+            "why": "It is true. \"Trustworthy\" means: The ability to keep promises."
           }
         ],
         "explain": "True. \"Trustworthy\" means: The ability to keep promises."
@@ -60,19 +324,19 @@
         "options": [
           {
             "text": "Irritating",
-            "why": "Review the meanings of the green words."
-          },
-          {
-            "text": "Constellations",
-            "why": "Review the meanings of the green words."
+            "why": "\"Irritating\" means: To anger or bother."
           },
           {
             "text": "Trustworthy",
             "correct": true
           },
           {
+            "text": "Constellations",
+            "why": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
+          },
+          {
             "text": "Distracted",
-            "why": "Review the meanings of the green words."
+            "why": "\"Distracted\" means: To prevent something from continuing as usual."
           }
         ],
         "explain": "The word is \"Trustworthy\": The ability to keep promises."
@@ -89,12 +353,12 @@
             "why": "That is the definition of Distracted."
           },
           {
-            "text": "The ability to keep promises",
-            "correct": true
-          },
-          {
             "text": "A group of stars in the night sky that make up a picture or a pattern",
             "why": "That is the definition of Constellations."
+          },
+          {
+            "text": "The ability to keep promises",
+            "correct": true
           },
           {
             "text": "To anger or bother",
@@ -115,16 +379,16 @@
             "why": "That is the definition of Trustworthy."
           },
           {
-            "text": "A group of stars in the night sky that make up a picture or a pattern",
-            "correct": true
-          },
-          {
             "text": "To anger or bother",
             "why": "That is the definition of Irritating."
           },
           {
             "text": "To prevent something from continuing as usual",
             "why": "That is the definition of Distracted."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "correct": true
           }
         ],
         "explain": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
@@ -138,7 +402,7 @@
         "options": [
           {
             "text": "True",
-            "why": "That meaning belongs to Irritating."
+            "why": "It is false. That meaning belongs to Irritating."
           },
           {
             "text": "False",
@@ -155,20 +419,20 @@
         "prompt": "Which word means \"A group of stars in the night sky that make up a picture or a pattern\"?",
         "options": [
           {
-            "text": "Irritating",
-            "why": "Review the meanings of the green words."
-          },
-          {
-            "text": "Trustworthy",
-            "why": "Review the meanings of the green words."
-          },
-          {
             "text": "Constellations",
             "correct": true
           },
           {
+            "text": "Irritating",
+            "why": "\"Irritating\" means: To anger or bother."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "\"Trustworthy\" means: The ability to keep promises."
+          },
+          {
             "text": "Distracted",
-            "why": "Review the meanings of the green words."
+            "why": "\"Distracted\" means: To prevent something from continuing as usual."
           }
         ],
         "explain": "The word is \"Constellations\": A group of stars in the night sky that make up a picture or a pattern."
@@ -211,12 +475,12 @@
             "why": "That is the definition of Trustworthy."
           },
           {
-            "text": "To anger or bother",
-            "correct": true
-          },
-          {
             "text": "A group of stars in the night sky that make up a picture or a pattern",
             "why": "That is the definition of Constellations."
+          },
+          {
+            "text": "To anger or bother",
+            "correct": true
           },
           {
             "text": "To prevent something from continuing as usual",
@@ -238,7 +502,7 @@
           },
           {
             "text": "False",
-            "why": "That is the definition of Irritating."
+            "why": "It is true. \"Irritating\" means: To anger or bother."
           }
         ],
         "explain": "True. \"Irritating\" means: To anger or bother."
@@ -252,19 +516,19 @@
         "options": [
           {
             "text": "Constellations",
-            "why": "Review the meanings of the green words."
+            "why": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
           },
           {
             "text": "Trustworthy",
-            "why": "Review the meanings of the green words."
+            "why": "\"Trustworthy\" means: The ability to keep promises."
+          },
+          {
+            "text": "Distracted",
+            "why": "\"Distracted\" means: To prevent something from continuing as usual."
           },
           {
             "text": "Irritating",
             "correct": true
-          },
-          {
-            "text": "Distracted",
-            "why": "Review the meanings of the green words."
           }
         ],
         "explain": "The word is \"Irritating\": To anger or bother."
@@ -277,12 +541,12 @@
         "prompt": "Read the sentence: \"The irritating sound continued during homework.\" What does \"irritating\" mean?",
         "options": [
           {
-            "text": "To prevent something from continuing as usual",
-            "why": "That is the definition of Distracted."
-          },
-          {
             "text": "To anger or bother",
             "correct": true
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the definition of Distracted."
           },
           {
             "text": "The ability to keep promises",
@@ -330,7 +594,7 @@
         "options": [
           {
             "text": "True",
-            "why": "That meaning belongs to Trustworthy."
+            "why": "It is false. That meaning belongs to Trustworthy."
           },
           {
             "text": "False",
@@ -348,11 +612,11 @@
         "options": [
           {
             "text": "Constellations",
-            "why": "Review the meanings of the green words."
+            "why": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
           },
           {
             "text": "Trustworthy",
-            "why": "Review the meanings of the green words."
+            "why": "\"Trustworthy\" means: The ability to keep promises."
           },
           {
             "text": "Distracted",
@@ -360,7 +624,7 @@
           },
           {
             "text": "Irritating",
-            "why": "Review the meanings of the green words."
+            "why": "\"Irritating\" means: To anger or bother."
           }
         ],
         "explain": "The word is \"Distracted\": To prevent something from continuing as usual."
@@ -377,16 +641,16 @@
             "why": "That is the definition of Irritating."
           },
           {
-            "text": "To prevent something from continuing as usual",
-            "correct": true
-          },
-          {
             "text": "The ability to keep promises",
             "why": "That is the definition of Trustworthy."
           },
           {
             "text": "A group of stars in the night sky that make up a picture or a pattern",
             "why": "That is the definition of Constellations."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "correct": true
           }
         ],
         "explain": "\"Distracted\" means: To prevent something from continuing as usual."

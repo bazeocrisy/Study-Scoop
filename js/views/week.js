@@ -2,6 +2,7 @@ import { html } from '../lib/html.js';
 import { countdownLabel, daysUntil, formatLongDate } from '../lib/dates.js';
 import { TEST_SECTION, sectionLabel } from '../sections.js';
 import { pageHead } from './common.js';
+import { isAreaWeek } from '../lib/area.js';
 
 export function weekView(ctx) {
   const { week } = ctx;
@@ -16,13 +17,15 @@ export function weekView(ctx) {
           ${tests.map((t) => {
             const days = daysUntil(t.date, ctx.today);
             const section = TEST_SECTION[t.kind];
+            // In the Area week, "Study" opens Topic 6: Area directly.
+            const study = t.kind === 'math' && isAreaWeek(week) ? ctx.actLink('math', 'area') : section ? ctx.link(section) : null;
             return html`
               <li class="card test test-${t.kind}">
                 <p class="count${days !== null && days < 0 ? ' past' : ''}">${countdownLabel(days)}</p>
                 <h3>${t.title}</h3>
                 <p class="date">${formatLongDate(t.date)}</p>
                 ${t.detail ? html`<p>${t.detail}</p>` : ''}
-                <p class="links">${section ? html`<a class="action" href="${ctx.link(section)}">Study in ${sectionLabel(section)}</a>` : ''}
+                <p class="links">${section ? html`<a class="action" href="${study}">Study in ${sectionLabel(section)}</a>` : ''}
                   <a class="action" href="${ctx.link('tests')}">Practice test</a></p>
               </li>`;
           })}

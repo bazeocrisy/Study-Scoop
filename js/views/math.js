@@ -4,9 +4,11 @@ import { html } from '../lib/html.js';
 import { modelFigure } from '../lib/models.js';
 import { STAGES } from '../lib/lessons.js';
 import { menuItems } from '../lib/activities.js';
-import { GUIDE_STEPS, GUIDE_WORDS, PROPERTIES, UNIT5, definitionOf, propertyByKey, teacherExample, teacherWord } from '../lib/mathlearn.js';
+import { GUIDE_STEPS, GUIDE_WORDS, PROPERTIES, UNIT5, definitionOf, hasPropertyWords, propertyByKey, teacherExample, teacherWord } from '../lib/mathlearn.js';
 import { facts, menuPage, subBar, subjectMenu, testsNote } from './common.js';
-import { lessonView } from './lesson.js';
+import { lessonView, readButton } from './lesson.js';
+import { AREA_EXAMPLES, AREA_LEARN, AREA_TIPS, AREA_WORDS, isAreaWeek } from '../lib/area.js';
+import { formatLongDate } from '../lib/dates.js';
 import { activityView } from './activity.js';
 
 const MATH = (ctx) => ({ label: 'Math', href: ctx.link('math') });
@@ -19,11 +21,87 @@ export function mathView(ctx) {
   if (ctx.page === 'words') return wordsMenu(ctx);
   if (ctx.page === 'lessons') return lessonsMenu(ctx);
   if (ctx.page === 'guide') return studyGuide(ctx);
+  if (ctx.page === 'area' || ctx.page === 'arealearn') return isAreaWeek(ctx.week) ? (ctx.page === 'area' ? areaMenu(ctx) : areaLearn(ctx)) : notThisWeek(ctx);
   const m = ctx.week.math;
+  const area = isAreaWeek(ctx.week);
   return menuPage(ctx, 'math', {
     title: 'Math', context: m ? `${m.title}${m.test ? ` · Math test: ${m.test}` : ''}` : 'Topic 5: Properties of Multiplication',
-    items: menuItems('math'), after: testsNote(ctx, 'The weekly Math Test'),
+    // Topic 6: Area comes first in its week; Unit 5 (the properties) stays below it, with nothing removed.
+    items: menuItems('math').filter((a) => a.topic !== 'area' || area).map((a) => (area && !a.topic ? { ...a, start: false } : a)),
+    after: html`${area ? html`<p class="hint menu-foot">Unit 5 (the multiplication properties) is still here for review: Learn the Properties, Math Vocabulary, Practice Problems, Math Lessons and the Study Guide.</p>` : ''}${testsNote(ctx, 'The weekly Math Test')}`,
   });
+}
+
+const AREA = (ctx) => ({ label: 'Topic 6: Area', href: ctx.actLink('math', 'area') });
+
+/** An Area page asked for in a week without Topic 6 (an old link): say so and offer this week. */
+function notThisWeek(ctx) {
+  return html`
+    ${subBar(ctx, { tone: 'math', title: 'Topic 6: Area', goal: 'Area is the Topic 6 math topic.', trail: [MATH(ctx), { label: 'Topic 6: Area' }], back: [BACK_MATH(ctx)] })}
+    <p class="card">Area is not this week's math topic. <a href="${ctx.link('math', ctx.index.current)}">Go to this week's Math</a> or go back to Math for ${ctx.week.label.replace(/^Week of /, '')}.</p>
+    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><span></span></div>`;
+}
+
+/** Math > Topic 6: Area: Learn Area, Find the Area, Area Words, Practice My Misses, and the practice test. */
+function areaMenu(ctx) {
+  const t = ctx.week.tests.find((x) => x.kind === 'math');
+  return html`
+    ${subBar(ctx, {
+      tone: 'math', title: 'Topic 6: Area', goal: `Three words to know: ${AREA_WORDS.join(', ')}.${t ? ` ${t.title}: ${formatLongDate(t.date)}.` : ''}`,
+      trail: [MATH(ctx), { label: 'Topic 6: Area' }], back: [BACK_MATH(ctx)],
+    })}
+    <section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to do?</h2>
+      ${subjectMenu(ctx, 'math', menuItems('math', 'area'), { misses: ctx.misses?.area })}</section>
+    <p class="hint menu-foot">When you are ready, take the Math Practice Test on Area in <a href="${ctx.testLink('math')}">Tests</a>.</p>
+    <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a><a class="btn btn-primary" href="${ctx.actLink('math', 'arealearn')}">Start: Learn Area ›</a></div>`;
+}
+
+/** Math > Topic 6: Area > Learn Area: the teacher's exact words, a picture for each word, and worked examples. */
+function areaLearn(ctx) {
+  const words = ctx.week.math.words;
+  const teacher = (w) => words.find((x) => x.word.toLowerCase() === w.toLowerCase());
+  return html`
+    ${subBar(ctx, {
+      tone: 'math', title: 'Learn Area', goal: 'The three Area words, with pictures and worked examples.',
+      trail: [MATH(ctx), AREA(ctx), { label: 'Learn Area' }], back: [{ href: ctx.actLink('math', 'area'), label: '‹ Back to Topic 6: Area' }, { href: ctx.link('math'), label: 'Back to Math' }],
+    })}
+    <p class="print-only">${ctx.week.label} · Study Scoop: Topic 6 Area words</p>
+    <section aria-labelledby="h-area-words">
+      <h2 id="h-area-words">The three words</h2>
+      <ul class="area-words">
+        ${AREA_LEARN.map((c, k) => html`<li class="card area-word work has-pic">
+          <div class="pic-card"><div class="models">${modelFigure(c.model, c.caption)}</div></div>
+          <div>
+            <div class="instruct-head"><h3 class="vocab-word">${k + 1}. ${c.word}</h3>${readButton([c.word, `Teacher's words: ${teacher(c.word)?.def || ''}`, `In other words: ${c.kid}`, ...c.steps], c.word)}</div>
+            <blockquote class="teacher-words"><span class="label">Teacher's words</span><span class="def">${teacher(c.word)?.def || ''}</span></blockquote>
+            <p class="kid-words"><span class="label">In other words</span>${c.kid}</p>
+            <ol class="steps">${c.steps.map((x, i) => html`<li><span class="sn" aria-hidden="true">${i + 1}</span><span>${facts(x)}</span></li>`)}</ol>
+          </div>
+        </li>`)}
+      </ul>
+    </section>
+    <section aria-labelledby="h-area-ex">
+      <h2 id="h-area-ex">Watch me find the area</h2>
+      <ul class="area-examples">
+        ${AREA_EXAMPLES.map((ex, k) => html`<li class="card work has-pic area-example">
+          <div class="pic-card"><div class="models">${modelFigure(ex.model)}</div></div>
+          <div>
+            <div class="instruct-head"><h3>Example ${k + 1}: ${ex.title}</h3>${readButton([ex.story || ex.title, ...ex.steps], `example ${k + 1}`)}</div>
+            ${ex.story ? html`<p>${ex.story}</p>` : ''}
+            <ol class="steps">${ex.steps.map((x, i) => html`<li><span class="sn" aria-hidden="true">${i + 1}</span><span>${facts(x)}</span></li>`)}</ol>
+          </div>
+        </li>`)}
+      </ul>
+    </section>
+    <section class="card" aria-labelledby="h-area-tips">
+      <h2 id="h-area-tips">Do not mix them up</h2>
+      <ul class="plain-list">${AREA_TIPS.map((x) => html`<li>${facts(x)}</li>`)}</ul>
+    </section>
+    <div class="stage-nav">
+      <a class="btn" href="${ctx.actLink('math', 'area')}">‹ Back to Topic 6: Area</a>
+      <span class="btn-row"><button type="button" class="btn" data-act="print">Print</button>
+      <a class="btn btn-primary" href="${ctx.actLink('math', 'areafind')}">Next: Find the Area ›</a></span>
+    </div>`;
 }
 
 /** Math > Practice Problems: a second menu with the kinds of problems. */
@@ -83,9 +161,11 @@ function lessonsMenu(ctx) {
 /** Math > Study Guide: a short, printable review of Unit 5. Part 1 is the Multiplication Properties test topic;
  *  Part 2 is the rest of the unit, for practice (it is not announced as test material). */
 function studyGuide(ctx) {
-  const m = ctx.week.math;
+  // Unit 5's own class test and teacher's words (not a later topic's, such as Area).
+  const u5 = ctx.unit5Week || ctx.week;
+  const m = hasPropertyWords(u5) ? u5.math : null;
   const dist = propertyByKey('distributive');
-  const tex = teacherExample(teacherWord(ctx.week, dist));
+  const tex = teacherExample(teacherWord(u5, dist));
   return html`
     ${subBar(ctx, {
       tone: 'math', title: 'Study Guide', goal: 'Unit 5: Use properties to multiply by 3, 4, 6, 7, 8 and 9',
@@ -101,7 +181,7 @@ function studyGuide(ctx) {
       <h3 id="h-g-props">1. The five properties</h3>
       <ul class="guide-props">
         ${PROPERTIES.map((p) => {
-          const d = definitionOf(ctx.week, p);
+          const d = definitionOf(u5, p);
           return html`<li class="card guide-prop">
             <h4>${p.name}</h4>
             ${d ? html`<p class="teacher-line"><span class="label">${d.teacher ? "Teacher's words" : 'Definition'}</span> <span class="def">${d.text}</span></p>` : ''}

@@ -136,6 +136,14 @@ test('Learn the Properties uses the teacher\'s exact words when the week lists t
     const [, old] = card('2026-10-12', i);
     assert.ok(!old.includes(esc("Teacher's words")) && !old.includes("Teacher's words"), `${name} without teacher words`);
     assert.ok(old.includes(`${name} Property`), name);
+    // A later topic (Oct 26: Area) still shows Unit 5's teacher words: the app passes the week that announced them.
+    const later = readJSON('data/2026-10-26.json');
+    const lctx = ctxFor(realIndex, '2026-10-26', 'math', later);
+    lctx.unit5Week = week;
+    lctx.run = { subject: 'math', act: 'learn', mode: 'practice', title: 'Learn the Properties', items: [], items_: {}, flash: { order: [0, 1, 2, 3, 4], i, flipped: false, marks: {} } };
+    const lout = mathView(lctx).s;
+    if (w) assert.ok(lout.includes(`<span class="label">${esc("Teacher's words")}</span><span class="def">${esc(w.def)}</span>`), `${name} in the Area week`);
+    assert.ok(!/Square Unit|unit squares/.test(lout), `${name}: no Area words on a property card`);
   }
 });
 
