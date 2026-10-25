@@ -1908,7 +1908,7 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), ['Mental Add', 'Rounding', 'Times Tables'], 'skill cards');
       for (const [card, labels] of [['add', ['Learn It', 'Quick Facts', 'Break It Apart', 'Practice My Misses', 'Mental Add Test']],
         ['round', ['Learn It', 'Nearest 10', 'Nearest 100', 'Practice My Misses', 'Rounding Test']],
-        ['times', ['Learn It', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
+        ['times', ['Learn It', 'Practice Facts', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
         await b.load(url('#skills'));
         await go(`.menu-card[href="#skills?act=${card}"]`);
         eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), labels, `${card} menu`);
@@ -1922,6 +1922,25 @@ async function main() {
       await b.load(url('#skills?act=roundlearn'));
       eq(await b.js('return [...document.querySelectorAll(".round-pic")].slice(0, 4).map((p) => [p.querySelector(".is-under").textContent, p.querySelector(".is-arrow").textContent]);'),
         [['4', '5'], ['6', '3'], ['3', '4'], ['9', '7']], '45, 63, 347, 897');
+    });
+
+    await check('Times Tables > Practice Facts: pick families, Flash and Practice show a vertical equation (stacked rows), Find It takes both factors in either order', async () => {
+      await b.load(url('#skills?act=timesapp'));
+      eq(await b.js('return !!document.querySelector(".times-flashcard");'), false, 'no card before a family is picked');
+      await b.js('document.querySelector(".times-family-btn[data-n=\\"4\\"]").click();');
+      await b.js('document.querySelector(".times-family-btn[data-n=\\"12\\"]").click();');
+      eq(await b.js('return [...document.querySelectorAll(".times-family-btn.is-selected")].map((x) => x.dataset.n);'), ['4', '12'], 'both families selected');
+      // Rows must be stacked: each part sits lower than the one before it (a horizontal layout shares one top).
+      const stacked = `const tops = [...document.querySelector('.times-vert-eq').children].map((c) => Math.round(c.getBoundingClientRect().top)); return tops.length === 4 && tops.every((t, i) => i === 0 || t > tops[i - 1]);`;
+      expect(await b.js(stacked), 'Flash equation is stacked: factor, × factor, line, product');
+      eq(await b.js('return document.querySelector(".times-vert-eq .times-op").textContent.replace(/\\s+/g, "").startsWith("×");'), true, '× sits with the second factor');
+      await b.js('document.querySelector(".times-flashcard").click();');
+      expect(await b.js('return document.querySelector(".times-flashcard").classList.contains("is-flipped");'), 'tap flips the card');
+      await b.js('document.querySelector(".times-tab[data-tab=\\"practice\\"]").click();');
+      expect(await b.js(stacked), 'Practice equation is stacked');
+      eq(await b.js('return [...document.querySelectorAll(".times-family-btn.is-selected")].map((x) => x.dataset.n);'), ['4', '12'], 'picks survive the tab change');
+      await b.js('document.querySelector(".times-tab[data-tab=\\"find\\"]").click();');
+      expect(await b.js('return document.querySelectorAll("input[data-find]").length === 2;'), 'Find It has two factor boxes');
     });
 
     await check('Rounding > Nearest 10: tap a digit to underline it, the arrow appears, each wrong step says why, Help step by step, 20 questions, results and misses', async () => {
