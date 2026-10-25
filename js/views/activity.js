@@ -137,8 +137,7 @@ export function timesFlashView(ctx, mode = 'flash') {
         <span class="face back">
           <span class="times-vert-eq" aria-hidden="true">
             <span class="times-factor">${factorA}</span>
-            <span class="times-op">×</span>
-            <span class="times-factor">${factorB}</span>
+            <span class="times-op">× <span class="times-factor">${factorB}</span></span>
             <span class="times-line"></span>
             <span class="times-product">${card.product}</span>
           </span>
@@ -147,8 +146,7 @@ export function timesFlashView(ctx, mode = 'flash') {
         <span class="face front">
           <span class="times-vert-eq" aria-hidden="true">
             <span class="times-factor">${factorA}</span>
-            <span class="times-op">×</span>
-            <span class="times-factor">${factorB}</span>
+            <span class="times-op">× <span class="times-factor">${factorB}</span></span>
             <span class="times-line"></span>
             <span class="times-product">?</span>
           </span>
