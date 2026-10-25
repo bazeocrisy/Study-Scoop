@@ -337,16 +337,16 @@
      "prompt": "What is wrong with a tiling that has gaps?",
      "options": [
       {
+       "text": "There are too many squares.",
+       "why": "With gaps there are too few squares covering the inside."
+      },
+      {
        "text": "Some of the inside is not covered, so it is not counted.",
        "correct": true
       },
       {
        "text": "The squares are the wrong color.",
        "why": "Color does not matter. Covering the whole inside does."
-      },
-      {
-       "text": "There are too many squares.",
-       "why": "With gaps there are too few squares covering the inside."
       }
      ],
      "yes": "Yes! Every bit of the inside must be covered."
@@ -527,16 +527,16 @@
     "prompt": "Why do we use squares, not circles, to measure area?",
     "options": [
      {
-      "text": "Squares fit together with no gaps.",
-      "correct": true
-     },
-     {
       "text": "Circles are too small.",
       "why": "Size is not the problem. Circles always leave gaps between them."
      },
      {
       "text": "Circles cannot be counted.",
       "why": "You can count circles, but the gaps between them would not be counted."
+     },
+     {
+      "text": "Squares fit together with no gaps.",
+      "correct": true
      }
     ],
     "hints": [
@@ -944,16 +944,16 @@
     "prompt": "What does area tell you about a shape?",
     "options": [
      {
+      "text": "How tall it is",
+      "why": "Height is one length. Area covers the whole inside."
+     },
+     {
       "text": "How much flat space is inside it",
       "correct": true
      },
      {
       "text": "How long its edge is",
       "why": "The edge is the outside line. Area is the space inside."
-     },
-     {
-      "text": "How tall it is",
-      "why": "Height is one length. Area covers the whole inside."
      }
     ],
     "hints": [
@@ -1067,16 +1067,16 @@
     "prompt": "If some tiles lie on top of others, what goes wrong?",
     "options": [
      {
-      "text": "Some space is counted twice.",
-      "correct": true
-     },
-     {
       "text": "Some space is not counted.",
       "why": "That happens with gaps. Overlaps count space twice."
      },
      {
       "text": "Nothing goes wrong.",
       "why": "Overlapping squares make the count too big."
+     },
+     {
+      "text": "Some space is counted twice.",
+      "correct": true
      }
     ],
     "hints": [
@@ -1145,16 +1145,16 @@
     "prompt": "A rug is covered by 18 unit squares with no gaps or overlaps. What is its area?",
     "options": [
      {
+      "text": "18 rows",
+      "why": "Rows are lines of squares. The area is the number of squares."
+     },
+     {
       "text": "18 square units",
       "correct": true
      },
      {
       "text": "18 units",
       "why": "Units measure a length. Area is counted in square units."
-     },
-     {
-      "text": "18 rows",
-      "why": "Rows are lines of squares. The area is the number of squares."
      }
     ],
     "hints": [
@@ -1336,16 +1336,16 @@
     "prompt": "What is area?",
     "options": [
      {
-      "text": "The amount of flat space inside a shape",
-      "correct": true
-     },
-     {
       "text": "The distance around a shape",
       "why": "That is the edge, not the area."
      },
      {
       "text": "The number of corners",
       "why": "Corners do not tell how much space is inside."
+     },
+     {
+      "text": "The amount of flat space inside a shape",
+      "correct": true
      }
     ],
     "show": [
@@ -1440,16 +1440,16 @@
     "prompt": "A table top is covered by 24 unit squares. How do you write its area?",
     "options": [
      {
-      "text": "24 units",
-      "why": "Units measure length. Area is in square units."
-     },
-     {
       "text": "24 square units",
       "correct": true
      },
      {
       "text": "24 squares long",
       "why": "Area is not a length."
+     },
+     {
+      "text": "24 units",
+      "why": "Units measure length. Area is in square units."
      }
     ],
     "show": [
@@ -1462,16 +1462,16 @@
     "prompt": "Why must tiles not overlap?",
     "options": [
      {
+      "text": "The shape would change.",
+      "why": "The shape stays the same, but some space is counted twice."
+     },
+     {
       "text": "Space would be counted twice.",
       "correct": true
      },
      {
       "text": "The tiles would fall off.",
       "why": "This is about counting, not about tiles staying in place."
-     },
-     {
-      "text": "The shape would change.",
-      "why": "The shape stays the same, but some space is counted twice."
      }
     ],
     "show": [

@@ -93,16 +93,16 @@
      "prompt": "Each square is 1 centimeter long on each side. A shape is covered by 8 of them. What is its area?",
      "options": [
       {
+       "text": "8 square feet",
+       "why": "The squares are 1 centimeter on each side, not 1 foot."
+      },
+      {
        "text": "8 centimeters",
        "why": "Centimeters measure a length. Area is in square centimeters."
       },
       {
        "text": "8 square centimeters",
        "correct": true
-      },
-      {
-       "text": "8 square feet",
-       "why": "The squares are 1 centimeter on each side, not 1 foot."
       }
      ],
      "yes": "Yes! 8 square centimeters."
@@ -361,16 +361,16 @@
     "prompt": "Each square is 1 inch on each side. 10 squares cover a card. What is the area of the card?",
     "options": [
      {
+      "text": "10 square feet",
+      "why": "The squares are 1 inch on each side."
+     },
+     {
       "text": "10 square inches",
       "correct": true
      },
      {
       "text": "10 inches",
       "why": "Inches measure a length. Area is in square inches."
-     },
-     {
-      "text": "10 square feet",
-      "why": "The squares are 1 inch on each side."
      }
     ],
     "hints": [
@@ -811,16 +811,16 @@
     "prompt": "Squares 1 meter on each side cover a floor. 15 of them fit. What is the area?",
     "options": [
      {
-      "text": "15 square meters",
-      "correct": true
-     },
-     {
       "text": "15 meters",
       "why": "Meters measure a length. Area is in square meters."
      },
      {
       "text": "15 square centimeters",
       "why": "The squares are 1 meter on each side, not 1 centimeter."
+     },
+     {
+      "text": "15 square meters",
+      "correct": true
      }
     ],
     "hints": [
@@ -920,16 +920,16 @@
     "prompt": "A table covers 20 square feet. Which could be its sides?",
     "options": [
      {
+      "text": "5 feet and 5 feet",
+      "why": "5 rows of 5 is 25 square feet."
+     },
+     {
       "text": "4 feet and 5 feet",
       "correct": true
      },
      {
       "text": "2 feet and 5 feet",
       "why": "2 rows of 5 is only 10 square feet."
-     },
-     {
-      "text": "5 feet and 5 feet",
-      "why": "5 rows of 5 is 25 square feet."
      }
     ],
     "target": "20",
@@ -947,16 +947,16 @@
     "prompt": "A garden has 3 rows of planter boxes, 6 boxes in each row. Each box is 1 square foot. What is the area of the garden?",
     "options": [
      {
-      "text": "18 square feet",
-      "correct": true
-     },
-     {
       "text": "9 square feet",
       "why": "3 + 6 = 9 adds one row and one column. Count every box."
      },
      {
       "text": "6 square feet",
       "why": "That is only one row."
+     },
+     {
+      "text": "18 square feet",
+      "correct": true
      }
     ],
     "hints": [
@@ -1283,16 +1283,16 @@
     "prompt": "A desk top is covered by 3 rows of square-foot tiles, 4 tiles in each row, with no gaps. What is its area?",
     "options": [
      {
-      "text": "12 square feet",
-      "correct": true
-     },
-     {
       "text": "7 square feet",
       "why": "3 + 4 adds the rows and the tiles in a row. Count every tile."
      },
      {
       "text": "12 feet",
       "why": "Area is in square feet."
+     },
+     {
+      "text": "12 square feet",
+      "correct": true
      }
     ],
     "show": [

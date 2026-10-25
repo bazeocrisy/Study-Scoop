@@ -88,16 +88,16 @@
         "prompt": "Why must there be no gaps when you tile a shape?",
         "options": [
           {
-            "text": "Space in a gap is not counted.",
-            "correct": true
-          },
-          {
             "text": "Gaps make the shape bigger.",
             "why": "The shape does not change; the gaps are simply not counted."
           },
           {
             "text": "Gaps are allowed.",
             "why": "A gap leaves part of the inside uncounted."
+          },
+          {
+            "text": "Space in a gap is not counted.",
+            "correct": true
           }
         ],
         "skill": "l61",
@@ -150,16 +150,16 @@
         "prompt": "Squares 1 foot on each side cover a mat. 14 of them fit. What is the area of the mat?",
         "options": [
           {
-            "text": "14 feet",
-            "why": "Feet measure a side. Area is in square feet."
-          },
-          {
             "text": "14 square feet",
             "correct": true
           },
           {
             "text": "14 square inches",
             "why": "The squares are 1 foot on each side."
+          },
+          {
+            "text": "14 feet",
+            "why": "Feet measure a side. Area is in square feet."
           }
         ],
         "skill": "l62",
@@ -286,16 +286,16 @@
         "prompt": "Which equation finds the area of a rectangle 8 meters long and 7 meters wide?",
         "options": [
           {
+            "text": "8 + 7 + 8 + 7",
+            "why": "That adds the sides all the way around."
+          },
+          {
             "text": "8 × 7",
             "correct": true
           },
           {
             "text": "8 + 7",
             "why": "Adding the sides does not find area."
-          },
-          {
-            "text": "8 + 7 + 8 + 7",
-            "why": "That adds the sides all the way around."
           }
         ],
         "target": "8 × 7",
@@ -308,16 +308,16 @@
         "prompt": "A rectangle has an area of 24 square feet. Which could be its sides?",
         "options": [
           {
-            "text": "3 feet and 8 feet",
-            "correct": true
-          },
-          {
             "text": "4 feet and 5 feet",
             "why": "4 × 5 = 20."
           },
           {
             "text": "5 feet and 5 feet",
             "why": "5 × 5 = 25."
+          },
+          {
+            "text": "3 feet and 8 feet",
+            "correct": true
           }
         ],
         "target": "24",
@@ -488,16 +488,16 @@
         "prompt": "The rectangle is 6 by 7. Which matches the split picture?",
         "options": [
           {
+            "text": "6 + 7",
+            "why": "Multiply each part."
+          },
+          {
             "text": "(6 × 5) + (6 × 2)",
             "correct": true
           },
           {
             "text": "(6 × 5) + (6 × 3)",
             "why": "5 + 3 is 8, not 7."
-          },
-          {
-            "text": "6 + 7",
-            "why": "Multiply each part."
           }
         ],
         "model": {
@@ -704,16 +704,16 @@
         "prompt": "A student says a 6 by 4 rug covers 20 square feet because 6 + 4 + 6 + 4 = 20. What is right?",
         "options": [
           {
-            "text": "6 × 4 = 24 square feet",
-            "correct": true
-          },
-          {
             "text": "20 square feet",
             "why": "Adding the sides measures around the rug, not what it covers."
           },
           {
             "text": "10 square feet",
             "why": "6 + 4 adds two sides."
+          },
+          {
+            "text": "6 × 4 = 24 square feet",
+            "correct": true
           }
         ],
         "skill": "l66",
@@ -876,20 +876,20 @@
         "prompt": "Which word means \"A group of stars in the night sky that make up a picture or a pattern\"?",
         "options": [
           {
-            "text": "Constellations",
-            "correct": true
-          },
-          {
-            "text": "Irritating",
-            "why": "\"Irritating\" means: To anger or bother."
-          },
-          {
             "text": "Trustworthy",
             "why": "\"Trustworthy\" means: The ability to keep promises."
           },
           {
             "text": "Distracted",
             "why": "\"Distracted\" means: To prevent something from continuing as usual."
+          },
+          {
+            "text": "Constellations",
+            "correct": true
+          },
+          {
+            "text": "Irritating",
+            "why": "\"Irritating\" means: To anger or bother."
           }
         ],
         "explain": "The word is \"Constellations\": A group of stars in the night sky that make up a picture or a pattern."
@@ -1068,20 +1068,20 @@
         "prompt": "Which word means \"To prevent something from continuing as usual\"?",
         "options": [
           {
-            "text": "Constellations",
-            "why": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
-          },
-          {
-            "text": "Trustworthy",
-            "why": "\"Trustworthy\" means: The ability to keep promises."
-          },
-          {
             "text": "Distracted",
             "correct": true
           },
           {
             "text": "Irritating",
             "why": "\"Irritating\" means: To anger or bother."
+          },
+          {
+            "text": "Constellations",
+            "why": "\"Constellations\" means: A group of stars in the night sky that make up a picture or a pattern."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "\"Trustworthy\" means: The ability to keep promises."
           }
         ],
         "explain": "The word is \"Distracted\": To prevent something from continuing as usual."

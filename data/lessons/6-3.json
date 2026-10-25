@@ -408,16 +408,16 @@
     "prompt": "Which equation matches this rectangle?",
     "options": [
      {
+      "text": "6 + 4",
+      "why": "Adding the sides does not find area."
+     },
+     {
       "text": "6 × 4",
       "correct": true
      },
      {
       "text": "6 × 6",
       "why": "The width is 4, not 6."
-     },
-     {
-      "text": "6 + 4",
-      "why": "Adding the sides does not find area."
      }
     ],
     "model": {
@@ -483,16 +483,16 @@
     "prompt": "A wall is 9 feet long and 8 feet tall. What is its area?",
     "options": [
      {
-      "text": "72 square feet",
-      "correct": true
-     },
-     {
       "text": "17 square feet",
       "why": "9 + 8 = 17 adds the sides. Multiply."
      },
      {
       "text": "72 feet",
       "why": "Area is in square feet."
+     },
+     {
+      "text": "72 square feet",
+      "correct": true
      }
     ],
     "hints": [
@@ -811,16 +811,16 @@
     "prompt": "Which equation finds the area of this rectangle?",
     "options": [
      {
+      "text": "3 × 3",
+      "why": "The length is 8, not 3."
+     },
+     {
       "text": "3 × 8",
       "correct": true
      },
      {
       "text": "3 + 8",
       "why": "Adding the sides does not find area."
-     },
-     {
-      "text": "3 × 3",
-      "why": "The length is 8, not 3."
      }
     ],
     "model": {
@@ -850,16 +850,16 @@
     "prompt": "Which rectangle has an area of 24 square units?",
     "options": [
      {
-      "text": "6 × 4",
-      "correct": true
-     },
-     {
       "text": "5 × 4",
       "why": "5 × 4 = 20."
      },
      {
       "text": "7 × 3",
       "why": "7 × 3 = 21."
+     },
+     {
+      "text": "6 × 4",
+      "correct": true
      }
     ],
     "target": "24",
@@ -993,16 +993,16 @@
     "prompt": "A closet floor is 18 square feet. Which could be its length and width?",
     "options": [
      {
+      "text": "4 feet and 4 feet",
+      "why": "4 × 4 = 16."
+     },
+     {
       "text": "6 feet and 3 feet",
       "correct": true
      },
      {
       "text": "5 feet and 4 feet",
       "why": "5 × 4 = 20."
-     },
-     {
-      "text": "4 feet and 4 feet",
-      "why": "4 × 4 = 16."
      }
     ],
     "target": "18",
@@ -1108,16 +1108,16 @@
     "prompt": "A rectangle is 5 cm long and 4 cm wide. Which is its area?",
     "options": [
      {
-      "text": "20 square centimeters",
-      "correct": true
-     },
-     {
       "text": "9 square centimeters",
       "why": "5 + 4 = 9 adds the sides."
      },
      {
       "text": "18 centimeters",
       "why": "That adds all four sides. Area is 5 × 4."
+     },
+     {
+      "text": "20 square centimeters",
+      "correct": true
      }
     ],
     "hints": [
@@ -1207,16 +1207,16 @@
     "prompt": "Which equation finds the area of this rectangle?",
     "options": [
      {
-      "text": "7 + 2",
-      "why": "Adding does not find area."
-     },
-     {
       "text": "7 × 2",
       "correct": true
      },
      {
       "text": "7 × 7",
       "why": "The width is 2."
+     },
+     {
+      "text": "7 + 2",
+      "why": "Adding does not find area."
      }
     ],
     "model": {
@@ -1295,16 +1295,16 @@
     "prompt": "Which could be the sides of a rectangle with an area of 30 square feet?",
     "options": [
      {
-      "text": "5 feet and 6 feet",
-      "correct": true
-     },
-     {
       "text": "5 feet and 5 feet",
       "why": "5 × 5 = 25."
      },
      {
       "text": "4 feet and 7 feet",
       "why": "4 × 7 = 28."
+     },
+     {
+      "text": "5 feet and 6 feet",
+      "correct": true
      }
     ],
     "target": "30",

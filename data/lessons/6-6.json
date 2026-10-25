@@ -71,16 +71,16 @@
      "prompt": "A classroom rug is 6 feet long and 5 feet wide. Which equation finds its area?",
      "options": [
       {
-       "text": "6 × 5 = 30",
-       "correct": true
-      },
-      {
        "text": "6 + 5 = 11",
        "why": "Adding the sides does not find area."
       },
       {
        "text": "6 + 5 + 6 + 5 = 22",
        "why": "That measures all the way around the rug, not the space it covers."
+      },
+      {
+       "text": "6 × 5 = 30",
+       "correct": true
       }
      ],
      "target": "6 × 5",
@@ -270,16 +270,16 @@
      "prompt": "Why is 19 a sensible answer?",
      "options": [
       {
+       "text": "Because it has three parts.",
+       "why": "The number of parts does not check the answer."
+      },
+      {
        "text": "It is less than the 5 by 5 square (25) the garden fits inside.",
        "correct": true
       },
       {
        "text": "Because 19 is odd.",
        "why": "Odd does not matter. Compare with a shape you know."
-      },
-      {
-       "text": "Because it has three parts.",
-       "why": "The number of parts does not check the answer."
       }
      ],
      "yes": "Yes! Comparing with a simple shape is a good check."
@@ -507,16 +507,16 @@
      "prompt": "Why can we add 72 and 20 to find the area of the whole floor?",
      "options": [
       {
-       "text": "The two rectangles cover the whole floor with no gaps and no overlap.",
-       "correct": true
-      },
-      {
        "text": "Because we always add to find area.",
        "why": "Each rectangle's area comes from multiplying. We add only because the floor is split into parts."
       },
       {
        "text": "Because 72 is bigger than 20.",
        "why": "The size of the numbers does not decide it. What matters is that the parts cover the floor with no overlap."
+      },
+      {
+       "text": "The two rectangles cover the whole floor with no gaps and no overlap.",
+       "correct": true
       }
      ],
      "yes": "Yes! The parts cover the floor exactly once, so their areas add up to the whole."
@@ -801,10 +801,6 @@
     },
     "options": [
      {
-      "text": "She treated the floor as one big rectangle, but part of that rectangle is empty.",
-      "correct": true
-     },
-     {
       "text": "She added the length and the width.",
       "why": "She multiplied, and 10 × 8 = 80 is a true product. The problem is that the floor does not fill a 10 by 8 rectangle."
      },
@@ -815,6 +811,10 @@
      {
       "text": "Nothing went wrong.",
       "why": "80 square feet is more than the floor covers. The floor has an empty corner."
+     },
+     {
+      "text": "She treated the floor as one big rectangle, but part of that rectangle is empty.",
+      "correct": true
      }
     ],
     "hints": [
@@ -1098,16 +1098,16 @@
     "prompt": "A mural covers a whole wall that is 9 feet long and 5 feet wide. Which equation finds how much wall it covers?",
     "options": [
      {
+      "text": "9 + 5 + 9 + 5 = 28",
+      "why": "That measures around the wall, not what is covered."
+     },
+     {
       "text": "9 × 5 = 45",
       "correct": true
      },
      {
       "text": "9 + 5 = 14",
       "why": "Adding the sides does not find what is covered."
-     },
-     {
-      "text": "9 + 5 + 9 + 5 = 28",
-      "why": "That measures around the wall, not what is covered."
      }
     ],
     "target": "9 × 5",
@@ -1150,16 +1150,16 @@
     "prompt": "A student says a 4 by 6 rug covers 20 square feet because 4 + 6 + 4 + 6 = 20. What went wrong?",
     "options": [
      {
-      "text": "The student added the sides. Area is 4 × 6 = 24 square feet.",
-      "correct": true
-     },
-     {
       "text": "Nothing is wrong.",
       "why": "Adding the sides measures around the rug, not what it covers."
      },
      {
       "text": "He should have added 4 + 6.",
       "why": "That is 10. Area is 4 × 6."
+     },
+     {
+      "text": "The student added the sides. Area is 4 × 6 = 24 square feet.",
+      "correct": true
      }
     ],
     "hints": [
@@ -1439,16 +1439,16 @@
     "prompt": "Why should you check that your answer makes sense?",
     "options": [
      {
+      "text": "To make the answer bigger.",
+      "why": "Checking does not change the right answer."
+     },
+     {
       "text": "To catch a mistake, like adding instead of multiplying.",
       "correct": true
      },
      {
       "text": "It is not needed.",
       "why": "A quick check often catches a mistake."
-     },
-     {
-      "text": "To make the answer bigger.",
-      "why": "Checking does not change the right answer."
      }
     ],
     "hints": [
@@ -1594,16 +1594,16 @@
     "prompt": "A student says a 5 by 3 mat covers 16 square feet because 5 + 3 + 5 + 3 = 16. What is right?",
     "options": [
      {
-      "text": "5 × 3 = 15 square feet",
-      "correct": true
-     },
-     {
       "text": "16 square feet",
       "why": "Adding the sides measures around the mat."
      },
      {
       "text": "8 square feet",
       "why": "5 + 3 adds two sides."
+     },
+     {
+      "text": "5 × 3 = 15 square feet",
+      "correct": true
      }
     ],
     "show": [

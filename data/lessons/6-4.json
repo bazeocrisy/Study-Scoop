@@ -312,16 +312,16 @@
      "prompt": "A figure is split into a 5 by 2 part and a 2 by 3 part that do not overlap. What is its area?",
      "options": [
       {
+       "text": "12 square units",
+       "why": "That adds the sides 5 + 2 + 2 + 3. Multiply each part, then add."
+      },
+      {
        "text": "16 square units",
        "correct": true
       },
       {
        "text": "10 square units",
        "why": "That is only the 5 by 2 part."
-      },
-      {
-       "text": "12 square units",
-       "why": "That adds the sides 5 + 2 + 2 + 3. Multiply each part, then add."
       }
      ],
      "hints": [
@@ -404,16 +404,16 @@
      "prompt": "Why do we add the two areas?",
      "options": [
       {
-       "text": "Together the parts cover the whole figure.",
-       "correct": true
-      },
-      {
        "text": "Because adding is easier.",
        "why": "It is not about easy. The two parts make the whole figure."
       },
       {
        "text": "We should multiply them.",
        "why": "Multiplying 12 × 6 would be far too big. The parts are added."
+      },
+      {
+       "text": "Together the parts cover the whole figure.",
+       "correct": true
       }
      ],
      "yes": "Yes! The parts together are the whole figure."
@@ -1080,10 +1080,6 @@
     },
     "options": [
      {
-      "text": "She left out a part.",
-      "correct": true
-     },
-     {
       "text": "She counted one part twice.",
       "why": "Her two tall rectangles do not overlap. Each square is counted once, but one part of the U is missing."
      },
@@ -1094,6 +1090,10 @@
      {
       "text": "She added the parts wrong.",
       "why": "10 + 10 = 20 is a true sum. The problem is that a part is missing from it."
+     },
+     {
+      "text": "She left out a part.",
+      "correct": true
      }
     ],
     "hints": [
@@ -1285,16 +1285,16 @@
     "prompt": "Which two rectangles make this figure, with no overlap?",
     "options": [
      {
-      "text": "4 × 2 + 2 × 3",
-      "correct": true
-     },
-     {
       "text": "4 × 5",
       "why": "The figure is not a 4 by 5 rectangle. Part of it is empty."
      },
      {
       "text": "4 × 2 + 2 × 5",
       "why": "The 2 by 5 part overlaps the top part. The corner would be counted twice."
+     },
+     {
+      "text": "4 × 2 + 2 × 3",
+      "correct": true
      }
     ],
     "model": {
@@ -1426,16 +1426,16 @@
     "prompt": "Why must the parts not overlap?",
     "options": [
      {
+      "text": "Overlapping is fine.",
+      "why": "Overlapping parts make the total too big."
+     },
+     {
       "text": "The squares where they overlap would be counted twice.",
       "correct": true
      },
      {
       "text": "The parts would look strange.",
       "why": "It is about counting each square once."
-     },
-     {
-      "text": "Overlapping is fine.",
-      "why": "Overlapping parts make the total too big."
      }
     ],
     "hints": [
@@ -1547,16 +1547,16 @@
     "prompt": "One way to split an L gives 12 + 6. Another way gives 8 + 10. What is the area?",
     "options": [
      {
-      "text": "18 square units",
-      "correct": true
-     },
-     {
       "text": "36 square units",
       "why": "Do not add both ways. Each way already covers the whole figure."
      },
      {
       "text": "12 square units",
       "why": "That is only one part."
+     },
+     {
+      "text": "18 square units",
+      "correct": true
      }
     ],
     "hints": [
@@ -1833,16 +1833,16 @@
     "prompt": "Which two rectangles make this figure, with no overlap?",
     "options": [
      {
+      "text": "3 × 4 + 6 × 2",
+      "why": "The 6 by 2 part overlaps the 3 by 4 part."
+     },
+     {
       "text": "3 × 4 + 3 × 2",
       "correct": true
      },
      {
       "text": "6 × 4",
       "why": "The figure is not a 6 by 4 rectangle. Part of it is empty."
-     },
-     {
-      "text": "3 × 4 + 6 × 2",
-      "why": "The 6 by 2 part overlaps the 3 by 4 part."
      }
     ],
     "model": {
@@ -1873,16 +1873,16 @@
     "prompt": "A figure is made of a 5 by 5 square and a 5 by 2 rectangle with no overlap. What is its area?",
     "options": [
      {
-      "text": "35 square units",
-      "correct": true
-     },
-     {
       "text": "25 square units",
       "why": "That is only the square."
      },
      {
       "text": "17 square units",
       "why": "That adds the sides."
+     },
+     {
+      "text": "35 square units",
+      "correct": true
      }
     ],
     "show": [
