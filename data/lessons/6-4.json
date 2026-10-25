@@ -82,6 +82,31 @@
     ]
    },
    {
+    "title": "Explain My Thinking: why split the figure?",
+    "item": {
+     "id": "em2",
+     "type": "sentence",
+     "prompt": "Why can a composite figure be divided into smaller rectangles? Write your answer in a sentence.",
+     "keywords": [
+      "composite figure",
+      "rectangles",
+      "divide",
+      "parts",
+      "area"
+     ],
+     "minKeywords": 1,
+     "minWords": 8,
+     "hints": [
+      "What shapes are easy to find the area of? How can the figure be made from them?"
+     ],
+     "example": "A composite figure can be divided into smaller rectangles because its parts fit together, and we know how to find the area of each rectangle.",
+     "show": [
+      "Write one sentence that answers the question.",
+      "Here is one way to say it: A composite figure can be divided into smaller rectangles because its parts fit together, and we know how to find the area of each rectangle."
+     ]
+    }
+   },
+   {
     "title": "Area of each part, then add",
     "text": [
      "Multiply to find each part's area: 6 × 2 = 12 and 2 × 3 = 6.",
@@ -188,7 +213,58 @@
     "text": [
      "Each square of the figure must be in exactly one part.",
      "If two parts overlap, the squares where they meet are counted twice."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       2
+      ],
+      [
+       2,
+       2,
+       2,
+       3
+      ]
+     ],
+     "unit": "units",
+     "show": "parts"
+    },
+    "caption": "Two parts: 12 + 6 = 18"
+   },
+   {
+    "title": "Gaps and left-out parts",
+    "text": [
+     "Every square must be in one part. If you leave a part out, the total is too small.",
+     "This figure has a top part, 6 × 2 = 12, and a stem, 2 × 3 = 6. Forget the stem and you get only 12. The whole figure is 12 + 6 = 18 square units."
     ]
+   },
+   {
+    "title": "Explain My Thinking: why can we add the parts?",
+    "item": {
+     "id": "em1",
+     "type": "sentence",
+     "prompt": "Why can we add the areas of two rectangles that do not overlap to find the area of the whole figure? Write your answer in a sentence.",
+     "keywords": [
+      "add",
+      "area",
+      "rectangles",
+      "figure"
+     ],
+     "minKeywords": 1,
+     "minWords": 8,
+     "hints": [
+      "Think about what would go wrong if the rectangles overlapped, or left a gap."
+     ],
+     "example": "We can add the areas because the rectangles cover the whole figure with no gaps and no overlap, so every square is counted once.",
+     "show": [
+      "Write one sentence that answers the question.",
+      "Here is one way to say it: We can add the areas because the rectangles cover the whole figure with no gaps and no overlap, so every square is counted once."
+     ]
+    }
    },
    {
     "title": "A missing part",
@@ -256,6 +332,41 @@
     ]
    },
    {
+    "title": "Missing side, then area",
+    "text": [
+     "Find the missing side first. Then find the area of each part.",
+     "The top is 7 units wide and the bottom part covers 3 of them, so the ? side is 7 - 3 = 4 units. The parts are 7 × 2 = 14 and 3 × 3 = 9. The area is 14 + 9 = 23 square units."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       2
+      ],
+      [
+       0,
+       2,
+       3,
+       3
+      ]
+     ],
+     "unit": "units",
+     "show": "parts",
+     "unknown": [
+      [
+       3,
+       2,
+       7,
+       2
+      ]
+     ]
+    },
+    "caption": "? side: 7 - 3 = 4. Area: 14 + 9 = 23"
+   },
+   {
     "title": "Check: find the area",
     "item": {
      "id": "r2",
@@ -263,16 +374,16 @@
      "prompt": "A figure is split into a 5 by 2 part and a 2 by 3 part that do not overlap. What is its area?",
      "options": [
       {
+       "text": "12 square units",
+       "why": "That adds the sides 5 + 2 + 2 + 3. Multiply each part, then add."
+      },
+      {
        "text": "16 square units",
        "correct": true
       },
       {
        "text": "10 square units",
        "why": "That is only the 5 by 2 part."
-      },
-      {
-       "text": "12 square units",
-       "why": "That adds the sides 5 + 2 + 2 + 3. Multiply each part, then add."
       }
      ],
      "hints": [
@@ -355,16 +466,16 @@
      "prompt": "Why do we add the two areas?",
      "options": [
       {
-       "text": "Together the parts cover the whole figure.",
-       "correct": true
-      },
-      {
        "text": "Because adding is easier.",
        "why": "It is not about easy. The two parts make the whole figure."
       },
       {
        "text": "We should multiply them.",
        "why": "Multiplying 12 × 6 would be far too big. The parts are added."
+      },
+      {
+       "text": "Together the parts cover the whole figure.",
+       "correct": true
       }
      ],
      "yes": "Yes! The parts together are the whole figure."
@@ -1001,96 +1112,6 @@
     "yes": "Yes! 22 square inches."
    },
    {
-    "id": "t6",
-    "type": "number",
-    "prompt": "What is the area of the figure in square inches?",
-    "answer": "2 × 7 + 5 × 3",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       2,
-       7
-      ],
-      [
-       2,
-       4,
-       5,
-       3
-      ]
-     ],
-     "unit": "in."
-    },
-    "asks": "area",
-    "hints": [
-     "Split the figure into rectangles. Use the side lengths on the picture.",
-     "Find each rectangle's area, then add."
-    ],
-    "mistakes": [
-     {
-      "when": {
-       "answer": 14
-      },
-      "say": "That is only one part of the figure. Add the other part."
-     }
-    ],
-    "show": [
-     "Split it into 2 rectangles: 2 by 7, 5 by 3.",
-     "2 × 7 = 14.",
-     "5 × 3 = 15.",
-     "14 + 15 = 29.",
-     "The area is 29 square inches."
-    ],
-    "yes": "Yes! 29 square inches."
-   },
-   {
-    "id": "t7",
-    "type": "number",
-    "prompt": "What is the area of the figure in square meters?",
-    "answer": "6 × 5 + 4 × 3",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       6,
-       5
-      ],
-      [
-       6,
-       2,
-       4,
-       3
-      ]
-     ],
-     "unit": "m"
-    },
-    "asks": "area",
-    "hints": [
-     "Split the figure into rectangles. Use the side lengths on the picture.",
-     "Find each rectangle's area, then add."
-    ],
-    "mistakes": [
-     {
-      "when": {
-       "answer": 30
-      },
-      "say": "That is only one part of the figure. Add the other part."
-     }
-    ],
-    "show": [
-     "Split it into 2 rectangles: 6 by 5, 4 by 3.",
-     "6 × 5 = 30.",
-     "4 × 3 = 12.",
-     "30 + 12 = 42.",
-     "The area is 42 square meters."
-    ],
-    "yes": "Yes! 42 square meters."
-   },
-   {
     "id": "t8",
     "type": "number",
     "prompt": "What is the area of the figure in square centimeters?",
@@ -1137,49 +1158,78 @@
    },
    {
     "id": "t9",
-    "type": "number",
-    "prompt": "What is the area of the figure in square feet?",
-    "answer": "7 × 2 + 3 × 4",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       7,
-       2
-      ],
-      [
-       0,
-       2,
-       3,
-       4
-      ]
-     ],
-     "unit": "ft",
-     "show": "parts"
-    },
-    "asks": "area",
-    "hints": [
-     "Split the figure into rectangles. Use the side lengths on the picture.",
-     "Find each rectangle's area, then add."
-    ],
-    "mistakes": [
+    "type": "choice",
+    "prompt": "Student A split this L with a line going across and wrote 6 × 2 + 2 × 3 = 18. Student B split the same L with a line going up and down and wrote 2 × 5 + 4 × 2 = 18. Are both students right?",
+    "models": [
      {
-      "when": {
-       "answer": 14
-      },
-      "say": "That is only one part of the figure. Add the other part."
+      "type": "shape",
+      "rects": [
+       [
+        0,
+        0,
+        6,
+        2
+       ],
+       [
+        0,
+        2,
+        2,
+        3
+       ]
+      ],
+      "unit": "ft",
+      "show": "parts",
+      "caption": "Student A: a line across"
+     },
+     {
+      "type": "shape",
+      "rects": [
+       [
+        0,
+        0,
+        2,
+        5
+       ],
+       [
+        2,
+        0,
+        4,
+        2
+       ]
+      ],
+      "unit": "ft",
+      "show": "parts",
+      "caption": "Student B: a line up and down"
      }
     ],
-    "show": [
-     "Split it into 2 rectangles: 7 by 2, 3 by 4.",
-     "7 × 2 = 14.",
-     "3 × 4 = 12.",
-     "14 + 12 = 26.",
-     "The area is 26 square feet."
+    "options": [
+     {
+      "text": "Yes. Both splits cover the whole L with no overlap, so both find 18 square feet.",
+      "correct": true
+     },
+     {
+      "text": "No. Only Student A is right, because a figure must be split with a line going across.",
+      "why": "A figure can be split in more than one way. A line going up and down also makes two rectangles that fit the L."
+     },
+     {
+      "text": "No. Only Student B is right, because the pieces must be tall.",
+      "why": "The pieces do not have to be tall. They only have to be rectangles that cover the figure with no gaps and no overlap. Student A's pieces do."
+     },
+     {
+      "text": "No. Different splits must give different answers.",
+      "why": "It is the same figure, so it has the same area. 12 + 6 = 18 and 10 + 8 = 18."
+     }
     ],
-    "yes": "Yes! 26 square feet."
+    "hints": [
+     "Look at each picture. Do the two rectangles cover the whole L, with no gaps and no overlap?",
+     "If both splits cover the same figure, compare their totals."
+    ],
+    "show": [
+     "Student A: 6 × 2 = 12 and 2 × 3 = 6, so 12 + 6 = 18.",
+     "Student B: 2 × 5 = 10 and 4 × 2 = 8, so 10 + 8 = 18.",
+     "Both splits cover the whole L once, so both are right. The area is 18 square feet."
+    ],
+    "yes": "Yes! Different splits of the same figure give the same area: 18 square feet."
    },
    {
     "areaOptions": true,
@@ -1188,16 +1238,16 @@
     "prompt": "Which two rectangles make this figure, with no overlap?",
     "options": [
      {
-      "text": "4 × 2 + 2 × 3",
-      "correct": true
-     },
-     {
       "text": "4 × 5",
       "why": "The figure is not a 4 by 5 rectangle. Part of it is empty."
      },
      {
       "text": "4 × 2 + 2 × 5",
       "why": "The 2 by 5 part overlaps the top part. The corner would be counted twice."
+     },
+     {
+      "text": "4 × 2 + 2 × 3",
+      "correct": true
      }
     ],
     "model": {
@@ -1231,7 +1281,7 @@
     "areaOptions": true,
     "id": "t11",
     "type": "multi",
-    "prompt": "Which ways can you find the area of this figure? Choose all that are right.",
+    "prompt": "Which ways can you find the area of this figure?",
     "options": [
      {
       "text": "5 × 2 + 2 × 3",
@@ -1329,16 +1379,16 @@
     "prompt": "Why must the parts not overlap?",
     "options": [
      {
+      "text": "Overlapping is fine.",
+      "why": "Overlapping parts make the total too big."
+     },
+     {
       "text": "The squares where they overlap would be counted twice.",
       "correct": true
      },
      {
       "text": "The parts would look strange.",
       "why": "It is about counting each square once."
-     },
-     {
-      "text": "Overlapping is fine.",
-      "why": "Overlapping parts make the total too big."
      }
     ],
     "hints": [
@@ -1348,51 +1398,6 @@
      "Overlapping parts count some squares twice."
     ],
     "yes": "Yes!"
-   },
-   {
-    "id": "t15",
-    "type": "number",
-    "prompt": "A garden has this shape. What is its area in square meters?",
-    "answer": "3 × 2 + 3 × 5",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       3,
-       2
-      ],
-      [
-       3,
-       0,
-       3,
-       5
-      ]
-     ],
-     "unit": "m"
-    },
-    "asks": "area",
-    "hints": [
-     "Split the figure into rectangles. Use the side lengths on the picture.",
-     "Find each rectangle's area, then add."
-    ],
-    "mistakes": [
-     {
-      "when": {
-       "answer": 6
-      },
-      "say": "That is only one part of the figure. Add the other part."
-     }
-    ],
-    "show": [
-     "Split it into 2 rectangles: 3 by 2, 3 by 5.",
-     "3 × 2 = 6.",
-     "3 × 5 = 15.",
-     "6 + 15 = 21.",
-     "The area is 21 square meters."
-    ],
-    "yes": "Yes! 21 square meters."
    },
    {
     "id": "t16",
@@ -1445,16 +1450,16 @@
     "prompt": "One way to split an L gives 12 + 6. Another way gives 8 + 10. What is the area?",
     "options": [
      {
-      "text": "18 square units",
-      "correct": true
-     },
-     {
       "text": "36 square units",
       "why": "Do not add both ways. Each way already covers the whole figure."
      },
      {
       "text": "12 square units",
       "why": "That is only one part."
+     },
+     {
+      "text": "18 square units",
+      "correct": true
      }
     ],
     "hints": [
@@ -1504,6 +1509,108 @@
      "The missing side is 3 cm."
     ],
     "yes": "Yes! 3 cm."
+   },
+   {
+    "id": "t7",
+    "type": "number",
+    "prompt": "One side of this figure is marked with a ?. You can find the ? side from the other sides. What is the area of the figure in square feet?",
+    "answer": "4 × 7 + 5 × 3",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       9,
+       3
+      ],
+      [
+       0,
+       3,
+       4,
+       4
+      ]
+     ],
+     "unit": "ft",
+     "unknown": [
+      [
+       4,
+       3,
+       9,
+       3
+      ]
+     ]
+    },
+    "asks": "area",
+    "hints": [
+     "The whole top side is 9 feet and the left part of the bottom is 4 feet. Subtract to find the missing side.",
+     "Split the figure into rectangles, then add their areas."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 27
+      },
+      "say": "That is only the top part. Add the other part too."
+     }
+    ],
+    "show": [
+     "The missing side is 9 - 4 = 5 feet.",
+     "Split it: 4 × 7 = 28 and 5 × 3 = 15.",
+     "28 + 15 = 43.",
+     "The area is 43 square feet."
+    ],
+    "yes": "Yes! 43 square feet."
+   },
+   {
+    "id": "t15",
+    "type": "multi",
+    "prompt": "Which ways split this figure into rectangles that cover all of it with no overlap?",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       3,
+       5
+      ],
+      [
+       3,
+       3,
+       4,
+       2
+      ]
+     ],
+     "unit": "m"
+    },
+    "options": [
+     {
+      "text": "Cut up and down: a 3 by 5 rectangle and a 4 by 2 rectangle.",
+      "correct": true
+     },
+     {
+      "text": "Cut across: a 3 by 3 rectangle on top and a 7 by 2 rectangle on the bottom.",
+      "correct": true
+     },
+     {
+      "text": "A 3 by 5 rectangle and a 7 by 2 rectangle.",
+      "why": "These overlap. The 3 by 2 corner is in both rectangles, so 15 + 14 = 29 counts it twice. The area is 23 square meters."
+     },
+     {
+      "text": "A 3 by 3 rectangle and a 4 by 2 rectangle.",
+      "why": "These leave a gap. The 3 by 2 corner at the bottom left is in neither rectangle, so 9 + 8 = 17 is too small. The area is 23 square meters."
+     }
+    ],
+    "hints": [
+     "Each square of the figure must be in exactly one rectangle. Check each choice for overlap and for gaps."
+    ],
+    "show": [
+     "Up and down: 3 × 5 = 15 and 4 × 2 = 8, so 15 + 8 = 23.",
+     "Across: 3 × 3 = 9 and 7 × 2 = 14, so 9 + 14 = 23.",
+     "The other two overlap or leave a gap, so their totals are not 23."
+    ],
+    "yes": "Yes! Both splits cover the figure once. Each one gives 23 square meters."
    },
    {
     "id": "t19",
@@ -1558,49 +1665,112 @@
     "yes": "Yes! 18 square inches."
    },
    {
-    "id": "t20",
-    "type": "number",
-    "prompt": "What is the area of the figure in square feet?",
-    "answer": "9 × 2 + 2 × 5",
+    "id": "t6",
+    "type": "choice",
+    "quotesMistake": true,
+    "prompt": "Mia split this U into three rectangles. She wrote: 2 × 5 = 10, 2 × 5 = 10, 10 + 10 = 20 square inches. Find Mia's mistake.",
     "model": {
      "type": "shape",
      "rects": [
       [
        0,
        0,
-       9,
+       2,
+       5
+      ],
+      [
+       2,
+       3,
+       3,
+       2
+      ],
+      [
+       5,
+       0,
+       2,
+       5
+      ]
+     ],
+     "unit": "in."
+    },
+    "options": [
+     {
+      "text": "She counted one part twice.",
+      "why": "Her two tall rectangles do not overlap. Each square is counted once, but one part of the U is missing."
+     },
+     {
+      "text": "She found a partial area wrong.",
+      "why": "2 × 5 = 10 is right for each tall rectangle. The mistake is a part that has no area in her work."
+     },
+     {
+      "text": "She added the parts wrong.",
+      "why": "10 + 10 = 20 is a true sum. The problem is that a part is missing from it."
+     },
+     {
+      "text": "She left out a part.",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Count the rectangles in the picture. How many did Mia use?"
+    ],
+    "show": [
+     "The U has 3 parts, but Mia used only 2.",
+     "She left out the 3 by 2 piece at the bottom: 3 × 2 = 6.",
+     "10 + 6 + 10 = 26 square inches."
+    ],
+    "yes": "Yes! The 3 by 2 piece at the bottom was left out. The real area is 26 square inches."
+   },
+   {
+    "id": "t20",
+    "type": "choice",
+    "quotesMistake": true,
+    "prompt": "Ben wrote: 5 × 2 = 10, 2 × 5 = 10, 10 + 10 = 20 square feet. His first rectangle is the top bar. His second is the whole left side. Find Ben's mistake.",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       5,
        2
       ],
       [
        0,
        2,
        2,
-       5
+       3
       ]
      ],
      "unit": "ft"
     },
-    "asks": "area",
-    "hints": [
-     "Split the figure into rectangles. Use the side lengths on the picture.",
-     "Find each rectangle's area, then add."
-    ],
-    "mistakes": [
+    "options": [
      {
-      "when": {
-       "answer": 18
-      },
-      "say": "That is only one part of the figure. Add the other part."
+      "text": "He counted one part twice.",
+      "correct": true
+     },
+     {
+      "text": "He left out a part.",
+      "why": "Nothing is left out. His two rectangles cover the whole L. They also cover the corner two times."
+     },
+     {
+      "text": "He used a wrong side length.",
+      "why": "5 and 2 are real side lengths, and 5 × 2 = 10 is right for each rectangle. The mistake is how the rectangles fit together."
+     },
+     {
+      "text": "He added the parts wrong.",
+      "why": "10 + 10 = 20 is a true sum. The problem is that the two rectangles share a 2 by 2 corner."
      }
     ],
-    "show": [
-     "Split it into 2 rectangles: 9 by 2, 2 by 5.",
-     "9 × 2 = 18.",
-     "2 × 5 = 10.",
-     "18 + 10 = 28.",
-     "The area is 28 square feet."
+    "hints": [
+     "Picture both of Ben's rectangles on the L. Do they share any squares?"
     ],
-    "yes": "Yes! 28 square feet."
+    "show": [
+     "The top bar (5 by 2) and the left side (2 by 5) both cover the 2 by 2 corner.",
+     "That corner is counted two times.",
+     "Split the L with no overlap: 5 × 2 = 10 and 2 × 3 = 6, so 10 + 6 = 16 square feet."
+    ],
+    "yes": "Yes! The 2 by 2 corner was counted twice. The real area is 16 square feet."
    }
   ]
  },
@@ -1725,16 +1895,16 @@
     "prompt": "Which two rectangles make this figure, with no overlap?",
     "options": [
      {
+      "text": "3 × 4 + 6 × 2",
+      "why": "The 6 by 2 part overlaps the 3 by 4 part."
+     },
+     {
       "text": "3 × 4 + 3 × 2",
       "correct": true
      },
      {
       "text": "6 × 4",
       "why": "The figure is not a 6 by 4 rectangle. Part of it is empty."
-     },
-     {
-      "text": "3 × 4 + 6 × 2",
-      "why": "The 6 by 2 part overlaps the 3 by 4 part."
      }
     ],
     "model": {
@@ -1765,16 +1935,16 @@
     "prompt": "A figure is made of a 5 by 5 square and a 5 by 2 rectangle with no overlap. What is its area?",
     "options": [
      {
-      "text": "35 square units",
-      "correct": true
-     },
-     {
       "text": "25 square units",
       "why": "That is only the square."
      },
      {
       "text": "17 square units",
       "why": "That adds the sides."
+     },
+     {
+      "text": "35 square units",
+      "correct": true
      }
     ],
     "show": [

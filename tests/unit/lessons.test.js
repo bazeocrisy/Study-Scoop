@@ -98,7 +98,11 @@ test('every lesson is valid and every question accepts its own answer', () => {
     for (const [, item] of allItems(lesson)) {
       const r = check(item, asText(solution(item)), lesson);
       assert.equal(r.status, 'correct', `${lesson.id} ${item.id}`);
-      assert.match(r.say, /^Yes!/, `${lesson.id} ${item.id}: a correct answer starts with "Yes!"`);
+      if (item.type === 'sentence') {
+        // A written explanation is never marked "right": it is compared with a model answer, and only in Learn It.
+        assert.ok(r.say.includes(item.example), `${lesson.id} ${item.id}: the model answer is shown after an attempt`);
+        assert.ok(lesson.learn.screens.some((sc) => sc.item === item), `${lesson.id} ${item.id}: a written explanation belongs in an unscored Learn It screen`);
+      } else assert.match(r.say, /^Yes!/, `${lesson.id} ${item.id}: a correct answer starts with "Yes!"`);
       // An empty answer is never counted as a try.
       if (item.type !== 'choice') assert.equal(check(item, {}, lesson).status, 'empty', `${lesson.id} ${item.id}`);
     }
@@ -319,5 +323,18 @@ test('the Parent Guide keeps each written fact on one line', () => {
     const facts = lesson.parent.sections.flatMap((s) => [s.text, ...(s.list || [])]).filter(Boolean).join(' ').match(/\d+(?:\s*[×+=−-]\s*\d+)+/g) || [];
     assert.ok(facts.length, `${lesson.id} has facts to check`);
     for (const f of facts) assert.ok(out.includes(`<span class="term">${f}</span>`), `${lesson.id}: "${f}" is not kept together`);
+  }
+});
+
+test('Chapter 6 multiple choice: the right answer is not always in the same place (Assignment 008)', () => {
+  const chapter6 = LESSONS.filter((l) => l.chapter === 6);
+  const choices = chapter6.flatMap((l) => allItems(l).map(([, it]) => it)).filter((it) => it.type === 'choice');
+  assert.ok(choices.length >= 80, 'Chapter 6 lessons have many choice questions');
+  const at = [0, 1, 2, 3].map((k) => choices.filter((it) => it.options.findIndex((o) => o.correct) === k).length);
+  assert.ok(at[0] / choices.length <= 0.5, `the first option is right in ${at[0]} of ${choices.length} questions`);
+  assert.ok(at[1] >= 20 && at[2] >= 15, `the right answer is spread over positions: ${at}`);
+  for (const l of chapter6) {
+    const here = allItems(l).map(([, it]) => it).filter((it) => it.type === 'choice');
+    assert.ok(here.filter((it) => it.options.findIndex((o) => o.correct) === 0).length / here.length <= 0.6, `${l.id}: too many right answers in first place`);
   }
 });

@@ -701,7 +701,16 @@ async function main() {
         await b.load(url(lessonHash(meta.id, 'learn')));
         // Learn It: answer each check, then go on.
         for (const [k, s] of L.learn.screens.entries()) {
-          if (s.item) { await solve(s.item); expect((await fb()).startsWith('Yes!'), `${s.item.id}: ${await fb()}`); }
+          if (s.item?.type === 'sentence') {
+            // Explain My Thinking: a too-short answer is coached, a real sentence is compared with a model answer, never marked "right".
+            eq(await b.js('return document.querySelector("[data-act=next]")?.disabled ?? true;'), true, `${s.item.id}: Next waits for an attempt`);
+            await answer(s.item, { text: 'Short.' }); await checkAnswer(s.item);
+            expect((await fb()).includes('Write a little more'), `${s.item.id}: a short answer is coached (${await fb()})`);
+            await solve(s.item);
+            const cmp = await b.js('return document.querySelector("#lesson-stage .feedback.compare")?.textContent.replace(/\\s+/g, " ") || "";');
+            expect(cmp.includes('Compare your answer') && cmp.includes(s.item.example), `${s.item.id}: the model answer is shown for comparison`);
+            expect(!/\bYes!|Correct|mastered/i.test(cmp.replace(s.item.example, '')), `${s.item.id}: a sentence is never marked right`);
+          } else if (s.item) { await solve(s.item); expect((await fb()).startsWith('Yes!'), `${s.item.id}: ${await fb()}`); }
           if (k < L.learn.screens.length - 1) await press('[data-act="next"]');
         }
         await go('.stage-nav a.btn-primary[href$="stage=watch"]');
