@@ -355,7 +355,7 @@
       {
         "id": "c15",
         "type": "number",
-        "prompt": "One side of this figure is marked with a ?. Find that side first. What is the area of the figure in square centimeters?",
+        "prompt": "One side of this figure is marked with a ?. You can find the ? side from the other sides. What is the area of the figure in square centimeters?",
         "answer": "3 × 6 + 5 × 2",
         "model": {
           "type": "shape",

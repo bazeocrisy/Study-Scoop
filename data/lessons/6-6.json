@@ -159,6 +159,33 @@
     }
    },
    {
+    "title": "Not the whole box",
+    "text": [
+     "For a shape made of parts, do not multiply its longest side by its widest side. That also counts the empty corner.",
+     "Here 8 × 5 = 40 counts empty space. Find each part instead: 8 × 2 = 16 and 3 × 3 = 9. The area is 16 + 9 = 25 square units."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       2,
+       3,
+       3
+      ]
+     ],
+     "unit": "units",
+     "show": "parts"
+    },
+    "caption": "16 + 9 = 25 square units"
+   },
+   {
     "title": "Explain My Thinking: does my answer make sense?",
     "item": {
      "id": "em1",
@@ -777,102 +804,6 @@
     "yes": "Yes! 60 square feet."
    },
    {
-    "id": "t2",
-    "type": "choice",
-    "quotesMistake": true,
-    "prompt": "Dana found the area of this classroom floor by multiplying the longest length by the longest width: 10 × 8 = 80 square feet. What went wrong?",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       10,
-       3
-      ],
-      [
-       0,
-       3,
-       4,
-       5
-      ]
-     ],
-     "unit": "ft"
-    },
-    "options": [
-     {
-      "text": "She added the length and the width.",
-      "why": "She multiplied, and 10 × 8 = 80 is a true product. The problem is that the floor does not fill a 10 by 8 rectangle."
-     },
-     {
-      "text": "She should have used the shortest sides.",
-      "why": "The shortest sides do not give the area either. Split the floor into rectangles and add their areas."
-     },
-     {
-      "text": "Nothing went wrong.",
-      "why": "80 square feet is more than the floor covers. The floor has an empty corner."
-     },
-     {
-      "text": "She treated the floor as one big rectangle, but part of that rectangle is empty.",
-      "correct": true
-     }
-    ],
-    "hints": [
-     "Does the floor fill the whole 10 by 8 rectangle? Look at the empty corner."
-    ],
-    "show": [
-     "The floor is two rectangles: 10 × 3 = 30 and 4 × 5 = 20.",
-     "30 + 20 = 50 square feet.",
-     "80 is too big because it counts the empty corner."
-    ],
-    "yes": "Yes! The empty corner was counted. The real area is 50 square feet."
-   },
-   {
-    "id": "t3",
-    "type": "number",
-    "prompt": "A classroom floor has this shape. How many square feet of carpet does the teacher need?",
-    "answer": "9 × 5 + 4 × 3",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       9,
-       5
-      ],
-      [
-       0,
-       5,
-       4,
-       3
-      ]
-     ],
-     "unit": "ft"
-    },
-    "asks": "area",
-    "hints": [
-     "The floor is not one rectangle. Split it into two rectangles.",
-     "Find each rectangle's area, then add."
-    ],
-    "mistakes": [
-     {
-      "when": {
-       "answer": 45
-      },
-      "say": "That is only the big part. Add the smaller part too."
-     }
-    ],
-    "show": [
-     "Split it into 2 rectangles: 9 by 5 and 4 by 3.",
-     "9 × 5 = 45.",
-     "4 × 3 = 12.",
-     "45 + 12 = 57.",
-     "The teacher needs 57 square feet of carpet."
-    ],
-    "yes": "Yes! 57 square feet of carpet."
-   },
-   {
     "id": "t4",
     "type": "number",
     "prompt": "A baseball practice mat is 7 feet long and 4 feet wide. What is its area in square feet?",
@@ -895,6 +826,136 @@
     ],
     "show": [
      "7 × 4 = 28 square feet."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t10",
+    "type": "choice",
+    "prompt": "A mural covers a whole wall that is 9 feet long and 5 feet wide. Which equation finds how much wall it covers?",
+    "options": [
+     {
+      "text": "9 + 5 + 9 + 5 = 28",
+      "why": "That measures around the wall, not what is covered."
+     },
+     {
+      "text": "9 × 5 = 45",
+      "correct": true
+     },
+     {
+      "text": "9 + 5 = 14",
+      "why": "Adding the sides does not find what is covered."
+     }
+    ],
+    "target": "9 × 5",
+    "hints": [
+     "Covering is area."
+    ],
+    "show": [
+     "9 × 5 = 45 square feet."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t17",
+    "type": "choice",
+    "prompt": "A banner is 16 feet long and 3 feet wide. Which is the easiest way to find its area?",
+    "options": [
+     {
+      "text": "(10 × 3) + (6 × 3)",
+      "correct": true
+     },
+     {
+      "text": "16 + 3",
+      "why": "Adding does not find area."
+     },
+     {
+      "text": "(16 × 1) + 3",
+      "why": "That does not keep the 3 rows."
+     }
+    ],
+    "hints": [
+     "Split the 16 at 10."
+    ],
+    "show": [
+     "30 + 18 = 48 square feet."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t8",
+    "type": "choice",
+    "prompt": "Rectangle A is 6 inches by 6 inches. Rectangle B is 9 inches by 4 inches. Rectangle C is 12 inches by 3 inches. How do their areas compare?",
+    "options": [
+     {
+      "text": "They are all 36 square inches.",
+      "correct": true
+     },
+     {
+      "text": "C is the biggest.",
+      "why": "C is the longest, but 12 × 3 = 36, the same as the others."
+     },
+     {
+      "text": "A is the smallest.",
+      "why": "6 × 6 = 36, the same as the others."
+     }
+    ],
+    "hints": [
+     "Find each area."
+    ],
+    "show": [
+     "6 × 6 = 36, 9 × 4 = 36, 12 × 3 = 36."
+    ],
+    "yes": "Yes! Different shapes, same area."
+   },
+   {
+    "id": "t9",
+    "type": "choice",
+    "prompt": "Garden 1 is 5 m by 4 m. Garden 2 is 6 m by 3 m. Which has the greater area?",
+    "options": [
+     {
+      "text": "Garden 1",
+      "correct": true
+     },
+     {
+      "text": "Garden 2",
+      "why": "6 × 3 = 18 is less than 5 × 4 = 20."
+     },
+     {
+      "text": "They are the same",
+      "why": "20 and 18 are not the same."
+     }
+    ],
+    "hints": [
+     "Find both areas."
+    ],
+    "show": [
+     "20 square meters and 18 square meters."
+    ],
+    "yes": "Yes!"
+   },
+   {
+    "id": "t11",
+    "type": "blanks",
+    "prompt": "A poster is 6 feet long and 2 feet wide. It is made 9 feet long. How much more area does it cover?",
+    "text": [
+     "9 × 2 = [n]",
+     "6 × 2 = [o]",
+     "[n2] - [o2] = [t]"
+    ],
+    "answer": {
+     "n": 18,
+     "o": 12,
+     "n2": 18,
+     "o2": 12,
+     "t": 6
+    },
+    "equations": true,
+    "hints": [
+     "New area minus old area."
+    ],
+    "show": [
+     "18 - 12 = 6 square feet more."
     ],
     "yes": "Yes!"
    },
@@ -989,6 +1050,51 @@
     "yes": "Yes! 30 square yards."
    },
    {
+    "id": "t3",
+    "type": "number",
+    "prompt": "A classroom floor has this shape. How many square feet of carpet does the teacher need?",
+    "answer": "9 × 5 + 4 × 3",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       9,
+       5
+      ],
+      [
+       0,
+       5,
+       4,
+       3
+      ]
+     ],
+     "unit": "ft"
+    },
+    "asks": "area",
+    "hints": [
+     "The floor is not one rectangle. Split it into two rectangles.",
+     "Find each rectangle's area, then add."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 45
+      },
+      "say": "That is only the big part. Add the smaller part too."
+     }
+    ],
+    "show": [
+     "Split it into 2 rectangles: 9 by 5 and 4 by 3.",
+     "9 × 5 = 45.",
+     "4 × 3 = 12.",
+     "45 + 12 = 57.",
+     "The teacher needs 57 square feet of carpet."
+    ],
+    "yes": "Yes! 57 square feet of carpet."
+   },
+   {
     "id": "t7",
     "type": "number",
     "prompt": "A block letter F is cut from paper. How many square inches of paper does it use?",
@@ -1041,108 +1147,55 @@
     "yes": "Yes! 24 square inches."
    },
    {
-    "id": "t8",
+    "id": "t2",
     "type": "choice",
-    "prompt": "Rectangle A is 6 inches by 6 inches. Rectangle B is 9 inches by 4 inches. Rectangle C is 12 inches by 3 inches. How do their areas compare?",
-    "options": [
-     {
-      "text": "They are all 36 square inches.",
-      "correct": true
-     },
-     {
-      "text": "C is the biggest.",
-      "why": "C is the longest, but 12 × 3 = 36, the same as the others."
-     },
-     {
-      "text": "A is the smallest.",
-      "why": "6 × 6 = 36, the same as the others."
-     }
-    ],
-    "hints": [
-     "Find each area."
-    ],
-    "show": [
-     "6 × 6 = 36, 9 × 4 = 36, 12 × 3 = 36."
-    ],
-    "yes": "Yes! Different shapes, same area."
-   },
-   {
-    "id": "t9",
-    "type": "choice",
-    "prompt": "Garden 1 is 5 m by 4 m. Garden 2 is 6 m by 3 m. Which has the greater area?",
-    "options": [
-     {
-      "text": "Garden 1",
-      "correct": true
-     },
-     {
-      "text": "Garden 2",
-      "why": "6 × 3 = 18 is less than 5 × 4 = 20."
-     },
-     {
-      "text": "They are the same",
-      "why": "20 and 18 are not the same."
-     }
-    ],
-    "hints": [
-     "Find both areas."
-    ],
-    "show": [
-     "20 square meters and 18 square meters."
-    ],
-    "yes": "Yes!"
-   },
-   {
-    "id": "t10",
-    "type": "choice",
-    "prompt": "A mural covers a whole wall that is 9 feet long and 5 feet wide. Which equation finds how much wall it covers?",
-    "options": [
-     {
-      "text": "9 + 5 + 9 + 5 = 28",
-      "why": "That measures around the wall, not what is covered."
-     },
-     {
-      "text": "9 × 5 = 45",
-      "correct": true
-     },
-     {
-      "text": "9 + 5 = 14",
-      "why": "Adding the sides does not find what is covered."
-     }
-    ],
-    "target": "9 × 5",
-    "hints": [
-     "Covering is area."
-    ],
-    "show": [
-     "9 × 5 = 45 square feet."
-    ],
-    "yes": "Yes!"
-   },
-   {
-    "id": "t11",
-    "type": "blanks",
-    "prompt": "A poster is 6 feet long and 2 feet wide. It is made 9 feet long. How much more area does it cover?",
-    "text": [
-     "9 × 2 = [n]",
-     "6 × 2 = [o]",
-     "[n2] - [o2] = [t]"
-    ],
-    "answer": {
-     "n": 18,
-     "o": 12,
-     "n2": 18,
-     "o2": 12,
-     "t": 6
+    "quotesMistake": true,
+    "prompt": "Dana found the area of this classroom floor by multiplying the longest length by the longest width: 10 × 8 = 80 square feet. What went wrong?",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       10,
+       3
+      ],
+      [
+       0,
+       3,
+       4,
+       5
+      ]
+     ],
+     "unit": "ft"
     },
-    "equations": true,
+    "options": [
+     {
+      "text": "She added the length and the width.",
+      "why": "She multiplied, and 10 × 8 = 80 is a true product. The problem is that the floor does not fill a 10 by 8 rectangle."
+     },
+     {
+      "text": "She should have used the shortest sides.",
+      "why": "The shortest sides do not give the area either. Split the floor into rectangles and add their areas."
+     },
+     {
+      "text": "Nothing went wrong.",
+      "why": "80 square feet is more than the floor covers. The floor has an empty corner."
+     },
+     {
+      "text": "She treated the floor as one big rectangle, but part of that rectangle is empty.",
+      "correct": true
+     }
+    ],
     "hints": [
-     "New area minus old area."
+     "Does the floor fill the whole 10 by 8 rectangle? Look at the empty corner."
     ],
     "show": [
-     "18 - 12 = 6 square feet more."
+     "The floor is two rectangles: 10 × 3 = 30 and 4 × 5 = 20.",
+     "30 + 20 = 50 square feet.",
+     "80 is too big because it counts the empty corner."
     ],
-    "yes": "Yes!"
+    "yes": "Yes! The empty corner was counted. The real area is 50 square feet."
    },
    {
     "id": "t12",
@@ -1356,32 +1409,6 @@
     "yes": "Yes!"
    },
    {
-    "id": "t17",
-    "type": "choice",
-    "prompt": "A banner is 16 feet long and 3 feet wide. Which is the easiest way to find its area?",
-    "options": [
-     {
-      "text": "(10 × 3) + (6 × 3)",
-      "correct": true
-     },
-     {
-      "text": "16 + 3",
-      "why": "Adding does not find area."
-     },
-     {
-      "text": "(16 × 1) + 3",
-      "why": "That does not keep the 3 rows."
-     }
-    ],
-    "hints": [
-     "Split the 16 at 10."
-    ],
-    "show": [
-     "30 + 18 = 48 square feet."
-    ],
-    "yes": "Yes!"
-   },
-   {
     "id": "t18",
     "type": "number",
     "prompt": "A path in a park has this shape. What is its area in square feet?",
@@ -1434,6 +1461,36 @@
     "yes": "Yes! 32 square feet."
    },
    {
+    "id": "t20",
+    "type": "blanks",
+    "prompt": "A garden is 5 meters wide and 9 meters long. The family makes it 3 meters wider. How much more area does the garden cover?",
+    "text": [
+     "5 + 3 = [w]",
+     "9 × 8 = [n]",
+     "9 × 5 = [o]",
+     "[n2] - [o2] = [t]"
+    ],
+    "answer": {
+     "w": 8,
+     "n": 72,
+     "o": 45,
+     "n2": 72,
+     "o2": 45,
+     "t": 27
+    },
+    "equations": true,
+    "hints": [
+     "First find the new width. Then find the new area and the old area.",
+     "Subtract the old area from the new area."
+    ],
+    "show": [
+     "New width: 5 + 3 = 8.",
+     "New area: 9 × 8 = 72. Old area: 9 × 5 = 45.",
+     "72 - 45 = 27 square meters more."
+    ],
+    "yes": "Yes! The garden covers 27 square meters more."
+   },
+   {
     "id": "t19",
     "type": "choice",
     "prompt": "Why should you check that your answer makes sense?",
@@ -1458,36 +1515,6 @@
      "A check compares the answer with a simple shape you know."
     ],
     "yes": "Yes!"
-   },
-   {
-    "id": "t20",
-    "type": "blanks",
-    "prompt": "A garden is 5 meters wide and 8 meters long. The family makes it 3 meters wider. How much more area does the garden cover?",
-    "text": [
-     "5 + 3 = [w]",
-     "8 × 8 = [n]",
-     "8 × 5 = [o]",
-     "[n2] - [o2] = [t]"
-    ],
-    "answer": {
-     "w": 8,
-     "n": 64,
-     "o": 40,
-     "n2": 64,
-     "o2": 40,
-     "t": 24
-    },
-    "equations": true,
-    "hints": [
-     "First find the new width. Then find the new area and the old area.",
-     "Subtract the old area from the new area."
-    ],
-    "show": [
-     "New width: 5 + 3 = 8.",
-     "New area: 8 × 8 = 64. Old area: 8 × 5 = 40.",
-     "64 - 40 = 24 square meters more."
-    ],
-    "yes": "Yes! The garden covers 24 square meters more."
    }
   ]
  },

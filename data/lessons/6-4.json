@@ -213,6 +213,33 @@
     "text": [
      "Each square of the figure must be in exactly one part.",
      "If two parts overlap, the squares where they meet are counted twice."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       6,
+       2
+      ],
+      [
+       2,
+       2,
+       2,
+       3
+      ]
+     ],
+     "unit": "units",
+     "show": "parts"
+    },
+    "caption": "Two parts: 12 + 6 = 18"
+   },
+   {
+    "title": "Gaps and left-out parts",
+    "text": [
+     "Every square must be in one part. If you leave a part out, the total is too small.",
+     "This figure has a top part, 6 × 2 = 12, and a stem, 2 × 3 = 6. Forget the stem and you get only 12. The whole figure is 12 + 6 = 18 square units."
     ]
    },
    {
@@ -303,6 +330,41 @@
     "words": [
      "decompose"
     ]
+   },
+   {
+    "title": "Missing side, then area",
+    "text": [
+     "Find the missing side first. Then find the area of each part.",
+     "The top is 7 units wide and the bottom part covers 3 of them, so the ? side is 7 - 3 = 4 units. The parts are 7 × 2 = 14 and 3 × 3 = 9. The area is 14 + 9 = 23 square units."
+    ],
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       7,
+       2
+      ],
+      [
+       0,
+       2,
+       3,
+       3
+      ]
+     ],
+     "unit": "units",
+     "show": "parts",
+     "unknown": [
+      [
+       3,
+       2,
+       7,
+       2
+      ]
+     ]
+    },
+    "caption": "? side: 7 - 3 = 4. Area: 14 + 9 = 23"
    },
    {
     "title": "Check: find the area",
@@ -1050,115 +1112,6 @@
     "yes": "Yes! 22 square inches."
    },
    {
-    "id": "t6",
-    "type": "choice",
-    "quotesMistake": true,
-    "prompt": "Mia split this U into three rectangles. She wrote: 2 × 5 = 10, 2 × 5 = 10, 10 + 10 = 20 square inches. Find Mia's mistake.",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       2,
-       5
-      ],
-      [
-       2,
-       3,
-       3,
-       2
-      ],
-      [
-       5,
-       0,
-       2,
-       5
-      ]
-     ],
-     "unit": "in."
-    },
-    "options": [
-     {
-      "text": "She counted one part twice.",
-      "why": "Her two tall rectangles do not overlap. Each square is counted once, but one part of the U is missing."
-     },
-     {
-      "text": "She found a partial area wrong.",
-      "why": "2 × 5 = 10 is right for each tall rectangle. The mistake is a part that has no area in her work."
-     },
-     {
-      "text": "She added the parts wrong.",
-      "why": "10 + 10 = 20 is a true sum. The problem is that a part is missing from it."
-     },
-     {
-      "text": "She left out a part.",
-      "correct": true
-     }
-    ],
-    "hints": [
-     "Count the rectangles in the picture. How many did Mia use?"
-    ],
-    "show": [
-     "The U has 3 parts, but Mia used only 2.",
-     "She left out the 3 by 2 piece at the bottom: 3 × 2 = 6.",
-     "10 + 6 + 10 = 26 square inches."
-    ],
-    "yes": "Yes! The 3 by 2 piece at the bottom was left out. The real area is 26 square inches."
-   },
-   {
-    "id": "t7",
-    "type": "number",
-    "prompt": "One side of this figure is marked with a ?. Find that side first. What is the area of the figure in square feet?",
-    "answer": "4 × 7 + 5 × 3",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       9,
-       3
-      ],
-      [
-       0,
-       3,
-       4,
-       4
-      ]
-     ],
-     "unit": "ft",
-     "unknown": [
-      [
-       4,
-       3,
-       9,
-       3
-      ]
-     ]
-    },
-    "asks": "area",
-    "hints": [
-     "The whole top side is 9 feet and the left part of the bottom is 4 feet. Subtract to find the missing side.",
-     "Split the figure into rectangles, then add their areas."
-    ],
-    "mistakes": [
-     {
-      "when": {
-       "answer": 27
-      },
-      "say": "That is only the top part. Add the other part too."
-     }
-    ],
-    "show": [
-     "The missing side is 9 - 4 = 5 feet.",
-     "Split it: 4 × 7 = 28 and 5 × 3 = 15.",
-     "28 + 15 = 43.",
-     "The area is 43 square feet."
-    ],
-    "yes": "Yes! 43 square feet."
-   },
-   {
     "id": "t8",
     "type": "number",
     "prompt": "What is the area of the figure in square centimeters?",
@@ -1447,56 +1400,6 @@
     "yes": "Yes!"
    },
    {
-    "id": "t15",
-    "type": "multi",
-    "prompt": "Which ways split this figure into rectangles that cover all of it with no overlap?",
-    "model": {
-     "type": "shape",
-     "rects": [
-      [
-       0,
-       0,
-       3,
-       5
-      ],
-      [
-       3,
-       3,
-       4,
-       2
-      ]
-     ],
-     "unit": "m"
-    },
-    "options": [
-     {
-      "text": "Cut up and down: a 3 by 5 rectangle and a 4 by 2 rectangle.",
-      "correct": true
-     },
-     {
-      "text": "Cut across: a 3 by 3 rectangle on top and a 7 by 2 rectangle on the bottom.",
-      "correct": true
-     },
-     {
-      "text": "A 3 by 5 rectangle and a 7 by 2 rectangle.",
-      "why": "These overlap. The 3 by 2 corner is in both rectangles, so 15 + 14 = 29 counts it twice. The area is 23 square meters."
-     },
-     {
-      "text": "A 3 by 3 rectangle and a 4 by 2 rectangle.",
-      "why": "These leave a gap. The 3 by 2 corner at the bottom left is in neither rectangle, so 9 + 8 = 17 is too small. The area is 23 square meters."
-     }
-    ],
-    "hints": [
-     "Each square of the figure must be in exactly one rectangle. Check each choice for overlap and for gaps."
-    ],
-    "show": [
-     "Up and down: 3 × 5 = 15 and 4 × 2 = 8, so 15 + 8 = 23.",
-     "Across: 3 × 3 = 9 and 7 × 2 = 14, so 9 + 14 = 23.",
-     "The other two overlap or leave a gap, so their totals are not 23."
-    ],
-    "yes": "Yes! Both splits cover the figure once. Each one gives 23 square meters."
-   },
-   {
     "id": "t16",
     "type": "number",
     "prompt": "A patio has this shape. What is its area in square feet?",
@@ -1608,6 +1511,108 @@
     "yes": "Yes! 3 cm."
    },
    {
+    "id": "t7",
+    "type": "number",
+    "prompt": "One side of this figure is marked with a ?. You can find the ? side from the other sides. What is the area of the figure in square feet?",
+    "answer": "4 × 7 + 5 × 3",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       9,
+       3
+      ],
+      [
+       0,
+       3,
+       4,
+       4
+      ]
+     ],
+     "unit": "ft",
+     "unknown": [
+      [
+       4,
+       3,
+       9,
+       3
+      ]
+     ]
+    },
+    "asks": "area",
+    "hints": [
+     "The whole top side is 9 feet and the left part of the bottom is 4 feet. Subtract to find the missing side.",
+     "Split the figure into rectangles, then add their areas."
+    ],
+    "mistakes": [
+     {
+      "when": {
+       "answer": 27
+      },
+      "say": "That is only the top part. Add the other part too."
+     }
+    ],
+    "show": [
+     "The missing side is 9 - 4 = 5 feet.",
+     "Split it: 4 × 7 = 28 and 5 × 3 = 15.",
+     "28 + 15 = 43.",
+     "The area is 43 square feet."
+    ],
+    "yes": "Yes! 43 square feet."
+   },
+   {
+    "id": "t15",
+    "type": "multi",
+    "prompt": "Which ways split this figure into rectangles that cover all of it with no overlap?",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       3,
+       5
+      ],
+      [
+       3,
+       3,
+       4,
+       2
+      ]
+     ],
+     "unit": "m"
+    },
+    "options": [
+     {
+      "text": "Cut up and down: a 3 by 5 rectangle and a 4 by 2 rectangle.",
+      "correct": true
+     },
+     {
+      "text": "Cut across: a 3 by 3 rectangle on top and a 7 by 2 rectangle on the bottom.",
+      "correct": true
+     },
+     {
+      "text": "A 3 by 5 rectangle and a 7 by 2 rectangle.",
+      "why": "These overlap. The 3 by 2 corner is in both rectangles, so 15 + 14 = 29 counts it twice. The area is 23 square meters."
+     },
+     {
+      "text": "A 3 by 3 rectangle and a 4 by 2 rectangle.",
+      "why": "These leave a gap. The 3 by 2 corner at the bottom left is in neither rectangle, so 9 + 8 = 17 is too small. The area is 23 square meters."
+     }
+    ],
+    "hints": [
+     "Each square of the figure must be in exactly one rectangle. Check each choice for overlap and for gaps."
+    ],
+    "show": [
+     "Up and down: 3 × 5 = 15 and 4 × 2 = 8, so 15 + 8 = 23.",
+     "Across: 3 × 3 = 9 and 7 × 2 = 14, so 9 + 14 = 23.",
+     "The other two overlap or leave a gap, so their totals are not 23."
+    ],
+    "yes": "Yes! Both splits cover the figure once. Each one gives 23 square meters."
+   },
+   {
     "id": "t19",
     "type": "number",
     "prompt": "A paper letter has this shape. How many square inches of paper does it use?",
@@ -1658,6 +1663,63 @@
      "The area is 18 square inches."
     ],
     "yes": "Yes! 18 square inches."
+   },
+   {
+    "id": "t6",
+    "type": "choice",
+    "quotesMistake": true,
+    "prompt": "Mia split this U into three rectangles. She wrote: 2 × 5 = 10, 2 × 5 = 10, 10 + 10 = 20 square inches. Find Mia's mistake.",
+    "model": {
+     "type": "shape",
+     "rects": [
+      [
+       0,
+       0,
+       2,
+       5
+      ],
+      [
+       2,
+       3,
+       3,
+       2
+      ],
+      [
+       5,
+       0,
+       2,
+       5
+      ]
+     ],
+     "unit": "in."
+    },
+    "options": [
+     {
+      "text": "She counted one part twice.",
+      "why": "Her two tall rectangles do not overlap. Each square is counted once, but one part of the U is missing."
+     },
+     {
+      "text": "She found a partial area wrong.",
+      "why": "2 × 5 = 10 is right for each tall rectangle. The mistake is a part that has no area in her work."
+     },
+     {
+      "text": "She added the parts wrong.",
+      "why": "10 + 10 = 20 is a true sum. The problem is that a part is missing from it."
+     },
+     {
+      "text": "She left out a part.",
+      "correct": true
+     }
+    ],
+    "hints": [
+     "Count the rectangles in the picture. How many did Mia use?"
+    ],
+    "show": [
+     "The U has 3 parts, but Mia used only 2.",
+     "She left out the 3 by 2 piece at the bottom: 3 × 2 = 6.",
+     "10 + 6 + 10 = 26 square inches."
+    ],
+    "yes": "Yes! The 3 by 2 piece at the bottom was left out. The real area is 26 square inches."
    },
    {
     "id": "t20",
