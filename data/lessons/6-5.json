@@ -1241,7 +1241,7 @@
     "areaOptions": true,
     "id": "t11",
     "type": "multi",
-    "prompt": "Which equations find the area of the picture? Choose all that are right.",
+    "prompt": "Which equations find the area of the picture?",
     "options": [
      {
       "text": "4 × 9",
@@ -1815,7 +1815,7 @@
     "areaOptions": true,
     "id": "x7",
     "type": "multi",
-    "prompt": "Which equations find the area of the picture? Choose all that are right.",
+    "prompt": "Which equations find the area of the picture?",
     "options": [
      {
       "text": "3 × 9",

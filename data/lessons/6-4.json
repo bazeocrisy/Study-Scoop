@@ -1328,7 +1328,7 @@
     "areaOptions": true,
     "id": "t11",
     "type": "multi",
-    "prompt": "Which ways can you find the area of this figure? Choose all that are right.",
+    "prompt": "Which ways can you find the area of this figure?",
     "options": [
      {
       "text": "5 × 2 + 2 × 3",
@@ -1449,7 +1449,7 @@
    {
     "id": "t15",
     "type": "multi",
-    "prompt": "Which ways split this figure into rectangles that cover all of it with no overlap? Choose all that are right.",
+    "prompt": "Which ways split this figure into rectangles that cover all of it with no overlap?",
     "model": {
      "type": "shape",
      "rects": [

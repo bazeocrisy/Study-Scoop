@@ -1173,7 +1173,7 @@
    {
     "id": "t13",
     "type": "multi",
-    "prompt": "A fabric piece covers 24 square inches. Which could be its length and width? Choose all that are right.",
+    "prompt": "A fabric piece covers 24 square inches. Which could be its length and width?",
     "options": [
      {
       "text": "4 inches and 6 inches",
@@ -1646,7 +1646,7 @@
    {
     "id": "x8",
     "type": "multi",
-    "prompt": "Which could be the sides of a rug that covers 18 square feet? Choose all that are right.",
+    "prompt": "Which could be the sides of a rug that covers 18 square feet?",
     "options": [
      {
       "text": "3 feet and 6 feet",

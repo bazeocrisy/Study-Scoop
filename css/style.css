@@ -451,7 +451,7 @@ body.in-lesson .tabs a { min-height: 44px; }
   body.in-lesson .tabs .ico { width: 18px; height: 18px; }
   /* Design R-4: a question's picture is kept short on phones so the answer boxes are on the first screen. */
   body.in-lesson .question .model-pic svg, body.in-lesson .work.has-pic:has(form) .pic-card svg { max-height: 26vh; }
-  body.in-lesson .work.has-pic:has(form) > .pic-card { order: 2; }
+  /* The picture comes before the question and its answer boxes, so the model is seen first. */
 }
 @media (min-width: 641px) {
   /* Design R-5: when the question is the fieldset legend or the equation itself, "Read to me" sits beside it, top right. */
@@ -955,7 +955,15 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 @media print { [data-subject="homework"] .packet-progress { display: none !important; } }
 /* Homework packet review fixes (D23). */
 .locked { color: var(--muted); font-style: italic; }
-.feedback.compare { border-color: var(--line-strong); }
+.feedback.compare { border-color: var(--line-strong); display: block; }
+.feedback.compare .fb-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.feedback.compare .fb-why { margin: 6px 0 0; max-width: 60ch; overflow-wrap: anywhere; }
+.box.is-compared { border-color: var(--line-strong); background: var(--paper); }
+.sentence-answer { display: block; }
+.sentence-answer label { display: block; margin-bottom: 4px; font-weight: 700; }
+@media (max-width: 640px) {
+  textarea.sentence { min-height: 8em; font-size: 1.05rem; }
+}
 .pl-count { padding-right: 4px; }
 .fluency { width: 100%; max-width: 32rem; }
 @media (max-width: 640px) {

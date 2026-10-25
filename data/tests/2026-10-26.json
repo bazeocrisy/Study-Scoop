@@ -556,7 +556,7 @@
         "areaOptions": true,
         "id": "c22",
         "type": "multi",
-        "prompt": "Which find the area of the picture? Choose all that are right.",
+        "prompt": "Which find the area of the picture?",
         "options": [
           {
             "text": "5 × 12",
