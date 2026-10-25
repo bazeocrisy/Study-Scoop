@@ -1066,11 +1066,11 @@
       [
        2,
        3,
-       2,
+       3,
        2
       ],
       [
-       4,
+       5,
        0,
        2,
        5
@@ -1101,10 +1101,10 @@
     ],
     "show": [
      "The U has 3 parts, but Mia used only 2.",
-     "She left out the 2 by 2 piece at the bottom: 2 × 2 = 4.",
-     "10 + 4 + 10 = 24 square inches."
+     "She left out the 3 by 2 piece at the bottom: 3 × 2 = 6.",
+     "10 + 6 + 10 = 26 square inches."
     ],
-    "yes": "Yes! The 2 by 2 piece at the bottom was left out. The real area is 24 square inches."
+    "yes": "Yes! The 3 by 2 piece at the bottom was left out. The real area is 26 square inches."
    },
    {
     "id": "t7",
