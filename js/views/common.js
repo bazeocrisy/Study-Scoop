@@ -100,7 +100,7 @@ export function subjectMenu(ctx, subject, items, { misses = 0 } = {}) {
   return html`
     <ul class="menu-grid subject-${subject} count-${items.length}">
       ${items.map((a) => html`
-        <li><a class="menu-card${a.misses ? ' misses' : ''}" href="${ctx.actLink(subject, a.id)}">
+        <li><a class="menu-card${a.misses ? ' misses' : ''}" href="${a.href || ctx.actLink(subject, a.id)}">
           <span class="mc-icon">${ICONS[a.icon] || ''}</span>
           <span class="mc-text">${a.start ? html`<span class="start-here">Start here</span>` : ''}<span class="mc-title">${a.label}${a.misses && misses ? html` <span class="count-badge">${misses}<span class="sr-only"> to practice</span></span>` : ''}</span>
             <span class="mc-about">${a.about}</span></span>

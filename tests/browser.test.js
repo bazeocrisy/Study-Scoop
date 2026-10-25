@@ -1934,7 +1934,7 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), ['Mental Add', 'Rounding', 'Times Tables'], 'skill cards');
       for (const [card, labels] of [['add', ['Learn It', 'Quick Facts', 'Break It Apart', 'Practice My Misses', 'Mental Add Test']],
         ['round', ['Learn It', 'Nearest 10', 'Nearest 100', 'Practice My Misses', 'Rounding Test']],
-        ['times', ['Learn It', 'Pick My Facts', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
+        ['times', ['Learn It', 'Pick My Facts', 'Galaxy Flash Cards', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
         await b.load(url('#skills'));
         await go(`.menu-card[href="#skills?act=${card}"]`);
         eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), labels, `${card} menu`);
@@ -1948,6 +1948,35 @@ async function main() {
       await b.load(url('#skills?act=roundlearn'));
       eq(await b.js('return [...document.querySelectorAll(".round-pic")].slice(0, 4).map((p) => [p.querySelector(".is-under").textContent, p.querySelector(".is-arrow").textContent]);'),
         [['4', '5'], ['6', '3'], ['3', '4'], ['9', '7']], '45, 63, 347, 897');
+    });
+
+    await check('Times Tables > Galaxy Flash Cards: a card opens the full-screen page; pick tables, timed cards flip, quick check, nothing stored, back to Times Tables', async () => {
+      await b.load(url('#skills?act=times'));
+      eq(await b.js('return document.querySelector(".menu-card[href$=\'flash-cards/index.html\'] .mc-title").firstChild.textContent.trim();'), 'Galaxy Flash Cards', 'menu card');
+      await b.load(url('flash-cards/index.html'));
+      const text = (sel) => b.js(`return document.querySelector(${JSON.stringify(sel)})?.textContent.replace(/\\s+/g, ' ').trim() || '';`);
+      const click = (sel) => b.js(`document.querySelector(${JSON.stringify(sel)}).click();`);
+      eq(await b.js('return document.title;'), 'Galaxy Flash Cards | Study Scoop', 'title');
+      eq(await b.js('return document.querySelectorAll("#chips .chip").length;'), 13, '12 tables and All');
+      eq(await b.js('return document.querySelector("a.back-link").getAttribute("href");'), '../#skills?act=times', 'back link');
+      await click('#chips .chip[data-n="7"]');
+      eq(await b.js('return document.querySelector("#chips .chip[data-n=\'7\']").getAttribute("aria-pressed");'), 'true', '7 picked');
+      await click('#goStudy');
+      expect(await b.js('return document.getElementById("study").classList.contains("on");'), 'practice shows');
+      expect(/^7\s*×\s*\d+$/.test(await text('#sFront')), `front is a 7 fact: ${await text('#sFront')}`);
+      eq(await b.js('return document.querySelector("#sFront .vert .op b").textContent;'), '×', 'vertical equation');
+      await click('#studyHome');
+      await click('#goTest');
+      const q = await text('#tQ');
+      const [a, c] = q.split('×').map((x) => Number(x.trim()));
+      for (const d of String(a * c)) await click(`#pad button:not(.del):not(.go):nth-child(${d === '0' ? 11 : d})`);
+      await click('#pad .go');
+      eq(await text('#tHint'), 'Correct!', 'right answer');
+      eq(await b.js('return { local: localStorage.length, session: sessionStorage.length, cookie: document.cookie };'), { local: 0, session: 0, cookie: '' }, 'nothing stored');
+      await b.js('window.scrollTo(0, 0);'); await b.wait(300); // the page scrolls itself to the Next card button first
+      await b.clickAt('a.back-link');
+      await b.waitFor('!!document.querySelector(".menu-card")', 8000);
+      eq(await b.js('return location.hash;'), '#skills?act=times', 'back at the Times Tables menu');
     });
 
     await check('Times Tables > Pick My Facts: pick one or many facts; flashcards flip; Find the Fact takes either order and asks for a picked fact; Quick Quiz; misses list', async () => {
