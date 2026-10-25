@@ -147,6 +147,30 @@
      ],
      "yes": "Yes! 2 + 2 + 4 = 8 square units."
     }
+   },
+   {
+    "title": "Explain My Thinking: only the shaded squares",
+    "item": {
+     "id": "em1",
+     "type": "sentence",
+     "prompt": "Why do we count only the shaded squares to find the area of a shape? Write your answer in a sentence.",
+     "keywords": [
+      "shaded",
+      "squares",
+      "area",
+      "count"
+     ],
+     "minKeywords": 1,
+     "minWords": 8,
+     "hints": [
+      "Which squares are part of the shape, and which squares are just the paper around it?"
+     ],
+     "example": "We count only the shaded squares because the shaded squares are the ones that cover the shape, and area is how many squares cover it.",
+     "show": [
+      "Write one sentence that answers the question.",
+      "Here is one way to say it: We count only the shaded squares because the shaded squares are the ones that cover the shape, and area is how many squares cover it."
+     ]
+    }
    }
   ]
  },
@@ -630,14 +654,13 @@
     "id": "t5",
     "type": "number",
     "prompt": "What is the area of the shaded shape in square units?",
-    "answer": "3 + 3 + 1 + 1",
+    "answer": "3 + 4 + 3",
     "model": {
      "type": "grid",
      "cells": [
-      "XXX",
-      "XXX",
-      "X..",
-      "X.."
+      "XXX.",
+      "XXXX",
+      ".XXX"
      ],
      "paper": true
     },
@@ -646,10 +669,10 @@
      "Count the shaded squares in each row."
     ],
     "show": [
-     "3 + 3 + 1 + 1 = 8.",
-     "The area is 8 square units."
+     "3 + 4 + 3 = 10.",
+     "The area is 10 square units."
     ],
-    "yes": "Yes! 8 square units."
+    "yes": "Yes! 10 square units."
    },
    {
     "id": "t6",

@@ -207,6 +207,31 @@
      },
      "yes": "Yes! The 9 is split into 5 + 4."
     }
+   },
+   {
+    "title": "Explain My Thinking: why the parts add up",
+    "item": {
+     "id": "em1",
+     "type": "sentence",
+     "prompt": "Why does adding two partial areas give the same result as multiplying the original dimensions? Write your answer in a sentence.",
+     "keywords": [
+      "partial areas",
+      "add",
+      "same",
+      "multiply",
+      "whole"
+     ],
+     "minKeywords": 1,
+     "minWords": 8,
+     "hints": [
+      "Picture the two parts put back together. What shape do they make?"
+     ],
+     "example": "Adding the two partial areas gives the same result because the two parts together make the whole rectangle, so their areas add up to the area of the whole.",
+     "show": [
+      "Write one sentence that answers the question.",
+      "Here is one way to say it: Adding the two partial areas gives the same result because the two parts together make the whole rectangle, so their areas add up to the area of the whole."
+     ]
+    }
    }
   ]
  },

@@ -98,7 +98,11 @@ test('every lesson is valid and every question accepts its own answer', () => {
     for (const [, item] of allItems(lesson)) {
       const r = check(item, asText(solution(item)), lesson);
       assert.equal(r.status, 'correct', `${lesson.id} ${item.id}`);
-      assert.match(r.say, /^Yes!/, `${lesson.id} ${item.id}: a correct answer starts with "Yes!"`);
+      if (item.type === 'sentence') {
+        // A written explanation is never marked "right": it is compared with a model answer, and only in Learn It.
+        assert.ok(r.say.includes(item.example), `${lesson.id} ${item.id}: the model answer is shown after an attempt`);
+        assert.ok(lesson.learn.screens.some((sc) => sc.item === item), `${lesson.id} ${item.id}: a written explanation belongs in an unscored Learn It screen`);
+      } else assert.match(r.say, /^Yes!/, `${lesson.id} ${item.id}: a correct answer starts with "Yes!"`);
       // An empty answer is never counted as a try.
       if (item.type !== 'choice') assert.equal(check(item, {}, lesson).status, 'empty', `${lesson.id} ${item.id}`);
     }

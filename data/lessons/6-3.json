@@ -100,6 +100,31 @@
     }
    },
    {
+    "title": "Explain My Thinking: why multiply?",
+    "item": {
+     "id": "em1",
+     "type": "sentence",
+     "prompt": "Why does multiplying the length by the width give the area of a rectangle? Write your answer in a sentence.",
+     "keywords": [
+      "length",
+      "width",
+      "area",
+      "rows",
+      "multiply"
+     ],
+     "minKeywords": 1,
+     "minWords": 8,
+     "hints": [
+      "Think about the rows of unit squares. How many squares are in each row, and how many rows are there?"
+     ],
+     "example": "Multiplying the length by the width gives the area because a rectangle is made of equal rows of squares, and multiplying counts all the squares in the rows.",
+     "show": [
+      "Write one sentence that answers the question.",
+      "Here is one way to say it: Multiplying the length by the width gives the area because a rectangle is made of equal rows of squares, and multiplying counts all the squares in the rows."
+     ]
+    }
+   },
+   {
     "title": "Squares are rectangles too",
     "text": [
      "A square has the same length and width.",

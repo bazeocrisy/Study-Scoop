@@ -141,6 +141,30 @@
     }
    },
    {
+    "title": "Explain My Thinking: no gaps, no overlaps",
+    "item": {
+     "id": "em1",
+     "type": "sentence",
+     "prompt": "Why must unit squares cover a shape with no gaps and no overlaps? Write your answer in a sentence.",
+     "keywords": [
+      "unit squares",
+      "gaps",
+      "overlap",
+      "cover"
+     ],
+     "minKeywords": 1,
+     "minWords": 8,
+     "hints": [
+      "Think about what happens to the count if a space is empty, or if two squares are on top of each other."
+     ],
+     "example": "Unit squares must cover the shape with no gaps and no overlaps, so every part of the shape is counted exactly once.",
+     "show": [
+      "Write one sentence that answers the question.",
+      "Here is one way to say it: Unit squares must cover the shape with no gaps and no overlaps, so every part of the shape is counted exactly once."
+     ]
+    }
+   },
+   {
     "title": "Count the unit squares",
     "text": [
      "Count each square once. Counting row by row helps you not skip any.",
@@ -1225,22 +1249,23 @@
     "id": "x1",
     "type": "number",
     "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
-    "answer": "3 × 5",
+    "answer": "4 × 7",
     "model": {
      "type": "grid",
      "cells": [
-      "XXXXX",
-      "XXXXX",
-      "XXXXX"
+      "XXXXXXX",
+      "XXXXXXX",
+      "XXXXXXX",
+      "XXXXXXX"
      ]
     },
     "asks": "tiles",
     "show": [
-     "There are 3 rows with 5 tiles in each row.",
-     "5 + 5 + 5 = 15.",
-     "The area is 15 square units."
+     "There are 4 rows with 7 tiles in each row.",
+     "7 + 7 + 7 + 7 = 28.",
+     "The area is 28 square units."
     ],
-    "yes": "Yes! 15 tiles cover it, so the area is 15 square units."
+    "yes": "Yes! 28 tiles cover it, so the area is 28 square units."
    },
    {
     "id": "x2",
@@ -1331,41 +1356,40 @@
     "id": "x5",
     "type": "number",
     "prompt": "How many more unit squares are needed to cover the whole shape with no gaps?",
-    "answer": "12 - 7",
+    "answer": "15 - 11",
     "model": {
      "type": "grid",
      "cells": [
-      "XXX",
-      "XXo",
-      "Xoo",
-      "Xoo"
+      "XXoXX",
+      "XoXXX",
+      "XXXoo"
      ]
     },
     "asks": "missing",
     "show": [
-     "The whole shape needs 12 unit squares.",
-     "7 are already there.",
-     "12 - 7 = 5. 5 more are needed."
+     "The whole rectangle needs 3 rows of 5, which is 15 unit squares.",
+     "11 are already there.",
+     "15 - 11 = 4. 4 more are needed."
     ],
-    "yes": "Yes! 5 more unit squares finish the tiling."
+    "yes": "Yes! 4 more unit squares finish the tiling."
    },
    {
     "id": "x6",
     "type": "number",
     "prompt": "What is the area of this shape in square units?",
-    "answer": "2 + 4 + 4",
+    "answer": "5 + 2 + 2",
     "model": {
      "type": "grid",
      "cells": [
-      "XX..",
-      "XXXX",
-      "XXXX"
+      "XXXXX",
+      "XX...",
+      "XX..."
      ]
     },
     "asks": "tiles",
     "show": [
-     "The rows have 2, 4 and 4 squares.",
-     "2 + 4 + 4 = 10 square units."
+     "The rows have 5, 2 and 2 squares.",
+     "5 + 2 + 2 = 9 square units."
     ]
    },
    {

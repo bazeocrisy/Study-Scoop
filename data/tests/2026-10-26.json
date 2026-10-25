@@ -3,7 +3,7 @@
   "math": {
     "title": "Chapter 6 Practice Test",
     "topic": "Chapter 6: Connect Area and Multiplication",
-    "coverage": "27 questions from all six Chapter 6 lessons: tiling, counting unit squares, multiplying, composite figures, splitting a side, and area problems.",
+    "coverage": "27 questions from all six Chapter 6 lessons: tiling, counting unit squares, multiplying, composite figures (including a missing side length), splitting a side, and area problems.",
     "instructions": "Answer each question. You can go back before you finish. There are no hints during the test. You will see your score, each lesson's part, and the answers at the end.",
     "note": "A Study Scoop review of the whole chapter. It is not a teacher test. The class test on Tuesday, Nov 3 is a vocabulary test on Area, Square Unit and Multiply (see the Math Vocabulary Practice Test).",
     "pass": 22,
@@ -12,19 +12,21 @@
         "id": "c1",
         "type": "number",
         "prompt": "Each tile is 1 unit square. Count the tiles. What is the area in square units?",
-        "answer": "3 × 6",
+        "answer": "5 × 6",
         "model": {
           "type": "grid",
           "cells": [
+            "XXXXXX",
+            "XXXXXX",
             "XXXXXX",
             "XXXXXX",
             "XXXXXX"
           ]
         },
         "asks": "tiles",
-        "yes": "Yes! 18 tiles cover it, so the area is 18 square units.",
+        "yes": "Yes! 30 tiles cover it, so the area is 30 square units.",
         "skill": "l61",
-        "explain": "3 rows of 6 unit squares: 6 + 6 + 6 = 18 square units."
+        "explain": "5 rows of 6 unit squares: 6 + 6 + 6 + 6 + 6 = 30 square units."
       },
       {
         "id": "c2",
@@ -353,30 +355,38 @@
       {
         "id": "c15",
         "type": "number",
-        "prompt": "What is the area of the figure in square meters?",
-        "answer": "3 × 6 + 5 × 3",
+        "prompt": "One side of this figure is marked with a ?. Find that side first. What is the area of the figure in square centimeters?",
+        "answer": "3 × 6 + 5 × 2",
         "model": {
           "type": "shape",
           "rects": [
             [
               0,
               0,
-              3,
-              6
+              8,
+              2
             ],
             [
+              0,
+              2,
               3,
-              3,
-              5,
-              3
+              4
             ]
           ],
-          "unit": "m"
+          "unit": "cm",
+          "unknown": [
+            [
+              3,
+              2,
+              8,
+              2
+            ]
+          ]
         },
         "asks": "area",
-        "yes": "Yes! 33 square meters.",
+        "yes": "Yes! 28 square centimeters.",
         "skill": "l64",
-        "explain": "3 × 6 = 18 and 5 × 3 = 15. 18 + 15 = 33 square meters."
+        "explain": "The missing side is 8 - 3 = 5 cm. Split the figure: 3 × 6 = 18 and 5 × 2 = 10. 18 + 10 = 28 square centimeters."
       },
       {
         "areaOptions": true,
@@ -586,10 +596,38 @@
       {
         "id": "c23",
         "type": "number",
-        "prompt": "A banner is 16 feet long and 3 feet wide. What is its area in square feet?",
-        "answer": "16 × 3",
+        "prompt": "A school storage room has this floor. One side is marked with a ?. How many square meters of flooring cover the room?",
+        "answer": "4 × 6 + 9 × 3",
+        "model": {
+          "type": "shape",
+          "rects": [
+            [
+              0,
+              0,
+              4,
+              9
+            ],
+            [
+              4,
+              6,
+              5,
+              3
+            ]
+          ],
+          "unit": "m",
+          "unknown": [
+            [
+              4,
+              0,
+              4,
+              6
+            ]
+          ]
+        },
+        "asks": "area",
+        "yes": "Yes! 51 square meters.",
         "skill": "l66",
-        "explain": "16 × 3 = 30 + 18 = 48 square feet."
+        "explain": "The missing side is 9 - 3 = 6 m. Top part: 4 × 6 = 24. Bottom part: 9 × 3 = 27. 24 + 27 = 51 square meters."
       },
       {
         "id": "c24",
