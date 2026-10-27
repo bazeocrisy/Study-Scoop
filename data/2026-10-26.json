@@ -88,10 +88,36 @@
   ],
   "homework": [
     {
-      "title": "Homework packet",
-      "due": "Sent home Monday, due Friday",
-      "source": "newsletter",
-      "description": "The newsletter does not list the pages in the packet. Use the paper packet that comes home on Monday."
+      "title": "Area Homework — find the area and solve the joke",
+      "subject": "Math",
+      "due": "Friday, Oct 30 (weekly packet)",
+      "source": "received",
+      "description": "Find the area of 12 rectangles and squares. Use the matching letters to answer: What do you call a fake noodle? Write each area in square units.",
+      "status": "Original paper included below. The first problem has a handwritten example.",
+      "practice": {
+        "lesson": "6-2",
+        "label": "Review finding area"
+      }
+    },
+    {
+      "title": "Draw the Area",
+      "subject": "Math",
+      "due": "Friday, Oct 30 (weekly packet)",
+      "source": "received",
+      "description": "Draw a shape on each grid with an area of 12, 16, 18, 36, 15, and 24 square units. Count the squares inside each shape.",
+      "status": "Original paper included below. The 12-square-unit box has a worked example.",
+      "practice": {
+        "lesson": "6-1",
+        "label": "Review square units"
+      }
+    },
+    {
+      "title": "Healthy Eating for a Healthy You! — reading and comprehension",
+      "subject": "Reading",
+      "due": "Friday, Oct 30 (weekly packet)",
+      "source": "received",
+      "description": "Read the passage three times and use the WRR (words read right) and Errors chart. Answer both questions in complete sentences and restate each question: What do you think nutrients are? What do you think the word nourishment means?",
+      "status": "Both the reading passage and its question page are included below."
     },
     {
       "title": "Reading Log",
@@ -333,6 +359,40 @@
           12
         ],
         "fill": "To find the area of a rectangle, ___ the length and the width."
+      }
+    ]
+  },
+  "homeworkPapers": {
+    "reviewed": "2026-10-27",
+    "note": "Family-supplied homework, published at the owner’s explicit request. Reviewed: blank name lines; no student names, grades, school or teacher names, or contact details. Cropped and straightened to remove home backgrounds and other papers. Existing worked examples retained. Source credits retained where visible in the supplied photos.",
+    "pages": [
+      {
+        "src": "images/homework/2026-10-26-area.webp",
+        "label": "Area Homework",
+        "alt": "Twelve area problems with labeled side lengths and a letter-code joke. The first problem shows 4 times 7 equals 28 square centimeters.",
+        "width": 1000,
+        "height": 1300
+      },
+      {
+        "src": "images/homework/2026-10-26-draw.webp",
+        "label": "Draw the Area",
+        "alt": "Six grids asking for shapes covering 12, 16, 18, 36, 15, and 24 square units; the first grid includes a worked example.",
+        "width": 1000,
+        "height": 1300
+      },
+      {
+        "src": "images/homework/2026-10-26-reading.webp",
+        "label": "Healthy Eating for a Healthy You! — passage",
+        "alt": "The original healthy-eating reading passage with cumulative word counts and a chart for three readings, words read right, and errors.",
+        "width": 1000,
+        "height": 1300
+      },
+      {
+        "src": "images/homework/2026-10-26-questions.webp",
+        "label": "Healthy Eating for a Healthy You! — questions",
+        "alt": "Two comprehension questions asking the meanings of nutrients and nourishment, with directions to restate each question and answer in complete sentences.",
+        "width": 1000,
+        "height": 1300
       }
     ]
   }

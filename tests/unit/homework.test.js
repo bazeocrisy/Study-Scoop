@@ -74,3 +74,24 @@ test('the published PDF must be printed by Study Scoop from its own page; a scan
   fs.writeFileSync(path.join(out, 'downloads/homework-2026-10-26.pdf'), fs.readFileSync(path.join(REPO, 'downloads/homework-2026-10-19.pdf')));
   assert.ok(verifySite(out).some((p) => /no homework packet names it/.test(p)));
 });
+
+test('Oct 26 originals are reviewed, all four pages are published, and an unreviewed paper is excluded', () => {
+  const week = read('data/2026-10-26.json');
+  assert.equal(week.homework.filter((h) => h.source === 'received').length, 3);
+  assert.equal(week.homeworkPapers.pages.length, 4);
+  const src = fs.mkdtempSync(path.join(os.tmpdir(), 'papers-src-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'papers-out-'));
+  try {
+    for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+    buildSite(out, src);
+    assert.deepEqual(verifySite(out), []);
+    for (const pg of week.homeworkPapers.pages) assert.ok(fs.existsSync(path.join(out, pg.src)));
+    fs.rmSync(path.join(out, week.homeworkPapers.pages[0].src));
+    assert.ok(verifySite(out).some((p) => /missing original paper/.test(p)));
+    delete week.homeworkPapers.reviewed;
+    fs.writeFileSync(path.join(src, 'data/2026-10-26.json'), JSON.stringify(week));
+    buildSite(out, src);
+    for (const pg of week.homeworkPapers.pages) assert.ok(!fs.existsSync(path.join(out, pg.src)));
+    assert.ok(verifySite(out).some((p) => /homeworkPapers.reviewed/.test(p)));
+  } finally { fs.rmSync(src, { recursive: true, force: true }); fs.rmSync(out, { recursive: true, force: true }); }
+});
