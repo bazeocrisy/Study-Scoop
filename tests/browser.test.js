@@ -1752,7 +1752,7 @@ async function main() {
         ['3 classroom assignments were received for this week.', 3, false], 'three received assignments, no generated packet');
       expect((await b.js('return document.getElementById("app").textContent;')).includes('3 spelling activities'), 'the three spelling activities');
       eq(await b.js('return [...document.querySelectorAll(".homework-papers img")].map((im) => im.getAttribute("src"));'), readJSON('data/2026-10-26.json').homeworkPapers.pages.map((pg) => pg.src), 'all four original papers');
-      await press('.homework-papers [data-act=zoom]');
+      await b.js('document.querySelector(".homework-papers [data-act=zoom]").click();');
       expect(await b.js('return document.querySelector(".homework-papers").classList.contains("zoomed");'), 'homework zoom works');
       await b.media('print');
       expect(await b.js('return getComputedStyle(document.querySelector(".hw-list").parentElement).display === "none" && getComputedStyle(document.querySelector(".top")).display === "none" && getComputedStyle(document.querySelector(".homework-papers img")).display !== "none";'), 'print only the original papers');
