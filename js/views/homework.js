@@ -4,7 +4,7 @@ import { activityView } from './activity.js';
 
 // Where each homework entry came from (DECISIONS D18). Nothing is shown as received unless it was.
 const SOURCE = {
-  received: { label: 'Received from class', note: 'The worksheet itself is kept private and is not shown on this website.' },
+  received: { label: 'Received from class', note: 'Classroom worksheet received. See the assignment details below.' },
   newsletter: { label: 'Listed in the newsletter', note: 'Not uploaded to Study Scoop.' },
 };
 
@@ -26,6 +26,8 @@ export function homeworkView(ctx) {
           ${ctx.packet.download ? html`<a class="btn" href="${ctx.packet.download}" download>Download the packet (PDF)</a>` : ''}
         </p>
       </section>` : ''}
+
+    ${homeworkPapersSection(ctx.week)}
 
     <section aria-labelledby="h-due">
       <h2 id="h-due">${ctx.isCurrent ? 'This week\'s homework' : `Homework for ${ctx.week.label.replace(/^Week of /, '')}`}</h2>
@@ -63,11 +65,30 @@ export function homeworkView(ctx) {
       </p>
     </section>
 
-    <p class="card note">Homework details are added after the homework goes home on Monday.</p>`;
+    <p class="card note">${received.length ? 'Assignment details come from the received papers; weekly due dates come from the newsletter.' : 'Homework details are added after the homework goes home on Monday.'}</p>`;
 }
 
 function practiceHref(ctx, p) {
   if (p.lesson) return ctx.lessonLink(p.lesson, 'learn');
   if (p.test) return ctx.testLink(p.test);
   return p.act ? ctx.actLink(p.section, p.act) : ctx.link(p.section);
+}
+
+
+/** Original classroom papers supplied and explicitly requested by the owner. */
+export function homeworkPapersSection(week) {
+  const papers = week.homeworkPapers;
+  if (!papers?.reviewed || !papers.pages?.length) return '';
+  return html`<section class="card flyer homework-papers" aria-labelledby="h-papers">
+    <div class="instruct-head"><h2 id="h-papers">Original homework papers</h2>
+      <span class="btn-row no-print"><button type="button" class="btn" data-act="zoom" aria-pressed="false">Zoom in</button>
+      <button type="button" class="btn" data-act="print">Print the homework</button></span></div>
+    <p class="hint no-print">All ${papers.pages.length} pages from school. Open a page to read or save it full size. Handwritten examples on the supplied papers are included.</p>
+    <div class="flyer-pages">
+      ${papers.pages.map((pg) => html`<figure class="flyer-page">
+        <div class="flyer-scroll" tabindex="0" role="region" aria-label="${pg.label}"><img src="${pg.src}" alt="${pg.alt}" width="${pg.width}" height="${pg.height}" loading="lazy" decoding="async"></div>
+        <figcaption>${pg.label} <a class="no-print" href="${pg.src}" target="_blank" rel="noopener">Open full size<span class="sr-only"> (${pg.label}, opens in a new tab)</span></a></figcaption>
+      </figure>`)}
+    </div>
+  </section>`;
 }

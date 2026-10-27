@@ -228,7 +228,7 @@ async function render() {
   } else if (ctx.page === 'timesapp') {
     mounted = new AbortController();
     mountTimesApp(app, ctx, mounted.signal);
-  } else if (ctx.page || route.section === 'newsletter') {
+  } else if (ctx.page || route.section === 'newsletter' || route.section === 'homework') {
     // Pages to read only need their Print button (the Study Guides) and, on the Newsletter, Zoom in.
     mounted = new AbortController();
     app.addEventListener('click', (e) => {

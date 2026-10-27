@@ -29,6 +29,7 @@ export const ALLOW = [
   /^images\/words\/[a-z0-9-]+\.(?:svg|webp)$/,
   // Original newsletter flyers, only after a privacy review recorded in the week file (D26). Raw photos stay in images/newsletters (never published).
   /^images\/flyers\/\d{4}-\d{2}-\d{2}-[a-z]+\.webp$/,
+  /^images\/homework\/\d{4}-\d{2}-\d{2}-[a-z]+\.webp$/,
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
@@ -73,7 +74,7 @@ export function buildSite(out, src = REPO) {
   const testIndex = path.join(src, 'data/tests/index.json');
   const testWeeks = new Set(fs.existsSync(testIndex) ? readJSON(testIndex).weeks.filter((id) => listed.has(`data/${id}.json`)).map((id) => `data/tests/${id}.json`) : []);
   // A flyer is published only when a listed week names it in its reviewed "flyer" (D26).
-  const flyers = new Set([...listed].flatMap((f) => { try { const w = readJSON(path.join(src, f)); return w.flyer?.reviewed ? (w.flyer.pages || []).map((pg) => pg.src) : []; } catch { return []; } }));
+  const flyers = new Set([...listed].flatMap((f) => { try { const w = readJSON(path.join(src, f)); return [w.flyer, w.homeworkPapers].flatMap((papers) => papers?.reviewed ? (papers.pages || []).map((pg) => pg.src) : []); } catch { return []; } }));
   const copied = [], skipped = [];
   for (const rel of SOURCES.flatMap((s) => walk(src, s))) {
     let why = null;
@@ -81,7 +82,7 @@ export function buildSite(out, src = REPO) {
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
     else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';
     else if (/^data\/tests\/(?!index\.json$)/.test(rel) && !testWeeks.has(rel)) why = 'not listed in data/tests/index.json (or its week is not published)';
-    else if (/^images\/flyers\//.test(rel) && !flyers.has(rel)) why = 'not named in a published week\'s privacy-reviewed flyer';
+    else if (/^images\/(?:flyers|homework)\//.test(rel) && !flyers.has(rel)) why = 'not named in a published week\'s privacy-reviewed flyer';
     if (why) { skipped.push(`${rel} (${why})`); continue; }
     fs.mkdirSync(path.dirname(path.join(out, rel)), { recursive: true });
     fs.copyFileSync(path.join(src, rel), path.join(out, rel));
@@ -141,6 +142,9 @@ export function verifySite(dir) {
       if (!has(rel)) { problems.push(`${rel} is listed in data/weeks.json but missing`); continue; }
       const week = readJSON(path.join(dir, rel));
       problems.push(...validateWeek(week, w.id).map((p) => `${rel}: ${p}`));
+      for (const paper of [week.flyer, week.homeworkPapers]) {
+        for (const pg of paper?.pages || []) if (!has(pg.src)) problems.push(`${rel} names missing original paper ${pg.src}`);
+      }
       for (const w of week.spelling?.words || []) {
         if (w.img && !has(`images/words/${w.img}.svg`)) problems.push(`${rel} names picture images/words/${w.img}.svg, which is missing`);
       }

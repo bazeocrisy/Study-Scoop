@@ -1746,11 +1746,14 @@ async function main() {
       await go('.stage-nav a[href="#math?act=avmisses"]');
       eq(await progress(), 'Question 1 of 1', 'the missed word is in Area Words > Practice My Misses');
     });
-    await check('Oct 26 Homework: only what the newsletter says (no packet pages invented), and weeks never mix', async () => {
+    await check('Oct 26 Homework: received assignments and original papers, and weeks never mix', async () => {
       await b.load(url('#homework'));
       eq(await b.js('return [document.querySelector(".page-head .intro").textContent, [...document.querySelectorAll(".hw-received strong")].length, !!document.querySelector(".packet-card")];'),
-        ['No classroom worksheets have been received for this week yet.', 0, false], 'nothing received yet, no packet');
+        ['3 classroom assignments were received for this week.', 3, false], 'three received assignments, no generated packet');
       expect((await b.js('return document.getElementById("app").textContent;')).includes('3 spelling activities'), 'the three spelling activities');
+      eq(await b.js('return [...document.querySelectorAll(".homework-papers img")].map((im) => im.getAttribute("src"));'), readJSON('data/2026-10-26.json').homeworkPapers.pages.map((pg) => pg.src), 'all four original papers');
+      await press('.homework-papers [data-act=zoom]');
+      expect(await b.js('return document.querySelector(".homework-papers").classList.contains("zoomed");'), 'homework zoom works');
       // Switch from an Oct 26 activity to Oct 19 and back: each week keeps its own words.
       await b.load(url('#spelling?act=learn'));
       let before = await b.js('return document.getElementById("app").dataset.ready;');
