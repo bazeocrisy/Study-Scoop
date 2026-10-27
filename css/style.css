@@ -1136,7 +1136,9 @@ button.times-flashcard.is-flipped .times-product { color: var(--berry); }
 /* Original homework papers use the newsletter viewer and print one paper per page. */
 @media print {
   body[data-section="homework"]:has(.homework-papers) #app > :not(.homework-papers) { display: none !important; }
-  body[data-section="homework"] .homework-papers .flyer-pages { display: block; }
+  body[data-section="homework"]:has(.homework-papers) .top { display: none; }
+  body[data-section="homework"] .homework-papers { break-inside: auto; border: 0; padding: 0; margin: 0; }
+  body[data-section="homework"] .homework-papers .flyer-pages { display: block; margin: 0; }
   body[data-section="homework"] .homework-papers .flyer-scroll { max-height: none; overflow: visible; border: 0; }
   body[data-section="homework"] .homework-papers .flyer-page { break-inside: avoid; break-after: page; }
   body[data-section="homework"] .homework-papers .flyer-page:last-child { break-after: auto; }

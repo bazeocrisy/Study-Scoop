@@ -1754,6 +1754,9 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".homework-papers img")].map((im) => im.getAttribute("src"));'), readJSON('data/2026-10-26.json').homeworkPapers.pages.map((pg) => pg.src), 'all four original papers');
       await press('.homework-papers [data-act=zoom]');
       expect(await b.js('return document.querySelector(".homework-papers").classList.contains("zoomed");'), 'homework zoom works');
+      await b.media('print');
+      expect(await b.js('return getComputedStyle(document.querySelector(".hw-list").parentElement).display === "none" && getComputedStyle(document.querySelector(".top")).display === "none" && getComputedStyle(document.querySelector(".homework-papers img")).display !== "none";'), 'print only the original papers');
+      await b.media('');
       // Switch from an Oct 26 activity to Oct 19 and back: each week keeps its own words.
       await b.load(url('#spelling?act=learn'));
       let before = await b.js('return document.getElementById("app").dataset.ready;');

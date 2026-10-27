@@ -27,8 +27,6 @@ export function homeworkView(ctx) {
         </p>
       </section>` : ''}
 
-    ${homeworkPapersSection(ctx.week)}
-
     <section aria-labelledby="h-due">
       <h2 id="h-due">${ctx.isCurrent ? 'This week\'s homework' : `Homework for ${ctx.week.label.replace(/^Week of /, '')}`}</h2>
       ${items.length ? html`
@@ -52,6 +50,8 @@ export function homeworkView(ctx) {
         <p class="hint">Checkmarks are not saved. They clear when you leave this page.</p>`
         : html`<p class="card">No homework is listed for this week.</p>`}
     </section>
+
+    ${homeworkPapersSection(ctx.week)}
 
     <section class="card" aria-labelledby="h-practice">
       <h2 id="h-practice">Study Scoop practice (optional)</h2>
