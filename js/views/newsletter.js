@@ -42,6 +42,12 @@ export function newsletterView(ctx) {
       </section>
     </div>
 
+    ${week.mathUpcoming ? html`<section class="card" aria-labelledby="h-math-next">
+      <h2 id="h-math-next">${week.mathUpcoming.title}</h2>
+      <p>${week.mathUpcoming.note}</p>
+      <dl class="learning">${week.mathUpcoming.words.map((w) => html`<div><dt>${w.word}</dt><dd>${w.def}</dd></div>`)}</dl>
+    </section>` : ''}
+
     <section class="card" aria-labelledby="h-archive">
       <h2 id="h-archive">All weeks</h2>
       <ul class="archive">

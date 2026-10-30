@@ -1,0 +1,353 @@
+{
+  "id": "2026-11-02",
+  "label": "Week of November 2–6",
+  "mathChapter": 6,
+  "learning": [
+    [
+      "Math",
+      "Area & Fractions"
+    ],
+    [
+      "Reading",
+      "Novel Study: Because of Winn-Dixie"
+    ],
+    [
+      "Writing",
+      "Opinion"
+    ],
+    [
+      "Spelling",
+      "rupt"
+    ],
+    [
+      "ELA",
+      "Adverbs"
+    ],
+    [
+      "Science",
+      "Georgia Habitats"
+    ],
+    [
+      "Social Studies",
+      "American (only this word is visible on the newsletter)"
+    ]
+  ],
+  "tests": [
+    {
+      "date": "2026-11-03",
+      "kind": "math",
+      "title": "Topic 6 Area Test",
+      "detail": "The front announces an Area Test; the back lists Area, Square Unit, and Multiply as Topic 6 vocabulary. Review the whole area topic, not vocabulary alone."
+    },
+    {
+      "date": "2026-11-06",
+      "kind": "vocab",
+      "title": "Because of Winn-Dixie Vocabulary Quiz",
+      "detail": "6 random words from the 12-word list; study all 12."
+    },
+    {
+      "date": "2026-11-06",
+      "kind": "spelling",
+      "title": "rupt Spelling Test",
+      "detail": "All 10 spelling words."
+    }
+  ],
+  "events": [
+    {
+      "date": "Nov 2–16",
+      "text": "Socksgiving"
+    },
+    {
+      "date": "Nov 16",
+      "text": "Crazy Sock Day"
+    },
+    {
+      "date": "Nov 18",
+      "text": "Field Trip"
+    },
+    {
+      "date": "Nov 20, NOON",
+      "text": "Early Release Day"
+    },
+    {
+      "date": "Dec 9",
+      "text": "Habitat Project DUE!"
+    }
+  ],
+  "homework": [
+    {
+      "title": "Weekly homework packet",
+      "due": "Friday, Nov 6 (sent home Monday, Nov 2)",
+      "source": "newsletter",
+      "status": "Listed on the newsletter. This week’s physical packet has not been uploaded."
+    },
+    {
+      "title": "Reading Log",
+      "due": "Every Monday",
+      "source": "newsletter",
+      "status": "Listed on the newsletter; no new reading log sheet uploaded."
+    },
+    {
+      "title": "3 spelling activities",
+      "due": "With the weekly homework packet, Friday, Nov 6",
+      "source": "newsletter",
+      "description": "Complete three spelling activities along with the packet. Study Scoop practice is optional support; follow the teacher’s directions for what to turn in.",
+      "practice": {
+        "section": "spelling",
+        "label": "Practice this week’s spelling"
+      }
+    }
+  ],
+  "spelling": {
+    "pattern": "rupt",
+    "rules": {
+      "root": "Find rupt, a word root that means break or burst",
+      "s": "Add -s to disruption to name more than one",
+      "ion": "Add -ion to erupt to name the event",
+      "cy": "Add -cy to bankrupt to name the legal process"
+    },
+    "ruleHelp": {
+      "root": "rupt is a root, not a stand-alone English base word. Read and spell the entire word. In abrupt, the last two letters are p and t",
+      "s": "disruption → disruptions; keep the whole base word, then add s",
+      "ion": "erupt → eruption; keep erupt, then add ion",
+      "cy": "bankrupt → bankruptcy; keep bankrupt, then add cy"
+    },
+    "words": [
+      {
+        "word": "corrupt",
+        "rule": "root",
+        "whole": true,
+        "sentence": "A corrupt contest judge secretly accepted a gift to choose the winner."
+      },
+      {
+        "word": "disrupt",
+        "rule": "root",
+        "whole": true,
+        "sentence": "Loud talking can disrupt a quiet reading lesson."
+      },
+      {
+        "word": "abrupt",
+        "rule": "root",
+        "whole": true,
+        "sentence": "The bus made an abrupt stop when a ball rolled into the road."
+      },
+      {
+        "word": "bankruptcy",
+        "rule": "cy",
+        "sentence": "The store filed for bankruptcy because it could not pay its debts.",
+        "base": "bankrupt",
+        "suffix": "cy"
+      },
+      {
+        "word": "rupture",
+        "rule": "root",
+        "whole": true,
+        "sentence": "A rupture in the garden hose sent water spraying onto the grass."
+      },
+      {
+        "word": "disruptions",
+        "rule": "s",
+        "sentence": "The ringing bell and loud music caused disruptions during our lesson.",
+        "base": "disruption",
+        "suffix": "s"
+      },
+      {
+        "word": "interrupt",
+        "rule": "root",
+        "whole": true,
+        "sentence": "Please wait for a pause before you interrupt someone who is speaking."
+      },
+      {
+        "word": "erupt",
+        "rule": "root",
+        "whole": true,
+        "sentence": "Hot lava can erupt from a volcano."
+      },
+      {
+        "word": "bankrupt",
+        "rule": "root",
+        "whole": true,
+        "sentence": "The bankrupt shop could no longer pay the money it owed."
+      },
+      {
+        "word": "eruption",
+        "rule": "ion",
+        "sentence": "The volcanic eruption sent ash high into the sky.",
+        "base": "erupt",
+        "suffix": "ion"
+      }
+    ]
+  },
+  "vocab": {
+    "title": "Because of Winn-Dixie",
+    "quiz": "Friday, Nov 6 — 6 random words",
+    "groupsNote": "Study all 12 words: the teacher will choose 6 at random on Nov 6. Teacher definitions are copied exactly. Parent note: the printed definition for Distracted appears mismatched; confirm it with the teacher. In ordinary use, distracted means having your attention pulled away.",
+    "words": [
+      {
+        "word": "Produce",
+        "def": "Fresh fruits and vegetables",
+        "sentence": "The market sells produce such as apples and carrots.",
+        "fill": "We put fresh ___, including lettuce and peaches, into our basket."
+      },
+      {
+        "word": "Exception",
+        "def": "A case where a rule does not apply",
+        "sentence": "The guide dog was an exception to the store’s no-pets rule.",
+        "fill": "A rule applies to everyone except one special case called an ___."
+      },
+      {
+        "word": "Installment",
+        "def": "When money is paid over a length of time",
+        "sentence": "The family paid one installment each month until the bicycle was paid for.",
+        "fill": "Each scheduled payment toward the full cost is an ___."
+      },
+      {
+        "word": "Peculiar",
+        "def": "Strange or unusual",
+        "sentence": "A purple carrot looked peculiar beside the orange carrots.",
+        "fill": "The unusually shaped hat looked ___."
+      },
+      {
+        "word": "Employee",
+        "def": "Someone who works for money",
+        "sentence": "An employee at the market stacked fruit during her paid shift.",
+        "fill": "A person who works for pay is an ___."
+      },
+      {
+        "word": "Fortunate",
+        "def": "favored by or involving good luck or fortune",
+        "sentence": "We were fortunate that the rain stopped before our picnic.",
+        "fill": "Having good luck made us feel ___."
+      },
+      {
+        "word": "Ignorant",
+        "def": "lacking knowledge or awareness in general",
+        "sentence": "I was ignorant about constellations before I studied the stars.",
+        "fill": "Before learning the rules, I was ___ about how the game worked."
+      },
+      {
+        "word": "Melancholy",
+        "def": "A sad or gloomy condition",
+        "sentence": "The sad music filled the room with melancholy.",
+        "fill": "The story’s sad ending left a feeling of ___."
+      },
+      {
+        "word": "Trustworthy",
+        "def": "The ability to keep promises",
+        "sentence": "My trustworthy teammate kept his promise to return the ball.",
+        "fill": "Because she always keeps her promises, she is ___."
+      },
+      {
+        "word": "Constellations",
+        "def": "A group of stars in the night sky that make up a picture or a pattern",
+        "sentence": "We spotted constellations that formed patterns in the night sky.",
+        "fill": "Groups of stars that appear to form pictures are ___."
+      },
+      {
+        "word": "Irritating",
+        "def": "To anger or bother",
+        "sentence": "The irritating tapping made it hard to enjoy the story.",
+        "fill": "The repeated squeak was ___ because it kept bothering us."
+      },
+      {
+        "word": "Distracted",
+        "def": "To prevent something from continuing as usual",
+        "sentence": "I was distracted by a butterfly while I was reading.",
+        "fill": "My attention moved away from my book, so I became ___.",
+        "note": "The printed definition appears mismatched. In ordinary use, distracted means having your attention pulled away. Confirm the class-sheet definition with the teacher."
+      }
+    ],
+    "quizWords": [
+      "Produce",
+      "Exception",
+      "Installment",
+      "Peculiar",
+      "Employee",
+      "Fortunate",
+      "Ignorant",
+      "Melancholy",
+      "Trustworthy",
+      "Constellations",
+      "Irritating",
+      "Distracted"
+    ]
+  },
+  "math": {
+    "title": "Topic 6: Area",
+    "test": "Tuesday, Nov 3 — Topic 6 Area Test",
+    "words": [
+      {
+        "word": "Area",
+        "def": "number of unit squares needed to cover the INSIDE of a shape or region",
+        "example": [
+          3,
+          4,
+          12
+        ],
+        "fill": "The number of unit squares covering a shape is its ___."
+      },
+      {
+        "word": "Square Unit",
+        "def": "a square that is 1 unit tall and 1 unit wide",
+        "example": [
+          1,
+          1,
+          1
+        ],
+        "fill": "A 1-by-1 square is one ___."
+      },
+      {
+        "word": "Multiply",
+        "def": "to find the area of a rectangle, you multiply the length and the width",
+        "example": [
+          4,
+          3,
+          12
+        ],
+        "fill": "To find the area of a rectangle, ___ the length and the width."
+      }
+    ]
+  },
+  "mathUpcoming": {
+    "title": "Topic 7: Fractions — vocabulary preview",
+    "note": "These four words are on the back of the newsletter. No fractions test date is listed. Topic 7 lessons are not yet available in Study Scoop; Chapter 6 remains available for area review.",
+    "words": [
+      {
+        "word": "denominator",
+        "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+      },
+      {
+        "word": "unit fraction",
+        "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+      },
+      {
+        "word": "numerator",
+        "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+      },
+      {
+        "word": "fraction",
+        "def": "A fraction is a number used when a whole is split into equal parts."
+      }
+    ]
+  },
+  "flyer": {
+    "reviewed": "2026-10-30",
+    "note": "Privacy-reviewed page-only copies: removed surrounding home background, no student names, school or teacher identifiers, grades, or contact details visible.",
+    "pages": [
+      {
+        "src": "images/flyers/2026-11-02-front.webp",
+        "label": "Front: newsletter",
+        "alt": "November 2–6 class newsletter: learning topics, ten rupt spelling words, November 3 Area Test, November 6 spelling and six-random-word vocabulary quizzes, events and homework.",
+        "width": 1000,
+        "height": 1300
+      },
+      {
+        "src": "images/flyers/2026-11-02-back.webp",
+        "label": "Back: vocabulary",
+        "alt": "Twelve Because of Winn-Dixie words and teacher definitions, three Topic 6 Area words for November 3, and four Topic 7 fraction words.",
+        "width": 1000,
+        "height": 1300
+      }
+    ]
+  }
+}

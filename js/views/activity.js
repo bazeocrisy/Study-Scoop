@@ -310,12 +310,13 @@ function studyCards(ctx, run) {
   const note = ctx.week.vocab.groupsNote;
   return html`
     ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
-    ${f.i === 0 && note.includes('purple') ? html`<p class="hint">${note} Only these ${words.length} words have been provided; the purple words are not on this list yet.</p>` : ''}
+    ${f.i === 0 ? html`<p class="hint">${note}${note.includes('purple') ? ` Only these ${words.length} words have been provided; the purple words are not on this list yet.` : ''}</p>` : ''}
     <div class="card study-one">
       ${wordPicture(ctx, w.word, `Picture showing what "${w.word}" means`)}
       <div class="study-text">
         <div class="instruct-head"><h3 class="vocab-word">${w.word}</h3>${readButton([w.word, `${w.word} means: ${w.def}`, w.sentence], 'this card')}</div>
         <blockquote class="teacher-words"><span class="label">Teacher's words</span><span class="def">${w.def}</span></blockquote>
+        ${w.note ? html`<p class="hint">Parent note: ${w.note}</p>` : ''}
         <p class="example"><span class="tag">In a sentence</span> ${w.sentence}</p>
       </div>
     </div>
