@@ -70,7 +70,7 @@ async function render() {
   // Lessons (Math only): the list, and the lesson named in the address. Unknown lessons fall back to the Math page.
   let lessons = null, lesson = null;
   // This Week also reads the chapter list, to recommend the week's chapter (D26).
-  if (route.section === 'math' || route.section === 'week') {
+  if (route.section === 'math' || route.section === 'week' || route.section === 'tests') {
     try {
       lessons = await loadJSON('data/lessons/index.json');
       if (validateLessonIndex(lessons).length || validateChapters(lessons).length) lessons = null;
@@ -179,8 +179,8 @@ async function render() {
   // week is chosen); the week picker, the header and every link keep the week the child chose.
   const content = route.section === 'math' && chapterWeekId ? (chapterWeekId === weekId ? week : chapterWeek || week) : week;
   const contentId = content.id || weekId;
-  // The Area bank belongs to its own week; a problem with it hides the Area activities (and says so) rather than show a wrong key.
-  if (area && (area.week !== contentId || validateArea(area, content).length)) area = null;
+  // Reuse the chapter's Area bank in later Area weeks only when its content and exact teacher definitions validate.
+  if (area && validateArea(area, content).length) area = null;
   if (tests) {
     let tp;
     try { tp = validateTests(tests, content); } catch (e) { tp = [String(e.message || e)]; }
@@ -207,6 +207,7 @@ async function render() {
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
     tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, packet, page: info?.page ? act : null,
+    mathWeekId: chapterWeekId || lessons?.chapters?.find((c) => c.id === week.mathChapter)?.week || contentId,
   };
   ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
   // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.

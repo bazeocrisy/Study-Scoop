@@ -58,7 +58,7 @@ function chooseChapter(ctx) {
       <p class="week-of">${shown.label}</p>
       <p class="intro">${now ? html`This week your class is studying <strong>Chapter ${now.id}: ${now.name}</strong>. Every chapter is open.` : 'Every chapter is open. Choose one to start.'}</p>
     </div>
-    ${ctx.isCurrent ? '' : html`<p class="notice" role="note">You are looking at an earlier week.
+    ${ctx.isCurrent ? '' : html`<p class="notice" role="note">You are looking at ${(ctx.shownWeekId || ctx.weekId) > ctx.index.current ? 'an upcoming' : 'an earlier'} week.
       <a href="${ctx.link('math', ctx.index.current)}">Go to this week</a></p>`}
     <section class="menu" aria-labelledby="h-menu">
       <h2 id="h-menu" class="ask">Choose Your Chapter</h2>

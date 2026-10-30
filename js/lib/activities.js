@@ -152,7 +152,7 @@ export function blankSentence(sentence, word) {
 
 // ---------------------------------------------------------------- vocabulary
 
-const means = (w) => `${q(w.word)} means: ${w.def}.`;
+const means = (w) => `${q(w.word)} means: ${w.def}.${w.note ? ` Parent note: ${w.note}` : ''}`;
 
 /**
  * The practice form of a vocabulary question: a hint that points back to the word's sentence (never the answer),
@@ -268,7 +268,7 @@ export function vocabItems(week, kind, rand = Math.random) {
 // ---------------------------------------------------------------- spelling
 
 /** The ending the week practices ("-ing" -> "ing"). */
-const suffixOf = (sp, entry) => entry && /(?:^|-)or$/.test(entry.rule) ? 'or' : entry && /(?:^|-)er$/.test(entry.rule) ? 'er' : String(sp.pattern).replace(/^-/, '');
+const suffixOf = (sp, entry) => entry?.suffix || (entry && /(?:^|-)or$/.test(entry.rule) ? 'or' : entry && /(?:^|-)er$/.test(entry.rule) ? 'er' : entry?.whole ? '' : String(sp.pattern).replace(/^-/, ''));
 const VOWEL = /[aeiou]/;
 /** A word with a shorter base word (helper from help); "doctor" has none (`whole: true` in the week file). */
 export const hasBase = (entry) => !entry.whole && typeof entry.base === 'string' && entry.base.trim() !== '';
@@ -314,7 +314,7 @@ const wordNo = (entry, sp) => sp.words.indexOf(entry) + 1;
 
 /** The second hint: the base word, or (for a word with none) where its tricky ending is. */
 const baseHint = (entry) => (hasBase(entry) ? `This word comes from ${q(entry.base)}.`
-  : 'This word is not made from a shorter word. Its last sound is like "er". Which letters spell it in this word?');
+  : 'Read the spelling pattern again. Listen to each sound, then spell the whole word.');
 
 export function lettersItem(entry, sp) {
   return {
@@ -378,8 +378,11 @@ export function buildItem(entry, sp) {
 export function spellingItems(week, kind) {
   const sp = week.spelling;
   const extra = Math.max(0, Math.min(sp.words.length, ACTIVITY_SIZE - sp.words.length));
-  if (kind === 'letters') return [...sp.words.map((e) => lettersItem(e, sp)), ...secondRound(sp, extra).map((e) => lettersAgainItem(e, sp))];
-  if (kind === 'listen') return [...sp.words.map((e) => spellItem(e, sp)), ...secondRound(sp, extra).map((e) => buildItem(e, sp))];
+  const second = secondRound(sp, extra);
+  const whole = sp.words.filter((e) => !hasBase(e)).slice(0, extra - second.length);
+  if (kind === 'letters') return [...sp.words.map((e) => lettersItem(e, sp)), ...[...second, ...whole].map((e) => lettersAgainItem(e, sp))];
+  if (kind === 'listen') return [...sp.words.map((e) => spellItem(e, sp)), ...second.map((e) => buildItem(e, sp)),
+    ...whole.map((e) => ({ ...spellItem(e, sp), id: `sp2-${wordNo(e, sp)}`, round: 2, prompt: 'Second listen! Hear the word and sentence, then spell the whole word.' }))];
   return [];
 }
 
@@ -408,7 +411,10 @@ export function testFor(kind, week, tests, rand, mathWords = null, area = null) 
   if (kind === 'mathwords' && isAreaWeek(week)) return area?.vocab ? areaVocabTest(area, rand) : null;
   if (kind === 'mathwords') return mathWords ? mathWordsTest(mathWords, rand) : null;
   const t = tests?.[kind];
-  return t ? { kind, title: `${SUBJECT[kind]} Practice Test`, ...t, pass: t.pass ?? passMark(t.items.length) } : null;
+  if (!t) return null;
+  const selected = t.sampleSize ? shuffle(t.items, rand).slice(0, t.sampleSize) : t.items;
+  const items = t.sampleSize ? selected.map((it) => it.options?.length > 2 ? { ...it, options: shuffle(it.options, rand) } : it) : selected;
+  return { kind, title: `${SUBJECT[kind]} Practice Test`, ...t, items, pass: t.pass ?? passMark(items.length) };
 }
 
 /** The Test Center cards for a week: what each test covers, when the class test is, and if it can start.
@@ -448,6 +454,11 @@ export function validateTests(tests, week) {
     const t = tests[kind];
     for (const k of ['topic', 'coverage', 'note', 'instructions']) if (typeof t[k] !== 'string' || !t[k].trim()) err(`${kind}.${k} is missing`);
     if (!Array.isArray(t.items) || !t.items.length) { err(`${kind}.items is missing`); continue; }
+    if (t.sampleSize !== undefined) {
+      if (kind !== 'vocab' || !Number.isInteger(t.sampleSize) || t.sampleSize < 1 || t.sampleSize > t.items.length) err(`${kind}.sampleSize must be an integer within the vocabulary bank size`);
+      if (new Set(t.items.map((it) => normWord(it.word))).size !== t.items.length) err(`${kind}: sampled bank must contain one question per distinct word`);
+      if (t.pass !== undefined && (!Number.isInteger(t.pass) || t.pass < 1 || t.pass > t.sampleSize)) err(`${kind}.pass must fit the sampled test size`);
+    }
     for (const p of validateQuiz(t.items, t.pass ?? passMark(t.items.length), `${kind}`)) err(p);
     for (const it of t.items) {
       if (it.hints || it.show) err(`${kind} ${it.id}: a test question cannot have hints or Show me how`);

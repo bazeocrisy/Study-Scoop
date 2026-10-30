@@ -78,6 +78,10 @@ export function validateWeek(week, expectedId) {
   validateSpelling(week.spelling, err);
   validateVocab(week.vocab, err);
   if (week.math !== undefined) validateMath(week.math, err);
+  if (week.mathUpcoming !== undefined) {
+    const m = week.mathUpcoming;
+    if (!isObj(m) || !isText(m.title) || !isText(m.note) || !Array.isArray(m.words) || !m.words.length || m.words.some((w) => !isObj(w) || !isText(w.word) || !isText(w.def))) err('mathUpcoming needs a title, note and word/definition list');
+  }
   return errors;
 }
 
@@ -117,6 +121,7 @@ function validateSpelling(sp, err) {
     if (!isText(w.sentence)) err(`${at}.sentence is missing`);
     else if (!w.sentence.toLowerCase().includes(w.word.toLowerCase())) err(`${at}: the sentence must use "${w.word}"`);
     if (w.img !== undefined && !/^[a-z0-9-]+$/.test(w.img)) err(`${at}.img must be a picture name like "rushed"`);
+    if (w.suffix !== undefined && (!isText(w.suffix) || !/^[a-z]+$/.test(w.suffix) || !w.word.endsWith(w.suffix) || w.whole)) err(`${at}.suffix must be a real ending on a word with a base`);
   });
 }
 
