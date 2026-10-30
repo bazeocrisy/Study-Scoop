@@ -40,6 +40,6 @@ Full structured transcription, including all 19 exact teacher definitions, is in
 
 ## Audit and rollback
 
-Six independent specialist reviews: curriculum, instruction, interaction, accessibility, UI and QA. They found empty missing-letter positions for erupt, predictable test-option positions, missing inline definition warning, and tests using the newly real week as a draft fixture. All were corrected, with regression checks for sampling and root-word prompts. Browser evidence and final counts are recorded in VALIDATION.md.
+Six independent specialist reviews: curriculum, instruction, interaction, accessibility, UI and QA. They found empty missing-letter positions for erupt, predictable test-option positions, missing inline definition warning, and tests using the newly real week as a draft fixture. All were corrected, with regression checks for sampling and root-word prompts. Final review also checked that a manually selected older chapter takes precedence over the week’s recommended chapter when saving missed test questions. Browser evidence and final counts are recorded in VALIDATION.md.
 
 Rollback: revert only this weekly feature merge into develop. Production/main and Math chapter files are untouched. Public preview URLs must not be reported as deployed until the Pages deployment is confirmed.

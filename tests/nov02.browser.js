@@ -26,6 +26,14 @@ try{
  await b.hash('#vocab?week=2026-11-02&act=misses');assert.ok((await inspect('return document.getElementById("app").innerText')).includes('Question 1 of 1'));checks++;
  await take('mathwords',12,true);
  await b.hash('#math?week=2026-11-02&act=avmisses');assert.ok((await inspect('return document.getElementById("app").innerText')).includes('Question 1 of 1'));checks++;
+ // A selected Chapter 5 test must keep its own misses even when the selected week's recommendation is Chapter 6.
+ await b.load(server.origin+BASE+'#math?week=2026-11-02&act=ch5test');
+ const chapterCount=await inspect("const {runFor}=await import('./js/activity-player.js');return runFor({weekId:'2026-10-19'},'math','ch5test').items.length;");
+ for(let n=0;n<chapterCount-1;n++)await click('[data-act=next]');
+ await click('[data-act=submit]');await click('[data-act=submit]');
+ const chapterMisses=await inspect("const {missCounts}=await import('./js/activity-player.js');return {own:missCounts('2026-10-19').math,other:missCounts('2026-10-26').math};");
+ assert.equal(chapterMisses.own,chapterCount);assert.equal(chapterMisses.other,0);checks+=2;
+ await b.hash('#math?week=2026-11-02&act=misses');assert.ok((await inspect('return document.getElementById("app").innerText')).includes('Question 1 of '+chapterCount));checks++;
  await take('spelling',10);
  assert.deepEqual(b.errors,[]);assert.deepEqual(b.failures,[]);assert.deepEqual(server.missing,[]);checks+=3;
  console.log(`${checks} targeted weekly browser checks passed: six-word quiz/results/misses, Area vocabulary/results/chapter misses, spelling dictation/results.`);

@@ -207,7 +207,7 @@ async function render() {
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
     tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, packet, page: info?.page ? act : null,
-    mathWeekId: lessons?.chapters?.find((c) => c.id === week.mathChapter)?.week || contentId,
+    mathWeekId: chapterWeekId || lessons?.chapters?.find((c) => c.id === week.mathChapter)?.week || contentId,
   };
   ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
   // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.
