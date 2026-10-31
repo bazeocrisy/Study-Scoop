@@ -375,18 +375,18 @@ export function mountActivity(app, ctx, signal) {
           if (w) addMiss(ctx.weekId, 'vocab', vocabPractice({ ...it, id: `test-${it.id}` }, w));
         } else if (st.status !== 'correct' && run.subject === 'math' && run.chapter) {
           // A missed chapter test question goes to the chapter's Practice My Misses, in its practice form when it has one.
-          addMiss(ctx.weekId, run.group, it.practice ? { ...it.practice, id: `test-${it.id}` } : { ...it, id: `test-${it.id}` });
+          addMiss(ctx.mathWeekId || ctx.weekId, run.group, it.practice ? { ...it.practice, id: `test-${it.id}` } : { ...it, id: `test-${it.id}` });
         } else if (st.status !== 'correct' && run.subject === 'skills') {
           // A missed Skill Builders test question goes to the skill's Practice My Misses in its practice form (with Help).
           addMiss(ctx.weekId, run.group, it.practice || it);
         } else if (st.status !== 'correct' && run.areaVocab && ctx.area) {
           // A missed Nov 3 vocabulary test question goes to Area Words > Practice My Misses, as its practice question.
           const orig = ['choice', 'truefalse', 'fill'].flatMap((m) => ctx.area.vocab[m] || []).find((x) => x.word === it.word && x.kind === (it.kind === 'tf' ? 'tf' : it.kind));
-          if (orig) addMiss(ctx.weekId, 'areavocab', orig);
+          if (orig) addMiss(ctx.mathWeekId || ctx.weekId, 'areavocab', orig);
         } else if (st.status !== 'correct' && run.subject === 'mathwords' && ctx.mathWords) {
           // The practice form of the question (with its hints and Show me how) goes to Math Vocabulary > Practice My Misses.
           const orig = [...Object.values(WORD_MODES), 'test'].flatMap((m) => ctx.mathWords[m] || []).find((x) => x.prompt === it.prompt);
-          if (orig) addMiss(ctx.weekId, 'mathwords', orig);
+          if (orig) addMiss(ctx.mathWeekId || ctx.weekId, 'mathwords', orig);
         }
       }
       run.submitted = true;
