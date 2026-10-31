@@ -51,7 +51,8 @@ for (const [index, id, week] of cases) {
       assert.doesNotMatch(out, /undefined|\bnull\b|NaN|\[object /, 'no missing values');
       assert.doesNotMatch(out, /<b>book<\/b>|<not real>/, 'data is escaped, never treated as markup');
       assert.doesNotMatch(out, /images\/newsletters|https?:\/\//, 'no newsletter photos or external links');
-      assert.equal(out.includes('You are looking at an earlier week'), id !== index.current);
+      assert.equal(out.includes('You are looking at an earlier week'), id < index.current);
+      assert.equal(out.includes('You are looking at an upcoming week'), id > index.current);
       // Headings never skip a level.
       const levels = [...out.matchAll(/<h([1-6])[\s>]/g)].map((m) => Number(m[1]));
       levels.forEach((l, i) => i && assert.ok(l <= levels[i - 1] + 1, `heading h${l} after h${levels[i - 1]}`));

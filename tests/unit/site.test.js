@@ -111,14 +111,14 @@ test('the build leaves out anything not on the allowlist, even inside approved f
   const src = tmp('src');
   for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   for (const rel of ['reference/vocabulary-prototype.html', 'tests/browser.test.js', 'docs/notes.md', 'images/newsletters/2026-10-12.jpg',
-    'images/words/scan.png', 'js/notes.md', 'js/.secret.js', 'css/draft.css.bak', 'data/2026-11-02.json', 'data/notes.json',
+    'images/words/scan.png', 'js/notes.md', 'js/.secret.js', 'css/draft.css.bak', 'data/2099-11-02.json', 'data/notes.json',
     'images/mockup.svg']) put(src, rel);
   const out = tmp('out');
   const result = buildSite(out, src);
   assert.deepEqual(files(out), PUBLISHED);
   // Ignore what the real repository build already leaves out (the study cards); check only the planted files.
   assert.deepEqual(result.skipped.filter((s) => !skipped.includes(s)).sort(), [
-    'css/draft.css.bak (not on the allowlist)', 'data/2026-11-02.json (not listed in data/weeks.json)', 'data/notes.json (not on the allowlist)',
+    'css/draft.css.bak (not on the allowlist)', 'data/2099-11-02.json (not listed in data/weeks.json)', 'data/notes.json (not on the allowlist)',
     'images/mockup.svg (not on the allowlist)', 'images/newsletters/2026-10-12.jpg (not on the allowlist)',
     'images/words/scan.png (not on the allowlist)', 'js/.secret.js (not on the allowlist)', 'js/notes.md (not on the allowlist)']);
   assert.deepEqual(verifySite(out), []);
@@ -160,7 +160,7 @@ test('the verifier checks the weekly data and its pictures', () => {
   const weeks = JSON.parse(fs.readFileSync(path.join(SITE, 'data/weeks.json'), 'utf8'));
   const [first] = weeks.weeks;
   caught(brokenSite((d) => fs.rmSync(path.join(d, `data/${first.id}.json`))), /is listed in data\/weeks\.json but missing/);
-  caught(brokenSite((d) => put(d, 'data/2026-11-02.json', '{}')), /data\/2026-11-02\.json is published but not listed/);
+  caught(brokenSite((d) => put(d, 'data/2099-11-02.json', '{}')), /data\/2099-11-02\.json is published but not listed/);
   caught(brokenSite((d) => put(d, 'data/weeks.json', JSON.stringify({ ...weeks, current: '2030-01-07' }))), /^data\/weeks\.json: /);
   caught(brokenSite((d) => put(d, `data/${first.id}.json`, '{"id":"x"}')), new RegExp(`^data/${first.id}\\.json: `));
   caught(brokenSite((d) => fs.rmSync(path.join(d, 'images/words/rushed.svg'))), /names picture images\/words\/rushed\.svg, which is missing/);

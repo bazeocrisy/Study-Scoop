@@ -107,7 +107,7 @@ test('the chosen week never changes a chapter\'s content: Chapter 6 in the Oct 1
 });
 
 test('the week recommends its chapter; the Math library keeps every chapter open', () => {
-  assert.deepEqual(Object.values(WEEK).map((w) => [w.id, recommendedChapter(w, INDEX)?.id]), [['2026-10-26', 6], ['2026-10-19', 5], ['2026-10-12', 5]]);
+  assert.deepEqual(Object.values(WEEK).map((w) => [w.id, recommendedChapter(w, INDEX)?.id]), [['2026-11-02', 6], ['2026-10-26', 6], ['2026-10-19', 5], ['2026-10-12', 5]]);
   const c5 = chapterList(INDEX)[0], c6 = chapterList(INDEX)[1];
   assert.deepEqual([chapterStatus(c5, WEEK['2026-10-26']), chapterStatus(c6, WEEK['2026-10-26'])], ['Available for review', 'Currently studying']);
   assert.deepEqual([chapterStatus(c5, WEEK['2026-10-19']), chapterStatus(c6, WEEK['2026-10-19'])], ['Currently studying', 'Coming up: open any time']);

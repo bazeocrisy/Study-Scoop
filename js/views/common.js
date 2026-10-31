@@ -1,6 +1,8 @@
 import { html, raw } from '../lib/html.js';
 import { pictureName } from '../lib/data.js';
 
+const weekTiming = (ctx) => (ctx.shownWeekId || ctx.weekId) > ctx.index.current ? 'an upcoming' : 'an earlier';
+
 /** Page heading shared by every section: the section name and the week being shown. */
 export function pageHead(title, ctx, intro, actions) {
   return html`
@@ -11,7 +13,7 @@ export function pageHead(title, ctx, intro, actions) {
       ${actions ? html`<div class="btn-row">${actions}</div>` : ''}
     </div>
     ${ctx.isCurrent ? '' : html`
-      <p class="notice" role="note">You are looking at an earlier week.
+      <p class="notice" role="note">You are looking at ${weekTiming(ctx)} week.
         <a href="${ctx.link(ctx.section, ctx.index.current)}">Go to this week</a></p>`}`;
 }
 
@@ -92,7 +94,7 @@ export function subBar(ctx, { tone, trail, title, goal, eyebrow, back = [] }) {
         <a class="btn home" href="${ctx.link('week')}" data-leave>${ICONS.home}<span>Home</span></a>
       </p>
     </div>
-    ${ctx.isCurrent ? '' : html`<p class="notice" role="note">You are looking at an earlier week.</p>`}`;
+    ${ctx.isCurrent ? '' : html`<p class="notice" role="note">You are looking at ${weekTiming(ctx)} week.</p>`}`;
 }
 
 /** A subject menu: "What would you like to do?" and one big card per activity (the whole card is the link). */
@@ -119,7 +121,7 @@ export function menuPage(ctx, subject, { title, context, items, misses, after = 
       ${context ? html`<p class="intro">${context}</p>` : ''}
     </div>
     ${ctx.isCurrent ? '' : html`
-      <p class="notice" role="note">You are looking at an earlier week.
+      <p class="notice" role="note">You are looking at ${weekTiming(ctx)} week.
         <a href="${ctx.link(ctx.section, ctx.index.current)}">Go to this week</a></p>`}
     <section class="menu" aria-labelledby="h-menu">
       <h2 id="h-menu" class="ask">What would you like to do?</h2>
