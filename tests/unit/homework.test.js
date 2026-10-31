@@ -63,7 +63,7 @@ test('the story is cut into lines with running word counts for a grown-up', () =
 
 test('the published PDF must be printed by Study Scoop from its own page; a scan fails the build', () => {
   const src = fs.mkdtempSync(path.join(os.tmpdir(), 'hw-src-'));
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'flash-cards', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'hw-out-'));
   buildSite(out, src);
   assert.deepEqual(verifySite(out), []);

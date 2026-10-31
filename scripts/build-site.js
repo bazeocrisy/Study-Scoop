@@ -17,6 +17,7 @@ export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 /** The only files that may be published. A path must match one pattern exactly. */
 export const ALLOW = [
   /^index\.html$/,
+  /^flash-cards\/index\.html$/,
   /^css\/[a-z0-9-]+\.css$/,
   /^js\/(?:(?:lib|views)\/)?[a-z0-9-]+\.js$/,
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
@@ -32,7 +33,7 @@ export const ALLOW = [
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
-const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads'];
+const SOURCES = ['index.html', 'flash-cards', 'css', 'js', 'data', 'images', 'fonts', 'downloads'];
 /** Runtime files the site cannot work without. */
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
 /** Named so a check proves they are absent (the allowlist already excludes them). */
@@ -109,8 +110,10 @@ export function verifySite(dir) {
   if (problems.length && !has('index.html')) return problems;
 
   // Follow every reference from index.html; each must exist, be relative, and stay inside the site.
-  const used = new Set(['index.html']);
-  const queue = ['index.html'];
+  // Entry pages: the app, and the full-screen Galaxy Flash Cards page it links to.
+  const ENTRIES = ['index.html', 'flash-cards/index.html'];
+  const used = new Set(ENTRIES);
+  const queue = [...ENTRIES];
   while (queue.length) {
     const from = queue.shift();
     if (!has(from)) continue;

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Galaxy Flash Cards | Study Scoop</title>
+<link rel="icon" href="../images/cone.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/galaxy-flash.css">
+</head>
+<body>
+<main class="wrap" id="app" data-ready="1">
+  <a class="back-link" href="../#skills?act=times">‹ Back to Times Tables</a>
+  <h1 id="title">🚀 Galaxy Flash Cards</h1>
+
+  <!-- HOME -->
+  <section class="screen on" id="home">
+    <p class="sub">Pick a table and how long. Then press Start.</p>
+    <div class="chips" id="chips"></div>
+    <fieldset id="minSet">
+      <legend>How long</legend>
+      <button type="button" class="opt" data-m="3" aria-pressed="false">3 min</button>
+      <button type="button" class="opt sel" data-m="5" aria-pressed="true">5 min</button>
+      <button type="button" class="opt" data-m="10" aria-pressed="false">10 min</button>
+    </fieldset>
+    <button class="big study" id="goStudy">▶ Start practice</button>
+    <details class="more"><summary>Test only (no practice)</summary>
+      <fieldset id="timerSet">
+        <legend>Test timer</legend>
+        <button type="button" class="opt" data-t="2" aria-pressed="false">2 seconds</button>
+        <button type="button" class="opt" data-t="3" aria-pressed="false">3 seconds</button>
+        <button type="button" class="opt sel" data-t="5" aria-pressed="true">5 seconds</button>
+        <button type="button" class="opt" data-t="10" aria-pressed="false">10 seconds</button>
+      </fieldset>
+      <button class="big test" id="goTest">Test mode</button>
+    </details>
+  </section>
+
+  <!-- STUDY -->
+  <section class="screen" id="study">
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <p class="count" id="studyCount"></p>
+    <div class="stage">
+      <button class="card" id="studyCard" aria-label="Flash card, tap to flip">
+        <div class="face front" id="sFront"></div>
+        <div class="face back" id="sBack"></div>
+      </button>
+    </div>
+    <p class="hint" id="sHint"></p>
+    <div class="row" id="manualRow">
+      <button class="small" id="prev">Back</button>
+      <button class="small" id="next">Next</button>
+    </div>
+    <fieldset id="liveSpeed"><legend>Speed</legend><button type="button" class="opt" data-s="0" aria-pressed="false">Tap</button><button type="button" class="opt" data-s="2" aria-pressed="false">2 sec</button><button type="button" class="opt" data-s="3" aria-pressed="false">3 sec</button><button type="button" class="opt" data-s="5" aria-pressed="false">5 sec</button></fieldset>
+    <div class="row"><button class="small" id="pause">⏸ Pause</button><button class="small" id="studyHome">🏠 Home</button></div>
+  </section>
+
+  <!-- TEST -->
+  <section class="screen" id="test">
+    <p class="count" id="testCount"></p>
+    <div class="stage">
+      <div class="card" id="testCard">
+        <div class="face front" id="tFront">
+          <svg class="ring" viewBox="0 0 56 56"><circle cx="28" cy="28" r="22"/><circle class="arc" id="arc" cx="28" cy="28" r="22"/><text x="28" y="36" text-anchor="middle" id="tick"></text></svg>
+          <div><span id="tQ"></span><input id="ans" class="ans" type="text" readonly aria-label="Your answer"></div>
+        </div>
+        <div class="face back" id="tBack"></div>
+      </div>
+    </div>
+    <p class="hint" id="tHint">Say the answer before time runs out!</p>
+    <div class="pad" id="pad"></div>
+    <div class="grade" id="grade">
+      <button class="got" id="nextQ">Next card</button>
+    </div>
+    <div class="row"><button class="small" id="testQuit">Quit</button></div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="screen" id="results">
+    <p class="stars" id="stars"></p>
+    <p class="score" id="scoreNum"></p>
+    <p class="sub" id="scoreMsg"></p>
+    <div class="missed" id="missedBox"></div>
+    <button class="big test" id="retryMissed">Practice the ones I missed</button>
+    <button class="big study" id="testAgain">Test again</button>
+    <button class="big home" id="resHome">Home</button>
+  </section>
+
+  <!-- DONE (after practice + check) -->
+  <section class="screen" id="done">
+    <p class="stars">🚀⭐🚀</p>
+    <h2 class="doneTitle">All done!</h2>
+    <div class="report" id="report"></div>
+    <p class="sub">Show this to a grown-up.</p>
+    <button class="big home" id="doneHome">Home</button>
+  </section>
+</main>
+<script src="../js/galaxy-flash.js" defer></script>
+</body>
+</html>

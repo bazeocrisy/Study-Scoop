@@ -45,7 +45,7 @@ test('the built site passes verification', () => {
 test('the built site is exactly the page, styles, modules, fonts, listed weeks, lessons, practice tests and pictures', () => {
   const weeks = JSON.parse(fs.readFileSync(path.join(REPO, 'data/weeks.json'), 'utf8')).weeks.map((w) => `data/${w.id}.json`);
   const lessons = JSON.parse(fs.readFileSync(path.join(REPO, 'data/lessons/index.json'), 'utf8')).lessons.map((l) => `data/lessons/${l.id}.json`);
-  const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
+  const expected = ['index.html', 'flash-cards/index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
     'data/lessons/index.json', ...lessons, 'images/cone.svg',
     'data/practice/math.json', 'data/practice/math-words.json', 'data/practice/area.json', 'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
     ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2')),
@@ -55,12 +55,12 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
     ...weeks.flatMap((f) => JSON.parse(fs.readFileSync(path.join(REPO, f), 'utf8')).flyer?.pages.map((pg) => pg.src) || [])];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
-  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'fonts', 'images', 'index.html', 'js']);
+  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'flash-cards', 'fonts', 'images', 'index.html', 'js']);
 });
 
 test('a flyer image is published only when a listed week names it in a reviewed "flyer"; raw newsletter photos never (D26)', () => {
   const src = tmp('flyer-src');
-  for (const x of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, x), path.join(src, x), { recursive: true });
+  for (const x of ['index.html', 'flash-cards', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, x), path.join(src, x), { recursive: true });
   put(src, 'images/flyers/2026-10-19-front.webp', 'not reviewed');
   put(src, 'images/newsletters/2026-10-19.jpg', 'raw photo');
   const out = tmp('flyer-out');
@@ -79,7 +79,7 @@ test('a flyer image is published only when a listed week names it in a reviewed 
 
 test('a draft lesson (not listed) is left out, and a broken lesson fails verification', () => {
   const src = tmp('lesson-src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'flash-cards', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   put(src, 'data/lessons/9-9.json', '{"id":"9-9"}');
   const out = tmp('lesson-out');
   const result = buildSite(out, src);
@@ -109,7 +109,7 @@ test('development files are absent from the built site, not merely unlinked', ()
 
 test('the build leaves out anything not on the allowlist, even inside approved folders', () => {
   const src = tmp('src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'flash-cards', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   for (const rel of ['reference/vocabulary-prototype.html', 'tests/browser.test.js', 'docs/notes.md', 'images/newsletters/2026-10-12.jpg',
     'images/words/scan.png', 'js/notes.md', 'js/.secret.js', 'css/draft.css.bak', 'data/2099-11-02.json', 'data/notes.json',
     'images/mockup.svg']) put(src, rel);
@@ -169,7 +169,7 @@ test('the verifier checks the weekly data and its pictures', () => {
 
 test('a draft practice test (not listed) is left out, and a wrong answer key fails verification', () => {
   const src = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-src-'));
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'flash-cards', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   put(src, 'data/tests/2026-10-12.json', '{"id":"2026-10-12"}');
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-out-'));
   const result = buildSite(out, src);
