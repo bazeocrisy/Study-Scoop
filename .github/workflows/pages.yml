@@ -45,6 +45,8 @@ jobs:
         run: node scripts/build-site.js _site
       - name: Browser tests (built site, as published)
         run: node tests/browser.test.js --site _site
+      - name: November homework journeys (built site)
+        run: node tests/homework-nov02.browser.js --site _site
 
   build:
     name: Test and build production + preview
@@ -83,6 +85,9 @@ jobs:
       - name: Browser tests (preview, as published)
         working-directory: develop
         run: node tests/browser.test.js --site "$GITHUB_WORKSPACE/_preview"
+      - name: November homework journeys (production build)
+        working-directory: main
+        run: node tests/homework-nov02.browser.js --site "$GITHUB_WORKSPACE/_site"
       - name: Put the preview under /preview/
         run: |
           mv "$GITHUB_WORKSPACE/_preview" "$GITHUB_WORKSPACE/_site/preview"

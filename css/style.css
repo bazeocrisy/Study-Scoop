@@ -1146,3 +1146,27 @@ button.times-flashcard.is-flipped .times-product { color: var(--berry); }
   body[data-section="homework"] .homework-papers .instruct-head,
   body[data-section="homework"] .homework-papers figcaption { display: none; }
 }
+
+/* Homework activities reuse the packet engine; four short subject entry points. */
+.hw-subject { list-style: none; grid-column: 1 / -1; }
+.hw-fraction { margin: 1rem auto; width: fit-content; max-width: 100%; }
+.hw-fraction svg, [data-result] svg { max-width: 100%; height: auto; }
+[data-partition] { margin-block: 1rem; padding-block: 1rem; border-top: 1px solid #aaa; }
+[data-partition] label { display: block; margin-top: .7rem; }
+[data-partition] input { width: 5rem; min-height: 44px; }
+[data-partition] select { max-width: 100%; min-height: 44px; white-space: normal; }
+[data-partition] button { margin: .7rem; }
+.hw-table-scroll { overflow-x: auto; }
+.hw-table-scroll .fl-in, .hw-table-scroll input { width: 4rem; min-height: 44px; max-width: 100%; }
+
+.hw-activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1rem; }
+.hw-activity-grid .btn { white-space: normal; text-align: left; }
+[data-partition] input, [data-partition] select, [data-fluency] { font: inherit; }
+.hw-single { display: block !important; }
+@media screen { .hw-offscreen { display: none !important; } }
+@media print { .hw-offscreen { display: block !important; } }
+/* Native select intrinsic widths must not expand the phone's grid column. */
+[data-subject="homework"], [data-subject="homework"] .packet-page,
+[data-subject="homework"] .packet-page > *, [data-partition] { min-width: 0; }
+[data-subject="homework"] .packet-page { grid-template-columns: minmax(0, 1fr); }
+[data-partition] select { width: 100%; min-width: 0; }

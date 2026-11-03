@@ -91,6 +91,7 @@ export const ACTIVITIES = {
   ],
   // Homework (D23): this week's packet, Study Scoop's own version, to do on the computer.
   homework: [
+    ...['fractions', 'parts', 'fluency', 'comprehension'].map((id) => ({ id, label: {fractions:'Identifying Fractions',parts:'Recognizing the Parts / Write the Fraction',fluency:'Reading Fluency',comprehension:'Reading Comprehension'}[id], about:'Original activities for the received class assignment.', icon:'pencil', group:'homework' })),
     { id: 'packet', label: 'Do This Week\'s Homework', about: 'Every page of this week\'s packet, with Check, Help and a download.', icon: 'pencil', group: 'homework' },
   ],
 };

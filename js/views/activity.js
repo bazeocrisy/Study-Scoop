@@ -209,8 +209,8 @@ export function activityInner(ctx) {
   if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
   if (run.act === 'wreview') return wordCards(ctx, run);
   if (run.act === 'avreview' || run.act === 'avflash') return run.unavailable ? emptyRun(ctx, run) : (run.act === 'avreview' ? areaWordCards(ctx, run) : areaFlashcards(ctx, run));
+  if (run.packet && !run.unavailable) return packetPage(ctx, run);
   if (!run.items.length) return emptyRun(ctx, run);
-  if (run.packet) return packetPage(ctx, run);
   if (run.mode === 'test') return run.submitted ? testResults(ctx, run) : testQuestion(ctx, run);
   return run.finished ? practiceSummary(ctx, run) : practiceQuestion(ctx, run);
 }
