@@ -23,6 +23,7 @@ try {
    await route(act);expect(!(await text()).includes('Nothing to practice yet'),`${act} activity opens`);
    expect(await b.js('return document.documentElement.scrollWidth <= document.documentElement.clientWidth;'),`${width}: ${act} overflow`);
    expect(await visible('a[href^="#homework"]:not([href*="act="])')>0,'back to Homework exists');
+   expect(await b.js('return [...document.querySelectorAll("#act-stage button, #act-stage input, #act-stage select, #act-stage summary")].filter(el=>el.getClientRects().length).every(el=>el.getBoundingClientRect().height>=44);'), `${width}: ${act} touch targets`);
    if(['fractions','parts','comprehension'].includes(act))expect(await visible('form[data-item]')===1,'one question visible');
    if(act==='fluency')expect(await visible('[data-fluency]')===6,'six manual reading fields');
    if(process.env.SS_SHOTS){fs.mkdirSync(process.env.SS_SHOTS,{recursive:true});await b.shot(path.join(process.env.SS_SHOTS,`${act}-${width}.png`));}

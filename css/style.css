@@ -1170,3 +1170,4 @@ button.times-flashcard.is-flipped .times-product { color: var(--berry); }
 [data-subject="homework"] .packet-page > *, [data-partition] { min-width: 0; }
 [data-subject="homework"] .packet-page { grid-template-columns: minmax(0, 1fr); }
 [data-partition] select { width: 100%; min-width: 0; }
+[data-subject="homework"] summary { min-height: 44px; padding-block: 8px; cursor: pointer; }
