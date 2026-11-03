@@ -1,0 +1,1204 @@
+{
+  "week": "2026-11-02",
+  "title": "Homework: November 2–6",
+  "about": "Original Study Scoop activities matched to four received assignments. The copyrighted class photos and passage remain private. Use your class papers for teacher-assigned work; use these activities to practice and record your answers. Nothing is sent to your teacher or saved after you close the page.",
+  "pages": [
+    {
+      "id": "fractions",
+      "title": "Identifying Fractions",
+      "subject": "Math",
+      "directions": "Write the numerator (parts shaded) and denominator (all equal parts). Keep the denominator shown in the picture; you do not need to simplify. Then try the two drawing activities.",
+      "problems": [
+        {
+          "n": 1,
+          "items": [
+            {
+              "id": "f1",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 2,
+                "d": 3,
+                "kind": "bar"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 3
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 3 parts in all and 2 shaded parts.",
+                "The fraction is 2/3."
+              ],
+              "yes": "Yes! 2 out of 3 is 2/3.",
+              "explain": "The numerator counts 2 shaded parts. The denominator counts all 3 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 3,
+                    "b": 2
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "items": [
+            {
+              "id": "f2",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 1,
+                "d": 4,
+                "kind": "circle"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 4
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 4 parts in all and 1 shaded part.",
+                "The fraction is 1/4."
+              ],
+              "yes": "Yes! 1 out of 4 is 1/4.",
+              "explain": "The numerator counts 1 shaded part. The denominator counts all 4 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 4,
+                    "b": 1
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "items": [
+            {
+              "id": "f3",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 2,
+                "d": 6,
+                "kind": "bar"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 6
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 6 parts in all and 2 shaded parts.",
+                "The fraction is 2/6."
+              ],
+              "yes": "Yes! 2 out of 6 is 2/6.",
+              "explain": "The numerator counts 2 shaded parts. The denominator counts all 6 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 6,
+                    "b": 2
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "items": [
+            {
+              "id": "f4",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 5,
+                "d": 8,
+                "kind": "circle"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 5,
+                "b": 8
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 8 parts in all and 5 shaded parts.",
+                "The fraction is 5/8."
+              ],
+              "yes": "Yes! 5 out of 8 is 5/8.",
+              "explain": "The numerator counts 5 shaded parts. The denominator counts all 8 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 8,
+                    "b": 5
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "items": [
+            {
+              "id": "f5",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 3,
+                "d": 10,
+                "kind": "bar"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 3,
+                "b": 10
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 10 parts in all and 3 shaded parts.",
+                "The fraction is 3/10."
+              ],
+              "yes": "Yes! 3 out of 10 is 3/10.",
+              "explain": "The numerator counts 3 shaded parts. The denominator counts all 10 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 10,
+                    "b": 3
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "items": [
+            {
+              "id": "f6",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 1,
+                "d": 2,
+                "kind": "circle"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 2
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 2 parts in all and 1 shaded part.",
+                "The fraction is 1/2."
+              ],
+              "yes": "Yes! 1 out of 2 is 1/2.",
+              "explain": "The numerator counts 1 shaded part. The denominator counts all 2 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 2,
+                    "b": 1
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "items": [
+            {
+              "id": "f7",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 4,
+                "d": 6,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 4,
+                "b": 6
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 6 parts in all and 4 shaded parts.",
+                "The fraction is 4/6."
+              ],
+              "yes": "Yes! 4 out of 6 is 4/6.",
+              "explain": "The numerator counts 4 shaded parts. The denominator counts all 6 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 6,
+                    "b": 4
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "items": [
+            {
+              "id": "f8",
+              "type": "blanks",
+              "prompt": "What fraction of the whole or set is shaded?",
+              "fraction": {
+                "n": 3,
+                "d": 8,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 3,
+                "b": 8
+              },
+              "hints": [
+                "Count all the equal parts or objects for the bottom number.",
+                "Count only the shaded parts or objects for the top number."
+              ],
+              "show": [
+                "There are 8 parts in all and 3 shaded parts.",
+                "The fraction is 3/8."
+              ],
+              "yes": "Yes! 3 out of 8 is 3/8.",
+              "explain": "The numerator counts 3 shaded parts. The denominator counts all 8 parts.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 8,
+                    "b": 3
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "drawing": true
+    },
+    {
+      "id": "parts",
+      "title": "Recognizing the Parts / Write the Fraction",
+      "subject": "Math",
+      "directions": "For each set, count all the objects and then the marked objects. Next, write fractions from number words. Use the denominator named in the words.",
+      "problems": [
+        {
+          "n": 1,
+          "items": [
+            {
+              "id": "s1",
+              "type": "blanks",
+              "prompt": "What fraction of this set is marked with a dot?",
+              "fraction": {
+                "n": 1,
+                "d": 5,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 5
+              },
+              "hints": [
+                "Count every object, including the ones without a dot.",
+                "Count the dotted objects for the numerator."
+              ],
+              "show": [
+                "1 of the 5 objects have dots.",
+                "Write 1/5."
+              ],
+              "yes": "Yes! 1/5 of the set is marked.",
+              "explain": "Count 1 marked objects out of 5 total objects.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 5,
+                    "b": 1
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "items": [
+            {
+              "id": "s2",
+              "type": "blanks",
+              "prompt": "What fraction of this set is marked with a dot?",
+              "fraction": {
+                "n": 3,
+                "d": 7,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 3,
+                "b": 7
+              },
+              "hints": [
+                "Count every object, including the ones without a dot.",
+                "Count the dotted objects for the numerator."
+              ],
+              "show": [
+                "3 of the 7 objects have dots.",
+                "Write 3/7."
+              ],
+              "yes": "Yes! 3/7 of the set is marked.",
+              "explain": "Count 3 marked objects out of 7 total objects.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 7,
+                    "b": 3
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "items": [
+            {
+              "id": "s3",
+              "type": "blanks",
+              "prompt": "What fraction of this set is marked with a dot?",
+              "fraction": {
+                "n": 2,
+                "d": 8,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 8
+              },
+              "hints": [
+                "Count every object, including the ones without a dot.",
+                "Count the dotted objects for the numerator."
+              ],
+              "show": [
+                "2 of the 8 objects have dots.",
+                "Write 2/8."
+              ],
+              "yes": "Yes! 2/8 of the set is marked.",
+              "explain": "Count 2 marked objects out of 8 total objects.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 8,
+                    "b": 2
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "items": [
+            {
+              "id": "s4",
+              "type": "blanks",
+              "prompt": "What fraction of this set is marked with a dot?",
+              "fraction": {
+                "n": 5,
+                "d": 9,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 5,
+                "b": 9
+              },
+              "hints": [
+                "Count every object, including the ones without a dot.",
+                "Count the dotted objects for the numerator."
+              ],
+              "show": [
+                "5 of the 9 objects have dots.",
+                "Write 5/9."
+              ],
+              "yes": "Yes! 5/9 of the set is marked.",
+              "explain": "Count 5 marked objects out of 9 total objects.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 9,
+                    "b": 5
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "items": [
+            {
+              "id": "s5",
+              "type": "blanks",
+              "prompt": "What fraction of this set is marked with a dot?",
+              "fraction": {
+                "n": 4,
+                "d": 10,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 4,
+                "b": 10
+              },
+              "hints": [
+                "Count every object, including the ones without a dot.",
+                "Count the dotted objects for the numerator."
+              ],
+              "show": [
+                "4 of the 10 objects have dots.",
+                "Write 4/10."
+              ],
+              "yes": "Yes! 4/10 of the set is marked.",
+              "explain": "Count 4 marked objects out of 10 total objects.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 10,
+                    "b": 4
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "items": [
+            {
+              "id": "s6",
+              "type": "blanks",
+              "prompt": "What fraction of this set is marked with a dot?",
+              "fraction": {
+                "n": 2,
+                "d": 6,
+                "kind": "set"
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 6
+              },
+              "hints": [
+                "Count every object, including the ones without a dot.",
+                "Count the dotted objects for the numerator."
+              ],
+              "show": [
+                "2 of the 6 objects have dots.",
+                "Write 2/6."
+              ],
+              "yes": "Yes! 2/6 of the set is marked.",
+              "explain": "Count 2 marked objects out of 6 total objects.",
+              "retry": "The numerator counts shaded or marked parts. The denominator counts ALL equal parts or objects.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 6,
+                    "b": 2
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 7,
+          "items": [
+            {
+              "id": "w1",
+              "type": "blanks",
+              "prompt": "Write two-fifths as a fraction.",
+              "fractionWords": {
+                "n": 2,
+                "d": 5
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 5
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "two-fifths means 2 parts out of 5.",
+                "Write 2/5."
+              ],
+              "yes": "Yes! two-fifths is 2/5.",
+              "explain": "The top number is 2; the bottom number is 5.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 5,
+                    "b": 2
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 8,
+          "items": [
+            {
+              "id": "w2",
+              "type": "blanks",
+              "prompt": "Write one-third as a fraction.",
+              "fractionWords": {
+                "n": 1,
+                "d": 3
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 3
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "one-third means 1 part out of 3.",
+                "Write 1/3."
+              ],
+              "yes": "Yes! one-third is 1/3.",
+              "explain": "The top number is 1; the bottom number is 3.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 3,
+                    "b": 1
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 9,
+          "items": [
+            {
+              "id": "w3",
+              "type": "blanks",
+              "prompt": "Write three-eighths as a fraction.",
+              "fractionWords": {
+                "n": 3,
+                "d": 8
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 3,
+                "b": 8
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "three-eighths means 3 parts out of 8.",
+                "Write 3/8."
+              ],
+              "yes": "Yes! three-eighths is 3/8.",
+              "explain": "The top number is 3; the bottom number is 8.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 8,
+                    "b": 3
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 10,
+          "items": [
+            {
+              "id": "w4",
+              "type": "blanks",
+              "prompt": "Write five-sixths as a fraction.",
+              "fractionWords": {
+                "n": 5,
+                "d": 6
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 5,
+                "b": 6
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "five-sixths means 5 parts out of 6.",
+                "Write 5/6."
+              ],
+              "yes": "Yes! five-sixths is 5/6.",
+              "explain": "The top number is 5; the bottom number is 6.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 6,
+                    "b": 5
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 11,
+          "items": [
+            {
+              "id": "w5",
+              "type": "blanks",
+              "prompt": "Write seven-tenths as a fraction.",
+              "fractionWords": {
+                "n": 7,
+                "d": 10
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 7,
+                "b": 10
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "seven-tenths means 7 parts out of 10.",
+                "Write 7/10."
+              ],
+              "yes": "Yes! seven-tenths is 7/10.",
+              "explain": "The top number is 7; the bottom number is 10.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 10,
+                    "b": 7
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 12,
+          "items": [
+            {
+              "id": "w6",
+              "type": "blanks",
+              "prompt": "Write two-fourths as a fraction.",
+              "fractionWords": {
+                "n": 2,
+                "d": 4
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 4
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "two-fourths means 2 parts out of 4.",
+                "Write 2/4."
+              ],
+              "yes": "Yes! two-fourths is 2/4.",
+              "explain": "The top number is 2; the bottom number is 4.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 4,
+                    "b": 2
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 13,
+          "items": [
+            {
+              "id": "w7",
+              "type": "blanks",
+              "prompt": "Write four-sevenths as a fraction.",
+              "fractionWords": {
+                "n": 4,
+                "d": 7
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 4,
+                "b": 7
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "four-sevenths means 4 parts out of 7.",
+                "Write 4/7."
+              ],
+              "yes": "Yes! four-sevenths is 4/7.",
+              "explain": "The top number is 4; the bottom number is 7.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 7,
+                    "b": 4
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 14,
+          "items": [
+            {
+              "id": "w8",
+              "type": "blanks",
+              "prompt": "Write one-sixth as a fraction.",
+              "fractionWords": {
+                "n": 1,
+                "d": 6
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 6
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "one-sixth means 1 part out of 6.",
+                "Write 1/6."
+              ],
+              "yes": "Yes! one-sixth is 1/6.",
+              "explain": "The top number is 1; the bottom number is 6.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 6,
+                    "b": 1
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 15,
+          "items": [
+            {
+              "id": "w9",
+              "type": "blanks",
+              "prompt": "Write six-tenths as a fraction.",
+              "fractionWords": {
+                "n": 6,
+                "d": 10
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 6,
+                "b": 10
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "six-tenths means 6 parts out of 10.",
+                "Write 6/10."
+              ],
+              "yes": "Yes! six-tenths is 6/10.",
+              "explain": "The top number is 6; the bottom number is 10.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 10,
+                    "b": 6
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 16,
+          "items": [
+            {
+              "id": "w10",
+              "type": "blanks",
+              "prompt": "Write three-fourths as a fraction.",
+              "fractionWords": {
+                "n": 3,
+                "d": 4
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 3,
+                "b": 4
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "three-fourths means 3 parts out of 4.",
+                "Write 3/4."
+              ],
+              "yes": "Yes! three-fourths is 3/4.",
+              "explain": "The top number is 3; the bottom number is 4.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 4,
+                    "b": 3
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 17,
+          "items": [
+            {
+              "id": "w11",
+              "type": "blanks",
+              "prompt": "Write four-ninths as a fraction.",
+              "fractionWords": {
+                "n": 4,
+                "d": 9
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 4,
+                "b": 9
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "four-ninths means 4 parts out of 9.",
+                "Write 4/9."
+              ],
+              "yes": "Yes! four-ninths is 4/9.",
+              "explain": "The top number is 4; the bottom number is 9.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 9,
+                    "b": 4
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "n": 18,
+          "items": [
+            {
+              "id": "w12",
+              "type": "blanks",
+              "prompt": "Write one-eighth as a fraction.",
+              "fractionWords": {
+                "n": 1,
+                "d": 8
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 8
+              },
+              "hints": [
+                "The first word tells how many parts are being described.",
+                "The ending word names the size of each part and tells the denominator."
+              ],
+              "show": [
+                "one-eighth means 1 part out of 8.",
+                "Write 1/8."
+              ],
+              "yes": "Yes! one-eighth is 1/8.",
+              "explain": "The top number is 1; the bottom number is 8.",
+              "retry": "The first word tells the numerator. The ending word tells how many equal parts make the whole: the denominator.",
+              "mistakes": [
+                {
+                  "when": {
+                    "a": 8,
+                    "b": 1
+                  },
+                  "say": "Your numbers are switched. Put the selected number of parts on top and the total number of equal parts on the bottom."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fluency",
+      "title": "My Favorite Author — Reading Fluency",
+      "subject": "Reading",
+      "directions": "Use your class paper for the assigned reading. A grown-up listens while you read aloud, counts words read correctly and errors, and records all three attempts. This website does not listen to or automatically score your reading. Follow your teacher’s timing directions; no timing length is printed on the supplied page.",
+      "problems": [],
+      "fluency": true,
+      "passage": {
+        "title": "A Book Worth Waiting For — original optional practice",
+        "text": "On Saturday, I carried my library bag into the reading room. A poster announced a new mystery by a writer whose stories always surprised me. I asked for a copy, but every book was already checked out. The librarian offered to put my name on a waiting list. I wanted to discover the ending that afternoon, so I decided to spend some of my saved allowance at the bookstore. Before buying it, I read the first page to make sure the story was right for me. At home, I made a quiet corner beside the window. I placed a cushion on the rug and set a glass of water on a small table. The afternoon light fell across my pages. My brother was playing a noisy game nearby, so I asked if he could move to the kitchen. Soon the room was peaceful. I opened the book and began following the clues. When I finished the first chapter, I stopped to explain the mystery to my brother. He asked to hear more, and we agreed to read the next chapter together."
+      }
+    },
+    {
+      "id": "comprehension",
+      "title": "My Favorite Author — Comprehension",
+      "subject": "Reading",
+      "directions": "Read your private class passage first. Answer these two classroom tasks in complete sentences and restate the question. A grown-up checks meaning against the class paper. The website checks sentence structure only; it cannot grade your understanding. Responses last only for this visit. Print to keep your work.",
+      "problems": [
+        {
+          "n": 1,
+          "items": [
+            {
+              "id": "c1",
+              "type": "sentence",
+              "prompt": "Describe the author’s perfect place to read in My Favorite Author.",
+              "example": "The author enjoys a sunny reading spot with a cozy blanket, a pet nearby, and a warm drink.",
+              "keywords": [
+                "author",
+                "read"
+              ],
+              "minKeywords": 0,
+              "minWords": 6,
+              "hints": [
+                "Restate the question in your own words.",
+                "Look back at the class passage for details that explain your answer."
+              ],
+              "show": [
+                "Write a complete sentence that answers the question.",
+                "The author enjoys a sunny reading spot with a cozy blanket, a pet nearby, and a warm drink."
+              ],
+              "yes": "Compare your answer with a grown-up.",
+              "explain": "A grown-up checks that your sentence answers the question using details from the class passage."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "items": [
+            {
+              "id": "c2",
+              "type": "sentence",
+              "prompt": "Explain why the author buys a new book by a favorite writer instead of waiting for a library copy.",
+              "example": "The author buys the new book because they are excited to read it immediately and do not want to wait for the library.",
+              "keywords": [
+                "author",
+                "book"
+              ],
+              "minKeywords": 0,
+              "minWords": 6,
+              "hints": [
+                "Restate the question in your own words.",
+                "Look back at the class passage for details that explain your answer."
+              ],
+              "show": [
+                "Write a complete sentence that answers the question.",
+                "The author buys the new book because they are excited to read it immediately and do not want to wait for the library."
+              ],
+              "yes": "Compare your answer with a grown-up.",
+              "explain": "A grown-up checks that your sentence answers the question using details from the class passage."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

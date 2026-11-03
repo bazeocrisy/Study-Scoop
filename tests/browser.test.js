@@ -9,7 +9,9 @@ import { pictureName } from '../js/lib/data.js';
 import { roundParts } from '../js/lib/rounding.js';
 
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const INDEX = readJSON('data/weeks.json');
+// Preserve the historical Oct 26 student journeys as weeks roll forward.
+// The November homework suite tests the actual current-week index without overlays.
+const INDEX = readJSON('tests/fixtures/data/weeks-regression.json');
 const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['math', 'Math'],
   ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
@@ -102,7 +104,7 @@ async function helpers(b) { await b.js(PAGE_HELPERS); }
 
 async function main() {
   if (SITE) console.log(`Serving the built site: ${SITE}`);
-  const server = await startServer({ root: SITE || ROOT });
+  const server = await startServer({ root: SITE || ROOT, overlay: { 'data/weeks.json': 'tests/fixtures/data/weeks-regression.json' } });
   const b = await startBrowser();
   const url = (h = '') => `${server.origin}${BASE}${h}`;
   try {

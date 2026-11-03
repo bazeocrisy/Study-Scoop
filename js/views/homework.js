@@ -17,6 +17,8 @@ export function homeworkView(ctx) {
       ? `${received.length} classroom ${received.length === 1 ? 'assignment was' : 'assignments were'} received for this week.`
       : 'No classroom worksheets have been received for this week yet.')}
 
+    ${ctx.packet?.pages.some(pg=>pg.subject) ? html`<div class="hw-activity-grid">${['Math','Reading'].map(subject=>html`<section class="card"><h2>${subject}</h2>${ctx.packet.pages.filter(pg=>pg.subject===subject).map(pg=>html`<p><a class="btn btn-primary" href="${ctx.actLink('homework',pg.id)}">${pg.title}</a></p>`)}</section>`)}</div>` : ''}
+
     ${ctx.packet ? html`
       <section class="card packet-card" aria-labelledby="h-packet">
         <h2 id="h-packet">Do this week's homework on the computer</h2>
@@ -34,6 +36,7 @@ export function homeworkView(ctx) {
           ${items.map((h, i) => {
             const src = SOURCE[h.source] || SOURCE.newsletter;
             return html`
+              ${h.subject && h.subject !== items[i-1]?.subject ? html`<li class="hw-subject"><h3>${h.subject}</h3></li>` : ''}
               <li class="card hw hw-${h.source || 'newsletter'}">
                 <div class="hw-head">
                   ${h.subject ? html`<span class="chip subject">${h.subject}</span>` : ''}

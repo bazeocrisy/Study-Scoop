@@ -1,3 +1,4 @@
+import { mountPacketTools } from './views/packet-tools.js';
 // Activity player: the DOM code for Spelling, Vocabulary and Math practice and for the practice tests (DECISIONS D18, D19).
 // Progress, misses and test answers live in memory for this visit only (never stored), keyed by week, so weeks never mix.
 import { check, helpSteps, solution } from './lib/lessons.js';
@@ -75,7 +76,7 @@ function newRun(ctx, section, act) {
   else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
   else if (section === 'skills') run.items = SKILL_SETS[act].make(rand);
   // The homework packet: every page at once, in order (not shuffled), like the paper packet.
-  else if (section === 'homework') { run.items = packetItems(ctx.packet); run.packet = true; run.unavailable = !ctx.packet; }
+  else if (section === 'homework') { run.items = packetItems(ctx.packet).filter((it) => act === 'packet' || it.page === act); run.packet = true; run.unavailable = !ctx.packet || (act !== 'packet' && !ctx.packet.pages.some((pg) => pg.id === act)); }
   else if (section === 'vocab') run.items = shuffleRounds(vocabItems(ctx.week, act, rand), rand);
   else run.items = shuffleRounds(spellingItems(ctx.week, act), rand);
   return run;
@@ -151,6 +152,7 @@ function speak(parts, { rate = 0.9, btn = null, onfail = () => {} } = {}) {
 
 // ---------------------------------------------------------------- mount
 export function mountActivity(app, ctx, signal) {
+  if (ctx.run.packet) mountPacketTools(app, () => run, signal, () => rerender('#stage-h'));
   const key = () => `${ctx.weekId}:${ctx.section}:${ctx.run.act}`;
   const live = document.getElementById('live');
   const area = () => app.querySelector('#act-stage');
@@ -282,7 +284,7 @@ export function mountActivity(app, ctx, signal) {
     // In the homework packet, a right answer moves on to the next question on the page.
     const after = run.packet ? run.items[run.items.findIndex((it) => it.id === item.id) + 1] : null;
     rerender(r.status === 'correct'
-      ? (after ? [`form[data-item="${after.id}"] input:not([disabled])`, `form[data-item="${after.id}"] textarea`, '[data-act="next"]:not([disabled])'] : ['[data-act="next"]:not([disabled])', '[data-act="print"]'])
+      ? (run.packet && run.act !== 'packet' ? ['[data-hw-nav="1"]:not([disabled])', '#stage-h'] : after ? [`form[data-item="${after.id}"] input:not([disabled])`, `form[data-item="${after.id}"] textarea`, '[data-act="next"]:not([disabled])'] : ['[data-act="next"]:not([disabled])', '[data-act="print"]'])
       // Focus stays on what the child chose (never on another answer, which would hint at it).
       : [`form[data-item="${item.id}"] input[type=radio]:checked`, `form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea`]);
   }

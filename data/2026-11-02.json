@@ -76,10 +76,54 @@
   ],
   "homework": [
     {
-      "title": "Weekly homework packet",
-      "due": "Friday, Nov 6 (sent home Monday, Nov 2)",
-      "source": "newsletter",
-      "status": "Listed on the newsletter. This week’s physical packet has not been uploaded."
+      "title": "Identifying Fractions — page 61",
+      "subject": "Math",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class paper received. Open Study Scoop’s original equivalent below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "fractions",
+        "label": "Open activity"
+      }
+    },
+    {
+      "title": "Recognizing the Parts — page 63",
+      "subject": "Math",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class paper received. Open Study Scoop’s original equivalent below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "parts",
+        "label": "Open activity"
+      }
+    },
+    {
+      "title": "My Favorite Author — fluency reading",
+      "subject": "Reading",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class paper received. Open Study Scoop’s original equivalent below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "fluency",
+        "label": "Open activity"
+      },
+      "description": "Parent-assisted tracker for three reads of the private class passage, plus an original practice passage."
+    },
+    {
+      "title": "My Favorite Author — comprehension",
+      "subject": "Reading",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class paper received. Open Study Scoop’s original equivalent below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "comprehension",
+        "label": "Open activity"
+      },
+      "description": "Describe the author’s ideal reading spot and explain why the author buys a new book instead of waiting for the library. Restate each question and answer in complete sentences."
     },
     {
       "title": "Reading Log",

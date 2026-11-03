@@ -30,12 +30,16 @@ export function validatePacket(packet, weekId) {
     if (!/^[a-z]+$/.test(pg?.id || '') || pageIds.has(pg.id)) err(`pages[${i}].id must be a different lowercase word`);
     pageIds.add(pg?.id);
     if (typeof pg?.title !== 'string' || !pg.title.trim()) err(`pages[${i}].title is missing`);
-    if (!Array.isArray(pg?.problems) || !pg.problems.length) err(`pages[${i}] has no problems`);
+    if (!Array.isArray(pg?.problems) || (!pg.problems.length && !pg.fluency)) err(`pages[${i}] has no problems`);
     else pg.problems.forEach((pr, k) => {
       if (pr.n !== k + 1) err(`pages[${i}].problems[${k}].n must be ${k + 1}`);
       if (!Array.isArray(pr.items) || !pr.items.length) err(`pages[${i}].problems[${k}] has no questions`);
     });
     if (pg?.passage && (typeof pg.passage.text !== 'string' || pg.passage.text.split(/\s+/).length < 40)) err(`pages[${i}].passage needs a story of at least 40 words`);
   });
+  for (const it of packetItems(packet)) {
+    const f = it.fraction || it.fractionWords;
+    if (f && (!Number.isInteger(f.n) || !Number.isInteger(f.d) || f.n < 0 || f.n > f.d || f.d < 2 || f.d > 12 || (it.fraction && !['bar','circle','set'].includes(f.kind)) || Number(it.answer?.a) !== f.n || Number(it.answer?.b) !== f.d)) err(`${it.id}: fraction picture/words must match numerator and denominator`);
+  }
   return [...errors, ...validateQuiz(packetItems(packet), 1, `homework/${weekId}.json`)];
 }
