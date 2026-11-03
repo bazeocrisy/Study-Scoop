@@ -76,10 +76,32 @@
   ],
   "homework": [
     {
-      "title": "Weekly homework packet",
-      "due": "Friday, Nov 6 (sent home Monday, Nov 2)",
-      "source": "newsletter",
-      "status": "Listed on the newsletter. This week’s physical packet has not been uploaded."
+      "title": "Identifying Fractions — page 61",
+      "subject": "Math",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class worksheet received Nov 2. Identify shaded parts of shapes and draw equal halves/eighths. Original photographed sheet retained privately; not published."
+    },
+    {
+      "title": "Recognizing the Parts — page 63",
+      "subject": "Math",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class worksheet received Nov 2. Identify fractions of sets and write fractions from number words. Original photographed sheet retained privately; not published."
+    },
+    {
+      "title": "My Favorite Author — fluency reading",
+      "subject": "Reading",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class reading passage received Nov 2. Read aloud and record words read right and errors for up to three readings. Original photographed sheet retained privately; not published."
+    },
+    {
+      "title": "My Favorite Author — comprehension",
+      "subject": "Reading",
+      "due": "Friday, Nov 6",
+      "source": "received",
+      "status": "Class question sheet received Nov 2. Answer two questions in complete sentences: describe the ideal reading spot; explain buying a new book rather than waiting for the library. Original photographed sheet retained privately; not published."
     },
     {
       "title": "Reading Log",
