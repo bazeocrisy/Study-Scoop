@@ -111,7 +111,7 @@ test('comprehension preserves author-based questions and clearly limits automate
   assert.match(pg.directions, /cannot grade your understanding/);
 });
 
-test('November public packet has original practice text and no source photographs or student identifiers', () => {
+test('November interactive packet keeps optional practice separate from reviewed originals', () => {
   const raw = JSON.stringify({week, packet});
   assert.doesNotMatch(raw, /\bChris\b|Christopher|Bazemore|IMG_301[1-4]|homework-private|Is there anything better than curling up/);
   assert.equal(week.homeworkPapers.pages.length, 4);
