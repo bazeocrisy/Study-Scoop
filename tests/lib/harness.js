@@ -21,6 +21,9 @@ export async function startServer({ overlay = {}, root = ROOT } = {}) {
   const missing = [];
   const server = http.createServer((req, res) => {
     const url = decodeURIComponent(req.url.split('?')[0]);
+    // Chrome requests a tab icon when an original image opens in a new tab.
+    // No icon is supplied; answer that browser-generated request without recording a broken app link.
+    if (url === '/favicon.ico') { res.writeHead(204).end(); return; }
     if (!url.startsWith(BASE)) { missing.push(url); res.writeHead(404).end(); return; }
     const rel = url.slice(BASE.length) || 'index.html';
     const base = overlay[rel] ? ROOT : root;
