@@ -94,7 +94,7 @@ function validateFlyer(f, id, report, field = 'flyer', folder = 'flyers') {
   f.pages.forEach((pg, i) => {
     const at = `flyer.pages[${i}]`;
     if (!isObj(pg)) return err(`${at} must be an object`);
-    if (typeof pg.src !== 'string' || !new RegExp(`^images/${folder}/${id}-[a-z]+\\.webp$`).test(pg.src)) err(`${at}.src must be images/${folder}/${id}-<page>.webp`);
+    if (typeof pg.src !== 'string' || !new RegExp(`^images/${folder}/${id}-[a-z]+(?:-[a-z]+)*\\.webp$`).test(pg.src)) err(`${at}.src must be images/${folder}/${id}-<page>.webp`);
     for (const k of ['label', 'alt']) if (!isText(pg[k])) err(`${at}.${k} is missing`);
     for (const k of ['width', 'height']) if (!Number.isInteger(pg[k]) || pg[k] < 400) err(`${at}.${k} must be the image size in pixels`);
   });

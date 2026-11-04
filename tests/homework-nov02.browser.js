@@ -29,6 +29,36 @@ try {
    if(process.env.SS_SHOTS){fs.mkdirSync(process.env.SS_SHOTS,{recursive:true});await b.shot(path.join(process.env.SS_SHOTS,`${act}-${width}.png`));}
   }
  }
+ // Original papers: real images, download clicks, full-size tabs and Letter printing.
+ const papers=JSON.parse(fs.readFileSync(new URL('../data/2026-11-02.json',import.meta.url),'utf8')).homeworkPapers.pages;
+ const downloadDir=fs.mkdtempSync('/tmp/ss-original-downloads-');
+ await b.send('Browser.setDownloadBehavior',{behavior:'allow',downloadPath:downloadDir});
+ await b.viewport(1366,900);await route();
+ expect(await visible('.homework-papers img')===4,'exactly four original sheets');
+ expect(await b.js('return JSON.stringify([...document.querySelectorAll(".homework-papers img")].map(im=>im.getAttribute("src")))')===JSON.stringify(papers.map(p=>p.src)),'original sheet order');
+ for(let i=0;i<papers.length;i++){
+  await b.js(`const im=document.querySelectorAll('.homework-papers img')[${i}];im.loading='eager';await im.decode();`);
+  expect(await b.js(`const im=document.querySelectorAll('.homework-papers img')[${i}];return im.naturalWidth===1200&&im.naturalHeight===1553;`),'image decodes at full resolution');
+  await b.clickAt(`.homework-papers figure:nth-child(${i+1}) a[download]`);
+  const file=path.join(downloadDir,path.basename(papers[i].src));
+  for(let n=0;n<100&&!fs.existsSync(file);n++)await b.wait(50);
+  expect(fs.existsSync(file)&&fs.statSync(file).size>50000,'worksheet download saved');
+  if(server)expect(fs.readFileSync(file).equals(fs.readFileSync(path.join(arg('--site')||ROOT,papers[i].src))),'download matches repository image bytes');
+  await b.clickAt(`.homework-papers figure:nth-child(${i+1}) a[target="_blank"]`);
+  const targets=await b.send('Target.getTargets');
+  const target=targets.result.targetInfos.find(t=>t.url===new URL(papers[i].src,base).href);
+  expect(!!target,'full-size tab opens correct original');
+  if(target)await b.send('Target.closeTarget',{targetId:target.targetId});
+ }
+ await b.initScript('window.print=()=>{window.__homeworkPrinted=true;};');
+ await b.load(base+'#homework?week=2026-11-02');
+ await b.clickAt('.homework-papers [data-act=print]');
+ expect(await b.js('return window.__homeworkPrinted===true;'),'Print the homework calls print');
+ await b.js('await Promise.all([...document.querySelectorAll(".homework-papers img")].map(im=>{im.loading="eager";return im.decode();}));');
+ const printed=await b.send('Page.printToPDF',{paperWidth:8.5,paperHeight:11,printBackground:true,displayHeaderFooter:false});
+ expect(!!printed.result?.data,'Letter PDF generated');
+ fs.writeFileSync(path.join(downloadDir,'originals-letter.pdf'),Buffer.from(printed.result.data,'base64'));
+ console.log('Original worksheets download and print evidence: '+downloadDir);
  await b.viewport(390,844);await route('fractions');
  expect(await visible('[data-act=help]')===0,'answers and help hidden before attempt');
  await submitItem('f1',3,2);expect((await text()).includes('numbers are switched'),'explanatory incorrect feedback');expect(await visible('[data-act=help]')===1,'Help after attempt');

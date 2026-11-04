@@ -29,7 +29,7 @@ export const ALLOW = [
   /^images\/words\/[a-z0-9-]+\.(?:svg|webp)$/,
   // Original newsletter flyers, only after a privacy review recorded in the week file (D26). Raw photos stay in images/newsletters (never published).
   /^images\/flyers\/\d{4}-\d{2}-\d{2}-[a-z]+\.webp$/,
-  /^images\/homework\/\d{4}-\d{2}-\d{2}-[a-z]+\.webp$/,
+  /^images\/homework\/\d{4}-\d{2}-\d{2}-[a-z]+(?:-[a-z]+)*\.webp$/,
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */

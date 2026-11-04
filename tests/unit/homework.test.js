@@ -103,7 +103,7 @@ test('original homework gallery offers individual image downloads and missing-we
   const shown = String(homeworkPapersSection(week));
   assert.equal((shown.match(/download>Download worksheet image/g) || []).length, 4);
   for (const page of week.homeworkPapers.pages) assert.ok(shown.includes(page.src), page.src);
-  const pending = String(homeworkPapersSection(read('data/2026-11-02.json')));
+  const pending = String(homeworkPapersSection({}));
   assert.match(pending, /not yet available/);
   assert.doesNotMatch(pending, /download>Download worksheet image/);
 });
