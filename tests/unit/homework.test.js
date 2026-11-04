@@ -95,3 +95,15 @@ test('Oct 26 originals are reviewed, all four pages are published, and an unrevi
     assert.ok(verifySite(out).some((p) => /homeworkPapers.reviewed/.test(p)));
   } finally { fs.rmSync(src, { recursive: true, force: true }); fs.rmSync(out, { recursive: true, force: true }); }
 });
+
+
+test('original homework gallery offers individual image downloads and missing-week notice', async () => {
+  const { homeworkPapersSection } = await import('../../js/views/homework.js');
+  const week = read('data/2026-10-26.json');
+  const shown = String(homeworkPapersSection(week));
+  assert.equal((shown.match(/download>Download worksheet image/g) || []).length, 4);
+  for (const page of week.homeworkPapers.pages) assert.ok(shown.includes(page.src), page.src);
+  const pending = String(homeworkPapersSection(read('data/2026-11-02.json')));
+  assert.match(pending, /not yet available/);
+  assert.doesNotMatch(pending, /download>Download worksheet image/);
+});

@@ -81,16 +81,24 @@ function practiceHref(ctx, p) {
 /** Original classroom papers supplied and explicitly requested by the owner. */
 export function homeworkPapersSection(week) {
   const papers = week.homeworkPapers;
-  if (!papers?.reviewed || !papers.pages?.length) return '';
+  if (!papers?.reviewed || !papers.pages?.length) return html`<section class="card homework-papers" aria-labelledby="h-papers">
+    <h2 id="h-papers">Original homework papers</h2>
+    <p>The classroom scans for this week are not yet available here. You can use the Study Scoop homework activities above while the originals are prepared and privacy-reviewed.</p>
+  </section>`;
   return html`<section class="card flyer homework-papers" aria-labelledby="h-papers">
     <div class="instruct-head"><h2 id="h-papers">Original homework papers</h2>
       <span class="btn-row no-print"><button type="button" class="btn" data-act="zoom" aria-pressed="false">Zoom in</button>
       <button type="button" class="btn" data-act="print">Print the homework</button></span></div>
-    <p class="hint no-print">All ${papers.pages.length} pages from school. Open a page to read or save it full size. Handwritten examples on the supplied papers are included.</p>
+    <p class="hint no-print">All ${papers.pages.length} pages from school. Open a page full size, download each worksheet image, or print the pages. Handwritten examples on the supplied papers are included.</p>
     <div class="flyer-pages">
       ${papers.pages.map((pg) => html`<figure class="flyer-page">
         <div class="flyer-scroll" tabindex="0" role="region" aria-label="${pg.label}"><img src="${pg.src}" alt="${pg.alt}" width="${pg.width}" height="${pg.height}" loading="lazy" decoding="async"></div>
-        <figcaption>${pg.label} <a class="no-print" href="${pg.src}" target="_blank" rel="noopener">Open full size<span class="sr-only"> (${pg.label}, opens in a new tab)</span></a></figcaption>
+        <figcaption>${pg.label}
+          <span class="no-print">
+            <a href="${pg.src}" target="_blank" rel="noopener">Open full size<span class="sr-only"> (${pg.label}, opens in a new tab)</span></a>
+            <a href="${pg.src}" download>Download worksheet image<span class="sr-only"> (${pg.label})</span></a>
+          </span>
+        </figcaption>
       </figure>`)}
     </div>
   </section>`;
