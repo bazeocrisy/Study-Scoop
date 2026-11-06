@@ -131,7 +131,12 @@
         "Rosa moved the table by the park.",
         "They sold every cup."
       ],
-      "find": 12
+      "find": [
+        6,
+        7,
+        12,
+        14
+      ]
     },
     "solution": {
       "answer": "Rosa moved the table to where many families were",

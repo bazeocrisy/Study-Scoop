@@ -1296,3 +1296,88 @@ ol.rd-key { list-style: decimal; padding-left: 1.4em; }
 .rd-apanel { padding: 10px 14px; border: 2px solid var(--teal); border-top: 0; border-radius: 0 0 var(--r) var(--r); background: var(--well); display: grid; gap: 4px; }
 .rd-apanel ol { margin: 0; padding-left: 1.4em; }
 .rd-key { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+
+/* ---- Reading Coach: comprehension upgrade (DECISIONS D28) ------------------------------------------------------------ */
+/* the recommended path, and the steps row with optional activities marked in words (never by colour alone) */
+.rd-path { margin: 0; padding: 10px 14px; border-radius: var(--r); background: var(--honey-tint); border: 2px solid var(--honey); font-size: 1rem; }
+.rd-step.is-optional { border-style: dashed; }
+.rd-step small { display: block; font-size: .78rem; font-weight: 700; color: var(--muted); line-height: 1.1; }
+.rd-step.is-now small { color: inherit; }
+
+/* two kinds of "next": a small sentence button inside the echo box, and a big activity button in the footer bar */
+.rd-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 14px; padding-top: 14px; border-top: 3px solid var(--line-strong); }
+.rd-navright { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: flex-end; }
+.rd-actnav { min-height: 48px; }
+.rd-actnext { min-height: 52px; font-size: 1.1rem; padding-inline: 20px; }
+.rd-sentbox { display: grid; gap: 10px; padding: 14px 16px; border: 3px dashed var(--teal); border-radius: var(--r); background: var(--teal-tint); }
+.rd-sentcount { font-weight: 800; color: var(--teal); }
+.rd-sentnav { display: flex; flex-wrap: wrap; gap: 8px; }
+.rd-sentbtn { min-height: 44px; font-size: 1rem; border-style: dashed; border-color: var(--teal); background: var(--paper); }
+.rd-sentnext { border-style: solid; font-weight: 800; }
+
+/* one question: skill, status in words, help, look back */
+.rd-qhead { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.rd-qn { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--sunk); font-weight: 800; font-size: .95rem; }
+.rd-skill { font-size: .9rem; font-weight: 700; color: var(--muted); }
+.rd-status { padding: 1px 10px; border-radius: 999px; font-size: .9rem; font-weight: 700; border: 2px solid var(--line-strong); background: var(--paper); }
+.rd-status.st-independent { background: var(--ok-tint); border-color: var(--ok); }
+.rd-status.st-withHelp { background: var(--honey-tint); border-color: var(--honey); }
+.rd-status.st-practicing { background: var(--peach-tint); border-color: var(--peach); }
+.rd-status.st-self, .rd-status.st-selfAssessed, .rd-status.st-reviewed { background: var(--teal-tint); border-color: var(--teal); }
+.rd-round { font-size: .85rem; font-weight: 700; color: var(--muted); }
+.rd-progress { font-weight: 700; margin: 0; }
+.rd-follow { display: grid; gap: 8px; padding-top: 8px; border-top: 2px dotted var(--line-strong); }
+.rd-followask { margin: 0; }
+.rd-helprow { margin: 0; }
+.rd-hints { display: grid; gap: 8px; }
+.rd-hint { padding: 8px 12px; border-radius: var(--r-sm); background: var(--honey-tint); border-left: 6px solid var(--honey); }
+.rd-hint-3 { background: var(--teal-tint); border-left-color: var(--teal); }
+.rd-hint ul { margin: 4px 0 0; padding-left: 1.3em; }
+.rd-explain { margin: 0; padding: 8px 12px; border-radius: var(--r-sm); background: var(--sunk); }
+.rd-tfchoices { grid-template-columns: repeat(2, minmax(0, 12rem)); }
+.rd-check { display: flex; align-items: flex-start; gap: 10px; min-height: 44px; font-weight: 400; }
+.rd-check input { width: 24px; height: 24px; flex: none; accent-color: var(--berry); margin-top: 2px; }
+
+/* look back: the story opens right under the question, nothing else moves or resets */
+.rd-lb { padding: 12px 16px; margin-top: 6px; border: 3px solid var(--berry); border-radius: var(--r); background: var(--berry-tint); display: grid; gap: 4px; }
+.rd-lb h4 { margin: 0; font-family: var(--display); font-size: 1.2rem; }
+.rd-lb-s { margin: 0; line-height: 1.6; }
+.rd-lb-s.is-here { padding: 4px 8px; background: var(--paper); border-left: 6px solid var(--berry); font-weight: 700; }
+.rd-here { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--berry-dark); }
+
+/* writing */
+.rd-textarea { width: 100%; max-width: 44rem; min-height: 7rem; font: inherit; line-height: 1.5; padding: 10px 12px; color: var(--ink); background: var(--paper); border: 2px solid var(--line-strong); border-radius: var(--r-sm); resize: vertical; }
+.rd-textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.rd-starters { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.rd-checklist { border: 2px solid var(--teal); border-radius: var(--r-sm); padding: 8px 12px; margin: 6px 0; display: grid; gap: 2px; }
+.rd-checklist legend { font-weight: 700; padding: 0 6px; }
+
+/* timed readings: completion, accuracy, pace and help are separate lines */
+.rd-metrics { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.rd-metrics li span { display: inline-block; min-width: 7rem; font-weight: 700; color: var(--muted); }
+.rd-reading { padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--r); background: var(--well); display: grid; gap: 6px; }
+
+/* the parent summary */
+.rd-summary { display: grid; gap: 12px; }
+.rd-summary h3 { margin-top: 8px; }
+.rd-table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+.rd-table caption { text-align: left; font-weight: 800; padding: 6px 0; }
+.rd-table th, .rd-table td { text-align: left; vertical-align: top; padding: 6px 8px; border: 1px solid var(--line-strong); }
+.rd-table thead th { background: var(--sunk); }
+.rd-table tbody th { font-weight: 400; }
+.rd-wsum { padding: 10px 14px; border: 1px solid var(--line-strong); border-radius: var(--r); display: grid; gap: 4px; }
+.rd-wtext { white-space: pre-wrap; padding: 8px 12px; background: var(--sunk); border-radius: var(--r-sm); margin: 0; }
+.rd-checkres { list-style: none; margin: 0; padding: 0; }
+@media (max-width: 640px) { .rd-table { font-size: .92rem; } .rd-table th, .rd-table td { padding: 4px 5px; } .rd-tfchoices { grid-template-columns: 1fr 1fr; } .rd-actnext, .rd-actnav { width: 100%; } .rd-navright { width: 100%; justify-content: stretch; } }
+@media print {
+  body.rd-summary-open .drips, body.rd-summary-open .top, body.rd-summary-open nav.tabs, body.rd-summary-open .lesson-bar, body.rd-summary-open .rd-steps,
+  body.rd-summary-open .rd-path, body.rd-summary-open .rd-nav, body.rd-summary-open .rd-nonprint, body.rd-summary-open footer, body.rd-summary-open .notice { display: none !important; }
+  body.rd-summary-open { background: #fff; color: #000; font-size: 11pt; }
+  body.rd-summary-open .rd-stage { border: 0; box-shadow: none; padding: 0; }
+  body.rd-summary-open .rd-table th, body.rd-summary-open .rd-table td { border: 1px solid #000; }
+  body.rd-summary-open .rd-table, body.rd-summary-open .rd-wsum, body.rd-summary-open .rd-reading { break-inside: avoid; }
+}
+
+/* a timed reading is a card of labelled lines, not the two-column chart row */
+.rd-chart li.rd-reading, .rd-chart .rd-metrics li { display: block; grid-template-columns: none; }
+.rd-chart li.rd-reading { display: grid; gap: 6px; }

@@ -5,9 +5,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  ELEMENT_IDS, FORMATS, GUIDE, answerKey, checkBlank, fillBlank, formatOf, normalizeAnswer, countWords, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, storyWords, suggestion,
+  ELEMENT_IDS, FORMATS, GUIDE, checkBlank, fillBlank, formatOf, normalizeAnswer, countWords, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, storyWords, suggestion,
   todaysPicks, tokenize, validateReadingIndex, validateStory, wordKey,
 } from '../../js/lib/reading.js';
+import { answerKey, buildItems } from '../../js/lib/coach.js';
 import { buildHash, parseHash } from '../../js/lib/router.js';
 import { SECTION_IDS } from '../../js/sections.js';
 import { readingView } from '../../js/views/reading.js';
@@ -16,6 +17,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const INDEX = readJSON('data/reading/index.json');
 const STORIES = INDEX.stories.map((e) => ({ e, s: readJSON(`data/reading/${e.id}.json`) }));
+/** Passages still on their original questions (the improved set so far covers the exemplar only). */
+const LEGACY = STORIES.filter(({ s }) => !s.coach);
 
 test('words are counted the way a reader sees them', () => {
   assert.equal(countWords('One windy morning, Dev went to the park.'), 8);
@@ -34,7 +37,7 @@ test('clue words mark the right tokens, even next to punctuation', () => {
 
 test('a reading becomes words read right per minute, accuracy and a finished flag', () => {
   // 100 words, 4 missed, 60 seconds: 96 right = 96 WRR, 96% accurate.
-  assert.deepEqual(scoreReading({ total: 100, errors: 4, seconds: 60 }), { reached: 100, errors: 4, correct: 96, seconds: 60, wrr: 96, accuracy: 96, finished: true });
+  assert.deepEqual(scoreReading({ total: 100, errors: 4, seconds: 60 }), { reached: 100, errors: 4, correct: 96, seconds: 60, wrr: 96, accuracy: 96, finished: true, believable: true, helpTaps: 0, assisted: false, scored: true });
   // Stopped early at word 50 with 2 missed after 30 seconds: 48 right in half a minute is 96 a minute.
   const early = scoreReading({ total: 100, stoppedAt: 50, errors: 2, seconds: 30 });
   assert.equal(early.wrr, 96);
@@ -45,11 +48,37 @@ test('a reading becomes words read right per minute, accuracy and a finished fla
   assert.ok(odd.reached === 10 && odd.errors === 10 && odd.correct === 0 && odd.wrr === 0 && Number.isFinite(odd.accuracy));
 });
 
-test('the suggestion asks for accuracy first, then speed', () => {
-  assert.match(suggestion([{ accuracy: 90, wrr: 100 }]), /95%/);
-  assert.match(suggestion([{ accuracy: 97, wrr: 100 }]), /135/);
-  assert.match(suggestion([{ accuracy: 97, wrr: 140 }]), /next step|harder/);
+test('the suggestion asks for accuracy first, then speed, and only from a full, believable, unassisted reading', () => {
+  const full = (extra) => scoreReading({ total: 100, errors: 0, seconds: 60, ...extra });
+  assert.match(suggestion([full({ errors: 10 })]), /95%/);
+  assert.match(suggestion([full({ seconds: 90 })]), /135/);
+  assert.match(suggestion([full({ seconds: 40 })]), /next step/);
   assert.match(suggestion([]), /again/);
+});
+
+test('an incomplete, implausibly short or assisted reading never recommends moving on (reported issue 3)', () => {
+  // The reported case: 10 of 100 words in 4 seconds used to read as 150 a minute and suggest a harder story.
+  const partial = scoreReading({ total: 100, stoppedAt: 10, errors: 0, seconds: 4 });
+  assert.equal(partial.finished, false);
+  assert.equal(partial.scored, false);
+  assert.doesNotMatch(suggestion([partial]), /next step|harder/i);
+  assert.match(suggestion([partial]), /stopped before the end/);
+  // A whole passage in 5 seconds is not believable.
+  const fast = scoreReading({ total: 100, errors: 0, seconds: 5 });
+  assert.equal(fast.believable, false);
+  assert.doesNotMatch(suggestion([fast]), /next step|harder/i);
+  assert.match(suggestion([fast]), /too short/);
+  // A grown-up helped read some words.
+  const helped = scoreReading({ total: 100, errors: 0, seconds: 40, assisted: true });
+  assert.equal(helped.scored, false);
+  assert.doesNotMatch(suggestion([helped]), /next step|harder/i);
+  // Only a full, believable, unassisted, accurate, fast reading earns the suggestion.
+  const good = scoreReading({ total: 100, errors: 2, seconds: 40 });
+  assert.equal(good.scored, true);
+  assert.match(suggestion([good]), /next step/);
+  // Completion, accuracy, pace and help stay separate numbers.
+  const mixed = scoreReading({ total: 100, stoppedAt: 80, errors: 4, seconds: 60, helpTaps: 3 });
+  assert.deepEqual([mixed.finished, mixed.accuracy, mixed.wrr, mixed.helpTaps], [false, 95, 76, 3]);
 });
 
 test('a story is complete at 4 of 5 questions', () => {
@@ -95,7 +124,8 @@ test('every story teaches every element of its kind, with a clue sentence that e
   for (const { s } of STORIES) {
     for (const id of ELEMENT_IDS[s.kind]) {
       assert.ok(s.clues.some((c) => c.el === id), `${s.id} has clue words for ${id}`);
-      assert.ok(s.sentences[s.elements[id].find], `${s.id} ${id} points at a sentence`);
+      const ev = buildItems(s).map.find((x) => x.element === id).evidence;
+      assert.ok(ev.length > 0 && ev.every((i) => s.sentences[i]), `${s.id} ${id} points at real sentences`);
     }
     // Clue words reach real words on the page.
     const marked = storyTokens(s).flat().filter((t) => t.el);
@@ -106,25 +136,31 @@ test('every story teaches every element of its kind, with a clue sentence that e
 
 test('multiple choice has one right answer, spread across the positions (so "always the first" cannot be learned)', () => {
   const where = [0, 0, 0];
-  for (const { s } of STORIES) for (const q of s.questions.filter((x) => formatOf(x) === 'choice')) { assert.equal(q.choices.length, 3); where[q.answer]++; }
+  for (const { s } of STORIES) for (const q of buildItems(s).all) {
+    if (q.format === 'choice') { assert.equal(q.choices.length, 3); where[q.right]++; }
+    if (q.follow) where[q.follow.right]++;
+  }
   const all = where[0] + where[1] + where[2];
-  assert.ok(all >= 16, 'there are multiple choice questions');
+  assert.ok(all >= 30, 'there are multiple choice questions');
   for (const w of where) assert.ok(w / all > 0.2 && w / all < 0.5, `answer positions ${where}`);
 });
 
-test('every passage mixes the ways of answering: choose, true or false, fill in the blank, say it', () => {
+test('every passage mixes the ways of answering', () => {
   assert.deepEqual(FORMATS, ['choice', 'tf', 'blank', 'say']);
-  for (const { s } of STORIES) {
+  for (const { s } of LEGACY) {
     const used = new Set(s.questions.map(formatOf));
     for (const f of FORMATS) assert.ok(used.has(f), `${s.id} has a ${f} question`);
-    // Fill in the blank: exactly one ___ and the answer is accepted.
     for (const q of s.questions.filter((x) => formatOf(x) === 'blank')) {
       assert.equal(q.ask.split('___').length, 2, `${s.id}: ${q.ask}`);
       assert.ok(checkBlank(q.blank, q.accept), `${s.id}: ${q.blank}`);
     }
-    // The story map also varies: not every element is multiple choice.
     const mapFormats = new Set(ELEMENT_IDS[s.kind].filter((id) => id !== 'events').map((id) => formatOf(s.elements[id])));
     assert.ok(mapFormats.size >= 2, `${s.id} map uses ${[...mapFormats]}`);
+  }
+  for (const { s } of STORIES.filter((x) => x.s.coach)) {
+    const used = new Set(buildItems(s).all.map((x) => x.format));
+    for (const f of ['choice', 'tf', 'blank', 'sequence']) assert.ok(used.has(f), `${s.id} has a ${f} question`);
+    assert.equal(buildItems(s).written.length, 3, `${s.id} has three written prompts`);
   }
 });
 
@@ -212,17 +248,11 @@ test('a story page has its title bar, a way back and the place the Reading Coach
 
 test('the answer key lists every map answer and every question\'s right answer, whatever its format', () => {
   for (const { s } of STORIES) {
-    const key = answerKey(s);
-    assert.deepEqual(key.map.map((m) => m.id), ELEMENT_IDS[s.kind], s.id);
-    for (const m of key.map) assert.ok(Array.isArray(m.answer) ? m.answer.length === 3 : m.answer.length > 3, `${s.id} ${m.id}`);
-    assert.equal(key.questions.length, s.questions.length);
-    s.questions.forEach((q, i) => {
-      const f = formatOf(q), a = key.questions[i].answer;
-      if (f === 'choice') assert.equal(a, q.choices[q.answer]);
-      else if (f === 'tf') assert.equal(a, q.answer ? 'True' : 'False');
-      else if (f === 'blank') { assert.ok(a.includes(q.blank) && !a.includes('___'), `${s.id} q${i}: ${a}`); }
-      else assert.equal(a, q.answer);
-    });
+    const key = answerKey(s), it = buildItems(s);
+    assert.deepEqual(key.map.map((m) => m.id), it.map.map((m) => m.id), s.id);
+    assert.equal(key.questions.length, it.listen.length + it.core.length);
+    for (const m of key.map) assert.ok(m.answer && m.answer.length > 3, `${s.id} ${m.id}`);
+    for (const q of key.questions) { assert.ok(q.answer && q.answer.length > 0, `${s.id} ${q.id}`); assert.ok(q.evidence.length > 0, `${s.id} ${q.id} has evidence`); }
   }
 });
 

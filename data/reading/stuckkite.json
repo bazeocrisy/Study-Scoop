@@ -128,7 +128,12 @@
         "The wind pushed the kite into a tree.",
         "Grandpa helped get it down."
       ],
-      "find": 3
+      "find": [
+        2,
+        3,
+        8,
+        9
+      ]
     },
     "solution": {
       "answer": "Grandpa used a long stick to get the kite down",

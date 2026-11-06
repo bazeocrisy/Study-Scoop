@@ -60,12 +60,19 @@ export async function startBrowser() {
   const errors = [];
   const requests = [];   // every URL the page asked for
   const failures = [];   // HTTP errors and network failures
+  const dialogs = [];    // browser "Leave site?" prompts (a page that holds unsaved work asks before it unloads)
   const urlById = new Map();
   let loadWaiters = [];
   ws.addEventListener('message', (ev) => {
     const msg = JSON.parse(ev.data);
     if (msg.id && pending.has(msg.id)) { pending.get(msg.id)(msg); pending.delete(msg.id); }
     const p = msg.params;
+    // A page that warns before it unloads (the Reading Coach) must not stall the next test's navigation: the prompt is
+    // recorded in `dialogs` and accepted. Only beforeunload prompts are handled; any other dialog is left alone.
+    if (msg.method === 'Page.javascriptDialogOpening' && p.type === 'beforeunload') {
+      dialogs.push({ type: p.type, message: p.message });
+      ws.send(JSON.stringify({ id: ++nextId, method: 'Page.handleJavaScriptDialog', params: { accept: true } }));
+    }
     if (msg.method === 'Page.loadEventFired') { loadWaiters.forEach((r) => r()); loadWaiters = []; }
     if (msg.method === 'Runtime.exceptionThrown') errors.push(p.exceptionDetails.exception?.description || p.exceptionDetails.text);
     if (msg.method === 'Runtime.consoleAPICalled' && (p.type === 'error' || p.type === 'warning')) {
@@ -86,7 +93,7 @@ export async function startBrowser() {
   await send('Network.enable');
   await send('Log.enable');
   const b = {
-    errors, requests, failures, send,
+    errors, requests, failures, dialogs, send,
     async js(expr) {
       const r = await send('Runtime.evaluate', { expression: `(async () => { ${expr} })()`, awaitPromise: true, returnByValue: true });
       if (r.result.exceptionDetails) throw new Error(r.result.exceptionDetails.exception?.description || 'evaluate failed');

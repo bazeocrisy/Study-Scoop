@@ -107,7 +107,10 @@
         "dog"
       ],
       "answer": "Pip the puppy and a girl named Tia",
-      "find": 4
+      "find": [
+        0,
+        4
+      ]
     },
     "setting": {
       "answer": "A bus stop on a cold, rainy night",
@@ -128,7 +131,13 @@
         "Tia wrapped her coat around Pip.",
         "Pip woke up in a soft bed."
       ],
-      "find": 6
+      "find": [
+        1,
+        2,
+        6,
+        8,
+        9
+      ]
     },
     "solution": {
       "answer": "Tia took Pip home and gave her food and a bed",
@@ -188,7 +197,11 @@
         "Tia did not like the coat"
       ],
       "answer": 1,
-      "find": 6
+      "find": [
+        2,
+        3,
+        6
+      ]
     },
     {
       "type": "detail",

@@ -95,7 +95,11 @@
     "mainidea": {
       "format": "say",
       "answer": "The octopus is a smart animal with clever ways to escape and hide.",
-      "find": 0
+      "find": [
+        0,
+        2,
+        15
+      ]
     },
     "detail": {
       "answer": "An octopus can open jars by twisting the lids",
@@ -181,7 +185,10 @@
       "accept": [
         "ink"
       ],
-      "find": 10
+      "find": [
+        10,
+        11
+      ]
     },
     {
       "type": "main",

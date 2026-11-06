@@ -83,7 +83,11 @@
     "mainidea": {
       "format": "say",
       "answer": "Honey bees live in colonies and each bee has a job.",
-      "find": 2
+      "find": [
+        0,
+        2,
+        13
+      ]
     },
     "detail": {
       "answer": "A colony can have up to fifty thousand bees",
