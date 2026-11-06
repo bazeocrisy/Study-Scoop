@@ -1,0 +1,301 @@
+{
+  "id": "2026-11-09",
+  "vocab": {
+    "topic": "Because of Winn-Dixie — 6 random words",
+    "coverage": "6 questions, one per randomly selected word, from all 12 words.",
+    "instructions": "Choose an answer for each question, then submit. Answers appear after the test.",
+    "note": "Study Scoop practice, not the teacher’s actual quiz. A fresh attempt may repeat some words. The class-sheet definition of Distracted needs teacher confirmation.",
+    "sampleSize": 6,
+    "pass": 5,
+    "items": [
+      {
+        "id": "v1",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Produce",
+        "prompt": "What does the word \"Produce\" mean on the class sheet?",
+        "options": [
+          {
+            "text": "Fresh fruits and vegetables",
+            "correct": true
+          },
+          {
+            "text": "A case where a rule does not apply",
+            "why": "That is the teacher’s definition of Exception."
+          },
+          {
+            "text": "Strange or unusual",
+            "why": "That is the teacher’s definition of Peculiar."
+          },
+          {
+            "text": "favored by or involving good luck or fortune",
+            "why": "That is the teacher’s definition of Fortunate."
+          }
+        ],
+        "explain": "Teacher’s words for Produce: Fresh fruits and vegetables."
+      },
+      {
+        "id": "v2",
+        "type": "choice",
+        "kind": "word",
+        "word": "Exception",
+        "prompt": "Which word means \"A case where a rule does not apply\"?",
+        "options": [
+          {
+            "text": "Ignorant",
+            "why": "Ignorant: lacking knowledge or awareness in general."
+          },
+          {
+            "text": "Exception",
+            "correct": true
+          },
+          {
+            "text": "Installment",
+            "why": "Installment: When money is paid over a length of time."
+          },
+          {
+            "text": "Employee",
+            "why": "Employee: Someone who works for money."
+          }
+        ],
+        "explain": "Teacher’s words for Exception: A case where a rule does not apply."
+      },
+      {
+        "id": "v3",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Installment",
+        "prompt": "True or false? \"Installment\" means \"When money is paid over a length of time\".",
+        "options": [
+          {
+            "text": "True",
+            "correct": true
+          },
+          {
+            "text": "False",
+            "why": "The statement matches the class vocabulary sheet."
+          }
+        ],
+        "explain": "Teacher’s words for Installment: When money is paid over a length of time."
+      },
+      {
+        "id": "v4",
+        "type": "choice",
+        "kind": "context",
+        "word": "Peculiar",
+        "prompt": "Read: \"A purple carrot looked peculiar beside the orange carrots.\" What does \"Peculiar\" mean on the class sheet?",
+        "options": [
+          {
+            "text": "Someone who works for money",
+            "why": "That is the teacher’s definition of Employee."
+          },
+          {
+            "text": "lacking knowledge or awareness in general",
+            "why": "That is the teacher’s definition of Ignorant."
+          },
+          {
+            "text": "Strange or unusual",
+            "correct": true
+          },
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the teacher’s definition of Trustworthy."
+          }
+        ],
+        "explain": "Teacher’s words for Peculiar: Strange or unusual."
+      },
+      {
+        "id": "v5",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Employee",
+        "prompt": "What does the word \"Employee\" mean on the class sheet?",
+        "options": [
+          {
+            "text": "favored by or involving good luck or fortune",
+            "why": "That is the teacher’s definition of Fortunate."
+          },
+          {
+            "text": "A sad or gloomy condition",
+            "why": "That is the teacher’s definition of Melancholy."
+          },
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the teacher’s definition of Constellations."
+          },
+          {
+            "text": "Someone who works for money",
+            "correct": true
+          }
+        ],
+        "explain": "Teacher’s words for Employee: Someone who works for money."
+      },
+      {
+        "id": "v6",
+        "type": "choice",
+        "kind": "word",
+        "word": "Fortunate",
+        "prompt": "Which word means \"favored by or involving good luck or fortune\"?",
+        "options": [
+          {
+            "text": "Fortunate",
+            "correct": true
+          },
+          {
+            "text": "Irritating",
+            "why": "Irritating: To anger or bother."
+          },
+          {
+            "text": "Ignorant",
+            "why": "Ignorant: lacking knowledge or awareness in general."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "Trustworthy: The ability to keep promises."
+          }
+        ],
+        "explain": "Teacher’s words for Fortunate: favored by or involving good luck or fortune."
+      },
+      {
+        "id": "v7",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Ignorant",
+        "prompt": "True or false? \"Ignorant\" means \"A sad or gloomy condition\".",
+        "options": [
+          {
+            "text": "True",
+            "why": "That meaning belongs to Melancholy."
+          },
+          {
+            "text": "False",
+            "correct": true
+          }
+        ],
+        "explain": "Teacher’s words for Ignorant: lacking knowledge or awareness in general."
+      },
+      {
+        "id": "v8",
+        "type": "choice",
+        "kind": "context",
+        "word": "Melancholy",
+        "prompt": "Read: \"The sad music filled the room with melancholy.\" What does \"Melancholy\" mean on the class sheet?",
+        "options": [
+          {
+            "text": "The ability to keep promises",
+            "why": "That is the teacher’s definition of Trustworthy."
+          },
+          {
+            "text": "A sad or gloomy condition",
+            "correct": true
+          },
+          {
+            "text": "To anger or bother",
+            "why": "That is the teacher’s definition of Irritating."
+          },
+          {
+            "text": "Fresh fruits and vegetables",
+            "why": "That is the teacher’s definition of Produce."
+          }
+        ],
+        "explain": "Teacher’s words for Melancholy: A sad or gloomy condition."
+      },
+      {
+        "id": "v9",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Trustworthy",
+        "prompt": "What does the word \"Trustworthy\" mean on the class sheet?",
+        "options": [
+          {
+            "text": "A group of stars in the night sky that make up a picture or a pattern",
+            "why": "That is the teacher’s definition of Constellations."
+          },
+          {
+            "text": "To prevent something from continuing as usual",
+            "why": "That is the teacher’s definition of Distracted."
+          },
+          {
+            "text": "The ability to keep promises",
+            "correct": true
+          },
+          {
+            "text": "A case where a rule does not apply",
+            "why": "That is the teacher’s definition of Exception."
+          }
+        ],
+        "explain": "Teacher’s words for Trustworthy: The ability to keep promises."
+      },
+      {
+        "id": "v10",
+        "type": "choice",
+        "kind": "word",
+        "word": "Constellations",
+        "prompt": "Which word means \"A group of stars in the night sky that make up a picture or a pattern\"?",
+        "options": [
+          {
+            "text": "Installment",
+            "why": "Installment: When money is paid over a length of time."
+          },
+          {
+            "text": "Irritating",
+            "why": "Irritating: To anger or bother."
+          },
+          {
+            "text": "Produce",
+            "why": "Produce: Fresh fruits and vegetables."
+          },
+          {
+            "text": "Constellations",
+            "correct": true
+          }
+        ],
+        "explain": "Teacher’s words for Constellations: A group of stars in the night sky that make up a picture or a pattern."
+      },
+      {
+        "id": "v11",
+        "type": "choice",
+        "kind": "tf",
+        "word": "Irritating",
+        "prompt": "True or false? \"Irritating\" means \"To anger or bother\".",
+        "options": [
+          {
+            "text": "True",
+            "correct": true
+          },
+          {
+            "text": "False",
+            "why": "The statement matches the class vocabulary sheet."
+          }
+        ],
+        "explain": "Teacher’s words for Irritating: To anger or bother."
+      },
+      {
+        "id": "v12",
+        "type": "choice",
+        "kind": "meaning",
+        "word": "Distracted",
+        "prompt": "According to the class sheet, what definition is printed for \"Distracted\"? (Parent: this printed definition needs teacher confirmation.)",
+        "options": [
+          {
+            "text": "To prevent something from continuing as usual",
+            "correct": true
+          },
+          {
+            "text": "Fresh fruits and vegetables",
+            "why": "That is the teacher’s definition of Produce."
+          },
+          {
+            "text": "When money is paid over a length of time",
+            "why": "That is the teacher’s definition of Installment."
+          },
+          {
+            "text": "Someone who works for money",
+            "why": "That is the teacher’s definition of Employee."
+          }
+        ],
+        "explain": "Teacher’s words for Distracted: To prevent something from continuing as usual. Parent note: this appears mismatched; distracted ordinarily means having your attention pulled away. Confirm with the teacher."
+      }
+    ]
+  }
+}
