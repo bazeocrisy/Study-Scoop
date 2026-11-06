@@ -84,7 +84,7 @@ export const ACTIVITIES = {
     { id: 'roundmisses', label: 'Practice My Misses', about: 'Practice only the numbers you missed.', icon: 'redo', parent: 'round', group: 'skillround', misses: true },
     { id: 'roundtest', label: 'Rounding Test', about: '10 questions. No help until the end.', icon: 'list', parent: 'round', group: 'skillround', test: true },
     { id: 'timeslearn', label: 'Learn It', about: 'A way to find every fact from one you know.', icon: 'book', parent: 'times', page: true, start: true },
-    { id: 'timespick', label: 'Pick My Facts', about: 'Choose one fact or many. Flashcards, Find the Fact and a quick quiz.', icon: 'cards', parent: 'times', page: true },
+    { id: 'timesapp', label: 'Practice Facts', about: 'Pick your fact families, then flash, practice or find the fact.', icon: 'cards', parent: 'times', page: true, timesApp: true },
     { id: 'timesall', label: 'All Facts', about: 'Facts from the 2s to the 10s.', icon: 'cards', parent: 'times', group: 'skilltimes' },
     { id: 'timestricky', label: 'Tricky Facts', about: 'Facts with a 6, 7, 8 or 9.', icon: 'mix', parent: 'times', group: 'skilltimes' },
     { id: 'timesmisses', label: 'Practice My Misses', about: 'Practice only the facts you missed.', icon: 'redo', parent: 'times', group: 'skilltimes', misses: true },
@@ -92,6 +92,7 @@ export const ACTIVITIES = {
   ],
   // Homework (D23): this week's packet, Study Scoop's own version, to do on the computer.
   homework: [
+    ...['fractions', 'parts', 'fluency', 'comprehension'].map((id) => ({ id, label: {fractions:'Identifying Fractions',parts:'Recognizing the Parts / Write the Fraction',fluency:'Reading Fluency',comprehension:'Reading Comprehension'}[id], about:'Original activities for the received class assignment.', icon:'pencil', group:'homework' })),
     { id: 'packet', label: 'Do This Week\'s Homework', about: 'Every page of this week\'s packet, with Check, Help and a download.', icon: 'pencil', group: 'homework' },
   ],
 };

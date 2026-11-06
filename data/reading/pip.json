@@ -99,11 +99,14 @@
   },
   "elements": {
     "characters": {
-      "answer": "Pip the puppy and a girl named Tia",
-      "wrong": [
-        "Pip the puppy and a boy named Dev",
-        "A kitten and a girl named Tia"
+      "format": "blank",
+      "text": "The characters are Pip the ___ and a girl named Tia.",
+      "blank": "puppy",
+      "accept": [
+        "puppy",
+        "dog"
       ],
+      "answer": "Pip the puppy and a girl named Tia",
       "find": 4
     },
     "setting": {
@@ -115,11 +118,8 @@
       "find": 2
     },
     "problem": {
-      "answer": "Pip had no home and no dry place",
-      "wrong": [
-        "Pip lost her toy",
-        "Tia lost her coat"
-      ],
+      "format": "say",
+      "answer": "Pip had no home and no dry place.",
       "find": 3
     },
     "events": {
@@ -139,11 +139,13 @@
       "find": 8
     },
     "lesson": {
-      "answer": "Being kind can change a life",
-      "wrong": [
-        "Puppies should stay outside",
-        "Always carry a coat"
+      "format": "blank",
+      "text": "Tia learned that being ___ can change a life.",
+      "blank": "kind",
+      "accept": [
+        "kind"
       ],
+      "answer": "Being kind can change a life",
       "find": 11
     }
   },
@@ -152,23 +154,30 @@
       "type": "listen",
       "ask": "What kind of animal was Pip?",
       "choices": [
+        "A puppy",
         "A kitten",
-        "A rabbit",
-        "A puppy"
+        "A rabbit"
       ],
-      "answer": 2,
+      "answer": 0,
       "find": 0
     },
     {
       "type": "listen",
-      "ask": "Where did Pip sleep?",
-      "choices": [
-        "Under a bench",
-        "In a barn",
-        "On a boat"
-      ],
-      "answer": 0,
+      "format": "tf",
+      "ask": "Pip slept in a warm barn.",
+      "answer": false,
       "find": 1
+    },
+    {
+      "type": "detail",
+      "format": "blank",
+      "ask": "Tia took off her ___ and wrapped it around Pip.",
+      "blank": "coat",
+      "accept": [
+        "coat",
+        "jacket"
+      ],
+      "find": 6
     },
     {
       "type": "infer",
@@ -182,47 +191,27 @@
       "find": 6
     },
     {
-      "type": "order",
-      "ask": "What did Tia do next?",
-      "choices": [
-        "She ran away",
-        "She bought a leash",
-        "She carried Pip home"
-      ],
-      "answer": 2,
-      "find": 7
-    },
-    {
       "type": "detail",
-      "ask": "What did Pip get from Tia's mom?",
-      "choices": [
-        "Warm food and a soft bed",
-        "A toy and a ball",
-        "A new coat"
-      ],
-      "answer": 0,
+      "format": "tf",
+      "ask": "Tia's mom gave Pip warm food and a soft bed.",
+      "answer": true,
       "find": 8
     },
     {
-      "type": "vocab",
-      "ask": "In this story, what does wagged mean?",
-      "choices": [
-        "jumped up high",
-        "moved from side to side",
-        "fell asleep"
+      "type": "order",
+      "format": "blank",
+      "ask": "Next, Tia carried the puppy ___.",
+      "blank": "home",
+      "accept": [
+        "home"
       ],
-      "answer": 1,
-      "find": 9
+      "find": 7
     },
     {
       "type": "main",
-      "ask": "What is the lesson of this story?",
-      "choices": [
-        "Rain is scary",
-        "Puppies sleep a lot",
-        "Being kind can change a life"
-      ],
-      "answer": 2,
+      "format": "say",
+      "ask": "What is the lesson of this story? Say it in your own words.",
+      "answer": "Being kind can change a life.",
       "find": 11
     }
   ]

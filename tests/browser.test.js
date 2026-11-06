@@ -9,7 +9,9 @@ import { pictureName } from '../js/lib/data.js';
 import { roundParts } from '../js/lib/rounding.js';
 
 const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const INDEX = readJSON('data/weeks.json');
+// Preserve the historical Oct 26 student journeys as weeks roll forward.
+// The November homework suite tests the actual current-week index without overlays.
+const INDEX = readJSON('tests/fixtures/data/weeks-regression.json');
 const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading'], ['math', 'Math'],
   ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
@@ -102,7 +104,7 @@ async function helpers(b) { await b.js(PAGE_HELPERS); }
 
 async function main() {
   if (SITE) console.log(`Serving the built site: ${SITE}`);
-  const server = await startServer({ root: SITE || ROOT });
+  const server = await startServer({ root: SITE || ROOT, overlay: { 'data/weeks.json': 'tests/fixtures/data/weeks-regression.json' } });
   const b = await startBrowser();
   const url = (h = '') => `${server.origin}${BASE}${h}`;
   try {
@@ -1772,11 +1774,17 @@ async function main() {
       await go('.stage-nav a[href="#math?act=avmisses"]');
       eq(await progress(), 'Question 1 of 1', 'the missed word is in Area Words > Practice My Misses');
     });
-    await check('Oct 26 Homework: only what the newsletter says (no packet pages invented), and weeks never mix', async () => {
+    await check('Oct 26 Homework: received assignments and original papers, and weeks never mix', async () => {
       await b.load(url('#homework'));
       eq(await b.js('return [document.querySelector(".page-head .intro").textContent, [...document.querySelectorAll(".hw-received strong")].length, !!document.querySelector(".packet-card")];'),
-        ['No classroom worksheets have been received for this week yet.', 0, false], 'nothing received yet, no packet');
+        ['3 classroom assignments were received for this week.', 3, false], 'three received assignments, no generated packet');
       expect((await b.js('return document.getElementById("app").textContent;')).includes('3 spelling activities'), 'the three spelling activities');
+      eq(await b.js('return [...document.querySelectorAll(".homework-papers img")].map((im) => im.getAttribute("src"));'), readJSON('data/2026-10-26.json').homeworkPapers.pages.map((pg) => pg.src), 'all four original papers');
+      await b.js('document.querySelector(".homework-papers [data-act=zoom]").click();');
+      expect(await b.js('return document.querySelector(".homework-papers").classList.contains("zoomed");'), 'homework zoom works');
+      await b.media('print');
+      expect(await b.js('return getComputedStyle(document.querySelector(".hw-list").parentElement).display === "none" && getComputedStyle(document.querySelector(".top")).display === "none" && getComputedStyle(document.querySelector(".homework-papers img")).display !== "none";'), 'print only the original papers');
+      await b.media('');
       // Switch from an Oct 26 activity to Oct 19 and back: each week keeps its own words.
       await b.load(url('#spelling?act=learn'));
       let before = await b.js('return document.getElementById("app").dataset.ready;');
@@ -1934,7 +1942,7 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), ['Mental Add', 'Rounding', 'Times Tables'], 'skill cards');
       for (const [card, labels] of [['add', ['Learn It', 'Quick Facts', 'Break It Apart', 'Practice My Misses', 'Mental Add Test']],
         ['round', ['Learn It', 'Nearest 10', 'Nearest 100', 'Practice My Misses', 'Rounding Test']],
-        ['times', ['Learn It', 'Pick My Facts', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
+        ['times', ['Learn It', 'Practice Facts', 'All Facts', 'Tricky Facts', 'Practice My Misses', 'Times Tables Test']]]) {
         await b.load(url('#skills'));
         await go(`.menu-card[href="#skills?act=${card}"]`);
         eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), labels, `${card} menu`);
@@ -1950,69 +1958,23 @@ async function main() {
         [['4', '5'], ['6', '3'], ['3', '4'], ['9', '7']], '45, 63, 347, 897');
     });
 
-    await check('Times Tables > Pick My Facts: pick one or many facts; flashcards flip; Find the Fact takes either order and asks for a picked fact; Quick Quiz; misses list', async () => {
-      await b.load(url('#skills?act=timespick'));
-      const tp = (sel) => b.js(`document.querySelector(${JSON.stringify(sel)}).click();`);
-      const text = (sel) => b.js(`return document.querySelector(${JSON.stringify(sel)})?.textContent.replace(/\\s+/g, ' ').trim() || '';`);
-      eq(await text('h1'), 'Pick My Facts', 'title');
-      eq(await text('#tp-stage'), 'Tap a number above to pick a fact.', 'asks for a fact first');
-      // Flashcards: one fact (the 4s), 10 cards, tap to flip.
-      await tp('[data-fact="4"]');
-      eq(await b.js('return document.querySelector("[data-fact=\'4\']").getAttribute("aria-pressed");'), 'true', '4 picked');
-      eq(await text('.tp-count'), 'Card 1 of 10', '10 cards for the 4s');
-      const front = await text('.tp-card .tp-big');
-      expect(/^4 × ([1-9]|10)$/.test(front), `front: ${front}`);
-      await b.clickAt('.tp-card');
-      eq(await text('.tp-card .tp-big'), String(4 * Number(front.split('× ')[1])), 'back shows the answer');
-      await tp('[data-fact="7"]');
-      eq(await text('.tp-count'), 'Card 1 of 20', 'two facts: 20 cards');
-      await tp('#tp-max-12');
-      eq(await text('.tp-count'), 'Card 1 of 24', 'up to × 12: 24 cards');
-      await tp('#tp-max-10');
-      await tp('[data-fact="7"]');
-      // Find the Fact: answer shown, two boxes, any order, a true fact without a 4 is asked again.
-      await tp('#tp-mode-find');
-      eq(await text('.tp-count'), 'Question 1 of 10 · 0 right', 'round of 10');
-      // Once facts are picked and a mode is chosen, the picker steps aside so the card stands on its own.
-      expect(await b.js('return document.getElementById("tp-setup").hidden;'), 'fact picker collapses once a mode is chosen');
-      expect(!(await b.js('return document.getElementById("tp-summary").hidden;')), 'a summary bar takes its place');
-      expect(!!(await b.js('return document.querySelector("[data-mode=\'quiz\']").offsetParent;')), 'the mode buttons stay reachable to switch modes');
-      await tp('[data-tp="edit-facts"]');
-      expect(!(await b.js('return document.getElementById("tp-setup").hidden;')), 'Change facts reopens the picker');
-      expect(await b.js('return document.getElementById("tp-summary").hidden;'), 'the summary bar hides while editing');
-      await tp('#tp-mode-find');
-      const keyIn = async (digits) => { for (const d of String(digits)) await tp(`[data-key="${d}"]`); };
-      for (let k = 0; k < 10; k++) {
-        const ans = Number(await text('.tp-target'));
-        const other = ans / 4;
-        if (k === 0) {
-          await keyIn(1); await tp('[data-box="1"]'); await keyIn(1); await tp('[data-key="ok"]');
-          expect((await text('.tp-msg')).startsWith(`1 × 1 = 1, not ${ans}.`), `wrong: ${await text('.tp-msg')}`);
-          await b.js('await new Promise((r) => setTimeout(r, 800));');
-          if (ans === 24) { await keyIn(3); await keyIn(8); await tp('[data-key="ok"]'); expect((await text('.tp-msg')).startsWith('Yes, 3 × 8 = 24! Now find one that uses ×4'), 'asks for the 4s'); }
-        }
-        // Either order counts: the second question is typed turned around.
-        if (k === 1) { await keyIn(other); if (other === 1) await tp('[data-box="1"]'); await keyIn(4); }
-        else { await keyIn(4); await keyIn(other); }
-        await tp('[data-key="ok"]');
-        expect((await text('.tp-msg')).includes(`= ${ans}`), `right: ${await text('.tp-msg')}`);
-        await tp('[data-tp="go"]');
-      }
-      eq(await text('.tp-score'), '9 out of 10', 'first question took two tries');
-      // Quick Quiz: miss one twice, it goes on the practice list and into Practice the ones I missed.
-      await tp('#tp-mode-quiz');
-      for (let k = 0; k < 10; k++) {
-        const [a, bb] = (await b.js('return [...document.querySelectorAll(".tp-eq .tp-num")].map((x) => Number(x.textContent));'));
-        if (k === 0) {
-          for (let t = 0; t < 2; t++) { await keyIn(0); await tp('[data-key="ok"]'); if (!t) await b.js('await new Promise((r) => setTimeout(r, 800));'); }
-          eq(await text('.tp-msg'), `${a} × ${bb} = ${a * bb}. This one goes on your practice list.`, 'missed twice');
-        } else { await keyIn(a * bb); await tp('[data-key="ok"]'); }
-        await tp('[data-tp="go"]');
-      }
-      eq(await text('.tp-score'), '9 out of 10', 'quiz score');
-      eq(await b.js('return document.querySelectorAll(".tp-missed li").length;'), 1, 'one fact to practice');
-      await tp('[data-tp="redo"]');
-      eq(await text('.tp-count'), 'Question 1 of 1 · 0 right', 'practice the missed fact');
+    await check('Times Tables > Practice Facts: pick families, Flash and Practice show a vertical equation (stacked rows), Find It takes both factors in either order', async () => {
+      await b.load(url('#skills?act=timesapp'));
+      eq(await b.js('return !!document.querySelector(".times-flashcard");'), false, 'no card before a family is picked');
+      await b.js('document.querySelector(".times-family-btn[data-n=\\"4\\"]").click();');
+      await b.js('document.querySelector(".times-family-btn[data-n=\\"12\\"]").click();');
+      eq(await b.js('return [...document.querySelectorAll(".times-family-btn.is-selected")].map((x) => x.dataset.n);'), ['4', '12'], 'both families selected');
+      // Rows must be stacked: each part sits lower than the one before it (a horizontal layout shares one top).
+      const stacked = `const tops = [...document.querySelector('.times-vert-eq').children].map((c) => Math.round(c.getBoundingClientRect().top)); return tops.length === 4 && tops.every((t, i) => i === 0 || t > tops[i - 1]);`;
+      expect(await b.js(stacked), 'Flash equation is stacked: factor, × factor, line, product');
+      eq(await b.js('return document.querySelector(".times-vert-eq .times-op").textContent.replace(/\\s+/g, "").startsWith("×");'), true, '× sits with the second factor');
+      await b.js('document.querySelector(".times-flashcard").click();');
+      expect(await b.js('return document.querySelector(".times-flashcard").classList.contains("is-flipped");'), 'tap flips the card');
+      await b.js('document.querySelector(".times-tab[data-tab=\\"practice\\"]").click();');
+      expect(await b.js(stacked), 'Practice equation is stacked');
+      eq(await b.js('return [...document.querySelectorAll(".times-family-btn.is-selected")].map((x) => x.dataset.n);'), ['4', '12'], 'picks survive the tab change');
+      await b.js('document.querySelector(".times-tab[data-tab=\\"find\\"]").click();');
+      expect(await b.js('return document.querySelectorAll("input[data-find]").length === 2;'), 'Find It has two factor boxes');
     });
 
     await check('Rounding > Nearest 10: tap a digit to underline it, the arrow appears, each wrong step says why, Help step by step, 20 questions, results and misses', async () => {

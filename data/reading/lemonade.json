@@ -103,11 +103,13 @@
   },
   "elements": {
     "characters": {
-      "answer": "Rosa and her little brother Luis",
-      "wrong": [
-        "Rosa and her friend Tia",
-        "Luis and his dad"
+      "format": "blank",
+      "text": "Rosa and her little brother ___ are the characters.",
+      "blank": "Luis",
+      "accept": [
+        "Luis"
       ],
+      "answer": "Rosa and her little brother Luis",
       "find": 0
     },
     "setting": {
@@ -119,11 +121,8 @@
       "find": 5
     },
     "problem": {
-      "answer": "Hardly anyone bought their lemonade",
-      "wrong": [
-        "They ran out of lemons",
-        "The sign was too small"
-      ],
+      "format": "say",
+      "answer": "Hardly anyone bought their lemonade.",
       "find": 8
     },
     "events": {
@@ -143,11 +142,14 @@
       "find": 12
     },
     "lesson": {
-      "answer": "If a plan does not work, try a new way",
-      "wrong": [
-        "Lemonade is the best drink",
-        "Always sell in front of your house"
+      "format": "blank",
+      "text": "Rosa and Luis learned that if one plan does not work, try a new ___.",
+      "blank": "way",
+      "accept": [
+        "way",
+        "place"
       ],
+      "answer": "If a plan does not work, try a new way",
       "find": 15
     }
   },
@@ -156,34 +158,29 @@
       "type": "listen",
       "ask": "What did Rosa and Luis want to buy?",
       "choices": [
-        "A gift for their mom",
         "A new bike",
-        "A puppy"
+        "A puppy",
+        "A gift for their mom"
       ],
-      "answer": 0,
+      "answer": 2,
       "find": 0
     },
     {
       "type": "listen",
-      "ask": "What did they sell?",
-      "choices": [
-        "Cookies",
-        "Lemonade",
-        "Popcorn"
-      ],
-      "answer": 1,
+      "format": "tf",
+      "ask": "Rosa and Luis sold cookies.",
+      "answer": false,
       "find": 4
     },
     {
-      "type": "order",
-      "ask": "What did they do FIRST?",
-      "choices": [
-        "Moved the table",
-        "Sold every cup",
-        "Squeezed lemons and stirred in sugar"
+      "type": "detail",
+      "format": "blank",
+      "ask": "Rosa painted a bright ___ for their table.",
+      "blank": "sign",
+      "accept": [
+        "sign"
       ],
-      "answer": 2,
-      "find": 6
+      "find": 7
     },
     {
       "type": "cause",
@@ -198,35 +195,26 @@
     },
     {
       "type": "detail",
-      "ask": "How much did one cup cost?",
-      "choices": [
-        "Two dollars",
-        "50 cents",
-        "5 cents"
-      ],
-      "answer": 1,
+      "format": "tf",
+      "ask": "One cup of lemonade cost 50 cents.",
+      "answer": true,
       "find": 7
     },
     {
-      "type": "vocab",
-      "ask": "What does hardly anyone mean?",
-      "choices": [
-        "a lot of people",
-        "only grown-ups",
-        "almost nobody"
+      "type": "cause",
+      "format": "blank",
+      "ask": "Rosa moved the table to the corner by the ___.",
+      "blank": "park",
+      "accept": [
+        "park"
       ],
-      "answer": 2,
-      "find": 8
+      "find": 12
     },
     {
       "type": "main",
-      "ask": "What did Rosa and Luis learn?",
-      "choices": [
-        "To try a new way when a plan does not work",
-        "Lemonade must be cold",
-        "To sell only in the evening"
-      ],
-      "answer": 0,
+      "format": "say",
+      "ask": "What did Rosa and Luis learn? Say it in your own words.",
+      "answer": "If one plan does not work, try a new place or a new way.",
       "find": 15
     }
   ]

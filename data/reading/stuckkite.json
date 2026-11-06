@@ -99,11 +99,14 @@
   },
   "elements": {
     "characters": {
-      "answer": "Dev and his grandpa",
-      "wrong": [
-        "Dev and his dog",
-        "Dev and his teacher"
+      "format": "blank",
+      "text": "The two characters are Dev and his ___.",
+      "blank": "grandpa",
+      "accept": [
+        "grandpa",
+        "grandfather"
       ],
+      "answer": "Dev and his grandpa",
       "find": 0
     },
     "setting": {
@@ -115,11 +118,8 @@
       "find": 0
     },
     "problem": {
-      "answer": "The kite got stuck in a tree",
-      "wrong": [
-        "Dev lost his shoes",
-        "The kite would not fly"
-      ],
+      "format": "say",
+      "answer": "The kite got stuck in a tree.",
       "find": 3
     },
     "events": {
@@ -139,11 +139,13 @@
       "find": 8
     },
     "lesson": {
-      "answer": "It is okay to ask for help",
-      "wrong": [
-        "Never fly a kite in the park",
-        "Always run fast"
+      "format": "blank",
+      "text": "Dev learned that it is okay to ask for ___.",
+      "blank": "help",
+      "accept": [
+        "help"
       ],
+      "answer": "It is okay to ask for help",
       "find": 11
     }
   },
@@ -161,35 +163,32 @@
     },
     {
       "type": "listen",
-      "ask": "What happened to the kite?",
-      "choices": [
-        "It broke in half",
-        "It flew far away",
-        "It got stuck in a tree"
-      ],
-      "answer": 2,
+      "format": "tf",
+      "ask": "The kite got stuck in a tree.",
+      "answer": true,
       "find": 3
     },
     {
-      "type": "order",
-      "ask": "What did Dev do FIRST?",
-      "choices": [
-        "He ran fast with his kite",
-        "He found a long stick",
-        "He hugged his grandpa"
+      "type": "detail",
+      "format": "blank",
+      "ask": "First, Dev ran ___ and the kite rose up high.",
+      "blank": "fast",
+      "accept": [
+        "fast",
+        "quickly"
       ],
-      "answer": 0,
       "find": 2
     },
     {
       "type": "cause",
-      "ask": "Why did Dev feel sad?",
-      "choices": [
-        "He lost the game",
-        "He could not reach his kite",
-        "He was hungry"
+      "format": "blank",
+      "ask": "Dev felt sad because he could not ___ his kite.",
+      "blank": "reach",
+      "accept": [
+        "reach",
+        "get",
+        "touch"
       ],
-      "answer": 1,
       "find": 5
     },
     {
@@ -205,24 +204,16 @@
     },
     {
       "type": "vocab",
-      "ask": "In this story, what does reach mean?",
-      "choices": [
-        "to stretch out and touch",
-        "to run away",
-        "to say sorry"
-      ],
-      "answer": 0,
+      "format": "tf",
+      "ask": "The word reach means to stretch out and touch something.",
+      "answer": true,
       "find": 5
     },
     {
       "type": "main",
-      "ask": "What is the lesson of this story?",
-      "choices": [
-        "Kites are red",
-        "Ask for help when you need it",
-        "Windy days are bad"
-      ],
-      "answer": 1,
+      "format": "say",
+      "ask": "What did Dev learn? Say it in your own words.",
+      "answer": "It is okay to ask for help.",
       "find": 11
     }
   ]

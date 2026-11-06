@@ -93,11 +93,8 @@
   },
   "elements": {
     "mainidea": {
-      "answer": "The octopus is a smart animal with clever ways to escape and hide",
-      "wrong": [
-        "Octopuses live only in tanks",
-        "Octopuses are slow and easy to catch"
-      ],
+      "format": "say",
+      "answer": "The octopus is a smart animal with clever ways to escape and hide.",
       "find": 0
     },
     "detail": {
@@ -109,11 +106,14 @@
       "find": 3
     },
     "cause": {
-      "answer": "An octopus has no bones, so it can squeeze through very small holes",
-      "wrong": [
-        "An octopus changes color, so it can open jars",
-        "An octopus has suckers, so it has no bones"
+      "format": "blank",
+      "text": "The octopus has no ___, so its soft body can squeeze through very small holes.",
+      "blank": "bones",
+      "accept": [
+        "bones",
+        "bone"
       ],
+      "answer": "An octopus has no bones, so it can squeeze through very small holes",
       "find": 1
     },
     "takeaway": {
@@ -130,78 +130,65 @@
       "type": "listen",
       "ask": "How many hearts does an octopus have?",
       "choices": [
+        "Three",
         "One",
-        "Eight",
-        "Three"
+        "Eight"
       ],
-      "answer": 2,
+      "answer": 0,
       "find": 14
     },
     {
       "type": "listen",
-      "ask": "What does the octopus squirt to escape an enemy?",
-      "choices": [
-        "Dark ink",
-        "Sand",
-        "Hot water"
-      ],
-      "answer": 0,
-      "find": 10
+      "format": "tf",
+      "ask": "An octopus has bones.",
+      "answer": false,
+      "find": 1
     },
     {
-      "type": "main",
-      "ask": "What is this passage mostly about?",
-      "choices": [
-        "Why sharks are dangerous",
-        "How an octopus uses smart tricks to survive",
-        "How to build an aquarium"
+      "type": "detail",
+      "format": "blank",
+      "ask": "An octopus has ___ arms.",
+      "blank": "eight",
+      "accept": [
+        "eight",
+        "8"
       ],
-      "answer": 1,
-      "find": 15
+      "find": 12
     },
     {
       "type": "cause",
       "ask": "Why can an octopus squeeze through small holes?",
       "choices": [
         "It is very small",
-        "It has three hearts",
-        "It has no bones"
+        "It has no bones",
+        "It has three hearts"
       ],
-      "answer": 2,
+      "answer": 1,
       "find": 1
     },
     {
-      "type": "detail",
-      "ask": "What can an octopus's skin do?",
-      "choices": [
-        "Change color in less than a second",
-        "Grow hard like armor",
-        "Glow in the dark"
-      ],
-      "answer": 0,
-      "find": 6
-    },
-    {
       "type": "vocab",
-      "ask": "What does flexible mean in this passage?",
-      "choices": [
-        "very loud",
-        "able to bend easily",
-        "hard to see"
-      ],
-      "answer": 1,
+      "format": "tf",
+      "ask": "Flexible means able to bend easily.",
+      "answer": true,
       "find": 15
     },
     {
       "type": "cause",
-      "ask": "Why do hungry sharks often swim right past an octopus?",
-      "choices": [
-        "It is bigger than a shark",
-        "It makes loud noises",
-        "It blends in with its background"
+      "format": "blank",
+      "ask": "The octopus squirts a cloud of dark ___ to get away.",
+      "blank": "ink",
+      "accept": [
+        "ink"
       ],
-      "answer": 2,
-      "find": 8
+      "find": 10
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "What is this passage mostly about? Say it in your own words.",
+      "answer": "How an octopus uses smart tricks to survive.",
+      "find": 15
     }
   ]
 }

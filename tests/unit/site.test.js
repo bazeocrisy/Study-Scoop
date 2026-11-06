@@ -52,9 +52,9 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
     'data/practice/math.json', 'data/practice/math-words.json', 'data/practice/area.json', 'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
     ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2')),
     // Homework packets (D23): Study Scoop's own version of the week's homework and its printed PDF.
-    'data/homework/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/homework/index.json'), 'utf8')).weeks.flatMap((id) => [`data/homework/${id}.json`, `downloads/homework-${id}.pdf`]),
+    'data/homework/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/homework/index.json'), 'utf8')).weeks.flatMap((id) => { const packet = JSON.parse(fs.readFileSync(path.join(REPO, `data/homework/${id}.json`), 'utf8')); return [`data/homework/${id}.json`, ...(packet.download ? [packet.download] : [])]; }),
     // Original newsletter flyers (D26): only the pages a listed week names in its privacy-reviewed "flyer".
-    ...weeks.flatMap((f) => JSON.parse(fs.readFileSync(path.join(REPO, f), 'utf8')).flyer?.pages.map((pg) => pg.src) || [])];
+    ...weeks.flatMap((f) => { const w = JSON.parse(fs.readFileSync(path.join(REPO, f), 'utf8')); return [w.flyer, w.homeworkPapers].flatMap((papers) => papers?.reviewed ? papers.pages.map((pg) => pg.src) : []); })];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
   assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'fonts', 'images', 'index.html', 'js']);

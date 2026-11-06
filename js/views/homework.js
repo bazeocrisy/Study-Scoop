@@ -4,7 +4,7 @@ import { activityView } from './activity.js';
 
 // Where each homework entry came from (DECISIONS D18). Nothing is shown as received unless it was.
 const SOURCE = {
-  received: { label: 'Received from class', note: 'The worksheet itself is kept private and is not shown on this website.' },
+  received: { label: 'Received from class', note: 'Classroom worksheet received. See the assignment details below.' },
   newsletter: { label: 'Listed in the newsletter', note: 'Not uploaded to Study Scoop.' },
 };
 
@@ -16,6 +16,8 @@ export function homeworkView(ctx) {
     ${pageHead('Homework', ctx, received.length
       ? `${received.length} classroom ${received.length === 1 ? 'assignment was' : 'assignments were'} received for this week.`
       : 'No classroom worksheets have been received for this week yet.')}
+
+    ${ctx.packet?.pages.some(pg=>pg.subject) ? html`<div class="hw-activity-grid">${['Math','Reading'].map(subject=>html`<section class="card"><h2>${subject}</h2>${ctx.packet.pages.filter(pg=>pg.subject===subject).map(pg=>html`<p><a class="btn btn-primary" href="${ctx.actLink('homework',pg.id)}">${pg.title}</a></p>`)}</section>`)}</div>` : ''}
 
     ${ctx.packet ? html`
       <section class="card packet-card" aria-labelledby="h-packet">
@@ -34,6 +36,7 @@ export function homeworkView(ctx) {
           ${items.map((h, i) => {
             const src = SOURCE[h.source] || SOURCE.newsletter;
             return html`
+              ${h.subject && h.subject !== items[i-1]?.subject ? html`<li class="hw-subject"><h3>${h.subject}</h3></li>` : ''}
               <li class="card hw hw-${h.source || 'newsletter'}">
                 <div class="hw-head">
                   ${h.subject ? html`<span class="chip subject">${h.subject}</span>` : ''}
@@ -51,6 +54,8 @@ export function homeworkView(ctx) {
         : html`<p class="card">No homework is listed for this week.</p>`}
     </section>
 
+    ${homeworkPapersSection(ctx.week)}
+
     <section class="card" aria-labelledby="h-practice">
       <h2 id="h-practice">Study Scoop practice (optional)</h2>
       <p>Extra practice made by Study Scoop for this week. It is not classroom homework.</p>
@@ -63,11 +68,38 @@ export function homeworkView(ctx) {
       </p>
     </section>
 
-    <p class="card note">Homework details are added after the homework goes home on Monday.</p>`;
+    <p class="card note">${received.length ? 'Assignment details come from the received papers; weekly due dates come from the newsletter.' : 'Homework details are added after the homework goes home on Monday.'}</p>`;
 }
 
 function practiceHref(ctx, p) {
   if (p.lesson) return ctx.lessonLink(p.lesson, 'learn');
   if (p.test) return ctx.testLink(p.test);
   return p.act ? ctx.actLink(p.section, p.act) : ctx.link(p.section);
+}
+
+
+/** Original classroom papers supplied and explicitly requested by the owner. */
+export function homeworkPapersSection(week) {
+  const papers = week.homeworkPapers;
+  if (!papers?.reviewed || !papers.pages?.length) return html`<section class="card homework-papers" aria-labelledby="h-papers">
+    <h2 id="h-papers">Original homework papers</h2>
+    <p>The classroom scans for this week are not yet available here. You can use the Study Scoop homework activities above while the originals are prepared and privacy-reviewed.</p>
+  </section>`;
+  return html`<section class="card flyer homework-papers" aria-labelledby="h-papers">
+    <div class="instruct-head"><h2 id="h-papers">Original homework papers</h2>
+      <span class="btn-row no-print"><button type="button" class="btn" data-act="zoom" aria-pressed="false">Zoom in</button>
+      <button type="button" class="btn" data-act="print">Print the homework</button></span></div>
+    <p class="hint no-print">All ${papers.pages.length} pages from school. Open a page full size, download each worksheet image, or print the pages. Handwritten examples on the supplied papers are included.</p>
+    <div class="flyer-pages">
+      ${papers.pages.map((pg) => html`<figure class="flyer-page">
+        <div class="flyer-scroll" tabindex="0" role="region" aria-label="${pg.label}"><img src="${pg.src}" alt="${pg.alt}" width="${pg.width}" height="${pg.height}" loading="lazy" decoding="async"></div>
+        <figcaption>${pg.label}
+          <span class="no-print">
+            <a href="${pg.src}" target="_blank" rel="noopener">Open full size<span class="sr-only"> (${pg.label}, opens in a new tab)</span></a>
+            <a href="${pg.src}" download>Download worksheet image<span class="sr-only"> (${pg.label})</span></a>
+          </span>
+        </figcaption>
+      </figure>`)}
+    </div>
+  </section>`;
 }

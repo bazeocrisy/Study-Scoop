@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  ELEMENT_IDS, GUIDE, countWords, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, storyWords, suggestion,
+  ELEMENT_IDS, FORMATS, GUIDE, answerKey, checkBlank, fillBlank, formatOf, normalizeAnswer, countWords, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, storyWords, suggestion,
   todaysPicks, tokenize, validateReadingIndex, validateStory, wordKey,
 } from '../../js/lib/reading.js';
 import { buildHash, parseHash } from '../../js/lib/router.js';
@@ -104,12 +104,45 @@ test('every story teaches every element of its kind, with a clue sentence that e
   for (const kind of ['story', 'fact']) for (const g of GUIDE[kind]) assert.ok(g.label && g.ask && g.tip && g.clues.length, `${kind} ${g.id}`);
 });
 
-test('questions have exactly one right answer and the right answers are spread across the choices', () => {
+test('multiple choice has one right answer, spread across the positions (so "always the first" cannot be learned)', () => {
   const where = [0, 0, 0];
-  for (const { s } of STORIES) for (const q of s.questions) { assert.equal(q.choices.length, 3); where[q.answer]++; }
-  // No answer position is hidden away or dominant (a child could guess "always the first one").
+  for (const { s } of STORIES) for (const q of s.questions.filter((x) => formatOf(x) === 'choice')) { assert.equal(q.choices.length, 3); where[q.answer]++; }
   const all = where[0] + where[1] + where[2];
+  assert.ok(all >= 16, 'there are multiple choice questions');
   for (const w of where) assert.ok(w / all > 0.2 && w / all < 0.5, `answer positions ${where}`);
+});
+
+test('every passage mixes the ways of answering: choose, true or false, fill in the blank, say it', () => {
+  assert.deepEqual(FORMATS, ['choice', 'tf', 'blank', 'say']);
+  for (const { s } of STORIES) {
+    const used = new Set(s.questions.map(formatOf));
+    for (const f of FORMATS) assert.ok(used.has(f), `${s.id} has a ${f} question`);
+    // Fill in the blank: exactly one ___ and the answer is accepted.
+    for (const q of s.questions.filter((x) => formatOf(x) === 'blank')) {
+      assert.equal(q.ask.split('___').length, 2, `${s.id}: ${q.ask}`);
+      assert.ok(checkBlank(q.blank, q.accept), `${s.id}: ${q.blank}`);
+    }
+    // The story map also varies: not every element is multiple choice.
+    const mapFormats = new Set(ELEMENT_IDS[s.kind].filter((id) => id !== 'events').map((id) => formatOf(s.elements[id])));
+    assert.ok(mapFormats.size >= 2, `${s.id} map uses ${[...mapFormats]}`);
+  }
+});
+
+test('typed answers ignore capitals, punctuation and a leading the/a/an, but not wrong words', () => {
+  assert.equal(normalizeAnswer('  The Park! '), 'park');
+  assert.equal(checkBlank('PARK', ['park']), true);
+  assert.equal(checkBlank('a coat.', ['coat', 'jacket']), true);
+  assert.equal(checkBlank('50,000', ['thousand', '50,000']), true);
+  assert.equal(checkBlank('', ['park']), false);
+  assert.equal(checkBlank('parking', ['park']), false);
+  // One-letter typing slips are forgiven on longer words only.
+  assert.equal(checkBlank('sheltr', ['shelter']), true);
+  assert.equal(checkBlank('shelterr', ['shelter']), true);
+  assert.equal(checkBlank('shalter', ['shelter']), true);
+  assert.equal(checkBlank('shltr', ['shelter']), false);
+  assert.equal(checkBlank('bark', ['park']), false);
+  assert.equal(checkBlank('beach', ['park']), false);
+  assert.equal(fillBlank('She went to the ___.', 'park'), 'She went to the park.');
 });
 
 test('no official-looking Lexile appears unless it was measured and dated', () => {
@@ -131,8 +164,13 @@ test('validateStory names what is wrong in plain English', () => {
   assert.match(msg((c) => { c.clues[0].text = 'not in the sentence'; }), /is not in sentence/);
   assert.match(msg((c) => { c.clues = c.clues.filter((x) => x.el !== 'problem'); }), /no clue words are marked for problem/);
   assert.match(msg((c) => { c.words.zebra = { say: 'ZEE-bra', means: 'an animal', example: 'A zebra ran.' }; }), /"zebra" is not in the passage/);
-  assert.match(msg((c) => { c.questions[2].choices[1] = c.questions[2].choices[0]; }), /choices must all differ/);
-  assert.match(msg((c) => { c.questions[2].answer = 5; }), /answer must be 0, 1 or 2/);
+  const choiceAt = (c) => c.questions.findIndex((q) => formatOf(q) === 'choice' && q.type !== 'listen');
+  assert.match(msg((c) => { const q = c.questions[choiceAt(c)]; q.choices[1] = q.choices[0]; }), /choices must all differ/);
+  assert.match(msg((c) => { c.questions[choiceAt(c)].answer = 5; }), /answer must be 0, 1 or 2/);
+  assert.match(msg((c) => { const q = c.questions.find((x) => formatOf(x) === 'blank'); q.ask = 'No blank here'; }), /exactly one ___ blank/);
+  assert.match(msg((c) => { const q = c.questions.find((x) => formatOf(x) === 'blank'); q.accept = ['something else']; }), /"accept" must list the accepted answers/);
+  assert.match(msg((c) => { c.questions.find((x) => formatOf(x) === 'tf').answer = 'yes'; }), /must be true or false/);
+  assert.match(msg((c) => { c.questions = c.questions.filter((q) => formatOf(q) !== 'say'); }), /needs at least one say question/);
   assert.match(msg((c) => { c.questions = c.questions.filter((q) => q.type !== 'listen'); }), /two listening questions/);
   assert.match(msg((c) => { delete c.elements.solution; }), /elements.solution is missing/);
 });
@@ -170,4 +208,28 @@ test('a story page has its title bar, a way back and the place the Reading Coach
   assert.match(out, /id="rd"/);
   assert.match(out, /href="#reading"/);
   assert.match(out, new RegExp(`${storyWords(s)} words`));
+});
+
+test('the answer key lists every map answer and every question\'s right answer, whatever its format', () => {
+  for (const { s } of STORIES) {
+    const key = answerKey(s);
+    assert.deepEqual(key.map.map((m) => m.id), ELEMENT_IDS[s.kind], s.id);
+    for (const m of key.map) assert.ok(Array.isArray(m.answer) ? m.answer.length === 3 : m.answer.length > 3, `${s.id} ${m.id}`);
+    assert.equal(key.questions.length, s.questions.length);
+    s.questions.forEach((q, i) => {
+      const f = formatOf(q), a = key.questions[i].answer;
+      if (f === 'choice') assert.equal(a, q.choices[q.answer]);
+      else if (f === 'tf') assert.equal(a, q.answer ? 'True' : 'False');
+      else if (f === 'blank') { assert.ok(a.includes(q.blank) && !a.includes('___'), `${s.id} q${i}: ${a}`); }
+      else assert.equal(a, q.answer);
+    });
+  }
+});
+
+test('clue colours stay out of the reading steps: they appear only in the Answers step, and only when he asks', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/reading-player.js'), 'utf8');
+  const asks = [...src.matchAll(/passage\(\{[^}]*reveal: /g)];
+  assert.equal(asks.length, 1, 'exactly one place asks for the clue colours');
+  assert.match(src.slice(src.indexOf('function answersView')), /passage\(\{ reveal: S\.keyClues \}\)/);
+  assert.ok(!/clueSwitch|data-act="clues"/.test(src), 'no switch turns the colours on while reading');
 });

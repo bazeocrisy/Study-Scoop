@@ -5,8 +5,8 @@ import { html } from '../lib/html.js';
 import { menuItems, activityInfo } from '../lib/activities.js';
 import { roundItem, roundParts, timesItem } from '../lib/skills.js';
 import { PLACE } from '../lib/rounding.js';
-import { menuPage, subBar, subjectMenu } from './common.js';
-import { activityView } from './activity.js';
+import { menuPage, subBar, subjectMenu, ICONS } from './common.js';
+import { activityView, activityInner, timesFlashView, timesFindView } from './activity.js';
 import { readButton } from './lesson.js';
 
 const HOME = (ctx) => ({ label: 'Skill Builders', href: ctx.link('skills') });
@@ -15,13 +15,75 @@ const LEARN = { addlearn: 'add', roundlearn: 'round', timeslearn: 'times' };
 
 export function skillsView(ctx) {
   if (ctx.run) return activityView(ctx);
+  if (ctx.page === 'timesapp') return timesAppView(ctx);
   if (GROUP[ctx.page]) return cardMenu(ctx, activityInfo('skills', ctx.page));
   if (LEARN[ctx.page]) return learnPage(ctx, activityInfo('skills', LEARN[ctx.page]), ctx.page);
-  if (ctx.page === 'timespick') return pickPage(ctx, activityInfo('skills', 'times'));
   return menuPage(ctx, 'skills', {
     title: 'Skill Builders', items: menuItems('skills'),
     context: 'Short skills to practise any week. Each one has Learn It, practice with Help, and a test.',
   });
+}
+
+// ---------------------------------------------------------------- Times Tables App
+
+/** Times Tables App: fact-family selector + three-tab practice experience. */
+function timesAppView(ctx) {
+  const info = activityInfo('skills', 'timesapp');
+  const timesCard = activityInfo('skills', 'times');
+  // Tab from query param; families from run state on the ctx
+  const tab = ctx.timesTab || 'flash';
+  const families = ctx.timesFamilies || [];
+
+  return html`
+    ${subBar(ctx, {
+      tone: 'skills', title: 'Practice Facts', goal: 'Pick your fact families, then flash, practice or find the fact.',
+      trail: [HOME(ctx), { label: 'Times Tables', href: ctx.actLink('skills', 'times') }, { label: 'Practice Facts' }],
+      back: [{ href: ctx.actLink('skills', 'times'), label: '‹ Back to Times Tables' }],
+    })}
+    <div class="times-app">
+      <section class="times-selector" aria-labelledby="h-selector">
+        <h2 id="h-selector" class="times-selector-title">Pick your fact families</h2>
+        <p class="hint">Choose one or more. Your picks stay while you switch between Flash, Practice and Find It.</p>
+        <div class="times-family-grid" role="group" aria-label="Fact families 0 through 12">
+          ${Array.from({ length: 13 }, (_, n) => {
+            const sel = families.includes(n);
+            return html`<button type="button"
+              class="times-family-btn${sel ? ' is-selected' : ''}"
+              data-act="times-family"
+              data-n="${n}"
+              aria-pressed="${sel ? 'true' : 'false'}"
+              aria-label="${n}s fact family${sel ? ' (selected)' : ''}">${n}s</button>`;
+          })}
+        </div>
+        ${families.length === 0 ? html`<p class="hint times-pick-hint" role="status">Pick at least one fact family to start.</p>` : html`<p class="hint times-pick-hint" role="status">Selected: ${families.map((f) => `${f}s`).join(', ')}.</p>`}
+      </section>
+
+      <div class="times-tabs" role="tablist" aria-label="Practice mode">
+        ${['flash', 'practice', 'find'].map((t) => {
+          const labels = { flash: 'Flash', practice: 'Practice', find: 'Find It' };
+          return html`<button type="button" role="tab"
+            class="times-tab${tab === t ? ' is-active' : ''}"
+            data-act="times-tab"
+            data-tab="${t}"
+            aria-selected="${tab === t ? 'true' : 'false'}"
+            aria-controls="times-panel"
+            id="times-tab-${t}">${labels[t]}</button>`;
+        })}
+      </div>
+
+      <div class="times-panel" id="times-panel" role="tabpanel" aria-labelledby="times-tab-${tab}">
+        ${families.length === 0
+          ? html`<div class="card times-empty"><p>Pick a fact family above to begin.</p></div>`
+          : tab === 'flash' ? timesFlashView(ctx)
+          : tab === 'practice' ? timesFlashView(ctx, 'practice')
+          : timeFindPanel(ctx)}
+      </div>
+    </div>`;
+}
+
+/** Find It tab panel wrapper */
+function timeFindPanel(ctx) {
+  return timesFindView(ctx);
 }
 
 /** One skill's menu: Learn It, its practice sets, Practice My Misses and its test. */
@@ -100,45 +162,6 @@ function learnPage(ctx, card, page) {
       <a class="btn" href="${ctx.actLink('skills', card.id)}">‹ Back to ${card.label}</a>
       ${first ? html`<a class="btn btn-primary" href="${ctx.actLink('skills', first.id)}">Start: ${first.label} ›</a>` : html`<span></span>`}
     </div>`;
-}
-
-// ---------------------------------------------------------------- Pick My Facts
-
-/** Times Tables > Pick My Facts: the child chooses one or more facts, then practises them three ways.
- *  The page is drawn here; js/times-practice.js runs it (nothing is saved). */
-function pickPage(ctx, card) {
-  const n12 = Array.from({ length: 12 }, (_, k) => k + 1);
-  return html`
-    ${subBar(ctx, {
-      tone: 'skills', title: 'Pick My Facts', goal: 'Choose one fact or many, then pick how to practice.',
-      trail: [HOME(ctx), { label: card.label, href: ctx.actLink('skills', card.id) }, { label: 'Pick My Facts' }],
-      back: [{ href: ctx.actLink('skills', card.id), label: `‹ Back to ${card.label}` }],
-    })}
-    <div class="tp" id="tp">
-      <section class="card tp-pick" id="tp-setup" aria-labelledby="tp-h-facts">
-        <div class="tp-row"><h2 id="tp-h-facts">1. Which facts?</h2>
-          <p class="btn-row"><button type="button" class="btn" data-tp="all">All</button><button type="button" class="btn" data-tp="clear">Clear</button></p></div>
-        <div class="tp-chips" role="group" aria-label="Facts">
-          ${n12.map((n) => html`<button type="button" class="tp-chip" id="tp-fact-${n}" data-fact="${n}" aria-pressed="false" aria-label="The ${n}s facts">${n}</button>`)}
-        </div>
-        <div class="tp-row"><span class="label">Multiply up to</span>
-          <p class="tp-seg" role="group" aria-label="Multiply up to"><button type="button" class="btn" id="tp-max-10" data-max="10" aria-pressed="true">× 10</button><button type="button" class="btn" id="tp-max-12" data-max="12" aria-pressed="false">× 12</button></p></div>
-      </section>
-      <p class="tp-summary" id="tp-summary" hidden>
-        <span id="tp-summary-text"></span>
-        <button type="button" class="btn" data-tp="edit-facts">Change facts</button>
-      </p>
-      <section aria-labelledby="tp-h-mode">
-        <h2 id="tp-h-mode" class="ask">2. How do you want to practice?</h2>
-        <div class="tp-modes" role="group" aria-label="Practice mode">
-          <button type="button" class="tp-mode" id="tp-mode-flash" data-mode="flash" aria-pressed="true"><span class="tp-mode-t">Flashcards</span><span class="tp-mode-a">Tap a card to flip it.</span></button>
-          <button type="button" class="tp-mode" id="tp-mode-find" data-mode="find" aria-pressed="false"><span class="tp-mode-t">Find the Fact</span><span class="tp-mode-a">See the answer. Fill in the two numbers.</span></button>
-          <button type="button" class="tp-mode" id="tp-mode-quiz" data-mode="quiz" aria-pressed="false"><span class="tp-mode-t">Quick Quiz</span><span class="tp-mode-a">See the fact. Type the answer.</span></button>
-        </div>
-      </section>
-      <section class="card tp-stage" id="tp-stage" aria-live="polite"><p class="tp-empty">Tap a number above to pick a fact.</p></section>
-    </div>
-    <div class="stage-nav"><a class="btn" href="${ctx.actLink('skills', card.id)}">‹ Back to ${card.label}</a><span></span></div>`;
 }
 
 const slugOf = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

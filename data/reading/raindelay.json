@@ -111,11 +111,13 @@
   },
   "elements": {
     "characters": {
-      "answer": "Amir and Coach Reyes",
-      "wrong": [
-        "Amir and the umpire",
-        "Amir and his dad"
+      "format": "blank",
+      "text": "Amir's coach is named Coach ___.",
+      "blank": "Reyes",
+      "accept": [
+        "Reyes"
       ],
+      "answer": "Amir and Coach Reyes",
       "find": 8
     },
     "setting": {
@@ -127,11 +129,8 @@
       "find": 5
     },
     "problem": {
-      "answer": "A storm stopped the big game, and Amir feared it would be canceled",
-      "wrong": [
-        "Amir lost his baseball glove",
-        "The Tigers had a better team"
-      ],
+      "format": "say",
+      "answer": "A storm stopped the big game, and Amir feared it would be canceled.",
       "find": 7
     },
     "events": {
@@ -151,11 +150,13 @@
       "find": 11
     },
     "lesson": {
-      "answer": "Staying calm helps you do your best when plans change",
-      "wrong": [
-        "Baseball is better in the rain",
-        "Always win the trophy"
+      "format": "blank",
+      "text": "Staying ___ helps you do your best when plans change.",
+      "blank": "calm",
+      "accept": [
+        "calm"
       ],
+      "answer": "Staying calm helps you do your best when plans change",
       "find": 18
     }
   },
@@ -173,68 +174,54 @@
     },
     {
       "type": "listen",
-      "ask": "Why did the umpire stop the game?",
-      "choices": [
-        "A player got hurt",
-        "The ball was lost",
-        "Thunder and rain began"
-      ],
-      "answer": 2,
+      "format": "tf",
+      "ask": "The game stopped because of thunder and rain.",
+      "answer": true,
       "find": 3
+    },
+    {
+      "type": "detail",
+      "format": "blank",
+      "ask": "The Hawks ran to the picnic ___.",
+      "blank": "shelter",
+      "accept": [
+        "shelter"
+      ],
+      "find": 5
     },
     {
       "type": "cause",
       "ask": "Why was Amir upset?",
       "choices": [
-        "He was afraid the game would be canceled",
         "He forgot his glove",
-        "He did not like his coach"
+        "He did not like his coach",
+        "He was afraid the game would be canceled"
       ],
-      "answer": 0,
+      "answer": 2,
       "find": 7
     },
     {
-      "type": "order",
-      "ask": "What did Coach Reyes ask the team to do FIRST?",
-      "choices": [
-        "Play a word game",
-        "Stretch and sip water",
-        "Go home"
-      ],
-      "answer": 1,
-      "find": 10
-    },
-    {
       "type": "detail",
-      "ask": "How long was the delay?",
-      "choices": [
-        "Ten minutes",
-        "Two hours",
-        "Forty minutes"
-      ],
-      "answer": 2,
+      "format": "tf",
+      "ask": "The rain delay lasted two hours.",
+      "answer": false,
       "find": 13
     },
     {
-      "type": "vocab",
-      "ask": "What does patient mean in this story?",
-      "choices": [
-        "able to wait without getting upset",
-        "very fast",
-        "angry and loud"
+      "type": "order",
+      "format": "blank",
+      "ask": "First, Coach Reyes asked everyone to stretch and sip some ___.",
+      "blank": "water",
+      "accept": [
+        "water"
       ],
-      "answer": 0,
-      "find": 17
+      "find": 10
     },
     {
       "type": "main",
-      "ask": "What is the lesson of this story?",
-      "choices": [
-        "Storms always end games",
-        "Staying calm helps you do your best",
-        "Coaches are always right"
-      ],
-      "answer": 1,
+      "format": "say",
+      "ask": "What is the lesson of this story? Say it in your own words.",
+      "answer": "Staying calm helps you do your best, even when plans change.",
       "find": 18
     }
   ]

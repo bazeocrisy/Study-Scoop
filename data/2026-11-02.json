@@ -80,28 +80,50 @@
       "subject": "Math",
       "due": "Friday, Nov 6",
       "source": "received",
-      "status": "Class worksheet received Nov 2. Identify shaded parts of shapes and draw equal halves/eighths. Original photographed sheet retained privately; not published."
+      "status": "Class paper received. Open an interactive activity, or view and print the original paper below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "fractions",
+        "label": "Open activity"
+      }
     },
     {
       "title": "Recognizing the Parts — page 63",
       "subject": "Math",
       "due": "Friday, Nov 6",
       "source": "received",
-      "status": "Class worksheet received Nov 2. Identify fractions of sets and write fractions from number words. Original photographed sheet retained privately; not published."
+      "status": "Class paper received. Open an interactive activity, or view and print the original paper below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "parts",
+        "label": "Open activity"
+      }
     },
     {
       "title": "My Favorite Author — fluency reading",
       "subject": "Reading",
       "due": "Friday, Nov 6",
       "source": "received",
-      "status": "Class reading passage received Nov 2. Read aloud and record words read right and errors for up to three readings. Original photographed sheet retained privately; not published."
+      "status": "Class paper received. Open an interactive activity, or view and print the original paper below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "fluency",
+        "label": "Open activity"
+      },
+      "description": "Parent-assisted tracker for three reads of the class passage, plus an original practice passage."
     },
     {
       "title": "My Favorite Author — comprehension",
       "subject": "Reading",
       "due": "Friday, Nov 6",
       "source": "received",
-      "status": "Class question sheet received Nov 2. Answer two questions in complete sentences: describe the ideal reading spot; explain buying a new book rather than waiting for the library. Original photographed sheet retained privately; not published."
+      "status": "Class paper received. Open an interactive activity, or view and print the original paper below. Complete the class paper as directed by your teacher.",
+      "practice": {
+        "section": "homework",
+        "act": "comprehension",
+        "label": "Open activity"
+      },
+      "description": "Describe the author’s ideal reading spot and explain why the author buys a new book instead of waiting for the library. Restate each question and answer in complete sentences."
     },
     {
       "title": "Reading Log",
@@ -369,6 +391,40 @@
         "alt": "Twelve Because of Winn-Dixie words and teacher definitions, three Topic 6 Area words for November 3, and four Topic 7 fraction words.",
         "width": 1000,
         "height": 1300
+      }
+    ]
+  },
+  "homeworkPapers": {
+    "reviewed": "2026-11-04",
+    "note": "Family-supplied original worksheets, explicitly authorized for public release. Reviewed blank name fields and Parent Copy notation; no student, teacher, school or contact identifiers. Geometrically straightened and cropped to remove home backgrounds. Academic content, handwritten examples and visible publisher credits retained.",
+    "pages": [
+      {
+        "src": "images/homework/2026-11-02-fractions-identifying.webp",
+        "label": "Identifying Fractions — page 61",
+        "alt": "Original classroom worksheet: Identifying Fractions — page 61",
+        "width": 1200,
+        "height": 1553
+      },
+      {
+        "src": "images/homework/2026-11-02-fractions-parts.webp",
+        "label": "Recognizing the Parts — page 63",
+        "alt": "Original classroom worksheet: Recognizing the Parts — page 63",
+        "width": 1200,
+        "height": 1553
+      },
+      {
+        "src": "images/homework/2026-11-02-reading-passage.webp",
+        "label": "My Favorite Author — reading passage",
+        "alt": "Original classroom worksheet: My Favorite Author — reading passage",
+        "width": 1200,
+        "height": 1553
+      },
+      {
+        "src": "images/homework/2026-11-02-reading-questions.webp",
+        "label": "My Favorite Author — comprehension questions",
+        "alt": "Original classroom worksheet: My Favorite Author — comprehension questions",
+        "width": 1200,
+        "height": 1553
       }
     ]
   }
