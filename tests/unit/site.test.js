@@ -47,6 +47,8 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
   const lessons = JSON.parse(fs.readFileSync(path.join(REPO, 'data/lessons/index.json'), 'utf8')).lessons.map((l) => `data/lessons/${l.id}.json`);
   const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
     'data/lessons/index.json', ...lessons, 'images/cone.svg',
+    // Reading Coach (D27): the library index and every story it lists.
+    'data/reading/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/reading/index.json'), 'utf8')).stories.map((r) => `data/reading/${r.id}.json`),
     'data/practice/math.json', 'data/practice/math-words.json', 'data/practice/area.json', 'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
     ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2')),
     // Homework packets (D23): Study Scoop's own version of the week's homework and its printed PDF.

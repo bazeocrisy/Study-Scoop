@@ -1,0 +1,207 @@
+{
+  "id": "octopus",
+  "title": "The Octopus Escape Artist",
+  "kind": "fact",
+  "step": 3,
+  "topic": "Ocean",
+  "sentences": [
+    "The octopus is one of the smartest animals in the ocean.",
+    "It has no bones, so its soft body can squeeze through very small holes.",
+    "This makes the octopus a famous escape artist.",
+    "Scientists have seen octopuses open jars by twisting the lids.",
+    "Some have even slipped out of tanks at aquariums and crawled across the floor.",
+    "An octopus also has a clever way to hide.",
+    "Special cells in its skin let it change color in less than a second.",
+    "It can turn brown to match a rock or white to match sand.",
+    "Because it blends in so well, hungry sharks often swim right past.",
+    "When it cannot hide, the octopus has another trick.",
+    "It squirts a cloud of dark ink into the water.",
+    "The ink blocks the enemy's view, so the octopus can jet away.",
+    "An octopus has eight arms, and each arm has hundreds of tiny suckers.",
+    "The suckers help it grip rocks and grab food such as crabs and clams.",
+    "Even more surprising, an octopus has three hearts.",
+    "In short, the octopus survives by being smart, flexible and sneaky."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "one of the smartest animals in the ocean",
+      "el": "mainidea"
+    },
+    {
+      "s": 2,
+      "text": "a famous escape artist",
+      "el": "mainidea"
+    },
+    {
+      "s": 3,
+      "text": "open jars by twisting the lids",
+      "el": "detail"
+    },
+    {
+      "s": 12,
+      "text": "eight arms",
+      "el": "detail"
+    },
+    {
+      "s": 14,
+      "text": "three hearts",
+      "el": "detail"
+    },
+    {
+      "s": 1,
+      "text": "It has no bones, so its soft body can squeeze through very small holes",
+      "el": "cause"
+    },
+    {
+      "s": 8,
+      "text": "Because it blends in so well",
+      "el": "cause"
+    },
+    {
+      "s": 11,
+      "text": "The ink blocks the enemy's view, so the octopus can jet away",
+      "el": "cause"
+    },
+    {
+      "s": 15,
+      "text": "In short",
+      "el": "takeaway"
+    }
+  ],
+  "words": {
+    "aquariums": {
+      "say": "uh-KWAIR-ee-umz",
+      "means": "places where fish and sea animals live so people can see them",
+      "example": "We saw a shark at the aquarium."
+    },
+    "blends": {
+      "say": "BLENDZ",
+      "means": "looks so much like the things around it that it is hard to see",
+      "example": "The green frog blends in with the leaves."
+    },
+    "suckers": {
+      "say": "SUK-erz",
+      "means": "round parts that hold on tight to things",
+      "example": "The suckers help it grip the rock."
+    },
+    "flexible": {
+      "say": "FLEK-suh-bul",
+      "means": "able to bend easily",
+      "example": "A rubber band is flexible."
+    }
+  },
+  "elements": {
+    "mainidea": {
+      "answer": "The octopus is a smart animal with clever ways to escape and hide",
+      "wrong": [
+        "Octopuses live only in tanks",
+        "Octopuses are slow and easy to catch"
+      ],
+      "find": 0
+    },
+    "detail": {
+      "answer": "An octopus can open jars by twisting the lids",
+      "wrong": [
+        "An octopus has two arms",
+        "An octopus has a hard shell"
+      ],
+      "find": 3
+    },
+    "cause": {
+      "answer": "An octopus has no bones, so it can squeeze through very small holes",
+      "wrong": [
+        "An octopus changes color, so it can open jars",
+        "An octopus has suckers, so it has no bones"
+      ],
+      "find": 1
+    },
+    "takeaway": {
+      "answer": "The octopus survives by being smart, flexible and sneaky",
+      "wrong": [
+        "Octopuses are dangerous to sharks",
+        "Octopuses cannot hide from enemies"
+      ],
+      "find": 15
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "How many hearts does an octopus have?",
+      "choices": [
+        "One",
+        "Eight",
+        "Three"
+      ],
+      "answer": 2,
+      "find": 14
+    },
+    {
+      "type": "listen",
+      "ask": "What does the octopus squirt to escape an enemy?",
+      "choices": [
+        "Dark ink",
+        "Sand",
+        "Hot water"
+      ],
+      "answer": 0,
+      "find": 10
+    },
+    {
+      "type": "main",
+      "ask": "What is this passage mostly about?",
+      "choices": [
+        "Why sharks are dangerous",
+        "How an octopus uses smart tricks to survive",
+        "How to build an aquarium"
+      ],
+      "answer": 1,
+      "find": 15
+    },
+    {
+      "type": "cause",
+      "ask": "Why can an octopus squeeze through small holes?",
+      "choices": [
+        "It is very small",
+        "It has three hearts",
+        "It has no bones"
+      ],
+      "answer": 2,
+      "find": 1
+    },
+    {
+      "type": "detail",
+      "ask": "What can an octopus's skin do?",
+      "choices": [
+        "Change color in less than a second",
+        "Grow hard like armor",
+        "Glow in the dark"
+      ],
+      "answer": 0,
+      "find": 6
+    },
+    {
+      "type": "vocab",
+      "ask": "What does flexible mean in this passage?",
+      "choices": [
+        "very loud",
+        "able to bend easily",
+        "hard to see"
+      ],
+      "answer": 1,
+      "find": 15
+    },
+    {
+      "type": "cause",
+      "ask": "Why do hungry sharks often swim right past an octopus?",
+      "choices": [
+        "It is bigger than a shark",
+        "It makes loud noises",
+        "It blends in with its background"
+      ],
+      "answer": 2,
+      "find": 8
+    }
+  ]
+}

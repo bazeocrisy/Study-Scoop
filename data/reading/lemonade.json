@@ -1,0 +1,233 @@
+{
+  "id": "lemonade",
+  "title": "The Lemonade Stand",
+  "kind": "story",
+  "step": 3,
+  "topic": "Neighborhood",
+  "sentences": [
+    "Rosa and her little brother Luis wanted to buy a gift for their mom.",
+    "Her birthday was on Saturday, and they had only two dollars.",
+    "\"We need more money,\" said Rosa.",
+    "Luis had an idea.",
+    "\"Let's sell lemonade!\" he shouted.",
+    "That afternoon, they set up a table in front of their house on Pine Street.",
+    "First, they squeezed lemons and stirred in sugar.",
+    "Next, Rosa painted a bright sign that said, \"Cold Lemonade, 50 cents.\"",
+    "But hardly anyone walked by, and the sun was hot.",
+    "The lemonade was getting warm.",
+    "Luis frowned. \"Nobody wants to buy any.\"",
+    "Rosa thought hard.",
+    "Then she moved the table to the corner by the park, where many families were playing.",
+    "Soon a line of thirsty kids and parents stretched down the sidewalk.",
+    "By evening, they had sold every cup and had enough money for a beautiful plant.",
+    "Rosa and Luis learned that when one plan does not work, you can try a new place or a new way."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "Rosa",
+      "el": "characters"
+    },
+    {
+      "s": 0,
+      "text": "her little brother Luis",
+      "el": "characters"
+    },
+    {
+      "s": 5,
+      "text": "That afternoon",
+      "el": "setting"
+    },
+    {
+      "s": 5,
+      "text": "in front of their house on Pine Street",
+      "el": "setting"
+    },
+    {
+      "s": 8,
+      "text": "hardly anyone walked by",
+      "el": "problem"
+    },
+    {
+      "s": 1,
+      "text": "they had only two dollars",
+      "el": "problem"
+    },
+    {
+      "s": 6,
+      "text": "First",
+      "el": "events"
+    },
+    {
+      "s": 7,
+      "text": "Next",
+      "el": "events"
+    },
+    {
+      "s": 12,
+      "text": "Then",
+      "el": "events"
+    },
+    {
+      "s": 12,
+      "text": "moved the table to the corner by the park",
+      "el": "solution"
+    },
+    {
+      "s": 14,
+      "text": "sold every cup",
+      "el": "solution"
+    },
+    {
+      "s": 15,
+      "text": "learned that when one plan does not work, you can try a new place or a new way",
+      "el": "lesson"
+    }
+  ],
+  "words": {
+    "squeezed": {
+      "say": "SKWEEZD",
+      "means": "pressed hard to get the juice out",
+      "example": "He squeezed the orange."
+    },
+    "hardly": {
+      "say": "HARD-lee",
+      "means": "almost not at all",
+      "example": "It was so dark I could hardly see."
+    },
+    "stretched": {
+      "say": "STRECHT",
+      "means": "reached out long and far",
+      "example": "The line stretched around the corner."
+    }
+  },
+  "elements": {
+    "characters": {
+      "answer": "Rosa and her little brother Luis",
+      "wrong": [
+        "Rosa and her friend Tia",
+        "Luis and his dad"
+      ],
+      "find": 0
+    },
+    "setting": {
+      "answer": "A lemonade stand on Pine Street and by the park",
+      "wrong": [
+        "A store downtown at night",
+        "A school on a rainy day"
+      ],
+      "find": 5
+    },
+    "problem": {
+      "answer": "Hardly anyone bought their lemonade",
+      "wrong": [
+        "They ran out of lemons",
+        "The sign was too small"
+      ],
+      "find": 8
+    },
+    "events": {
+      "order": [
+        "They made lemonade and a sign.",
+        "Rosa moved the table by the park.",
+        "They sold every cup."
+      ],
+      "find": 12
+    },
+    "solution": {
+      "answer": "Rosa moved the table to where many families were",
+      "wrong": [
+        "They gave the lemonade away",
+        "They made the lemonade sweeter"
+      ],
+      "find": 12
+    },
+    "lesson": {
+      "answer": "If a plan does not work, try a new way",
+      "wrong": [
+        "Lemonade is the best drink",
+        "Always sell in front of your house"
+      ],
+      "find": 15
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "What did Rosa and Luis want to buy?",
+      "choices": [
+        "A gift for their mom",
+        "A new bike",
+        "A puppy"
+      ],
+      "answer": 0,
+      "find": 0
+    },
+    {
+      "type": "listen",
+      "ask": "What did they sell?",
+      "choices": [
+        "Cookies",
+        "Lemonade",
+        "Popcorn"
+      ],
+      "answer": 1,
+      "find": 4
+    },
+    {
+      "type": "order",
+      "ask": "What did they do FIRST?",
+      "choices": [
+        "Moved the table",
+        "Sold every cup",
+        "Squeezed lemons and stirred in sugar"
+      ],
+      "answer": 2,
+      "find": 6
+    },
+    {
+      "type": "cause",
+      "ask": "Why did Rosa move the table?",
+      "choices": [
+        "Hardly anyone walked by the first spot",
+        "The sun went down",
+        "Her mom asked her to"
+      ],
+      "answer": 0,
+      "find": 8
+    },
+    {
+      "type": "detail",
+      "ask": "How much did one cup cost?",
+      "choices": [
+        "Two dollars",
+        "50 cents",
+        "5 cents"
+      ],
+      "answer": 1,
+      "find": 7
+    },
+    {
+      "type": "vocab",
+      "ask": "What does hardly anyone mean?",
+      "choices": [
+        "a lot of people",
+        "only grown-ups",
+        "almost nobody"
+      ],
+      "answer": 2,
+      "find": 8
+    },
+    {
+      "type": "main",
+      "ask": "What did Rosa and Luis learn?",
+      "choices": [
+        "To try a new way when a plan does not work",
+        "Lemonade must be cold",
+        "To sell only in the evening"
+      ],
+      "answer": 0,
+      "find": 15
+    }
+  ]
+}

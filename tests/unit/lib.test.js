@@ -8,9 +8,9 @@ import { SECTION_IDS, SECTIONS } from '../../js/sections.js';
 
 const INDEX = { current: '2026-10-19', weeks: [{ id: '2026-10-19' }, { id: '2026-10-12' }] };
 
-test('there are exactly eight sections in the approved order', () => {
+test('there are exactly nine sections in the approved order', () => {
   assert.deepEqual(SECTIONS.map((s) => s.label),
-    ['This Week', 'Spelling', 'Vocabulary', 'Math', 'Skill Builders', 'Homework', 'Newsletter', 'Tests']);
+    ['This Week', 'Spelling', 'Vocabulary', 'Reading', 'Math', 'Skill Builders', 'Homework', 'Newsletter', 'Tests']);
 });
 
 test('parseHash reads sections and weeks', () => {

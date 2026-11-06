@@ -1,8 +1,9 @@
-// The eight sections, in navigation order. `id` is the hash route.
+// The nine sections, in navigation order. `id` is the hash route.
 export const SECTIONS = [
   { id: 'week', label: 'This Week' },
   { id: 'spelling', label: 'Spelling' },
   { id: 'vocab', label: 'Vocabulary' },
+  { id: 'reading', label: 'Reading' },
   { id: 'math', label: 'Math' },
   { id: 'skills', label: 'Skill Builders' },
   { id: 'homework', label: 'Homework' },

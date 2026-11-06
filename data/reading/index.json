@@ -1,0 +1,90 @@
+{
+  "steps": [
+    {
+      "n": 1,
+      "label": "Step 1",
+      "about": "Short and friendly: about 80 to 120 words. A good place to start."
+    },
+    {
+      "n": 2,
+      "label": "Step 2",
+      "about": "A little longer: about 120 to 160 words."
+    },
+    {
+      "n": 3,
+      "label": "Step 3",
+      "about": "Growing stamina: about 160 to 200 words."
+    },
+    {
+      "n": 4,
+      "label": "Step 4",
+      "about": "Ready for more: 200 words or more."
+    }
+  ],
+  "stories": [
+    {
+      "id": "stuckkite",
+      "title": "The Stuck Kite",
+      "kind": "story",
+      "step": 1,
+      "topic": "Outdoors",
+      "words": 97
+    },
+    {
+      "id": "pip",
+      "title": "Pip Finds a Home",
+      "kind": "story",
+      "step": 1,
+      "topic": "Animals",
+      "words": 102
+    },
+    {
+      "id": "busybees",
+      "title": "Busy Bees",
+      "kind": "fact",
+      "step": 2,
+      "topic": "Animals",
+      "words": 138
+    },
+    {
+      "id": "missingbook",
+      "title": "The Missing Library Book",
+      "kind": "story",
+      "step": 2,
+      "topic": "School and Home",
+      "words": 150
+    },
+    {
+      "id": "leafcolor",
+      "title": "Why Leaves Change Color",
+      "kind": "fact",
+      "step": 2,
+      "topic": "Nature",
+      "words": 152
+    },
+    {
+      "id": "lemonade",
+      "title": "The Lemonade Stand",
+      "kind": "story",
+      "step": 3,
+      "topic": "Neighborhood",
+      "words": 164
+    },
+    {
+      "id": "octopus",
+      "title": "The Octopus Escape Artist",
+      "kind": "fact",
+      "step": 3,
+      "topic": "Ocean",
+      "words": 182
+    },
+    {
+      "id": "raindelay",
+      "title": "The Rain Delay",
+      "kind": "story",
+      "step": 4,
+      "topic": "Sports",
+      "words": 216
+    }
+  ]
+}
