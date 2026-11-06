@@ -1,0 +1,195 @@
+{
+  "id": "busybees",
+  "title": "Busy Bees",
+  "kind": "fact",
+  "step": 2,
+  "topic": "Animals",
+  "sentences": [
+    "Honey bees are small insects that live in big groups called colonies.",
+    "A colony can have up to fifty thousand bees.",
+    "Each bee has a job to do.",
+    "The queen bee lays eggs, and that is her only job.",
+    "Worker bees clean the hive, make honey, and care for the young.",
+    "For example, some workers fly out to find flowers.",
+    "They drink a sweet juice from flowers called nectar.",
+    "When a worker finds good flowers, she dances inside the hive.",
+    "The dance tells the other bees where the flowers are.",
+    "That is how the whole colony finds food.",
+    "Bees also help people.",
+    "While they visit flowers, they carry a yellow powder called pollen from plant to plant.",
+    "Because of the pollen, plants can grow fruit and seeds.",
+    "In short, bees work together, and many plants need their help."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "Honey bees are small insects",
+      "el": "mainidea"
+    },
+    {
+      "s": 2,
+      "text": "Each bee has a job to do",
+      "el": "mainidea"
+    },
+    {
+      "s": 1,
+      "text": "up to fifty thousand bees",
+      "el": "detail"
+    },
+    {
+      "s": 5,
+      "text": "For example",
+      "el": "detail"
+    },
+    {
+      "s": 7,
+      "text": "When a worker finds good flowers, she dances inside the hive",
+      "el": "cause"
+    },
+    {
+      "s": 12,
+      "text": "Because of the pollen",
+      "el": "cause"
+    },
+    {
+      "s": 13,
+      "text": "In short",
+      "el": "takeaway"
+    }
+  ],
+  "words": {
+    "colonies": {
+      "say": "KOL-uh-neez",
+      "means": "big groups of animals that live together",
+      "example": "Ants live in colonies under the ground."
+    },
+    "hive": {
+      "say": "HYV",
+      "means": "the home where bees live",
+      "example": "The bees flew back to the hive."
+    },
+    "nectar": {
+      "say": "NEK-ter",
+      "means": "a sweet juice inside flowers",
+      "example": "A hummingbird drinks nectar."
+    },
+    "pollen": {
+      "say": "POL-en",
+      "means": "a yellow powder that flowers make",
+      "example": "Pollen stuck to the bee's legs."
+    }
+  },
+  "elements": {
+    "mainidea": {
+      "answer": "Honey bees live in colonies and each bee has a job",
+      "wrong": [
+        "Honey bees only make honey for people",
+        "Honey bees are the biggest insects"
+      ],
+      "find": 2
+    },
+    "detail": {
+      "answer": "A colony can have up to fifty thousand bees",
+      "wrong": [
+        "The queen bee makes all the honey",
+        "Bees sleep inside flowers"
+      ],
+      "find": 1
+    },
+    "cause": {
+      "answer": "Bees carry pollen, so plants can grow fruit and seeds",
+      "wrong": [
+        "Bees make honey, so flowers grow taller",
+        "Bees dance, so it stops raining"
+      ],
+      "find": 12
+    },
+    "takeaway": {
+      "answer": "Bees work together and plants need their help",
+      "wrong": [
+        "Bees are only found in hives",
+        "Honey is the most important thing bees make"
+      ],
+      "find": 13
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "What do we call a big group of honey bees?",
+      "choices": [
+        "A colony",
+        "A herd",
+        "A flock"
+      ],
+      "answer": 0,
+      "find": 0
+    },
+    {
+      "type": "listen",
+      "ask": "What do worker bees drink from flowers?",
+      "choices": [
+        "Rain water",
+        "Nectar",
+        "Tree sap"
+      ],
+      "answer": 1,
+      "find": 6
+    },
+    {
+      "type": "main",
+      "ask": "What is this passage mostly about?",
+      "choices": [
+        "How to build a hive",
+        "Why honey is sweet",
+        "How bees work together and help plants"
+      ],
+      "answer": 2,
+      "find": 13
+    },
+    {
+      "type": "detail",
+      "ask": "What is the queen bee's only job?",
+      "choices": [
+        "Laying eggs",
+        "Making honey",
+        "Finding flowers"
+      ],
+      "answer": 0,
+      "find": 3
+    },
+    {
+      "type": "cause",
+      "ask": "Why does a worker bee dance inside the hive?",
+      "choices": [
+        "To keep the hive warm",
+        "To tell the others where the flowers are",
+        "To get ready to sleep"
+      ],
+      "answer": 1,
+      "find": 8
+    },
+    {
+      "type": "vocab",
+      "ask": "What does pollen mean in this passage?",
+      "choices": [
+        "a kind of bee",
+        "a sweet juice",
+        "a yellow powder from flowers"
+      ],
+      "answer": 2,
+      "find": 11
+    },
+    {
+      "type": "cause",
+      "ask": "How do bees help plants grow fruit?",
+      "choices": [
+        "They carry pollen from plant to plant",
+        "They give plants water",
+        "They dig holes for seeds"
+      ],
+      "answer": 0,
+      "find": 11
+    }
+  ]
+}

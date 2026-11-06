@@ -15,6 +15,8 @@ Assignment 005 user-acceptance corrections on `develop` (D19): Spelling, Vocabul
 
 Assignment 005 (implementation) on `develop`: eighth section **Tests** (weekly Study Scoop practice tests for Math, Spelling and Vocabulary), Spelling and Vocabulary practice activities with Practice My Misses, and homework entries that say what was received (D18). Before that, Assignment 004: redesigned site (D16), interactive Lessons 5-1 and 5-2 on a shared lesson engine (D17), spelling and vocabulary pictures integrated. Preview: https://bazeocrisy.github.io/Study-Scoop/preview/ · production (unchanged until the owner approves a merge): https://bazeocrisy.github.io/Study-Scoop/. Image PRs #2 and #3: their files are included on `develop`; the PRs themselves are not merged.
 
+Reading Coach (D27) on `feature/reading-coach`: a ninth section, Reading, with eight original passages (steps 1 to 4, stories and fact passages), a Story Guide with clue words, read-aloud with word highlighting, tap-a-word cards, echo reading, a timed Your turn that works out words read right per minute, a Story Map and comprehension questions. Awaiting owner review before any merge. Nothing is stored; no Lexile numbers are shown until measured.
+
 ## Completed
 - GitHub repository created by owner; README.md and CLAUDE.md added
 - Assignment 001: read-only audit (`docs/STUDY-SCOOP-AUDIT-REPORT.md`)

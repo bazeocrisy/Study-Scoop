@@ -61,3 +61,14 @@ The replacements keep each sentence's grammar and its article ("an ___" still pr
 - **Approval (superseded by D15):** publishing happens only through `.github/workflows/pages.yml`. Pushes to `main` and `develop` publish automatically (production and preview); pull requests are checked but never published. The owner approves each merge into `main`. See `docs/DEPLOYMENT.md`.
 - **Drafts stay off the site:** a week file is published only once it is listed in `data/weeks.json`.
 - **Smallest change:** to test the built site, the test server can now serve a folder other than the repository (`root` option in `tests/lib/harness.js`, `--site` in `tests/browser.test.js`). No app code changed.
+
+## D27: Reading Coach (ninth section, Reading)
+
+- **Why:** the owner's reader needs daily practice in speed, comprehension and stamina. The class reading fluency goal is 135 words read right per minute. A school report showed text structure and listening comprehension among the weakest reading areas, so the Coach teaches those directly instead of only timing reading.
+- **What it is:** a library of original passages (`data/reading/`, listed in `data/reading/index.json`, written by `scripts/author/reading-stories.mjs`). Each opens a Reading Coach: Story Guide, Listen first, Read along, Echo read, Your turn (a timed reading, up to three, with the grown-up tapping missed words), Story Map and Questions. Every word can be tapped to hear it and see a kid-friendly meaning.
+- **Story elements:** a story teaches characters, setting, problem, events, solution and lesson; a fact passage teaches main idea, detail, cause and effect, and take-away. Clue words are marked in each story file and shown in a colour per element. The Guide says clues help but do not replace thinking about the sentence.
+- **Original writing only:** no classroom worksheet or published text is copied (the repository is public). The format was inspired by a class fluency sheet, but its text is not used.
+- **Levels:** Study Scoop "steps" (1 shortest) and the exact word count. A Lexile number appears only when a story file carries one measured with the official Lexile Analyzer and the date it was measured. `validateReadingIndex` refuses a Lexile without that date. No Lexile has been measured yet, so none is shown.
+- **Voice:** reading aloud uses the browser's built-in voice (a device voice first). Nothing is recorded or sent, and the microphone is not used. The grown-up, not speech recognition, decides which words were missed, because speech recognition quietly corrects mistakes.
+- **Nothing is stored (CLAUDE.md):** readings, scores and tapped words live only while the page is open. Streaks, saved progress and minutes-per-day need a new approved design.
+- **Not built yet (needs approval):** the AI listening coach (a speech service that checks each word and a server to keep keys private), progress saved on the device, and more than eight passages.

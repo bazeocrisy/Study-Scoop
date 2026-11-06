@@ -12,7 +12,7 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 // Preserve the historical Oct 26 student journeys as weeks roll forward.
 // The November homework suite tests the actual current-week index without overlays.
 const INDEX = readJSON('tests/fixtures/data/weeks-regression.json');
-const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['math', 'Math'],
+const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading'], ['math', 'Math'],
   ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
 const L51 = readJSON('data/lessons/5-1.json');
@@ -118,7 +118,7 @@ async function main() {
       eq(await b.js('return location.hash;'), '', 'hash untouched on first load');
       eq(b.errors, [], 'console errors');
     });
-    await check('navigation lists the eight sections in order', async () => {
+    await check('navigation lists the nine sections in order', async () => {
       const labels = await b.js('return [...document.querySelectorAll("nav.tabs a")].map((a) => a.textContent.trim());');
       eq(labels, SECTIONS.map((s) => s[1]), 'nav labels');
       eq(await b.js('return document.querySelector("nav.tabs").getAttribute("aria-label");'), 'Sections', 'nav label');
@@ -258,7 +258,7 @@ async function main() {
     });
 
     console.log('Keyboard and accessibility');
-    await check('Tab order: skip link, logo, week picker, then the eight sections', async () => {
+    await check('Tab order: skip link, logo, week picker, then the nine sections', async () => {
       await b.load(url('#week'));
       // fresh load: focus starts at the top of the page
       const order = [];
