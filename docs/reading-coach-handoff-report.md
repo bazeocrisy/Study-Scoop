@@ -12,6 +12,8 @@ Prepared by Claude Code (programmer) for ChatGPT/Codex (architect and independen
 | Code, tests, data and screenshots commit | `f6e6e48890d1affa0f9cd129186ecef6e29ca8b4` |
 | Branch head (adds this report and the decision record) | see the draft PR head; the report cannot contain its own commit id |
 
+Note: `develop` has since advanced to `c22e61a` through two newsletter pull requests (#29 and #30) made outside this assignment. They are unrelated to this branch, which was never based on or merged with `develop`, and nothing here touches them.
+
 Existing work preserved: everything on `main` and `develop`. The branch starts from `main`, so `develop`'s own unmerged work (Spelling Study Cards, the chapter-test misses fix, the received-homework record, the Assignment 008 log) is neither included nor disturbed. Times Tables variants, Chapter 6 data, PR #24 and all deployment settings (`.github/workflows`) are untouched.
 
 ## 2. Branch and draft pull request
