@@ -180,3 +180,12 @@ test('homework checkboxes are labelled', () => {
   assert.equal(inputs.length, week.homework.length);
   for (const id of inputs) assert.ok(out.includes(`<label class="hw-check" for="${id}">`), id);
 });
+
+test('spelling study cards keep every sentence when illustrations are unavailable', () => {
+  const week = readJSON('data/2026-11-09.json');
+  const ctx = { ...ctxFor(realIndex, week.id, 'spelling', week), page: 'learn', pictures: {} };
+  const out = spellingView(ctx).s;
+  assert.equal((out.match(/class="card study-card"/g) || []).length, 12);
+  for (const word of week.spelling.words) assert.ok(out.includes(esc(word.sentence)));
+  assert.doesNotMatch(out, /<img/);
+});

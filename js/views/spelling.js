@@ -1,7 +1,6 @@
 // Spelling opens on its menu (Learn My Words, Flashcards, Missing Letters, Listen & Spell, Practice My Misses).
 // Learn My Words is the week's pattern, the words grouped by rule, and the picture study cards (DECISIONS D19).
 import { html } from '../lib/html.js';
-import { pictureName } from '../lib/data.js';
 import { menuItems } from '../lib/activities.js';
 import { menuPage, subBar, testsNote, wordPicture } from './common.js';
 import { activityView } from './activity.js';
@@ -23,8 +22,7 @@ function learnWords(ctx) {
   })).filter((g) => g.words.length);
   // Study cards: the owner-approved picture cards (each shows the written word, so they are for studying only,
   // never for a spelling test; DECISIONS D13).
-  const availablePictures = new Set([...(ctx.pictures?.photos || []), ...(ctx.pictures?.drawings || [])]);
-  const cards = sp.words.filter((w) => availablePictures.has(pictureName(w.word)));
+  const cards = sp.words;
   return html`
     ${subBar(ctx, {
       tone: 'spelling', title: 'Learn My Words', goal: `This week's pattern: ${sp.pattern} (${sp.words.length} words)`,
@@ -48,7 +46,7 @@ function learnWords(ctx) {
     ${cards.length ? html`
       <section aria-labelledby="h-study">
         <h2 id="h-study">Study cards</h2>
-        <p class="intro">Look at each picture, say the word, then read the sentence.</p>
+        <p class="intro">Say each word and read its sentence. Use the picture when one is available.</p>
         <ul class="cards study-cards">
           ${cards.map((w) => html`
             <li class="card study-card">
