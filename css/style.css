@@ -1279,3 +1279,20 @@ button.times-flashcard.is-flipped .times-product { color: var(--berry); }
 ol.rd-key { list-style: decimal; padding-left: 1.4em; }
 .rd-key .rd-gcard ol { margin: 4px 0 0; padding-left: 1.4em; }
 .rd-key .hint { display: block; }
+
+/* Reading Coach: fill in the blank, true or false, say it, and the tappable Answers rows */
+.rd-blankline { line-height: 2.4; }
+.rd-blank { font: inherit; font-weight: 700; width: 9em; max-width: 100%; min-height: 44px; margin: 0 6px; padding: 2px 10px; color: var(--ink); background: var(--paper);
+  border: 2px solid var(--line-strong); border-radius: var(--r-sm); }
+.rd-blank:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.rd-blank.is-right { border-color: var(--ok); background: var(--ok-tint); }
+.rd-tf { display: inline-block; padding: 0 10px; margin-right: 4px; border-radius: 999px; background: var(--berry-tint); border: 2px solid var(--berry); font-size: 1rem; }
+.rd-model { padding: 10px 14px; border-radius: var(--r-sm); background: var(--teal-tint); border-left: 6px solid var(--teal); display: grid; gap: 6px; }
+.rd-akey { list-style: none; }
+.rd-reveal { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 52px; text-align: left; font: inherit; color: var(--ink);
+  padding: 8px 14px; background: var(--paper); border: 2px solid var(--line-strong); border-radius: var(--r); cursor: pointer; }
+.rd-reveal[aria-expanded="true"] { border-color: var(--teal); background: var(--teal-tint); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.rd-plus { font-size: 1.6rem; font-weight: 800; color: var(--teal); flex: none; }
+.rd-apanel { padding: 10px 14px; border: 2px solid var(--teal); border-top: 0; border-radius: 0 0 var(--r) var(--r); background: var(--well); display: grid; gap: 4px; }
+.rd-apanel ol { margin: 0; padding-left: 1.4em; }
+.rd-key { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }

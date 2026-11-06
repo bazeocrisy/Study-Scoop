@@ -30,6 +30,29 @@ export const GUIDE = {
 };
 export const ELEMENT_IDS = { story: GUIDE.story.map((e) => e.id), fact: GUIDE.fact.map((e) => e.id) };
 export const QUESTION_TYPES = ['listen', 'order', 'cause', 'main', 'detail', 'vocab', 'infer'];
+/** How a question is answered: pick one, true or false, fill in the blank, or say it and check yourself. */
+export const FORMATS = ['choice', 'tf', 'blank', 'say'];
+export const formatOf = (q) => q.format || 'choice';
+
+/** A typed answer without capitals, punctuation or a leading "the/a/an", so "The Park!" matches "park". */
+export const normalizeAnswer = (t) => String(t).toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim().replace(/^(the|a|an) /, '');
+/** True when the two words differ by one letter added, dropped or changed. */
+const oneSlip = (a, b) => {
+  if (Math.abs(a.length - b.length) > 1) return false;
+  let i = 0;
+  while (i < a.length && i < b.length && a[i] === b[i]) i++;
+  const rest = (x, y) => x.slice(i) === y.slice(i);
+  return rest(a, b.slice(0, i) + b.slice(i + 1)) || rest(a.slice(0, i) + a.slice(i + 1), b) || a.slice(i + 1) === b.slice(i + 1);
+};
+/** Is what he typed one of the accepted answers? A one-letter typing slip is forgiven on words of five letters or more
+ *  (this checks understanding, not spelling), so "sheltr" counts for "shelter" but "bark" does not count for "park". */
+export const checkBlank = (typed, accept) => {
+  const t = normalizeAnswer(typed);
+  if (t === '') return false;
+  return accept.some((a) => { const n = normalizeAnswer(a); return n === t || (n.length >= 5 && /^[a-z]+$/.test(n) && oneSlip(n, t)); });
+};
+/** "She went to the ___." with the answer put in. */
+export const fillBlank = (text, word) => String(text).replace('___', word);
 
 // ---------------------------------------------------------------- words
 
@@ -104,9 +127,20 @@ export const storyPassed = (right, total) => total > 0 && right / total >= 0.8;
 export function answerKey(story) {
   const map = GUIDE[story.kind].map((g) => {
     const e = story.elements[g.id];
-    return { id: g.id, label: g.label, answer: g.id === 'events' ? e.order : e.answer, find: e.find };
+    const f = formatOf(e);
+    return {
+      id: g.id, label: g.label, find: e.find, format: g.id === 'events' ? 'order' : f,
+      ask: f === 'blank' ? e.text : g.ask,
+      answer: g.id === 'events' ? e.order : f === 'blank' ? fillBlank(e.text, e.blank) : e.answer,
+    };
   });
-  const questions = story.questions.map((q) => ({ type: q.type, ask: q.ask, answer: q.choices[q.answer], find: q.find }));
+  const questions = story.questions.map((q) => {
+    const f = formatOf(q);
+    return {
+      type: q.type, format: f, ask: q.ask, find: q.find,
+      answer: f === 'choice' ? q.choices[q.answer] : f === 'tf' ? (q.answer ? 'True' : 'False') : f === 'blank' ? fillBlank(q.ask, q.blank) : q.answer,
+    };
+  });
   return { map, questions };
 }
 
@@ -202,35 +236,58 @@ export function validateStory(story, entry) {
     if (!isObj(v) || !isText(v.say) || !isText(v.means) || !isText(v.example)) errors.push(`${w}: word "${k}" needs say, means and example`);
   }
 
-  // The map: one question per element, with a sentence to look at when he misses it.
+  // The map: one question per element (each answered by choosing, filling in a blank, or saying it), with a sentence to
+  // look at when he misses it.
   const el = story.elements;
+  const blankProblems = (x, at) => {
+    if (!isText(x.text) || String(x.text).split('___').length !== 2) errors.push(`${at}: "text" needs exactly one ___ blank`);
+    if (!isText(x.blank)) errors.push(`${at}: "blank" (the missing word) is missing`);
+    else if (!Array.isArray(x.accept) || !checkBlank(x.blank, x.accept)) errors.push(`${at}: "accept" must list the accepted answers, including the blank word`);
+  };
+  const formatsUsed = new Set();
   if (!isObj(el)) errors.push(`${w}: "elements" is missing`);
   else for (const id of ids) {
     const e = el[id], at = `${w}: elements.${id}`;
     if (!isObj(e)) { errors.push(`${at} is missing`); continue; }
     if (!Number.isInteger(e.find) || !story.sentences[e.find]) errors.push(`${at}.find must be a sentence number`);
     if (id === 'events') {
+      formatsUsed.add('order');
       if (!Array.isArray(e.order) || e.order.length !== 3 || !e.order.every(isText)) errors.push(`${at}.order must be three events in order`);
-    } else {
-      if (!isText(e.answer)) errors.push(`${at}.answer is missing`);
+      continue;
+    }
+    const f = formatOf(e);
+    formatsUsed.add(f);
+    if (!['choice', 'blank', 'say'].includes(f)) { errors.push(`${at}.format must be choice, blank or say`); continue; }
+    if (!isText(e.answer)) errors.push(`${at}.answer is missing`);
+    if (f === 'choice') {
       if (!Array.isArray(e.wrong) || e.wrong.length !== 2 || !e.wrong.every(isText)) errors.push(`${at}.wrong must be two wrong choices`);
       else if ([e.answer, ...e.wrong].some((c, i, a) => a.indexOf(c) !== i)) errors.push(`${at}: the choices must all differ`);
-    }
+    } else if (f === 'blank') blankProblems(e, at);
   }
 
-  // Questions: listening ones before reading, at least four after. Exactly one right answer each.
+  // Questions: listening ones before reading, at least five after. Every question has one right answer.
   const qs = story.questions;
   if (!Array.isArray(qs)) return [...errors, `${w}: "questions" is missing`];
   qs.forEach((q, i) => {
-    const at = `${w}: questions[${i}]`;
+    const at = `${w}: questions[${i}]`, f = formatOf(q);
+    formatsUsed.add(f);
     if (!QUESTION_TYPES.includes(q.type)) errors.push(`${at}.type must be one of ${QUESTION_TYPES.join(', ')}`);
     if (!isText(q.ask)) errors.push(`${at}.ask is missing`);
-    if (!Array.isArray(q.choices) || q.choices.length !== 3 || !q.choices.every(isText)) errors.push(`${at}.choices must be three choices`);
-    else if (new Set(q.choices).size !== 3) errors.push(`${at}: the choices must all differ`);
-    if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer > 2) errors.push(`${at}.answer must be 0, 1 or 2`);
+    if (!FORMATS.includes(f)) { errors.push(`${at}.format must be one of ${FORMATS.join(', ')}`); return; }
+    if (f === 'choice') {
+      if (!Array.isArray(q.choices) || q.choices.length !== 3 || !q.choices.every(isText)) errors.push(`${at}.choices must be three choices`);
+      else if (new Set(q.choices).size !== 3) errors.push(`${at}: the choices must all differ`);
+      if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer > 2) errors.push(`${at}.answer must be 0, 1 or 2`);
+    } else if (f === 'tf') {
+      if (typeof q.answer !== 'boolean') errors.push(`${at}.answer must be true or false`);
+    } else if (f === 'blank') {
+      blankProblems({ ...q, text: q.ask }, at);
+    } else if (!isText(q.answer)) errors.push(`${at}.answer (a model answer to check against) is missing`);
     if (!Number.isInteger(q.find) || !story.sentences[q.find]) errors.push(`${at}.find must be a sentence number`);
   });
   if (qs.filter((q) => q.type === 'listen').length < 2) errors.push(`${w}: at least two listening questions are needed`);
   if (qs.filter((q) => q.type !== 'listen').length < 5) errors.push(`${w}: at least five questions after reading are needed`);
+  // He has to think, so every passage mixes the ways of answering.
+  for (const f of ['blank', 'tf', 'say']) if (!qs.some((q) => formatOf(q) === f)) errors.push(`${w}: needs at least one ${f} question`);
   return errors;
 }

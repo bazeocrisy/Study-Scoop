@@ -103,11 +103,14 @@
   },
   "elements": {
     "characters": {
-      "answer": "Noah and his mom",
-      "wrong": [
-        "Noah and his teacher",
-        "Noah and his cousin"
+      "format": "blank",
+      "text": "The characters are Noah and his ___.",
+      "blank": "mom",
+      "accept": [
+        "mom",
+        "mother"
       ],
+      "answer": "Noah and his mom",
       "find": 8
     },
     "setting": {
@@ -119,11 +122,8 @@
       "find": 10
     },
     "problem": {
-      "answer": "Noah could not find his library book",
-      "wrong": [
-        "Noah forgot his homework",
-        "Noah's book had torn pages"
-      ],
+      "format": "say",
+      "answer": "Noah could not find his library book.",
       "find": 3
     },
     "events": {
@@ -143,11 +143,13 @@
       "find": 12
     },
     "lesson": {
-      "answer": "Keep your books in the same place",
-      "wrong": [
-        "Never read in the car",
-        "Sharks are scary"
+      "format": "blank",
+      "text": "Noah learned to keep his books in the ___ place every night.",
+      "blank": "same",
+      "accept": [
+        "same"
       ],
+      "answer": "Keep your books in the same place",
       "find": 15
     }
   },
@@ -165,24 +167,19 @@
     },
     {
       "type": "listen",
-      "ask": "What could Noah not find?",
-      "choices": [
-        "His backpack",
-        "His shoes",
-        "His library book"
-      ],
-      "answer": 2,
+      "format": "tf",
+      "ask": "Noah found his book on his shelf.",
+      "answer": false,
       "find": 3
     },
     {
       "type": "order",
-      "ask": "Where did Noah look FIRST?",
-      "choices": [
-        "Under his bed and behind his desk",
-        "In the car",
-        "In his backpack"
+      "format": "blank",
+      "ask": "First, Noah looked under his bed and behind his ___.",
+      "blank": "desk",
+      "accept": [
+        "desk"
       ],
-      "answer": 0,
       "find": 4
     },
     {
@@ -190,43 +187,34 @@
       "ask": "Why was Noah worried?",
       "choices": [
         "He had no homework",
-        "He did not want to lose a library book",
-        "He was late for dinner"
+        "He was late for dinner",
+        "He did not want to lose a library book"
       ],
-      "answer": 1,
+      "answer": 2,
       "find": 7
     },
     {
       "type": "detail",
-      "ask": "Where was the book at the end?",
-      "choices": [
-        "In his backpack",
-        "Under his bed",
-        "Beside the car seat"
-      ],
-      "answer": 2,
+      "format": "tf",
+      "ask": "The book was tucked beside the car seat.",
+      "answer": true,
       "find": 12
     },
     {
-      "type": "vocab",
-      "ask": "What does tucked mean in this story?",
-      "choices": [
-        "pushed into a snug spot",
-        "thrown far away",
-        "torn in half"
+      "type": "cause",
+      "format": "blank",
+      "ask": "Noah told his mom the ___.",
+      "blank": "truth",
+      "accept": [
+        "truth"
       ],
-      "answer": 0,
-      "find": 12
+      "find": 8
     },
     {
       "type": "main",
-      "ask": "What did Noah learn?",
-      "choices": [
-        "To read less",
-        "To keep his books in the same place every night",
-        "To hide his books"
-      ],
-      "answer": 1,
+      "format": "say",
+      "ask": "What did Noah learn? Say it in your own words.",
+      "answer": "To keep his books in the same place every night.",
       "find": 15
     }
   ]

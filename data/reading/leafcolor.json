@@ -77,11 +77,8 @@
   },
   "elements": {
     "mainidea": {
-      "answer": "Why leaves change color in the fall",
-      "wrong": [
-        "How trees grow in winter",
-        "Why leaves have different shapes"
-      ],
+      "format": "say",
+      "answer": "Why leaves change color in the fall.",
       "find": 2
     },
     "detail": {
@@ -93,11 +90,14 @@
       "find": 3
     },
     "cause": {
-      "answer": "Days get shorter, so trees stop making green and other colors show",
-      "wrong": [
-        "It gets warmer, so the leaves turn red",
-        "Wind blows, so the leaves get dry"
+      "format": "blank",
+      "text": "The days get shorter, so the tree stops making ___ and other colors show.",
+      "blank": "green",
+      "accept": [
+        "green",
+        "chlorophyll"
       ],
+      "answer": "Days get shorter, so trees stop making green and other colors show",
       "find": 7
     },
     "takeaway": {
@@ -114,78 +114,67 @@
       "type": "listen",
       "ask": "What is the green stuff in leaves called?",
       "choices": [
+        "Chlorophyll",
         "Nectar",
-        "Pollen",
-        "Chlorophyll"
+        "Pollen"
       ],
-      "answer": 2,
+      "answer": 0,
       "find": 3
     },
     {
       "type": "listen",
-      "ask": "What do trees use chlorophyll to make?",
-      "choices": [
-        "Food",
-        "Rain",
-        "Wind"
-      ],
-      "answer": 0,
+      "format": "tf",
+      "ask": "Trees use chlorophyll to make food from sunlight.",
+      "answer": true,
       "find": 4
     },
     {
-      "type": "main",
-      "ask": "What is this passage mostly about?",
-      "choices": [
-        "How to rake leaves",
-        "Why leaves change color in the fall",
-        "Why trees have roots"
-      ],
-      "answer": 1,
-      "find": 14
-    },
-    {
       "type": "cause",
-      "ask": "Why do leaves stay green in summer?",
-      "choices": [
-        "It never rains",
-        "Trees are asleep",
-        "There is plenty of sunlight"
+      "format": "blank",
+      "ask": "In summer, there is plenty of ___, so the leaves stay green.",
+      "blank": "sunlight",
+      "accept": [
+        "sunlight",
+        "sun",
+        "sunshine"
       ],
-      "answer": 2,
       "find": 5
     },
     {
       "type": "detail",
       "ask": "Which tree makes a new red color?",
       "choices": [
-        "Maple",
         "Birch",
+        "Maple",
         "Pine"
       ],
-      "answer": 0,
+      "answer": 1,
       "find": 10
     },
     {
       "type": "vocab",
-      "ask": "What does cycle mean in this passage?",
-      "choices": [
-        "a kind of bike",
-        "something that repeats in the same order",
-        "a cold wind"
-      ],
-      "answer": 1,
+      "format": "tf",
+      "ask": "A cycle happens one time and never again.",
+      "answer": false,
       "find": 13
     },
     {
       "type": "order",
-      "ask": "What happens AFTER the green fades away?",
-      "choices": [
-        "The leaves grow back",
-        "The tree makes more food",
-        "Yellow and orange colors show up"
+      "format": "blank",
+      "ask": "When spring comes, the tree grows new green ___.",
+      "blank": "leaves",
+      "accept": [
+        "leaves",
+        "leaf"
       ],
-      "answer": 2,
-      "find": 9
+      "find": 13
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "Why do leaves change color in the fall? Say it in your own words.",
+      "answer": "The days get shorter, so the tree stops making green and the other colors show.",
+      "find": 14
     }
   ]
 }

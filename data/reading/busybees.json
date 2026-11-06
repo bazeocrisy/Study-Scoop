@@ -81,11 +81,8 @@
   },
   "elements": {
     "mainidea": {
-      "answer": "Honey bees live in colonies and each bee has a job",
-      "wrong": [
-        "Honey bees only make honey for people",
-        "Honey bees are the biggest insects"
-      ],
+      "format": "say",
+      "answer": "Honey bees live in colonies and each bee has a job.",
       "find": 2
     },
     "detail": {
@@ -97,11 +94,13 @@
       "find": 1
     },
     "cause": {
-      "answer": "Bees carry pollen, so plants can grow fruit and seeds",
-      "wrong": [
-        "Bees make honey, so flowers grow taller",
-        "Bees dance, so it stops raining"
+      "format": "blank",
+      "text": "Bees carry ___ from plant to plant, so plants can grow fruit and seeds.",
+      "blank": "pollen",
+      "accept": [
+        "pollen"
       ],
+      "answer": "Bees carry pollen, so plants can grow fruit and seeds",
       "find": 12
     },
     "takeaway": {
@@ -118,78 +117,68 @@
       "type": "listen",
       "ask": "What do we call a big group of honey bees?",
       "choices": [
-        "A colony",
         "A herd",
-        "A flock"
+        "A flock",
+        "A colony"
       ],
-      "answer": 0,
+      "answer": 2,
       "find": 0
     },
     {
       "type": "listen",
-      "ask": "What do worker bees drink from flowers?",
-      "choices": [
-        "Rain water",
-        "Nectar",
-        "Tree sap"
-      ],
-      "answer": 1,
-      "find": 6
-    },
-    {
-      "type": "main",
-      "ask": "What is this passage mostly about?",
-      "choices": [
-        "How to build a hive",
-        "Why honey is sweet",
-        "How bees work together and help plants"
-      ],
-      "answer": 2,
-      "find": 13
+      "format": "tf",
+      "ask": "The queen bee makes the honey.",
+      "answer": false,
+      "find": 3
     },
     {
       "type": "detail",
-      "ask": "What is the queen bee's only job?",
-      "choices": [
-        "Laying eggs",
-        "Making honey",
-        "Finding flowers"
+      "format": "blank",
+      "ask": "A colony can have up to fifty ___ bees.",
+      "blank": "thousand",
+      "accept": [
+        "thousand",
+        "50,000",
+        "50000",
+        "50 thousand"
       ],
-      "answer": 0,
-      "find": 3
+      "find": 1
     },
     {
       "type": "cause",
       "ask": "Why does a worker bee dance inside the hive?",
       "choices": [
-        "To keep the hive warm",
         "To tell the others where the flowers are",
+        "To keep the hive warm",
         "To get ready to sleep"
       ],
-      "answer": 1,
+      "answer": 0,
       "find": 8
     },
     {
       "type": "vocab",
-      "ask": "What does pollen mean in this passage?",
-      "choices": [
-        "a kind of bee",
-        "a sweet juice",
-        "a yellow powder from flowers"
-      ],
-      "answer": 2,
+      "format": "tf",
+      "ask": "Pollen is a yellow powder from flowers.",
+      "answer": true,
       "find": 11
     },
     {
       "type": "cause",
-      "ask": "How do bees help plants grow fruit?",
-      "choices": [
-        "They carry pollen from plant to plant",
-        "They give plants water",
-        "They dig holes for seeds"
+      "format": "blank",
+      "ask": "Because of the pollen, plants can grow fruit and ___.",
+      "blank": "seeds",
+      "accept": [
+        "seeds",
+        "seed"
       ],
-      "answer": 0,
-      "find": 11
+      "find": 12
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "What is this passage mostly about? Say it in your own words.",
+      "answer": "How bees work together in a colony and help plants grow.",
+      "find": 13
     }
   ]
 }
