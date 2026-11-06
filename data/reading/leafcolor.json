@@ -1,0 +1,180 @@
+{
+  "id": "leafcolor",
+  "title": "Why Leaves Change Color",
+  "kind": "fact",
+  "step": 2,
+  "topic": "Nature",
+  "sentences": [
+    "In the fall, many trees put on a colorful show.",
+    "Their green leaves turn red, orange and yellow.",
+    "Why does this happen?",
+    "Leaves are green because they hold a special green stuff called chlorophyll.",
+    "Trees use chlorophyll to turn sunlight into food.",
+    "In summer, there is plenty of sunlight, so the leaves stay green.",
+    "In fall, the days get shorter and the air gets cooler.",
+    "There is less sunlight, so the tree stops making food.",
+    "Without new chlorophyll, the green fades away.",
+    "Then yellow and orange colors that were hiding in the leaf show up.",
+    "Some trees, such as maples, also make a new red color.",
+    "Soon the leaves dry up and fall to the ground.",
+    "The tree rests all winter.",
+    "When spring comes, it grows new green leaves, and the cycle starts again.",
+    "Now you know that leaves change color because the days get shorter and the tree stops making green."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "many trees put on a colorful show",
+      "el": "mainidea"
+    },
+    {
+      "s": 1,
+      "text": "turn red, orange and yellow",
+      "el": "mainidea"
+    },
+    {
+      "s": 3,
+      "text": "called chlorophyll",
+      "el": "detail"
+    },
+    {
+      "s": 10,
+      "text": "such as maples",
+      "el": "detail"
+    },
+    {
+      "s": 6,
+      "text": "the days get shorter",
+      "el": "cause"
+    },
+    {
+      "s": 7,
+      "text": "There is less sunlight, so the tree stops making food",
+      "el": "cause"
+    },
+    {
+      "s": 14,
+      "text": "Now you know",
+      "el": "takeaway"
+    }
+  ],
+  "words": {
+    "chlorophyll": {
+      "say": "KLOR-uh-fil",
+      "means": "the green stuff in leaves that turns sunlight into food",
+      "example": "Chlorophyll makes the grass look green."
+    },
+    "maples": {
+      "say": "MAY-pulz",
+      "means": "trees with leaves shaped like hands",
+      "example": "The maples in our yard turn red."
+    },
+    "cycle": {
+      "say": "SY-kul",
+      "means": "something that happens again and again in the same order",
+      "example": "Day and night are a cycle."
+    }
+  },
+  "elements": {
+    "mainidea": {
+      "format": "say",
+      "answer": "Why leaves change color in the fall.",
+      "find": 2
+    },
+    "detail": {
+      "answer": "Leaves are green because of chlorophyll",
+      "wrong": [
+        "Maple trees stay green all year",
+        "Leaves make food from rain"
+      ],
+      "find": 3
+    },
+    "cause": {
+      "format": "blank",
+      "text": "The days get shorter, so the tree stops making ___ and other colors show.",
+      "blank": "green",
+      "accept": [
+        "green",
+        "chlorophyll"
+      ],
+      "answer": "Days get shorter, so trees stop making green and other colors show",
+      "find": 7
+    },
+    "takeaway": {
+      "answer": "Leaves change color because the days get shorter and trees stop making green",
+      "wrong": [
+        "All trees lose their leaves in summer",
+        "Leaves change color because of cold rain"
+      ],
+      "find": 14
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "What is the green stuff in leaves called?",
+      "choices": [
+        "Chlorophyll",
+        "Nectar",
+        "Pollen"
+      ],
+      "answer": 0,
+      "find": 3
+    },
+    {
+      "type": "listen",
+      "format": "tf",
+      "ask": "Trees use chlorophyll to make food from sunlight.",
+      "answer": true,
+      "find": 4
+    },
+    {
+      "type": "cause",
+      "format": "blank",
+      "ask": "In summer, there is plenty of ___, so the leaves stay green.",
+      "blank": "sunlight",
+      "accept": [
+        "sunlight",
+        "sun",
+        "sunshine"
+      ],
+      "find": 5
+    },
+    {
+      "type": "detail",
+      "ask": "Which tree makes a new red color?",
+      "choices": [
+        "Birch",
+        "Maple",
+        "Pine"
+      ],
+      "answer": 1,
+      "find": 10
+    },
+    {
+      "type": "vocab",
+      "format": "tf",
+      "ask": "A cycle happens one time and never again.",
+      "answer": false,
+      "find": 13
+    },
+    {
+      "type": "order",
+      "format": "blank",
+      "ask": "When spring comes, the tree grows new green ___.",
+      "blank": "leaves",
+      "accept": [
+        "leaves",
+        "leaf"
+      ],
+      "find": 13
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "Why do leaves change color in the fall? Say it in your own words.",
+      "answer": "The days get shorter, so the tree stops making green and the other colors show.",
+      "find": 14
+    }
+  ]
+}

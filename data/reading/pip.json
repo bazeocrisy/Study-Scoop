@@ -1,0 +1,218 @@
+{
+  "id": "pip",
+  "title": "Pip Finds a Home",
+  "kind": "story",
+  "step": 1,
+  "topic": "Animals",
+  "sentences": [
+    "Pip was a small brown puppy with no home.",
+    "She slept under a bench at the bus stop.",
+    "One cold night, it began to rain.",
+    "Pip shook and looked for a dry place, but she could not find one.",
+    "Then a girl named Tia saw her.",
+    "\"You poor thing,\" said Tia.",
+    "She took off her coat and wrapped it around Pip.",
+    "Next, Tia carried the puppy home.",
+    "Her mom gave Pip a bowl of warm food and a soft bed.",
+    "In the morning, Pip wagged her tail.",
+    "She had a home at last.",
+    "Tia learned that being kind can change a life."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "Pip",
+      "el": "characters"
+    },
+    {
+      "s": 4,
+      "text": "a girl named Tia",
+      "el": "characters"
+    },
+    {
+      "s": 1,
+      "text": "under a bench at the bus stop",
+      "el": "setting"
+    },
+    {
+      "s": 2,
+      "text": "One cold night",
+      "el": "setting"
+    },
+    {
+      "s": 0,
+      "text": "no home",
+      "el": "problem"
+    },
+    {
+      "s": 3,
+      "text": "could not find one",
+      "el": "problem"
+    },
+    {
+      "s": 4,
+      "text": "Then",
+      "el": "events"
+    },
+    {
+      "s": 7,
+      "text": "Next",
+      "el": "events"
+    },
+    {
+      "s": 9,
+      "text": "In the morning",
+      "el": "events"
+    },
+    {
+      "s": 6,
+      "text": "wrapped it around Pip",
+      "el": "solution"
+    },
+    {
+      "s": 8,
+      "text": "a bowl of warm food and a soft bed",
+      "el": "solution"
+    },
+    {
+      "s": 11,
+      "text": "learned that being kind can change a life",
+      "el": "lesson"
+    }
+  ],
+  "words": {
+    "bench": {
+      "say": "BENCH",
+      "means": "a long seat for more than one person",
+      "example": "We sat on a bench to rest."
+    },
+    "wrapped": {
+      "say": "RAPT",
+      "means": "covered something by putting it around",
+      "example": "He wrapped a blanket around his legs."
+    },
+    "wagged": {
+      "say": "WAGD",
+      "means": "moved quickly from side to side",
+      "example": "The happy dog wagged its tail."
+    }
+  },
+  "elements": {
+    "characters": {
+      "format": "blank",
+      "text": "The characters are Pip the ___ and a girl named Tia.",
+      "blank": "puppy",
+      "accept": [
+        "puppy",
+        "dog"
+      ],
+      "answer": "Pip the puppy and a girl named Tia",
+      "find": 4
+    },
+    "setting": {
+      "answer": "A bus stop on a cold, rainy night",
+      "wrong": [
+        "A park on a sunny day",
+        "A school in the morning"
+      ],
+      "find": 2
+    },
+    "problem": {
+      "format": "say",
+      "answer": "Pip had no home and no dry place.",
+      "find": 3
+    },
+    "events": {
+      "order": [
+        "Pip slept under a bench in the rain.",
+        "Tia wrapped her coat around Pip.",
+        "Pip woke up in a soft bed."
+      ],
+      "find": 6
+    },
+    "solution": {
+      "answer": "Tia took Pip home and gave her food and a bed",
+      "wrong": [
+        "Pip ran to the park",
+        "The rain stopped by itself"
+      ],
+      "find": 8
+    },
+    "lesson": {
+      "format": "blank",
+      "text": "Tia learned that being ___ can change a life.",
+      "blank": "kind",
+      "accept": [
+        "kind"
+      ],
+      "answer": "Being kind can change a life",
+      "find": 11
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "What kind of animal was Pip?",
+      "choices": [
+        "A puppy",
+        "A kitten",
+        "A rabbit"
+      ],
+      "answer": 0,
+      "find": 0
+    },
+    {
+      "type": "listen",
+      "format": "tf",
+      "ask": "Pip slept in a warm barn.",
+      "answer": false,
+      "find": 1
+    },
+    {
+      "type": "detail",
+      "format": "blank",
+      "ask": "Tia took off her ___ and wrapped it around Pip.",
+      "blank": "coat",
+      "accept": [
+        "coat",
+        "jacket"
+      ],
+      "find": 6
+    },
+    {
+      "type": "infer",
+      "ask": "Why did Tia give Pip her coat?",
+      "choices": [
+        "Pip was lost at school",
+        "Pip was wet and cold",
+        "Tia did not like the coat"
+      ],
+      "answer": 1,
+      "find": 6
+    },
+    {
+      "type": "detail",
+      "format": "tf",
+      "ask": "Tia's mom gave Pip warm food and a soft bed.",
+      "answer": true,
+      "find": 8
+    },
+    {
+      "type": "order",
+      "format": "blank",
+      "ask": "Next, Tia carried the puppy ___.",
+      "blank": "home",
+      "accept": [
+        "home"
+      ],
+      "find": 7
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "What is the lesson of this story? Say it in your own words.",
+      "answer": "Being kind can change a life.",
+      "find": 11
+    }
+  ]
+}

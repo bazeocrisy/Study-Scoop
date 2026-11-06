@@ -1,0 +1,228 @@
+{
+  "id": "raindelay",
+  "title": "The Rain Delay",
+  "kind": "story",
+  "step": 4,
+  "topic": "Sports",
+  "sentences": [
+    "Amir had waited all week for Saturday's big baseball game.",
+    "His team, the Hawks, was playing the Tigers for the town trophy.",
+    "When he got to the field, dark clouds covered the sky.",
+    "Just as the first batter stepped up, thunder boomed and rain poured down.",
+    "The umpire waved his arms and called, \"Everyone off the field! The game is on hold.\"",
+    "The Hawks ran to the picnic shelter, soaking wet.",
+    "Amir kicked the bench and groaned, \"This is the worst day ever.\"",
+    "He was afraid the game would be canceled and the trophy would go to someone else.",
+    "Coach Reyes sat down beside him.",
+    "\"Storms pass, Amir,\" she said. \"Let's use this time well.\"",
+    "First, she asked everyone to stretch and sip some water.",
+    "Next, the team played a word game to stay cheerful.",
+    "Soon Amir was laughing with his friends and forgot about the rain.",
+    "After forty minutes, the thunder faded and the sun peeked out.",
+    "The umpire called, \"Play ball!\"",
+    "The Hawks hurried back to the field, ready and calm.",
+    "They won by one run, and Amir cheered the loudest.",
+    "Later, he told his coach that waiting had been hard, and he was glad she helped him stay patient.",
+    "Amir learned that staying calm helps you do your best, even when plans change."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "Amir",
+      "el": "characters"
+    },
+    {
+      "s": 8,
+      "text": "Coach Reyes",
+      "el": "characters"
+    },
+    {
+      "s": 0,
+      "text": "Saturday's",
+      "el": "setting"
+    },
+    {
+      "s": 5,
+      "text": "the picnic shelter",
+      "el": "setting"
+    },
+    {
+      "s": 3,
+      "text": "thunder boomed and rain poured down",
+      "el": "problem"
+    },
+    {
+      "s": 7,
+      "text": "He was afraid the game would be canceled",
+      "el": "problem"
+    },
+    {
+      "s": 10,
+      "text": "First",
+      "el": "events"
+    },
+    {
+      "s": 11,
+      "text": "Next",
+      "el": "events"
+    },
+    {
+      "s": 13,
+      "text": "After forty minutes",
+      "el": "events"
+    },
+    {
+      "s": 10,
+      "text": "she asked everyone to stretch and sip some water",
+      "el": "solution"
+    },
+    {
+      "s": 11,
+      "text": "the team played a word game to stay cheerful",
+      "el": "solution"
+    },
+    {
+      "s": 18,
+      "text": "learned that staying calm helps you do your best",
+      "el": "lesson"
+    }
+  ],
+  "words": {
+    "umpire": {
+      "say": "UM-pyr",
+      "means": "the person who makes the rules clear in a game",
+      "example": "The umpire said the runner was safe."
+    },
+    "canceled": {
+      "say": "KAN-suld",
+      "means": "called off, so it does not happen",
+      "example": "The picnic was canceled because of snow."
+    },
+    "cheerful": {
+      "say": "CHEER-ful",
+      "means": "happy and full of good spirit",
+      "example": "She was cheerful all day."
+    },
+    "patient": {
+      "say": "PAY-shunt",
+      "means": "able to wait without getting upset",
+      "example": "Be patient while the cake bakes."
+    }
+  },
+  "elements": {
+    "characters": {
+      "format": "blank",
+      "text": "Amir's coach is named Coach ___.",
+      "blank": "Reyes",
+      "accept": [
+        "Reyes"
+      ],
+      "answer": "Amir and Coach Reyes",
+      "find": 8
+    },
+    "setting": {
+      "answer": "A baseball field and a picnic shelter on a stormy Saturday",
+      "wrong": [
+        "A soccer field on a sunny Sunday",
+        "A gym on a snowy day"
+      ],
+      "find": 5
+    },
+    "problem": {
+      "format": "say",
+      "answer": "A storm stopped the big game, and Amir feared it would be canceled.",
+      "find": 7
+    },
+    "events": {
+      "order": [
+        "Rain stopped the game.",
+        "Coach Reyes helped the team stay cheerful.",
+        "The game started again and the Hawks won."
+      ],
+      "find": 13
+    },
+    "solution": {
+      "answer": "Coach Reyes helped the team stay busy and calm until the storm passed",
+      "wrong": [
+        "The umpire ended the game early",
+        "Amir went home and slept"
+      ],
+      "find": 11
+    },
+    "lesson": {
+      "format": "blank",
+      "text": "Staying ___ helps you do your best when plans change.",
+      "blank": "calm",
+      "accept": [
+        "calm"
+      ],
+      "answer": "Staying calm helps you do your best when plans change",
+      "find": 18
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "What game was Amir waiting to play?",
+      "choices": [
+        "Basketball",
+        "Baseball",
+        "Soccer"
+      ],
+      "answer": 1,
+      "find": 0
+    },
+    {
+      "type": "listen",
+      "format": "tf",
+      "ask": "The game stopped because of thunder and rain.",
+      "answer": true,
+      "find": 3
+    },
+    {
+      "type": "detail",
+      "format": "blank",
+      "ask": "The Hawks ran to the picnic ___.",
+      "blank": "shelter",
+      "accept": [
+        "shelter"
+      ],
+      "find": 5
+    },
+    {
+      "type": "cause",
+      "ask": "Why was Amir upset?",
+      "choices": [
+        "He forgot his glove",
+        "He did not like his coach",
+        "He was afraid the game would be canceled"
+      ],
+      "answer": 2,
+      "find": 7
+    },
+    {
+      "type": "detail",
+      "format": "tf",
+      "ask": "The rain delay lasted two hours.",
+      "answer": false,
+      "find": 13
+    },
+    {
+      "type": "order",
+      "format": "blank",
+      "ask": "First, Coach Reyes asked everyone to stretch and sip some ___.",
+      "blank": "water",
+      "accept": [
+        "water"
+      ],
+      "find": 10
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "What is the lesson of this story? Say it in your own words.",
+      "answer": "Staying calm helps you do your best, even when plans change.",
+      "find": 18
+    }
+  ]
+}

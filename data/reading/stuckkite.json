@@ -1,0 +1,220 @@
+{
+  "id": "stuckkite",
+  "title": "The Stuck Kite",
+  "kind": "story",
+  "step": 1,
+  "topic": "Outdoors",
+  "sentences": [
+    "One windy morning, Dev went to the park with his grandpa.",
+    "Dev had a red kite.",
+    "First, he ran fast and the kite rose up high.",
+    "Then the wind pushed it into a big tree.",
+    "The kite was stuck!",
+    "Dev felt sad because he could not reach it.",
+    "Grandpa smiled and said, \"Let's find a way.\"",
+    "Next, Grandpa found a long stick by the fence.",
+    "Dev held the stick up and Grandpa helped him hook the string.",
+    "Finally, the kite came down safe.",
+    "Dev hugged his grandpa.",
+    "He learned that it is okay to ask for help."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "Dev",
+      "el": "characters"
+    },
+    {
+      "s": 0,
+      "text": "his grandpa",
+      "el": "characters"
+    },
+    {
+      "s": 0,
+      "text": "One windy morning",
+      "el": "setting"
+    },
+    {
+      "s": 0,
+      "text": "the park",
+      "el": "setting"
+    },
+    {
+      "s": 3,
+      "text": "pushed it into a big tree",
+      "el": "problem"
+    },
+    {
+      "s": 4,
+      "text": "stuck",
+      "el": "problem"
+    },
+    {
+      "s": 2,
+      "text": "First",
+      "el": "events"
+    },
+    {
+      "s": 3,
+      "text": "Then",
+      "el": "events"
+    },
+    {
+      "s": 7,
+      "text": "Next",
+      "el": "events"
+    },
+    {
+      "s": 8,
+      "text": "helped him hook the string",
+      "el": "solution"
+    },
+    {
+      "s": 9,
+      "text": "the kite came down safe",
+      "el": "solution"
+    },
+    {
+      "s": 11,
+      "text": "learned that it is okay to ask for help",
+      "el": "lesson"
+    }
+  ],
+  "words": {
+    "hook": {
+      "say": "HOOK",
+      "means": "to catch something with a curved end",
+      "example": "She used a stick to hook the bag."
+    },
+    "fence": {
+      "say": "FENSS",
+      "means": "a wall made of wood or wire around a yard",
+      "example": "The dog stayed inside the fence."
+    },
+    "reach": {
+      "say": "REECH",
+      "means": "to stretch out and touch something",
+      "example": "I can reach the top shelf with a stool."
+    }
+  },
+  "elements": {
+    "characters": {
+      "format": "blank",
+      "text": "The two characters are Dev and his ___.",
+      "blank": "grandpa",
+      "accept": [
+        "grandpa",
+        "grandfather"
+      ],
+      "answer": "Dev and his grandpa",
+      "find": 0
+    },
+    "setting": {
+      "answer": "A park on a windy morning",
+      "wrong": [
+        "A school on a rainy day",
+        "A beach on a sunny afternoon"
+      ],
+      "find": 0
+    },
+    "problem": {
+      "format": "say",
+      "answer": "The kite got stuck in a tree.",
+      "find": 3
+    },
+    "events": {
+      "order": [
+        "Dev flew his kite.",
+        "The wind pushed the kite into a tree.",
+        "Grandpa helped get it down."
+      ],
+      "find": 3
+    },
+    "solution": {
+      "answer": "Grandpa used a long stick to get the kite down",
+      "wrong": [
+        "Dev climbed the tree",
+        "They bought a new kite"
+      ],
+      "find": 8
+    },
+    "lesson": {
+      "format": "blank",
+      "text": "Dev learned that it is okay to ask for ___.",
+      "blank": "help",
+      "accept": [
+        "help"
+      ],
+      "answer": "It is okay to ask for help",
+      "find": 11
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "Where did Dev go?",
+      "choices": [
+        "To the beach",
+        "To the park",
+        "To school"
+      ],
+      "answer": 1,
+      "find": 0
+    },
+    {
+      "type": "listen",
+      "format": "tf",
+      "ask": "The kite got stuck in a tree.",
+      "answer": true,
+      "find": 3
+    },
+    {
+      "type": "detail",
+      "format": "blank",
+      "ask": "First, Dev ran ___ and the kite rose up high.",
+      "blank": "fast",
+      "accept": [
+        "fast",
+        "quickly"
+      ],
+      "find": 2
+    },
+    {
+      "type": "cause",
+      "format": "blank",
+      "ask": "Dev felt sad because he could not ___ his kite.",
+      "blank": "reach",
+      "accept": [
+        "reach",
+        "get",
+        "touch"
+      ],
+      "find": 5
+    },
+    {
+      "type": "detail",
+      "ask": "What did Grandpa find by the fence?",
+      "choices": [
+        "A ladder",
+        "A rope",
+        "A long stick"
+      ],
+      "answer": 2,
+      "find": 7
+    },
+    {
+      "type": "vocab",
+      "format": "tf",
+      "ask": "The word reach means to stretch out and touch something.",
+      "answer": true,
+      "find": 5
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "What did Dev learn? Say it in your own words.",
+      "answer": "It is okay to ask for help.",
+      "find": 11
+    }
+  ]
+}

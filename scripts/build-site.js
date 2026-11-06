@@ -11,6 +11,7 @@ import { validateMathPractice, validateMathWords, validateTests } from '../js/li
 import { pictureName } from '../js/lib/data.js';
 import { validateArea } from '../js/lib/area.js';
 import { validatePacket } from '../js/lib/homework.js';
+import { validateReadingIndex, validateStory } from '../js/lib/reading.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -23,6 +24,7 @@ export const ALLOW = [
   /^data\/lessons\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/,
   /^data\/tests\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
   /^data\/practice\/(?:math|math-words|area)\.json$/,
+  /^data\/reading\/(?:index|[a-z][a-z0-9]*)\.json$/,
   /^data\/homework\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
   /^downloads\/homework-\d{4}-\d{2}-\d{2}\.pdf$/,
   /^images\/cone\.svg$/,
@@ -71,6 +73,8 @@ export function buildSite(out, src = REPO) {
   const listed = new Set(readJSON(path.join(src, 'data/weeks.json')).weeks.map((w) => `data/${w.id}.json`));
   const lessonIndex = path.join(src, 'data/lessons/index.json');
   const lessons = new Set(fs.existsSync(lessonIndex) ? readJSON(lessonIndex).lessons.map((l) => `data/lessons/${l.id}.json`) : []);
+  const readingIndex = path.join(src, 'data/reading/index.json');
+  const readingStories = new Set(fs.existsSync(readingIndex) ? readJSON(readingIndex).stories.map((r) => `data/reading/${r.id}.json`) : []);
   const testIndex = path.join(src, 'data/tests/index.json');
   const testWeeks = new Set(fs.existsSync(testIndex) ? readJSON(testIndex).weeks.filter((id) => listed.has(`data/${id}.json`)).map((id) => `data/tests/${id}.json`) : []);
   // A flyer is published only when a listed week names it in its reviewed "flyer" (D26).
@@ -81,6 +85,7 @@ export function buildSite(out, src = REPO) {
     if (!isAllowed(rel)) why = 'not on the allowlist';
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
     else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';
+    else if (/^data\/reading\/(?!index\.json$)/.test(rel) && !readingStories.has(rel)) why = 'not listed in data/reading/index.json';
     else if (/^data\/tests\/(?!index\.json$)/.test(rel) && !testWeeks.has(rel)) why = 'not listed in data/tests/index.json (or its week is not published)';
     else if (/^images\/(?:flyers|homework)\//.test(rel) && !flyers.has(rel)) why = 'not named in a published week\'s privacy-reviewed flyer';
     if (why) { skipped.push(`${rel} (${why})`); continue; }
@@ -167,6 +172,21 @@ export function verifySite(dir) {
       const rel = `data/lessons/${id}.json`;
       if (!has(rel)) { problems.push(`${rel} is listed in data/lessons/index.json but missing`); continue; }
       problems.push(...validateLesson(readJSON(path.join(dir, rel)), id).map((p) => `${rel}: ${p}`));
+    }
+  }
+  // Reading Coach (D27): the library index is valid, every listed story is published and passes the story checks
+  // (word count, clue words, answer keys), and nothing unlisted is published.
+  if (has('data/reading/index.json')) {
+    const readingIndex = readJSON(path.join(dir, 'data/reading/index.json'));
+    problems.push(...validateReadingIndex(readingIndex));
+    const ids = new Set((readingIndex.stories || []).map((r) => r.id));
+    for (const rel of files.filter((f) => /^data\/reading\/(?!index\.json$)/.test(f))) {
+      if (!ids.has(rel.slice('data/reading/'.length, -'.json'.length))) problems.push(`${rel} is published but not listed in data/reading/index.json`);
+    }
+    for (const entry of readingIndex.stories || []) {
+      const rel = `data/reading/${entry.id}.json`;
+      if (!has(rel)) { problems.push(`${rel} is listed in data/reading/index.json but missing`); continue; }
+      problems.push(...validateStory(readJSON(path.join(dir, rel)), entry));
     }
   }
   // Practice tests: each listed week's tests are published, belong to a published week, and pass every check

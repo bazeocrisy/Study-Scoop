@@ -1,0 +1,184 @@
+{
+  "id": "busybees",
+  "title": "Busy Bees",
+  "kind": "fact",
+  "step": 2,
+  "topic": "Animals",
+  "sentences": [
+    "Honey bees are small insects that live in big groups called colonies.",
+    "A colony can have up to fifty thousand bees.",
+    "Each bee has a job to do.",
+    "The queen bee lays eggs, and that is her only job.",
+    "Worker bees clean the hive, make honey, and care for the young.",
+    "For example, some workers fly out to find flowers.",
+    "They drink a sweet juice from flowers called nectar.",
+    "When a worker finds good flowers, she dances inside the hive.",
+    "The dance tells the other bees where the flowers are.",
+    "That is how the whole colony finds food.",
+    "Bees also help people.",
+    "While they visit flowers, they carry a yellow powder called pollen from plant to plant.",
+    "Because of the pollen, plants can grow fruit and seeds.",
+    "In short, bees work together, and many plants need their help."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "Honey bees are small insects",
+      "el": "mainidea"
+    },
+    {
+      "s": 2,
+      "text": "Each bee has a job to do",
+      "el": "mainidea"
+    },
+    {
+      "s": 1,
+      "text": "up to fifty thousand bees",
+      "el": "detail"
+    },
+    {
+      "s": 5,
+      "text": "For example",
+      "el": "detail"
+    },
+    {
+      "s": 7,
+      "text": "When a worker finds good flowers, she dances inside the hive",
+      "el": "cause"
+    },
+    {
+      "s": 12,
+      "text": "Because of the pollen",
+      "el": "cause"
+    },
+    {
+      "s": 13,
+      "text": "In short",
+      "el": "takeaway"
+    }
+  ],
+  "words": {
+    "colonies": {
+      "say": "KOL-uh-neez",
+      "means": "big groups of animals that live together",
+      "example": "Ants live in colonies under the ground."
+    },
+    "hive": {
+      "say": "HYV",
+      "means": "the home where bees live",
+      "example": "The bees flew back to the hive."
+    },
+    "nectar": {
+      "say": "NEK-ter",
+      "means": "a sweet juice inside flowers",
+      "example": "A hummingbird drinks nectar."
+    },
+    "pollen": {
+      "say": "POL-en",
+      "means": "a yellow powder that flowers make",
+      "example": "Pollen stuck to the bee's legs."
+    }
+  },
+  "elements": {
+    "mainidea": {
+      "format": "say",
+      "answer": "Honey bees live in colonies and each bee has a job.",
+      "find": 2
+    },
+    "detail": {
+      "answer": "A colony can have up to fifty thousand bees",
+      "wrong": [
+        "The queen bee makes all the honey",
+        "Bees sleep inside flowers"
+      ],
+      "find": 1
+    },
+    "cause": {
+      "format": "blank",
+      "text": "Bees carry ___ from plant to plant, so plants can grow fruit and seeds.",
+      "blank": "pollen",
+      "accept": [
+        "pollen"
+      ],
+      "answer": "Bees carry pollen, so plants can grow fruit and seeds",
+      "find": 12
+    },
+    "takeaway": {
+      "answer": "Bees work together and plants need their help",
+      "wrong": [
+        "Bees are only found in hives",
+        "Honey is the most important thing bees make"
+      ],
+      "find": 13
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "What do we call a big group of honey bees?",
+      "choices": [
+        "A herd",
+        "A flock",
+        "A colony"
+      ],
+      "answer": 2,
+      "find": 0
+    },
+    {
+      "type": "listen",
+      "format": "tf",
+      "ask": "The queen bee makes the honey.",
+      "answer": false,
+      "find": 3
+    },
+    {
+      "type": "detail",
+      "format": "blank",
+      "ask": "A colony can have up to fifty ___ bees.",
+      "blank": "thousand",
+      "accept": [
+        "thousand",
+        "50,000",
+        "50000",
+        "50 thousand"
+      ],
+      "find": 1
+    },
+    {
+      "type": "cause",
+      "ask": "Why does a worker bee dance inside the hive?",
+      "choices": [
+        "To tell the others where the flowers are",
+        "To keep the hive warm",
+        "To get ready to sleep"
+      ],
+      "answer": 0,
+      "find": 8
+    },
+    {
+      "type": "vocab",
+      "format": "tf",
+      "ask": "Pollen is a yellow powder from flowers.",
+      "answer": true,
+      "find": 11
+    },
+    {
+      "type": "cause",
+      "format": "blank",
+      "ask": "Because of the pollen, plants can grow fruit and ___.",
+      "blank": "seeds",
+      "accept": [
+        "seeds",
+        "seed"
+      ],
+      "find": 12
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "What is this passage mostly about? Say it in your own words.",
+      "answer": "How bees work together in a colony and help plants grow.",
+      "find": 13
+    }
+  ]
+}

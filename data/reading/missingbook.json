@@ -1,0 +1,221 @@
+{
+  "id": "missingbook",
+  "title": "The Missing Library Book",
+  "kind": "story",
+  "step": 2,
+  "topic": "School and Home",
+  "sentences": [
+    "Noah loved his new library book about sharks.",
+    "He read it every night before bed.",
+    "On Friday, the book was due back at the library.",
+    "Noah looked on his shelf, but the book was not there.",
+    "First, he looked under his bed and behind his desk.",
+    "Then he even checked his backpack twice.",
+    "The book was lost!",
+    "Noah felt worried because he did not want to lose a library book.",
+    "He told his mom the truth.",
+    "\"Let's think,\" she said. \"Where did you last read it?\"",
+    "Noah remembered reading in the car on the way home from his cousin's house.",
+    "Next, his mom walked out to the car and looked in the back seat.",
+    "There was the shark book, tucked beside the seat.",
+    "Noah smiled and gave his mom a big hug.",
+    "He returned the book on time.",
+    "He learned to keep his books in the same place every night."
+  ],
+  "clues": [
+    {
+      "s": 0,
+      "text": "Noah",
+      "el": "characters"
+    },
+    {
+      "s": 8,
+      "text": "his mom",
+      "el": "characters"
+    },
+    {
+      "s": 2,
+      "text": "On Friday",
+      "el": "setting"
+    },
+    {
+      "s": 10,
+      "text": "in the car",
+      "el": "setting"
+    },
+    {
+      "s": 3,
+      "text": "the book was not there",
+      "el": "problem"
+    },
+    {
+      "s": 6,
+      "text": "lost",
+      "el": "problem"
+    },
+    {
+      "s": 4,
+      "text": "First",
+      "el": "events"
+    },
+    {
+      "s": 5,
+      "text": "Then",
+      "el": "events"
+    },
+    {
+      "s": 11,
+      "text": "Next",
+      "el": "events"
+    },
+    {
+      "s": 8,
+      "text": "told his mom the truth",
+      "el": "solution"
+    },
+    {
+      "s": 12,
+      "text": "There was the shark book, tucked beside the seat",
+      "el": "solution"
+    },
+    {
+      "s": 15,
+      "text": "learned to keep his books in the same place every night",
+      "el": "lesson"
+    }
+  ],
+  "words": {
+    "due": {
+      "say": "DOO",
+      "means": "needing to be given back by a certain day",
+      "example": "My homework is due on Monday."
+    },
+    "tucked": {
+      "say": "TUKT",
+      "means": "pushed into a small, snug spot",
+      "example": "The note was tucked inside the book."
+    },
+    "returned": {
+      "say": "ree-TURND",
+      "means": "brought something back",
+      "example": "She returned the toy to her friend."
+    }
+  },
+  "elements": {
+    "characters": {
+      "format": "blank",
+      "text": "The characters are Noah and his ___.",
+      "blank": "mom",
+      "accept": [
+        "mom",
+        "mother"
+      ],
+      "answer": "Noah and his mom",
+      "find": 8
+    },
+    "setting": {
+      "answer": "Noah's home and his mom's car",
+      "wrong": [
+        "A library and a school",
+        "A park and a beach"
+      ],
+      "find": 10
+    },
+    "problem": {
+      "format": "say",
+      "answer": "Noah could not find his library book.",
+      "find": 3
+    },
+    "events": {
+      "order": [
+        "Noah looked for the book in his room.",
+        "His mom looked in the car.",
+        "Noah returned the book on time."
+      ],
+      "find": 11
+    },
+    "solution": {
+      "answer": "Noah told his mom, and they found the book in the car",
+      "wrong": [
+        "Noah bought a new book",
+        "The librarian found it"
+      ],
+      "find": 12
+    },
+    "lesson": {
+      "format": "blank",
+      "text": "Noah learned to keep his books in the ___ place every night.",
+      "blank": "same",
+      "accept": [
+        "same"
+      ],
+      "answer": "Keep your books in the same place",
+      "find": 15
+    }
+  },
+  "questions": [
+    {
+      "type": "listen",
+      "ask": "What was Noah's library book about?",
+      "choices": [
+        "Trains",
+        "Sharks",
+        "Dogs"
+      ],
+      "answer": 1,
+      "find": 0
+    },
+    {
+      "type": "listen",
+      "format": "tf",
+      "ask": "Noah found his book on his shelf.",
+      "answer": false,
+      "find": 3
+    },
+    {
+      "type": "order",
+      "format": "blank",
+      "ask": "First, Noah looked under his bed and behind his ___.",
+      "blank": "desk",
+      "accept": [
+        "desk"
+      ],
+      "find": 4
+    },
+    {
+      "type": "cause",
+      "ask": "Why was Noah worried?",
+      "choices": [
+        "He had no homework",
+        "He was late for dinner",
+        "He did not want to lose a library book"
+      ],
+      "answer": 2,
+      "find": 7
+    },
+    {
+      "type": "detail",
+      "format": "tf",
+      "ask": "The book was tucked beside the car seat.",
+      "answer": true,
+      "find": 12
+    },
+    {
+      "type": "cause",
+      "format": "blank",
+      "ask": "Noah told his mom the ___.",
+      "blank": "truth",
+      "accept": [
+        "truth"
+      ],
+      "find": 8
+    },
+    {
+      "type": "main",
+      "format": "say",
+      "ask": "What did Noah learn? Say it in your own words.",
+      "answer": "To keep his books in the same place every night.",
+      "find": 15
+    }
+  ]
+}

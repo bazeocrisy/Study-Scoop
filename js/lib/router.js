@@ -1,6 +1,7 @@
 // Hash routes: "#<section>" for this week, "#<section>?week=YYYY-MM-DD" for another week.
 // Lessons live under Math: "#math?lesson=5-1&stage=watch" (DECISIONS D17).
 // Math chapters: "#math?ch=6" is a chapter's menu (D26); its activities name the chapter themselves ("#math?act=areafind").
+// Reading: "#reading?act=stuckkite" opens one story (the library lives in data/reading, D27).
 // Activities: "#vocab?act=choice", "#spelling?act=listen", "#math?act=split", "#skills?act=roundten"; practice tests: "#tests?test=math" (D18, D19, D22).
 // The week lives in the address (not in storage), so links can be shared and nothing is saved.
 
@@ -10,7 +11,7 @@ const LESSON_ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const WORD = /^[a-z][a-z0-9]*$/;
 const CHAPTER = /^[1-9][0-9]?$/;
 /** Sections that open on a menu of activities (#math?act=practice, #spelling?act=flash). */
-const SUBJECTS = ['spelling', 'vocab', 'math', 'skills', 'homework'];
+const SUBJECTS = ['spelling', 'vocab', 'reading', 'math', 'skills', 'homework'];
 
 /** Reads a location hash. `known` is false when the section name was not recognised. */
 export function parseHash(hash, sectionIds) {

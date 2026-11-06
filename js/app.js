@@ -22,9 +22,12 @@ import { mathView } from './views/math.js';
 import { skillsView } from './views/skills.js';
 import { homeworkView } from './views/homework.js';
 import { newsletterView } from './views/newsletter.js';
+import { readingView } from './views/reading.js';
+import { mountReading } from './reading-player.js';
+import { validateReadingIndex, validateStory } from './lib/reading.js';
 
 const VIEWS = {
-  week: weekView, spelling: spellingView, vocab: vocabView, math: mathView,
+  week: weekView, spelling: spellingView, vocab: vocabView, reading: readingView, math: mathView,
   skills: skillsView, homework: homeworkView, newsletter: newsletterView, tests: testsView,
 };
 
@@ -119,6 +122,32 @@ async function render() {
       }
     } catch { packet = null; }
   }
+  // Reading (D27): the story library, and the one story named in the address. An unknown story shows the library.
+  let reading = null;
+  if (route.section === 'reading') {
+    let readingIndex;
+    try {
+      readingIndex = await loadJSON('data/reading/index.json');
+      const rp = validateReadingIndex(readingIndex);
+      if (rp.length) { if (n === renderCount) showProblem('The reading library has a problem.', rp); return; }
+    } catch (e) {
+      if (n === renderCount) showProblem('The reading library could not be loaded.', [String(e.message || e)]);
+      return;
+    }
+    reading = { index: readingIndex, story: null, entry: null };
+    const entry = route.act ? readingIndex.stories.find((s) => s.id === route.act) : null;
+    if (entry) {
+      try {
+        const story = await loadJSON(`data/reading/${entry.id}.json`);
+        const sp = validateStory(story, entry);
+        if (sp.length) { if (n === renderCount) showProblem('This story has a problem.', sp); return; }
+        reading.story = story; reading.entry = entry;
+      } catch (e) {
+        if (n === renderCount) showProblem('This story could not be loaded.', [String(e.message || e)]);
+        return;
+      }
+    }
+  }
   // Practice tests written for this week (Tests only). data/tests/index.json lists the weeks that have them;
   // another week simply has no math or vocabulary test (the spelling test is made from the week's list).
   let tests = null, testsProblem = false;
@@ -144,7 +173,7 @@ async function render() {
   const stage = lesson ? (STAGE_IDS.includes(route.stage) ? route.stage : 'learn') : null;
   // An activity named in the address: a page to read (Learn My Words, a menu) or questions to answer (a run).
   // An earlier address (alias) opens the page that replaced it: "area" is the Chapter 6 menu, "lessons" the chapter list.
-  let info = route.act ? activityInfo(route.section, route.act) : null;
+  let info = route.act && route.section !== 'reading' ? activityInfo(route.section, route.act) : null;
   let chMenu = route.section === 'math' && !lesson && chapter && !info ? chapter.id : null;
   if (info?.alias) {
     if (typeof info.alias === 'string') info = activityInfo(route.section, info.alias);
@@ -205,12 +234,12 @@ async function render() {
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
-    tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, packet, page: info?.page ? act : null,
+    reading, tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, packet, page: info?.page ? act : null,
     mathWeekId: chapterWeekId || lessons?.chapters?.find((c) => c.id === week.mathChapter)?.week || contentId,
   };
   ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
   // Fix unknown sections, weeks, activities and tests in the address without adding a history entry.
-  const canonical = buildHash(route.section, weekId, index.current, lesson ? { lesson: lesson.id, stage }
+  const canonical = buildHash(route.section, weekId, index.current, reading?.story ? { act: reading.story.id } : lesson ? { lesson: lesson.id, stage }
     : ctx.run ? (ctx.run.mode === 'test' && route.section === 'tests' ? { test: testKind } : { act }) : ctx.page ? { act } : chMenu ? { ch: chMenu } : {});
   if (location.hash && location.hash !== canonical) history.replaceState(null, '', canonical);
   mounted?.abort();
@@ -219,11 +248,14 @@ async function render() {
   document.body.classList.toggle('in-lesson', Boolean(lesson));
   document.body.classList.toggle('in-activity', Boolean(ctx.run));
   app.innerHTML = VIEWS[route.section](ctx).s;
-  document.title = lesson
+  document.title = reading?.story ? `${reading.story.title} · Reading · Study Scoop` : lesson
     ? `${stageLabel(stage)} · Lesson ${lesson.id}: ${lesson.title} · Study Scoop`
     : ctx.run ? `${ctx.run.title} · ${sectionLabel(route.section)} · Study Scoop`
       : ctx.page ? `${info.label} · ${sectionLabel(route.section)} · Study Scoop` : `${sectionLabel(route.section)} · Study Scoop`;
-  if (lesson || ctx.run) {
+  if (reading?.story) {
+    mounted = new AbortController();
+    mountReading(app, ctx, mounted.signal);
+  } else if (lesson || ctx.run) {
     mounted = new AbortController();
     (lesson ? mountLesson : mountActivity)(app, ctx, mounted.signal);
   } else if (ctx.page === 'timesapp') {
