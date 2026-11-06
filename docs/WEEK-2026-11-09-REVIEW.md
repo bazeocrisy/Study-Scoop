@@ -29,7 +29,7 @@ Chapter 7 is absent from the existing chapter library. The week does not recomme
 
 ## Privacy and flyer
 
-The supplied photographs show surrounding home objects. No visible student names, school/teacher identifiers or contact details were found on the printed pages. Raw attachments are not available as local files in this runtime, so page-only cropped/straightened flyer copies could not be produced. No photo or flyer metadata is published. The site accurately reports the original flyer unavailable; the structured newsletter remains available.
+The initial photographs were withheld because they contained home backgrounds and no local source files were available. The owner subsequently supplied `Newsletter_Back.zip`, containing `Newsletter_Front.png` and `Newsletter_Back.png`, and explicitly requested hosting these improved images. Both images are page-only with no student names, grades, teacher/school identifiers, contact details or home backgrounds visible. They have been visually reviewed and converted to 1100 px-wide WebP copies with the printed text and page contents preserved. Front and back are now listed in the week’s privacy-reviewed flyer metadata and use the existing zoom, full-size and print viewer. The raw ZIP and PNG sources remain outside the public repository.
 
 ## Review and release
 
@@ -37,7 +37,7 @@ Six specialist reviews performed: curriculum, instruction, UI, interaction, acce
 
 Production publishing requires explicit owner sign-off. This change is prepared for a PR into develop, with no production merge. A live preview is not claimed until a deployment is confirmed. Rollback: close an unmerged PR; after an approved preview merge, revert its merge commit on develop.
 
-Owner sign-off before production: review the new week and exceptions, check the teacher-definition note, accept the unavailable Chapter 7 and original flyer, confirm which week should be current, then explicitly approve the production PR.
+Owner sign-off before production: review the new week and exceptions, check the teacher-definition note, accept the unavailable Chapter 7 lessons and review both supplied newsletter pages, confirm which week should be current, then explicitly approve the production PR.
 
 ## Image inventory
 
@@ -46,7 +46,7 @@ Owner sign-off before production: review the new week and exceptions, check the 
 | tractor | Reused existing approved 400 px WebP | Reviewed in rendered study card |
 | Produce, Exception, Installment, Peculiar, Employee, Fortunate, Ignorant, Melancholy, Trustworthy, Constellations, Irritating, Distracted | 12 reused existing illustrations | Each reviewed independently; distinct, age appropriate and semantically appropriate; Distracted illustrates ordinary meaning |
 | extract, attract, retract, distract, formed, inform, formal, uniform, misinform, traction, uninformed | 11 new original AI-generated illustrations, optimized to 400 px WebP | Each visually reviewed at phone-card scale; no written spelling labels, personal/contact data, or duplicates. Misinform regenerated after first scene was ambiguous |
-| Newsletter photos | Not published | Local original files unavailable for page-only privacy crop |
+| Newsletter front and back | Two new owner-supplied, privacy-reviewed clean pages | Page-only, readable, no personal/contact data or home background; optimized WebP copies hosted |
 
 New images depict: juice extracted from orange; butterflies attracted to flower; turtle retracting into shell; attention distracted by puppy; children formed into circle; child informing friend about weather; formal suit at celebration; matching soccer uniforms; incorrect sunny-weather information while rain is visible; tread gripping path; child uninformed about gift contents. Learning pictures are supplementary study aids. Dictation and scored spelling tests continue to withhold pictures and written answers.
 

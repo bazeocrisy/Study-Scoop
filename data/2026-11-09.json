@@ -288,5 +288,25 @@
         "def": "A fraction is a number used when a whole is split into equal parts."
       }
     ]
+  },
+  "flyer": {
+    "reviewed": "2026-11-06",
+    "note": "Owner supplied clean, page-only front and back images in Newsletter_Back.zip and explicitly requested website hosting. Both reviewed: no student names, grades, teacher or school identifiers, contact details or home background visible. Text and page content preserved; resized and compressed for web delivery.",
+    "pages": [
+      {
+        "src": "images/flyers/2026-11-09-front.webp",
+        "label": "Front: newsletter",
+        "alt": "November 9–13 classroom newsletter: fractions, Winn-Dixie reading, twelve tract/form spelling words, November 13 spelling and vocabulary tests, announcements and homework.",
+        "width": 1100,
+        "height": 1422
+      },
+      {
+        "src": "images/flyers/2026-11-09-back.webp",
+        "label": "Back: vocabulary",
+        "alt": "Twelve Winn-Dixie vocabulary words and teacher definitions, the November 13 six-random-word quiz notice, and four Topic 7 fraction definitions.",
+        "width": 1100,
+        "height": 1422
+      }
+    ]
   }
 }
