@@ -98,6 +98,18 @@ export function suggestion(readings, tapped = []) {
 /** A story is complete when he gets at least 4 of 5 questions right (or 80% of however many there are). */
 export const storyPassed = (right, total) => total > 0 && right / total >= 0.8;
 
+// ---------------------------------------------------------------- the answer key
+
+/** Every answer for one passage, for the Answers step at the very end (never shown while he is thinking). */
+export function answerKey(story) {
+  const map = GUIDE[story.kind].map((g) => {
+    const e = story.elements[g.id];
+    return { id: g.id, label: g.label, answer: g.id === 'events' ? e.order : e.answer, find: e.find };
+  });
+  const questions = story.questions.map((q) => ({ type: q.type, ask: q.ask, answer: q.choices[q.answer], find: q.find }));
+  return { map, questions };
+}
+
 // ---------------------------------------------------------------- picking and order
 
 /** Two stories for today, the same all day: rotates through the list by the calendar day. */

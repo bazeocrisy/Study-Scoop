@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  ELEMENT_IDS, GUIDE, countWords, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, storyWords, suggestion,
+  ELEMENT_IDS, GUIDE, answerKey, countWords, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, storyWords, suggestion,
   todaysPicks, tokenize, validateReadingIndex, validateStory, wordKey,
 } from '../../js/lib/reading.js';
 import { buildHash, parseHash } from '../../js/lib/router.js';
@@ -170,4 +170,23 @@ test('a story page has its title bar, a way back and the place the Reading Coach
   assert.match(out, /id="rd"/);
   assert.match(out, /href="#reading"/);
   assert.match(out, new RegExp(`${storyWords(s)} words`));
+});
+
+test('the answer key lists every map answer and every question\'s right answer', () => {
+  for (const { s } of STORIES) {
+    const key = answerKey(s);
+    assert.deepEqual(key.map.map((m) => m.id), ELEMENT_IDS[s.kind], s.id);
+    for (const m of key.map) assert.ok(Array.isArray(m.answer) ? m.answer.length === 3 : m.answer.length > 3, `${s.id} ${m.id}`);
+    assert.equal(key.questions.length, s.questions.length);
+    key.questions.forEach((q, i) => assert.equal(q.answer, s.questions[i].choices[s.questions[i].answer], `${s.id} q${i}`));
+  }
+});
+
+test('clue colours stay out of the reading steps: they appear only in the Answers step', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/reading-player.js'), 'utf8');
+  // The passage gets clue classes only when asked to reveal, and only the Answers step asks.
+  const asks = [...src.matchAll(/passage\(\{[^}]*reveal: true/g)];
+  assert.equal(asks.length, 1, 'exactly one place asks for the clue colours');
+  assert.match(src.slice(src.indexOf('function answersView')), /passage\(\{ reveal: true \}\)/);
+  assert.ok(!/clueSwitch|data-act="clues"/.test(src), 'no switch turns the colours on while reading');
 });

@@ -1273,3 +1273,9 @@ button.times-flashcard.is-flipped .times-product { color: var(--berry); }
 @media (max-width: 480px) { .rd-text { font-size: 1.3rem; } .rd-text.big { font-size: 1.6rem; } .rd-chart li { grid-template-columns: 1fr; } .rd-chart .rd-cv { grid-column: 1; } }
 @media print { .rd-steps, .rd-nav { display: none; } }
 @media (prefers-reduced-motion: reduce) { .rd-w, .rd-choice { transition: none; } }
+
+/* Answers step: the key lists each answer in its element's colour */
+.rd-key { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+ol.rd-key { list-style: decimal; padding-left: 1.4em; }
+.rd-key .rd-gcard ol { margin: 4px 0 0; padding-left: 1.4em; }
+.rd-key .hint { display: block; }

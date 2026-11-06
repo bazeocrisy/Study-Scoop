@@ -2,12 +2,12 @@
 // Story Map and Questions. Reading aloud uses the voice built into the device; nothing is recorded, stored or sent.
 // A reading's numbers live only while this page is open (CLAUDE.md: no student data without an approved design).
 import { html } from './lib/html.js';
-import { GUIDE, TARGET_WPM, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, suggestion } from './lib/reading.js';
+import { GUIDE, TARGET_WPM, answerKey, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, suggestion } from './lib/reading.js';
 
 const STEPS = [
   { id: 'guide', label: 'Story Guide' }, { id: 'listen', label: 'Listen' }, { id: 'along', label: 'Read along' },
   { id: 'echo', label: 'Echo read' }, { id: 'turn', label: 'Your turn' }, { id: 'map', label: 'Story map' },
-  { id: 'quiz', label: 'Questions' }, { id: 'done', label: 'All done' },
+  { id: 'quiz', label: 'Questions' }, { id: 'done', label: 'All done' }, { id: 'answers', label: 'Answers' },
 ];
 const MAX_READINGS = 3;
 
@@ -48,7 +48,7 @@ export function mountReading(app, ctx, signal) {
   synth()?.getVoices();
 
   const fresh = () => ({
-    step: 'guide', clues: true, slow: false, playing: false, listenPlayed: !canSpeak,
+    step: 'guide', reveal: false, slow: false, playing: false, listenPlayed: !canSpeak,
     echo: 0, card: null, tapped: [], readings: [],
     turn: { phase: 'ready', startedAt: 0, seconds: 0, errors: new Set(), stop: null, tool: 'error' },
     answers: {}, map: {}, events: { picked: [], slips: 0 },
@@ -66,20 +66,20 @@ export function mountReading(app, ctx, signal) {
   const sentenceOf = (si) => story.sentences[si];
 
   /** The passage as one button per word. `opts.range` limits it to some sentences. */
-  function passage({ only = null, mark = false, big = false } = {}) {
+  function passage({ only = null, mark = false, big = false, reveal = false } = {}) {
     const rows = tokens.map((sent, si) => (only !== null && only !== si ? '' : html`<span class="rd-sent" data-s="${si}">${sent.map((t) => {
       const cls = ['rd-w'];
-      if (S.clues && t.el) cls.push('rd-clue', `el-${t.el}`);
+      // Clue colours give the answers away, so they appear only in the Answers step at the very end.
+      if (reveal && t.el) cls.push('rd-clue', `el-${t.el}`);
       if (story.words[t.key]) cls.push('has-def');
       if (mark && S.turn.errors.has(t.n)) cls.push('is-err');
       if (mark && S.turn.stop === t.n) cls.push('is-stop');
-      return html`<button type="button" class="${cls.join(' ')}" data-n="${t.n}" data-key="${t.key}"${S.clues && t.el ? html` data-el="${t.el}"` : ''}>${t.text}</button> `;
+      return html`<button type="button" class="${cls.join(' ')}" data-n="${t.n}" data-key="${t.key}"${reveal && t.el ? html` data-el="${t.el}"` : ''}>${t.text}</button> `;
     })}</span>`));
     return html`<p class="rd-text${big ? ' big' : ''}${mark ? ' marking' : ''}" id="rd-text">${rows}</p>`;
   }
 
-  const clueSwitch = () => html`<button type="button" class="btn" data-act="clues" aria-pressed="${S.clues}">Clue colors: ${S.clues ? 'On' : 'Off'}</button>`;
-  const legend = () => S.clues ? html`<ul class="rd-legend" aria-label="Clue colors">${guide.map((e) => html`<li class="rd-chip el-${e.id}">${e.label}</li>`)}</ul>` : '';
+  const legend = () => html`<ul class="rd-legend" aria-label="Clue colors">${guide.map((e) => html`<li class="rd-chip el-${e.id}">${e.label}</li>`)}</ul>`;
 
   function wordCard() {
     const c = S.card;
@@ -101,7 +101,7 @@ export function mountReading(app, ctx, signal) {
     guide() {
       return html`
         <h2 id="rd-h" tabindex="-1">Story Guide: what to look for</h2>
-        <p>${story.kind === 'story' ? 'Every story has these parts.' : 'This passage tells facts. Look for these parts.'} Clue words can help you find each one. Clues help, but always think about what the sentence is telling you.</p>
+        <p>${story.kind === 'story' ? 'Every story has these parts.' : 'This passage tells facts. Look for these parts.'} Clue words can help you find each one. Clues help, but always think about what the sentence is telling you. You will find the parts yourself, and the answers wait for you at the very end.</p>
         <ul class="rd-guide">${guide.map((e) => html`<li class="rd-gcard el-${e.id}">
           <h3>${e.label}</h3><p class="rd-ask">${e.ask}</p><p>${e.tip}</p>
           <p class="rd-clues"><span>Clue words:</span> ${e.clues.map((c) => html`<b class="rd-cw">${c}</b> `)}</p></li>`)}</ul>`;
@@ -118,8 +118,8 @@ export function mountReading(app, ctx, signal) {
         <h2 id="rd-h" tabindex="-1">Read along</h2>
         <p>Follow the words as they light up. Tap any word to hear it or learn what it means.</p>
         <p class="btn-row">${canSpeak ? html`<button type="button" class="btn btn-primary" data-act="play-along">${S.playing ? 'Stop' : 'Read it to me'}</button>
-          <button type="button" class="btn" data-act="slow" aria-pressed="${S.slow}">Speed: ${S.slow ? 'Slow' : 'Normal'}</button>` : ''}${clueSwitch()}</p>
-        ${legend()}${passage()}${wordCard()}`;
+          <button type="button" class="btn" data-act="slow" aria-pressed="${S.slow}">Speed: ${S.slow ? 'Slow' : 'Normal'}</button>` : ''}</p>
+        ${passage()}${wordCard()}`;
     },
     echo() {
       const n = story.sentences.length;
@@ -137,7 +137,7 @@ export function mountReading(app, ctx, signal) {
       const head = html`<h2 id="rd-h" tabindex="-1">Your turn: reading ${Math.min(k + 1, MAX_READINGS)} of ${MAX_READINGS}</h2>`;
       if (t.phase === 'ready') return html`${head}
         <p>Read the whole ${story.kind === 'story' ? 'story' : 'passage'} out loud, at a steady speed. A grown-up keeps the time. Tap a word if you need help.</p>
-        <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-start">Start reading</button>${clueSwitch()}</p>${passage()}${wordCard()}`;
+        <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-start">Start reading</button></p>${passage()}${wordCard()}`;
       if (t.phase === 'running') return html`${head}
         <p class="rd-timer" id="rd-timer" role="timer" aria-label="Time reading">0:00</p>
         <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-done">I am done</button></p>${passage()}${wordCard()}`;
@@ -159,8 +159,29 @@ export function mountReading(app, ctx, signal) {
       return html`<h2 id="rd-h" tabindex="-1">Questions</h2><p>Read each question. Go back to the story to find the answer.</p>
         ${questions(quizQs)}`;
     },
+    answers: answersView,
     done: doneView,
   };
+
+
+  /** The answer key: the whole story with its clue words in colour, every map answer, and every question's answer. */
+  function answersView() {
+    const head = html`<h2 id="rd-h" tabindex="-1">Answers</h2>`;
+    if (!S.reveal) return html`${head}
+      <p>Finish the story map and the questions first. Working it out yourself is how you get stronger.</p>
+      <p><b>Grown-up:</b> this page shows every answer and the clue words.</p>
+      <p class="btn-row"><button type="button" class="btn btn-primary" data-act="reveal">Show the answers</button></p>`;
+    const key = answerKey(story);
+    return html`${head}
+      <p>Check your thinking. The clue words are colored in the story. Tap any word to hear it.</p>
+      ${legend()}${passage({ reveal: true })}${wordCard()}
+      <h3>Story map</h3>
+      <ul class="rd-key">${key.map.map((m) => html`<li class="rd-gcard el-${m.id}"><b>${m.label}:</b> ${Array.isArray(m.answer)
+        ? html`<ol>${m.answer.map((a) => html`<li>${a}</li>`)}</ol>` : m.answer}
+        <span class="hint">Look at: <q>${sentenceOf(m.find)}</q></span></li>`)}</ul>
+      <h3>Questions</h3>
+      <ol class="rd-key">${key.questions.map((q) => html`<li><b>${q.ask}</b> ${q.answer}</li>`)}</ol>`;
+  }
 
   const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
   const markCount = () => {
@@ -252,7 +273,8 @@ export function mountReading(app, ctx, signal) {
       <h3>My Words</h3>
       ${myWords.length ? html`<ul class="rd-mywords">${myWords.map((w) => html`<li><b>${w}</b>${story.words[w] ? html` <span class="hint">${story.words[w].means}</span>` : ''}${canSpeak ? html` <button type="button" class="btn" data-act="say" data-text="${w}">Hear it</button>` : ''}</li>`)}</ul>` : html`<p class="hint">You did not tap any words this time.</p>`}
       <p class="hint">Numbers are not saved. Write them down if you want to keep them.</p>
-      <p class="btn-row"><a class="btn btn-primary" href="${ctx.link('reading')}">All stories</a>
+      <p class="btn-row"><button type="button" class="btn" data-act="go" data-step="answers">Check the answers</button>
+        <a class="btn btn-primary" href="${ctx.link('reading')}">All stories</a>
         ${next ? html`<a class="btn" href="${ctx.actLink('reading', next.id)}">Next story: ${next.title}</a>` : ''}
         <button type="button" class="btn" data-act="restart">Read this one again</button></p>`;
   }
@@ -287,7 +309,7 @@ export function mountReading(app, ctx, signal) {
   }
   function go(step) {
     stopSpeech(); stopAll(); S.playing = false;
-    S.step = step; S.card = null;
+    S.step = step; S.card = null; if (step !== 'answers') S.reveal = false;
     if (step === 'echo') S.echo = Math.min(S.echo, story.sentences.length - 1);
     render();
   }
@@ -376,9 +398,9 @@ export function mountReading(app, ctx, signal) {
       stage.querySelector('#rd-count').textContent = markCount();
       return;
     }
-    S.card = { key: t.key, text: t.text, el: S.clues ? t.el : null };
-    // A clue word he tapped to see its colour is not an unknown word, so it stays out of My Words.
-    if (t.key && !(S.clues && t.el) && !S.tapped.includes(t.key)) S.tapped.push(t.key);
+    S.card = { key: t.key, text: t.text, el: S.step === 'answers' ? t.el : null };
+    // Words tapped while checking the answers are not unknown words, so they stay out of My Words.
+    if (t.key && S.step !== 'answers' && !S.tapped.includes(t.key)) S.tapped.push(t.key);
     const card = stage.querySelector('#rd-card');
     if (card) { card.outerHTML = wordCard().s; }
     if (canSpeak) { stopSpeech(); stopAll(); stopSpeech = speak(t.key, { rate: 0.8 }); }
@@ -406,7 +428,7 @@ export function mountReading(app, ctx, signal) {
       case 'go': return go(b.dataset.step);
       case 'next': return go(STEPS[Math.min(STEPS.length - 1, si + 1)].id);
       case 'prev': return go(STEPS[Math.max(0, si - 1)].id);
-      case 'clues': S.clues = !S.clues; return refresh('[data-act="clues"]');
+      case 'reveal': S.reveal = true; return refresh('#rd-h');
       case 'slow': S.slow = !S.slow; return refresh('[data-act="slow"]');
       case 'play-all': return playAll();
       case 'play-along': return playAlong();
