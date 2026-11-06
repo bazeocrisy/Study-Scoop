@@ -30,6 +30,9 @@ export const GUIDE = {
 };
 export const ELEMENT_IDS = { story: GUIDE.story.map((e) => e.id), fact: GUIDE.fact.map((e) => e.id) };
 export const QUESTION_TYPES = ['listen', 'order', 'cause', 'main', 'detail', 'vocab', 'infer'];
+/** The skills the new comprehension set covers, in the order a reader grows into them (facts first, summary last). */
+export const CORE_SKILLS = ['detail', 'detail', 'element', 'element', 'sequence', 'cause', 'inference', 'summary'];
+export const WRITTEN_SKILLS = ['cause', 'solution', 'summary'];
 /** How a question is answered: pick one, true or false, fill in the blank, or say it and check yourself. */
 export const FORMATS = ['choice', 'tf', 'blank', 'say'];
 export const formatOf = (q) => q.format || 'choice';
@@ -39,6 +42,11 @@ export const normalizeAnswer = (t) => String(t).toLowerCase().replace(/[^a-z0-9\
 /** True when the two words differ by one letter added, dropped or changed. */
 const oneSlip = (a, b) => {
   if (Math.abs(a.length - b.length) > 1) return false;
+  // Two neighbouring letters swapped ("fridya" for "friday").
+  if (a.length === b.length) {
+    const d = [...a].map((c, i) => (c === b[i] ? -1 : i)).filter((i) => i >= 0);
+    if (d.length === 2 && d[1] === d[0] + 1 && a[d[0]] === b[d[1]] && a[d[1]] === b[d[0]]) return true;
+  }
   let i = 0;
   while (i < a.length && i < b.length && a[i] === b[i]) i++;
   const rest = (x, y) => x.slice(i) === y.slice(i);
@@ -46,10 +54,12 @@ const oneSlip = (a, b) => {
 };
 /** Is what he typed one of the accepted answers? A one-letter typing slip is forgiven on words of five letters or more
  *  (this checks understanding, not spelling), so "sheltr" counts for "shelter" but "bark" does not count for "park". */
-export const checkBlank = (typed, accept) => {
+export const checkBlank = (typed, accept, reject = []) => {
   const t = normalizeAnswer(typed);
   if (t === '') return false;
-  return accept.some((a) => { const n = normalizeAnswer(a); return n === t || (n.length >= 5 && /^[a-z]+$/.test(n) && oneSlip(n, t)); });
+  // A different concept that happens to be spelled almost the same is never accepted ("reject" lists such words).
+  if (reject.some((r) => normalizeAnswer(r) === t)) return false;
+  return accept.some((a) => { const n = normalizeAnswer(a); return n === t || (n.length >= 5 && /^[a-z]+$/.test(n) && oneSlip(n, t) && !reject.some((r) => normalizeAnswer(r) === n)); });
 };
 /** "She went to the ___." with the answer put in. */
 export const fillBlank = (text, word) => String(text).replace('___', word);
@@ -91,58 +101,49 @@ export function storyTokens(story) {
 
 // ---------------------------------------------------------------- scoring a reading
 
+/** Fastest believable pace for a third grader reading aloud, in words a minute. Anything faster means the timer was wrong. */
+export const MAX_BELIEVABLE_WPM = 250;
 /**
- * Turns one timed reading into the numbers on the class chart.
- * `total` words in the passage; `stoppedAt` how many words he reached (all of them when he finished); `errors` words missed;
- * `seconds` how long it took. WRR (words read right per minute) = (words reached − errors) ÷ minutes.
+ * Turns one timed reading into the numbers on the class chart. Four different things are kept apart:
+ *  - completion: did he reach the end (`finished`)?
+ *  - accuracy: words right out of the words he reached (`accuracy`)
+ *  - pace: words read right per minute (`wrr`), only meaningful when the reading is `scored`
+ *  - help: words he tapped for help (`helpTaps`) and whether a grown-up helped read (`assisted`)
+ * `total` words in the passage; `stoppedAt` how many words he reached (all when he finished); `errors` words missed;
+ * `seconds` how long he was actually reading. A reading is `scored` (used to judge pace or suggest moving on) only when
+ * he finished, the time is believable and no grown-up helped.
  */
-export function scoreReading({ total, stoppedAt = total, errors = 0, seconds }) {
+export function scoreReading({ total, stoppedAt = total, errors = 0, seconds, helpTaps = 0, assisted = false }) {
   const reached = Math.max(0, Math.min(total, Math.round(stoppedAt)));
   const wrong = Math.max(0, Math.min(reached, Math.round(errors)));
   const correct = reached - wrong;
   const secs = Math.max(1, Number(seconds) || 0);
+  const finished = reached >= total;
+  const pace = (reached / secs) * 60; // how fast he went through the words, right or wrong
+  const believable = secs >= 5 && pace <= MAX_BELIEVABLE_WPM;
   return {
     reached, errors: wrong, correct, seconds: secs,
     wrr: Math.round((correct / secs) * 60),
     accuracy: reached ? Math.round((correct / reached) * 100) : 0,
-    finished: reached >= total,
+    finished, believable, helpTaps: Math.max(0, Math.round(helpTaps)), assisted: Boolean(assisted),
+    scored: finished && believable && !assisted,
   };
 }
 
-/** What to practise next, in plain words, from the readings and the words he tapped. */
-export function suggestion(readings, tapped = []) {
+/** What to practise next, in plain words. Never recommends moving on from a partial, unbelievable or assisted reading. */
+export function suggestion(readings) {
   const last = readings[readings.length - 1];
   if (!last) return 'Read the story again, one sentence at a time.';
+  if (!last.finished) return 'You stopped before the end, so this reading is not used to decide what comes next. When you are ready, read the whole story again.';
+  if (!last.believable) return 'That time looks too short to be right, so it is not used to decide what comes next. Start the timer again when your reader begins.';
+  if (last.assisted) return 'A grown-up helped with this reading, so it is not used to decide what comes next. Try it once more on your own when you are ready.';
   if (last.accuracy < 95) return 'Slow down and read it again. Aim for 95% right before you speed up.';
   if (last.wrr < TARGET_WPM) return `Great accuracy! Read it once more to get faster. The class goal is ${TARGET_WPM} words a minute.`;
-  return tapped.length ? 'Fast and accurate! Review your tapped words, then try a harder step.' : 'Fast and accurate! Try a story from the next step.';
+  return 'Fast and accurate on a full reading! You can try a story from the next step when you are ready.';
 }
 
 /** A story is complete when he gets at least 4 of 5 questions right (or 80% of however many there are). */
 export const storyPassed = (right, total) => total > 0 && right / total >= 0.8;
-
-// ---------------------------------------------------------------- the answer key
-
-/** Every answer for one passage, for the Answers step at the very end (never shown while he is thinking). */
-export function answerKey(story) {
-  const map = GUIDE[story.kind].map((g) => {
-    const e = story.elements[g.id];
-    const f = formatOf(e);
-    return {
-      id: g.id, label: g.label, find: e.find, format: g.id === 'events' ? 'order' : f,
-      ask: f === 'blank' ? e.text : g.ask,
-      answer: g.id === 'events' ? e.order : f === 'blank' ? fillBlank(e.text, e.blank) : e.answer,
-    };
-  });
-  const questions = story.questions.map((q) => {
-    const f = formatOf(q);
-    return {
-      type: q.type, format: f, ask: q.ask, find: q.find,
-      answer: f === 'choice' ? q.choices[q.answer] : f === 'tf' ? (q.answer ? 'True' : 'False') : f === 'blank' ? fillBlank(q.ask, q.blank) : q.answer,
-    };
-  });
-  return { map, questions };
-}
 
 // ---------------------------------------------------------------- picking and order
 
@@ -236,8 +237,13 @@ export function validateStory(story, entry) {
     if (!isObj(v) || !isText(v.say) || !isText(v.means) || !isText(v.example)) errors.push(`${w}: word "${k}" needs say, means and example`);
   }
 
-  // The map: one question per element (each answered by choosing, filling in a blank, or saying it), with a sentence to
-  // look at when he misses it.
+  // A passage written for the improved experience carries a `coach` block instead of `questions` and `elements`.
+  if (story.coach) return [...errors, ...validateCoach(story, w)];
+  if (story.questions === undefined && story.elements === undefined) return [...errors, `${w}: needs a "coach" block or "questions" and "elements"`];
+
+  // The map: one question per element (each answered by choosing, filling in a blank, or saying it), with the sentence(s) to
+  // look at when he misses it. `find` is a sentence number, or a list of them when one sentence is not enough.
+  const findOk = (f) => (Array.isArray(f) ? f.length > 0 && new Set(f).size === f.length && f.every((i) => Number.isInteger(i) && story.sentences[i]) : Number.isInteger(f) && Boolean(story.sentences[f]));
   const el = story.elements;
   const blankProblems = (x, at) => {
     if (!isText(x.text) || String(x.text).split('___').length !== 2) errors.push(`${at}: "text" needs exactly one ___ blank`);
@@ -249,7 +255,7 @@ export function validateStory(story, entry) {
   else for (const id of ids) {
     const e = el[id], at = `${w}: elements.${id}`;
     if (!isObj(e)) { errors.push(`${at} is missing`); continue; }
-    if (!Number.isInteger(e.find) || !story.sentences[e.find]) errors.push(`${at}.find must be a sentence number`);
+    if (!findOk(e.find)) errors.push(`${at}.find must be a sentence number, or a list of them`);
     if (id === 'events') {
       formatsUsed.add('order');
       if (!Array.isArray(e.order) || e.order.length !== 3 || !e.order.every(isText)) errors.push(`${at}.order must be three events in order`);
@@ -283,11 +289,121 @@ export function validateStory(story, entry) {
     } else if (f === 'blank') {
       blankProblems({ ...q, text: q.ask }, at);
     } else if (!isText(q.answer)) errors.push(`${at}.answer (a model answer to check against) is missing`);
-    if (!Number.isInteger(q.find) || !story.sentences[q.find]) errors.push(`${at}.find must be a sentence number`);
+    if (!findOk(q.find)) errors.push(`${at}.find must be a sentence number, or a list of them`);
   });
   if (qs.filter((q) => q.type === 'listen').length < 2) errors.push(`${w}: at least two listening questions are needed`);
   if (qs.filter((q) => q.type !== 'listen').length < 5) errors.push(`${w}: at least five questions after reading are needed`);
   // He has to think, so every passage mixes the ways of answering.
   for (const f of ['blank', 'tf', 'say']) if (!qs.some((q) => formatOf(q) === f)) errors.push(`${w}: needs at least one ${f} question`);
+  return errors;
+}
+
+
+// ---------------------------------------------------------------- the improved question set
+
+const SKILL_IDS = ['listen', 'detail', 'element', 'sequence', 'cause', 'inference', 'summary', 'main', 'vocab', 'solution'];
+const distinct3 = (a) => Array.isArray(a) && a.length === 3 && a.every(isText) && new Set(a).size === 3;
+
+/**
+ * Checks a passage's `coach` block: the listening, story-map, eight core and three written items. Each item needs a fact it
+ * alone tests, evidence sentences, a first hint and an explanation. Returns plain-English problems.
+ */
+export function validateCoach(story, w = 'reading') {
+  const errors = [];
+  const c = story.coach;
+  if (!isObj(c)) return [`${w}: "coach" must be an object`];
+  const guide = GUIDE[story.kind];
+  const n = story.sentences.length;
+  const seenIds = new Set(), seenFacts = new Set();
+  const evidenceOk = (x, at) => {
+    const ev = x.evidence;
+    if (!Array.isArray(ev) || !ev.length || !ev.every((i) => Number.isInteger(i) && i >= 0 && i < n) || new Set(ev).size !== ev.length) {
+      errors.push(`${at}.evidence must list the sentence numbers that prove the answer`);
+      return [];
+    }
+    return ev;
+  };
+  const common = (x, at) => {
+    if (!isObj(x)) { errors.push(`${at} must be an object`); return false; }
+    if (!/^[a-z][a-z0-9-]*$/.test(x.id || '')) errors.push(`${at}.id must be lowercase letters, digits and hyphens`);
+    else if (seenIds.has(x.id)) errors.push(`${at}: id ${x.id} is used twice`);
+    else seenIds.add(x.id);
+    if (!isText(x.fact)) errors.push(`${at}.fact (the one thing this item tests) is missing`);
+    else if (seenFacts.has(x.fact)) errors.push(`${at}: the fact "${x.fact}" is tested twice (do not ask the same thing again)`);
+    else seenFacts.add(x.fact);
+    if (!SKILL_IDS.includes(x.skill)) errors.push(`${at}.skill must be one of ${SKILL_IDS.join(', ')}`);
+    if (!isText(x.ask)) errors.push(`${at}.ask is missing`);
+    if (!isText(x.hint)) errors.push(`${at}.hint (what to look for) is missing`);
+    return true;
+  };
+  const follow = (x, at, ev) => {
+    const f = x.follow;
+    if (!isObj(f)) { errors.push(`${at}.follow must be an object`); return; }
+    if (!['correction', 'evidence'].includes(f.kind)) errors.push(`${at}.follow.kind must be correction or evidence`);
+    if (!isText(f.ask)) errors.push(`${at}.follow.ask is missing`);
+    if (!distinct3(f.choices) || ![0, 1, 2].includes(f.answer)) errors.push(`${at}.follow needs three different choices and an answer of 0, 1 or 2`);
+    else if (f.kind === 'evidence') {
+      if (!f.choices.every((t) => story.sentences.includes(t))) errors.push(`${at}.follow: every choice must be a sentence of the passage`);
+      else if (!ev.some((i) => story.sentences[i] === f.choices[f.answer])) errors.push(`${at}.follow: the right choice must be one of the evidence sentences`);
+    }
+  };
+  const checkItem = (x, at) => {
+    if (!common(x, at)) return;
+    const ev = evidenceOk(x, at);
+    if (!isText(x.explain)) errors.push(`${at}.explain (why the answer is right) is missing`);
+    if (x.format === 'choice') {
+      if (!distinct3(x.choices) || ![0, 1, 2].includes(x.answer)) errors.push(`${at}: a choice question needs three different choices and an answer of 0, 1 or 2`);
+      if (x.follow) follow(x, at, ev);
+    } else if (x.format === 'tf') {
+      if (typeof x.answer !== 'boolean') errors.push(`${at}.answer must be true or false`);
+      if (x.follow) follow(x, at, ev);
+    } else if (x.format === 'blank') {
+      if (String(x.ask).split('___').length !== 2) errors.push(`${at}.ask needs exactly one ___ blank`);
+      if (!isText(x.blank) || !Array.isArray(x.accept) || !checkBlank(x.blank, x.accept)) errors.push(`${at}: "blank" must be a word that "accept" also lists`);
+      else {
+        const text = ev.map((i) => story.sentences[i].toLowerCase()).join(' ');
+        if (!x.accept.some((a) => text.includes(String(a).toLowerCase()))) errors.push(`${at}: the missing word "${x.blank}" must appear in its evidence sentences`);
+      }
+    } else if (x.format === 'sequence') {
+      if (!Array.isArray(x.order) || x.order.length < 3 || !x.order.every(isText) || new Set(x.order).size !== x.order.length) errors.push(`${at}.order must list three or more different steps in order`);
+    } else errors.push(`${at}.format must be choice, tf, blank or sequence`);
+  };
+
+  // Listening: two questions, no text on screen.
+  if (!Array.isArray(c.listen) || c.listen.length !== 2) errors.push(`${w}: coach.listen needs exactly two questions`);
+  else c.listen.forEach((x, i) => checkItem(x, `${w}: coach.listen[${i}]`));
+
+  // Story map: one item per element of this kind, in the guide's order.
+  if (!Array.isArray(c.map) || c.map.length !== guide.length) errors.push(`${w}: coach.map needs one item for each of ${guide.map((g) => g.id).join(', ')}`);
+  else c.map.forEach((x, i) => {
+    checkItem(x, `${w}: coach.map[${i}]`);
+    if (isObj(x) && x.element !== guide[i].id) errors.push(`${w}: coach.map[${i}].element must be ${guide[i].id}`);
+    if (isObj(x) && x.format === 'sequence' && guide[i].id !== 'events') errors.push(`${w}: only the events item is a sequence in the story map`);
+  });
+
+  // Eight core questions, one skill each, simplest first.
+  if (!Array.isArray(c.core) || c.core.length !== CORE_SKILLS.length) errors.push(`${w}: coach.core needs exactly ${CORE_SKILLS.length} questions`);
+  else {
+    c.core.forEach((x, i) => {
+      checkItem(x, `${w}: coach.core[${i}]`);
+      if (isObj(x) && x.skill !== CORE_SKILLS[i]) errors.push(`${w}: coach.core[${i}].skill must be ${CORE_SKILLS[i]}`);
+    });
+    const formats = new Set(c.core.map((x) => x?.format));
+    for (const f of ['choice', 'tf', 'blank', 'sequence']) if (!formats.has(f)) errors.push(`${w}: the core questions need at least one ${f} question`);
+    if (!c.core.some((x) => x?.follow?.kind === 'correction')) errors.push(`${w}: one true/false question must ask him to correct the false statement`);
+    if (!c.core.some((x) => x?.follow?.kind === 'evidence')) errors.push(`${w}: one question must ask him to choose the sentence that supports his answer`);
+  }
+
+  // Optional written responses: a real text field, a model and a checklist. Never graded by matching words.
+  if (!Array.isArray(c.written) || c.written.length !== WRITTEN_SKILLS.length) errors.push(`${w}: coach.written needs exactly ${WRITTEN_SKILLS.length} prompts`);
+  else c.written.forEach((x, i) => {
+    const at = `${w}: coach.written[${i}]`;
+    if (!common(x, at)) return;
+    evidenceOk(x, at);
+    if (x.skill !== WRITTEN_SKILLS[i]) errors.push(`${at}.skill must be ${WRITTEN_SKILLS[i]}`);
+    if (!Array.isArray(x.starters) || !x.starters.length || !x.starters.every((t) => isText(t) && t.includes('___'))) errors.push(`${at}.starters must be sentence starters that each contain ___`);
+    if (!isText(x.model)) errors.push(`${at}.model (a good answer to compare with) is missing`);
+    if (!Array.isArray(x.checklist) || x.checklist.length < 3 || !x.checklist.every(isText)) errors.push(`${at}.checklist needs at least three things to compare`);
+  });
   return errors;
 }

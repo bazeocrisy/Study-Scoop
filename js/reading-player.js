@@ -1,15 +1,18 @@
-// The Reading Coach for one story: Story Guide, Listen, Read along, Echo read, Your turn (timed, 3 readings),
-// Story Map and Questions. Reading aloud uses the voice built into the device; nothing is recorded, stored or sent.
-// A reading's numbers live only while this page is open (CLAUDE.md: no student data without an approved design).
+// The Reading Coach for one passage. Activities: Story Guide, Listen, Read along, Echo read, Your turn (timed, optional),
+// Story map, Questions, Writing (optional), Summary and Check answers. Every activity is open at any time.
+// Reading aloud uses the voice built into the device; nothing is recorded, stored or sent.
+// All of a visit's work (answers, hints, writing, timed readings) lives in memory only (CLAUDE.md: no student data without an
+// approved design). Leaving or reloading clears it, so the page warns first (js/lib/leave-guard.js).
 import { html } from './lib/html.js';
-import { GUIDE, TARGET_WPM, answerKey, checkBlank as matches, formatOf, mapChoices, scoreReading, shuffled, storyPassed, storyTokens, suggestion } from './lib/reading.js';
+import { GUIDE, TARGET_WPM, scoreReading, storyTokens, suggestion } from './lib/reading.js';
+import {
+  SKILLS, STATUS_TEXT, WRITTEN_TEXT, answerKey, attempted, buildItems, buildSummary, firstAttempt, hintAt, newState, newWritten,
+  retry, reveal as markRevealed, selfAssess, statusOf, submit, useHint, writtenStatus,
+} from './lib/coach.js';
+import { setLeaveGuard } from './lib/leave-guard.js';
 
-const STEPS = [
-  { id: 'guide', label: 'Story Guide' }, { id: 'listen', label: 'Listen' }, { id: 'along', label: 'Read along' },
-  { id: 'echo', label: 'Echo read' }, { id: 'turn', label: 'Your turn' }, { id: 'map', label: 'Story map' },
-  { id: 'quiz', label: 'Questions' }, { id: 'done', label: 'All done' }, { id: 'answers', label: 'Answers' },
-];
 const MAX_READINGS = 3;
+const LEAVE_MESSAGE = 'Your answers, writing and timed readings from this visit are not saved. If you leave this passage they are cleared. Leave anyway?';
 
 // ---------------------------------------------------------------- speaking
 const synth = () => globalThis.speechSynthesis;
@@ -33,6 +36,9 @@ function speak(text, { rate = 0.9, onWord, onEnd } = {}) {
 }
 const stopAll = () => { spoken++; synth()?.cancel(); };
 
+const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const ACTIVITY_WORD = { done: 'Done', started: 'Started', notstarted: 'Not started' };
+
 // ---------------------------------------------------------------- the page
 export function mountReading(app, ctx, signal) {
   const { story, index } = ctx.reading;
@@ -42,16 +48,31 @@ export function mountReading(app, ctx, signal) {
   const flat = tokens.flat();
   const total = flat.length;
   const guide = GUIDE[story.kind];
-  const listenQs = story.questions.map((q, i) => ({ ...q, i })).filter((q) => q.type === 'listen');
-  const quizQs = story.questions.map((q, i) => ({ ...q, i })).filter((q) => q.type !== 'listen');
+  const items = buildItems(story);
+  const hasWriting = items.written.length > 0;
   const canSpeak = Boolean(synth());
   synth()?.getVoices();
 
+  // The recommended path is the core of the lesson; the rest is optional and always open.
+  const STEPS = [
+    { id: 'guide', label: 'Story Guide', rec: true }, { id: 'listen', label: 'Listen', rec: true },
+    { id: 'along', label: 'Read along', rec: true }, { id: 'echo', label: 'Echo read', rec: false },
+    { id: 'turn', label: 'Your turn (timed)', rec: false }, { id: 'map', label: 'Story map', rec: true },
+    { id: 'quiz', label: 'Questions', rec: true },
+    ...(hasWriting ? [{ id: 'write', label: 'Writing', rec: false }] : []),
+    { id: 'done', label: 'Summary', rec: true }, { id: 'answers', label: 'Check answers', rec: false, review: true },
+  ];
+  const stepById = (id) => STEPS.find((s) => s.id === id);
+  const nextRecommended = (id) => STEPS.slice(STEPS.findIndex((s) => s.id === id) + 1).find((s) => s.rec);
+
+  const freshTurn = () => ({ phase: 'ready', elapsedMs: 0, runStart: 0, helpTaps: 0, errors: new Set(), stop: null, tool: 'error', assisted: false, note: '', seconds: 0 });
   const fresh = () => ({
-    step: 'guide', keyClues: false, shown: new Set(), slow: false, playing: false, listenPlayed: !canSpeak,
-    echo: 0, card: null, tapped: [], readings: [],
-    turn: { phase: 'ready', startedAt: 0, seconds: 0, errors: new Set(), stop: null, tool: 'error' },
-    answers: {}, events: { picked: [], slips: 0 },
+    step: 'guide', visited: new Set(['guide']), playing: false, playingWhat: null, slow: false,
+    listenPlayed: !canSpeak, playedByUser: false, alongDone: false, echo: 0, echoDone: false,
+    card: null, tapped: [], readings: [], turn: freshTurn(),
+    items: Object.fromEntries(items.all.map((x) => [x.id, newState()])),
+    written: Object.fromEntries(items.written.map((w) => [w.id, newWritten()])),
+    lookAt: null, lookBacks: 0, shown: new Set(), keyClues: false, confirmedLeave: false,
   });
   let S = fresh();
   let stopSpeech = () => {};
@@ -59,17 +80,50 @@ export function mountReading(app, ctx, signal) {
 
   const announce = (t) => { if (live) { live.textContent = ''; setTimeout(() => { live.textContent = t; }, 40); } };
   const stopTimer = () => { clearInterval(timer); timer = null; };
-  signal.addEventListener('abort', () => { stopSpeech(); stopAll(); stopTimer(); });
+  const sentenceOf = (i) => story.sentences[i];
 
-  // ------------------------------------------------------------ small pieces
-  const elLabel = (id) => guide.find((e) => e.id === id)?.label || '';
-  const sentenceOf = (si) => story.sentences[si];
+  // ------------------------------------------------------------ work worth warning about
+  const hasWork = () => items.all.some((x) => { const st = S.items[x.id]; return st.attempts.length || st.helped || st.draft.trim() || st.history.length || st.selfStatus; })
+    || items.written.some((w) => S.written[w.id].text.trim()) || S.readings.length > 0 || S.turn.phase === 'running' || S.turn.phase === 'paused' || S.turn.phase === 'marking';
+  setLeaveGuard(() => (S.confirmedLeave || !hasWork() ? null : LEAVE_MESSAGE));
+  document.body.classList.toggle('rd-summary-open', false);
+  const onBeforeUnload = (e) => { if (hasWork()) { e.preventDefault(); e.returnValue = ''; } };
+  window.addEventListener('beforeunload', onBeforeUnload);
+  // A link inside Study Scoop (tabs, Home, All stories) asks first when work would be lost.
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest?.('a[href^="#"]');
+    if (!a || a.getAttribute('href') === '#app' || !hasWork() || S.confirmedLeave) return;
+    if (window.confirm(LEAVE_MESSAGE)) { S.confirmedLeave = true; setTimeout(() => { S.confirmedLeave = false; }, 1500); } else { e.preventDefault(); e.stopPropagation(); }
+  }, { capture: true, signal });
+  signal.addEventListener('abort', () => {
+    stopSpeech(); stopAll(); stopTimer(); setLeaveGuard(null);
+    window.removeEventListener('beforeunload', onBeforeUnload);
+    document.body.classList.remove('rd-summary-open');
+  });
 
-  /** The passage as one button per word. `opts.range` limits it to some sentences. */
+  // ------------------------------------------------------------ activities: done, started or not started
+  const attemptedAll = (list) => list.length > 0 && list.every((x) => attempted(S.items[x.id], x));
+  const attemptedAny = (list) => list.some((x) => attempted(S.items[x.id], x));
+  function activityState(id) {
+    switch (id) {
+      case 'guide': return S.visited.has('guide') ? 'done' : 'notstarted';
+      case 'listen': return (S.playedByUser || !canSpeak) && attemptedAll(items.listen) ? 'done' : S.playedByUser || attemptedAny(items.listen) ? 'started' : 'notstarted';
+      case 'along': return S.alongDone ? 'done' : S.visited.has('along') ? 'started' : 'notstarted';
+      case 'echo': return S.echoDone ? 'done' : S.visited.has('echo') ? 'started' : 'notstarted';
+      case 'turn': return S.readings.length ? 'done' : S.turn.phase !== 'ready' ? 'started' : 'notstarted';
+      case 'map': return attemptedAll(items.map) ? 'done' : attemptedAny(items.map) ? 'started' : 'notstarted';
+      case 'quiz': return attemptedAll(items.core) ? 'done' : attemptedAny(items.core) ? 'started' : 'notstarted';
+      case 'write': return items.written.some((w) => S.written[w.id].compared) ? 'done' : items.written.some((w) => S.written[w.id].text.trim()) ? 'started' : 'notstarted';
+      case 'answers': return S.shown.size ? 'started' : 'notstarted';
+      default: return 'notstarted';
+    }
+  }
+
+  // ------------------------------------------------------------ the passage as tappable words
   function passage({ only = null, mark = false, big = false, reveal = false } = {}) {
     const rows = tokens.map((sent, si) => (only !== null && only !== si ? '' : html`<span class="rd-sent" data-s="${si}">${sent.map((t) => {
       const cls = ['rd-w'];
-      // Clue colours give the answers away, so they appear only in the Answers step at the very end.
+      // Clue colours give the answers away, so they appear only when he asks for them in Check answers.
       if (reveal && t.el) cls.push('rd-clue', `el-${t.el}`);
       if (story.words[t.key]) cls.push('has-def');
       if (mark && S.turn.errors.has(t.n)) cls.push('is-err');
@@ -78,7 +132,6 @@ export function mountReading(app, ctx, signal) {
     })}</span>`));
     return html`<p class="rd-text${big ? ' big' : ''}${mark ? ' marking' : ''}" id="rd-text">${rows}</p>`;
   }
-
   const legend = () => html`<ul class="rd-legend" aria-label="Clue colors">${guide.map((e) => html`<li class="rd-chip el-${e.id}">${e.label}</li>`)}</ul>`;
 
   function wordCard() {
@@ -92,8 +145,121 @@ export function mountReading(app, ctx, signal) {
       ${el ? html`<p class="rd-wc-clue el-${el.id}"><b>Clue for ${el.label}.</b> ${el.ask}</p>` : ''}
       ${canSpeak ? html`<p class="btn-row"><button type="button" class="btn" data-act="say" data-text="${c.key}">Say it</button>
         <button type="button" class="btn" data-act="say" data-slow="1" data-text="${c.key}">Say it slowly</button></p>` : ''}
-      ${el ? '' : html`<p class="hint">Saved to My Words for this visit.</p>`}
+      ${el || S.step === 'answers' ? '' : html`<p class="hint">Saved to My Words for this visit.</p>`}
     </aside>`;
+  }
+
+  // ------------------------------------------------------------ look back at the story (a reading strategy, never a failure)
+  function lookPanel(key) {
+    const item = key === 'step' ? null : items.all.find((x) => x.id === key);
+    const here = item && S.items[item.id].helpLevel >= 2 ? new Set(item.evidence) : new Set();
+    return html`<section class="rd-lb" aria-label="The story, to look back at">
+      <h4>The story</h4>
+      <p class="hint">Looking back is what good readers do. Your answers stay exactly where they are.</p>
+      ${story.sentences.map((t, i) => html`<p class="rd-lb-s${here.has(i) ? ' is-here' : ''}">${here.has(i) ? html`<span class="rd-here">Look here</span> ` : ''}${t}</p>`)}
+      <p><button type="button" class="btn" data-act="lookback" data-id="${key}" data-close="1">Close the story</button></p>
+    </section>`;
+  }
+  const lookButton = (key) => html`<button type="button" class="btn rd-lookbtn" data-act="lookback" data-id="${key}" aria-expanded="${S.lookAt === key}">Look back at the story</button>`;
+  const lookSlot = (key) => html`<div class="rd-lb-slot" data-slot="${key}">${S.lookAt === key ? lookPanel(key) : ''}</div>`;
+  /** Opens or closes the story without redrawing, so answers, typing, focus and scroll position are untouched. */
+  function toggleLook(key, closeOnly = false) {
+    const wasOpen = S.lookAt === key;
+    S.lookAt = wasOpen || closeOnly ? null : key;
+    if (S.lookAt) S.lookBacks++;
+    for (const n of stage.querySelectorAll('.rd-lb')) n.remove();
+    for (const b of stage.querySelectorAll('[data-act="lookback"][aria-expanded]')) b.setAttribute('aria-expanded', String(b.dataset.id === S.lookAt));
+    const slot = stage.querySelector(`[data-slot="${key}"]`);
+    // The panel opens right under the question that asked for it, and the page does not scroll: the reader keeps their place.
+    if (S.lookAt && slot) slot.innerHTML = lookPanel(key).s;
+    const btn = stage.querySelector(`[data-act="lookback"][aria-expanded][data-id="${key}"]`);
+    if (!S.lookAt && btn) btn.focus({ preventScroll: true });
+    announce(S.lookAt ? 'The story is open. Your answers are still saved on the page.' : 'The story is closed.');
+  }
+
+  // ------------------------------------------------------------ one question (any format)
+  const wrongTries = (st, stageName) => st.attempts.filter((a) => a.stage === stageName && !a.correct).map((a) => a.response);
+  function choiceButtons(it, st, stageName) {
+    const choices = stageName === 'follow' ? it.follow.choices : it.choices;
+    const right = stageName === 'follow' ? it.follow.right : it.right;
+    const tried = wrongTries(st, stageName);
+    const finished = st.done || (stageName === 'main' && st.stage === 'follow');
+    return html`<div class="rd-choices" role="group" aria-label="Answers">${choices.map((c, k) => {
+      const cls = finished && k === right ? ' is-right' : tried.includes(k) ? ' is-wrong' : '';
+      return html`<button type="button" class="rd-choice${cls}" data-act="answer" data-id="${it.id}" data-k="${k}"${finished ? ' disabled' : ''}>${c}</button>`;
+    })}</div>`;
+  }
+  function itemBody(it, st) {
+    const done = st.done;
+    if (it.format === 'choice' || it.format === 'tf') {
+      const main = it.format === 'tf'
+        ? html`<div class="rd-choices rd-tfchoices" role="group" aria-label="True or false">${[['true', 'True'], ['false', 'False']].map(([v, label]) => {
+          const mainDone = done || st.stage === 'follow';
+          const tried = wrongTries(st, 'main').includes(v === 'true');
+          const cls = mainDone && (v === 'true') === it.right ? ' is-right' : tried ? ' is-wrong' : '';
+          return html`<button type="button" class="rd-choice${cls}" data-act="tf" data-id="${it.id}" data-v="${v}"${mainDone ? ' disabled' : ''}>${label}</button>`;
+        })}</div>`
+        : choiceButtons(it, st, 'main');
+      const follow = it.follow && (st.stage === 'follow' || done)
+        ? html`<div class="rd-follow"><p class="rd-qask rd-followask"><span class="rd-tf">${it.follow.kind === 'correction' ? 'Fix it' : 'Prove it'}</span> ${it.follow.ask}</p>${choiceButtons(it, st, 'follow')}</div>` : '';
+      return html`<p class="rd-qask">${it.format === 'tf' ? html`<span class="rd-tf">True or false</span> ` : ''}${it.ask.replace(/^True or false:\s*/i, '')}</p>${main}${follow}`;
+    }
+    if (it.format === 'blank') {
+      const [before, after] = it.ask.split('___');
+      return html`<p class="rd-qask rd-blankline"><label for="in-${it.id}">${before}</label><input type="text" class="rd-blank${done ? ' is-right' : ''}" id="in-${it.id}" data-id="${it.id}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Fill in the blank: ${it.ask.replace('___', 'blank')}" value="${st.draft}"${done ? ' disabled' : ''}>${after}</p>
+        ${done ? '' : html`<p class="btn-row"><button type="button" class="btn" data-act="check-blank" data-id="${it.id}">Check</button></p>`}`;
+    }
+    if (it.format === 'sequence') {
+      return html`<p class="rd-qask">${it.ask}</p><p class="hint">Tap the cards in order, first to last.</p>
+        <div class="rd-choices">${it.display.map((c) => {
+          const pos = st.slots.indexOf(c);
+          return html`<button type="button" class="rd-choice${pos >= 0 ? ' is-right' : ''}" data-act="seq" data-id="${it.id}" data-card="${c}"${pos >= 0 ? ' disabled' : ''}>${pos >= 0 ? html`<b>${pos + 1}.</b> ` : ''}${c}</button>`;
+        })}</div>`;
+    }
+    // A passage-original "say it" item: he says it, looks at a model, and marks himself. Self-assessed, never checked.
+    return html`<p class="rd-qask">${it.ask}</p>${st.shown ? html`<div class="rd-model"><p><b>A good answer:</b> ${it.model}</p>
+      ${st.selfStatus ? html`<p class="rd-fb ok" role="status">${st.selfStatus === 'got' ? 'You marked this one: I got it.' : 'You marked this one: not yet. Keep practicing.'}</p>`
+        : html`<p>Did you say something like this?</p><p class="btn-row"><button type="button" class="btn btn-primary" data-act="say-grade" data-id="${it.id}" data-ok="1">I got it</button><button type="button" class="btn" data-act="say-grade" data-id="${it.id}" data-ok="0">Not yet</button></p>`}</div>`
+      : html`<p class="hint">Say your answer out loud, or write it down. Then check it.</p><p class="btn-row"><button type="button" class="btn" data-act="say-show" data-id="${it.id}">Show a good answer</button></p>`}`;
+  }
+  function hintsBlock(it, st) {
+    if (!st.helpLevel) return '';
+    const levels = [1, 2, 3].filter((l) => l <= st.helpLevel).map((l) => hintAt(story, it, l));
+    return html`<div class="rd-hints" role="region" aria-label="Hints">${levels.map((h) => html`<div class="rd-hint rd-hint-${h.level}"><p><b>Hint ${h.level}: ${h.title}.</b></p>
+      ${h.level === 1 ? html`<p>${h.text}</p>` : h.level === 2 ? html`<ul>${h.sentences.map((e) => html`<li><q>${e.text}</q></li>`)}</ul>`
+        : html`<p>The answer: <b>${h.text}</b></p>${h.explain ? html`<p>${h.explain}</p>` : ''}`}</div>`)}</div>`;
+  }
+  function helpRow(it, st) {
+    if (it.format === 'say' || st.done) return it.format === 'say' ? '' : html`<p class="btn-row rd-helprow">${lookButton(it.id)}</p>`;
+    const labels = ['Need a hint?', 'Show me where to look', 'Show a model answer', 'The answer is shown'];
+    return html`<p class="btn-row rd-helprow"><button type="button" class="btn" data-act="hint" data-id="${it.id}"${st.helpLevel >= 3 ? ' disabled' : ''}>${labels[st.helpLevel]}</button>${lookButton(it.id)}</p>`;
+  }
+  function feedback(it, st) {
+    if (it.format === 'say') return '';
+    const status = statusOf(st, it);
+    const missed = st.attempts.some((a) => !a.correct) && !st.done;
+    return html`${missed ? html`<p class="rd-fb no" role="status">Not yet. Let's look for the clue together. Try again, ask for a hint, or look back at the story.</p>` : ''}
+      ${st.done ? html`<p class="rd-fb ok" role="status">${STATUS_TEXT[status]}</p>${it.explain ? html`<p class="rd-explain"><b>Why:</b> ${it.explain}</p>` : ''}` : ''}`;
+  }
+  function itemBlock(it, n) {
+    const st = S.items[it.id];
+    const status = statusOf(st, it);
+    return html`<li class="rd-q" id="item-${it.id}" data-item="${it.id}">
+      <div class="rd-qhead"><span class="rd-qn" aria-hidden="true">${n}</span><span class="rd-skill">${SKILLS[it.skill] || it.skill}</span>
+        <span class="rd-status st-${status}">${STATUS_TEXT[status]}</span>${st.round > 1 ? html`<span class="rd-round">Round ${st.round}</span>` : ''}</div>
+      ${itemBody(it, st)}${feedback(it, st)}${helpRow(it, st)}${hintsBlock(it, st)}${lookSlot(it.id)}</li>`;
+  }
+  function itemList(list) {
+    return html`<ol class="rd-qs">${list.map((it, i) => itemBlock(it, i + 1))}</ol>`;
+  }
+  /** "Answered 3 of 8" and a retry for the ones he is still working on. Unanswered is never counted as wrong. */
+  function progressLine(list) {
+    const stats = list.map((it) => statusOf(S.items[it.id], it));
+    const count = (s) => stats.filter((x) => x === s).length;
+    const again = list.filter((it) => ['practicing', 'withHelp'].includes(statusOf(S.items[it.id], it)));
+    return html`<p class="rd-progress" role="status">Answered ${list.length - count('unanswered')} of ${list.length}.
+      ${count('independent') ? ` Found independently: ${count('independent')}.` : ''}${count('withHelp') ? ` Found after a hint: ${count('withHelp')}.` : ''}${count('practicing') ? ` Still practicing: ${count('practicing')}.` : ''}</p>
+      ${again.length ? html`<p class="btn-row"><button type="button" class="btn" data-act="retry-some" data-group="${list[0].group}">Practice the ${again.length} I am still working on</button></p>` : ''}`;
   }
 
   // ------------------------------------------------------------ steps
@@ -101,7 +267,7 @@ export function mountReading(app, ctx, signal) {
     guide() {
       return html`
         <h2 id="rd-h" tabindex="-1">Story Guide: what to look for</h2>
-        <p>${story.kind === 'story' ? 'Every story has these parts.' : 'This passage tells facts. Look for these parts.'} Clue words can help you find each one. Clues help, but always think about what the sentence is telling you. You will find the parts yourself, and the answers wait for you at the very end.</p>
+        <p>${story.kind === 'story' ? 'Every story has these parts.' : 'This passage tells facts. Look for these parts.'} Clue words can help you find each one. Clues help, but always think about what the sentence is telling you. You will find the parts yourself, and the answers wait for you in Check answers.</p>
         <ul class="rd-guide">${guide.map((e) => html`<li class="rd-gcard el-${e.id}">
           <h3>${e.label}</h3><p class="rd-ask">${e.ask}</p><p>${e.tip}</p>
           <p class="rd-clues"><span>Clue words:</span> ${e.clues.map((c) => html`<b class="rd-cw">${c}</b> `)}</p></li>`)}</ul>`;
@@ -110,243 +276,280 @@ export function mountReading(app, ctx, signal) {
       return html`
         <h2 id="rd-h" tabindex="-1">Listen first</h2>
         <p>${canSpeak ? 'The words are hidden. Press play and listen carefully.' : 'This device cannot read aloud. Ask a grown-up to read the story out loud while you listen.'}</p>
-        ${canSpeak ? html`<p class="btn-row"><button type="button" class="btn btn-primary" data-act="play-all" aria-pressed="${S.playing}">${S.playing ? 'Stop' : S.listenPlayed ? 'Play it again' : 'Play the story'}</button></p>` : ''}
-        ${S.listenPlayed ? html`<h3>Listening questions</h3>${questions(listenQs)}` : html`<p class="hint">Questions show up after you listen.</p>`}`;
+        ${canSpeak ? html`<p class="btn-row"><button type="button" class="btn btn-primary" data-act="play-all" aria-pressed="${S.playing && S.playingWhat === 'listen'}">${S.playing && S.playingWhat === 'listen' ? 'Stop' : S.playedByUser ? 'Play it again' : 'Play the story'}</button></p>` : ''}
+        ${S.listenPlayed ? html`<h3>Listening questions</h3>${progressLine(items.listen)}${itemList(items.listen)}` : html`<p class="hint">Questions show up after you listen.</p>`}`;
     },
     along() {
       return html`
         <h2 id="rd-h" tabindex="-1">Read along</h2>
         <p>Follow the words as they light up. Tap any word to hear it or learn what it means.</p>
-        <p class="btn-row">${canSpeak ? html`<button type="button" class="btn btn-primary" data-act="play-along">${S.playing ? 'Stop' : 'Read it to me'}</button>
+        <p class="btn-row">${canSpeak ? html`<button type="button" class="btn btn-primary" data-act="play-along">${S.playing && S.playingWhat === 'along' ? 'Stop' : 'Read it to me'}</button>
           <button type="button" class="btn" data-act="slow" aria-pressed="${S.slow}">Speed: ${S.slow ? 'Slow' : 'Normal'}</button>` : ''}</p>
         ${passage()}${wordCard()}`;
     },
     echo() {
-      const n = story.sentences.length;
+      const n = story.sentences.length, last = S.echo >= n - 1;
       return html`
         <h2 id="rd-h" tabindex="-1">Echo read</h2>
-        <p>Listen to one sentence, then read it back in your best voice. Sentence ${S.echo + 1} of ${n}.</p>
-        ${passage({ only: S.echo, big: true })}${wordCard()}
-        <p class="btn-row">${canSpeak ? html`<button type="button" class="btn btn-primary" data-act="echo-hear">${S.playing ? 'Stop' : 'Hear it'}</button>` : ''}
-          <button type="button" class="btn" data-act="echo-prev"${S.echo === 0 ? ' disabled' : ''}>Back</button>
-          <button type="button" class="btn" data-act="echo-next">${S.echo === n - 1 ? 'Finished!' : 'I read it. Next sentence'}</button></p>`;
+        <p>Listen to one sentence, then read it back in your best voice.</p>
+        <div class="rd-sentbox"><p class="rd-sentcount" role="status">Sentence ${S.echo + 1} of ${n}</p>
+          ${passage({ only: S.echo, big: true })}${wordCard()}
+          <div class="rd-sentnav" role="group" aria-label="Move between sentences">
+            ${canSpeak ? html`<button type="button" class="btn rd-sentbtn" data-act="echo-hear">${S.playing && S.playingWhat === 'echo' ? 'Stop' : 'Hear this sentence'}</button>` : ''}
+            <button type="button" class="btn rd-sentbtn" data-act="echo-prev"${S.echo === 0 ? ' disabled' : ''}>‹ Previous sentence</button>
+            <button type="button" class="btn rd-sentbtn rd-sentnext" data-act="echo-next">${last ? 'Finish the last sentence' : 'Next sentence ›'}</button>
+          </div>
+          ${S.echoDone ? html`<p class="rd-fb ok" role="status">You read every sentence. Choose the next activity below when you are ready.</p>` : ''}</div>`;
     },
-    turn() {
-      const t = S.turn, k = S.readings.length;
-      if (t.phase === 'saved') return savedView();
-      const head = html`<h2 id="rd-h" tabindex="-1">Your turn: reading ${Math.min(k + 1, MAX_READINGS)} of ${MAX_READINGS}</h2>`;
-      if (t.phase === 'ready') return html`${head}
-        <p>Read the whole ${story.kind === 'story' ? 'story' : 'passage'} out loud, at a steady speed. A grown-up keeps the time. Tap a word if you need help.</p>
-        <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-start">Start reading</button></p>${passage()}${wordCard()}`;
-      if (t.phase === 'running') return html`${head}
-        <p class="rd-timer" id="rd-timer" role="timer" aria-label="Time reading">0:00</p>
-        <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-done">I am done</button></p>${passage()}${wordCard()}`;
-      return html`${head}
-        <p><b>Grown-up:</b> time was <b>${fmt(t.seconds)}</b>. Tap each word that was missed, or switch tools and tap the word where the reader stopped.</p>
-        <p class="btn-row"><button type="button" class="btn" data-act="tool" data-tool="error" aria-pressed="${t.tool === 'error'}">Mark missed words</button>
-          <button type="button" class="btn" data-act="tool" data-tool="stop" aria-pressed="${t.tool === 'stop'}">Reader stopped here</button></p>
-        <p class="hint" id="rd-count">${markCount()}</p>${passage({ mark: true })}
-        <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-save">Save this reading</button>
-          <button type="button" class="btn" data-act="turn-redo">Start over</button></p>`;
-    },
+    turn: turnView,
     map() {
       return html`
         <h2 id="rd-h" tabindex="-1">Story map</h2>
-        <p>Show what you remember. If you miss one, look at the clue sentence and try again.</p>
-        <ol class="rd-map">${guide.map((e) => mapCard(e))}</ol>`;
+        <p>Show what you remember about the story. You can look back at the story any time.</p>
+        <p class="btn-row">${lookButton('step')}</p>${lookSlot('step')}
+        ${progressLine(items.map)}${itemList(items.map)}`;
     },
     quiz() {
-      return html`<h2 id="rd-h" tabindex="-1">Questions</h2><p>Read each question. Go back to the story to find the answer.</p>
-        ${questions(quizQs)}`;
+      return html`
+        <h2 id="rd-h" tabindex="-1">Questions</h2>
+        <p>Read each question. If you are not sure, ask for a hint or look back at the story. That is what good readers do.</p>
+        <p class="btn-row">${lookButton('step')}</p>${lookSlot('step')}
+        ${progressLine(items.core)}${itemList(items.core)}`;
     },
+    write: writeView,
+    done: summaryView,
     answers: answersView,
-    done: doneView,
   };
 
+  // ------------------------------------------------------------ timed reading (optional)
+  const turnElapsed = () => S.turn.elapsedMs + (S.turn.phase === 'running' ? Date.now() - S.turn.runStart : 0);
+  function pauseTurn(note) {
+    const t = S.turn;
+    if (t.phase !== 'running') return false;
+    t.elapsedMs += Date.now() - t.runStart;
+    t.phase = 'paused';
+    t.note = note;
+    stopTimer();
+    return true;
+  }
+  function turnView() {
+    const t = S.turn, k = S.readings.length;
+    if (t.phase === 'saved') return savedView();
+    const head = html`<h2 id="rd-h" tabindex="-1">Your turn: reading ${Math.min(k + 1, MAX_READINGS)} of ${MAX_READINGS}</h2>`;
+    const optional = html`<p class="hint">This activity is optional. Reading speed is only one part of reading, and understanding matters more.</p>`;
+    if (t.phase === 'ready') return html`${head}${optional}
+      <p>Read the whole ${story.kind === 'story' ? 'story' : 'passage'} out loud, at a steady speed. A grown-up keeps the time. Tap a word if you need help. If you leave this activity or hide the page, the timer pauses and does not count that time.</p>
+      <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-start">Start reading</button></p>${passage()}${wordCard()}`;
+    if (t.phase === 'running') return html`${head}
+      <p class="rd-timer" id="rd-timer" role="timer" aria-label="Time reading">${fmt(turnElapsed() / 1000)}</p>
+      <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-done">I am done</button><button type="button" class="btn" data-act="turn-pause">Pause</button></p>${passage()}${wordCard()}`;
+    if (t.phase === 'paused') return html`${head}
+      <div class="rd-fb no" role="status"><p><b>Reading paused at ${fmt(turnElapsed() / 1000)}.</b> ${t.note || 'The timer is paused.'} The time away was not counted.</p></div>
+      <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-resume">Resume reading</button><button type="button" class="btn" data-act="turn-redo">Start over</button></p>${passage()}${wordCard()}`;
+    return html`${head}
+      <p><b>Grown-up:</b> reading time was <b>${fmt(t.seconds)}</b>. Tap each word that was missed. To record where the reader stopped, choose the second tool and tap that word.</p>
+      <p class="btn-row"><button type="button" class="btn" data-act="tool" data-tool="error" aria-pressed="${t.tool === 'error'}">Mark missed words</button>
+        <button type="button" class="btn" data-act="tool" data-tool="stop" aria-pressed="${t.tool === 'stop'}">Reader stopped here</button></p>
+      <p><label class="rd-check"><input type="checkbox" data-act="assisted"${t.assisted ? ' checked' : ''}> A grown-up read or helped with some words</label></p>
+      <p class="hint" id="rd-count">${markCount()}</p>${passage({ mark: true })}
+      <p class="btn-row"><button type="button" class="btn btn-primary" data-act="turn-save">Save this reading</button><button type="button" class="btn" data-act="turn-redo">Start over</button></p>`;
+  }
+  const markCount = () => {
+    const t = S.turn;
+    return `Missed words: ${t.errors.size}. Words he tapped for help: ${t.helpTaps}.${t.stop !== null ? ` Stopped at word ${t.stop + 1} of ${total}.` : ''}`;
+  };
+  function readingsList() {
+    return html`<ol class="rd-chart" aria-label="Timed readings">${S.readings.map((r, k) => html`<li class="rd-reading">
+      <p><b>Reading ${k + 1}</b></p>
+      <ul class="rd-metrics">
+        <li><span>Finished?</span> ${r.finished ? 'Yes, the whole passage' : `No, stopped at word ${r.reached} of ${total}`}</li>
+        <li><span>Accuracy</span> ${r.accuracy}% (${r.correct} of ${r.reached} words right)</li>
+        <li><span>Pace</span> ${!r.believable ? 'Not shown: the time looks too short to be right' : `${r.wrr} words right per minute${r.scored ? '' : r.finished ? ' (not scored for speed)' : ' (partial reading, not scored for speed)'}`}</li>
+        <li><span>Help</span> ${r.helpTaps} word${r.helpTaps === 1 ? '' : 's'} tapped${r.assisted ? '; a grown-up helped read some words' : ''}</li>
+      </ul>
+      ${r.scored ? html`<meter min="0" max="150" value="${r.wrr}" aria-label="Reading ${k + 1}: ${r.wrr} words read right per minute"></meter>`
+        : html`<p class="hint">${!r.finished ? 'Not scored for speed because the whole passage was not read.' : !r.believable ? 'Not scored for speed because the time looks too short to be right.' : 'Not scored for speed because a grown-up helped.'}</p>`}</li>`)}</ol>
+      <p class="hint">Class goal: ${TARGET_WPM} words read right per minute. Pace is only one part of reading.</p>`;
+  }
+  function savedView() {
+    const more = S.readings.length < MAX_READINGS;
+    const last = S.readings[S.readings.length - 1];
+    return html`<h2 id="rd-h" tabindex="-1">Reading ${S.readings.length} saved</h2>
+      ${readingsList()}<p class="rd-fb ${last.scored && last.accuracy >= 95 ? 'ok' : 'no'}" role="status">${suggestion(S.readings)}</p>
+      <p class="btn-row">${more ? html`<button type="button" class="btn btn-primary" data-act="turn-again">Read again (reading ${S.readings.length + 1} of ${MAX_READINGS})</button>` : html`<span class="hint">Three readings are saved.</span>`}</p>`;
+  }
 
-  /** The Answers step: every question is a tappable row. Tap one to see its answer and where to look in the story. */
+  // ------------------------------------------------------------ optional writing (self-assessed, never auto-graded)
+  function writeView() {
+    return html`<h2 id="rd-h" tabindex="-1">Writing (optional)</h2>
+      <p>Explain your thinking in your own words. Nobody and nothing grades this on the page. Compare your answer with a model, then a grown-up reads it.</p>
+      <p class="btn-row">${lookButton('step')}</p>${lookSlot('step')}
+      <ol class="rd-qs">${items.written.map((w, i) => writtenBlock(w, i + 1))}</ol>`;
+  }
+  function writtenBlock(w, n) {
+    const ws = S.written[w.id];
+    const status = writtenStatus(ws, w);
+    return html`<li class="rd-q rd-written" id="item-${w.id}">
+      <div class="rd-qhead"><span class="rd-qn" aria-hidden="true">${n}</span><span class="rd-skill">${SKILLS[w.skill] || w.skill}</span><span class="rd-status st-${status === 'selfAssessed' ? 'self' : status === 'draft' ? 'practicing' : status}">${WRITTEN_TEXT[status]}</span></div>
+      <p class="rd-qask"><label for="w-${w.id}">${w.ask}</label></p>
+      <p class="rd-starters">${w.starters.map((t, k) => html`<button type="button" class="btn" data-act="starter" data-id="${w.id}" data-k="${k}">Start with: ${t}</button> `)}</p>
+      <textarea id="w-${w.id}" class="rd-textarea" data-id="${w.id}" rows="4" autocomplete="off" spellcheck="true">${ws.text}</textarea>
+      <p class="btn-row">${ws.viewedHint ? '' : html`<button type="button" class="btn" data-act="w-hint" data-id="${w.id}">Show me where to look</button>`}
+        <button type="button" class="btn btn-primary" data-act="w-compare" data-id="${w.id}"${ws.text.trim() ? '' : ' disabled'}>${ws.compared ? 'Compare again' : 'Compare with a model'}</button></p>
+      ${ws.viewedHint ? html`<div class="rd-hints"><div class="rd-hint rd-hint-2"><p><b>Where to look.</b> ${w.hint}</p><ul>${w.evidence.map((i) => html`<li><q>${sentenceOf(i)}</q></li>`)}</ul></div></div>` : ''}
+      ${ws.compared ? html`<div class="rd-model"><p><b>A good answer:</b> ${w.model}</p>
+        <fieldset class="rd-checklist"><legend>Compare yours with the model. Did you...</legend>${w.checklist.map((c, k) => html`<label class="rd-check"><input type="checkbox" data-act="w-check" data-id="${w.id}" data-k="${k}"${ws.checks[k] ? ' checked' : ''}> ${c}</label>`)}</fieldset>
+        <p class="hint">This is your own check. Your answer can use different words and still be right. A grown-up should read it.</p></div>` : ''}
+    </li>`;
+  }
+
+  // ------------------------------------------------------------ the parent summary (printable, in memory only)
+  const RESULT_WORD = { independent: 'Found independently', withHelp: 'Found after a hint', practicing: 'Still practicing', unanswered: 'Not answered yet', self: 'Self-checked' };
+  const FIRST_WORD = { right: 'Right', wrong: 'Not yet', none: '–' };
+  function summaryView() {
+    const sum = buildSummary({
+      story, items, states: S.items, writtenStates: S.written, readings: S.readings, lookBacks: S.lookBacks,
+      activities: STEPS.filter((s) => !['done'].includes(s.id)).map((s) => ({ id: s.id, label: s.label, optional: !s.rec, state: activityState(s.id) })),
+    });
+    const c = sum.counts;
+    const groups = [['listen', 'Listening'], ['map', 'Story map'], ['core', 'Questions']];
+    return html`<div class="rd-summary" id="rd-summary">
+      <h2 id="rd-h" tabindex="-1">Session summary</h2>
+      <p class="rd-sumhead"><b>${story.title}</b> · ${new Date().toLocaleDateString(undefined, { dateStyle: 'long' })}</p>
+      <p class="rd-fb no rd-nonprint" role="note">This summary is only on this page. It is not saved or sent anywhere. If you leave or reload the page it is cleared, so print it or write it down first.</p>
+      <p class="btn-row rd-nonprint"><button type="button" class="btn btn-primary" data-act="print">Print this summary</button></p>
+
+      <h3>Activities</h3>
+      <table class="rd-table"><thead><tr><th scope="col">Activity</th><th scope="col">Status</th></tr></thead><tbody>
+        ${sum.activities.map((a) => html`<tr><th scope="row">${a.label}${a.optional ? html` <span class="hint">(optional)</span>` : ''}</th><td>${a.id === 'guide' && a.state === 'done' ? 'Opened' : ACTIVITY_WORD[a.state]}</td></tr>`)}</tbody></table>
+
+      <h3>Comprehension questions (checked by the page)</h3>
+      <p>Found independently: <b>${c.independent}</b> · Found after a hint: <b>${c.withHelp}</b> · Still practicing: <b>${c.practicing}</b> · Not answered yet: <b>${c.unanswered}</b> · Total: ${sum.total}</p>
+      <p class="hint">The page also keeps his first try on each question for you: first try right ${sum.firstTry.right} of ${sum.firstTry.tried} tried. Success here means finding the answer, not getting it right the first time.</p>
+      ${groups.map(([g, label]) => {
+        const rows = sum.rows.filter((r) => r.group === g && !r.selfChecked);
+        return rows.length ? html`<table class="rd-table"><caption>${label}</caption><thead><tr><th scope="col">Question</th><th scope="col">Skill</th><th scope="col">Result</th><th scope="col">First try</th><th scope="col">Help</th></tr></thead><tbody>
+          ${rows.map((r) => html`<tr><th scope="row">${r.ask.replace(/___/g, '…')}</th><td>${SKILLS[r.skill] || r.skill}</td><td>${RESULT_WORD[r.status]}${r.retried ? ' (practiced again)' : ''}</td><td>${FIRST_WORD[r.first]}</td><td>${r.revealed ? 'Answer shown' : r.helped ? 'Hint used' : '–'}</td></tr>`)}</tbody></table>` : '';
+      })}
+      ${sum.withHelp.length ? html`<h3>Completed with help</h3><ul>${sum.withHelp.map((r) => html`<li>${r.ask.replace(/___/g, '…')}</li>`)}</ul>` : ''}
+      ${sum.unanswered.length ? html`<h3>Not answered yet</h3><ul>${sum.unanswered.map((r) => html`<li>${r.ask.replace(/___/g, '…')}</li>`)}</ul>` : ''}
+      <h3>Skills to revisit</h3>
+      ${sum.skillsToRevisit.length ? html`<ul>${sum.skillsToRevisit.map((x) => html`<li>${x}</li>`)}</ul>` : html`<p>None yet from the questions he has answered.</p>`}
+      ${sum.notTried.length ? html`<p class="hint">Not tried yet: ${sum.notTried.join(', ')}.</p>` : ''}
+
+      ${sum.selfAssessed.length ? html`<h3>Self-checked (not scored by the page)</h3><p class="hint">He said these out loud and marked himself. They are not counted above.</p><ul>${sum.selfAssessed.map((r) => html`<li>${r.ask.replace(/___/g, '…')} – ${RESULT_WORD[r.status]}</li>`)}</ul>` : ''}
+
+      ${sum.written.length ? html`<h3>Written responses (self-assessed, need a grown-up)</h3>${sum.written.map((w) => html`<div class="rd-wsum"><p><b>${w.ask}</b></p>
+        ${w.text.trim() ? html`<p class="rd-wtext">${w.text}</p>` : html`<p class="hint">Not written yet.</p>`}
+        <p>Status: ${WRITTEN_TEXT[w.status]}</p>
+        ${w.status !== 'unanswered' ? html`<ul class="rd-checkres">${w.checklist.map((c, k) => html`<li>${w.checks[k] ? '[x]' : '[ ]'} ${c}</li>`)}</ul>
+          <label class="rd-check rd-nonprint"><input type="checkbox" data-act="w-reviewed" data-id="${w.id}"${w.reviewed ? ' checked' : ''}> Reviewed by a grown-up</label>` : ''}</div>`)}` : ''}
+
+      <h3>Timed readings (optional)</h3>
+      ${S.readings.length ? readingsList() : html`<p class="hint">No timed reading was done.</p>`}
+
+      <h3>Reading strategies</h3>
+      <p>Looked back at the story ${S.lookBacks} time${S.lookBacks === 1 ? '' : 's'}${S.lookBacks ? ', which is a good reading strategy' : ''}.</p>
+
+      <div class="rd-nonprint"><h3>What next?</h3>
+        <p class="btn-row">${sum.counts.practicing + sum.counts.withHelp ? html`<button type="button" class="btn btn-primary" data-act="retry-all-missed">Practice the ${sum.counts.practicing + sum.counts.withHelp} I am still working on</button>` : ''}
+          <button type="button" class="btn" data-act="retry-everything">Start a fresh attempt at every question</button>
+          <button type="button" class="btn" data-act="go" data-step="answers">Check answers</button></p>
+        <p class="hint">Practicing again keeps everything else, including timed readings and the first tries.</p>
+        <p class="btn-row"><a class="btn" href="${ctx.link('reading')}">All passages</a>
+          ${(() => { const next = index.stories[index.stories.findIndex((x) => x.id === story.id) + 1]; return next ? html`<a class="btn" href="${ctx.actLink('reading', next.id)}">Next passage: ${next.title}</a>` : ''; })()}</p></div>
+    </div>`;
+  }
+
+  // ------------------------------------------------------------ the answer-review area (always open, no password)
   function answersView() {
     const key = answerKey(story);
     const open = (id) => S.shown.has(id);
-    const row = (id, title, body, find) => html`<li class="rd-akey"><button type="button" class="rd-reveal" data-act="toggle-key" data-id="${id}" aria-expanded="${open(id)}"><span>${title}</span><span class="rd-plus" aria-hidden="true">${open(id) ? '\u2212' : '+'}</span></button>${open(id) ? html`<div class="rd-apanel">${body}<p class="hint">Look at: <q>${sentenceOf(find)}</q></p></div>` : ''}</li>`;
-    const ans = (a) => Array.isArray(a) ? html`<ol>${a.map((x) => html`<li>${x}</li>`)}</ol>` : html`<p><b>${a}</b></p>`;
-    const mapRows = key.map.map((m) => row(`m-${m.id}`, html`<b>${m.label}</b>: ${m.format === 'blank' ? m.ask.replace('___', '\u2026') : m.format === 'order' ? 'Put the events in order' : m.ask}`, ans(m.answer), m.find));
-    const qRows = key.questions.map((q, i) => row(`q${i}`, `${q.format === 'tf' ? 'True or false: ' : ''}${q.format === 'blank' ? q.ask.replace('___', '\u2026') : q.ask}`, ans(q.answer), q.find));
-    return html`<h2 id="rd-h" tabindex="-1">Answers</h2>
-      <p>Tap a question to see its answer. Try to remember the answer first!</p>
+    const row = (id, title, body, ev) => html`<li class="rd-akey"><button type="button" class="rd-reveal" data-act="toggle-key" data-id="${id}" aria-expanded="${open(id)}"><span>${title}</span><span class="rd-plus" aria-hidden="true">${open(id) ? '−' : '+'}</span></button>${open(id) ? html`<div class="rd-apanel">${body}<p class="hint">Evidence in the story:</p><ul>${ev.map((i) => html`<li><q>${sentenceOf(i)}</q></li>`)}</ul></div>` : ''}</li>`;
+    const ans = (a) => html`<p><b>${a}</b></p>`;
+    const titleOf = (r) => `${r.format === 'tf' ? 'True or false: ' : ''}${String(r.ask).replace(/___/g, '…').replace(/^True or false:\s*/i, '')}`;
+    const mapRows = key.map.map((m) => row(m.id, html`<b>${GUIDE[story.kind].find((g) => g.id === m.element)?.label || m.id}</b>: ${titleOf(m)}`, html`${ans(m.answer)}${m.explain ? html`<p>${m.explain}</p>` : ''}`, m.evidence));
+    const qRows = key.questions.map((q) => row(q.id, titleOf(q), html`${ans(q.answer)}${q.explain ? html`<p>${q.explain}</p>` : ''}`, q.evidence));
+    const wRows = key.written.map((w) => row(w.id, w.ask, html`<p class="hint">Write your own answer first. This is a model, and yours can use different words.</p>${ans(w.model)}`, w.evidence));
+    return html`<h2 id="rd-h" tabindex="-1">Check answers</h2>
+      <p>Tap a question to see its answer and where to find it in the story. Try to remember it first! Opening an answer before you have finished a question is noted as help.</p>
       <p class="btn-row"><button type="button" class="btn" data-act="key-all">${S.shown.size ? 'Hide all the answers' : 'Show all the answers'}</button>
         <button type="button" class="btn" data-act="key-clues" aria-pressed="${S.keyClues}">Clue words in the story: ${S.keyClues ? 'On' : 'Off'}</button></p>
       ${S.keyClues ? legend() : ''}${passage({ reveal: S.keyClues })}${wordCard()}
       <h3>Story map</h3><ul class="rd-key">${mapRows}</ul>
-      <h3>Questions</h3><ul class="rd-key">${qRows}</ul>`;
-  }
-
-  const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
-  const markCount = () => {
-    const t = S.turn;
-    return `Missed words: ${t.errors.size}.${t.stop !== null ? ` Stopped at word ${t.stop + 1} of ${total}.` : ''}`;
-  };
-
-  // ------------------------------------------------------------ questions: choose, true or false, fill in, say it
-  /** One question or map item as the page needs it: how it is answered, what is right and where to look. */
-  function describe(id) {
-    if (id.startsWith('m-')) {
-      const key = id.slice(2), g = guide.find((e) => e.id === key), m = story.elements[key], f = formatOf(m);
-      if (f === 'blank') return { id, fmt: 'blank', ask: m.text, accept: m.accept, blank: m.blank, find: m.find };
-      if (f === 'say') return { id, fmt: 'say', ask: g.ask, model: m.answer, find: m.find };
-      const mc = mapChoices(m, key.length + 3);
-      return { id, fmt: 'choice', ask: g.ask, choices: mc.choices, right: mc.answer, find: m.find };
-    }
-    const q = story.questions[Number(id.slice(1))], f = formatOf(q);
-    if (f === 'tf') return { id, fmt: 'tf', ask: q.ask, choices: ['True', 'False'], right: q.answer ? 0 : 1, find: q.find };
-    if (f === 'blank') return { id, fmt: 'blank', ask: q.ask, accept: q.accept, blank: q.blank, find: q.find };
-    if (f === 'say') return { id, fmt: 'say', ask: q.ask, model: q.answer, find: q.find };
-    return { id, fmt: 'choice', ask: q.ask, choices: q.choices, right: q.answer, find: q.find };
-  }
-  function choiceButtons(id, choices, st) {
-    return html`<div class="rd-choices" role="group" aria-label="Answers">${choices.map((c, k) => {
-      const picked = st?.tried?.includes(k);
-      const cls = st?.done && st.right === k ? ' is-right' : picked ? ' is-wrong' : '';
-      return html`<button type="button" class="rd-choice${cls}" data-act="answer" data-id="${id}" data-k="${k}"${st?.done ? ' disabled' : ''}>${c}</button>`;
-    })}</div>`;
-  }
-  function feedbackHtml(d, st) {
-    if (!st || d.fmt === 'say') return '';
-    if (st.done) return html`<p class="rd-fb ok" role="status">Yes! That is right.</p>`;
-    const missed = d.fmt === 'blank' ? st.wrong : st.tried?.length;
-    if (!missed) return '';
-    return html`<p class="rd-fb no" role="status">Not yet. Look at this sentence: <q>${sentenceOf(d.find)}</q> Then try again.${d.fmt === 'blank' && st.wrong >= 2 ? html` Hint: it starts with \u201c${d.blank[0]}\u201d.` : ''}</p>`;
-  }
-  function itemHtml(d) {
-    const st = S.answers[d.id];
-    if (d.fmt === 'choice' || d.fmt === 'tf') {
-      return html`<p class="rd-qask">${d.fmt === 'tf' ? html`<span class="rd-tf">True or false:</span> ` : ''}${d.ask}</p>${choiceButtons(d.id, d.choices, st ? { ...st, right: d.right } : null)}${feedbackHtml(d, st)}`;
-    }
-    if (d.fmt === 'blank') {
-      const [before, after] = d.ask.split('___'), done = st?.done;
-      return html`<p class="rd-qask rd-blankline">${before}<input type="text" class="rd-blank${done ? ' is-right' : ''}" id="in-${d.id}" data-id="${d.id}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Fill in the blank"${done ? html` value="${st.value}" disabled` : ''}>${after}</p>
-        ${done ? '' : html`<p class="btn-row"><button type="button" class="btn" data-act="check-blank" data-id="${d.id}">Check</button></p>`}${feedbackHtml(d, st)}`;
-    }
-    return html`<p class="rd-qask">${d.ask}</p>${st?.shown ? html`<div class="rd-model"><p><b>A good answer:</b> ${d.model}</p><p class="hint">Look at: <q>${sentenceOf(d.find)}</q></p>
-      ${st.done ? html`<p class="rd-fb ${st.first ? 'ok' : 'no'}" role="status">${st.first ? 'Great thinking!' : 'Keep practicing. You will get it.'}</p>`
-        : html`<p>Did you say something like this?</p><p class="btn-row"><button type="button" class="btn btn-primary" data-act="say-grade" data-id="${d.id}" data-ok="1">I got it</button><button type="button" class="btn" data-act="say-grade" data-id="${d.id}" data-ok="0">Not yet</button></p>`}</div>`
-      : html`<p class="hint">Say your answer out loud to a grown-up, or write it down. Then check it.</p><p class="btn-row"><button type="button" class="btn" data-act="say-show" data-id="${d.id}">Show a good answer</button></p>`}`;
-  }
-  function questions(list) {
-    return html`<ol class="rd-qs">${list.map((q) => html`<li class="rd-q">${itemHtml(describe(`q${q.i}`))}</li>`)}</ol>`;
-  }
-
-  // ------------------------------------------------------------ story map
-  function mapCard(e) {
-    if (e.id === 'events') {
-      const m = story.elements.events, ev = S.events, done = ev.picked.length === 3;
-      const cards = shuffled(m.order, 5);
-      return html`<li class="rd-mcard el-${e.id}"><h3>${e.label}</h3><p class="rd-ask">${e.ask}</p>
-        <p class="hint">Tap the events in order: first, next, last.</p>
-        <div class="rd-choices">${cards.map((c) => {
-          const pos = ev.picked.indexOf(c);
-          return html`<button type="button" class="rd-choice${pos >= 0 ? ' is-right' : ''}" data-act="event" data-c="${c}"${pos >= 0 ? ' disabled' : ''}>${pos >= 0 ? html`<b>${pos + 1}.</b> ` : ''}${c}</button>`;
-        })}</div>
-        ${done ? html`<p class="rd-fb ok" role="status">Yes! That is the right order.</p>` : ev.slips ? html`<p class="rd-fb no" role="status">Not yet. Look at this sentence: <q>${sentenceOf(m.find)}</q> Then try again.</p>` : ''}</li>`;
-    }
-    return html`<li class="rd-mcard el-${e.id}"><h3>${e.label}</h3>${itemHtml(describe(`m-${e.id}`))}</li>`;
-  }
-  const rightFirst = (id) => S.answers[id]?.done && S.answers[id].first;
-  const mapStats = () => {
-    const ids = guide.map((e) => e.id);
-    const right = ids.filter((id) => (id === 'events' ? S.events.picked.length === 3 && S.events.slips === 0 : rightFirst(`m-${id}`))).length;
-    return { right, total: ids.length };
-  };
-  const quizStats = () => ({ right: quizQs.filter((q) => rightFirst(`q${q.i}`)).length, total: quizQs.length });
-
-  // ------------------------------------------------------------ results
-  function chart(readings) {
-    return html`<ol class="rd-chart" aria-label="Words read right per minute">${readings.map((r, k) => html`<li>
-      <span class="rd-cl">Reading ${k + 1}</span><meter min="0" max="150" value="${r.wrr}" aria-label="Reading ${k + 1}: ${r.wrr} words read right per minute"></meter>
-      <span class="rd-cv"><b>${r.wrr}</b> words a minute · ${r.accuracy}% right · ${r.errors} missed${r.finished ? '' : ' · stopped early'}</span></li>`)}</ol>
-      <p class="hint">Class goal: ${TARGET_WPM} words read right per minute.</p>`;
-  }
-  function savedView() {
-    const last = S.readings[S.readings.length - 1];
-    const more = S.readings.length < MAX_READINGS;
-    return html`<h2 id="rd-h" tabindex="-1">Reading ${S.readings.length} saved</h2>
-      <p class="rd-big"><b>${last.wrr}</b> words read right per minute</p>
-      <p>${last.correct} of ${last.reached} words right (${last.accuracy}%) in ${fmt(last.seconds)}.</p>
-      ${last.seconds < 20 || last.wrr > 300 ? html`<p class="rd-fb no" role="status">That time looks very short. If the timer was stopped too soon, choose "Read again" to redo it.</p>` : ''}${chart(S.readings)}
-      <p class="rd-fb ${last.accuracy >= 95 ? 'ok' : 'no'}">${suggestion(S.readings, S.tapped)}</p>
-      <p class="btn-row">${more ? html`<button type="button" class="btn btn-primary" data-act="turn-again">Read again (reading ${S.readings.length + 1} of ${MAX_READINGS})</button>` : ''}
-        <button type="button" class="btn${more ? '' : ' btn-primary'}" data-act="go" data-step="map">Go to the story map</button></p>`;
-  }
-  function doneView() {
-    const q = quizStats(), m = mapStats();
-    const passed = storyPassed(q.right, q.total);
-    const next = index.stories[index.stories.findIndex((s) => s.id === story.id) + 1];
-    const myWords = [...new Set(S.tapped)];
-    return html`<h2 id="rd-h" tabindex="-1">${passed ? 'Story complete!' : 'Nice work!'}</h2>
-      <p class="rd-big">${passed ? 'You answered at least 4 of 5 questions right on the first try.' : 'Read the story again and try the questions once more to finish it.'}</p>
-      <ul class="rd-sum">
-        <li><b>Questions:</b> ${q.right} of ${q.total} right on the first try</li>
-        <li><b>Story map:</b> ${m.right} of ${m.total} right on the first try</li>
-        <li><b>Readings:</b> ${S.readings.length ? S.readings.map((r) => `${r.wrr} words a minute`).join(', then ') : 'none yet. Try Your turn.'}</li>
-      </ul>${S.readings.length ? chart(S.readings) : ''}
-      ${S.readings.length ? html`<p class="rd-fb ok">${suggestion(S.readings, myWords)}</p>` : ''}
-      <h3>My Words</h3>
-      ${myWords.length ? html`<ul class="rd-mywords">${myWords.map((w) => html`<li><b>${w}</b>${story.words[w] ? html` <span class="hint">${story.words[w].means}</span>` : ''}${canSpeak ? html` <button type="button" class="btn" data-act="say" data-text="${w}">Hear it</button>` : ''}</li>`)}</ul>` : html`<p class="hint">You did not tap any words this time.</p>`}
-      <p class="hint">Numbers are not saved. Write them down if you want to keep them.</p>
-      <p class="btn-row"><button type="button" class="btn" data-act="go" data-step="answers">Check the answers</button>
-        <a class="btn btn-primary" href="${ctx.link('reading')}">All stories</a>
-        ${next ? html`<a class="btn" href="${ctx.actLink('reading', next.id)}">Next story: ${next.title}</a>` : ''}
-        <button type="button" class="btn" data-act="restart">Read this one again</button></p>`;
+      <h3>Questions</h3><ul class="rd-key">${qRows}</ul>
+      ${wRows.length ? html`<h3>Writing (models)</h3><ul class="rd-key">${wRows}</ul>` : ''}`;
   }
 
   // ------------------------------------------------------------ drawing
+  function stepNav() {
+    const si = STEPS.findIndex((s) => s.id === S.step);
+    const prev = STEPS[si - 1], next = STEPS[si + 1];
+    const rec = next && !next.rec ? nextRecommended(S.step) : null;
+    return html`<nav class="rd-nav" aria-label="Move between activities">
+      ${prev ? html`<button type="button" class="btn rd-actnav" data-act="go" data-step="${prev.id}">‹ Previous activity: ${prev.label}</button>` : html`<span></span>`}
+      <span class="rd-navright">
+        ${rec ? html`<button type="button" class="btn rd-actnav" data-act="go" data-step="${rec.id}">Skip to: ${rec.label}</button>` : ''}
+        ${next ? html`<button type="button" class="btn btn-primary rd-actnext" data-act="go" data-step="${next.id}">Next activity: ${next.label}${next.rec ? '' : ' (optional)'} ›</button>` : ''}
+      </span></nav>`;
+  }
+  function stepsRow() {
+    return html`<p class="rd-path"><b>Recommended path:</b> ${STEPS.filter((s) => s.rec).map((s) => s.label).join(' → ')}. <b>Optional, and always open:</b> ${STEPS.filter((s) => !s.rec).map((s) => s.label).join(', ')}.</p>
+      <ol class="rd-steps" aria-label="Activities">${STEPS.map((s, k) => {
+    const st = activityState(s.id);
+    return html`<li><button type="button" class="rd-step${s.id === S.step ? ' is-now' : ''}${st === 'done' && s.id !== S.step ? ' is-past' : ''}${s.rec ? '' : ' is-optional'}" data-act="go" data-step="${s.id}"${s.id === S.step ? ' aria-current="step"' : ''}>
+      <span class="rd-sn">${st === 'done' && s.id !== 'done' && s.id !== 'guide' ? '✓' : k + 1}</span><span class="rd-sl">${s.label}${s.rec ? '' : html` <small>${s.review ? 'review' : 'optional'}</small>`}</span></button></li>`;
+  })}</ol>`;
+  }
   function render(focus = true) {
     stopTimer();
-    const si = STEPS.findIndex((s) => s.id === S.step);
-    stage.innerHTML = html`
-      <ol class="rd-steps" aria-label="Steps">${STEPS.map((s, k) => html`<li><button type="button" class="rd-step${k === si ? ' is-now' : ''}${k < si ? ' is-past' : ''}" data-act="go" data-step="${s.id}"${k === si ? ' aria-current="step"' : ''}><span class="rd-sn">${k + 1}</span><span class="rd-sl">${s.label}</span></button></li>`)}</ol>
-      <div class="card rd-stage" id="rd-stage">${stepViews[S.step]()}</div>
-      <p class="btn-row rd-nav"><button type="button" class="btn" data-act="prev"${si === 0 ? ' disabled' : ''}>Back</button>
-        <button type="button" class="btn btn-primary" data-act="next"${si === STEPS.length - 1 ? ' disabled' : ''}>Next</button></p>`.s;
+    document.body.classList.toggle('rd-summary-open', S.step === 'done');
+    stage.innerHTML = html`${stepsRow()}
+      <div class="card rd-stage" id="rd-stage" data-step="${S.step}">${stepViews[S.step]()}</div>${stepNav()}`.s;
     if (S.step === 'turn' && S.turn.phase === 'running') tick();
     if (focus) stage.querySelector('#rd-h')?.focus({ preventScroll: false });
     app.dataset.rendered = String(Number(app.dataset.rendered || 0) + 1);
   }
-  /** Redraws only the part under the step heading (keeps focus on the button just pressed). */
+  /** Redraws only the activity (keeps focus on the control just used). Typed text lives in the state, so it is never lost. */
   function refresh(focusSel) {
     stopTimer();
     const box = stage.querySelector('#rd-stage');
-    // Words already typed into other blanks stay put when one question redraws.
-    const typed = [...stage.querySelectorAll('.rd-blank:not([disabled])')].map((i) => [i.id, i.value]);
     box.innerHTML = stepViews[S.step]().s;
-    for (const [id, v] of typed) { const el = stage.querySelector(`#${CSS.escape(id)}`); if (el) el.value = v; }
+    stage.querySelector('.rd-steps').outerHTML = stepsRow().s.match(/<ol class="rd-steps"[\s\S]*<\/ol>/)[0];
+    stage.querySelector('.rd-path').outerHTML = stepsRow().s.match(/<p class="rd-path">[\s\S]*?<\/p>/)[0];
     if (S.step === 'turn' && S.turn.phase === 'running') tick();
     if (focusSel) stage.querySelector(focusSel)?.focus({ preventScroll: true });
     app.dataset.rendered = String(Number(app.dataset.rendered || 0) + 1);
   }
   function tick() {
     const el = stage.querySelector('#rd-timer');
-    const draw = () => { if (el) el.textContent = fmt((Date.now() - S.turn.startedAt) / 1000); };
+    const draw = () => { if (el) el.textContent = fmt(turnElapsed() / 1000); };
     draw();
     timer = setInterval(draw, 500);
   }
-  function go(step) {
-    stopSpeech(); stopAll(); S.playing = false;
-    S.step = step; S.card = null; if (step !== 'answers') { S.keyClues = false; S.shown = new Set(); }
-    if (step === 'echo') S.echo = Math.min(S.echo, story.sentences.length - 1);
-    render();
-  }
 
-  // ------------------------------------------------------------ talking
+  // ------------------------------------------------------------ playback (the displayed state always matches the sound)
+  function syncPlayButtons() {
+    const set = (act, what, on, off) => { const b = stage.querySelector(`[data-act="${act}"]`); if (b) { b.textContent = S.playing && S.playingWhat === what ? on : off; b.setAttribute('aria-pressed', String(S.playing && S.playingWhat === what)); } };
+    set('play-all', 'listen', 'Stop', S.playedByUser ? 'Play it again' : 'Play the story');
+    set('play-along', 'along', 'Stop', 'Read it to me');
+    set('echo-hear', 'echo', 'Stop', 'Hear this sentence');
+    for (const n of stage.querySelectorAll('.rd-w.now, .rd-sent.now')) n.classList.remove('now');
+  }
+  /** Stops any playback and puts the page back to "not playing" (buttons, lit words) in one place. */
+  function haltPlayback() {
+    stopSpeech(); stopAll();
+    S.playing = false; S.playingWhat = null;
+    syncPlayButtons();
+  }
   function lightWord(n) {
     for (const w of stage.querySelectorAll('.rd-w.now')) w.classList.remove('now');
     stage.querySelector(`.rd-w[data-n="${n}"]`)?.classList.add('now');
   }
-  /** Reads the sentences from `from`, lighting each word (and the whole sentence when the voice gives no word marks). */
   function readSentences(from, to, { rate, then }) {
     let si = from;
     const next = () => {
-      if (si > to || !S.playing) { S.playing = false; for (const w of stage.querySelectorAll('.now')) w.classList.remove('now'); then?.(); return; }
+      if (si > to || !S.playing) { const wasPlaying = S.playing; S.playing = false; S.playingWhat = null; syncPlayButtons(); if (wasPlaying) then?.(); return; }
       const s = si++;
       for (const el of stage.querySelectorAll('.rd-sent.now')) el.classList.remove('now');
       stage.querySelector(`.rd-sent[data-s="${s}"]`)?.classList.add('now');
@@ -359,61 +562,81 @@ export function mountReading(app, ctx, signal) {
     next();
   }
   function playAll() {
-    if (S.playing) { S.playing = false; stopSpeech(); stopAll(); return refresh('[data-act="play-all"]'); }
-    S.playing = true;
-    refresh('[data-act="play-all"]');
-    // The words are hidden on this step, so there is nothing to light up.
+    if (S.playing && S.playingWhat === 'listen') { haltPlayback(); return; }
+    haltPlayback();
+    S.playing = true; S.playingWhat = 'listen';
+    syncPlayButtons();
     let si = 0;
     const next = () => {
-      if (si >= story.sentences.length || !S.playing) { S.playing = false; S.listenPlayed = true; refresh('[data-act="play-all"]'); announce('The story is finished. Answer the questions.'); return; }
+      if (si >= story.sentences.length || !S.playing) {
+        const finished = S.playing;
+        S.playing = false; S.playingWhat = null;
+        if (finished) { S.listenPlayed = true; S.playedByUser = true; refresh('[data-act="play-all"]'); announce('The story is finished. Answer the questions.'); } else syncPlayButtons();
+        return;
+      }
       stopSpeech = speak(story.sentences[si++], { rate: 0.9, onEnd: next });
     };
     next();
   }
   function playAlong() {
-    if (S.playing) { S.playing = false; stopSpeech(); stopAll(); return refresh('[data-act="play-along"]'); }
-    S.playing = true;
-    refresh('[data-act="play-along"]');
-    readSentences(0, story.sentences.length - 1, { rate: S.slow ? 0.7 : 0.9, then: () => refresh('[data-act="play-along"]') });
+    if (S.playing && S.playingWhat === 'along') { haltPlayback(); return; }
+    haltPlayback();
+    S.playing = true; S.playingWhat = 'along';
+    syncPlayButtons();
+    readSentences(0, story.sentences.length - 1, { rate: S.slow ? 0.7 : 0.9, then: () => { S.alongDone = true; syncPlayButtons(); announce('Finished reading along.'); } });
   }
   function echoHear() {
-    if (S.playing) { S.playing = false; stopSpeech(); stopAll(); return refresh('[data-act="echo-hear"]'); }
-    S.playing = true;
-    refresh('[data-act="echo-hear"]');
-    readSentences(S.echo, S.echo, { rate: 0.85, then: () => refresh('[data-act="echo-hear"]') });
+    if (S.playing && S.playingWhat === 'echo') { haltPlayback(); return; }
+    haltPlayback();
+    S.playing = true; S.playingWhat = 'echo';
+    syncPlayButtons();
+    readSentences(S.echo, S.echo, { rate: 0.85, then: () => {} });
   }
 
   // ------------------------------------------------------------ answering
-  function answer(id, k) {
-    const d = describe(id), st = S.answers[id] ||= { tried: [], done: false, first: true };
+  const itemById = (id) => items.all.find((x) => x.id === id);
+  function afterSubmit(it, st, result, focusSel) {
+    const status = statusOf(st, it);
+    announce(result.done ? STATUS_TEXT[status] : result.correct ? 'That is right. One more part.' : "Not yet. Let's look for the clue together.");
+    refresh(focusSel);
+  }
+  function answerChoice(id, k) {
+    const it = itemById(id), st = S.items[id];
     if (st.done) return;
-    if (k === d.right) st.done = true; else { st.tried.push(k); st.first = false; }
-    announce(st.done ? 'Right!' : 'Not yet. Look at the sentence and try again.');
-    refresh(`[data-id="${id}"][data-k="${k}"]`);
+    const result = submit(st, it, k);
+    afterSubmit(it, st, result, `#item-${id} [data-act="answer"]:not([disabled])`);
+  }
+  function answerTf(id, v) {
+    const it = itemById(id), st = S.items[id];
+    const result = submit(st, it, v === 'true');
+    afterSubmit(it, st, result, `#item-${id} [data-act="answer"]:not([disabled])`);
   }
   function checkBlankItem(id) {
-    const d = describe(id), st = S.answers[id] ||= { wrong: 0, done: false, first: true, value: '' };
+    const it = itemById(id), st = S.items[id];
     if (st.done) return;
-    const value = (stage.querySelector(`#in-${id}`)?.value || '').trim();
-    if (!value) { announce('Type your answer first.'); return stage.querySelector(`#in-${id}`)?.focus(); }
-    if (matches(value, d.accept)) { st.done = true; st.value = value; } else { st.wrong++; st.first = false; }
-    announce(st.done ? 'Right!' : 'Not yet. Look at the sentence and try again.');
-    refresh(st.done ? `[data-act="next"]` : `#in-${id}`);
+    const value = (stage.querySelector(`#in-${id}`)?.value ?? st.draft).trim();
+    if (!value) { announce('Type your answer first.'); stage.querySelector(`#in-${id}`)?.focus(); return; }
+    st.draft = value;
+    const result = submit(st, it, value);
+    afterSubmit(it, st, result, result.done ? `#item-${id} [data-act="hint"]` : `#in-${id}`);
   }
-  function sayShow(id) { (S.answers[id] ||= { shown: false, done: false, first: true }).shown = true; refresh(`[data-act="say-grade"][data-id="${id}"]`); }
-  function sayGrade(id, ok) {
-    const st = S.answers[id];
-    st.done = true; st.first = ok;
-    announce(ok ? 'Great thinking!' : 'Keep practicing.');
-    refresh(`[data-act="next"]`);
+  function pickCard(id, card) {
+    const it = itemById(id), st = S.items[id];
+    const result = submit(st, it, card);
+    afterSubmit(it, st, result, `#item-${id} [data-act="seq"]:not([disabled])`);
   }
-  function pickEvent(c) {
-    const order = story.elements.events.order, ev = S.events;
-    if (c === order[ev.picked.length]) ev.picked.push(c); else ev.slips++;
-    announce(ev.picked.length === 3 ? 'Right order!' : 'Keep going.');
-    refresh();
+  function askHint(id) {
+    const it = itemById(id), st = S.items[id];
+    const level = useHint(st);
+    announce(level === 3 ? 'Here is the answer and why.' : level === 2 ? 'Here is where to look.' : 'Here is what to look for.');
+    refresh(`#item-${id} [data-act="hint"]`);
   }
-  function allKeyIds() { return [...guide.map((e) => `m-${e.id}`), ...story.questions.map((_, i) => `q${i}`)]; }
+  function retryGroup(predicate, message) {
+    let n = 0;
+    for (const it of items.all) { const st = S.items[it.id]; if (it.format !== 'say' && predicate(it, st)) { retry(st); n++; } }
+    announce(`${message} ${n} question${n === 1 ? '' : 's'} ready to try again.`);
+    return n;
+  }
 
   // ------------------------------------------------------------ tapping words
   function tapWord(btn) {
@@ -428,68 +651,126 @@ export function mountReading(app, ctx, signal) {
       stage.querySelector('#rd-count').textContent = markCount();
       return;
     }
+    if (S.step === 'turn' && S.turn.phase === 'running') S.turn.helpTaps++;
+    // Tapping a word during read-along stops the playback, and the page says so (buttons and lit words reset).
+    if (S.playing) { haltPlayback(); announce('Stopped. Tap Read it to me to start again.'); }
     S.card = { key: t.key, text: t.text, el: S.step === 'answers' && S.keyClues ? t.el : null };
-    // Words tapped while checking the answers are not unknown words, so they stay out of My Words.
     if (t.key && S.step !== 'answers' && !S.tapped.includes(t.key)) S.tapped.push(t.key);
     const card = stage.querySelector('#rd-card');
-    if (card) { card.outerHTML = wordCard().s; }
+    if (card) card.outerHTML = wordCard().s;
     if (canSpeak) { stopSpeech(); stopAll(); stopSpeech = speak(t.key, { rate: 0.8 }); }
     announce(story.words[t.key] ? `${t.key}. ${story.words[t.key].means}.` : t.key);
   }
 
-  // ------------------------------------------------------------ turn
-  function saveReading() {
-    const tu = S.turn;
-    const r = scoreReading({ total, stoppedAt: tu.stop === null ? total : tu.stop + 1, errors: [...tu.errors].filter((n) => tu.stop === null || n <= tu.stop).length, seconds: tu.seconds });
-    S.readings.push(r);
-    tu.phase = 'saved';
-    announce(`Reading saved: ${r.wrr} words read right per minute.`);
-    refresh('#rd-h');
+  // ------------------------------------------------------------ navigation
+  function go(step) {
+    if (step === S.step) return;
+    haltPlayback();
+    // Leaving the timed reading pauses it: time on another activity never counts as reading time.
+    if (S.step === 'turn' && pauseTurn('You left this activity, so the timer paused.')) announce('The timer paused because you left Your turn.');
+    S.step = step; S.card = null; S.visited.add(step);
+    if (step === 'echo') S.echo = Math.min(S.echo, story.sentences.length - 1);
+    if (step !== 'answers') { S.keyClues = false; }
+    S.lookAt = null;
+    render();
   }
 
-  // ------------------------------------------------------------ clicks
+  // ------------------------------------------------------------ clicks, typing and keys
   stage.addEventListener('click', (e) => {
     const w = e.target.closest('.rd-w');
     if (w) return tapWord(w);
     const b = e.target.closest('[data-act]');
     if (!b || b.disabled) return;
-    const a = b.dataset.act, si = STEPS.findIndex((s) => s.id === S.step);
+    const a = b.dataset.act, id = b.dataset.id;
     switch (a) {
       case 'go': return go(b.dataset.step);
-      case 'next': return go(STEPS[Math.min(STEPS.length - 1, si + 1)].id);
-      case 'prev': return go(STEPS[Math.max(0, si - 1)].id);
-      case 'toggle-key': S.shown.has(b.dataset.id) ? S.shown.delete(b.dataset.id) : S.shown.add(b.dataset.id); return refresh(`[data-id="${b.dataset.id}"]`);
-      case 'key-all': S.shown = S.shown.size ? new Set() : new Set(allKeyIds()); return refresh('[data-act="key-all"]');
-      case 'key-clues': S.keyClues = !S.keyClues; return refresh('[data-act="key-clues"]');
-      case 'check-blank': return checkBlankItem(b.dataset.id);
-      case 'say-show': return sayShow(b.dataset.id);
-      case 'say-grade': return sayGrade(b.dataset.id, b.dataset.ok === '1');
       case 'slow': S.slow = !S.slow; return refresh('[data-act="slow"]');
       case 'play-all': return playAll();
       case 'play-along': return playAlong();
       case 'echo-hear': return echoHear();
       case 'echo-next':
-        stopSpeech(); stopAll(); S.playing = false;
-        if (S.echo >= story.sentences.length - 1) return go('turn');
+        haltPlayback();
+        if (S.echo >= story.sentences.length - 1) { S.echoDone = true; announce('You finished echo reading.'); return refresh('[data-act="echo-next"]'); }
         S.echo++; return refresh('[data-act="echo-next"]');
-      case 'echo-prev': stopSpeech(); stopAll(); S.playing = false; S.echo = Math.max(0, S.echo - 1); return refresh('[data-act="echo-next"]');
-      case 'say': { const text = b.dataset.text; stopSpeech(); stopAll(); stopSpeech = speak(text, { rate: b.dataset.slow ? 0.55 : 0.8 }); return; }
-      case 'turn-start': S.turn.phase = 'running'; S.turn.startedAt = Date.now(); S.card = null; return refresh('[data-act="turn-done"]');
-      case 'turn-done': S.turn.seconds = (Date.now() - S.turn.startedAt) / 1000; S.turn.phase = 'marking'; return refresh('#rd-h');
+      case 'echo-prev': haltPlayback(); S.echo = Math.max(0, S.echo - 1); return refresh('[data-act="echo-next"]');
+      case 'say': { stopSpeech(); stopAll(); stopSpeech = speak(b.dataset.text, { rate: b.dataset.slow ? 0.55 : 0.8 }); return; }
+      case 'answer': return answerChoice(id, Number(b.dataset.k));
+      case 'tf': return answerTf(id, b.dataset.v);
+      case 'check-blank': return checkBlankItem(id);
+      case 'seq': return pickCard(id, b.dataset.card);
+      case 'hint': return askHint(id);
+      case 'lookback': return toggleLook(id, Boolean(b.dataset.close));
+      case 'say-show': { const st = S.items[id]; st.shown = true; return refresh(`[data-act="say-grade"][data-id="${id}"]`); }
+      case 'say-grade': selfAssess(S.items[id], b.dataset.ok === '1'); announce('Saved. This one is self-checked.'); return refresh('[data-act="go"].rd-actnext');
+      case 'retry-some': { const g = b.dataset.group; retryGroup((it, st) => it.group === g && ['practicing', 'withHelp'].includes(statusOf(st, it)), 'Fresh round.'); return refresh('#rd-h'); }
+      case 'retry-all-missed': retryGroup((it, st) => ['practicing', 'withHelp'].includes(statusOf(st, it)), 'Fresh round.'); S.step = 'quiz'; S.visited.add('quiz'); return render();
+      case 'retry-everything': retryGroup((it, st) => attempted(st, it), 'New attempt.'); S.step = 'quiz'; S.visited.add('quiz'); return render();
+      case 'turn-start': S.turn = freshTurn(); S.turn.phase = 'running'; S.turn.runStart = Date.now(); S.card = null; return refresh('[data-act="turn-done"]');
+      case 'turn-pause': pauseTurn('You paused the timer.'); return refresh('[data-act="turn-resume"]');
+      case 'turn-resume': S.turn.phase = 'running'; S.turn.runStart = Date.now(); S.turn.note = ''; return refresh('[data-act="turn-done"]');
+      case 'turn-done': S.turn.elapsedMs = turnElapsed(); S.turn.runStart = 0; S.turn.seconds = S.turn.elapsedMs / 1000; S.turn.phase = 'marking'; return refresh('#rd-h');
       case 'tool': S.turn.tool = b.dataset.tool; return refresh(`[data-tool="${b.dataset.tool}"]`);
       case 'turn-save': return saveReading();
-      case 'turn-redo': S.turn = fresh().turn; return refresh('#rd-h');
-      case 'turn-again': S.turn = fresh().turn; return refresh('#rd-h');
-      case 'answer': return answer(b.dataset.id, Number(b.dataset.k));
-      case 'event': return pickEvent(b.dataset.c);
-      case 'restart': S = fresh(); return render();
+      case 'turn-redo': case 'turn-again': S.turn = freshTurn(); return refresh('#rd-h');
+      case 'starter': return insertStarter(id, Number(b.dataset.k));
+      case 'w-hint': S.written[id].viewedHint = true; return refresh(`#w-${id}`);
+      case 'w-compare': { const ws = S.written[id]; ws.text = stage.querySelector(`#w-${id}`)?.value ?? ws.text; ws.compared = true; announce('Here is a model answer and a checklist. This is your own check, and a grown-up still needs to read it.'); return refresh(`#item-${id} .rd-checklist input`); }
+      case 'toggle-key': {
+        if (S.shown.has(id)) S.shown.delete(id); else { S.shown.add(id); const st = S.items[id]; if (st) markRevealed(st); }
+        return refresh(`[data-act="toggle-key"][data-id="${id}"]`);
+      }
+      case 'key-all': {
+        if (S.shown.size) S.shown = new Set();
+        else { for (const it of items.all) { S.shown.add(it.id); markRevealed(S.items[it.id]); } for (const w of items.written) S.shown.add(w.id); }
+        return refresh('[data-act="key-all"]');
+      }
+      case 'key-clues': S.keyClues = !S.keyClues; return refresh('[data-act="key-clues"]');
+      case 'print': return window.print();
       default:
     }
   }, { signal });
 
+  stage.addEventListener('change', (e) => {
+    const t = e.target;
+    if (t.dataset?.act === 'assisted') S.turn.assisted = t.checked;
+    else if (t.dataset?.act === 'w-check') { const ws = S.written[t.dataset.id]; ws.checks[Number(t.dataset.k)] = t.checked; }
+    else if (t.dataset?.act === 'w-reviewed') { S.written[t.dataset.id].reviewed = t.checked; announce(t.checked ? 'Marked as reviewed by a grown-up.' : 'Review mark removed.'); refresh(`[data-act="w-reviewed"][data-id="${t.dataset.id}"]`); }
+  }, { signal });
+  // Everything typed is kept in the state as it is typed, so switching activities never loses it.
+  stage.addEventListener('input', (e) => {
+    const t = e.target;
+    if (t.classList?.contains('rd-blank')) S.items[t.dataset.id].draft = t.value;
+    else if (t.classList?.contains('rd-textarea')) { S.written[t.dataset.id].text = t.value; const btn = stage.querySelector(`[data-act="w-compare"][data-id="${t.dataset.id}"]`); if (btn) btn.disabled = !t.value.trim(); }
+  }, { signal });
   stage.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target.matches?.('.rd-blank')) { e.preventDefault(); checkBlankItem(e.target.dataset.id); }
   }, { signal });
+  // Hiding the page or switching apps pauses a running timer on purpose (the time away is not reading time).
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && pauseTurn('The page was hidden, so the timer paused.')) { announce('The timer paused because the page was hidden.'); if (S.step === 'turn') refresh('[data-act="turn-resume"]'); }
+  }, { signal });
+
+  function insertStarter(id, k) {
+    const w = items.written.find((x) => x.id === id), ws = S.written[id];
+    const ta = stage.querySelector(`#w-${id}`);
+    const text = w.starters[k];
+    const cur = ta.value.trim();
+    ta.value = cur ? `${ta.value.replace(/\s+$/, '')} ${text}` : text;
+    ws.text = ta.value;
+    ta.focus();
+    const at = ta.value.lastIndexOf('___');
+    if (at >= 0) ta.setSelectionRange(at, at + 3);
+    const btn = stage.querySelector(`[data-act="w-compare"][data-id="${id}"]`); if (btn) btn.disabled = false;
+  }
+  function saveReading() {
+    const tu = S.turn;
+    const stop = tu.stop;
+    const r = scoreReading({ total, stoppedAt: stop === null ? total : stop + 1, errors: [...tu.errors].filter((n) => stop === null || n <= stop).length, seconds: tu.seconds, helpTaps: tu.helpTaps, assisted: tu.assisted });
+    S.readings.push(r);
+    tu.phase = 'saved';
+    announce(`Reading saved: ${r.wrr} words read right per minute.`);
+    refresh('#rd-h');
+  }
 
   render(false);
 }

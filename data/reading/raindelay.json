@@ -139,7 +139,14 @@
         "Coach Reyes helped the team stay cheerful.",
         "The game started again and the Hawks won."
       ],
-      "find": 13
+      "find": [
+        3,
+        4,
+        10,
+        11,
+        14,
+        16
+      ]
     },
     "solution": {
       "answer": "Coach Reyes helped the team stay busy and calm until the storm passed",

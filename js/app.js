@@ -25,6 +25,7 @@ import { newsletterView } from './views/newsletter.js';
 import { readingView } from './views/reading.js';
 import { mountReading } from './reading-player.js';
 import { validateReadingIndex, validateStory } from './lib/reading.js';
+import { leaveWarning } from './lib/leave-guard.js';
 
 const VIEWS = {
   week: weekView, spelling: spellingView, vocab: vocabView, reading: readingView, math: mathView,
@@ -38,6 +39,9 @@ const nav = document.querySelector('nav.tabs');
 const brand = document.querySelector('.brand');
 
 let index = null;
+let shownWeekId = '';
+let shownHash = location.hash; // the address last drawn, so a declined "leave?" can put it back
+let restoringHash = false;
 let pictures = { photos: [], drawings: [] };
 let renderCount = 0;
 let mounted = null; // removes the lesson or activity controls of the previous page
@@ -61,7 +65,19 @@ async function start() {
   });
   // Which word pictures exist (so no page asks for a missing file). Pictures are optional: no list, no pictures.
   try { pictures = await loadJSON('data/pictures.json'); } catch { /* keep the empty list */ }
-  window.addEventListener('hashchange', render);
+  // A page that holds unsaved work (the Reading Coach) can ask before the address changes (Back button, a typed address).
+  // Links inside the page ask first themselves; this catches the rest. Declining puts the address back and draws nothing.
+  window.addEventListener('hashchange', () => {
+    if (restoringHash) { restoringHash = false; return; }
+    const warning = leaveWarning();
+    if (warning && !window.confirm(warning)) {
+      restoringHash = true;
+      location.hash = shownHash;
+      select.value = shownWeekId;
+      return;
+    }
+    render();
+  });
   await render();
 }
 
@@ -290,6 +306,8 @@ async function render() {
     (lesson || ctx.run ? app.querySelector('#stage-h') || app : app.querySelector('h1[tabindex]') || app).focus({ preventScroll: true });
   }
   app.dataset.ready = String(n);
+  shownWeekId = weekId;
+  shownHash = location.hash;
 }
 
 function showProblem(message, details) {

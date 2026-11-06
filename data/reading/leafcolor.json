@@ -79,7 +79,11 @@
     "mainidea": {
       "format": "say",
       "answer": "Why leaves change color in the fall.",
-      "find": 2
+      "find": [
+        0,
+        1,
+        2
+      ]
     },
     "detail": {
       "answer": "Leaves are green because of chlorophyll",
@@ -98,7 +102,12 @@
         "chlorophyll"
       ],
       "answer": "Days get shorter, so trees stop making green and other colors show",
-      "find": 7
+      "find": [
+        6,
+        7,
+        8,
+        9
+      ]
     },
     "takeaway": {
       "answer": "Leaves change color because the days get shorter and trees stop making green",

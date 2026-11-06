@@ -101,121 +101,409 @@
       "example": "She returned the toy to her friend."
     }
   },
-  "elements": {
-    "characters": {
-      "format": "blank",
-      "text": "The characters are Noah and his ___.",
-      "blank": "mom",
-      "accept": [
-        "mom",
-        "mother"
-      ],
-      "answer": "Noah and his mom",
-      "find": 8
-    },
-    "setting": {
-      "answer": "Noah's home and his mom's car",
-      "wrong": [
-        "A library and a school",
-        "A park and a beach"
-      ],
-      "find": 10
-    },
-    "problem": {
-      "format": "say",
-      "answer": "Noah could not find his library book.",
-      "find": 3
-    },
-    "events": {
-      "order": [
-        "Noah looked for the book in his room.",
-        "His mom looked in the car.",
-        "Noah returned the book on time."
-      ],
-      "find": 11
-    },
-    "solution": {
-      "answer": "Noah told his mom, and they found the book in the car",
-      "wrong": [
-        "Noah bought a new book",
-        "The librarian found it"
-      ],
-      "find": 12
-    },
-    "lesson": {
-      "format": "blank",
-      "text": "Noah learned to keep his books in the ___ place every night.",
-      "blank": "same",
-      "accept": [
-        "same"
-      ],
-      "answer": "Keep your books in the same place",
-      "find": 15
-    }
-  },
-  "questions": [
-    {
-      "type": "listen",
-      "ask": "What was Noah's library book about?",
-      "choices": [
-        "Trains",
-        "Sharks",
-        "Dogs"
-      ],
-      "answer": 1,
-      "find": 0
-    },
-    {
-      "type": "listen",
-      "format": "tf",
-      "ask": "Noah found his book on his shelf.",
-      "answer": false,
-      "find": 3
-    },
-    {
-      "type": "order",
-      "format": "blank",
-      "ask": "First, Noah looked under his bed and behind his ___.",
-      "blank": "desk",
-      "accept": [
-        "desk"
-      ],
-      "find": 4
-    },
-    {
-      "type": "cause",
-      "ask": "Why was Noah worried?",
-      "choices": [
-        "He had no homework",
-        "He was late for dinner",
-        "He did not want to lose a library book"
-      ],
-      "answer": 2,
-      "find": 7
-    },
-    {
-      "type": "detail",
-      "format": "tf",
-      "ask": "The book was tucked beside the car seat.",
-      "answer": true,
-      "find": 12
-    },
-    {
-      "type": "cause",
-      "format": "blank",
-      "ask": "Noah told his mom the ___.",
-      "blank": "truth",
-      "accept": [
-        "truth"
-      ],
-      "find": 8
-    },
-    {
-      "type": "main",
-      "format": "say",
-      "ask": "What did Noah learn? Say it in your own words.",
-      "answer": "To keep his books in the same place every night.",
-      "find": 15
-    }
-  ]
+  "coach": {
+    "listen": [
+      {
+        "id": "listen-topic",
+        "fact": "book-topic",
+        "skill": "listen",
+        "format": "choice",
+        "ask": "What was Noah's library book about?",
+        "choices": [
+          "Trains",
+          "Sharks",
+          "Dogs"
+        ],
+        "answer": 1,
+        "evidence": [
+          0
+        ],
+        "hint": "Think about the very first thing you heard about the book.",
+        "explain": "The story begins by saying Noah loved his new library book about sharks."
+      },
+      {
+        "id": "listen-shelf",
+        "fact": "shelf-empty",
+        "skill": "listen",
+        "format": "tf",
+        "ask": "True or false: Noah found his book on his shelf.",
+        "answer": false,
+        "evidence": [
+          3
+        ],
+        "hint": "Listen for where Noah looked first, and what he found there.",
+        "explain": "Noah looked on his shelf, but the book was not there."
+      }
+    ],
+    "map": [
+      {
+        "id": "m-characters",
+        "element": "characters",
+        "fact": "other-character",
+        "skill": "element",
+        "format": "blank",
+        "ask": "The other main character, besides Noah, is his ___.",
+        "blank": "mom",
+        "accept": [
+          "mom",
+          "mother",
+          "mum",
+          "mommy"
+        ],
+        "evidence": [
+          8,
+          9
+        ],
+        "hint": "Who does Noah go to for help?",
+        "explain": "Noah tells his mom the truth, and she helps him think about where he read the book last."
+      },
+      {
+        "id": "m-setting",
+        "element": "setting",
+        "fact": "where-when",
+        "skill": "element",
+        "format": "choice",
+        "ask": "Where and when does most of this story happen?",
+        "choices": [
+          "At the library and at school, on the day Noah first borrowed the book",
+          "In Noah's room and in the car, on the Friday the book was due",
+          "At his cousin's house and in the park, on a long weekend"
+        ],
+        "answer": 1,
+        "evidence": [
+          2,
+          3,
+          4,
+          11
+        ],
+        "hint": "Find the day the book was due, then the places Noah and his mom looked.",
+        "explain": "The book is due on Friday. Noah searches his room (his bed, his desk) and then his mom looks in the car."
+      },
+      {
+        "id": "m-problem",
+        "element": "problem",
+        "fact": "problem",
+        "skill": "element",
+        "format": "choice",
+        "ask": "What problem does Noah have?",
+        "choices": [
+          "He cannot find his library book, and it is due",
+          "He forgot to finish reading his library book before bed",
+          "He spilled juice on his library book at lunch today"
+        ],
+        "answer": 0,
+        "evidence": [
+          2,
+          3,
+          6
+        ],
+        "hint": "What is due on Friday, and what goes wrong when Noah looks for it?",
+        "explain": "The book is due back on Friday, but Noah looks and cannot find it. The story says, \"The book was lost!\""
+      },
+      {
+        "id": "m-events",
+        "element": "events",
+        "fact": "story-arc",
+        "skill": "sequence",
+        "format": "sequence",
+        "ask": "Put these big moments of the story in order.",
+        "order": [
+          "Noah cannot find his library book",
+          "Noah's mom helps him think about where he read it last",
+          "Noah returns the book on time"
+        ],
+        "evidence": [
+          3,
+          9,
+          14
+        ],
+        "hint": "How does the story begin, what changes in the middle, and how does it end?",
+        "explain": "The book goes missing (sentence 4), his mom's question starts the solution, and at the end he returns the book on time."
+      },
+      {
+        "id": "m-solution",
+        "element": "solution",
+        "fact": "where-found",
+        "skill": "element",
+        "format": "choice",
+        "ask": "How was the problem solved?",
+        "choices": [
+          "Noah bought a new copy with his savings",
+          "Noah's cousin mailed the book back to the library",
+          "Noah and his mom looked in the car and found the book"
+        ],
+        "answer": 2,
+        "evidence": [
+          10,
+          11,
+          12
+        ],
+        "hint": "Where did the book finally turn up, and who helped look?",
+        "explain": "Noah remembered reading in the car, his mom looked in the back seat, and the shark book was tucked beside the seat."
+      },
+      {
+        "id": "m-lesson",
+        "element": "lesson",
+        "fact": "lesson",
+        "skill": "element",
+        "format": "blank",
+        "ask": "Noah learned to keep his books in the ___ place every night.",
+        "blank": "same",
+        "accept": [
+          "same"
+        ],
+        "evidence": [
+          15
+        ],
+        "hint": "Look at the very last sentence. What did Noah learn?",
+        "explain": "The last sentence says he learned to keep his books in the same place every night."
+      }
+    ],
+    "core": [
+      {
+        "id": "c1-nightly",
+        "fact": "nightly-reading",
+        "skill": "detail",
+        "format": "blank",
+        "ask": "Noah read his new book every night before ___.",
+        "blank": "bed",
+        "accept": [
+          "bed",
+          "bedtime"
+        ],
+        "evidence": [
+          1
+        ],
+        "hint": "Find the sentence about when Noah read the book.",
+        "explain": "The story says, \"He read it every night before bed.\""
+      },
+      {
+        "id": "c2-ontime",
+        "fact": "returned-on-time",
+        "skill": "detail",
+        "format": "tf",
+        "ask": "True or false: Noah returned the book late.",
+        "answer": false,
+        "follow": {
+          "kind": "correction",
+          "ask": "Which sentence fixes the false statement?",
+          "choices": [
+            "Noah returned the book on time.",
+            "Noah kept the book for another week.",
+            "Noah returned the book a week early."
+          ],
+          "answer": 0
+        },
+        "evidence": [
+          2,
+          14
+        ],
+        "hint": "Check when the book was due, then check how the story ends.",
+        "explain": "The book was due on Friday, and the story ends with \"He returned the book on time,\" so \"late\" is false."
+      },
+      {
+        "id": "c3-feeling",
+        "fact": "feeling-end",
+        "skill": "element",
+        "format": "choice",
+        "ask": "How did Noah feel after the book was found?",
+        "choices": [
+          "Angry that it took so long",
+          "Still worried about the library",
+          "Relieved and thankful"
+        ],
+        "answer": 2,
+        "evidence": [
+          12,
+          13
+        ],
+        "hint": "Look at what Noah does right after the book is found.",
+        "explain": "He smiled and gave his mom a big hug, which shows he felt relieved and thankful."
+      },
+      {
+        "id": "c4-question",
+        "fact": "moms-question",
+        "skill": "element",
+        "format": "choice",
+        "ask": "What question did Noah's mom ask that helped him?",
+        "choices": [
+          "Who borrowed it before you?",
+          "Did you leave it at the library?",
+          "Where did you last read it?"
+        ],
+        "answer": 2,
+        "evidence": [
+          9
+        ],
+        "hint": "Look for the words Noah's mom says out loud.",
+        "explain": "She asks, \"Where did you last read it?\" and that makes Noah remember the car."
+      },
+      {
+        "id": "c5-search",
+        "fact": "search-order",
+        "skill": "sequence",
+        "format": "sequence",
+        "ask": "Put the places Noah and his mom looked in order, first to last.",
+        "order": [
+          "Under his bed and behind his desk",
+          "In his backpack",
+          "In the back seat of the car"
+        ],
+        "evidence": [
+          4,
+          5,
+          11
+        ],
+        "hint": "Look for the order words First, Then and Next.",
+        "explain": "First he looked under his bed and behind his desk, then in his backpack, and next his mom looked in the back seat."
+      },
+      {
+        "id": "c6-car",
+        "fact": "why-car",
+        "skill": "cause",
+        "format": "choice",
+        "ask": "Why did Noah's mom look in the car?",
+        "choices": [
+          "The car is where library books are kept",
+          "Noah remembered reading there on the drive",
+          "Noah's cousin said he had seen the book there"
+        ],
+        "answer": 1,
+        "evidence": [
+          10,
+          11
+        ],
+        "hint": "What did Noah remember just before his mom walked out to the car?",
+        "explain": "Noah remembered reading in the car on the way home, so his mom went to look there."
+      },
+      {
+        "id": "c7-careful",
+        "fact": "character-from-actions",
+        "skill": "inference",
+        "format": "choice",
+        "ask": "What can you tell about Noah from the way he searched for the book?",
+        "choices": [
+          "He did not really care about it",
+          "He is careful with library books",
+          "He wanted his mom to find it"
+        ],
+        "answer": 1,
+        "follow": {
+          "kind": "evidence",
+          "ask": "Which sentence from the story best supports your answer?",
+          "choices": [
+            "Then he even checked his backpack twice.",
+            "Noah smiled and gave his mom a big hug.",
+            "Noah remembered reading in the car on the way home from his cousin's house."
+          ],
+          "answer": 0
+        },
+        "evidence": [
+          4,
+          5
+        ],
+        "hint": "Think about how many places he searched, and how carefully.",
+        "explain": "He looked under his bed, behind his desk, and even checked his backpack twice. The story does not say \"careful,\" but his actions show it."
+      },
+      {
+        "id": "c8-summary",
+        "fact": "best-summary",
+        "skill": "summary",
+        "format": "choice",
+        "ask": "Which is the best summary of the story?",
+        "choices": [
+          "Noah loses his library book, tells his mom, and they find it in the car, so he returns it on time.",
+          "Noah searches under his bed, behind his desk, and in his backpack, but he never finds the library book.",
+          "Noah reads a shark book every night, loves it, and wants to read more books about ocean animals."
+        ],
+        "answer": 0,
+        "follow": {
+          "kind": "evidence",
+          "ask": "Which sentence from the story best supports the ending of the summary?",
+          "choices": [
+            "Noah felt worried because he did not want to lose a library book.",
+            "Noah loved his new library book about sharks.",
+            "There was the shark book, tucked beside the seat."
+          ],
+          "answer": 2
+        },
+        "evidence": [
+          3,
+          8,
+          12,
+          14
+        ],
+        "hint": "A good summary tells the problem, the main events, and how the story ends.",
+        "explain": "It names the problem (the missing book), the key events (telling his mom, looking in the car) and the ending (he returned it on time)."
+      }
+    ],
+    "written": [
+      {
+        "id": "w1-worried",
+        "fact": "motivation-worry",
+        "skill": "cause",
+        "ask": "Why was Noah worried when he could not find the book? Write your answer in your own words.",
+        "starters": [
+          "Noah was worried because ___."
+        ],
+        "model": "Noah was worried because he did not want to lose a library book, and the book was due back on Friday.",
+        "checklist": [
+          "I said why Noah felt worried (he did not want to lose a library book).",
+          "I used a detail from the story, such as the book being due on Friday.",
+          "My answer makes sense by itself and is in my own words."
+        ],
+        "evidence": [
+          2,
+          6,
+          7
+        ],
+        "hint": "Read the sentence that begins \"Noah felt worried\"."
+      },
+      {
+        "id": "w2-remember",
+        "fact": "solution-explained",
+        "skill": "solution",
+        "ask": "How did remembering where he last read the book help Noah solve the problem? Use what the story says.",
+        "starters": [
+          "Remembering where he last read helped because ___."
+        ],
+        "model": "Remembering where he last read helped because Noah remembered the car ride home, so his mom looked in the back seat and found the shark book tucked beside the seat.",
+        "checklist": [
+          "I explained how the memory helped (it showed where to look).",
+          "I used evidence from the story (the car, the back seat, or where the book was found).",
+          "I told what happened next (the book was found)."
+        ],
+        "evidence": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "hint": "Think about what Noah remembered, and where his mom looked next."
+      },
+      {
+        "id": "w3-summary",
+        "fact": "summary-writing",
+        "skill": "summary",
+        "ask": "Tell what happened in the story, in order, from beginning to end.",
+        "starters": [
+          "First ___, then ___, and finally ___."
+        ],
+        "model": "First Noah could not find his library book, then he told his mom and remembered reading in the car, and finally they found the book and he returned it on time.",
+        "checklist": [
+          "I told the beginning, middle and end in order.",
+          "I included the problem and how it was solved.",
+          "I left out small details and used my own words."
+        ],
+        "evidence": [
+          3,
+          8,
+          10,
+          12,
+          14
+        ],
+        "hint": "Think about the problem, the main steps that solved it, and how it ends."
+      }
+    ]
+  }
 }
