@@ -450,6 +450,10 @@ function validateTeaching(item, where, err) {
   const node = (s, label) => {
     if (!s || !isText(s.text)) err(`${label}: teaching text is missing`);
     validateModel(s?.model, `${label}.model`, err);
+    if (s?.models !== undefined) {
+      if (!Array.isArray(s.models) || !s.models.length) err(`${label}: teaching models must be a nonempty list`);
+      else s.models.forEach((m, i) => validateModel(m, `${label}.models[${i}]`, err));
+    }
     if (s?.nonExample !== undefined && typeof s.nonExample !== 'boolean') err(`${label}: nonExample must be boolean`);
     if (s?.revealsAnswer !== undefined && typeof s.revealsAnswer !== 'boolean') err(`${label}: revealsAnswer must be boolean`);
   };

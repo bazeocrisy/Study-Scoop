@@ -96,5 +96,37 @@ try{
   }
  }
  passed++;console.log('ok: real phone pointer Check/Help/Next Help near y760 reveals whole coach+focus; Try again shows original+response and preserves history, identical wrong retry counts');
+ // Paired visual evidence is essential to compare piece sizes or preserve area while joining.
+ const pairGeometry=async selector=>js(`const scope=document.querySelector(${JSON.stringify(selector)});const within=e=>{const r=e.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.left>=0&&r.right<=innerWidth;};return [...scope.querySelectorAll('.coach-model figure')].map(f=>{const rects=[...f.querySelectorAll('svg rect')],r=rects.map(e=>e.getBoundingClientRect());return{caption:f.querySelector('figcaption')?.textContent,parts:rects.length,width:Math.max(...r.map(q=>q.right))-Math.min(...r.map(q=>q.left)),height:Math.max(...r.map(q=>q.bottom))-Math.min(...r.map(q=>q.top)),pieceWidth:r[0].width,selected:rects.filter(e=>e.getAttribute('fill')==='#583084').length,highlightArea:rects.reduce((n,e)=>{const q=e.getBoundingClientRect();return n+(e.getAttribute('fill')==='#583084'?q.width*q.height:0);},0),visible:within(f)};});`);
+ const assertPair=async(selector,models,{fit=true,join=false}={})=>{
+  const g=await pairGeometry(selector);assert.equal(g.length,2,'both reference wholes survive the active teaching state');
+  assert.ok(Math.abs(g[0].width-g[1].width)<.1&&Math.abs(g[0].height-g[1].height)<.1,'same whole has same actual CSS dimensions');
+  for(let i=0;i<2;i++){assert.equal(g[i].parts,models[i].parts);assert.equal(g[i].selected,models[i].selected.length);assert.equal(g[i].caption,models[i].caption);assert.ok(Math.abs(g[i].pieceWidth/g[i].width-1/models[i].parts)<.001,'actual highlighted piece widths follow the equal partition');if(fit)assert.ok(g[i].visible,'each whole fully visible in phone viewport');}
+  if(join){assert.equal(g[0].parts,2*g[1].parts,'joining pairs halves the part count');assert.ok(Math.abs(g[0].highlightArea-g[1].highlightArea)<.5,'joining preserves the highlighted area');if(g[0].selected===2)assert.equal(g[1].selected,1,'two old pieces visibly become one new piece');}
+  return g;
+ };
+ for(const index of [16,17,19]){
+  const item=L.try.items[index],join=index===19;
+  for(const [option,o]of item.options.entries()){
+   await at('try',index);await b.clickAt(`input[name=choice][value="${option}"]`);await bottomClick('form button[type=submit]');await visibleCoach(`${item.id}/${o.text}: paired feedback fits`);
+   const node=o.correct?item.teaching.correct:item.teaching.wrong.find(w=>w.option===o.text);
+   const g=await assertPair('[data-coach=feedback]',node.models,{join});
+   if(!join)assert.ok(g[0].pieceWidth>g[1].pieceWidth,'the fewer-piece whole has a visibly wider highlighted piece');
+   if(!o.correct){
+    for(const step of item.teaching.steps){await bottomClick('[data-act=help]');await visibleCoach(`${item.id}: paired help fits`);await assertPair('[data-coach=help]',step.models,{join});}
+   }
+  }
+ }
+ // Joining transfer in the test exposes its second (after) reference only after submission.
+ const x10=L.test.items.find(it=>it.id==='x10');
+ for(const [option,o]of x10.options.entries()){
+  await at('test',9);assert.equal(await js('return document.querySelectorAll("#lesson-stage figure").length'),1,'test initially shows original before-joining stimulus only');
+  assert.equal(await js('return document.querySelector("#lesson-stage").textContent.includes("After joining")'),false);
+  await js(`const{stateFor}=await import('./js/lesson-player.js');const{solution}=await import('./js/lib/lessons.js');const L=await(await fetch('data/lessons/7-1.json')).json(),s=stateFor('7-1','test');for(const it of L.test.items)s.items[it.id]={resp:solution(it)};`);
+  await edit({choice:option});await click('[data-act=submit]');await b.clickAt('[data-test-coach=x10] summary');
+  const node=o.correct?x10.teaching.correct:x10.teaching.wrong.find(w=>w.option===o.text);
+  await assertPair('[data-test-coach=x10]',node.models,{fit:false,join:true});
+ }
+ passed++;console.log('ok: comparison and joining correct/everywrong/Help retain two equal-size wholes, scaled piece widths and conserved joining area at390px; test joining pair stays hidden until submitted');
  assert.deepEqual(b.errors,[]);assert.deepEqual(b.failures,[]);console.log(`${passed} passed, 0 failed`);
 }finally{await b.close();server.close();}

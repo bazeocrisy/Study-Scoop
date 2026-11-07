@@ -84,16 +84,19 @@ function cut(id,d){
   2:{...step(`${d} inside lines make ${d+1} spaces; count the pieces between the outside edges.`,picture('bar',d+1,[])),nonExample:true}
  });
 }
+function paired(text,a,b){return {...step(text,b),models:[copy(a),copy(b)]};}
 function compare(id,small,big){
- const a=picture('bar',small,[0]),b=picture('bar',big,[0]);
+ const a={...picture('bar',small,[0]),caption:`${small} equal pieces`};
+ const b={...picture('bar',big,[0]),caption:`${big} equal pieces`};
+ const plainA={...a,selected:[]},plainB={...b,selected:[]};
  return choose(id,'These strips are the same size. Which strip has the smaller pieces?',a,[`The strip with ${big} equal pieces.`,`The strip with ${small} equal pieces.`,'Both must have the same-size pieces.'],0,[
-  step('Both outside rectangles are the same size, so each whole covers the same amount.',whole('bar')),
-  step(`Look at one piece when the strip has ${small} equal pieces.`,a),
-  step(`Now compare one piece when it has ${big} equal pieces.`,b),
-  step(`Sharing the same whole among ${big} pieces makes each piece smaller.`,b)
- ],step(`The ${big}-piece strip has smaller pieces because the same whole is shared into more equal parts.`,b),{
-  1:step(`Look at the highlighted widths: one of ${small} pieces is wider than one of ${big}.`,a),
-  2:step('The wholes match, but the highlighted widths do not; compare the two pieces.',b)
+  paired('Both outside rectangles are the same size, so each whole covers the same amount.',plainA,plainB),
+  paired(`Look at the highlighted piece in the strip with ${small} equal pieces.`,a,plainB),
+  paired('Now compare both highlighted pieces; their heights match, but their widths do not.',a,b),
+  paired(`Sharing the same whole among ${big} pieces makes each piece smaller.`,a,b)
+ ],paired(`The ${big}-piece strip has smaller pieces because the same whole is shared into more equal parts.`,a,b),{
+  1:paired(`Look at both highlighted widths: one of ${small} pieces is wider than one of ${big}.`,a,b),
+  2:paired('The wholes match, but the highlighted widths do not; compare the two pieces.',a,b)
  },[a,b]);
 }
 function boundary(id){
@@ -119,14 +122,16 @@ function recolor(id,d){
  });
 }
 function join(id,d){
- const m=picture('bar',d,[0,1]),after=picture('bar',d/2,[0]);
+ const m={...picture('bar',d,[0,1]),caption:'Before joining'};
+ const after={...picture('bar',d/2,[0]),caption:'After joining'};
+ const plainBefore={...m,selected:[]},plainAfter={...after,selected:[]};
  return choose(id,`Each neighboring pair of these ${d} equal pieces is joined. What happens?`,m,[`There are ${d/2} larger equal pieces.`,`There are ${d} larger equal pieces.`,'The whole strip becomes longer.'],0,[
-  step('Keep the outside edge fixed; this is still the same whole strip.',whole('bar')),
-  step('Look at the first two highlighted pieces; together they make one larger piece.',m),
-  step(`Join every pair: the strip now has ${d/2} larger equal pieces.`,after)
- ],step(`Each new piece joins two equal old pieces, so ${d/2} equal pieces still cover the same whole.`,every(after)),{
-  1:step('Two old pieces become one new piece; count the new spaces after joining.',after),
-  2:step('Only inside dividing lines were removed; the outside strip has not grown.',whole('bar'))
+  paired('Both outside edges match; joining pieces does not make the whole strip longer.',plainBefore,plainAfter),
+  paired('The first two highlighted pieces become one larger piece with the same covered area.',m,after),
+  {...paired(`Join every pair: the strip now has ${d/2} larger equal pieces.`,every(m),every(after)),revealsAnswer:true}
+ ],paired(`Each new piece joins two equal old pieces, so ${d/2} equal pieces still cover the same whole.`,every(m),every(after)),{
+  1:paired('Two old pieces become one new piece; count the new spaces after joining.',m,after),
+  2:paired('Only inside dividing lines were removed; both outside rectangles are still the same length.',m,after)
  });
 }
 function rows(q){

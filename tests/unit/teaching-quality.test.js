@@ -41,3 +41,17 @@ test('shared modelFigure preserves orientation and count annotations used by the
  assert.match(rows,/height 1 relative units/,'accessible geometry describes horizontal parts');
  assert.match(marked,/data-count-marker="1"/);assert.match(marked,/data-count-marker="2"/);assert.match(marked,/count marker 1/);
 });
+
+test('paired comparison and joining explanations preserve the mathematical reference whole',()=>{
+ for(const id of ['t17','t18','t20','x10']){
+  const item=[...L.try.items,...L.test.items].find(x=>x.id===id),joining=['t20','x10'].includes(id);
+  for(const node of [item.teaching.correct,...item.teaching.wrong,...item.teaching.steps]){
+   assert.equal(node.models.length,2,`${id}: both before/reference and after/comparison states`);
+   for(const m of node.models){assert.deepEqual(fractionModelProblems(m),[]);assert.equal(m.wholes,1);assert.equal(m.kind,'bar');}
+   const [a,b]=node.models;
+   assert.equal(b.parts,joining?a.parts/2:a.parts*2,`${id}: expected partition relationship`);
+   if(joining)assert.equal(a.selected.length*b.parts,b.selected.length*a.parts,`${id}: highlighted fraction area is unchanged`);
+   else if(a.selected.length&&b.selected.length){assert.equal(a.selected.length,1);assert.equal(b.selected.length,1);assert.ok(1/a.parts>1/b.parts,'larger denominator gives smaller piece of same whole');}
+  }
+ }
+});

@@ -186,6 +186,10 @@ export function teachingFeedbackFor(lesson, item, response, status) {
     || ['selectedOnly', 'insideLines', 'tooLow', 'tooHigh'].map((kind) => matches[kind] && wrong.find((s) => s.when === kind)).find(Boolean)
     || wrong.find((s) => s.when === 'default' || (s.option === undefined && s.answer === undefined && s.when === undefined));
 }
+export function coachModels(step) {
+  const models = step?.models?.length ? step.models : step?.model ? [step.model] : [];
+  return html`${models.map((model) => modelFigure(model, model.caption))}`;
+}
 export function countPartsFor(lesson, item) {
   return lesson.id === '7-1' && item.teaching?.count ? item.teaching.count.parts || [] : [];
 }
@@ -216,7 +220,7 @@ export function itemCard(lesson, item, stage, state) {
   const countReady = test || countComplete(lesson, item, st);
   const feedbackMode = coached && st.coachView === 'feedback' && st.teachingFeedback;
   const activeCoach = feedbackMode || (coached && st.coachView !== 'answer' && opened ? steps[Math.min(opened, steps.length) - 1] : null);
-  const pics = activeCoach?.model ? [] : item.models || (item.model ? [{ ...item.model, ...(coached && item.teaching.count ? { counted: st.counted || [] } : {}) }] : []);
+  const pics = (activeCoach?.models?.length || activeCoach?.model) ? [] : item.models || (item.model ? [{ ...item.model, ...(coached && item.teaching.count ? { counted: st.counted || [] } : {}) }] : []);
   const inline = item.type === 'number' && /=\s*\?\s*$/.test(item.prompt);
   return html`
     <div class="work${pics.length ? ' has-pic' : ''}">
@@ -295,7 +299,7 @@ function feedbackPanel(item, st, opened = 0, coached = false) {
     const step = st.teachingFeedback;
     return html`<div class="feedback ${st.status === 'correct' ? 'ok' : 'notyet'} visual-coach" id="fb-${item.id}" data-coach="feedback">
       <div class="fb-head"><h3 tabindex="-1" data-coach-heading>${st.status === 'correct' ? 'Yes — here is why' : 'Look at this part again'}</h3>${readButton(step.text, 'the explanation')}</div>
-      <div class="coach-model">${modelFigure(step.model)}</div><p class="coach-instruction">${step.text}</p>${st.status === 'notyet' ? html`<button type="button" class="btn btn-primary" data-act="coach-retry">Try again</button>` : ''}</div>`;
+      <div class="coach-model">${coachModels(step)}</div><p class="coach-instruction">${step.text}</p>${st.status === 'notyet' ? html`<button type="button" class="btn btn-primary" data-act="coach-retry">Try again</button>` : ''}</div>`;
   }
   const id = `fb-${item.id}`;
   // Once Help is open the "press Help" reminder is out of date.
@@ -315,7 +319,7 @@ function helpPanel(item, steps, opened, finished, done, coached = false) {
     const step = steps[Math.min(opened, steps.length) - 1];
     return html`<section class="feedback info help-panel visual-coach" id="help-${item.id}" data-coach="help" aria-label="Visual help">
       <h3 tabindex="-1" data-coach-heading class="coach-progress">Step ${opened} of ${steps.length}${finished ? ': put it together' : ''}</h3>
-      <div class="coach-model">${modelFigure(step.model)}</div><p class="coach-instruction">${step.text}</p>${readButton(step.text, 'this teaching step')}
+      <div class="coach-model">${coachModels(step)}</div><p class="coach-instruction">${step.text}</p>${readButton(step.text, 'this teaching step')}
       ${opened > 1 ? html`<details><summary>Review earlier steps</summary><ol>${steps.slice(0, opened - 1).map((s) => html`<li>${s.text}</li>`)}</ol></details>` : ''}
       ${done ? '' : html`<p>Try your answer now, or go to the next teaching step.</p><button type="button" class="btn btn-primary" data-act="coach-retry">Try again</button>`}
     </section>`;
@@ -619,7 +623,7 @@ function testResults(ctx, lesson, state) {
           const feedback = teachingFeedbackFor(lesson, it, record.resp, record.status) || { text: it.explain, model: it.model };
           return html`<details class="test-teaching-review" data-test-coach="${it.id}"><summary>Question ${i + 1}: ${right ? 'correct' : 'look again'}</summary>
             <p>${it.prompt}</p><p>Your answer: ${shown(it)}</p><p>Correct answer: ${answerText(it)}</p>
-            <div class="visual-coach" data-coach="test-review"><div class="coach-model">${feedback?.model ? modelFigure(feedback.model) : ''}</div><p class="coach-instruction">${feedback?.text || ''}</p>${feedback?.text ? readButton(feedback.text, 'why this answer works') : ''}</div>
+            <div class="visual-coach" data-coach="test-review"><div class="coach-model">${coachModels(feedback)}</div><p class="coach-instruction">${feedback?.text || ''}</p>${feedback?.text ? readButton(feedback.text, 'why this answer works') : ''}</div>
           </details>`;
         })}</section>` : ''}
     </div>

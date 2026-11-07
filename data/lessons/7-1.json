@@ -4150,7 +4150,8 @@
           "wholes": 1,
           "selected": [
             0
-          ]
+          ],
+          "caption": "2 equal pieces"
         },
         "models": [
           {
@@ -4160,7 +4161,8 @@
             "wholes": 1,
             "selected": [
               0
-            ]
+            ],
+            "caption": "2 equal pieces"
           },
           {
             "type": "fraction",
@@ -4169,7 +4171,8 @@
             "wholes": 1,
             "selected": [
               0
-            ]
+            ],
+            "caption": "4 equal pieces"
           }
         ],
         "options": [
@@ -4183,18 +4186,18 @@
           },
           {
             "text": "The strip with 2 equal pieces.",
-            "why": "Look at the highlighted widths: one of 2 pieces is wider than one of 4."
+            "why": "Look at both highlighted widths: one of 2 pieces is wider than one of 4."
           }
         ],
         "hints": [
           "Both outside rectangles are the same size, so each whole covers the same amount.",
-          "Look at one piece when the strip has 2 equal pieces.",
-          "Now compare one piece when it has 4 equal pieces."
+          "Look at the highlighted piece in the strip with 2 equal pieces.",
+          "Now compare both highlighted pieces; their heights match, but their widths do not."
         ],
         "show": [
           "Both outside rectangles are the same size, so each whole covers the same amount.",
-          "Look at one piece when the strip has 2 equal pieces.",
-          "Now compare one piece when it has 4 equal pieces.",
+          "Look at the highlighted piece in the strip with 2 equal pieces.",
+          "Now compare both highlighted pieces; their heights match, but their widths do not.",
           "Sharing the same whole among 4 pieces makes each piece smaller."
         ],
         "yes": "The 4-piece strip has smaller pieces because the same whole is shared into more equal parts.",
@@ -4205,27 +4208,63 @@
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 1,
+                "parts": 4,
                 "wholes": 1,
-                "selected": [
-                  0
-                ]
-              }
+                "selected": [],
+                "caption": "4 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "2 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "4 equal pieces"
+                }
+              ]
             },
             {
-              "text": "Look at one piece when the strip has 2 equal pieces.",
+              "text": "Look at the highlighted piece in the strip with 2 equal pieces.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 2,
+                "parts": 4,
                 "wholes": 1,
-                "selected": [
-                  0
-                ]
-              }
+                "selected": [],
+                "caption": "4 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "2 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "4 equal pieces"
+                }
+              ]
             },
             {
-              "text": "Now compare one piece when it has 4 equal pieces.",
+              "text": "Now compare both highlighted pieces; their heights match, but their widths do not.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4233,8 +4272,31 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "4 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "2 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "4 equal pieces"
+                }
+              ]
             },
             {
               "text": "Sharing the same whole among 4 pieces makes each piece smaller.",
@@ -4245,8 +4307,31 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "4 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "2 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "4 equal pieces"
+                }
+              ]
             }
           ],
           "correct": {
@@ -4258,22 +4343,68 @@
               "wholes": 1,
               "selected": [
                 0
-              ]
-            }
-          },
-          "wrong": [
-            {
-              "option": "The strip with 2 equal pieces.",
-              "text": "Look at the highlighted widths: one of 2 pieces is wider than one of 4.",
-              "model": {
+              ],
+              "caption": "4 equal pieces"
+            },
+            "models": [
+              {
                 "type": "fraction",
                 "kind": "bar",
                 "parts": 2,
                 "wholes": 1,
                 "selected": [
                   0
-                ]
+                ],
+                "caption": "2 equal pieces"
+              },
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0
+                ],
+                "caption": "4 equal pieces"
               }
+            ]
+          },
+          "wrong": [
+            {
+              "option": "The strip with 2 equal pieces.",
+              "text": "Look at both highlighted widths: one of 2 pieces is wider than one of 4.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0
+                ],
+                "caption": "4 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "2 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "4 equal pieces"
+                }
+              ]
             },
             {
               "option": "Both must have the same-size pieces.",
@@ -4285,8 +4416,31 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "4 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "2 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "4 equal pieces"
+                }
+              ]
             }
           ]
         }
@@ -4302,7 +4456,8 @@
           "wholes": 1,
           "selected": [
             0
-          ]
+          ],
+          "caption": "3 equal pieces"
         },
         "models": [
           {
@@ -4312,7 +4467,8 @@
             "wholes": 1,
             "selected": [
               0
-            ]
+            ],
+            "caption": "3 equal pieces"
           },
           {
             "type": "fraction",
@@ -4321,7 +4477,8 @@
             "wholes": 1,
             "selected": [
               0
-            ]
+            ],
+            "caption": "6 equal pieces"
           }
         ],
         "options": [
@@ -4331,7 +4488,7 @@
           },
           {
             "text": "The strip with 3 equal pieces.",
-            "why": "Look at the highlighted widths: one of 3 pieces is wider than one of 6."
+            "why": "Look at both highlighted widths: one of 3 pieces is wider than one of 6."
           },
           {
             "text": "Both must have the same-size pieces.",
@@ -4340,13 +4497,13 @@
         ],
         "hints": [
           "Both outside rectangles are the same size, so each whole covers the same amount.",
-          "Look at one piece when the strip has 3 equal pieces.",
-          "Now compare one piece when it has 6 equal pieces."
+          "Look at the highlighted piece in the strip with 3 equal pieces.",
+          "Now compare both highlighted pieces; their heights match, but their widths do not."
         ],
         "show": [
           "Both outside rectangles are the same size, so each whole covers the same amount.",
-          "Look at one piece when the strip has 3 equal pieces.",
-          "Now compare one piece when it has 6 equal pieces.",
+          "Look at the highlighted piece in the strip with 3 equal pieces.",
+          "Now compare both highlighted pieces; their heights match, but their widths do not.",
           "Sharing the same whole among 6 pieces makes each piece smaller."
         ],
         "yes": "The 6-piece strip has smaller pieces because the same whole is shared into more equal parts.",
@@ -4357,27 +4514,63 @@
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 1,
+                "parts": 6,
                 "wholes": 1,
-                "selected": [
-                  0
-                ]
-              }
+                "selected": [],
+                "caption": "6 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "3 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "6 equal pieces"
+                }
+              ]
             },
             {
-              "text": "Look at one piece when the strip has 3 equal pieces.",
+              "text": "Look at the highlighted piece in the strip with 3 equal pieces.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 3,
+                "parts": 6,
                 "wholes": 1,
-                "selected": [
-                  0
-                ]
-              }
+                "selected": [],
+                "caption": "6 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "3 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "6 equal pieces"
+                }
+              ]
             },
             {
-              "text": "Now compare one piece when it has 6 equal pieces.",
+              "text": "Now compare both highlighted pieces; their heights match, but their widths do not.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4385,8 +4578,31 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "6 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "3 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "6 equal pieces"
+                }
+              ]
             },
             {
               "text": "Sharing the same whole among 6 pieces makes each piece smaller.",
@@ -4397,8 +4613,31 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "6 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "3 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "6 equal pieces"
+                }
+              ]
             }
           ],
           "correct": {
@@ -4410,22 +4649,68 @@
               "wholes": 1,
               "selected": [
                 0
-              ]
-            }
-          },
-          "wrong": [
-            {
-              "option": "The strip with 3 equal pieces.",
-              "text": "Look at the highlighted widths: one of 3 pieces is wider than one of 6.",
-              "model": {
+              ],
+              "caption": "6 equal pieces"
+            },
+            "models": [
+              {
                 "type": "fraction",
                 "kind": "bar",
                 "parts": 3,
                 "wholes": 1,
                 "selected": [
                   0
-                ]
+                ],
+                "caption": "3 equal pieces"
+              },
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0
+                ],
+                "caption": "6 equal pieces"
               }
+            ]
+          },
+          "wrong": [
+            {
+              "option": "The strip with 3 equal pieces.",
+              "text": "Look at both highlighted widths: one of 3 pieces is wider than one of 6.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0
+                ],
+                "caption": "6 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "3 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "6 equal pieces"
+                }
+              ]
             },
             {
               "option": "Both must have the same-size pieces.",
@@ -4437,8 +4722,31 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "6 equal pieces"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "3 equal pieces"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "6 equal pieces"
+                }
+              ]
             }
           ]
         }
@@ -4624,12 +4932,13 @@
           "selected": [
             0,
             1
-          ]
+          ],
+          "caption": "Before joining"
         },
         "options": [
           {
             "text": "The whole strip becomes longer.",
-            "why": "Only inside dividing lines were removed; the outside strip has not grown."
+            "why": "Only inside dividing lines were removed; both outside rectangles are still the same length."
           },
           {
             "text": "There are 3 larger equal pieces.",
@@ -4641,41 +4950,81 @@
           }
         ],
         "hints": [
-          "Keep the outside edge fixed; this is still the same whole strip.",
-          "Look at the first two highlighted pieces; together they make one larger piece."
+          "Both outside edges match; joining pieces does not make the whole strip longer.",
+          "The first two highlighted pieces become one larger piece with the same covered area."
         ],
         "show": [
-          "Keep the outside edge fixed; this is still the same whole strip.",
-          "Look at the first two highlighted pieces; together they make one larger piece.",
+          "Both outside edges match; joining pieces does not make the whole strip longer.",
+          "The first two highlighted pieces become one larger piece with the same covered area.",
           "Join every pair: the strip now has 3 larger equal pieces."
         ],
         "yes": "Each new piece joins two equal old pieces, so 3 equal pieces still cover the same whole.",
         "teaching": {
           "steps": [
             {
-              "text": "Keep the outside edge fixed; this is still the same whole strip.",
+              "text": "Both outside edges match; joining pieces does not make the whole strip longer.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 1,
+                "parts": 3,
+                "wholes": 1,
+                "selected": [],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "After joining"
+                }
+              ]
+            },
+            {
+              "text": "The first two highlighted pieces become one larger piece with the same covered area.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 3,
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
-            },
-            {
-              "text": "Look at the first two highlighted pieces; together they make one larger piece.",
-              "model": {
-                "type": "fraction",
-                "kind": "bar",
-                "parts": 6,
-                "wholes": 1,
-                "selected": [
-                  0,
-                  1
-                ]
-              }
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "After joining"
+                }
+              ]
             },
             {
               "text": "Join every pair: the strip now has 3 larger equal pieces.",
@@ -4685,9 +5034,42 @@
                 "parts": 3,
                 "wholes": 1,
                 "selected": [
-                  0
-                ]
-              }
+                  0,
+                  1,
+                  2
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "caption": "After joining"
+                }
+              ],
+              "revealsAnswer": true
             }
           ],
           "correct": {
@@ -4701,8 +5083,38 @@
                 0,
                 1,
                 2
-              ]
-            }
+              ],
+              "caption": "After joining"
+            },
+            "models": [
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "caption": "Before joining"
+              },
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2
+                ],
+                "caption": "After joining"
+              }
+            ]
           },
           "wrong": [
             {
@@ -4715,21 +5127,69 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "After joining"
+                }
+              ]
             },
             {
               "option": "The whole strip becomes longer.",
-              "text": "Only inside dividing lines were removed; the outside strip has not grown.",
+              "text": "Only inside dividing lines were removed; both outside rectangles are still the same length.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 1,
+                "parts": 3,
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "After joining"
+                }
+              ]
             }
           ]
         }
@@ -6119,7 +6579,8 @@
           "selected": [
             0,
             1
-          ]
+          ],
+          "caption": "Before joining"
         },
         "options": [
           {
@@ -6128,7 +6589,7 @@
           },
           {
             "text": "The whole strip becomes longer.",
-            "why": "Only inside dividing lines were removed; the outside strip has not grown."
+            "why": "Only inside dividing lines were removed; both outside rectangles are still the same length."
           },
           {
             "text": "There are 4 larger equal pieces.",
@@ -6136,37 +6597,77 @@
           }
         ],
         "show": [
-          "Keep the outside edge fixed; this is still the same whole strip.",
-          "Look at the first two highlighted pieces; together they make one larger piece.",
+          "Both outside edges match; joining pieces does not make the whole strip longer.",
+          "The first two highlighted pieces become one larger piece with the same covered area.",
           "Join every pair: the strip now has 4 larger equal pieces."
         ],
         "yes": "Each new piece joins two equal old pieces, so 4 equal pieces still cover the same whole.",
         "teaching": {
           "steps": [
             {
-              "text": "Keep the outside edge fixed; this is still the same whole strip.",
+              "text": "Both outside edges match; joining pieces does not make the whole strip longer.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 1,
+                "parts": 4,
+                "wholes": 1,
+                "selected": [],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "After joining"
+                }
+              ]
+            },
+            {
+              "text": "The first two highlighted pieces become one larger piece with the same covered area.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
-            },
-            {
-              "text": "Look at the first two highlighted pieces; together they make one larger piece.",
-              "model": {
-                "type": "fraction",
-                "kind": "bar",
-                "parts": 8,
-                "wholes": 1,
-                "selected": [
-                  0,
-                  1
-                ]
-              }
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "After joining"
+                }
+              ]
             },
             {
               "text": "Join every pair: the strip now has 4 larger equal pieces.",
@@ -6176,9 +6677,46 @@
                 "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  0
-                ]
-              }
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "caption": "After joining"
+                }
+              ],
+              "revealsAnswer": true
             }
           ],
           "correct": {
@@ -6193,8 +6731,41 @@
                 1,
                 2,
                 3
-              ]
-            }
+              ],
+              "caption": "After joining"
+            },
+            "models": [
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                "caption": "Before joining"
+              },
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "caption": "After joining"
+              }
+            ]
           },
           "wrong": [
             {
@@ -6207,21 +6778,69 @@
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "After joining"
+                }
+              ]
             },
             {
               "option": "The whole strip becomes longer.",
-              "text": "Only inside dividing lines were removed; the outside strip has not grown.",
+              "text": "Only inside dividing lines were removed; both outside rectangles are still the same length.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
-                "parts": 1,
+                "parts": 4,
                 "wholes": 1,
                 "selected": [
                   0
-                ]
-              }
+                ],
+                "caption": "After joining"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "caption": "Before joining"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "caption": "After joining"
+                }
+              ]
             }
           ]
         },

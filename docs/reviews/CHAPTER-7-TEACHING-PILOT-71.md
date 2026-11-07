@@ -4,9 +4,19 @@ Reviewed the emitted `data/lessons/7-1.json`, author module `scripts/author/chap
 
 ## Final independent re-review — ready for owner review
 
-**Verdict: Lesson 7-1 is ready FOR OWNER REVIEW as the single teaching sample.** This is not a claim of verified child understanding, approval of the other six lessons, or production-release approval. The reviewed emitted lesson has SHA-256 `9610ed2a833521d14805c9bbbf22d87ff207f0a0ada4597d998bacfe16b9aa5b`.
+**Verdict: Lesson 7-1 is ready FOR OWNER REVIEW as the single teaching sample.** This is not a claim of verified child understanding, approval of the other six lessons, or production-release approval. The reviewed emitted lesson has SHA-256 `f74b69f27c18491f9a4eae2c797e3eba45cbf8c08b8e7911fd23dcc06392a3c7`.
 
 I re-read all 13 Learn It screens, all three Watch Me examples (15 step states), all 38 coached items, every multiple-choice wrong option and the numeric response classes. I exercised **137 actual feedback cases** through the coaching lookup and the real rendering functions. Every practice/checkpoint case rendered its selected explanation and model; each test case rendered the appropriate explanation/model in its post-submission question details. No coaching feedback appeared in the unsubmitted test render. All **28 teaching-card states** rendered their current text. No feed-through failures were found. This is pure view-function execution, not an interactive browser session or child observation.
+
+**Final paired-evidence correction independently closed:** a later root semantic review found that `try.t17`, `try.t18`, `try.t20` and `test.x10` referred to two comparative states while coaching showed only one. The earlier feed-through check established visible feedback/models but did not establish preservation of both referenced states. That was a real teaching gap and is retained here in the audit trail.
+
+I independently re-read every Help, correct and wrong node for those four items and exercised **26 real rendered coaching states**, including x10 post-submission feedback. All 26 now render both captions and both diagrams with the matching text; no pair disappears when the original question diagrams are hidden. This was checked through `itemCard` and `stageInner`, not merely by counting JSON model entries.
+
+For t17, both outside rectangles remain 300 by 88 model units; a selected half has twice a selected fourth's area. For t18, the same fixed whole is shared into thirds versus sixths; the selected third has twice the selected sixth's area. Help first establishes equal whole sizes, then highlights the first piece, then both comparison pieces, so “same whole, more parts, smaller pieces” is supported by visible widths and equal heights. All correct/wrong branches retain that simultaneous evidence and identifying captions.
+
+For t20 and x10, the paired captions are “Before joining” and “After joining.” Both outside rectangles retain the same width/height. Two selected old sixths cover exactly the same area as one new third; two old eighths cover the same area as one new fourth. The initial plain pair establishes that the outside whole is unchanged, the next pair displays the actual two-to-one joining correspondence, and the final fully selected pair shows complete coverage of the unchanged whole. The last Help step is tagged as an answer reveal. Wrong “more/longer whole” and unchanged-piece-count branches point to the corresponding paired evidence. No new semantic or teaching blocker was found in this delta.
+
+Evidence for this final closure: the private review evidence (26 states, zero failures) plus its read-only driver. The full 137-case/28-card feedback feed-through was also re-run on this final hash with zero failures. **Lesson 7-1 remains ready FOR OWNER REVIEW only; child understanding and the other six lessons remain unverified/unapproved.**
 
 **Final literal-control delta acknowledged:** the counting prompt now says “Tap each Part button below. Watch its number appear in the picture.” The renderer supplies actual `Part 1`, `Part 2`, etc. buttons below the picture and numbered count markers on the picture, so the narration matches the controls. Re-ran the full 137-case/28-card view feed-through on this final hash: zero failures.
 
@@ -20,7 +30,7 @@ I re-read all 13 Learn It screens, all three Watch Me examples (15 step states),
 
 **Retained scope limit:** this sample does not establish that arbitrary different-outline shapes have equal area. Its parent note says to use physical matching/rearranging before extending that idea, and the sample does not score an unmodeled different-outline inference. Incorrect-cut diagrams with five/seven/nine spaces are explicit post-error counting non-examples, not newly taught fraction names. No new blocker found within the agreed Lesson 7-1 sample scope.
 
-Detailed view-function evidence is retained privately; the repository teaching tests exercise the same public rendering interface. The historical first-review findings below remain for traceability and are superseded by this final re-review.
+Evidence: the private review evidence and its read-only driver `pilot71-feedthrough.mjs`. The historical first-review findings below remain for traceability and are superseded by this final re-review.
 
 ## Initial review verdict — findings now closed
 
@@ -64,14 +74,15 @@ These need fresh scored tasks/model relationships or an explicit reviewed reason
 
 Review the complete Lesson 7-1 learner journey, including each correct and wrong branch and post-test explanation. This teaching pilot is not evidence that Lessons 7-2 through 7-7 already meet the new standard. Do not generalize approval to those lessons or claim that a child understood the material without actual observation.
 
-Detailed diagnostic path data is retained privately. The public audit script can reproduce the authored baseline inventory from the frozen source. These reviews were performed by AI specialist agents; they are not a human educator sign-off or an observed child study.
+Detailed path data from this review: the private review evidence.
 
+These reviews were performed by AI specialist agents. They are not a human educator sign-off or an observed child study.
 
 ## Technical evidence and its limits
 
 The independent instructional review is separate from functional QA. Automated checks confirm that the authored reason/model is dispatched and rendered; they do not award a semantic teaching pass by word count or picture presence.
 
-- The final full unit suite passes 299 tests. The focused teaching checks cover all 38 coached items and numeric response classes.
+- The final full unit suite passes 301 tests. The focused teaching checks cover all 38 coached items and numeric response classes.
 - The focused browser suite covers 151 correct/wrong DOM-render paths and real learner-control flows, including bottom-of-phone Check/Help/Next step and Try again. Fresh repository and allowlisted-output runs pass.
 - The mobile accessibility suite exercises keyboard/reduced-motion controls, geometric counting markers, answer gating and focus. Real voice output and real screen-reader use remain NOT VERIFIED.
 - UI review inspected 96 focused states across six widths. Actual pointer clicks near the viewport bottom exposed additional bugs missed by full-page screenshots: lost focus, offscreen explanations and an offscreen restored stimulus. Those were fixed and regression checks added.
@@ -98,3 +109,10 @@ The decision now is whether this sample's simplicity and teaching pattern match 
 These screenshots are synthetic app walkthroughs at 390 × 844, with no textbook footage or identifying records. The pointer controls were placed near the viewport bottom before clicking, and no manual scrolling occurred after the action. The final eight-case viewport audit is closed: both the current diagram and its reason appear automatically, and Try again restores the original picture and response together. This is responsive-browser evidence, not a physical-device or child-learning certification.
 
 [Wrong-answer correction](images/lesson-7-1-correction-mobile.png) · [Next teaching step](images/lesson-7-1-help-step-mobile.png) · [Try again](images/lesson-7-1-try-again-mobile.png)
+
+
+## Secondary paired-picture correction
+
+The root review found a further real issue in comparison/joining feedback: the text referred to two states while a single diagram replaced the original question pictures. A presence-of-SVG check did not establish that the comparison could actually be seen.
+
+Four items now keep both reference states visible with captions. The comparison coach shows same-size wholes with half/fourth or third/sixth highlights; the joining coach shows the original neighboring pair beside the resulting larger piece without changing the whole. Help retains both references while its highlights change. Independent instructional review checked 26 affected Help/correct/wrong renders and re-ran the broader 137-case review on the final lesson hash. QA verifies matching displayed whole dimensions and conserved highlighted area, including the post-test-only x10 route. The UI reviewer checked 18 bottom-button practice cases at 360 and 390 pixels; x10's native post-test detail is separately checked by QA rather than described as an automatic correction flow.

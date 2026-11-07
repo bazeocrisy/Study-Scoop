@@ -74,3 +74,13 @@ test('pilot wrong and partial Help offer explicit retry; answer mode restores or
  const correct=view({status:'correct',tries:2,counted:[0,1,2],coachView:'feedback',teachingFeedback:item.teaching.correct,say:'correct'});
  assert.ok(!correct.includes('data-act="coach-retry"'));
 });
+test('paired teaching figures replace fallback and original figures in Help and feedback',()=>{
+ const models=[{...bar(1),caption:'First whole'},{...bar(2),caption:'Second whole'}];
+ const node={text:'Compare both pictures.',model:bar(),models};
+ const q={...item,models:[bar(),bar()],teaching:{...item.teaching,steps:[node,node],correct:node,wrong:[node]}};
+ for(const st of [{status:'notyet',help:1,coachView:'help'},{status:'correct',coachView:'feedback',teachingFeedback:node,say:node.text}]){
+  const html=itemCard({id:'7-1'},q,'together',{items:{pilot:{tries:1,counted:[0,1,2],...st}}}).s;
+  assert.equal((html.match(/<figure class="model">/g)||[]).length,2);
+  assert.ok(!html.includes('pic-card'));assert.ok(html.includes('First whole'));assert.ok(html.includes('Second whole'));
+ }
+});
