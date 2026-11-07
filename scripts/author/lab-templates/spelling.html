@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/*__PAGE_TITLE__*/</title>
+<style>
+:root{--bg:#0b1b3a;--bg2:#12295a;--card:#183672;--blue:#2fa8ff;--orange:#ff8a1f;--green:#2ee08a;--red:#ff5a5a;--text:#ffffff;--soft:#b9d3ff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 0,var(--bg2),var(--bg) 70%);color:var(--text);font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif}
+body{padding:16px;display:flex;justify-content:center}
+#app{width:100%;max-width:720px}
+h1{font-size:30px;margin:6px 0;text-align:center;letter-spacing:1px}
+h1 span{color:var(--orange)}
+.sub{text-align:center;color:var(--soft);margin:0 0 18px;font-size:17px}
+.menu{display:grid;gap:14px}
+.btn{font:inherit;font-weight:800;font-size:22px;border:0;border-radius:18px;padding:18px 20px;color:#fff;background:var(--blue);box-shadow:0 6px 0 #1678bd;cursor:pointer;min-height:60px}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #1678bd}
+.btn.o{background:var(--orange);box-shadow:0 6px 0 #c2610a}
+.btn.o:active{box-shadow:0 2px 0 #c2610a}
+.btn.g{background:#1fb86c;box-shadow:0 6px 0 #14804b}
+.btn.g:active{box-shadow:0 2px 0 #14804b}
+.btn.r{background:#e24d4d;box-shadow:0 6px 0 #a02f2f}
+.btn.r:active{box-shadow:0 2px 0 #a02f2f}
+.btn.ghost{background:transparent;box-shadow:none;border:2px solid var(--soft);color:var(--soft);font-size:17px;padding:10px 14px;min-height:44px}
+.btn small{display:block;font-weight:600;font-size:15px;opacity:.9;margin-top:2px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.pill{background:var(--card);border-radius:999px;padding:8px 14px;font-weight:800;color:var(--soft)}
+.card{background:var(--card);border-radius:26px;padding:22px 16px;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.25)}
+.word{font-size:clamp(34px,11vw,64px);font-weight:900;letter-spacing:2px;margin:8px 0;word-break:break-word}
+.word .r{color:var(--orange)}
+.sylrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}
+.syl{background:var(--bg);border:3px solid var(--blue);border-radius:14px;padding:6px 12px;font-size:clamp(26px,8vw,44px);font-weight:900}
+.syl .r{color:var(--orange)}
+.sent{font-size:21px;line-height:1.4;margin:14px 6px;color:#e8f1ff}
+.sent b{color:var(--orange);background:rgba(255,138,31,.15);padding:0 4px;border-radius:6px}
+.hint{color:var(--soft);font-size:16px;margin:6px 0}
+.row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:130px;font-size:19px}
+input[type=text]{width:100%;font:inherit;font-size:34px;font-weight:800;text-align:center;letter-spacing:3px;padding:14px;border-radius:16px;border:4px solid var(--blue);background:var(--bg);color:#fff;outline:none;margin-top:14px}
+input[type=text]:focus{border-color:var(--orange)}
+.msg{min-height:30px;font-size:20px;font-weight:800;margin:10px 0 0}
+.good{color:var(--green)}.bad{color:var(--red)}
+.bar{height:12px;background:var(--bg);border-radius:99px;overflow:hidden;margin:0 0 14px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));width:0;transition:width .3s}
+.flip{perspective:900px;cursor:pointer}
+.stars{font-size:36px;letter-spacing:4px;margin:10px 0;word-break:break-word}
+.trophy{font-size:96px;line-height:1}
+.miss{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.miss span{background:var(--bg);border:2px solid var(--red);border-radius:12px;padding:6px 12px;font-weight:800}
+.big{font-size:28px;font-weight:900;margin:6px 0}
+
+.word-picture{display:block;width:min(100%,260px);aspect-ratio:1;margin:16px auto;border-radius:18px;background-color:#fff0d0;background-repeat:no-repeat;box-shadow:0 3px 12px #0003}
+body{display:block}#app{margin:0 auto}.lab-return{margin:0 0 14px;text-align:center}.lab-return a{color:var(--soft)}
+</style>
+</head>
+<body>
+<nav class="lab-return" aria-label="Study Scoop"><a href="/*__RETURN_URL__*/">‹ Back to Study Scoop</a></nav>
+<div id="app"><p style="text-align:center;font-size:20px;margin-top:40px">If you only see this message, open the file in Safari or Chrome instead of a preview.</p></div>
+<script>
+const LAB_CONFIG=/*__LAB_CONFIG__*/null;
+const WORDS=LAB_CONFIG.words;
+const app=document.getElementById('app');
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---------- speech ---------- */
+let voice=null;
+function pickVoice(){const v=speechSynthesis.getVoices();voice=v.find(x=>/en[-_]US/i.test(x.lang)&&/(samantha|google|aria|jenny|zira|female)/i.test(x.name))||v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice}
+function say(text,rate){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  if(voice)u.voice=voice;u.lang='en-US';u.rate=rate||0.85;u.pitch=1;
+  speechSynthesis.speak(u);
+}
+const sayWord=w=>say(w,0.75);
+const saySent=t=>say(t,0.85);
+
+/* ---------- rendering helpers ---------- */
+function pat(w){for(const p of LAB_CONFIG.patterns){const i=w.indexOf(p);if(i>=0)return [i,p.length]}return [-1,0]}
+function lettersHTML(w){const [i,n]=pat(w);return [...w].map((c,k)=>(i>=0&&k>=i&&k<i+n)?`<span class="r">${c}</span>`:c).join('')}
+function sylHTML(o){
+  const [i,n]=pat(o.w);let k=0;
+  return '<div class="sylrow">'+o.s.map(s=>{
+    const h=[...s].map(c=>{const hit=(i>=0&&k>=i&&k<i+n);k++;return hit?`<span class="r">${c}</span>`:c}).join('');
+    return `<div class="syl">${h}</div>`}).join('')+'</div>';
+}
+function sentHTML(o){return esc(o.t).replace(new RegExp('\\b('+o.w+')\\b','i'),'<b>$1</b>')}
+function topbar(title,extra){return `<div class="top"><button class="btn ghost" onclick="home()">⬅ Menu</button><div class="pill">${title}</div><div class="pill">${extra||''}</div></div>`}
+function bar(done,total){return `<div class="bar"><i style="width:${Math.round(100*done/total)}%"></i></div>`}
+
+
+/* Images belong in learning views, never spelling/dictation or vocabulary test prompts. */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function pictureHTML(i){
+ const p=LAB_CONFIG.pictures[i];
+ return '<div class="word-picture" role="img" aria-label="'+esc(p.alt)+'" style="background-image:url('+LAB_CONFIG.sources[p.source]+');background-size:'+(p.columns*100)+'% '+(p.rows*100)+'%;background-position:'+(p.columns===1?0:(p.index%p.columns)*100/(p.columns-1))+'% '+(p.rows===1?0:Math.floor(p.index/p.columns)*100/(p.rows-1))+'%"></div>';
+}
+
+/* ---------- home ---------- */
+function home(){
+  try{if('speechSynthesis' in window)speechSynthesis.cancel()}catch(e){}
+  app.innerHTML=`
+  <h1>📘 <span>${esc(LAB_CONFIG.pattern)}</span> Spelling Lab</h1>
+  <p class="sub">${WORDS.length} words. ${esc(LAB_CONFIG.testNote)}</p>
+  <div class="menu">
+    <button class="btn" onclick="learn(0)">📘 1. Learn<small>See it, hear it, read the sentence</small></button>
+    <button class="btn o" onclick="flash()">🃏 2. Flash Cards<small>Flip the card. Missed words come back.</small></button>
+    <button class="btn g" onclick="spell(false)">🎧 3. Listen &amp; Spell<small>Hear the word, type it. One hint to help.</small></button>
+    <button class="btn r" onclick="spell(true)">🏆 4. Practice Test<small>No hints. One try. Just like the real one.</small></button>
+  </div>
+  <p class="sub" style="margin-top:20px">Tip: turn the volume up. Tap a speaker button to hear the word.</p>`;
+}
+
+/* ---------- 1. LEARN ---------- */
+function learn(i){
+  const o=WORDS[i];
+  app.innerHTML=topbar('Learn',`${i+1} / ${WORDS.length}`)+bar(i+1,WORDS.length)+`
+  <div class="card">
+    <div class="word">${lettersHTML(o.w)}</div>
+    ${sylHTML(o)}
+    ${pictureHTML(WORDS.indexOf(o))}
+    <div class="sent">${sentHTML(o)}</div>
+    <div class="row">
+      <button class="btn o" onclick="sayWord('${o.w}')">🔊 Say word</button>
+      <button class="btn" onclick="saySent(WORDS[${i}].t)">🔊 Sentence</button>
+    </div>
+    <div class="row">
+      ${i>0?`<button class="btn ghost" onclick="learn(${i-1})">⬅ Back</button>`:''}
+      ${i<WORDS.length-1?`<button class="btn g" onclick="learn(${i+1})">Next ➡</button>`:`<button class="btn g" onclick="flash()">Go to Flash Cards ➡</button>`}
+    </div>
+  </div>`;
+  setTimeout(()=>sayWord(o.w),250);
+}
+
+/* ---------- 2. FLASH CARDS ---------- */
+let fq=[],fTotal=12,fFlipped=false,fAgain=0;
+function flash(){fq=shuffle(WORDS);fTotal=fq.length;fAgain=0;fFlipped=false;flashShow()}
+function flashShow(){
+  if(!fq.length){return awardFlash()}
+  const o=fq[0];
+  const done=fTotal-fq.length;
+  let inner;
+  if(!fFlipped){
+    inner=`<div class="hint">Tap the card to flip it</div><div class="word">${lettersHTML(o.w)}</div>
+      <div class="row"><button class="btn o" onclick="event.stopPropagation();sayWord('${o.w}')">🔊 Say it</button></div>`;
+  }else{
+    inner=`<div class="word" style="font-size:clamp(28px,8vw,44px)">${lettersHTML(o.w)}</div>${sylHTML(o)}
+      ${pictureHTML(WORDS.indexOf(o))}
+      <div class="sent">${sentHTML(o)}</div>
+      <div class="row"><button class="btn o" onclick="event.stopPropagation();sayWord('${o.w}')">🔊 Word</button>
+      <button class="btn" onclick="event.stopPropagation();saySent(fq[0].t)">🔊 Sentence</button></div>`;
+  }
+  app.innerHTML=topbar('Flash Cards',`${done} / ${fTotal} got it`)+bar(done,fTotal)+
+   `<div class="card flip" tabindex="0" role="group" aria-label="Flash card; press Enter or Space to flip" onkeydown="if(event.target===this &amp;&amp; (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click();app.querySelector('.flip')?.focus()}" onclick="fFlipped=!fFlipped;flashShow();if(fFlipped)sayWord(fq[0].w)">${inner}</div>`+
+   `<div class="row"><button class="btn r" onclick="flashAgain()">🔁 Still learning</button><button class="btn g" onclick="flashGot()">✅ Got it!</button></div>`;
+}
+function flashGot(){fq.shift();fFlipped=false;flashShow()}
+function flashAgain(){fAgain++;fq.push(fq.shift());fFlipped=false;flashShow()}
+function awardFlash(){
+  app.innerHTML=topbar('Flash Cards','Done!')+`<div class="card">
+    <div class="trophy">🎉</div><div class="big">All ${fTotal} cards done!</div>
+    <p class="sent">You marked "Still learning" ${fAgain} time${fAgain==1?'':'s'}. ${fAgain===0?'Perfect run!':'Great job sticking with it!'}</p>
+    <div class="row"><button class="btn o" onclick="flash()">Again</button><button class="btn g" onclick="spell(false)">Listen &amp; Spell ➡</button></div></div>`;
+}
+
+/* ---------- 3 & 4. LISTEN & SPELL / FRIDAY TEST ---------- */
+let sq=[],sTest=false,sTotal=12,sStars=0,sTries=0,sMissed=[],sAttempt=0,sFirstTry=Object.create(null),sResults=[];
+function spell(test){
+  sTest=test;sq=shuffle(WORDS);sTotal=sq.length;sStars=0;sMissed=[];sAttempt=0;sFirstTry=Object.create(null);sResults=[];
+  spellShow('');
+}
+function spellShow(msgHTML,hintHTML){
+  if(!sq.length)return awardSpell();
+  const o=sq[0];const done=sTest?(sTotal-sq.length):(sTotal-sq.length);
+  app.innerHTML=topbar(sTest?'Practice Test':'Listen & Spell',sTest?`Word ${sTotal-sq.length+1} of ${sTotal}`:`${sTotal-sq.length} / ${sTotal} done`)+bar(sTotal-sq.length,sTotal)+`
+  <div class="card">
+    <div class="big">🎧 Listen and spell it</div>
+    <div class="row"><button class="btn o" onclick="sayWord('${o.w}')">🔊 Say word</button>
+    <button class="btn" onclick="saySent(WORDS.find(x=>x.w==='${o.w}').t)">🔊 Sentence</button></div>
+    <input type="text" id="ans" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Spell the word you hear" placeholder="type here" onkeydown="if(event.key==='Enter')spellCheck()">
+    ${hintHTML||''}
+    <div class="msg" role="status" aria-live="polite">${msgHTML||''}</div>
+    <div class="row"><button class="btn g" onclick="spellCheck()">${sTest?'Next ➡':'Check ✅'}</button></div>
+  </div>`;
+  const el=document.getElementById('ans');
+  if(el&&!msgHTML){setTimeout(()=>{sayWord(o.w);el.focus()},300)}else if(el){el.focus()}
+}
+function spellCheck(){
+  const o=sq[0];
+  const val=(document.getElementById('ans').value||'').trim().toLowerCase();
+  if(!val){return}
+  const ok=val===o.w;
+  if(sTest){
+    sResults.push({w:o.w,ok,typed:val});
+    if(ok)sStars++;else sMissed.push(o.w);
+    sq.shift();spellShow('');return;
+  }
+  if(ok){
+    if(sFirstTry[o.w]===undefined){sStars++;sFirstTry[o.w]=true}
+    sAttempt=0;sq.shift();
+    app.querySelector('.msg')&&0;
+    toastThen(`<span class="good">✅ Yes! ${o.w}</span>`,()=>spellShow(''));
+  }else if(sAttempt===0){
+    sAttempt=1;sFirstTry[o.w]=false;
+    if(!sMissed.includes(o.w))sMissed.push(o.w);
+    spellShow(`<span class="bad">Not quite. Try again!</span>`,`<div class="hint">Hint:</div>${sylHTML(o)}`);
+  }else{
+    sAttempt=0;
+    if(!sMissed.includes(o.w))sMissed.push(o.w);
+    sq.push(sq.shift());
+    toastThen(`<span class="bad">The word is <b>${o.w}</b>. We'll try it again.</span>`,()=>spellShow(''),2600,o.w);
+  }
+}
+function toastThen(html,next,ms,w){
+  app.innerHTML=`<div class="card" style="margin-top:40px"><div class="big">${html}</div>${w?`<div class="word">${lettersHTML(w)}</div>`:''}</div>`;
+  if(w)sayWord(w);
+  setTimeout(next,ms||1000);
+}
+function awardSpell(){
+  const perfect=sStars===sTotal;
+  const stars='⭐'.repeat(sStars)+'☆'.repeat(sTotal-sStars);
+  let body;
+  if(sTest){
+    body=`<div class="big">Practice Test: ${sStars} out of ${sTotal}</div>`+
+      (sMissed.length?`<p class="sent">Practice these:</p><div class="miss">${sResults.filter(r=>!r.ok).map(r=>`<span>${r.w}<br><small style="color:#ffb0b0">you typed: ${esc(r.typed)}</small></span>`).join('')}</div>`:'');
+  }else{
+    body=`<div class="big">${sStars} out of ${sTotal} on the first try</div>`+
+      (sMissed.length?`<p class="sent">Words that need more practice:</p><div class="miss">${sMissed.map(w=>`<span>${w}</span>`).join('')}</div>`:'<p class="sent">You spelled every word right on the first try!</p>');
+  }
+  app.innerHTML=topbar(sTest?'Practice Test':'Listen & Spell','Results')+`<div class="card">
+    <div class="trophy">${perfect?'🏆':sStars>=Math.ceil(sTotal*0.7)?'🥇':'🚀'}</div>
+    <div class="stars">${stars}</div>${body}
+    <p class="sent">${perfect?'PERFECT! You are a spelling champion!':sStars>=Math.ceil(sTotal*0.7)?'Awesome work! Almost there!':'Keep practicing. You are getting stronger!'}</p>
+    <div class="row"><button class="btn o" onclick="spell(${sTest})">Try again</button><button class="btn" onclick="home()">Menu</button></div></div>`;
+  if(perfect)say('Perfect! You are a spelling champion!',0.95);
+}
+home();
+</script>
+</body>
+</html>

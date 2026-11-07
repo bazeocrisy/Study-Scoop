@@ -1,0 +1,364 @@
+{
+  "week": "2026-11-09",
+  "people": "Black only",
+  "patterns": [
+    "tract",
+    "form"
+  ],
+  "spelling": {
+    "tractor": {
+      "syllables": [
+        "trac",
+        "tor"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A green tractor drives across a muddy farm field.",
+        "columns": 3,
+        "rows": 4,
+        "index": 0,
+        "reviewed": true
+      }
+    },
+    "extract": {
+      "syllables": [
+        "ex",
+        "tract"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A pirate extracts a treasure chest by pulling it out of the water.",
+        "columns": 3,
+        "rows": 4,
+        "index": 1,
+        "reviewed": true
+      }
+    },
+    "attract": {
+      "syllables": [
+        "at",
+        "tract"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A magnet attracts metal paper clips.",
+        "columns": 3,
+        "rows": 4,
+        "index": 2,
+        "reviewed": true
+      }
+    },
+    "retract": {
+      "syllables": [
+        "re",
+        "tract"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A cat retracts its claws, pulling them back inside its paws.",
+        "columns": 3,
+        "rows": 4,
+        "index": 3,
+        "reviewed": true
+      }
+    },
+    "distract": {
+      "syllables": [
+        "dis",
+        "tract"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A game distracts a child from writing homework.",
+        "columns": 3,
+        "rows": 4,
+        "index": 4,
+        "reviewed": true
+      }
+    },
+    "formed": {
+      "syllables": [
+        "formed"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "An ice cave has formed inside a mountain.",
+        "columns": 3,
+        "rows": 4,
+        "index": 5,
+        "reviewed": true
+      }
+    },
+    "inform": {
+      "syllables": [
+        "in",
+        "form"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A child informs a teacher by giving her a message.",
+        "columns": 3,
+        "rows": 4,
+        "index": 6,
+        "reviewed": true
+      }
+    },
+    "formal": {
+      "syllables": [
+        "for",
+        "mal"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A knight wears formal armor at an elegant dinner.",
+        "columns": 3,
+        "rows": 4,
+        "index": 7,
+        "reviewed": true
+      }
+    },
+    "uniform": {
+      "syllables": [
+        "u",
+        "ni",
+        "form"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A baseball team wears matching uniforms.",
+        "columns": 3,
+        "rows": 4,
+        "index": 8,
+        "reviewed": true
+      }
+    },
+    "misinform": {
+      "syllables": [
+        "mis",
+        "in",
+        "form"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A child misinforms a friend by pointing away from the ball.",
+        "columns": 3,
+        "rows": 4,
+        "index": 9,
+        "reviewed": true
+      }
+    },
+    "traction": {
+      "syllables": [
+        "trac",
+        "tion"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "A tire with deep treads gets traction on a snowy hill.",
+        "columns": 3,
+        "rows": 4,
+        "index": 10,
+        "reviewed": true
+      }
+    },
+    "uninformed": {
+      "syllables": [
+        "un",
+        "in",
+        "formed"
+      ],
+      "illustration": {
+        "file": "images/words/lab-spelling-2026-11-09.webp",
+        "alt": "An uninformed child looks puzzled as classmates head toward the field-trip bus.",
+        "columns": 3,
+        "rows": 4,
+        "index": 11,
+        "reviewed": true
+      }
+    }
+  },
+  "vocab": {
+    "produce": {
+      "syllables": [
+        "pro",
+        "duce"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "Fresh produce: a basket of apples, carrots, and leafy vegetables.",
+        "columns": 3,
+        "rows": 4,
+        "index": 0,
+        "reviewed": true
+      }
+    },
+    "exception": {
+      "syllables": [
+        "ex",
+        "cep",
+        "tion"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "An exception: a child using crutches takes the elevator while classmates use the stairs.",
+        "columns": 3,
+        "rows": 4,
+        "index": 1,
+        "reviewed": true
+      }
+    },
+    "installment": {
+      "syllables": [
+        "in",
+        "stall",
+        "ment"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "Installment payments: coins are paid over several months toward a couch.",
+        "columns": 3,
+        "rows": 4,
+        "index": 2,
+        "reviewed": true
+      }
+    },
+    "peculiar": {
+      "syllables": [
+        "pe",
+        "cu",
+        "liar"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "A child finds a peculiar star-shaped, glowing rock.",
+        "columns": 3,
+        "rows": 4,
+        "index": 3,
+        "reviewed": true
+      }
+    },
+    "employee": {
+      "syllables": [
+        "em",
+        "ploy",
+        "ee"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "A grocery-store employee works stocking fresh fruit and receives pay.",
+        "columns": 3,
+        "rows": 4,
+        "index": 4,
+        "reviewed": true
+      }
+    },
+    "fortunate": {
+      "syllables": [
+        "for",
+        "tu",
+        "nate"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "A family is fortunate that the rain stops in time for their picnic.",
+        "columns": 3,
+        "rows": 4,
+        "index": 5,
+        "reviewed": true
+      }
+    },
+    "ignorant": {
+      "syllables": [
+        "ig",
+        "no",
+        "rant"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "A child does not yet know how a game works, and a friend kindly explains it.",
+        "columns": 3,
+        "rows": 4,
+        "index": 6,
+        "reviewed": true
+      }
+    },
+    "melancholy": {
+      "syllables": [
+        "mel",
+        "an",
+        "chol",
+        "y"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "A child feels melancholy while looking out at the rain.",
+        "columns": 3,
+        "rows": 4,
+        "index": 7,
+        "reviewed": true
+      }
+    },
+    "trustworthy": {
+      "syllables": [
+        "trust",
+        "wor",
+        "thy"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "A trustworthy neighbor returns a borrowed watering can as promised.",
+        "columns": 3,
+        "rows": 4,
+        "index": 8,
+        "reviewed": true
+      }
+    },
+    "constellations": {
+      "syllables": [
+        "con",
+        "stel",
+        "la",
+        "tions"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "Constellations form recognizable patterns of stars in the night sky.",
+        "columns": 3,
+        "rows": 4,
+        "index": 9,
+        "reviewed": true
+      }
+    },
+    "irritating": {
+      "syllables": [
+        "ir",
+        "ri",
+        "tat",
+        "ing"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "An irritating mosquito buzzes near a child’s ear.",
+        "columns": 3,
+        "rows": 4,
+        "index": 10,
+        "reviewed": true
+      }
+    },
+    "distracted": {
+      "syllables": [
+        "dis",
+        "tract",
+        "ed"
+      ],
+      "illustration": {
+        "file": "images/words/lab-vocab-2026-11-09.webp",
+        "alt": "A barking dog distracts a child from reading a book.",
+        "columns": 3,
+        "rows": 4,
+        "index": 11,
+        "reviewed": true
+      }
+    }
+  }
+}

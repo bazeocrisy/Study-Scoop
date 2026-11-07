@@ -1,6 +1,6 @@
 ---
 name: update-week
-description: Add a new Study Scoop week from the class newsletter: spelling, ELA vocabulary, homework, tests, the recommended Math chapter and the privacy-reviewed original flyer, then audit and release.
+description: "Add a new Study Scoop week from the class newsletter: spelling, ELA vocabulary, homework, tests, the recommended Math chapter and the privacy-reviewed original flyer, then audit and release."
 ---
 # Update Week
 
@@ -15,7 +15,9 @@ Extract: learning topics, spelling pattern and words (in order), vocabulary word
 - Never edit or delete earlier weeks.
 
 ## 3. Pictures
-Reuse approved word pictures (data/pictures.json). New supplied pictures: crop out printed words, save 400 px WebP in images/words, check each picture matches its word.
+Reuse approved word pictures (data/pictures.json). Whenever people are depicted, every person must be Black, including background figures; do not include white people. Use object-only illustrations when they teach the meaning best. Review each word's meaning, people, cell mapping and phone legibility. Save WebP assets under images/words.
+
+Always generate both illustrated weekly labs using `scripts/author/build-weekly-labs.mjs <week> docs/weekly/<week>/lab-images.json` (see `docs/WEEKLY-LABS.md`). Preserve their audio and activities. Register `week.labs` and native `pictures.illustrations`; provide both standalone HTML downloads. Learning views and revealed flash cards show pictures; dictation and all test prompts do not.
 
 ## 4. Practice and tests
 20 per spelling and vocabulary activity; spelling test of all words; vocabulary practice test on the quiz words only (`data/tests/<week>.json`). Dictation never shows the picture or the word.
@@ -26,4 +28,4 @@ Reuse approved word pictures (data/pictures.json). New supplied pictures: crop o
 - Crop and straighten to the page, save `images/flyers/<week>-<page>.webp` (about 1000 px wide, text readable), and add `"flyer": { "reviewed": "<date>", "pages": [{ "src", "label", "alt", "width", "height" }] }` to the week file. The build publishes only reviewed flyers.
 
 ## 6. Test, audit, release
-`npm test`, browser suites on repository and built site, specialist review (study-scoop-lead), then PRs develop → main and confirm the Pages deployment.
+`npm test`, browser suites on repository and built site, specialist review (study-scoop-lead), then a reviewable feature PR targeting develop. Obtain the owner's explicit approval before a production merge to main; confirm the Pages deployment before claiming a preview or release is live.

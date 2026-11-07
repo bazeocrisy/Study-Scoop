@@ -1,5 +1,6 @@
 import { html, raw } from '../lib/html.js';
 import { pictureName } from '../lib/data.js';
+import { isWordIllustration } from '../lib/word-illustrations.js';
 
 const weekTiming = (ctx) => (ctx.shownWeekId || ctx.weekId) > ctx.index.current ? 'an upcoming' : 'an earlier';
 
@@ -40,6 +41,14 @@ export function comingSoon(title, items, { level = 2 } = {}) {
 export function wordPicture(ctx, names, alt) {
   const p = ctx.pictures || {};
   const list = (Array.isArray(names) ? names : [names]).filter(Boolean).map(pictureName);
+  const illustration = list.map((n) => p.illustrations?.[ctx.week?.id]?.[ctx.section]?.[n]).find(isWordIllustration);
+  if (illustration) {
+    const { src, columns, rows, index } = illustration;
+    return html`<span class="pic atlas-frame"><svg class="word-atlas" role="img" aria-label="${illustration.alt}"
+      viewBox="${(index % columns) * 400} ${Math.floor(index / columns) * 400} 400 400" width="400" height="400">
+      <image href="${src}" width="${columns * 400}" height="${rows * 400}" preserveAspectRatio="none" />
+    </svg></span>`;
+  }
   const photo = list.find((n) => p.photos?.includes(n));
   const drawing = list.find((n) => p.drawings?.includes(n));
   const src = photo ? `images/words/${photo}.webp` : drawing ? `images/words/${drawing}.svg` : null;
@@ -132,6 +141,13 @@ export function menuPage(ctx, subject, { title, context, items, misses, after = 
 
 /** Where the weekly tests are (they stay in Tests, apart from practice). */
 export const testsNote = (ctx, what) => html`<p class="hint menu-foot">${what} is in <a href="${ctx.link('tests')}">Tests</a>.</p>`;
+
+/** Optional weekly illustrated lab; its address stays relative under production and /preview/. */
+export function illustratedLab(ctx, subject) {
+  const src = ctx.week.labs?.[subject];
+  if (!src || src !== `labs/${ctx.week.id}-${subject}.html`) return '';
+  return html`<p class="menu-foot"><a class="btn btn-primary" href="${src}">Open Illustrated ${subject === 'spelling' ? 'Spelling' : 'Vocabulary'} Lab</a></p>`;
+}
 
 /** Keeps each written fact such as "(3 × 7)" or "6 × 7 = 42" on one line. */
 export const facts = (text) => String(text).split(/(\(?\d+ × \d+\)?(?: = \d+)?)/).map((p, k) => (k % 2 ? html`<span class="nobr">${p}</span>` : p));
