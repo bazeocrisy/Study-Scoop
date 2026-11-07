@@ -40,3 +40,8 @@ Build and fully review ONE sample lesson before expanding a new teaching pattern
 - Exact reviewed source/preview version and a rollback plan. Production still requires explicit owner approval.
 
 Automated checks may detect missing branches, invalid models and wiring failures. They must not award a teaching-quality pass from word counts, keywords, schema completeness or the presence of a picture.
+
+
+## Approved pattern and reuse
+
+Apply `VISUAL-TEACHING-PATTERN.md` to every Math chapter and its chapter-owned resources. Record the owner’s sample approval and exact reviewed version before expansion; sample approval clears that gate for its authorized scope, without establishing child learning or production approval. In November 2026 the owner approved the Lesson 7-1 sample and authorized the remaining Chapter 7 teaching expansion. Independent review of every remaining objective and resource is still required.

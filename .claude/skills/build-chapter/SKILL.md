@@ -15,8 +15,10 @@ Chapters own their Math content (D26). Begin with a capability audit. Reuse shar
 - `js/lib/activities.js` `ACTIVITIES.math`: one activity per role, each with `chapter: N` and a `role`: `vocab`, `vocabpractice`, `lessons` (id `chN`), `practice`, `guide`, `test` (id `chNtest`, `test: true`, its misses `group`). Sub-menu items get `chapter: N` and `parent`.
 - `validateChapters` (js/lib/chapters.js) fails the build if a role or a lesson is missing.
 
+Follow `docs/VISUAL-TEACHING-PATTERN.md` for every lesson and chapter resource. Once the owner explicitly approves a reviewed sample, record that approval and expand the authorized pattern without re-requesting the same approval. Review each remaining lesson independently.
+
 ## 3. Build each lesson (`data/lessons/N-k.json`)
-Follow 6-1..6-6: Learn It screens with checkpoints; Watch Me (at least 2 examples, step by step); Practice Together (at least 5, with hints and Show me how); Try It Yourself (20 original items, rising difficulty); a separate 10-15 question test (no hints, no practice repeats); parent notes. Generate with a script so numbers, pictures and answers come from one source, and run `validateLesson`.
+Follow 6-1..6-6: Learn It screens with checkpoints; Watch Me (at least 3 examples with changing mathematical pictures, step by step); Practice Together (at least 6, with hints and Show me how); Try It Yourself (20 original items, rising difficulty); a separate 10-15 question test (no hints, no practice repeats); parent notes. Generate with a script so numbers, pictures and answers come from one source, and run `validateLesson`.
 
 ## 4. Diagrams
 Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes). Answers are re-derived from the picture by the validator (`asks`, `areaBox`, `areaOptions`, `compare`). Alt text must not give the answer. For fractions, use `js/lib/fractions.js` and `fraction-models.js`: derive values from geometry, declare partition versus value grading, and describe observable parts without stating conclusions the question asks for.

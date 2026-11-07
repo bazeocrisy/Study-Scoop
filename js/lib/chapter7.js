@@ -13,6 +13,32 @@ const contextsOf = (w) => {
   return [...new Set(list.filter(blanks))];
 };
 
+// Bind authored word explanations to the actual generated choices, including shuffled distractors.
+function vocabularyTeaching(item, word, words, claim = null) {
+  if (!word.teaching) return item;
+  const teaching = clone(word.teaching);
+  if (claim?.node) {
+    teaching.correct = { ...clone(claim.node), text: `False. ${claim.node.reason}`, revealsAnswer: true };
+  } else if (claim) {
+    const reason = item.truth ? `This statement matches ${word.word}.` : claim.reason;
+    teaching.correct.text = `${item.truth ? 'True' : 'False'}. ${reason} ${teaching.correct.text}`;
+    if (!item.truth && claim.other?.model && word.model) teaching.correct.models = [
+      { ...claim.other.model, caption: `Picture for ${claim.other.word}` }, { ...word.model, caption: `Picture for ${word.word}` },
+    ];
+  }
+  if (item.type === 'choice') teaching.wrong = item.options.filter((option) => !option.correct).map((option) => {
+    const selected = words.find((candidate) => candidate.word === option.text || candidate.def === option.text);
+    const base = teaching.wrong.find((node) => node.when === 'default' || (!node.when && node.option === undefined)) || teaching.correct;
+    return { ...base, option: option.text, when: undefined, revealsAnswer: true,
+      ...(claim?.node ? { model: teaching.correct.model, models: teaching.correct.models } : {}),
+      text: claim ? teaching.correct.text : `${selected ? `${selected.word}: ${selected.def}.` : option.why || ''} ${base.text}`.trim(),
+      ...(claim && teaching.correct.models ? { models: teaching.correct.models } : {}),
+      ...(selected?.model && word.model ? { models: [{ ...selected.model, caption: `Picture for ${selected.word}` }, { ...word.model, caption: `Picture for ${word.word}` }] } : {}),
+    };
+  });
+  return { ...item, teaching };
+}
+
 /** Twenty practice questions per vocabulary mode, with teacher definitions preserved verbatim. */
 export function fractionVocabItems(pack, kind, rand = Math.random) {
   const words = pack?.vocabulary || [];
@@ -22,18 +48,22 @@ export function fractionVocabItems(pack, kind, rand = Math.random) {
     const other = words[(i % words.length + round + 1) % words.length];
     const contexts = contextsOf(w), context = contexts[(round ? round - 1 : 0) % Math.max(1, contexts.length)] || `The term for "${w.def}" is ___.`;
     const base = { id: `fv-${kind}-${i + 1}`, word: w.word, kind, hints: ['Think about what this term describes in a fraction model.'], show: [`${w.word}: ${w.def}`], explain: `${w.word}: ${w.def}` };
-    if (kind === 'fill') return { ...base, type: 'word', prompt: contexts[round % Math.max(1, contexts.length)] || context, answer: w.word.toLowerCase(), bank: shuffled(words.map((v) => v.word.toLowerCase()), rand), yes: `Compare the completed statement with the definition: ${w.def}`, retry: 'Use the whole sentence to choose the term.' };
+    if (kind === 'fill') return vocabularyTeaching({ ...base, type: 'word', prompt: contexts[round % Math.max(1, contexts.length)] || context, answer: w.word.toLowerCase(), bank: shuffled(words.map((v) => v.word.toLowerCase()), rand), yes: `Compare the completed statement with the definition: ${w.def}`, retry: 'Use the whole sentence to choose the term.' }, w, words);
     if (kind === 'truefalse') {
       const truth = (i % 2) === (round % 2);
-      const statement = round === 0 ? `"${w.word}" means "${truth ? w.def : other.def}".` : context.replace('___', (truth ? w.word : other.word).toLowerCase());
-      return { ...base, type: 'choice', prompt: `True or false? ${statement}`, truth, options: [{ text: 'True', ...(truth ? { correct: true } : { why: `Use ${w.word} in this statement. ${w.def}` }) }, { text: 'False', ...(!truth ? { correct: true } : { why: `The statement agrees with ${w.word}: ${w.def}` }) }], yes: `${truth ? 'True' : 'False'}. ${w.word}: ${w.def}` };
+      const falseNode = !truth && round > 0 ? w.falseStatements?.[Math.floor((round - 1) / 2) % Math.max(1, w.falseStatements?.length || 0)] : null;
+      const statement = falseNode ? falseNode.statement : round === 0 || !truth ? `"${w.word}" means "${truth ? w.def : other.def}".` : context.replace('___', w.word.toLowerCase());
+      return vocabularyTeaching({ ...base, type: 'choice', prompt: `True or false? ${statement}`, truth, options: [{ text: 'True', ...(truth ? { correct: true } : { why: `Use ${w.word} in this statement. ${w.def}` }) }, { text: 'False', ...(!truth ? { correct: true } : { why: `The statement agrees with ${w.word}: ${w.def}` }) }], yes: `${truth ? 'True' : 'False'}. ${w.word}: ${w.def}` }, w, words, {
+        other, node: falseNode,
+        reason: round === 0 || !falseNode ? `The quoted meaning describes ${other.word}. The picture for ${w.word} shows a different idea.` : `This sentence needs ${w.word}; it currently uses ${other.word}.`,
+      });
     }
     const meaning = round === 0;
     const definitionCue = w.def.replace(new RegExp(w.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '___');
     const prompt = meaning ? `What does "${w.word}" mean?` : round === 1 ? `Which term completes this definition? ${definitionCue}` : `Which term completes this statement? ${context}`;
     const others = shuffled(words.filter((v) => v !== w), rand).slice(0, 3);
     const options = shuffled([{ text: meaning ? w.def : w.word, correct: true }, ...others.map((v) => ({ text: meaning ? v.def : v.word, why: `${v.word}: ${v.def}` }))], rand);
-    return { ...base, type: 'choice', prompt, options, yes: `${w.word}: ${w.def}` };
+    return vocabularyTeaching({ ...base, type: 'choice', prompt, options, yes: `${w.word}: ${w.def}` }, w, words);
   });
 }
 

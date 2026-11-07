@@ -449,7 +449,7 @@ function validateTeaching(item, where, err) {
   if (!t || typeof t !== 'object') { err(`${where}: teaching must be an object`); return; }
   const node = (s, label) => {
     if (!s || !isText(s.text)) err(`${label}: teaching text is missing`);
-    validateModel(s?.model, `${label}.model`, err);
+    if (s?.model !== undefined || !s?.models?.length) validateModel(s?.model, `${label}.model`, err);
     if (s?.models !== undefined) {
       if (!Array.isArray(s.models) || !s.models.length) err(`${label}: teaching models must be a nonempty list`);
       else s.models.forEach((m, i) => validateModel(m, `${label}.models[${i}]`, err));
@@ -464,13 +464,14 @@ function validateTeaching(item, where, err) {
   else {
     t.wrong.forEach((s, i) => {
       node(s, `${where}.teaching.wrong[${i}]`);
-      if (s?.when !== undefined && !['selectedOnly', 'insideLines', 'tooLow', 'tooHigh', 'default'].includes(s?.when)) err(`${where}: unknown numeric teaching condition`);
+      if (s?.response !== undefined && (!s.response || typeof s.response !== 'object' || !Object.keys(s.response).length || Object.entries(s.response).some(([key, value]) => !['n', 'd', 'answer'].includes(key) || !/^[-+]?\d+$/.test(String(value))))) err(`${where}: teaching response needs integer answer components`);
+      if (s?.when !== undefined && !['selectedOnly', 'insideLines', 'tooLow', 'tooHigh', 'reversed', 'numeratorOnly', 'denominatorOnly', 'zeroDenominator', 'zeroNumerator', 'equivalentPartition', 'default'].includes(s?.when)) err(`${where}: unknown teaching condition`);
     });
     if (item.type === 'choice') {
       const wrong = (item.options || []).filter((o) => !o.correct);
       for (const o of wrong) if (t.wrong.filter((s) => s?.option === o.text).length !== 1) err(`${where}: each wrong choice needs exactly one matching teaching explanation`);
       if (t.wrong.some((s) => !wrong.some((o) => o.text === s?.option))) err(`${where}: teaching feedback names an unknown or correct choice`);
-    } else if (!t.wrong.some((s) => s?.when === 'default' || (s && s.option === undefined && s.when === undefined && s.answer === undefined))) err(`${where}: typed teaching needs a default explanation`);
+    } else if (!t.wrong.some((s) => s?.when === 'default' || (s && s.option === undefined && s.when === undefined && s.answer === undefined && s.response === undefined))) err(`${where}: typed teaching needs a default explanation`);
   }
   if (t.count !== undefined) {
     const count = item.model?.parts * (item.model?.wholes ?? 1), parts = t.count?.parts;
@@ -700,11 +701,17 @@ export function validateLesson(lesson, expectedId) {
   for (const k of ['title', 'goal', 'catchAll']) if (!isText(lesson[k])) err(`"${k}" is missing`);
   const ids = new Set();
 
+  const validatePictures = (node, where) => {
+    if (node.models === undefined) return;
+    if (!Array.isArray(node.models) || !node.models.length) { err(`${where}.models must be a nonempty list`); return; }
+    node.models.forEach((model, index) => validateModel(model, `${where}.models[${index}]`, err));
+  };
   const learn = lesson.learn || {};
   if (!Array.isArray(learn.screens) || !learn.screens.length) err('learn.screens is missing');
   (learn.screens || []).forEach((s, i) => {
     if (!isText(s.title)) err(`learn.screens[${i}]: title is missing`);
     if (s.model) validateModel(s.model, `learn.screens[${i}]`, err);
+    validatePictures(s, `learn.screens[${i}]`);
     if (s.item) validateItem(s.item, `learn.screens[${i}].item`, err, ids);
   });
 
@@ -715,9 +722,11 @@ export function validateLesson(lesson, expectedId) {
     if (!isText(e.title)) err(`${w}: title is missing`);
     if (!Array.isArray(e.steps) || e.steps.length < 2) err(`${w}: needs at least 2 steps`);
     if (e.model) validateModel(e.model, w, err);
+    validatePictures(e, w);
     (e.steps || []).forEach((s, j) => {
       if (!isText(s.say)) err(`${w}.steps[${j}]: "say" is missing`);
       if (s.model) validateModel(s.model, `${w}.steps[${j}]`, err);
+      validatePictures(s, `${w}.steps[${j}]`);
       if (s.eq) { try { if (!(s.eq.includes('/') ? rationalChainHolds(s.eq) : chainHolds(s.eq))) err(`${w}.steps[${j}]: "${s.eq}" is not true`); } catch (e2) { err(`${w}.steps[${j}]: ${e2.message}`); } }
       // A step marked "pictured" must write exactly the decomposition its picture shows, in equation order.
       const m = s.model || e.model;

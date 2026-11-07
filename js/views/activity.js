@@ -6,7 +6,7 @@ import { SKILL_LABEL, SUBJECT, MATH_SKILLS, TEST_HOME, activityInfo, blankSenten
 import { modelFigure } from '../lib/models.js';
 import { PROPERTIES, definitionOf, teacherExample, teacherWord } from '../lib/mathlearn.js';
 import { formatLongDate } from '../lib/dates.js';
-import { blanks, itemCard, readButton, soundButton, unanswered } from './lesson.js';
+import { blanks, itemCard, readButton, soundButton, unanswered, teachingFeedbackFor, coachModels } from './lesson.js';
 import { ICONS, facts, scoreLine, subBar, wordPicture } from './common.js';
 import { packetPage } from './packet.js';
 
@@ -248,7 +248,7 @@ function practiceQuestion(ctx, run) {
   return html`
     ${stageTitle(`Question ${i + 1} of ${run.items.length}`)}
     ${fractionHistory(run, item)}
-    ${itemCard(CHECK, item, 'together', { items: run.items_ })}
+    ${itemCard(run.chapter === 7 ? { ...CHECK, chapter: 7 } : CHECK, item, 'together', { items: run.items_ })}
     <div class="stage-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>` : html`<span></span>`}
       <span class="next-wrap">${ready ? '' : html`<span class="hint" id="next-why">Answer the question to go on.</span>`}
@@ -295,7 +295,7 @@ function testQuestion(ctx, run) {
     ${i === 0 ? html`<div class="notice test-intro"><p>${run.instructions}</p><p class="coverage">This test covers: ${run.coverage}</p></div>` : ''}
     ${half ? html`<p class="notice break-note">Halfway there! Take a short break if you need one. Your answers are kept while this page stays open.</p>` : ''}
     ${fractionHistory(run, item)}
-    ${itemCard(CHECK, item, 'test', { items: run.items_ })}
+    ${itemCard(run.chapter === 7 ? { ...CHECK, chapter: 7 } : CHECK, item, 'test', { items: run.items_ })}
     ${blankList.length ? html`<div class="notice" id="test-warning" tabindex="-1"><p><strong>${blankList.length === 1 ? '1 question has' : `${blankList.length} questions have`} no answer.</strong> Go back to ${blankList.length === 1 ? 'it' : 'them'}, or finish anyway.</p>
       <p class="goto-list"><span>Questions with no answer:</span> ${blankList.map((k) => html`<button type="button" class="btn goto" data-act="goto" data-to="${k}" aria-label="Go to question ${k + 1}">${k + 1}</button>`)}</p></div>` : ''}
     <div class="stage-nav">
@@ -350,6 +350,14 @@ function testResults(ctx, run) {
           ${it.explain ? html`<span>${it.explain}</span>` : ''}
         </li>`)}</ol>` : html`<p>You got every question right!</p>`}
     </div>
+    ${run.chapter === 7 && run.items.some((it) => it.teaching) ? html`<section class="chapter-test-explanations"><h3>Understand every answer</h3>
+      ${run.items.map((it, i) => {
+        const st = run.items_[it.id] || {}, right = st.status === 'correct';
+        const feedback = teachingFeedbackFor({ chapter: 7 }, it, st.resp, st.status) || { text: it.explain, model: it.model, models: it.models };
+        return html`<details class="test-teaching-review" data-resource-test-coach="${it.id}"><summary>Question ${i + 1}: ${right ? 'correct' : 'look again'}</summary>
+          ${reviewPrompt(it)}<p>Your answer: ${given(it, st)}</p><p>Correct answer: ${answerText(it)}</p>
+          <div class="visual-coach" data-coach="test-review"><div class="coach-model">${coachModels(feedback)}</div><p class="coach-instruction">${feedback.text || ''}</p>${readButton(feedback.text, 'why this answer works')}</div></details>`;
+      })}</section>` : ''}
     <div class="stage-nav">
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Take the test again</button>

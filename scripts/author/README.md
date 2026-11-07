@@ -17,3 +17,10 @@ time their script runs (except Lessons 5-1 and 5-2, whose hand-written parts the
 
 Content rules: original problems only (no textbook stories, names or wording), no personal names from the original
 materials, third-grade wording, no division in Lesson 5-7, and the 9s strategy is the 5s fact plus the 4s fact.
+
+
+## Chapter 7 reviewed teaching content
+
+`node scripts/author/chapter7-lessons.mjs [lesson number …]` regenerates the seven original fraction lessons. It applies the approved sample transform in `chapter7-lesson1-teaching.mjs`, then the objective-specific transforms `chapter7-teaching-234.mjs` and `chapter7-teaching-567.mjs`. Edit those authoring modules rather than their generated JSON. `node scripts/author/chapter7-resources.mjs` regenerates chapter-owned resources. Both commands run from the repository root; they do not read or publish the private textbook.
+
+After regeneration, validate the lessons, model geometry, exact grading and actual rendered correct/wrong paths on repository and allowlist-built output. The generators are not semantic teaching reviewers. Follow `docs/TEACHING-QUALITY-ACCEPTANCE.md`, `docs/VISUAL-TEACHING-PATTERN.md` and the expansion review report. The owner approved the sample pattern; production still requires explicit release approval.

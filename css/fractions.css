@@ -174,21 +174,61 @@
   #lesson-stage[data-lesson^="7-"] .coach-model svg { max-height: 2.5in; }
 }
 /* Watch Me already supplies the surrounding card and the adjacent current model. */
-#lesson-stage[data-lesson="7-1"] .visual-coach.watch-coach {
+#lesson-stage[data-lesson^="7-"] .visual-coach.watch-coach {
   padding: 0;
   border: 0;
   background: transparent;
 }
 /* Ordinal counters live inside small rings; the large number-line tick-label rule must not enlarge them. */
-#lesson-stage[data-lesson^="7-"] .model-pic svg [data-count-marker] text {
+#lesson-stage[data-lesson^="7-"] .model-pic svg:not([data-whole-layout="grid"]) [data-count-marker]:not([data-count-interval]) text {
   font-size: 12px;
   font-weight: 800;
 }
 /* Close framing makes the circle, rather than empty side margins, carry the teaching. */
-#lesson-stage[data-lesson="7-1"] .model-pic svg[data-framing="close"] {
+#lesson-stage[data-lesson^="7-"] .model-pic svg[data-framing="close"] {
   width: auto;
   max-width: 100%;
   height: auto;
   max-height: 18rem;
+  margin-inline: auto;
+}
+/* A printed guide includes every worked step, including closed study disclosures. */
+@media print {
+  .frac-guide-step::details-content { content-visibility: visible; }
+  .frac-guide-step > .visual-coach { display: block !important; }
+  .frac-guide-step { break-inside: avoid; }
+}
+.frac-guide-step > summary {
+  min-height: 48px;
+  padding-block: .55rem;
+  align-content: center;
+  cursor: pointer;
+  font-weight: 700;
+}
+.frac-guide-step > summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.frac-guide-step .coach-instruction { line-height: 1.5; }
+.frac-guide-step .coach-model { margin-block: .75rem; }
+.frac-guide-step svg[data-framing="close"] {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 18rem;
+  margin-inline: auto;
+}
+/* Worked steps sit inside the guide's narrow reading column on phones. */
+.frac-resources, .frac-worked-steps, .frac-guide-step,
+.frac-guide-step :is(.visual-coach, .coach-model, .model, .model-pic) {
+  min-width: 0;
+  max-width: 100%;
+}
+.frac-guide-step .model-pic svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
   margin-inline: auto;
 }

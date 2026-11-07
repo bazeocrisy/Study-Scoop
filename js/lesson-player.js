@@ -204,7 +204,7 @@ export function mountLesson(app, ctx, signal) {
     st.tries += 1;
     const historical = historyItem(item.id); if (historical) historical.attempts += 1;
     st.status = r.status;
-    if (lesson.id === '7-1' && item.teaching) {
+    if (isChapter7(lesson.id) && item.teaching) {
       st.teachingFeedback = teachingFeedbackFor(lesson, item, st.resp, r.status);
       if (st.teachingFeedback) {
         st.say = st.teachingFeedback.text; st.coachView = 'feedback';
@@ -220,7 +220,7 @@ export function mountLesson(app, ctx, signal) {
     }
     if (r.status !== 'correct' && st.tries === 1 && (stage !== 'test' || state.misses) && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
-    const visualFeedback = lesson.id === '7-1' && st.teachingFeedback;
+    const visualFeedback = isChapter7(lesson.id) && st.teachingFeedback;
     rerender(visualFeedback ? '[data-coach-heading]' : r.status === 'correct'
       ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]', 'form[data-item] .choices input:not([disabled])']
       : [`form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled]), form[data-item="${item.id}"] textarea:not([readonly])`]);
@@ -231,7 +231,7 @@ export function mountLesson(app, ctx, signal) {
   app.addEventListener('click', (e) => { const a = e.target.closest('a[data-invalid-review]'); if (a) { e.preventDefault(); announce('Compare and review your revised response before continuing.'); } }, { signal });
   app.addEventListener('toggle', (e) => {
     const detail = e.target;
-    if (lesson.id !== '7-1' || stage !== 'test' || !state.submitted || !detail.open || !detail.dataset.testCoach) return;
+    if (!isChapter7(lesson.id) || stage !== 'test' || !state.submitted || !detail.open || !detail.dataset.testCoach) return;
     const st = itemState(detail.dataset.testCoach); if (st.reviewOpened) return;
     st.reviewOpened = true; const record = historyItem(detail.dataset.testCoach);
     if (record) {
@@ -275,7 +275,7 @@ export function mountLesson(app, ctx, signal) {
     }
     // The second click of a double click lands on the redrawn button: it must not skip a question or a step.
     if (e.detail > 1 && ['help', 'next', 'back', 'step-next', 'step-back', 'submit', 'goto', 'misses', 'misses-again', 'misses-exit', 'restart'].includes(act)) return;
-    if (act === 'coach-retry' && form && lesson.id === '7-1') {
+    if (act === 'coach-retry' && form && isChapter7(lesson.id)) {
       const item = items.get(form.dataset.item), st = itemState(item.id);
       if (!item.teaching || st.shown || st.status === 'correct') return;
       saveForm(form); st.coachView = 'answer'; st.say = ''; st.status = 'unanswered';
@@ -293,10 +293,11 @@ export function mountLesson(app, ctx, signal) {
       if (!st.tries || st.status === 'correct' || st.shown) return;
       saveForm(form);
       const steps = lessonHelpSteps(lesson, item);
-      if (lesson.id === '7-1' && item.teaching) st.coachView = 'help';
+      if (isChapter7(lesson.id) && item.teaching) st.coachView = 'help';
       const historical = historyItem(item.id); if (historical) historical.help += 1;
       st.help = Math.min((st.help || 0) + 1, steps.length);
       const last = st.help === steps.length;
+      if (!last && steps[st.help - 1]?.revealsAnswer && historical) historical.reveals += 1;
       if (last) {
         if (historical) historical.reveals += 1;
         st.shown = true;
@@ -308,7 +309,7 @@ export function mountLesson(app, ctx, signal) {
         if (stage === 'together') state.streak = 0;
       }
       announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
-      const visualHelp = lesson.id === '7-1' && item.teaching;
+      const visualHelp = isChapter7(lesson.id) && item.teaching;
       rerender(visualHelp ? '[data-coach-heading]' : last ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]'] : ['[data-act="help"]', 'button[type="submit"]']);
       if (visualHelp) area().querySelector('[data-coach="help"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
       else showNewStep(area());

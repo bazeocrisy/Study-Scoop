@@ -6,6 +6,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {buildLessonOneTeaching} from './chapter7-lesson1-teaching.mjs';
+import {applyChapter7Teaching234} from './chapter7-teaching-234.mjs';
+import {applyChapter7Teaching567} from './chapter7-teaching-567.mjs';
 const OUT=path.resolve('data/lessons');
 const DEN=[2,3,4,6,8];
 const contexts=['art ribbon','garden marker','window panel','trail sign','paper mat','festival flag','reading card','game board','fabric strip','picnic cloth','club badge','seed tray','recipe card','display panel','bookmark','mural strip','gift tag','craft sheet','stage banner','photo frame','class pennant','paint sample','library sign','quilt panel','paper lantern','desk label','team emblem','kite panel','floor mat','party streamer','tote design','cardboard tile','door decoration','table runner','book cover','poster panel','paper fan','display card','wall hanging','puzzle mat','music card','museum label'];
@@ -261,5 +263,7 @@ const targets=process.argv.slice(2).map(Number);for(let k=1;k<=7;k++){
  if(targets.length&&!targets.includes(k))continue;
  let lesson={id:`7-${k}`,chapter:7,title:meta[k][0],goal:meta[k][1],catchAll:meta[k][2],teacher:clone(teacher),glossary:{whole:'the one shape, unit length, complete piece or entire set named in the question',partition:'divide a whole into equal parts',interval:'the distance between neighboring marks on a number line'},learn:intro(k),watch:watches(k),...stages(k),parent:parent(k)};
  if(k===1)lesson=buildLessonOneTeaching(lesson);
+ if(k>=2&&k<=4)lesson=applyChapter7Teaching234(lesson);
+ if(k>=5)lesson=applyChapter7Teaching567(lesson);
  fs.mkdirSync(OUT,{recursive:true});fs.writeFileSync(path.join(OUT,`7-${k}.json`),JSON.stringify(lesson,null,2)+'\n');console.log(`Authored ${lesson.id}: 3 worked examples, 6 guided, 20 Try, 10 test, 1 ungraded written explanation.`);
 }

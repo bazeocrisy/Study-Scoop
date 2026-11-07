@@ -13,6 +13,8 @@ const ICON_SPEAK = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColo
 const VJOIN = html`<svg class="vjoin" viewBox="0 0 72 18" aria-hidden="true" focusable="false"><path d="M6 3 L36 15 L66 3"/></svg>`;
 const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page, this part starts again.';
 
+const hasChapter7Teaching = (lesson) => lesson.chapter === 7 || /^7-[1-7]$/.test(String(lesson.id));
+
 export const stageOf = (stage) => (STAGE_IDS.includes(stage) ? stage : 'learn');
 
 /** "Read to me": reads the text aloud with the device's own voice (the player hides it where speech is unavailable). */
@@ -97,11 +99,12 @@ function stageBody(ctx, lesson, stage, state) {
 
 function learnCard(lesson, s, state) {
   if (s.item) return html`<h3 class="card-title">${s.title}</h3>${itemCard(lesson, s.item, 'learn', state)}`;
+  const pictures = hasChapter7Teaching(lesson) && s.models?.length ? s.models : s.model ? [{ ...s.model, caption: s.caption ?? s.model.caption }] : [];
   const teacher = s.teacher ? (lesson.teacher || []) : [];
   const words = (s.words || []).map((w) => [w, lesson.glossary?.[w]]).filter(([, d]) => d);
   return html`
-    <div class="work${s.model ? ' has-pic' : ''}">
-      ${s.model ? html`<div class="card pic-card">${modelFigure(s.model, s.caption)}</div>` : ''}
+    <div class="work${pictures.length ? ' has-pic' : ''}">
+      ${pictures.length ? html`<div class="card pic-card">${pictures.map((picture) => modelFigure(picture, picture.caption))}</div>` : ''}
       <div class="card">
         <div class="instruct-head"><h3>${s.title}</h3>${readButton([s.title, ...(s.text || []), ...teacher.map((t) => `${t.term}: ${t.def}`), ...(s.pairs || [])], 'this screen')}</div>
         ${(s.text || []).map((t) => html`<p>${t}</p>`)}
@@ -119,17 +122,17 @@ function exampleCard(lesson, ex, idx, state) {
   const step = ex.steps[shown - 1];
   // The picture for the current step: the step's own picture (e.g. the cut before its facts are found),
   // otherwise the example's labelled picture.
-  const pic = step.model || ex.model;
+  const pictures = hasChapter7Teaching(lesson) ? step.models?.length ? step.models : step.model ? [step.model] : ex.models?.length ? ex.models : ex.model ? [ex.model] : [] : [step.model || ex.model].filter(Boolean);
   const done = shown >= ex.steps.length;
   const word = ex.steps.slice(0, shown).map((s) => s.word).filter(Boolean).pop();
   const whyState = state.items?.[ex.why?.id];
   const another = ex.another ? (ex.another.models || [ex.another.model]) : [];
   return html`
-    <div class="work${pic ? ' has-pic' : ''}">
-      ${pic ? html`<div class="card pic-card">${modelFigure(pic)}</div>` : ''}
+    <div class="work${pictures.length ? ' has-pic' : ''}">
+      ${pictures.length ? html`<div class="card pic-card">${pictures.map((picture) => modelFigure(picture, hasChapter7Teaching(lesson) ? picture.caption : undefined))}</div>` : ''}
       <div class="card">
-        <div class="instruct-head"><h3>${ex.title}</h3>${readButton([ex.title, ...(lesson.id === '7-1' && ex.teaching ? [step] : ex.steps.slice(0, shown)).map((s) => (s.eq ? `${s.say} ${s.eq}` : s.say))], 'these steps')}</div>
-        ${lesson.id === '7-1' && ex.teaching ? html`<div class="visual-coach watch-coach"><p class="coach-progress">Step ${shown} of ${ex.steps.length}</p><p class="coach-instruction">${step.say}${step.eq ? html`<span class="eq">${step.eq}</span>` : ''}</p>${shown > 1 ? html`<details><summary>Review earlier steps</summary><ol>${ex.steps.slice(0, shown - 1).map((s) => html`<li>${s.say}</li>`)}</ol></details>` : ''}</div>` : html`<ol class="steps">
+        <div class="instruct-head"><h3>${ex.title}</h3>${readButton([ex.title, ...(hasChapter7Teaching(lesson) && ex.teaching ? [step] : ex.steps.slice(0, shown)).map((s) => (s.eq ? `${s.say} ${s.eq}` : s.say))], 'these steps')}</div>
+        ${hasChapter7Teaching(lesson) && ex.teaching ? html`<div class="visual-coach watch-coach"><p class="coach-progress">Step ${shown} of ${ex.steps.length}</p><p class="coach-instruction">${step.say}${step.eq ? html`<span class="eq">${step.eq}</span>` : ''}</p>${shown > 1 ? html`<details><summary>Review earlier steps</summary><ol>${ex.steps.slice(0, shown - 1).map((s) => html`<li>${s.say}</li>`)}</ol></details>` : ''}</div>` : html`<ol class="steps">
           ${ex.steps.slice(0, shown).map((s, k) => html`
             <li class="${k === shown - 1 ? 'now' : ''}"><span class="sn" aria-hidden="true">${k + 1}</span>
               <span>${s.say}${s.eq ? html`<span class="eq">${s.eq}</span>` : ''}</span></li>`)}
@@ -161,37 +164,48 @@ function sayItem(item) {
   return parts;
 }
 
-/** Pilot-only authored visual teaching; legacy lessons keep their existing Help contract. */
+/** Chapter 7 authored visual teaching; legacy lessons keep their existing Help contract. */
 export function lessonHelpSteps(lesson, item) {
-  if (lesson.id === '7-1' && item.teaching?.steps?.length) return item.teaching.steps.map((s, i, list) => ({ ...s, kind: i === list.length - 1 ? 'show' : 'hint' }));
+  if (hasChapter7Teaching(lesson) && item.teaching?.steps?.length) return item.teaching.steps.map((s, i, list) => ({ ...s, kind: i === list.length - 1 ? 'show' : 'hint' }));
   return helpSteps(item);
 }
 export function teachingFeedbackFor(lesson, item, response, status) {
-  if (lesson.id !== '7-1' || !item.teaching) return null;
+  if (!hasChapter7Teaching(lesson) || !item.teaching) return null;
   const option = item.options?.[Number(response?.choice)]?.text;
   if (status === 'correct') return item.teaching.correct;
   const answer = String(response?.answer ?? '').trim();
   const sameInteger = (value) => /^[-+]?\d+$/.test(answer) && /^[-+]?\d+$/.test(String(value)) && BigInt(answer) === BigInt(String(value));
   const wrong = item.teaching.wrong || [];
+  const int = (value) => /^[-+]?\d+$/.test(String(value ?? '').trim()) ? BigInt(String(value).trim()) : null;
+  const n = int(response?.n), d = int(response?.d), en = int(item.answer?.n), ed = int(item.answer?.d);
+  const fraction = n !== null && d !== null && en !== null && ed !== null;
   const integer = /^[-+]?\d+$/.test(answer) ? BigInt(answer) : null;
   const expected = /^[-+]?\d+$/.test(String(item.answer)) ? BigInt(item.answer) : null;
   const matches = {
+    zeroDenominator: fraction && d === 0n,
+    zeroNumerator: fraction && n === 0n && d > 0n,
+    equivalentPartition: fraction && d > 0n && item.answerPolicy === 'partition' && n * ed === en * d && (n !== en || d !== ed),
+    reversed: fraction && n === ed && d === en && en !== ed,
+    numeratorOnly: fraction && n !== en && d === ed,
+    denominatorOnly: fraction && n === en && d !== ed,
     selectedOnly: integer !== null && integer === BigInt(item.model?.selected?.length || 0),
     insideLines: integer !== null && item.model?.kind === 'bar' && integer === BigInt(item.model.parts - 1),
     tooLow: integer !== null && expected !== null && integer < expected,
     tooHigh: integer !== null && expected !== null && integer > expected,
   };
   return wrong.find((s) => s.option !== undefined && s.option === option)
+    || ['zeroDenominator', 'zeroNumerator'].map((kind) => matches[kind] && wrong.find((s) => s.when === kind)).find(Boolean)
     || wrong.find((s) => s.answer !== undefined && sameInteger(s.answer))
-    || ['selectedOnly', 'insideLines', 'tooLow', 'tooHigh'].map((kind) => matches[kind] && wrong.find((s) => s.when === kind)).find(Boolean)
-    || wrong.find((s) => s.when === 'default' || (s.option === undefined && s.answer === undefined && s.when === undefined));
+    || wrong.find((s) => s.response && Object.entries(s.response).every(([key, value]) => int(response?.[key]) !== null && int(response?.[key]) === int(value)))
+    || ['equivalentPartition', 'reversed', 'numeratorOnly', 'denominatorOnly', 'selectedOnly', 'insideLines', 'tooLow', 'tooHigh'].map((kind) => matches[kind] && wrong.find((s) => s.when === kind)).find(Boolean)
+    || wrong.find((s) => s.when === 'default' || (s.option === undefined && s.answer === undefined && s.response === undefined && s.when === undefined));
 }
 export function coachModels(step) {
   const models = step?.models?.length ? step.models : step?.model ? [step.model] : [];
   return html`${models.map((model) => modelFigure(model, model.caption))}`;
 }
 export function countPartsFor(lesson, item) {
-  return lesson.id === '7-1' && item.teaching?.count ? item.teaching.count.parts || [] : [];
+  return hasChapter7Teaching(lesson) && item.teaching?.count ? item.teaching.count.parts || [] : [];
 }
 export function countComplete(lesson, item, st) {
   const parts = countPartsFor(lesson, item);
@@ -216,7 +230,7 @@ export function itemCard(lesson, item, stage, state) {
   const steps = test ? [] : lessonHelpSteps(lesson, item);
   const opened = st.shown ? steps.length : Math.min(st.help || 0, steps.length);
   const helpAllowed = !test && !done && (st.tries || 0) >= 1 && opened < steps.length;
-  const coached = lesson.id === '7-1' && item.teaching && !test;
+  const coached = hasChapter7Teaching(lesson) && item.teaching && !test;
   const countReady = test || countComplete(lesson, item, st);
   const feedbackMode = coached && st.coachView === 'feedback' && st.teachingFeedback;
   const activeCoach = feedbackMode || (coached && st.coachView !== 'answer' && opened ? steps[Math.min(opened, steps.length) - 1] : null);
@@ -616,11 +630,11 @@ function testResults(ctx, lesson, state) {
       <p class="next-step"><strong>What next?</strong> ${s.missed.length ? 'Press Practice My Misses to learn from the questions you missed. ' : ''}${what.text}</p>
       ${s.missed.length ? html`<h3>Questions to look at again</h3>
         <ul class="review">${s.missed.map((it) => reviewItem(it, shown(it)))}</ul>` : html`<p>You got every question right!</p>`}
-      ${lesson.id === '7-1' && items.some((it) => it.teaching) ? html`<section class="pilot-test-explanations"><h3>Understand every answer</h3>
+      ${hasChapter7Teaching(lesson) && items.some((it) => it.teaching) ? html`<section class="pilot-test-explanations"><h3>Understand every answer</h3>
         <p>Open each question to see the picture and the reason, including answers you got right.</p>
         ${items.map((it, i) => {
           const record = state.items[it.id] || {}, right = record.status === 'correct';
-          const feedback = teachingFeedbackFor(lesson, it, record.resp, record.status) || { text: it.explain, model: it.model };
+          const feedback = teachingFeedbackFor(lesson, it, record.resp, record.status) || { text: it.explain, model: it.model, models: it.models };
           return html`<details class="test-teaching-review" data-test-coach="${it.id}"><summary>Question ${i + 1}: ${right ? 'correct' : 'look again'}</summary>
             <p>${it.prompt}</p><p>Your answer: ${shown(it)}</p><p>Correct answer: ${answerText(it)}</p>
             <div class="visual-coach" data-coach="test-review"><div class="coach-model">${coachModels(feedback)}</div><p class="coach-instruction">${feedback?.text || ''}</p>${feedback?.text ? readButton(feedback.text, 'why this answer works') : ''}</div>

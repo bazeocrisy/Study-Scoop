@@ -75,9 +75,11 @@ try{
  expect(await b.js('return document.activeElement.name==="n";'),'Shift-Tab returns to numerator');
  await fill('input[name="n"]',it.answer.n);await fill('input[name="d"]',it.answer.d+1);await click('form button[type="submit"]');
  expect(await b.js('return document.querySelector("form[data-item]").dataset.state==="notyet";'),'wrong fraction rejected');
- expect(await b.js('return document.activeElement.name==="d";'),'wrong denominator receives correction focus');
+ if(it.teaching) expect(await b.js('return document.activeElement.matches("[data-coach-heading]")&&!!document.querySelector("[data-coach=feedback] .coach-model svg");'),'wrong denominator opens and focuses its visual explanation');
+ else expect(await b.js('return document.activeElement.name==="d";'),'wrong denominator receives correction focus');
  expect(await visible('[data-act="help"]')===1,'wrong fraction unlocks incremental help');
  await click('[data-act="help"]');expect(await visible('.help-panel')===1,'first help step displayed');
+ if(it.teaching) await click('[data-act="coach-retry"]');
  await fill('input[name="n"]',it.answer.n);await fill('input[name="d"]',it.answer.d);await click('form button[type="submit"]');
  expect(await b.js('return document.querySelector("form[data-item]").dataset.state==="correct";'),'exact authored fraction accepted');
  expect(await b.js(`const m=await import('./js/lesson-player.js');const st=m.stateFor(${JSON.stringify(l.id)},'try').items[${JSON.stringify(it.id)}];return st.first==='notyet'&&st.tries>=2&&st.help>=1;`),'corrected fraction retains first miss and help history');
