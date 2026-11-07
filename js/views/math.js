@@ -52,7 +52,7 @@ function chooseChapter(ctx) {
   const now = recommendedChapter(shown, ctx.lessons);
   const lessonCount = (id) => chapterLessons(ctx.lessons, id).length;
   return html`
-    <div class="page-head menu-head subject-math">
+    <div class="page-head section-head menu-head subject-math">
       ${crumbs(ctx, [{ label: 'Math' }])}
       <h1 tabindex="-1">Math</h1>
       <p class="week-of">${shown.label}</p>

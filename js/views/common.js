@@ -5,9 +5,10 @@ import { isWordIllustration } from '../lib/word-illustrations.js';
 const weekTiming = (ctx) => (ctx.shownWeekId || ctx.weekId) > ctx.index.current ? 'an upcoming' : 'an earlier';
 
 /** Page heading shared by every section: the section name and the week being shown. */
-export function pageHead(title, ctx, intro, actions) {
+export function pageHead(title, ctx, intro, actions, subject) {
   return html`
-    <div class="page-head">
+    <div class="page-head section-head${subject ? ` menu-head subject-${subject}` : ''}">
+      ${crumbs(ctx, [{ label: title }])}
       <h1 tabindex="-1">${title}</h1>
       <p class="week-of">${(ctx.shownWeek || ctx.week).label}</p>
       ${intro ? html`<p class="intro">${intro}</p>` : ''}
@@ -123,15 +124,7 @@ export function subjectMenu(ctx, subject, items, { misses = 0 } = {}) {
 /** The first screen of Spelling, Vocabulary and Math. */
 export function menuPage(ctx, subject, { title, context, items, misses, after = '' }) {
   return html`
-    <div class="page-head menu-head subject-${subject}">
-      ${crumbs(ctx, [{ label: title }])}
-      <h1 tabindex="-1">${title}</h1>
-      <p class="week-of">${(ctx.shownWeek || ctx.week).label}</p>
-      ${context ? html`<p class="intro">${context}</p>` : ''}
-    </div>
-    ${ctx.isCurrent ? '' : html`
-      <p class="notice" role="note">You are looking at ${weekTiming(ctx)} week.
-        <a href="${ctx.link(ctx.section, ctx.index.current)}">Go to this week</a></p>`}
+    ${pageHead(title, ctx, context, null, subject)}
     <section class="menu" aria-labelledby="h-menu">
       <h2 id="h-menu" class="ask">What would you like to do?</h2>
       ${subjectMenu(ctx, subject, items, { misses })}
