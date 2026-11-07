@@ -59,3 +59,7 @@ New images depict: juice extracted from orange; butterflies attracted to flower;
 - Targeted November 9 routes: 36 repository and 36 built-site checks passed at six widths; final art refresh checked separately.
 - Six independent specialist reviews completed; findings and corrections described above.
 - Physical-device, print on paper and screen-reader sessions: NOT VERIFIED.
+
+## Chapter 7 follow-up
+
+The originally unavailable fractions chapter is now supplied by the separate Chapter 7 build (`docs/CHAPTER-7-BUILD.md`). The November 9 week recommends Chapter 7 and its availability note is updated. The newsletter definitions and separate weekly word labs remain intact. Chapter 7 preview review replaces the earlier request to accept that gap; no school Math test date is added.

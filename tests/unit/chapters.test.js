@@ -42,17 +42,17 @@ function ctxFor(shownId, { chapterMenu: chMenu = null, page = null } = {}) {
   };
 }
 
-test('the chapter registry: Chapters 5 and 6, each with lessons, a week and all six activities', () => {
+test('the chapter registry: Chapters 5, 6 and 7, each with lessons, a week and all six activities', () => {
   assert.deepEqual(validateChapters(INDEX), []);
   assert.deepEqual(chapterList(INDEX).map((c) => [c.id, c.name, chapterLessons(INDEX, c.id).length]),
-    [[5, 'Multiplication Properties and Strategies', 7], [6, 'Connect Area and Multiplication', 6]]);
+    [[5, 'Multiplication Properties and Strategies', 7], [6, 'Connect Area and Multiplication', 6], [7, 'Fractions', 7]]);
   for (const c of chapterList(INDEX)) assert.deepEqual(chapterMenu(c.id).map((r) => r.role), CHAPTER_ROLES.map((r) => r.role), `Chapter ${c.id}`);
   // The validator catches a chapter with no lessons, a missing activity, and a lesson outside every chapter.
   const bad = clone(INDEX);
-  bad.chapters.push({ id: 7, name: 'Next', title: 'Chapter 7: Next', summary: 'Soon.' });
+  bad.chapters.push({ id: 9, name: 'Next', title: 'Chapter 9: Next', summary: 'Soon.' });
   const errs = validateChapters(bad);
-  assert.ok(errs.some((e) => /chapter 7: has no lessons/.test(e)));
-  assert.ok(errs.some((e) => /chapter 7: its menu has no "Learn Vocabulary"/.test(e)));
+  assert.ok(errs.some((e) => /chapter 9: has no lessons/.test(e)));
+  assert.ok(errs.some((e) => /chapter 9: its menu has no "Learn Vocabulary"/.test(e)));
   const bad2 = clone(INDEX);
   bad2.chapters = bad2.chapters.filter((c) => c.id !== 6);
   assert.ok(validateChapters(bad2).some((e) => /lesson 6-1 has no chapter/.test(e)));
@@ -107,7 +107,7 @@ test('the chosen week never changes a chapter\'s content: Chapter 6 in the Oct 1
 });
 
 test('the week recommends its chapter; the Math library keeps every chapter open', () => {
-  assert.deepEqual(Object.values(WEEK).map((w) => [w.id, recommendedChapter(w, INDEX)?.id]), [['2026-11-09', undefined], ['2026-11-02', 6], ['2026-10-26', 6], ['2026-10-19', 5], ['2026-10-12', 5]]);
+  assert.deepEqual(Object.values(WEEK).map((w) => [w.id, recommendedChapter(w, INDEX)?.id]), [['2026-11-09', 7], ['2026-11-02', 6], ['2026-10-26', 6], ['2026-10-19', 5], ['2026-10-12', 5]]);
   const c5 = chapterList(INDEX)[0], c6 = chapterList(INDEX)[1];
   assert.deepEqual([chapterStatus(c5, WEEK['2026-10-26']), chapterStatus(c6, WEEK['2026-10-26'])], ['Available for review', 'Currently studying']);
   assert.deepEqual([chapterStatus(c5, WEEK['2026-10-19']), chapterStatus(c6, WEEK['2026-10-19'])], ['Currently studying', 'Coming up: open any time']);

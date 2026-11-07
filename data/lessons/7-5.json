@@ -1,0 +1,1407 @@
+{
+  "id": "7-5",
+  "chapter": 7,
+  "title": "Represent Whole Numbers as Fractions",
+  "goal": "I can write a whole number as a fraction with denominator one.",
+  "catchAll": "When each piece is a whole, the denominator is one and the numerator counts the wholes.",
+  "teacher": [
+    {
+      "term": "denominator",
+      "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+    },
+    {
+      "term": "unit fraction",
+      "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+    },
+    {
+      "term": "numerator",
+      "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+    },
+    {
+      "term": "fraction",
+      "def": "A fraction is a number used when a whole is split into equal parts."
+    }
+  ],
+  "glossary": {
+    "whole": "the one shape, unit length, complete piece or entire set named in the question",
+    "partition": "divide a whole into equal parts",
+    "interval": "the distance between neighboring marks on a number line"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Name the whole",
+        "text": [
+          "A whole piece is one part of itself."
+        ],
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 3,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        }
+      },
+      {
+        "title": "Connect the parts",
+        "text": [
+          "A whole number can be written with denominator one.",
+          "When each piece is a whole, the denominator is one and the numerator counts the wholes."
+        ]
+      },
+      {
+        "title": "Check the reasoning",
+        "text": [
+          "Decide whether each object is one whole or whether the entire set is the whole."
+        ]
+      },
+      {
+        "title": "Check the idea",
+        "item": {
+          "id": "r1",
+          "type": "fraction",
+          "prompt": "Each panel in this paper fan model is one whole. Write the number shown as a fraction with denominator one.",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 1,
+            "wholes": 2,
+            "selected": [
+              0,
+              1
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 2,
+            "d": 1
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "Each counted part is one complete whole.",
+            "There are 2 selected whole pieces.",
+            "The fraction is 2/1."
+          ],
+          "yes": "The model represents 2/1."
+        }
+      },
+      {
+        "title": "Check another way",
+        "item": {
+          "id": "r2",
+          "type": "choice",
+          "prompt": "The display card display has 2 whole panels. Each panel is one whole. What does the denominator one mean?",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 1,
+            "wholes": 2,
+            "selected": [
+              0,
+              1
+            ]
+          },
+          "options": [
+            {
+              "text": "Only one panel can be counted.",
+              "why": "Any number of whole pieces can be counted."
+            },
+            {
+              "text": "Each counted piece is a whole.",
+              "correct": true
+            },
+            {
+              "text": "The display has only one panel.",
+              "why": "The numerator counts how many whole panels are present."
+            }
+          ],
+          "show": [
+            "A denominator of one means each counted part is a complete whole."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Explain My Thinking",
+        "item": {
+          "id": "explain",
+          "type": "sentence",
+          "prompt": "Why can a whole number be written with denominator one? Write a complete sentence.",
+          "keywords": [
+            "whole"
+          ],
+          "minKeywords": 0,
+          "minWords": 5,
+          "example": "Each whole is one equal part, so a denominator of one lets the numerator count how many whole pieces there are.",
+          "hints": [
+            "Describe what the whole is and how its parts are counted."
+          ],
+          "show": [
+            "Compare your reasoning with a grown-up or the model response.",
+            "Each whole is one equal part, so a denominator of one lets the numerator count how many whole pieces there are."
+          ]
+        }
+      }
+    ]
+  },
+  "watch": {
+    "examples": [
+      {
+        "title": "Count complete whole pieces",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 3,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "steps": [
+          {
+            "say": "Each panel in this wall hanging model is one whole. Write the number shown as a fraction with denominator one."
+          },
+          {
+            "say": "Each piece is one whole. Count the whole pieces."
+          },
+          {
+            "say": "Each counted part is one complete whole."
+          },
+          {
+            "say": "There are 3 selected whole pieces."
+          },
+          {
+            "say": "The fraction is 3/1."
+          }
+        ],
+        "why": {
+          "id": "w1check",
+          "type": "fraction",
+          "prompt": "Each panel in this wall hanging model is one whole. Write the number shown as a fraction with denominator one.",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 1,
+            "wholes": 3,
+            "selected": [
+              0,
+              1,
+              2
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 3,
+            "d": 1
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "Each counted part is one complete whole.",
+            "There are 3 selected whole pieces.",
+            "The fraction is 3/1."
+          ],
+          "yes": "The model represents 3/1."
+        }
+      },
+      {
+        "title": "Explain the meaning of the counts",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 3,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "steps": [
+          {
+            "say": "There are 3 complete puzzle mats. Each is one whole. A classmate writes 1/3 for their total number. What was mixed up?"
+          },
+          {
+            "say": "Each piece is one whole. Count the whole pieces."
+          },
+          {
+            "say": "When each object is a whole, its denominator is one and the numerator counts the objects."
+          }
+        ],
+        "why": {
+          "id": "w2check",
+          "type": "choice",
+          "prompt": "There are 3 complete puzzle mats. Each is one whole. A classmate writes 1/3 for their total number. What was mixed up?",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 1,
+            "wholes": 3,
+            "selected": [
+              0,
+              1,
+              2
+            ]
+          },
+          "options": [
+            {
+              "text": "Whole numbers cannot be written as fractions.",
+              "why": "Any whole number can be written over one."
+            },
+            {
+              "text": "The classmate treated the collection as one whole instead of counting whole pieces.",
+              "correct": true
+            },
+            {
+              "text": "The classmate correctly counted all whole pieces.",
+              "why": "The total counts 3 whole pieces, not one part of a collection."
+            }
+          ],
+          "show": [
+            "When each object is a whole, its denominator is one and the numerator counts the objects."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Count whole-size intervals on a line",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 7,
+          "point": 6
+        },
+        "steps": [
+          {
+            "say": "Each whole unit is one complete length. Write the marked point with denominator one."
+          },
+          {
+            "say": "Each piece is one whole. Count the whole pieces."
+          },
+          {
+            "say": "Each counted part is one complete whole."
+          },
+          {
+            "say": "The point is 6 intervals from zero."
+          },
+          {
+            "say": "The fraction is 6/1."
+          }
+        ],
+        "why": {
+          "id": "w3check",
+          "type": "fraction",
+          "prompt": "Each whole unit is one complete length. Write the marked point with denominator one.",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 1,
+            "max": 7,
+            "point": 6
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 6,
+            "d": 1
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Find one whole and count the equal intervals within it.",
+            "Count intervals from zero to the marked point."
+          ],
+          "show": [
+            "Each counted part is one complete whole.",
+            "The point is 6 intervals from zero.",
+            "The fraction is 6/1."
+          ],
+          "yes": "The model represents 6/1."
+        }
+      }
+    ]
+  },
+  "together": {
+    "items": [
+      {
+        "id": "g1",
+        "type": "fraction",
+        "prompt": "Each panel in this art ribbon model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 2,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 2 selected whole pieces.",
+          "The fraction is 2/1."
+        ],
+        "yes": "The model represents 2/1."
+      },
+      {
+        "id": "g2",
+        "type": "choice",
+        "prompt": "The garden marker display has 2 whole panels. Each panel is one whole. What does the denominator one mean?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 2,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "options": [
+          {
+            "text": "Only one panel can be counted.",
+            "why": "Any number of whole pieces can be counted."
+          },
+          {
+            "text": "Each counted piece is a whole.",
+            "correct": true
+          },
+          {
+            "text": "The display has only one panel.",
+            "why": "The numerator counts how many whole panels are present."
+          }
+        ],
+        "show": [
+          "A denominator of one means each counted part is a complete whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g3",
+        "type": "fraction",
+        "prompt": "Each panel in this window panel model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 3,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 3 selected whole pieces.",
+          "The fraction is 3/1."
+        ],
+        "yes": "The model represents 3/1."
+      },
+      {
+        "id": "g4",
+        "type": "choice",
+        "prompt": "There are 3 complete trail signs. Each is one whole. A classmate writes 1/3 for their total number. What was mixed up?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 3,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "The classmate correctly counted all whole pieces.",
+            "why": "The total counts 3 whole pieces, not one part of a collection."
+          },
+          {
+            "text": "Whole numbers cannot be written as fractions.",
+            "why": "Any whole number can be written over one."
+          },
+          {
+            "text": "The classmate treated the collection as one whole instead of counting whole pieces.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "When each object is a whole, its denominator is one and the numerator counts the objects."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g5",
+        "type": "fraction",
+        "prompt": "Each panel in this paper mat model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 4,
+          "point": 4
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "The point is 4 intervals from zero.",
+          "The fraction is 4/1."
+        ],
+        "yes": "The model represents 4/1."
+      },
+      {
+        "id": "g6",
+        "type": "choice",
+        "prompt": "The festival flag display has 4 whole panels. Each panel is one whole. What does the denominator one mean?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 4,
+          "point": 4
+        },
+        "options": [
+          {
+            "text": "Each counted piece is a whole.",
+            "correct": true
+          },
+          {
+            "text": "The display has only one panel.",
+            "why": "The numerator counts how many whole panels are present."
+          },
+          {
+            "text": "Only one panel can be counted.",
+            "why": "Any number of whole pieces can be counted."
+          }
+        ],
+        "show": [
+          "A denominator of one means each counted part is a complete whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "number",
+        "prompt": "For this model, what count records the equal parts in one whole?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 5,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "answer": "1",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 1."
+        ],
+        "yes": "The count is 1."
+      },
+      {
+        "id": "t2",
+        "type": "number",
+        "prompt": "For this model, what count records the selected parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 5,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "answer": "5",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 5."
+        ],
+        "yes": "The count is 5."
+      },
+      {
+        "id": "t3",
+        "type": "number",
+        "prompt": "For this model, what count records the equal parts in one whole?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 6,
+          "point": 6
+        },
+        "answer": "1",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 1."
+        ],
+        "yes": "The count is 1."
+      },
+      {
+        "id": "t4",
+        "type": "number",
+        "prompt": "For this model, what count records the intervals from zero to the point?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 6,
+          "point": 6
+        },
+        "answer": "6",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 6."
+        ],
+        "yes": "The count is 6."
+      },
+      {
+        "id": "t5",
+        "type": "number",
+        "prompt": "For this model, what count records the equal parts in one whole?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 7,
+          "point": 7
+        },
+        "answer": "1",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 1."
+        ],
+        "yes": "The count is 1."
+      },
+      {
+        "id": "t6",
+        "type": "number",
+        "prompt": "For this model, what count records the intervals from zero to the point?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 7,
+          "point": 7
+        },
+        "answer": "7",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 7."
+        ],
+        "yes": "The count is 7."
+      },
+      {
+        "id": "t7",
+        "type": "fraction",
+        "prompt": "Each panel in this recipe card model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 2,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 2 selected whole pieces.",
+          "The fraction is 2/1."
+        ],
+        "yes": "The model represents 2/1."
+      },
+      {
+        "id": "t8",
+        "type": "fraction",
+        "prompt": "Each panel in this bookmark model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 3,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 3 selected whole pieces.",
+          "The fraction is 3/1."
+        ],
+        "yes": "The model represents 3/1."
+      },
+      {
+        "id": "t9",
+        "type": "fraction",
+        "prompt": "Each panel in this gift tag model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 4,
+          "point": 4
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "The point is 4 intervals from zero.",
+          "The fraction is 4/1."
+        ],
+        "yes": "The model represents 4/1."
+      },
+      {
+        "id": "t10",
+        "type": "fraction",
+        "prompt": "Each panel in this reading card model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 5,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 5,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 5 selected whole pieces.",
+          "The fraction is 5/1."
+        ],
+        "yes": "The model represents 5/1."
+      },
+      {
+        "id": "t11",
+        "type": "fraction",
+        "prompt": "Each panel in this fabric strip model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 6,
+          "point": 6
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 6,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "The point is 6 intervals from zero.",
+          "The fraction is 6/1."
+        ],
+        "yes": "The model represents 6/1."
+      },
+      {
+        "id": "t12",
+        "type": "fraction",
+        "prompt": "Each panel in this club badge model is one whole. Write the number shown as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 7,
+          "point": 7
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 7,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "Each counted part is one complete whole.",
+          "The point is 7 intervals from zero.",
+          "The fraction is 7/1."
+        ],
+        "yes": "The model represents 7/1."
+      },
+      {
+        "id": "t13",
+        "type": "choice",
+        "prompt": "The picnic cloth display has 6 whole panels. Each panel is one whole. What does the denominator one mean?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 6,
+          "point": 6
+        },
+        "options": [
+          {
+            "text": "The display has only one panel.",
+            "why": "The numerator counts how many whole panels are present."
+          },
+          {
+            "text": "Only one panel can be counted.",
+            "why": "Any number of whole pieces can be counted."
+          },
+          {
+            "text": "Each counted piece is a whole.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "A denominator of one means each counted part is a complete whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t14",
+        "type": "choice",
+        "prompt": "The display panel display has 2 whole panels. Each panel is one whole. What does the denominator one mean?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 2,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "options": [
+          {
+            "text": "Only one panel can be counted.",
+            "why": "Any number of whole pieces can be counted."
+          },
+          {
+            "text": "Each counted piece is a whole.",
+            "correct": true
+          },
+          {
+            "text": "The display has only one panel.",
+            "why": "The numerator counts how many whole panels are present."
+          }
+        ],
+        "show": [
+          "A denominator of one means each counted part is a complete whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t15",
+        "type": "choice",
+        "prompt": "The craft sheet display has 4 whole panels. Each panel is one whole. What does the denominator one mean?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 4,
+          "point": 4
+        },
+        "options": [
+          {
+            "text": "Each counted piece is a whole.",
+            "correct": true
+          },
+          {
+            "text": "The display has only one panel.",
+            "why": "The numerator counts how many whole panels are present."
+          },
+          {
+            "text": "Only one panel can be counted.",
+            "why": "Any number of whole pieces can be counted."
+          }
+        ],
+        "show": [
+          "A denominator of one means each counted part is a complete whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "There are 5 complete game boards. Each is one whole. A classmate writes 1/5 for their total number. What was mixed up?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 5,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "options": [
+          {
+            "text": "Whole numbers cannot be written as fractions.",
+            "why": "Any whole number can be written over one."
+          },
+          {
+            "text": "The classmate treated the collection as one whole instead of counting whole pieces.",
+            "correct": true
+          },
+          {
+            "text": "The classmate correctly counted all whole pieces.",
+            "why": "The total counts 5 whole pieces, not one part of a collection."
+          }
+        ],
+        "show": [
+          "When each object is a whole, its denominator is one and the numerator counts the objects."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "There are 7 complete seed trays. Each is one whole. A classmate writes 1/7 for their total number. What was mixed up?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 7,
+          "point": 7
+        },
+        "options": [
+          {
+            "text": "The classmate treated the collection as one whole instead of counting whole pieces.",
+            "correct": true
+          },
+          {
+            "text": "The classmate correctly counted all whole pieces.",
+            "why": "The total counts 7 whole pieces, not one part of a collection."
+          },
+          {
+            "text": "Whole numbers cannot be written as fractions.",
+            "why": "Any whole number can be written over one."
+          }
+        ],
+        "show": [
+          "When each object is a whole, its denominator is one and the numerator counts the objects."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "There are 3 complete mural strips. Each is one whole. A classmate writes 1/3 for their total number. What was mixed up?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 3,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "The classmate correctly counted all whole pieces.",
+            "why": "The total counts 3 whole pieces, not one part of a collection."
+          },
+          {
+            "text": "Whole numbers cannot be written as fractions.",
+            "why": "Any whole number can be written over one."
+          },
+          {
+            "text": "The classmate treated the collection as one whole instead of counting whole pieces.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "When each object is a whole, its denominator is one and the numerator counts the objects."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t19",
+        "type": "number",
+        "prompt": "The point counts complete units. What whole number does the fraction with denominator one represent?",
+        "answer": "5",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 1,
+          "max": 8,
+          "point": 5
+        },
+        "hints": [
+          "Identify the whole and which count is missing."
+        ],
+        "show": [
+          "Five whole-size intervals reach the point, so the whole number is five."
+        ],
+        "yes": "Five whole-size intervals reach the point, so the whole number is five."
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "There are seven complete panels. Each panel is defined as one whole. A student writes 7/7. Which explanation corrects the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 1,
+          "wholes": 7,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "options": [
+          {
+            "text": "The numerator should be one because the panels match.",
+            "why": "The numerator must count all seven complete wholes."
+          },
+          {
+            "text": "Each panel is a whole part, so the count should be seven over one.",
+            "correct": true
+          },
+          {
+            "text": "Seven panels must always be one whole set.",
+            "why": "That would redefine the whole against the question."
+          }
+        ],
+        "show": [
+          "The denominator is one because every counted part is a complete whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "test": {
+    "pass": 8,
+    "items": [
+      {
+        "id": "x1",
+        "type": "fraction",
+        "prompt": "Each circular chip is one whole. Write the number of chips over one.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 4,
+          "selected": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 4 selected whole pieces.",
+          "The fraction is 4/1."
+        ],
+        "yes": "The model represents 4/1."
+      },
+      {
+        "id": "x2",
+        "type": "fraction",
+        "prompt": "Each complete round seal counts as one whole. Write the total as a fraction with denominator one.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 6,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 6,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 6 selected whole pieces.",
+          "The fraction is 6/1."
+        ],
+        "yes": "The model represents 6/1."
+      },
+      {
+        "id": "x3",
+        "type": "fraction",
+        "prompt": "Each disk is a whole. Use denominator one to name the number shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 2,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 2 selected whole pieces.",
+          "The fraction is 2/1."
+        ],
+        "yes": "The model represents 2/1."
+      },
+      {
+        "id": "x4",
+        "type": "number",
+        "prompt": "What numerator completes a fraction with denominator one that represents seven whole pieces?",
+        "answer": "7",
+        "show": [
+          "The numerator counts seven complete wholes."
+        ],
+        "yes": "The numerator counts seven complete wholes."
+      },
+      {
+        "id": "x5",
+        "type": "number",
+        "prompt": "What denominator lets a numerator of five count five complete wholes?",
+        "answer": "1",
+        "show": [
+          "Each counted piece is one whole, so the denominator is one."
+        ],
+        "yes": "Each counted piece is one whole, so the denominator is one."
+      },
+      {
+        "id": "x6",
+        "type": "choice",
+        "prompt": "Which description fits 4/1?",
+        "options": [
+          {
+            "text": "Four complete wholes.",
+            "correct": true
+          },
+          {
+            "text": "One part of a four-object set.",
+            "why": "One part of a four-object set is one-fourth."
+          },
+          {
+            "text": "Four parts of a whole divided into four.",
+            "why": "Four parts of four would cover one whole."
+          }
+        ],
+        "show": [
+          "With denominator one, each counted part is a whole."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "A point is labeled 9/1 on a number line of whole units. Which whole-number label belongs at that same point?",
+        "options": [
+          {
+            "text": "One.",
+            "why": "The numerator counts nine whole units."
+          },
+          {
+            "text": "Zero.",
+            "why": "Nine units have been traveled from zero."
+          },
+          {
+            "text": "Nine.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Nine whole units is the whole number nine."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x8",
+        "type": "choice",
+        "prompt": "A student writes 1/5 for five whole paper squares, although each square is one whole. What is the correct fraction?",
+        "options": [
+          {
+            "text": "1/1.",
+            "why": "One-over-one describes just one whole."
+          },
+          {
+            "text": "5/1.",
+            "correct": true
+          },
+          {
+            "text": "5/5.",
+            "why": "Five-fifths describes one partitioned whole."
+          }
+        ],
+        "show": [
+          "Count five complete wholes, each with one whole part."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x9",
+        "type": "fraction",
+        "prompt": "Every selected circle is one whole piece. Write their count as a fraction over one.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 1,
+          "wholes": 7,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 7,
+          "d": 1
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "Each counted part is one complete whole.",
+          "There are 7 selected whole pieces.",
+          "The fraction is 7/1."
+        ],
+        "yes": "The model represents 7/1."
+      },
+      {
+        "id": "x10",
+        "type": "choice",
+        "prompt": "Which question must you settle before naming a collection of objects as a fraction?",
+        "options": [
+          {
+            "text": "Are all objects the same color?",
+            "why": "Color alone does not define the whole."
+          },
+          {
+            "text": "Are the objects arranged in a straight row?",
+            "why": "Arrangement alone does not define the whole."
+          },
+          {
+            "text": "Does each object count as one whole, or is the entire collection the whole?",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The question’s definition of the whole determines the denominator."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "I can write a whole number as a fraction with denominator one."
+      },
+      {
+        "heading": "Ask for reasoning",
+        "list": [
+          "Why can a whole number be written with denominator one?",
+          "What is the whole in this model? How do you know the parts are equal?",
+          "Can you explain the same idea with another picture or real objects?"
+        ]
+      },
+      {
+        "heading": "Try it away from the screen",
+        "list": [
+          "Put several identical whole paper squares on a table. Count them and write the count over one.",
+          "Let your child explain a mistake before offering a correction."
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Treating several complete wholes as parts of one set when the question says each piece is a whole.",
+          "Changing the whole halfway through a question."
+        ]
+      },
+      {
+        "heading": "About these questions",
+        "text": "These are original Study Scoop lessons aligned to the supplied chapter map. They are practice, not the teacher’s actual test. Written explanations are for comparison with a grown-up and are not automatically judged for mathematical meaning."
+      }
+    ]
+  }
+}

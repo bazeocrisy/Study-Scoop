@@ -2,6 +2,8 @@
 // a × b is drawn as a rows of b. A cut goes between rows (splits the first factor) or between
 // columns (splits the second factor), never through a dot. Colours come from CSS classes (no style attributes).
 
+import { fractionSvg, describeFraction } from './fraction-models.js';
+import { fractionOfModel } from './fractions.js';
 import { html, raw } from './html.js';
 import { areaModelSvg, describeArea, gridCounts, shapeArea } from './shapes.js';
 
@@ -13,6 +15,7 @@ const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 /** Accessible description of a model (what is drawn, never the answer to a question). */
 export function describe(m) {
+  if (m.type === 'fraction') return describeFraction(m);
   if (m.type === 'grid' || m.type === 'shape') return describeArea(m);
   if (m.type === 'numberline') return `A number line from ${m.from} to ${m.to}${m.mid ? `, with ${(m.from + m.to) / 2} marked in the middle` : ''}, and a dot at ${m.dot}.`;
   if (m.type === 'plates') {
@@ -166,6 +169,7 @@ function platesSvg(m) {
 
 /** Counts used by tests: how many dots/tiles/plates are drawn in each part. */
 export function counts(m) {
+  if (m.type === 'fraction') return fractionOfModel(m);
   if (m.type === 'grid') return gridCounts(m);
   if (m.type === 'shape') return { area: shapeArea(m) };
   if (m.type === 'plates') return { plates: m.plates, dots: m.plates * m.each };
@@ -180,6 +184,7 @@ export function counts(m) {
 /** A model as accessible markup: <figure> with the picture and an optional caption. */
 /** A picture spec reduced to known words and whole numbers, so nothing else can reach the SVG markup. */
 function clean(m) {
+  if (m.type === 'fraction') return { type: 'fraction', kind: m.kind, parts: m.parts, wholes: m.wholes, max: m.max, point: m.point, selected: m.selected, weights: m.weights };
   const int = (v) => Math.max(0, Math.min(144, Math.trunc(Number(v)) || 0));
   const pick = (v, list) => (list.includes(v) ? v : undefined);
   const arr = (a) => ({
@@ -211,7 +216,9 @@ function numberLineSvg(m) {
 export function modelFigure(model, caption) {
   const m = clean(model);
   let svg;
-  if (m.type === 'grid' || m.type === 'shape') {
+  if (m.type === 'fraction') {
+    svg = fractionSvg(m);
+  } else if (m.type === 'grid' || m.type === 'shape') {
     svg = areaModelSvg(m);
   } else if (m.type === 'plates') {
     svg = m.plates === 0 ? '<span class="m-none">no plates</span>' : platesSvg(m);

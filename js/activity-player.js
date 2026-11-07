@@ -8,12 +8,14 @@ import { PROPERTIES } from './lib/mathlearn.js';
 import { SKILL_SETS, timesFamilyFlash, timesFamilyPractice, timesFamilyFind } from './lib/skills.js';
 import { AREA_CARDS, AREA_SETS, areaItems, areaVocabWords } from './lib/area.js';
 import { packetItems } from './lib/homework.js';
+import { FRACTION_VOCAB_MODES, FRACTION_PRACTICE_ACTS, fractionVocabItems, fractionPracticeItems } from './lib/chapter7.js';
 import { html } from './lib/html.js';
 import { activityInner, timesFlashView, timesFindView } from './views/activity.js';
 import { skillsView } from './views/skills.js';
 import { unanswered } from './views/lesson.js';
 
 const runs = new Map();    // "week:section:act" -> run
+const fractionHistories = new Map(); // Chapter 7 assistance, held only until this tab reloads.
 const misses = new Map();  // "week:subject" -> Map(key -> { item, fromMark })
 
 const missMap = (weekId, subject) => {
@@ -22,7 +24,7 @@ const missMap = (weekId, subject) => {
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
-export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'area', 'areavocab', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
+export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'area', 'areavocab', 'fractions', 'fractionvocab', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
 // (Rounding questions also have a number `n`, but they are kept by their own id, which names the number and the place.)
@@ -40,7 +42,7 @@ const seed = () => (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
 /** A choice question with its options in a new order (True/False stays in order). */
 const reshuffle = (item, rand) => (item.type === 'choice' && item.options.length > 2 ? { ...item, options: shuffle(item.options, rand) } : item);
 /** What the cards of a card activity show: spelling words, vocabulary words, or the four math properties. */
-const cardsFor = (ctx, subject, act) => (AREA_CARDS.includes(act) ? areaVocabWords(ctx.area) : subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
+const cardsFor = (ctx, subject, act) => (subject === 'math' && ctx.chapter?.id === 7 ? (ctx.fractions?.vocabulary || []) : AREA_CARDS.includes(act) ? areaVocabWords(ctx.area) : subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
 
 function newRun(ctx, section, act) {
   const rand = rng(seed());
@@ -53,6 +55,19 @@ function newRun(ctx, section, act) {
     return { ...base, ...t, subject: act, group: chapter === 6 ? 'area' : act, act, mode: 'test', chapter, goal: `${t.topic} · ${t.items.length} questions` };
   }
   const info = activityInfo(section, act);
+  if (section === 'math' && info?.chapter === 7) {
+    const run = { ...base, subject: section, chapter: 7, group: missGroup(section, act), act, mode: info.test ? 'test' : 'practice', title: info.label, goal: info.about };
+    const historyKey = `${ctx.weekId}:${run.group}`;
+    if (!fractionHistories.has(historyKey)) fractionHistories.set(historyKey, {});
+    run.history = fractionHistories.get(historyKey);
+    if (!ctx.fractions) return { ...run, unavailable: true };
+    if (info.test) return { ...run, ...ctx.fractions.test, items: ctx.fractions.test.items.map((x) => JSON.parse(JSON.stringify(x))), kind: 'math', chapter: 7 };
+    if (act === 'fvflash') run.flash = { order: ctx.fractions.vocabulary.map((_, i) => i), i: 0, flipped: false, marks: {} };
+    else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
+    else if (FRACTION_VOCAB_MODES[act]) run.items = fractionVocabItems(ctx.fractions, FRACTION_VOCAB_MODES[act], rand);
+    else if (FRACTION_PRACTICE_ACTS.includes(act)) run.items = fractionPracticeItems(ctx.fractions, act, rand);
+    return run;
+  }
   // A Math chapter's practice test (D26): the chapter's own test, taken inside the chapter (no Help until the end).
   if (section === 'math' && info.test) {
     const t = testFor('math', ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);
@@ -87,7 +102,7 @@ export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
-  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (activityInfo(section, act)?.test && section === 'math' ? ctx.tests : WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] || AREA_CARDS.includes(act) ? ctx.area : ctx.practice));
+  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (activityInfo(section, act)?.chapter === 7 ? ctx.fractions : activityInfo(section, act)?.test && section === 'math' ? ctx.tests : WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] || AREA_CARDS.includes(act) ? ctx.area : ctx.practice));
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
     if (isMissesAct(old.act)) {
@@ -99,6 +114,16 @@ export function runFor(ctx, section, act) {
   const run = newRun(ctx, section, act);
   if (run) runs.set(key, run);
   return run;
+}
+
+/** Keep help/reveal history separate from a fresh round's first-attempt score. */
+function noteFractionHistory(run, item, kind) {
+  if (run.chapter !== 7 || !run.history) return;
+  const id = item.id.replace(/^test-/, '');
+  const entry = run.history[id] ||= { help: 0, revealed: false, checks: 0 };
+  if (kind === 'check') entry.checks++;
+  if (kind === 'help') entry.help++;
+  if (kind === 'reveal') entry.revealed = true;
 }
 
 // ---------------------------------------------------------------- speech
@@ -277,6 +302,7 @@ export function mountActivity(app, ctx, signal) {
     }
     st.lastChecked = keyed;
     st.tries += 1;
+    noteFractionHistory(run, item, 'check');
     st.status = r.status;
     if (!st.first) { st.first = r.status; noteFirst(item, r.status); }
     if (r.status !== 'correct' && st.tries === 1 && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
@@ -332,7 +358,9 @@ export function mountActivity(app, ctx, signal) {
       const steps = helpSteps(item);
       st.help = Math.min((st.help || 0) + 1, steps.length);
       const last = st.help === steps.length;
+      noteFractionHistory(run, item, 'help');
       if (last) {
+        noteFractionHistory(run, item, 'reveal');
         st.shown = true;
         st.resp = Object.fromEntries(Object.entries(solution(item)).map(([k, v]) => [k, String(v)]));
         if (!st.first) { st.first = 'shown'; noteFirst(item, 'shown'); }
@@ -369,6 +397,8 @@ export function mountActivity(app, ctx, signal) {
       for (const it of run.items) {
         const st = itemState(it.id);
         st.status = check(it, st.resp, {}).status === 'correct' ? 'correct' : 'notyet';
+        noteFractionHistory(run, it, 'check');
+        if (st.status !== 'correct') noteFractionHistory(run, it, 'reveal');
         // Missed spelling and vocabulary test questions go to Practice My Misses in their practice form (with hints).
         if (st.status !== 'correct' && run.subject === 'spelling') {
           addMiss(ctx.weekId, 'spelling', spellItem(ctx.week.spelling.words[it.n - 1], ctx.week.spelling));
@@ -418,7 +448,7 @@ export function mountActivity(app, ctx, signal) {
       f.flipped = !f.flipped;
       const w = cardWord();
       const rule = run.act === 'avflash' ? '' : ctx.week.spelling.rules?.[w.rule];
-      const backSays = run.act === 'avflash' ? `Back of the card: ${w.word}. ${w.example}` : `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}`;
+      const backSays = run.act === 'fvflash' ? `Back of the card: ${w.word}. ${w.def}. ${w.example}` : run.act === 'avflash' ? `Back of the card: ${w.word}. ${w.example}` : `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}`;
       if (!btn.classList.contains('flashcard')) announce(f.flipped ? backSays : 'Front of the card.');
       // Keep focus where it was: on the card itself, or on the Flip Card button.
       rerender(btn.classList.contains('flashcard') ? '.flashcard' : '.flip-btn');

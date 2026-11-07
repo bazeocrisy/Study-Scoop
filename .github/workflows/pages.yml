@@ -27,7 +27,7 @@ jobs:
     name: Test, build and verify
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     permissions:
       contents: read
     steps:
@@ -45,6 +45,10 @@ jobs:
         run: node scripts/build-site.js _site
       - name: Browser tests (built site, as published)
         run: node tests/browser.test.js --site _site
+      - name: Weekly labs and responsive layout (built site)
+        run: node tests/weekly-labs.browser.js --site _site && node tests/layout.browser.js --site _site
+      - name: Chapter 7 fraction journeys (built site)
+        run: node tests/chapter7.browser.js --site _site && node tests/chapter7-assessment.browser.js --site _site
       - name: November homework journeys (built site)
         run: node tests/homework-nov02.browser.js --site _site
 
@@ -52,7 +56,7 @@ jobs:
     name: Test and build production + preview
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 60
     permissions:
       contents: read
     steps:
@@ -88,6 +92,19 @@ jobs:
       - name: November homework journeys (production build)
         working-directory: main
         run: node tests/homework-nov02.browser.js --site "$GITHUB_WORKSPACE/_site"
+      - name: Weekly labs and responsive layout (production build)
+        working-directory: main
+        run: node tests/weekly-labs.browser.js --site "$GITHUB_WORKSPACE/_site" && node tests/layout.browser.js --site "$GITHUB_WORKSPACE/_site"
+      - name: Chapter 7 fraction journeys (production build, once released)
+        if: ${{ hashFiles('main/tests/chapter7.browser.js') != '' }}
+        working-directory: main
+        run: node tests/chapter7.browser.js --site "$GITHUB_WORKSPACE/_site" && node tests/chapter7-assessment.browser.js --site "$GITHUB_WORKSPACE/_site"
+      - name: Weekly labs and responsive layout (preview build)
+        working-directory: develop
+        run: node tests/weekly-labs.browser.js --site "$GITHUB_WORKSPACE/_preview" && node tests/layout.browser.js --site "$GITHUB_WORKSPACE/_preview"
+      - name: Chapter 7 fraction journeys (preview build)
+        working-directory: develop
+        run: node tests/chapter7.browser.js --site "$GITHUB_WORKSPACE/_preview" && node tests/chapter7-assessment.browser.js --site "$GITHUB_WORKSPACE/_preview"
       - name: Put the preview under /preview/
         run: |
           mv "$GITHUB_WORKSPACE/_preview" "$GITHUB_WORKSPACE/_site/preview"
