@@ -4,13 +4,15 @@ This chapter follows the owner-supplied reference's seven-lesson sequence. The r
 
 ## Scope and content
 
-1. Partition shapes into equal parts.
-2. Understand fractions as selected equal parts of a specified whole.
-3. Represent fractions on number lines.
-4. Represent one whole as a fraction.
-5. Represent whole numbers as fractions.
-6. Represent fractions greater than one on number lines.
-7. Understand unit fractions as parts of sets.
+1. Partition shapes into equal parts (reference pages 3–6).
+2. Understand fractions as selected equal parts of a specified whole (pages 7–10).
+3. Represent fractions on number lines (pages 13–16).
+4. Represent one whole as a fraction (pages 17–20).
+5. Represent whole numbers as fractions (pages 21–24).
+6. Represent fractions greater than one on number lines (pages 25–28).
+7. Understand unit fractions as parts of sets (pages 29–32).
+
+The introduction/equal-sharing pages 1–2 and diagnostic pages 11–12 inform the original Learn/checkpoint sequence. Review pages 33–35 inform cumulative coverage; application page 36 informs the original ungraded performance tasks; pages 37–38 inform the separate optional fluency supplement.
 
 Each lesson includes Learn It, three worked Watch Me examples, six guided questions, twenty independent questions and a separate ten-question practice test. Written explanations in Learn It are reflection checkpoints, not semantically graded answers. A learner compares an original response with an example and completes a self/parent review checklist. Edits invalidate comparison and review for the previous response; a fresh review is required. The chapter pack adds six vocabulary terms, twenty questions per vocabulary mode, fifty mixed practice questions, a seven-section printable study guide, a twenty-eight-question cumulative practice test, four ungraded performance tasks and twelve optional fluency questions. Cumulative coverage is four questions per lesson. These are Study Scoop study tests; no school Math test date is announced.
 
@@ -44,6 +46,7 @@ Desktop Chrome automation and generated print output do not establish usability 
 ## Verification evidence
 
 - Full unit suite: 282 passing tests, including legacy chapter assertions and new rational/assessment regressions.
+- Generic browser regression adaptation: 11 focused checks passed, including complete Learn → Watch → guided → 20 Try → misses → ten-question test journeys for all seven lessons. Registry expectations include the new chapter while historical Chapter 5/6 assertions remain strict.
 - Dedicated Chapter 7 browser suite: 547 checks passed on the repository and 547 on a fresh allowlisted build.
 - Focused assessment browser suite: three complete journeys passed on repository and built output, including help/reveal → restart → parent summary and writing → checklist → review → edit → fresh review. Five focused assessment state tests also pass.
 - Independent mathematical QA recomputed all eight chapter JSON files from model geometry with no answer errors. Reviewers checked semantic freshness, not just different item IDs. Both author scripts reproduce all eight JSON files byte for byte.

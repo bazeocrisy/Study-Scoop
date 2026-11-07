@@ -16,6 +16,8 @@ const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vo
   ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
 const L51 = readJSON('data/lessons/5-1.json');
+const CHAPTERS = readJSON('data/lessons/index.json').chapters;
+const CHAPTER_TITLES = CHAPTERS.map(c => c.title);
 // Weeks (data/weeks.json): Oct 26–30 is the current week. Checks written for Oct 19–23 (Unit 5, the "-ing" words,
 // the first Winn-Dixie test) choose that week explicitly with H19(); Oct 26–30 has its own checks (H26 = no week).
 const OCT19 = '2026-10-19';
@@ -449,7 +451,7 @@ async function main() {
       // with the same teacher's words (from Oct 19).
       await b.load(url(inWeek('#math', id)));
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
-        ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication'], 'Choose Your Chapter');
+        CHAPTER_TITLES, 'Choose Your Chapter');
       await go(`.menu-card[href="${inWeek('#math?ch=5', id)}"]`);
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent);'),
         ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test'], 'the six Chapter 5 activities');
@@ -681,16 +683,17 @@ async function main() {
     await check('Math > Choose Your Chapter > Chapter N > Math Lessons: each chapter lists only its own open lessons; Start opens Learn It', async () => {
       await b.load(url('#math'));
       eq(await b.js('return [document.querySelector("#app h1").textContent, document.querySelector(".menu .ask").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent)];'),
-        ['Math', 'Choose Your Chapter', ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication']], 'Choose Your Chapter');
+        ['Math', 'Choose Your Chapter', CHAPTER_TITLES], 'Choose Your Chapter');
       eq(await b.js('return [...document.querySelectorAll("#app a")].filter((a) => /[?&](lesson|act)=/.test(a.getAttribute("href") || "")).length;'), 0, 'no lessons or activities before a chapter is chosen');
-      for (const [ch, start] of [[5, '5-6'], [6, '6-3']]) {
+      for (const [ch, start] of [[5, '5-6'], [6, '6-3'], [7, '7-4']]) {
         if (ch !== 5) await b.hash('#math'); // Chapter 5 starts from the Math page already open
         await go(`.menu-card[href="#math?ch=${ch}"]`);
         eq(await b.js('return document.querySelector("#app h1").textContent;'), LESSON_CHAPTERS.find((c) => c.id === ch).title, `Chapter ${ch} menu`);
         await go(`.menu-card[href="#math?act=ch${ch}"]`);
         const list = LESSON_INDEX.filter((l) => l.chapter === ch);
         eq(await b.js('return [...document.querySelectorAll(".lesson-card .lesson-num")].map((n) => n.textContent);'), list.map((l) => l.id), `Chapter ${ch}: its lessons in order`);
-        eq(await b.js('return [...document.querySelectorAll(".lesson-card .strategy")].map((n) => n.textContent.replace("Strategy", "").trim());'), list.map((l) => l.strategy), 'strategies');
+        if (ch === 7) eq(await b.js('return [...document.querySelectorAll(".lesson-card p")].map(n => n.textContent.trim());'), list.map(l => l.summary || l.strategy), 'fraction lesson goals');
+        else eq(await b.js('return [...document.querySelectorAll(".lesson-card .strategy")].map((n) => n.textContent.replace("Strategy", "").trim());'), list.map((l) => l.strategy), 'strategies');
         eq(await b.js('return document.querySelectorAll(".lesson-card [disabled], .lesson-card .locked").length;'), 0, 'nothing is locked');
         await go(`.lesson-card a.btn-primary[href="#math?lesson=${start}&stage=learn"]`);
         eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [`#math?lesson=${start}&stage=learn`, LESSON_INDEX.find((l) => l.id === start).title], `Lesson ${start} opens`);
@@ -702,8 +705,23 @@ async function main() {
       await check(`Lesson ${meta.id} end to end: Learn It, Watch Me, Practice Together, Try It Yourself (20) with misses, Test`, async () => {
         await b.load(url(lessonHash(meta.id, 'learn')));
         // Learn It: answer each check, then go on.
+        const correctFeedback = async (item) => {
+          const text = await fb();
+          if (meta.chapter === 7) expect(text.includes(item.yes || 'Yes!'), `${item.id}: authored correct feedback (${text})`);
+          else expect(text.startsWith('Yes!'), `${item.id}: ${text}`);
+        };
         for (const [k, s] of L.learn.screens.entries()) {
-          if (s.item?.type === 'sentence') {
+          if (s.item?.type === 'sentence' && meta.chapter === 7) {
+            eq(await b.js('return document.querySelector(".stage-nav .btn-primary")?.disabled ?? true;'), true, 'written review waits for response');
+            await answer(s.item, {text: ''}); await checkAnswer(s.item);
+            expect(!(await b.js('return !!document.querySelector("[data-written-review]");')), 'blank response has no comparison');
+            await answer(s.item, {text: s.item.example}); await checkAnswer(s.item);
+            expect(await b.js(`return document.querySelector('[data-written-review]').textContent.includes(${JSON.stringify(s.item.example)});`), 'model reasoning shown for comparison');
+            eq(await b.js('return document.querySelectorAll("[data-review-check]").length;'), 3, 'three review checks');
+            await b.js('for (const el of document.querySelectorAll("[data-review-check]")) { el.checked = true; el.dispatchEvent(new Event("change", {bubbles:true})); }');
+            await press('[data-act=review-written]');
+            expect(await b.js('return !!document.querySelector("[data-written-complete]");'), 'review completed without grading meaning');
+          } else if (s.item?.type === 'sentence') {
             // Explain My Thinking: a too-short answer is coached, a real sentence is compared with a model answer, never marked "right".
             eq(await b.js('return document.querySelector("[data-act=next]")?.disabled ?? true;'), true, `${s.item.id}: Next waits for an attempt`);
             await answer(s.item, { text: 'Short.' }); await checkAnswer(s.item);
@@ -712,7 +730,7 @@ async function main() {
             const cmp = await b.js('return document.querySelector("#lesson-stage .feedback.compare")?.textContent.replace(/\\s+/g, " ") || "";');
             expect(cmp.includes('Compare your answer') && cmp.includes(s.item.example), `${s.item.id}: the model answer is shown for comparison`);
             expect(!/\bYes!|Correct|mastered/i.test(cmp.replace(s.item.example, '')), `${s.item.id}: a sentence is never marked right`);
-          } else if (s.item) { await solve(s.item); expect((await fb()).startsWith('Yes!'), `${s.item.id}: ${await fb()}`); }
+          } else if (s.item) { await solve(s.item); await correctFeedback(s.item); }
           if (k < L.learn.screens.length - 1) await press('[data-act="next"]');
         }
         await go('.stage-nav a.btn-primary[href$="stage=watch"]');
@@ -733,7 +751,7 @@ async function main() {
             eq(await b.js('return document.querySelectorAll(".help-steps li").length;'), 1, `${item.id}: one Help step`);
           }
           await solve(item);
-          expect((await fb()).startsWith('Yes!'), `${item.id}: ${await fb()}`);
+          await correctFeedback(item);
           if (k < L.together.items.length - 1) await press('[data-act="next"]');
         }
         await go('.stage-nav a.btn-primary[href$="stage=try"]');
@@ -747,7 +765,7 @@ async function main() {
             expect((await fb()).startsWith('Not yet'), `${item.id}: wrong answer gets "Not yet" (${await fb()})`);
           }
           await solve(item);
-          expect((await fb()).startsWith('Yes!'), `${item.id}: ${await fb()}`);
+          await correctFeedback(item);
           await press('[data-act="next"]');
         }
         eq(await stageTitle(), 'Try It Yourself: your results', 'results');
@@ -779,7 +797,7 @@ async function main() {
         const chapter = LESSON_INDEX.filter((l) => l.chapter === meta.chapter);
         const k = chapter.findIndex((l) => l.id === meta.id);
         const primary = await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");');
-        eq(primary, k < chapter.length - 1 ? lessonHash(chapter[k + 1].id, 'learn') : meta.chapter === 5 ? '#math?act=guide' : '#math?act=ch6guide', 'what next: the next lesson, or the chapter\'s Study Guide');
+        eq(primary, k < chapter.length - 1 ? lessonHash(chapter[k + 1].id, 'learn') : meta.chapter === 5 ? '#math?act=guide' : `#math?act=ch${meta.chapter}guide`, 'what next: the next lesson, or the chapter\'s Study Guide');
         await go(`.stage-nav a.btn[href="#math?act=ch${meta.chapter}"]`);
         eq(await b.js('return document.querySelector("#app h1").textContent;'), `Chapter ${meta.chapter} Lessons`, 'Back to Lessons (the chapter\'s own list)');
       });
@@ -1203,10 +1221,10 @@ async function main() {
         spelling: ['Learn My Words', 'Study Cards', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses'],
         vocab: ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'],
         // Math opens on Choose Your Chapter (D26); each card opens a chapter menu.
-        math: ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication'],
+        math: CHAPTER_TITLES,
       };
       const ASK = { spelling: 'What would you like to do?', vocab: 'What would you like to do?', math: 'Choose Your Chapter' };
-      const CRUMB = (subject, k, label) => (subject === 'math' ? `Chapter ${k + 5}` : label);
+      const CRUMB = (subject, k, label) => (subject === 'math' ? `Chapter ${CHAPTERS[k].id}` : label);
       const NAME = { spelling: 'Spelling', vocab: 'Vocabulary', math: 'Math' };
       for (const [subject, labels] of Object.entries(MENUS)) {
         await b.load(url('#week'));
@@ -1235,7 +1253,7 @@ async function main() {
       let before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.activeElement.tagName];'), ['#math?ch=6', 'H1'], 'browser Back (focus on the heading): the last chapter opened');
+      eq(await b.js('return [location.hash, document.activeElement.tagName];'), [`#math?ch=${CHAPTERS.at(-1).id}`, 'H1'], 'browser Back (focus on the heading): the last chapter opened');
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.forward();');
       await b.ready(before);
@@ -1806,7 +1824,7 @@ async function main() {
       await b.hash(H19('#math?act=areawords'));
       expect(await b.js('return !!document.querySelector(".menu-card[href*=\'act=avreview\']");'), 'Area Words work in any week');
       await b.hash(H19('#math'));
-      eq(await b.js('return [...document.querySelectorAll(".chapter-status")].map((x) => x.textContent);'), ['Currently studying', 'Coming up: open any time'], 'Oct 19 recommends Chapter 5; Chapter 6 stays open');
+      eq(await b.js('return [...document.querySelectorAll(".chapter-status")].map((x) => x.textContent);'), CHAPTERS.map(c => c.id === 5 ? 'Currently studying' : 'Coming up: open any time'), 'Oct 19 recommends Chapter 5; all later chapters stay open');
     });
 
     console.log('Chapter-first Math and the original newsletter (D26)');
