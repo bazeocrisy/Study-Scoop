@@ -2,7 +2,7 @@
 // Learn My Words is the week's pattern, the words grouped by rule, and the picture study cards (DECISIONS D19).
 import { html } from '../lib/html.js';
 import { menuItems } from '../lib/activities.js';
-import { menuPage, subBar, testsNote, wordPicture } from './common.js';
+import { menuPage, subBar, testsNote, wordPicture, illustratedLab } from './common.js';
 import { activityView } from './activity.js';
 
 export function spellingView(ctx) {
@@ -11,7 +11,8 @@ export function spellingView(ctx) {
   const sp = ctx.week.spelling;
   return menuPage(ctx, 'spelling', {
     title: 'Spelling', context: `This week's pattern: ${sp.pattern} words (${sp.words.length} words)`,
-    items: menuItems('spelling'), misses: ctx.misses?.spelling, after: testsNote(ctx, 'The weekly Spelling Test'),
+    items: menuItems('spelling'), misses: ctx.misses?.spelling,
+    after: html`${illustratedLab(ctx, 'spelling')}${testsNote(ctx, 'The weekly Spelling Test')}`,
   });
 }
 

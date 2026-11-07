@@ -169,6 +169,8 @@ ul.plain, ul.dates, ul.archive, ul.words, ul.checklist { list-style: none; margi
 .fact { font-family: var(--display); font-weight: 800; font-size: 1.3rem; }
 .pic { display: block; background: #fff8ee; border-radius: var(--r); line-height: 0; overflow: hidden; }
 .pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pic.atlas-frame { aspect-ratio: 1; }
+.pic .word-atlas { display: block; width: 100%; height: 100%; overflow: hidden; }
 .vocab-card .pic { aspect-ratio: 1; }
 
 /* Homework */
