@@ -28,6 +28,8 @@ Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes).
 - A chapter practice test covering every lesson (not presented as the teacher's test).
 
 ## 6. Tests and audit
+- Follow `docs/TEACHING-QUALITY-ACCEPTANCE.md` as a separate first-time-learner acceptance gate. Review every correct/wrong path, not just model keys or item counts. An independent reviewer must explain what a confused child still would not understand.
+- Show the owner one fully reviewed teaching sample before expanding the pattern across the chapter. Keep technical correctness, teaching quality and observed child usability as separate verdicts; the last is NOT VERIFIED without a real child session.
 - Add unit tests like tests/unit/chapter6.test.js and chapter isolation markers in tests/unit/chapters.test.js; add browser checks.
 - Run the specialist agents (see study-scoop-lead). Fix and re-run.
 

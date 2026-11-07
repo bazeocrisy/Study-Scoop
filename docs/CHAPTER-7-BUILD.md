@@ -1,4 +1,6 @@
-# Chapter 7: Fractions — implementation and independent review
+> Teaching-quality correction: this document records the original technical release at `88081b8`. Its prior completion language did not establish that a novice child could learn from the delivered explanations. A later audit FAILED all seven lessons against the owner's teaching standard. See [the teaching baseline audit](reviews/CHAPTER-7-TEACHING-BASELINE.md) and [the new acceptance standard](TEACHING-QUALITY-ACCEPTANCE.md). Only Lesson 7-1 is being redesigned as the owner-reviewed sample; the other six lessons and chapter resources are not teaching-approved. Observed child comprehension remains NOT VERIFIED.
+
+# Chapter 7: Fractions — original implementation and technical review
 
 This chapter follows the owner-supplied reference's seven-lesson sequence. The reference PDF and private renders stay outside this public repository. All published explanations, exercises and SVG models are newly authored. No textbook scans, OCR or student identifiers are published.
 
@@ -54,4 +56,4 @@ Desktop Chrome automation and generated print output do not establish usability 
 - Allowlist build verified every reference and data validator; private reference material is excluded. Chapters 5/6 JSON, historical weeks, current-week selection, images and weekly labs have no changes from the feature base (754a2cb), except November 9's Chapter 7 recommendation/availability note.
 - Private plugin release 0.3.1 was read back: all 11 files match the validated candidate. The existing illustrated-lab generator/templates/reference are byte-identical to their prior release. The plugin supplies the chapter workflow and implementation references; the website code remains in its repository.
 
-No blocking specialist findings remain. The owner should review the deployed preview's vocabulary, one full lesson and written reflection, practice/results/misses, cumulative test and printable guide before authorizing production. Physical-device audio, physical printing, assistive technology and child usability remain NOT VERIFIED.
+No blocking findings remained under the original technical/inventory review. That review was insufficient to establish teaching quality and its completion conclusion is superseded by the failed novice-learning audit. The owner should review the deployed preview's vocabulary, one full lesson and written reflection, practice/results/misses, cumulative test and printable guide before authorizing production. Physical-device audio, physical printing, assistive technology and child usability remain NOT VERIFIED.

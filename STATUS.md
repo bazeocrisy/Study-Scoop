@@ -2,6 +2,8 @@
 
 ## Current phase
 
+Chapter 7 is under a stronger teaching-quality review. The original technically passing preview is not approved as novice teaching. Lesson 7-1 is the single revised sample for owner review; Lessons 7-2–7-7 and chapter resources still need teaching improvements afterward. Follow `docs/TEACHING-QUALITY-ACCEPTANCE.md` and the separate baseline/pilot reports. Production remains unchanged.
+
 Chapter 7 fractions is implemented on the chapter feature branch for preview review: seven lessons, validated area/set/number-line models, exact fraction entry policies, chapter-owned vocabulary/practice/guide/test, and independent specialist checks. See `docs/CHAPTER-7-BUILD.md` for scope, verification and release status. The November 9 week recommends Chapter 7; the selected current week and concurrent weekly labs are preserved. Production requires owner approval of the completed preview.
 
 Earlier milestones:

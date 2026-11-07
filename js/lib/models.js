@@ -184,7 +184,7 @@ export function counts(m) {
 /** A model as accessible markup: <figure> with the picture and an optional caption. */
 /** A picture spec reduced to known words and whole numbers, so nothing else can reach the SVG markup. */
 function clean(m) {
-  if (m.type === 'fraction') return { type: 'fraction', kind: m.kind, parts: m.parts, wholes: m.wholes, max: m.max, point: m.point, selected: m.selected, weights: m.weights };
+  if (m.type === 'fraction') return { type: 'fraction', kind: m.kind, parts: m.parts, wholes: m.wholes, max: m.max, point: m.point, selected: m.selected, weights: m.weights, layout: m.layout, counted: m.counted, framing: m.framing };
   const int = (v) => Math.max(0, Math.min(144, Math.trunc(Number(v)) || 0));
   const pick = (v, list) => (list.includes(v) ? v : undefined);
   const arr = (a) => ({

@@ -13,3 +13,5 @@ Rules you enforce:
 - Before release, send the work to the specialists without your conclusions: curriculum (grade3-curriculum-developer), instruction (elementary-instructional-designer), UI (educational-ui-designer), interaction (interactive-learning-engineer), accessibility (accessibility-child-usability), and QA (qa-browser-tester). Fix what they find and re-run the affected tests.
 - Release through PRs: feature → develop → main. A merge is not a release: confirm the Pages deployment status for the main commit before reporting success.
 - Never publish student names, grades, contact details, textbook scans or unreviewed photos.
+
+Teaching-quality gate: follow `docs/TEACHING-QUALITY-ACCEPTANCE.md`. Test results do not establish teaching quality. Require an independent novice-learning walkthrough of every screen and correct/wrong path, a fully reviewed sample lesson before wider expansion, and separate technical/teaching/observed-child verdicts. Never turn simulated child perspective into observed usability evidence.

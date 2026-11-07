@@ -70,3 +70,125 @@
 /* Explicitly honor hidden after edits invalidate an earlier written-response comparison. */
 #lesson-stage[data-lesson^="7-"] [data-written-review][hidden],
 #lesson-stage[data-lesson^="7-"] .question .feedback[hidden] { display: none; }
+/* Chapter 7 teaching pilot: one visible action, its model, and its explanation. */
+#lesson-stage[data-lesson^="7-"] .visual-coach {
+  display: block;
+  min-width: 0;
+  margin-block: 1rem;
+  padding: clamp(.85rem, 2vw, 1.25rem);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r);
+  background: var(--paper);
+}
+#lesson-stage[data-lesson^="7-"] .coach-progress {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 0 0 .8rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+#lesson-stage[data-lesson^="7-"] .coach-model {
+  min-width: 0;
+  max-width: 100%;
+  padding: .7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+}
+#lesson-stage[data-lesson^="7-"] .coach-model .model { margin: 0; }
+#lesson-stage[data-lesson^="7-"] .coach-model svg {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+  max-height: 19rem;
+  margin-inline: auto;
+}
+#lesson-stage[data-lesson^="7-"] .coach-instruction {
+  max-width: 48ch;
+  margin: .9rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+#lesson-stage[data-lesson^="7-"] .visual-coach details {
+  margin-top: 1rem;
+  padding-top: .7rem;
+  border-top: 1px solid var(--line);
+}
+#lesson-stage[data-lesson^="7-"] .visual-coach summary {
+  min-height: 44px;
+  cursor: pointer;
+  align-content: center;
+  font-weight: 700;
+}
+#lesson-stage[data-lesson^="7-"] .visual-coach details p { max-width: 52ch; }
+#lesson-stage[data-lesson^="7-"] .count-scaffold {
+  min-width: 0;
+  max-width: 100%;
+  margin-block: 1rem;
+  padding: .85rem;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+}
+#lesson-stage[data-lesson^="7-"] .count-status {
+  margin-block: .65rem;
+  font-weight: 800;
+  line-height: 1.5;
+}
+#lesson-stage[data-lesson^="7-"] [data-act="count-part"] {
+  min-width: 48px;
+  min-height: 48px;
+  margin: .25rem;
+  padding: .55rem .75rem;
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+#lesson-stage[data-lesson^="7-"] [data-act="count-part"][aria-pressed="true"] {
+  border-width: 3px;
+  border-color: var(--ink);
+  background: var(--honey-tint, #fff0c2);
+}
+#lesson-stage[data-lesson^="7-"] :is(.visual-coach summary, [data-act="count-part"]):focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+@media (max-width: 640px) {
+  #lesson-stage[data-lesson^="7-"] .visual-coach { padding: .8rem; }
+  #lesson-stage[data-lesson^="7-"] .coach-model { padding: .45rem; }
+  #lesson-stage[data-lesson^="7-"] .coach-model svg { max-height: 16rem; }
+  #lesson-stage[data-lesson^="7-"] .coach-instruction { font-size: 1.08rem; }
+  #lesson-stage[data-lesson^="7-"] .visual-coach .btn-row { gap: .6rem; }
+}
+@media print {
+  #lesson-stage[data-lesson^="7-"] :is(.visual-coach, .count-scaffold) { break-inside: avoid; border-color: #000; }
+  #lesson-stage[data-lesson^="7-"] .coach-model svg { max-height: 2.5in; }
+}
+/* Watch Me already supplies the surrounding card and the adjacent current model. */
+#lesson-stage[data-lesson="7-1"] .visual-coach.watch-coach {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+/* Ordinal counters live inside small rings; the large number-line tick-label rule must not enlarge them. */
+#lesson-stage[data-lesson^="7-"] .model-pic svg [data-count-marker] text {
+  font-size: 12px;
+  font-weight: 800;
+}
+/* Close framing makes the circle, rather than empty side margins, carry the teaching. */
+#lesson-stage[data-lesson="7-1"] .model-pic svg[data-framing="close"] {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 18rem;
+  margin-inline: auto;
+}

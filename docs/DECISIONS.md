@@ -77,3 +77,9 @@ The replacements keep each sentence's grammar and its article ("an ___" still pr
 ## Chapter 7 fractions (November 2026)
 
 Chapter 7 uses a shared rational/model extension rather than the homework helper’s single-whole fraction pictures. Partition-specific prompts require the displayed subdivision; value prompts accept exact equivalent fractions. Original chapter data owns all seven lessons and six activity roles. The November 9 week only recommends it and preserves the teacher’s four definitions; no school Math test is invented. Study history remains tab-memory only, with current-round results distinguished from earlier help/reveals. Written reflections are self/parent assessed, never graded for mathematical meaning by text heuristics. See `CHAPTER-7-BUILD.md` for independent reviews and release gates.
+
+## Teaching-quality acceptance and sample-first review (November 2026)
+
+The owner rejected the original Chapter 7 teaching quality after a mobile walkthrough. A new acceptance gate separates mathematical/functional checks, independent first-time-learner teaching review, and actual child observation. Correct and incorrect paths must explain WHY with the relevant picture; demonstrations must show the reasoning action. A technically green chapter is not thereby teaching-approved. Follow `TEACHING-QUALITY-ACCEPTANCE.md`.
+
+Only Lesson 7-1 is redesigned as the reviewed sample. The owner reviews its teaching pattern before expansion to Lessons 7-2–7-7 or the chapter resources. The original six lesson files remain unchanged and their teaching failures remain open. Production is not approved. The private Math workflow is updated to carry this standard into future builds; saved workflow instructions do not establish learning by a child.
