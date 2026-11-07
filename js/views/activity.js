@@ -607,18 +607,22 @@ export function testCenter(ctx, catalog) {
       <ul class="test-grid">
         ${catalog.map((c) => html`
           <li class="card test-card test-${c.kind}">
-            <p class="subject">${c.subject}</p>
-            <h3>${c.title}</h3>
-            ${c.topic ? html`<p class="topic">${c.topic}</p>` : ''}
+            <div class="test-card-heading">
+              <p class="subject">${c.subject}</p>
+              <h3>${c.title}</h3>
+              ${c.topic ? html`<p class="topic">${c.topic}</p>` : ''}
+            </div>
+            <div class="test-card-action">
             ${c.available
               ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
               : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
+            </div>
             <dl class="facts">
               <div><dt>${c.dateLabel || 'Class test'}</dt><dd>${c.date ? formatLongDate(c.date) : c.review || 'No date given'}</dd></div>
               <div><dt>Questions</dt><dd>${c.available ? c.count : '—'}</dd></div>
             </dl>
-            ${c.coverage ? html`<p class="coverage">${c.coverage}</p>` : ''}
-            ${c.note ? html`<p class="grownups">${c.note}</p>` : ''}
+            <p class="coverage">${c.coverage || ''}</p>
+            <p class="grownups">${c.note || ''}</p>
           </li>`)}
       </ul>
     </section>`;

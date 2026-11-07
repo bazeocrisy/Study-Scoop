@@ -21,7 +21,7 @@ function libraryView(ctx) {
   const { index } = ctx.reading;
   const picks = todaysPicks(index.stories.filter((s) => s.step <= 3), ctx.today);
   return html`
-    <div class="page-head menu-head subject-reading">
+    <div class="page-head section-head menu-head subject-reading">
       ${crumbs(ctx, [{ label: 'Reading' }])}
       <h1 tabindex="-1">Reading</h1>
       <p class="week-of">${(ctx.shownWeek || ctx.week).label}</p>

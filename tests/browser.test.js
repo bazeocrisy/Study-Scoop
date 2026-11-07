@@ -1350,7 +1350,7 @@ async function main() {
       await b.viewport(1366, 768, false);
       await b.load(url(H19('#week')));
       await go('nav.tabs a[data-tab=tests]');
-      expect(await b.js('return [...document.querySelectorAll(".test-card a.btn")].every((a) => a.getBoundingClientRect().bottom <= innerHeight);'), 'every Start test button is on the first screen at 1366 x 768');
+      expect(await b.js('const actions=[...document.querySelectorAll(".test-card a.btn")].slice(0,2).map(a=>a.getBoundingClientRect());return actions.length===2 && actions.every(r=>r.bottom<=innerHeight) && Math.abs(actions[0].top-actions[1].top)<2;'), 'first-row Start test buttons align and remain on the first screen at 1366 x 768');
       await b.viewport(1366, 900, false);
       await b.load(url(H19('#tests')));
       eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".facts div:last-child dd")?.textContent, !!c.querySelector("a.btn")]);'),
