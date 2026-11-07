@@ -12,6 +12,7 @@ import { areaVocabTest, isAreaWeek } from './area.js';
 export const ACTIVITIES = {
   spelling: [
     { id: 'learn', label: 'Learn My Words', about: 'See this week\'s words, pictures and spelling rules.', icon: 'book', page: true },
+    { id: 'cards', label: 'Study Cards', about: 'See each word, its picture and a sentence.', icon: 'book' },
     { id: 'flash', label: 'Flashcards', about: 'Tap a card to turn it over and see the word.', icon: 'cards' },
     { id: 'letters', label: 'Missing Letters', about: 'Hear a word, then type the missing letters.', icon: 'puzzle' },
     { id: 'listen', label: 'Listen & Spell', about: 'Hear a word and a sentence, then type the word. At the end, add the ending yourself.', icon: 'ear' },
@@ -301,7 +302,7 @@ function spellSteps(entry, sp) {
   const w = entry.word.toLowerCase(), b = baseOf(entry);
   // The rule comes before it is used, and an example that is this very word is left out (it would give the word away early).
   const example = help && !new RegExp(`\\b${w}\\b`, 'i').test(help) ? [`Example: ${help}.`] : [];
-  if (!b) return ['This word is not made from a shorter base word.', `${rulePhrase(sp, entry)}.`, ...example, `So the word is ${q(entry.word)}.`];
+  if (!b) return ['Study the whole word and look for the spelling pattern.', `${rulePhrase(sp, entry)}.`, ...example, `So the word is ${q(entry.word)}.`];
   const stem = w.slice(0, w.length - suffixOf(sp, entry).length);
   const change = stem === b ? '' : stem === b + b.slice(-1) ? `Double the last letter: ${b} becomes ${stem}.`
     : b.endsWith('e') && stem === b.slice(0, -1) ? `Drop the e: ${b} becomes ${stem}.` : '';

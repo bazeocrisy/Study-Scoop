@@ -174,16 +174,16 @@
      "prompt": "The rectangle is 6 by 9. Which matches the split picture?",
      "options": [
       {
+       "text": "(5 × 9) + (1 × 9)",
+       "why": "The picture splits the 9, not the 6."
+      },
+      {
        "text": "(6 × 5) + (6 × 4)",
        "correct": true
       },
       {
        "text": "(6 × 5) + (6 × 5)",
        "why": "5 + 5 is 10, not 9."
-      },
-      {
-       "text": "(5 × 9) + (1 × 9)",
-       "why": "The picture splits the 9, not the 6."
       }
      ],
      "model": {
@@ -206,6 +206,31 @@
       "show": "parts"
      },
      "yes": "Yes! The 9 is split into 5 + 4."
+    }
+   },
+   {
+    "title": "Explain My Thinking: why the parts add up",
+    "item": {
+     "id": "em1",
+     "type": "sentence",
+     "prompt": "Why does adding two partial areas give the same result as multiplying the original dimensions? Write your answer in a sentence.",
+     "keywords": [
+      "partial areas",
+      "add",
+      "same",
+      "multiply",
+      "whole"
+     ],
+     "minKeywords": 1,
+     "minWords": 8,
+     "hints": [
+      "Picture the two parts put back together. What shape do they make?"
+     ],
+     "example": "Adding the two partial areas gives the same result because the two parts together make the whole rectangle, so their areas add up to the area of the whole.",
+     "show": [
+      "Write one sentence that answers the question.",
+      "Here is one way to say it: Adding the two partial areas gives the same result because the two parts together make the whole rectangle, so their areas add up to the area of the whole."
+     ]
     }
    }
   ]
@@ -527,16 +552,16 @@
     "prompt": "The rectangle is 5 by 13. Which matches the split picture?",
     "options": [
      {
-      "text": "(5 × 10) + (5 × 3)",
-      "correct": true
-     },
-     {
       "text": "(5 × 10) + (5 × 2)",
       "why": "10 + 2 is 12, not 13."
      },
      {
       "text": "10 + 3",
       "why": "Each part must be multiplied by 5."
+     },
+     {
+      "text": "(5 × 10) + (5 × 3)",
+      "correct": true
      }
     ],
     "model": {
@@ -1179,16 +1204,16 @@
     "prompt": "Which equation can find the area of a rectangle 15 cm long and 5 cm wide?",
     "options": [
      {
+      "text": "5 × 1 + 5 × 5",
+      "why": "1 + 5 is 6, not 15."
+     },
+     {
       "text": "5 × 10 + 5 × 5",
       "correct": true
      },
      {
       "text": "5 + 10 + 5 + 5",
       "why": "Adding sides does not find area."
-     },
-     {
-      "text": "5 × 1 + 5 × 5",
-      "why": "1 + 5 is 6, not 15."
      }
     ],
     "model": {
@@ -1216,7 +1241,7 @@
     "areaOptions": true,
     "id": "t11",
     "type": "multi",
-    "prompt": "Which equations find the area of the picture? Choose all that are right.",
+    "prompt": "Which equations find the area of the picture?",
     "options": [
      {
       "text": "4 × 9",
@@ -1269,16 +1294,16 @@
     "prompt": "Why might you split 18 into 10 + 8?",
     "options": [
      {
-      "text": "10 is easy to multiply by.",
-      "correct": true
-     },
-     {
       "text": "18 cannot be multiplied.",
       "why": "It can, but it is easier in parts."
      },
      {
       "text": "It makes the area bigger.",
       "why": "The area stays the same."
+     },
+     {
+      "text": "10 is easy to multiply by.",
+      "correct": true
      }
     ],
     "hints": [
@@ -1422,16 +1447,16 @@
     "prompt": "A rectangle is split into 9 × 3 and 9 × 11. What are its length and width?",
     "options": [
      {
+      "text": "3 wide and 11 long",
+      "why": "Both parts are 9 wide."
+     },
+     {
       "text": "9 wide and 14 long",
       "correct": true
      },
      {
       "text": "9 wide and 11 long",
       "why": "The two parts are 3 and 11 long: together 14."
-     },
-     {
-      "text": "3 wide and 11 long",
-      "why": "Both parts are 9 wide."
      }
     ],
     "hints": [
@@ -1681,16 +1706,16 @@
     "prompt": "The rectangle is 7 by 8. Which matches the split picture?",
     "options": [
      {
-      "text": "(7 × 5) + (7 × 3)",
-      "correct": true
-     },
-     {
       "text": "(7 × 5) + (7 × 4)",
       "why": "5 + 4 is 9."
      },
      {
       "text": "7 + 8",
       "why": "Multiply the parts."
+     },
+     {
+      "text": "(7 × 5) + (7 × 3)",
+      "correct": true
      }
     ],
     "model": {
@@ -1790,7 +1815,7 @@
     "areaOptions": true,
     "id": "x7",
     "type": "multi",
-    "prompt": "Which equations find the area of the picture? Choose all that are right.",
+    "prompt": "Which equations find the area of the picture?",
     "options": [
      {
       "text": "3 × 9",
@@ -1900,16 +1925,16 @@
     "prompt": "Why does splitting a side give the right area?",
     "options": [
      {
+      "text": "Because splitting makes it smaller.",
+      "why": "The total area does not change."
+     },
+     {
       "text": "The two smaller rectangles cover the whole rectangle.",
       "correct": true
      },
      {
       "text": "It does not always.",
       "why": "It always works if both parts keep the other side."
-     },
-     {
-      "text": "Because splitting makes it smaller.",
-      "why": "The total area does not change."
      }
     ],
     "show": [

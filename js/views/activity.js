@@ -206,6 +206,7 @@ export function timesFindView(ctx) {
 export function activityInner(ctx) {
   const run = ctx.run;
   if (run.act === 'flash') return flashcards(ctx, run);
+  if (run.act === 'cards') return spellingStudyCards(ctx, run);
   if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
   if (run.act === 'wreview') return wordCards(ctx, run);
   if (run.act === 'avreview' || run.act === 'avflash') return run.unavailable ? emptyRun(ctx, run) : (run.act === 'avreview' ? areaWordCards(ctx, run) : areaFlashcards(ctx, run));
@@ -402,6 +403,29 @@ function flashcards(ctx, run) {
     <p class="hint">Marks are not saved. They clear when you close or refresh this page.</p>`;
 }
 
+/** Spelling > Study Cards: one word at a time with its picture and sentence, and Next to keep going.
+ *  For studying only (the word is shown), never a test (D13). */
+function spellingStudyCards(ctx, run) {
+  const f = run.flash;
+  const words = ctx.week.spelling.words;
+  const w = words[f.order[f.i]];
+  const last = f.i === words.length - 1;
+  return html`
+    ${stageTitle(`Card ${f.i + 1} of ${words.length}`)}
+    <div class="card study-one spell-study">
+      ${wordPicture(ctx, [w.word, w.img], `Picture for the word "${w.word}"`)}
+      <div class="study-text">
+        <div class="instruct-head"><h3 class="flash-word">${w.word}</h3>${readButton([w.word, w.sentence], 'this card')}</div>
+        ${w.sentence ? html`<p class="example"><span class="tag">In a sentence</span> ${w.sentence}</p>` : ''}
+      </div>
+    </div>
+    <div class="stage-nav">
+      <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
+      ${last ? html`<span class="btn-row"><button type="button" class="btn" data-act="restart">Start over</button><a class="btn btn-primary" href="${menuLink(ctx, run)}">Done: choose an activity</a></span>`
+        : html`<button type="button" class="btn btn-primary" data-act="card-next">Next ›</button>`}
+    </div>`;
+}
+
 function studyCards(ctx, run) {
   const f = run.flash;
   const words = ctx.week.vocab.words;
@@ -583,18 +607,22 @@ export function testCenter(ctx, catalog) {
       <ul class="test-grid">
         ${catalog.map((c) => html`
           <li class="card test-card test-${c.kind}">
-            <p class="subject">${c.subject}</p>
-            <h3>${c.title}</h3>
-            ${c.topic ? html`<p class="topic">${c.topic}</p>` : ''}
+            <div class="test-card-heading">
+              <p class="subject">${c.subject}</p>
+              <h3>${c.title}</h3>
+              ${c.topic ? html`<p class="topic">${c.topic}</p>` : ''}
+            </div>
+            <div class="test-card-action">
             ${c.available
               ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
               : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
+            </div>
             <dl class="facts">
               <div><dt>${c.dateLabel || 'Class test'}</dt><dd>${c.date ? formatLongDate(c.date) : c.review || 'No date given'}</dd></div>
               <div><dt>Questions</dt><dd>${c.available ? c.count : '—'}</dd></div>
             </dl>
-            ${c.coverage ? html`<p class="coverage">${c.coverage}</p>` : ''}
-            ${c.note ? html`<p class="grownups">${c.note}</p>` : ''}
+            <p class="coverage">${c.coverage || ''}</p>
+            <p class="grownups">${c.note || ''}</p>
           </li>`)}
       </ul>
     </section>`;

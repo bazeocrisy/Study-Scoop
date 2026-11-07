@@ -72,7 +72,7 @@ for (const [index, id, week] of cases) {
 
   test(`${id} spelling opens on its menu; Learn My Words lists every word once, under its rule`, () => {
     const menu = spellingView(ctxFor(index, id, 'spelling', week)).s;
-    for (const name of ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen &amp; Spell', 'Practice My Misses']) assert.ok(menu.includes(name), name);
+    for (const name of ['Learn My Words', 'Study Cards', 'Flashcards', 'Missing Letters', 'Listen &amp; Spell', 'Practice My Misses']) assert.ok(menu.includes(name), name);
     assert.ok(!menu.includes('<span class="word">'), 'the word list is not on the menu');
     const out = spellingView({ ...ctxFor(index, id, 'spelling', week), page: 'learn' }).s;
     for (const w of week.spelling.words) {
@@ -179,4 +179,13 @@ test('homework checkboxes are labelled', () => {
   const inputs = [...out.matchAll(/<input type="checkbox" id="(hw-\d+)">/g)].map((m) => m[1]);
   assert.equal(inputs.length, week.homework.length);
   for (const id of inputs) assert.ok(out.includes(`<label class="hw-check" for="${id}">`), id);
+});
+
+test('spelling study cards keep every sentence when illustrations are unavailable', () => {
+  const week = readJSON('data/2026-11-09.json');
+  const ctx = { ...ctxFor(realIndex, week.id, 'spelling', week), page: 'learn', pictures: {} };
+  const out = spellingView(ctx).s;
+  assert.equal((out.match(/class="card study-card"/g) || []).length, 12);
+  for (const word of week.spelling.words) assert.ok(out.includes(esc(word.sentence)));
+  assert.doesNotMatch(out, /<img/);
 });

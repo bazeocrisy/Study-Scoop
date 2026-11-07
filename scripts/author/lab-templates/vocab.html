@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/*__PAGE_TITLE__*/</title>
+<style>
+:root{--bg:#0b1b3a;--bg2:#12295a;--card:#183672;--blue:#2fa8ff;--orange:#ff8a1f;--green:#2ee08a;--red:#ff5a5a;--soft:#b9d3ff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 0,var(--bg2),var(--bg) 70%);color:#fff;font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif}
+body{padding:16px;display:flex;justify-content:center}
+#app{width:100%;max-width:720px}
+h1{font-size:28px;margin:6px 0;text-align:center;letter-spacing:1px}
+h1 span{color:var(--orange)}
+h2{font-size:18px;color:var(--soft);margin:14px 0 2px;letter-spacing:1px}
+.sub{text-align:center;color:var(--soft);margin:0 0 14px;font-size:17px}
+.menu{display:grid;gap:12px}
+.btn{font:inherit;font-weight:800;font-size:21px;border:0;border-radius:18px;padding:16px 18px;color:#fff;background:var(--blue);box-shadow:0 6px 0 #1678bd;cursor:pointer;min-height:58px;touch-action:manipulation}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #1678bd}
+.btn.o{background:var(--orange);box-shadow:0 6px 0 #c2610a}
+.btn.g{background:#1fb86c;box-shadow:0 6px 0 #14804b}
+.btn.r{background:#e24d4d;box-shadow:0 6px 0 #a02f2f}
+.btn.p{background:#8b5cf6;box-shadow:0 6px 0 #5b36b8}
+.btn.ghost{background:transparent;box-shadow:none;border:2px solid var(--soft);color:var(--soft);font-size:17px;padding:10px 14px;min-height:44px}
+.btn small{display:block;font-weight:600;font-size:15px;opacity:.9;margin-top:2px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.pill{background:var(--card);border-radius:999px;padding:8px 14px;font-weight:800;color:var(--soft)}
+.card{background:var(--card);border-radius:26px;padding:20px 16px;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.25);margin-bottom:12px}
+.word{font-size:clamp(34px,11vw,60px);font-weight:900;letter-spacing:1px;margin:6px 0;word-break:break-word;color:var(--orange)}
+.sylrow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
+.syl{background:var(--bg);border:3px solid var(--blue);border-radius:14px;padding:4px 12px;font-size:clamp(22px,6.5vw,36px);font-weight:900}
+.def{font-size:clamp(21px,5.5vw,28px);line-height:1.35;margin:12px 4px;color:#fff;font-weight:700}
+.lab{color:var(--soft);font-size:15px;font-weight:800;letter-spacing:1px;margin-top:10px}
+.sent{font-size:clamp(19px,5vw,24px);line-height:1.45;margin:6px 4px 10px;color:#e8f1ff}
+.sent b{color:var(--orange);background:rgba(255,138,31,.15);padding:0 4px;border-radius:6px}
+.blank{display:inline-block;min-width:110px;border-bottom:4px solid var(--orange);margin:0 4px}
+.hint{color:var(--soft);font-size:16px;margin:6px 0}
+.row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.row .btn{flex:1;min-width:130px;font-size:19px}
+.bar{height:12px;background:var(--bg);border-radius:99px;overflow:hidden;margin:0 0 14px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));width:0;transition:width .3s}
+.opts{display:grid;gap:10px;margin-top:12px}
+.opt{font:inherit;font-weight:700;font-size:clamp(18px,4.8vw,22px);text-align:left;line-height:1.3;border:3px solid var(--blue);border-radius:16px;padding:14px;color:#fff;background:var(--bg);cursor:pointer;min-height:56px;touch-action:manipulation}
+.opt.center{text-align:center}
+.opt:active{background:#16306a}
+.opt.ok{background:#14804b;border-color:var(--green)}
+.opt.no{background:#a02f2f;border-color:var(--red)}
+.opt.sel{border-color:var(--orange);background:#3a2a10}
+.opt.done{background:#14804b;border-color:var(--green);opacity:.75}
+.opt.dim{opacity:.55}
+.msg{min-height:28px;font-size:20px;font-weight:800;margin:10px 0 0;line-height:1.35}
+.good{color:var(--green)}.bad{color:var(--red)}
+.flip{cursor:pointer}
+.stars{font-size:28px;letter-spacing:3px;margin:8px 0;word-break:break-word}
+.trophy{font-size:92px;line-height:1}
+.big{font-size:26px;font-weight:900;margin:6px 0}
+.miss{text-align:left;margin:10px 0}
+.miss div{background:var(--bg);border:2px solid var(--red);border-radius:14px;padding:8px 12px;margin:8px 0;font-size:17px;line-height:1.35}
+.miss b{color:var(--orange);font-size:19px}
+.mgrid{display:grid;grid-template-columns:1fr 1.5fr;gap:10px;margin-top:10px}
+.mcol{display:grid;gap:10px;align-content:start}
+.mcol .opt{font-size:clamp(16px,4vw,19px);padding:12px 10px}
+.mcol.w .opt{font-weight:900;text-align:center;color:var(--orange)}
+
+.word-picture{display:block;width:min(100%,260px);aspect-ratio:1;margin:16px auto;border-radius:18px;background-color:#fff0d0;background-repeat:no-repeat;box-shadow:0 3px 12px #0003}
+body{display:block}#app{margin:0 auto}.lab-return{margin:0 0 14px;text-align:center}.lab-return a{color:var(--soft)}
+</style>
+</head>
+<body>
+<nav class="lab-return" aria-label="Study Scoop"><a href="/*__RETURN_URL__*/">‹ Back to Study Scoop</a></nav>
+<div id="app"></div>
+<script>
+/* Teacher definitions copied exactly from the current weekly source data. */
+const LAB_CONFIG=/*__LAB_CONFIG__*/null;
+const WORDS=LAB_CONFIG.words;
+const N=WORDS.length, ALL=WORDS.map((_,i)=>i);
+const app=document.getElementById('app');
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const defText=i=>esc(WORDS[i].d);
+const defQuote=i=>esc(WORDS[i].d.replace(/\.$/,''));
+const wrapRe=i=>new RegExp('\\b('+WORDS[i].w+')\\b','i');
+const sentBold=i=>esc(WORDS[i].t).replace(wrapRe(i),'<b>$1</b>');
+const sentBlank=i=>esc(WORDS[i].t).replace(wrapRe(i),'<span class="blank"></span>');
+const sentSpeakBlank=i=>WORDS[i].t.replace(wrapRe(i),'blank');
+const sentFilled=i=>sentBold(i);
+const TEST_NAMES={mc:'Multiple Choice',fill:'Fill in the Blank',match:'Matching',tf:'True or False'};
+
+/* ---------- speech ---------- */
+let voice=null;const hasSpeech='speechSynthesis' in window;
+function pickVoice(){try{const v=speechSynthesis.getVoices();voice=v.find(x=>/en[-_]US/i.test(x.lang)&&/(samantha|google|aria|jenny|zira|female)/i.test(x.name))||v.find(x=>/en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}catch(e){}}
+if(hasSpeech){pickVoice();try{speechSynthesis.onvoiceschanged=pickVoice}catch(e){}}
+function say(text,rate){
+  if(!hasSpeech)return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);if(voice)u.voice=voice;u.lang='en-US';u.rate=rate||0.85;speechSynthesis.speak(u)}catch(e){}
+}
+const sayWord=i=>say(WORDS[i].w,0.75);
+const saySent=i=>say(WORDS[i].t,0.85);
+const sayDef=i=>say(WORDS[i].d,0.85);
+function hush(){try{hasSpeech&&speechSynthesis.cancel()}catch(e){}}
+
+/* ---------- helpers ---------- */
+const topbar=(title,extra)=>`<div class="top"><button class="btn ghost" onclick="home()">⬅ Menu</button><div class="pill">${title}</div><div class="pill">${extra||''}</div></div>`;
+const bar=(d,t)=>`<div class="bar"><i style="width:${Math.round(100*d/t)}%"></i></div>`;
+const sylHTML=i=>'<div class="sylrow">'+WORDS[i].s.map(x=>`<div class="syl">${x}</div>`).join('')+'</div>';
+
+
+/* Images belong in learning views, never spelling/dictation or vocabulary test prompts. */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function pictureHTML(i){
+ const p=LAB_CONFIG.pictures[i];
+ return '<div class="word-picture" role="img" aria-label="'+esc(p.alt)+'" style="background-image:url('+LAB_CONFIG.sources[p.source]+');background-size:'+(p.columns*100)+'% '+(p.rows*100)+'%;background-position:'+(p.columns===1?0:(p.index%p.columns)*100/(p.columns-1))+'% '+(p.rows===1?0:Math.floor(p.index/p.columns)*100/(p.rows-1))+'%"></div>';
+}
+
+/* ---------- home ---------- */
+function home(){
+  hush();
+  app.innerHTML=`<h1>📚 <span>${esc(LAB_CONFIG.vocabTitle)}</span> Vocabulary Lab</h1>
+  <p class="sub">${WORDS.length} words. ${esc(LAB_CONFIG.testNote)}</p>
+  ${LAB_CONFIG.parentNote?`<details class="parent-note"><summary>Parent note</summary><p>${esc(LAB_CONFIG.parentNote)}</p></details>`:''}
+  <div class="menu">
+    <h2>STUDY</h2>
+    <button class="btn" onclick="learn(0)">📘 1. Learn<small>Word, meaning and a sentence</small></button>
+    <button class="btn o" onclick="flash()">🃏 2. Flash Cards<small>Flip the card. Missed words come back.</small></button>
+    <h2>TESTS</h2>
+    <button class="btn g" onclick="startQuiz('mc',ALL)">✅ 3. Multiple Choice<small>Pick the right meaning</small></button>
+    <button class="btn p" onclick="startQuiz('fill',ALL)">✏️ 4. Fill in the Blank<small>Pick the word that fits the sentence</small></button>
+    <button class="btn o" onclick="startQuiz('match',ALL)">🔗 5. Matching<small>Match each word to its meaning</small></button>
+    <button class="btn r" onclick="startQuiz('tf',ALL)">👍 6. True or False<small>Is the meaning right?</small></button>
+  </div>
+  <p class="sub" style="margin-top:18px">Tip: turn the volume up. Tap 🔊 to hear a word.</p>`;
+}
+
+/* ---------- 1. LEARN ---------- */
+function learn(i){
+  hush();
+  app.innerHTML=topbar('Learn',`${i+1} / ${N}`)+bar(i+1,N)+`
+  <div class="card">
+    <div class="word">${WORDS[i].w}</div>
+    ${sylHTML(i)}
+    ${pictureHTML(i)}
+    <div class="lab">MEANING</div><div class="def">${defText(i)}</div>${WORDS[i].note?`<p class="hint" role="note">Parent note: ${esc(WORDS[i].note)}</p>`:''}
+    <div class="lab">SENTENCE</div><div class="sent">${sentBold(i)}</div>
+    <div class="row"><button class="btn o" onclick="sayWord(${i})">🔊 Word</button><button class="btn" onclick="sayDef(${i})">🔊 Meaning</button><button class="btn" onclick="saySent(${i})">🔊 Sentence</button></div>
+    <div class="row">
+      ${i>0?`<button class="btn ghost" onclick="learn(${i-1})">⬅ Back</button>`:''}
+      ${i<N-1?`<button class="btn g" onclick="learn(${i+1})">Next ➡</button>`:`<button class="btn g" onclick="flash()">Go to Flash Cards ➡</button>`}
+    </div>
+  </div>`;
+  setTimeout(()=>sayWord(i),250);
+}
+
+/* ---------- 2. FLASH CARDS ---------- */
+let fq=[],fTotal=N,fFlipped=false,fAgain=0;
+function flash(){fq=shuffle(ALL);fTotal=fq.length;fAgain=0;fFlipped=false;flashShow()}
+function flashShow(){
+  hush();
+  if(!fq.length)return flashEnd();
+  const i=fq[0],done=fTotal-fq.length;
+  const inner=fFlipped
+   ?`<div class="word" style="font-size:clamp(28px,8vw,42px)">${WORDS[i].w}</div>${sylHTML(i)}${pictureHTML(i)}<div class="lab">MEANING</div><div class="def">${defText(i)}</div>${WORDS[i].note?`<p class="hint" role="note">Parent note: ${esc(WORDS[i].note)}</p>`:''}<div class="lab">SENTENCE</div><div class="sent">${sentBold(i)}</div>
+     <div class="row"><button class="btn o" onclick="event.stopPropagation();sayWord(${i})">🔊 Word</button><button class="btn" onclick="event.stopPropagation();sayDef(${i})">🔊 Meaning</button><button class="btn" onclick="event.stopPropagation();saySent(${i})">🔊 Sentence</button></div>`
+   :`<div class="hint">What does it mean? Tap the card to flip it.</div><div class="word">${WORDS[i].w}</div><div class="row"><button class="btn o" onclick="event.stopPropagation();sayWord(${i})">🔊 Say it</button></div>`;
+  app.innerHTML=topbar('Flash Cards',`${done} / ${fTotal} got it`)+bar(done,fTotal)+
+   `<div class="card flip" tabindex="0" role="group" aria-label="Flash card; press Enter or Space to flip" onkeydown="if(event.target===this &amp;&amp; (event.key==='Enter' || event.key===' ')){event.preventDefault();this.click();app.querySelector('.flip')?.focus()}" onclick="fFlipped=!fFlipped;flashShow();if(fFlipped)sayWord(fq[0])">${inner}</div>
+    <div class="row"><button class="btn r" onclick="flashAgain()">🔁 Still learning</button><button class="btn g" onclick="flashGot()">✅ Got it!</button></div>`;
+}
+function flashGot(){fq.shift();fFlipped=false;flashShow()}
+function flashAgain(){fAgain++;fq.push(fq.shift());fFlipped=false;flashShow()}
+function flashEnd(){
+  app.innerHTML=topbar('Flash Cards','Done!')+`<div class="card"><div class="trophy">🎉</div><div class="big">All ${fTotal} cards done!</div>
+  <p class="sent">You marked "Still learning" ${fAgain} time${fAgain==1?'':'s'}. ${fAgain===0?'Perfect run!':'Great job sticking with it!'}</p>
+  <div class="row"><button class="btn o" onclick="flash()">Again</button><button class="btn g" onclick="startQuiz('mc',ALL)">Try a test ➡</button></div></div>`;
+}
+
+/* ---------- tests 3, 4, 6: one question at a time ---------- */
+let Q=null;
+function startQuiz(type,ids){
+  hush();
+  ids=shuffle(ids);
+  if(type==='match')return startMatch(ids);
+  Q={type,queue:ids,total:ids.length,i:0,right:0,missed:[],answered:false,tf:{},other:{}};
+  if(type==='tf'){
+    const flags=shuffle(ids.map((_,k)=>k<Math.ceil(ids.length/2)));
+    ids.forEach((id,k)=>{Q.tf[id]=flags[k];const others=ALL.filter(x=>x!==id);Q.other[id]=others[Math.floor(Math.random()*others.length)]});
+  }
+  showQ();
+}
+function showQ(){
+  hush();
+  if(Q.i>=Q.total)return results(Q.type,Q.total,Q.right,Q.missed);
+  Q.answered=false;
+  const id=Q.queue[Q.i];
+  let body='';
+  if(Q.type==='mc'){
+    const opts=shuffle([id,...shuffle(ALL.filter(x=>x!==id)).slice(0,3)]);
+    Q.speak=()=>say(WORDS[id].w,0.75);
+    body=`<div class="lab">WHAT DOES THIS WORD MEAN?</div><div class="word">${WORDS[id].w}</div>
+      <div class="row"><button class="btn o" onclick="Q.speak()">🔊 Say it</button></div>
+      <div class="opts">${opts.map(o=>`<button class="opt" data-id="${o}" onclick="pick(${o})">${defText(o)}</button>`).join('')}</div>`;
+  }else if(Q.type==='fill'){
+    const opts=shuffle([id,...shuffle(ALL.filter(x=>x!==id)).slice(0,3)]);
+    Q.speak=()=>say(sentSpeakBlank(id),0.85);
+    body=`<div class="lab">WHICH WORD FITS THE BLANK?</div><div class="sent" style="font-size:clamp(21px,5.5vw,28px);margin:14px 4px">${sentBlank(id)}</div>
+      <div class="row"><button class="btn o" onclick="Q.speak()">🔊 Read it to me</button></div>
+      <div class="opts">${opts.map(o=>`<button class="opt center" data-id="${o}" onclick="pick(${o})" style="font-size:clamp(22px,6vw,28px);font-weight:900">${WORDS[o].w}</button>`).join('')}</div>`;
+  }else{
+    const shown=Q.tf[id]?id:Q.other[id];
+    const text=`${WORDS[id].w} means "${defQuote(shown)}."`;
+    Q.speak=()=>say(`${WORDS[id].w} means ${WORDS[shown].d}.`,0.85);
+    body=`<div class="lab">TRUE OR FALSE?</div><div class="def" style="font-size:clamp(22px,6vw,30px);margin:16px 4px"><span style="color:var(--orange);font-weight:900">${WORDS[id].w}</span> means <span>"${defQuote(shown)}."</span></div>
+      <div class="row"><button class="btn o" onclick="Q.speak()">🔊 Read it to me</button></div>
+      <div class="row"><button class="btn g" data-tf="1" onclick="pickTF(true)">👍 True</button><button class="btn r" data-tf="0" onclick="pickTF(false)">👎 False</button></div>`;
+  }
+  app.innerHTML=topbar(TEST_NAMES[Q.type],`${Q.i+1} of ${Q.total}`)+bar(Q.i,Q.total)+`<div class="card">${body}<div class="msg" id="fb"></div><div class="row" id="nx"></div></div>`;
+  if(Q.type==='mc')setTimeout(()=>Q.speak(),250);
+}
+function nextBtn(){
+  const last=Q.i+1>=Q.total;
+  document.getElementById('nx').innerHTML=`<button class="btn g" onclick="Q.i++;showQ()">${last?'See results 🏆':'Next ➡'}</button>`;
+}
+function pick(optId){
+  if(Q.answered)return;Q.answered=true;
+  const id=Q.queue[Q.i],good=optId===id;
+  document.querySelectorAll('.opt').forEach(b=>{const bid=+b.dataset.id;if(bid===id)b.classList.add('ok');else if(bid===optId)b.classList.add('no');else b.classList.add('dim')});
+  const fb=document.getElementById('fb');
+  if(good){Q.right++;fb.className='msg good';fb.textContent='✅ Yes! That is right.'}
+  else{Q.missed.push(id);fb.className='msg bad';
+    fb.innerHTML=Q.type==='mc'?`❌ Not quite. <b>${WORDS[id].w}</b> means: ${defText(id)}`:`❌ Not quite. The answer is <b>${WORDS[id].w}</b>.<div class="sent" style="color:#fff;font-weight:500">${sentFilled(id)}</div>`}
+  if(good&&Q.type==='fill'){fb.innerHTML=`✅ Yes!<div class="sent" style="color:#fff;font-weight:500">${sentFilled(id)}</div>`}
+  nextBtn();
+}
+function pickTF(val){
+  if(Q.answered)return;Q.answered=true;
+  const id=Q.queue[Q.i],truth=Q.tf[id],good=val===truth;
+  document.querySelectorAll('[data-tf]').forEach(b=>{const isTrueBtn=b.dataset.tf==='1';if(isTrueBtn===truth)b.style.outline='4px solid #fff';else b.classList.add('off'),b.style.opacity='.5'});
+  const fb=document.getElementById('fb');
+  if(good){Q.right++;fb.className='msg good';fb.textContent=truth?'✅ Right! That is true.':'✅ Right! That is false.'}
+  else{Q.missed.push(id);fb.className='msg bad';fb.innerHTML=`❌ Not quite. <b>${WORDS[id].w}</b> really means: ${defText(id)}`}
+  nextBtn();
+}
+
+/* ---------- test 5: matching ---------- */
+let M=null;
+function startMatch(ids){
+  const rounds=[];for(let i=0;i<ids.length;i+=6)rounds.push(ids.slice(i,i+6));
+  if(rounds.length>1&&rounds[rounds.length-1].length===1){const x=rounds.pop();rounds[rounds.length-1].push(x[0])}
+  M={rounds,r:0,total:ids.length,missed:new Set()};
+  matchRound();
+}
+function matchRound(){
+  hush();
+  const ids=M.rounds[M.r];M.matched=new Set();M.sel=null;
+  const defs=shuffle(ids);
+  app.innerHTML=topbar('Matching',`Round ${M.r+1} of ${M.rounds.length}`)+bar(M.r,M.rounds.length)+`<div class="card">
+    <div class="big" style="font-size:22px">Tap a word, then tap its meaning</div>
+    <div class="mgrid"><div class="mcol w">${shuffle(ids).map(i=>`<button class="opt" id="mw${i}" onclick="mWord(${i})">${WORDS[i].w}</button>`).join('')}</div>
+    <div class="mcol">${defs.map(i=>`<button class="opt" id="md${i}" onclick="mDef(${i})">${defText(i)}</button>`).join('')}</div></div>
+    <div class="msg" id="fb"></div><div class="row" id="nx"></div></div>`;
+}
+function mWord(i){
+  if(M.matched.has(i))return;
+  sayWord(i);
+  document.querySelectorAll('.mcol.w .opt').forEach(b=>b.classList.remove('sel'));
+  M.sel=i;document.getElementById('mw'+i).classList.add('sel');
+  const fb=document.getElementById('fb');fb.className='msg';fb.textContent='';
+}
+function mDef(i){
+  if(M.matched.has(i))return;
+  const fb=document.getElementById('fb');
+  if(M.sel===null){fb.className='msg bad';fb.textContent='Tap a word first.';return}
+  if(M.sel===i){
+    M.matched.add(i);
+    document.getElementById('mw'+i).className='opt done';document.getElementById('md'+i).className='opt done';
+    M.sel=null;fb.className='msg good';fb.textContent='✅ Match!';
+    if(M.matched.size===M.rounds[M.r].length){
+      const more=M.r+1<M.rounds.length;
+      document.getElementById('nx').innerHTML=`<button class="btn g" onclick="${more?'M.r++;matchRound()':'matchDone()'}">${more?'Next round ➡':'See results 🏆'}</button>`;
+    }
+  }else{
+    M.missed.add(M.sel);
+    const b=document.getElementById('md'+i);b.classList.add('no');setTimeout(()=>b.classList.remove('no'),700);
+    document.getElementById('mw'+M.sel).classList.remove('sel');M.sel=null;
+    fb.className='msg bad';fb.textContent='❌ Not that one. Try again.';
+  }
+}
+function matchDone(){results('match',M.total,M.total-M.missed.size,[...M.missed])}
+
+/* ---------- results ---------- */
+function results(type,total,right,missed){
+  hush();
+  const perfect=right===total;
+  const stars='⭐'.repeat(right)+'☆'.repeat(total-right);
+  const msg=perfect?'PERFECT! You know these words!':right>=Math.ceil(total*0.7)?'Awesome work! Almost there!':'Keep practicing. You are getting stronger!';
+  const list=missed.length?`<p class="sent">Words to practice:</p><div class="miss">${missed.map(i=>`<div><b>${WORDS[i].w}</b><br>${defText(i)}</div>${WORDS[i].note?`<p class="hint" role="note">Parent note: ${esc(WORDS[i].note)}</p>`:''}`).join('')}</div>`:'';
+  app.innerHTML=topbar(TEST_NAMES[type],'Results')+`<div class="card">
+    <div class="trophy">${perfect?'🏆':right>=Math.ceil(total*0.7)?'🥇':'🚀'}</div>
+    <div class="stars">${stars}</div>
+    <div class="big">${right} out of ${total}${type==='match'?' on the first try':''}</div>${list}
+    <p class="sent">${msg}</p>
+    <div class="row">${missed.length?`<button class="btn r" onclick="startQuiz('${type}',[${missed.join(',')}])">🔁 Retry missed words</button>`:''}
+    <button class="btn o" onclick="startQuiz('${type}',ALL)">Try again</button><button class="btn" onclick="home()">Menu</button></div></div>`;
+  if(perfect)say('Perfect! You know these words!',0.95);
+}
+home();
+</script>
+</body>
+</html>

@@ -122,7 +122,7 @@ test('Math menus (D26): every chapter has the same six activities, each with its
   // Earlier addresses still open the page that replaced them.
   assert.equal(activityInfo('math', 'ch6review').alias, 'ch6guide');
   assert.equal(activityInfo('math', 'area').chapter, 6);
-  assert.deepEqual(menuItems('spelling').map((a) => a.label), ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses']);
+  assert.deepEqual(menuItems('spelling').map((a) => a.label), ['Learn My Words', 'Study Cards', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses']);
   assert.deepEqual(menuItems('vocab').map((a) => a.label), ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses']);
   assert.ok(Object.values(ACTIVITIES).flat().every((a) => a.label && a.about && a.icon));
 });

@@ -78,6 +78,15 @@ export function validateWeek(week, expectedId) {
 
   validateSpelling(week.spelling, err);
   validateVocab(week.vocab, err);
+  if (week.labs !== undefined) {
+    if (!isObj(week.labs)) err('labs must be an object');
+    else {
+      for (const subject of ['spelling', 'vocab']) {
+        if (week.labs[subject] !== `labs/${expectedId}-${subject}.html`) err(`labs.${subject} must name this week’s ${subject} lab`);
+      }
+      if (Object.keys(week.labs).some((k) => !['spelling', 'vocab'].includes(k))) err('labs contains an unknown subject');
+    }
+  }
   if (week.math !== undefined) validateMath(week.math, err);
   if (week.mathUpcoming !== undefined) {
     const m = week.mathUpcoming;

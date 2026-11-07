@@ -169,6 +169,8 @@ ul.plain, ul.dates, ul.archive, ul.words, ul.checklist { list-style: none; margi
 .fact { font-family: var(--display); font-weight: 800; font-size: 1.3rem; }
 .pic { display: block; background: #fff8ee; border-radius: var(--r); line-height: 0; overflow: hidden; }
 .pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pic.atlas-frame { aspect-ratio: 1; }
+.pic .word-atlas { display: block; width: 100%; height: 100%; overflow: hidden; }
 .vocab-card .pic { aspect-ratio: 1; }
 
 /* Homework */
@@ -451,7 +453,7 @@ body.in-lesson .tabs a { min-height: 44px; }
   body.in-lesson .tabs .ico { width: 18px; height: 18px; }
   /* Design R-4: a question's picture is kept short on phones so the answer boxes are on the first screen. */
   body.in-lesson .question .model-pic svg, body.in-lesson .work.has-pic:has(form) .pic-card svg { max-height: 26vh; }
-  body.in-lesson .work.has-pic:has(form) > .pic-card { order: 2; }
+  /* The picture comes before the question and its answer boxes, so the model is seen first. */
 }
 @media (min-width: 641px) {
   /* Design R-5: when the question is the fieldset legend or the equation itself, "Read to me" sits beside it, top right. */
@@ -545,7 +547,13 @@ section > .hint, .stage > .hint { margin-top: 8px; }
   .act-bar .back { display: none; }
   .review li { break-inside: avoid; }
 }
-@media (min-width: 1201px) { .tabs a { white-space: nowrap; padding: 6px 4px; gap: 6px; } }
+@media (min-width: 1201px) {
+  .tabs { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+  .tabs a { flex: 0 0 auto; white-space: nowrap; padding: 6px; gap: 6px; font-size: .9rem; }
+}
+@media (min-width: 641px) and (max-width: 767px) {
+  .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 .activity-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr)); }
 .bank .bank-word { min-height: 44px; cursor: pointer; font: inherit; color: var(--ink); }
 .bank .bank-word:hover { background: var(--sunk); }
@@ -585,8 +593,7 @@ section > .hint, .stage > .hint { margin-top: 8px; }
 @media (min-width: 641px) and (max-width: 1200px) { .tabs a { font-size: .8rem; padding: 6px 2px; } }
 /* Final review leftovers: spelling flashcards are peach on both faces; Start test buttons line up; a date never breaks. */
 .flashcard, .flashcard.is-flipped { border-top-color: var(--peach); }
-.test-card { display: flex; flex-direction: column; }
-.test-card > .btn, .test-card > .unavailable { margin-top: auto; }
+.test-card { display: grid; }
 .nowrap { white-space: nowrap; }
 
 /* ---------------------------------------------------------------- Assignment 005 corrections: menu-first navigation (D19) */
@@ -614,8 +621,11 @@ section > .hint, .stage > .hint { margin-top: 8px; }
 
 /* Subject menus: "What would you like to do?" with one big card per activity */
 .menu-head { border-left-color: var(--tone); background: var(--tone-tint); }
-.menu-head h1 { margin-top: 2px; }
-.menu { margin-top: 18px; }
+.menu-head h1 { margin-top: 0; }
+.menu { margin-top: 0; }
+.section-head { align-content: start; min-height: 216px; }
+.section-head .btn-row { margin-top: 0; }
+.section-head h1 { margin: 0; }
 .ask { font-family: var(--display); font-size: 1.6rem; margin: 0 0 12px; }
 .menu-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); list-style: none; margin: 0; padding: 0; }
 .menu-card { display: flex; align-items: center; gap: 14px; height: 100%; min-height: 104px; padding: 16px 18px; border-radius: var(--r-lg);
@@ -735,7 +745,7 @@ button.flashcard .pic { width: min(100%, 220px); }
 .mc-go { align-self: center; }
 .prop-learn .instruct-head h3 { font-size: 1.6rem; }
 /* QA UAT-1, UAT-2: Start test sits under the test's name; the flashcard fits a laptop screen with its buttons. */
-.test-card .btn { margin: 4px 0; }
+.test-card .btn { margin: 0; }
 button.flashcard .face { min-height: min(360px, 38vh); }
 .flash-clue { font-size: clamp(1.6rem, 6vw, 2.4rem); }
 /* Accessibility review: a pressed mark shows a tick (not colour alone); crumb links are 44px tall; a focused page heading has no box. */
@@ -790,10 +800,29 @@ h1[tabindex="-1"]:focus { outline: none; } h1[tabindex="-1"]:focus-visible { out
 .guide-lessons { margin: 4px 0 0; padding-left: 1.2em; }
 .guide-lessons a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
 .guide-lessons .muted { color: var(--muted); }
-/* Four practice tests: two by two on tablets, one row on laptops, so every Start test button is on the first screen. */
+/* Detailed test cards stay readable in two columns. Shared rows align headings, actions and facts. */
 @media (min-width: 700px) { .test-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .test-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; } .test-card { padding: 16px; } }
+.test-card { grid-template-rows: subgrid; grid-row: span 5; align-content: start; }
+.test-card-heading { display: grid; grid-template-rows: auto auto auto; gap: 8px; align-content: start; }
+.test-card-action { display: flex; align-items: flex-start; }
+.test-card-action .btn { width: 100%; justify-content: center; }
+.test-card-action .unavailable { margin: 0; width: 100%; }
+.test-card .coverage:empty, .test-card .grownups:empty { margin: 0; padding: 0; border: 0; }
+@supports not (grid-template-rows: subgrid) {
+  .test-card { display: flex; flex-direction: column; }
+}
+@media (max-width: 699px) {
+  .test-grid { grid-template-columns: minmax(0, 1fr); }
+  .test-card-heading { grid-template-rows: none; }
+}
+@media (max-width: 640px) {
+  .section-head { padding: 12px 16px; min-height: 0; }
+  .section-head h1 { font-size: 1.7rem; }
+  .section-head .week-of { display: block; }
+  .section-head .intro { font-size: 1rem; }
+}
 .test-card.test-mathwords { border-top-color: var(--honey); }
+@media print { .section-head { min-height: 0; } }
 
 /* Help: wrong-answer explanation and step-by-step Help (one step at a time) */
 .feedback.notyet, .feedback.help-panel { display: block; }
@@ -956,7 +985,15 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 @media print { [data-subject="homework"] .packet-progress { display: none !important; } }
 /* Homework packet review fixes (D23). */
 .locked { color: var(--muted); font-style: italic; }
-.feedback.compare { border-color: var(--line-strong); }
+.feedback.compare { border-color: var(--line-strong); display: block; }
+.feedback.compare .fb-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.feedback.compare .fb-why { margin: 6px 0 0; max-width: 60ch; overflow-wrap: anywhere; }
+.box.is-compared { border-color: var(--line-strong); background: var(--paper); }
+.sentence-answer { display: block; }
+.sentence-answer label { display: block; margin-bottom: 4px; font-weight: 700; }
+@media (max-width: 640px) {
+  textarea.sentence { min-height: 8em; font-size: 1.05rem; }
+}
 .pl-count { padding-right: 4px; }
 .fluency { width: 100%; max-width: 32rem; }
 @media (max-width: 640px) {

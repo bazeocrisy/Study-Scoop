@@ -63,7 +63,7 @@ test('the story is cut into lines with running word counts for a grown-up', () =
 
 test('the published PDF must be printed by Study Scoop from its own page; a scan fails the build', () => {
   const src = fs.mkdtempSync(path.join(os.tmpdir(), 'hw-src-'));
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'hw-out-'));
   buildSite(out, src);
   assert.deepEqual(verifySite(out), []);
@@ -82,7 +82,7 @@ test('Oct 26 originals are reviewed, all four pages are published, and an unrevi
   const src = fs.mkdtempSync(path.join(os.tmpdir(), 'papers-src-'));
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'papers-out-'));
   try {
-    for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+    for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
     buildSite(out, src);
     assert.deepEqual(verifySite(out), []);
     for (const pg of week.homeworkPapers.pages) assert.ok(fs.existsSync(path.join(out, pg.src)));

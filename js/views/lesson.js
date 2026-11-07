@@ -305,7 +305,7 @@ function answerArea(item, resp, st, test, done) {
   if (item.type === 'sentence') {
     const marked = (st.status === 'notyet' || st.status === 'empty') && st.wrong?.includes('text');
     return html`<p class="word-answer sentence-answer"><label for="${item.id}-text">Write your answer in a complete sentence</label>
-      <textarea class="box text sentence${done ? ' is-right' : ''}" name="text" id="${item.id}-text" rows="3" maxlength="300" autocapitalize="sentences"
+      <textarea class="box text sentence${done ? ' is-compared' : ''}" name="text" id="${item.id}-text" rows="5" maxlength="300" autocapitalize="sentences"
         spellcheck="true"${marked ? html` aria-invalid="true"` : ''}${done ? ' readonly' : ''}>${val(resp, 'text')}</textarea></p>`;
   }
   if (item.type === 'number') {

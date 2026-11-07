@@ -12,12 +12,14 @@ import { pictureName } from '../js/lib/data.js';
 import { validateArea } from '../js/lib/area.js';
 import { validatePacket } from '../js/lib/homework.js';
 import { validateReadingIndex, validateStory } from '../js/lib/reading.js';
+import { isWordIllustration } from '../js/lib/word-illustrations.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 /** The only files that may be published. A path must match one pattern exactly. */
 export const ALLOW = [
   /^index\.html$/,
+  /^labs\/\d{4}-\d{2}-\d{2}-(?:spelling|vocab)\.html$/,
   /^css\/[a-z0-9-]+\.css$/,
   /^js\/(?:(?:lib|views)\/)?[a-z0-9-]+\.js$/,
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
@@ -35,7 +37,7 @@ export const ALLOW = [
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
-const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads'];
+const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs'];
 /** Runtime files the site cannot work without. */
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
 /** Named so a check proves they are absent (the allowlist already excludes them). */
@@ -80,9 +82,11 @@ export function buildSite(out, src = REPO) {
   // A flyer is published only when a listed week names it in its reviewed "flyer" (D26).
   const flyers = new Set([...listed].flatMap((f) => { try { const w = readJSON(path.join(src, f)); return [w.flyer, w.homeworkPapers].flatMap((papers) => papers?.reviewed ? (papers.pages || []).map((pg) => pg.src) : []); } catch { return []; } }));
   const copied = [], skipped = [];
+  const labs = new Set([...listed].flatMap((f) => Object.values(readJSON(path.join(src, f)).labs || {})));
   for (const rel of SOURCES.flatMap((s) => walk(src, s))) {
     let why = null;
     if (!isAllowed(rel)) why = 'not on the allowlist';
+    else if (rel.startsWith('labs/') && !labs.has(rel)) why = 'not named by a published week';
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
     else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';
     else if (/^data\/reading\/(?!index\.json$)/.test(rel) && !readingStories.has(rel)) why = 'not listed in data/reading/index.json';
@@ -115,13 +119,14 @@ export function verifySite(dir) {
   if (problems.length && !has('index.html')) return problems;
 
   // Follow every reference from index.html; each must exist, be relative, and stay inside the site.
-  const used = new Set(['index.html']);
-  const queue = ['index.html'];
+  const entrypoints = ['index.html', ...files.filter((f) => f.startsWith('labs/') && f.endsWith('.html'))];
+  const used = new Set(entrypoints);
+  const queue = [...entrypoints];
   while (queue.length) {
     const from = queue.shift();
     if (!has(from)) continue;
     const text = read(from);
-    const refs = from.endsWith('.html') ? htmlRefs(text) : from.endsWith('.css') ? cssRefs(text) : jsRefs(text);
+    const refs = from.endsWith('.html') ? [...htmlRefs(text), ...[...text.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].flatMap((m) => cssRefs(m[1]))] : from.endsWith('.css') ? cssRefs(text) : jsRefs(text);
     for (const ref of refs) {
       if (ref.startsWith('#') || ref.startsWith('data:')) continue;
       if (/^[a-z]+:|^\/\//i.test(ref)) { problems.push(`${from} loads ${ref} from another site`); continue; }
@@ -147,6 +152,7 @@ export function verifySite(dir) {
       if (!has(rel)) { problems.push(`${rel} is listed in data/weeks.json but missing`); continue; }
       const week = readJSON(path.join(dir, rel));
       problems.push(...validateWeek(week, w.id).map((p) => `${rel}: ${p}`));
+      for (const lab of Object.values(week.labs || {})) if (!has(lab)) problems.push(`${rel} names missing illustrated lab ${lab}`);
       for (const paper of [week.flyer, week.homeworkPapers]) {
         for (const pg of paper?.pages || []) if (!has(pg.src)) problems.push(`${rel} names missing original paper ${pg.src}`);
       }
@@ -157,6 +163,22 @@ export function verifySite(dir) {
     }
     // Vocabulary pictures are optional per word (a missing one is hidden), but a site with none means the images were left out.
     if (!vocabPictures) problems.push('no vocabulary pictures were published');
+    const labs = new Set((index.weeks || []).flatMap((w) => has(`data/${w.id}.json`) ? Object.values(readJSON(path.join(dir, `data/${w.id}.json`)).labs || {}) : []));
+    for (const rel of files.filter((f) => f.startsWith('labs/'))) {
+      if (!labs.has(rel)) problems.push(`${rel} is published but not named by a week`);
+      const back = /class="lab-return"[\s\S]*?href="([^"]+)"/.exec(read(rel))?.[1];
+      const match = /^labs\/(\d{4}-\d{2}-\d{2})-(spelling|vocab)\.html$/.exec(rel);
+      if (!match || back !== `../index.html#${match[2]}?week=${match[1]}`) problems.push(`${rel} needs the correct week and subject in its relative return link`);
+    }
+  }
+
+  if (has('data/pictures.json')) {
+    for (const [week, subjects] of Object.entries(readJSON(path.join(dir, 'data/pictures.json')).illustrations || {})) {
+      for (const [subject, words] of Object.entries(subjects)) for (const [word, p] of Object.entries(words)) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(week) || !['spelling', 'vocab'].includes(subject) || !isWordIllustration(p)) problems.push(`data/pictures.json: invalid illustration for ${week}/${subject}/${word}`);
+        else if (!has(p.src)) problems.push(`data/pictures.json: missing illustration ${p.src}`);
+      }
+    }
   }
 
   // Lessons: the index is valid, every listed lesson is published and passes the lesson checks (its math included),
@@ -245,7 +267,8 @@ export function verifySite(dir) {
   // The picture list must match the published pictures exactly (pages use it so they never ask for a missing file).
   if (has('data/pictures.json')) {
     const list = readJSON(path.join(dir, 'data/pictures.json'));
-    const names = (ext) => files.filter((f) => f.startsWith('images/words/') && f.endsWith(ext))
+    const atlases = new Set(Object.values(list.illustrations || {}).flatMap((subjects) => Object.values(subjects).flatMap((words) => Object.values(words))).filter(isWordIllustration).map((p) => p.src));
+    const names = (ext) => files.filter((f) => f.startsWith('images/words/') && f.endsWith(ext) && !atlases.has(f))
       .map((f) => f.slice('images/words/'.length, -ext.length)).sort();
     if (JSON.stringify(list.photos) !== JSON.stringify(names('.webp'))) problems.push('data/pictures.json: "photos" does not match the published .webp pictures');
     if (JSON.stringify(list.drawings) !== JSON.stringify(names('.svg'))) problems.push('data/pictures.json: "drawings" does not match the published .svg pictures');

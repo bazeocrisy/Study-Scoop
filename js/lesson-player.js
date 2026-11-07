@@ -127,7 +127,7 @@ export function mountLesson(app, ctx, signal) {
     if (r.status === 'empty') {
       st.status = 'empty';
       announce(r.say);
-      rerender(`form[data-item="${item.id}"] input[aria-invalid="true"], form[data-item="${item.id}"] input`);
+      rerender([`form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input, form[data-item="${item.id}"] textarea`]);
       return;
     }
     st.lastChecked = key;
@@ -141,7 +141,7 @@ export function mountLesson(app, ctx, signal) {
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     rerender(r.status === 'correct'
       ? '[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href], form[data-item] .choices input'
-      : `form[data-item="${item.id}"] input[aria-invalid="true"], form[data-item="${item.id}"] input:not([disabled])`);
+      : [`form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled]), form[data-item="${item.id}"] textarea:not([readonly])`]);
   }
 
   app.addEventListener('submit', (e) => {
@@ -191,7 +191,7 @@ export function mountLesson(app, ctx, signal) {
       const n = state.steps[state.i] ?? 1;
       const steps = cards[state.i].steps.length;
       state.steps[state.i] = Math.max(1, Math.min(steps, n + (act === 'step-next' ? 1 : -1)));
-      rerender(state.steps[state.i] >= steps ? '.choices input, [data-act="step-back"]' : `[data-act="${act}"]:not([disabled]), [data-act="step-back"]`);
+      rerender(state.steps[state.i] >= steps ? ['.choices input', '[data-act="step-back"]'] : [`[data-act="${act}"]:not([disabled])`, '[data-act="step-back"]']);
       // A11Y-21: say the step that is now showing (the list itself is rebuilt, so it cannot be a live region).
       const s = cards[state.i].steps[state.steps[state.i] - 1];
       announce(`Step ${state.steps[state.i]} of ${steps}. ${s.say}${s.eq ? ` ${s.eq}` : ''}`);

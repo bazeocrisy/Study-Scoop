@@ -703,7 +703,16 @@ async function main() {
         await b.load(url(lessonHash(meta.id, 'learn')));
         // Learn It: answer each check, then go on.
         for (const [k, s] of L.learn.screens.entries()) {
-          if (s.item) { await solve(s.item); expect((await fb()).startsWith('Yes!'), `${s.item.id}: ${await fb()}`); }
+          if (s.item?.type === 'sentence') {
+            // Explain My Thinking: a too-short answer is coached, a real sentence is compared with a model answer, never marked "right".
+            eq(await b.js('return document.querySelector("[data-act=next]")?.disabled ?? true;'), true, `${s.item.id}: Next waits for an attempt`);
+            await answer(s.item, { text: 'Short.' }); await checkAnswer(s.item);
+            expect((await fb()).includes('Write a little more'), `${s.item.id}: a short answer is coached (${await fb()})`);
+            await solve(s.item);
+            const cmp = await b.js('return document.querySelector("#lesson-stage .feedback.compare")?.textContent.replace(/\\s+/g, " ") || "";');
+            expect(cmp.includes('Compare your answer') && cmp.includes(s.item.example), `${s.item.id}: the model answer is shown for comparison`);
+            expect(!/\bYes!|Correct|mastered/i.test(cmp.replace(s.item.example, '')), `${s.item.id}: a sentence is never marked right`);
+          } else if (s.item) { await solve(s.item); expect((await fb()).startsWith('Yes!'), `${s.item.id}: ${await fb()}`); }
           if (k < L.learn.screens.length - 1) await press('[data-act="next"]');
         }
         await go('.stage-nav a.btn-primary[href$="stage=watch"]');
@@ -1099,6 +1108,23 @@ async function main() {
       await press('#act-stage [data-act="next"]:not([disabled]), #act-stage button[type=submit]');
       eq(await b.js('return document.querySelector(".dictate-fallback").hidden;'), false, 'the clue stays for the rest of the activity');
     });
+    await check('Spelling Study Cards: each card shows the word, its picture and sentence; Next keeps going to the last card; Start over', async () => {
+      await b.load(url(H19('#spelling')));
+      await go(`.menu-card[href="${H19('#spelling?act=cards')}"]`);
+      const words = W19.spelling.words;
+      for (let k = 0; k < words.length; k++) {
+        eq(await b.js('return document.getElementById("stage-h").textContent;'), `Card ${k + 1} of ${words.length}`, 'card count');
+        eq(await b.js('return [document.querySelector(".spell-study .flash-word").textContent, document.querySelector(".spell-study .example").textContent.replace("In a sentence", "").trim()];'),
+          [words[k].word, words[k].sentence], `card ${k + 1}: word and sentence`);
+        if (k < words.length - 1) { const before = await rendered(); await b.js('document.querySelector("[data-act=card-next]").click();'); await afterAction(before); }
+      }
+      expect(await b.js('return !document.querySelector("[data-act=card-next]") && !!document.querySelector(".stage-nav a.btn-primary");'), 'last card: Done');
+      const before = await rendered();
+      await b.js('document.querySelector("[data-act=restart]").click();');
+      await afterAction(before);
+      eq(await b.js('return document.getElementById("stage-h").textContent;'), `Card 1 of ${words.length}`, 'Start over');
+    });
+
     await check('Spelling Flashcards: flip, next, shuffle and marks (a word to practise goes to Practice My Misses)', async () => {
       await b.load(url(H19('#spelling')));
       await go(`.menu-card[href="${H19('#spelling?act=flash')}"]`);
@@ -1174,7 +1200,7 @@ async function main() {
     });
     await check('every subject opens on its menu, and every choice has Back to the menu and Home', async () => {
       const MENUS = {
-        spelling: ['Learn My Words', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses'],
+        spelling: ['Learn My Words', 'Study Cards', 'Flashcards', 'Missing Letters', 'Listen & Spell', 'Practice My Misses'],
         vocab: ['Learn My Words', 'Multiple Choice', 'True or False', 'Fill in the Blank', 'Practice My Misses'],
         // Math opens on Choose Your Chapter (D26); each card opens a chapter menu.
         math: ['Chapter 5: Multiplication Properties and Strategies', 'Chapter 6: Connect Area and Multiplication'],
@@ -1324,7 +1350,7 @@ async function main() {
       await b.viewport(1366, 768, false);
       await b.load(url(H19('#week')));
       await go('nav.tabs a[data-tab=tests]');
-      expect(await b.js('return [...document.querySelectorAll(".test-card a.btn")].every((a) => a.getBoundingClientRect().bottom <= innerHeight);'), 'every Start test button is on the first screen at 1366 x 768');
+      expect(await b.js('const actions=[...document.querySelectorAll(".test-card a.btn")].slice(0,2).map(a=>a.getBoundingClientRect());return actions.length===2 && actions.every(r=>r.bottom<=innerHeight) && Math.abs(actions[0].top-actions[1].top)<2;'), 'first-row Start test buttons align and remain on the first screen at 1366 x 768');
       await b.viewport(1366, 900, false);
       await b.load(url(H19('#tests')));
       eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".facts div:last-child dd")?.textContent, !!c.querySelector("a.btn")]);'),
