@@ -87,6 +87,8 @@ test('no personal names from the original materials are published', () => {
   for (const f of PUBLISHED.filter((p) => /\.(html|js|json|md|svg|css)$/.test(p))) {
     // These two documents record what was found and what was replaced.
     if (f === 'docs/DECISIONS.md' || f === 'docs/STUDY-SCOOP-AUDIT-REPORT.md') continue;
+    // The Product Owner approved their own child's name in this one game (D28).
+    if (f === 'games/multiplication-mastery-8.html') continue;
     refute(NAMES, read(f), f);
   }
 });
