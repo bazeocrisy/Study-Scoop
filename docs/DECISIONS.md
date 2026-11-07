@@ -73,3 +73,7 @@ The replacements keep each sentence's grammar and its article ("an ___" still pr
 - **Voice:** reading aloud uses the browser's built-in voice (a device voice first). Nothing is recorded or sent, and the microphone is not used. The grown-up, not speech recognition, decides which words were missed, because speech recognition quietly corrects mistakes.
 - **Nothing is stored (CLAUDE.md):** readings, scores and tapped words live only while the page is open. Streaks, saved progress and minutes-per-day need a new approved design.
 - **Not built yet (needs approval):** the AI listening coach (a speech service that checks each word and a server to keep keys private), progress saved on the device, and more than eight passages.
+
+## Chapter 7 fractions (November 2026)
+
+Chapter 7 uses a shared rational/model extension rather than the homework helper’s single-whole fraction pictures. Partition-specific prompts require the displayed subdivision; value prompts accept exact equivalent fractions. Original chapter data owns all seven lessons and six activity roles. The November 9 week only recommends it and preserves the teacher’s four definitions; no school Math test is invented. Study history remains tab-memory only, with current-round results distinguished from earlier help/reveals. Written reflections are self/parent assessed, never graded for mathematical meaning by text heuristics. See `CHAPTER-7-BUILD.md` for independent reviews and release gates.

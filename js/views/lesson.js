@@ -33,13 +33,26 @@ export function lessonView(ctx) {
   return html`
     ${lessonBar(ctx, lesson, stage)}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">
-      ${stageBody(ctx, lesson, stage, state)}
+      ${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}
     </div>`;
 }
 
 /** Just the stage area (re-rendered in place after each answer, so the page does not jump). */
 export function stageInner(ctx) {
-  return stageBody(ctx, ctx.lesson, stageOf(ctx.stage), ctx.lessonState || { i: 0, items: {}, steps: {} });
+  const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
+  return html`${stageBody(ctx, ctx.lesson, stageOf(ctx.stage), state)}${lessonHistoryPanel(ctx.lesson, state)}`;
+}
+
+function lessonHistoryPanel(lesson, state) {
+  if (chapterOf(lesson.id) !== 7 || !state.history) return '';
+  const records = Object.entries(state.history.items || {}), current = Object.values(state.items || {});
+  const helped = records.reduce((n, [, v]) => n + v.help, 0), revealed = records.reduce((n, [, v]) => n + v.reveals, 0);
+  return html`<details class="card lesson-history"><summary>Parent summary: this visit</summary>
+    ${state.stage === 'parent' ? html`<p>Latest activity rounds are listed separately from earlier assistance below. Written reasoning is self-reviewed or parent-reviewed and is not scored for meaning.</p>` : html`<p>Current round: ${current.filter((v) => v.first === 'correct').length} questions right on the first attempt; ${current.filter((v) => v.first && v.first !== 'correct').length} needing another attempt. Written reasoning is reviewed separately and is not scored for meaning.</p>`}
+    ${state.stage === 'parent' && Object.keys(state.history.currentRounds || {}).length ? html`<ul>${Object.entries(state.history.currentRounds).map(([stage, round]) => html`<li>${stageLabel(stage)}, latest round: ${round.right} right on the first attempt; ${round.retry} needing another attempt.</li>`)}</ul>` : ''}
+    <p>Across this visit, including earlier rounds: ${helped} help steps opened; ${revealed} answers revealed; ${state.history.restarts} restarts or retakes; ${state.history.missRounds} missed-question rounds. These earlier events remain after a retry.</p>
+    ${records.length ? html`<ul>${records.map(([id, r]) => html`<li>${r.label || 'Question'}: ${r.attempts} checked attempts, ${r.help} help steps, ${r.reveals} answer reveals.</li>`)}</ul>` : ''}
+    <p>Kept only in this open tab. Closing or refreshing clears this summary.</p></details>`;
 }
 
 function lessonBar(ctx, lesson, stage) {
@@ -112,8 +125,8 @@ function exampleCard(lesson, ex, idx, state) {
   const whyState = state.items?.[ex.why?.id];
   const another = ex.another ? (ex.another.models || [ex.another.model]) : [];
   return html`
-    <div class="work has-pic">
-      <div class="card pic-card">${modelFigure(pic)}</div>
+    <div class="work${pic ? ' has-pic' : ''}">
+      ${pic ? html`<div class="card pic-card">${modelFigure(pic)}</div>` : ''}
       <div class="card">
         <div class="instruct-head"><h3>${ex.title}</h3>${readButton([ex.title, ...ex.steps.slice(0, shown).map((s) => (s.eq ? `${s.say} ${s.eq}` : s.say))], 'these steps')}</div>
         <ol class="steps">
@@ -152,6 +165,7 @@ function sayItem(item) {
 export function itemCard(lesson, item, stage, state) {
   const st = state.items?.[item.id] || {};
   const test = stage === 'test';
+  const writtenReview = chapterOf(lesson.id) === 7 && item.type === 'sentence' && !test;
   const resp = st.resp || {};
   const done = !test && (st.status === 'correct' || st.shown);
   const steps = test ? [] : helpSteps(item);
@@ -164,16 +178,30 @@ export function itemCard(lesson, item, stage, state) {
       ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m, m.caption))}</div></div>` : ''}
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
         <div class="instruct-head">${item.type === 'choice' || item.type === 'multi' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' || item.type === 'letters' ? '' : readButton(sayItem(item), 'the question')}</div>
-        ${answerArea(item, resp, st, test, done)}
-        ${test ? '' : html`
+        ${writtenReview ? writtenReviewArea(item, st) : answerArea(item, resp, st, test, done)}
+        ${test || writtenReview ? '' : html`
           <div class="btn-row">
             ${done ? '' : html`<button type="submit" class="btn btn-primary">Check Answer</button>`}
             ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${opened ? 'Next step' : 'Help'}</button>` : ''}
           </div>`}
-        ${!test && opened ? helpPanel(item, steps, opened, st.shown, done) : ''}
-        ${!test && st.say ? feedbackPanel(item, st, opened) : ''}
+        ${!test && !writtenReview && opened ? helpPanel(item, steps, opened, st.shown, done) : ''}
+        ${!test && !writtenReview && st.say ? feedbackPanel(item, st, opened) : ''}
       </form>
     </div>`;
+}
+
+function writtenReviewArea(item, st) {
+  const compared = st.comparedRevision === (st.revision || 0), reviewed = st.reviewedRevision === (st.revision || 0);
+  return html`<label for="${item.id}-text">Write your own explanation</label>
+    <textarea class="box text sentence" id="${item.id}-text" name="text" rows="5" maxlength="600"${st.status === 'empty' ? html` aria-invalid="true"` : ''}>${val(st.resp || {}, 'text')}</textarea>
+    <p>This explanation is reviewed by you or a grown-up. The computer does not grade its mathematical meaning.</p>
+    <button class="btn btn-primary" type="submit">Compare my response with an example</button>
+    ${st.status === 'empty' ? html`<p class="feedback info">${st.say}</p>` : ''}
+    ${compared ? html`<section data-written-review id="fb-${item.id}" class="card"><h3>Compare and review</h3><p><strong>One example:</strong> ${item.example}</p>
+      <fieldset><legend>You or a grown-up: review this version of your response</legend>
+        ${[['whole', 'I identified the whole or the quantities in the question.'], ['reason', 'I explained why my answer makes sense, using the model or an example.'], ['compare', 'I compared my reasoning with the example, or asked a grown-up to review it.']].map(([key, label]) => html`<label class="choice"><input type="checkbox" data-review-check="${key}"${st.reviewChecks?.[key] ? ' checked' : ''}> ${label}</label>`)}
+      </fieldset><button type="button" class="btn" data-act="review-written">Finish my review</button>
+      ${reviewed ? html`<p data-written-complete role="status">Review completed for this response. This is not a computer grade for mathematical meaning.</p>` : ''}</section>` : ''}`;
 }
 
 /** A written blank ("___") drawn as a line; screen readers say "blank" instead of a row of underscores. */
@@ -307,6 +335,13 @@ function answerArea(item, resp, st, test, done) {
     return html`<p class="word-answer sentence-answer"><label for="${item.id}-text">Write your answer in a complete sentence</label>
       <textarea class="box text sentence${done ? ' is-compared' : ''}" name="text" id="${item.id}-text" rows="5" maxlength="300" autocapitalize="sentences"
         spellcheck="true"${marked ? html` aria-invalid="true"` : ''}${done ? ' readonly' : ''}>${val(resp, 'text')}</textarea></p>`;
+  }
+  if (item.type === 'fraction') {
+    return html`<fieldset class="fraction-answer"><legend>Write the fraction</legend>
+      <label for="${item.id}-n">Numerator (top number)</label>${box(item, 'n', 'Numerator, top number', resp, st, done)}
+      <span class="fraction-bar" aria-hidden="true"></span>
+      <label for="${item.id}-d">Denominator (bottom number)</label>${box(item, 'd', 'Denominator, bottom number', resp, st, done)}
+    </fieldset>`;
   }
   if (item.type === 'number') {
     const fact = /^(.*=)\s*\?\s*$/.exec(item.prompt);
@@ -455,7 +490,7 @@ function testNext(ctx, lesson, passed) {
   if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
   // The last lesson of a chapter: that chapter's Study Guide and Chapter Test (D26).
   const ch = chapterOf(lesson.id);
-  const guide = ch === 6 ? 'ch6guide' : 'guide';
+  const guide = ch === 7 ? 'ch7guide' : ch === 6 ? 'ch6guide' : 'guide';
   return {
     text: `You finished the last lesson of Chapter ${ch}! Review with the Chapter ${ch} Study Guide, then try the Chapter ${ch} Practice Test.`,
     main: html`<a class="btn" href="${ctx.actLink('math', `ch${ch}test`)}">Chapter ${ch} Practice Test</a><a class="btn btn-primary" href="${ctx.actLink('math', guide)}">Chapter ${ch} Study Guide ›</a>`, retakeSecondary: true,
@@ -499,6 +534,7 @@ function testResults(ctx, lesson, state) {
   const s = score(items, state.items || {}, lesson.test.pass);
   const shown = (it) => {
     const r = state.items?.[it.id]?.resp || {};
+    if (it.type === 'fraction') return r.n || r.d ? `${r.n || 'blank'}/${r.d || 'blank'}` : 'No answer';
     if (it.type === 'choice') return r.choice === undefined ? 'No answer' : it.options[Number(r.choice)]?.text || 'No answer';
     const vals = boxes(it).map((b) => r[b]).filter((x) => x !== undefined && x !== '');
     return vals.length ? vals.join(', ') : 'No answer';

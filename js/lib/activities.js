@@ -28,6 +28,23 @@ export const ACTIVITIES = {
   // Math is chapter-first (D26): Math opens on Choose Your Chapter, and every chapter's menu has the same six roles
   // (CHAPTER_ROLES). Each entry names its chapter; its content comes from that chapter's own data and teacher week.
   math: [
+    {"id": "fraclearn", "label": "Learn Fraction Vocabulary", "about": "Teacher definitions, chapter review words and models.", "icon": "book", "chapter": 7, "role": "vocab", "page": true},
+    {"id": "fracwords", "label": "Vocabulary Practice", "about": "Study cards and twenty questions in each word activity.", "icon": "cards", "chapter": 7, "role": "vocabpractice", "page": true},
+    {"id": "ch7", "label": "Math Lessons", "about": "Seven lessons about equal parts, fraction number lines and sets.", "icon": "steps", "chapter": 7, "role": "lessons", "page": true},
+    {"id": "fracpractice", "label": "Practice Problems", "about": "Fraction models, reasoning and mixed practice.", "icon": "pencil", "chapter": 7, "role": "practice", "page": true},
+    {"id": "ch7guide", "label": "Study Guide", "about": "Printable review, worked examples and self-check answers.", "icon": "book", "chapter": 7, "role": "guide", "page": true},
+    {"id": "ch7test", "label": "Chapter 7 Practice Test", "about": "Twenty-eight fresh questions across seven lessons.", "icon": "choice", "chapter": 7, "role": "test", "test": true, "group": "fractions"},
+    {"id": "fvflash", "label": "Fraction Word Cards", "about": "Practice this chapter with feedback and help.", "icon": "cards", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
+    {"id": "fvchoice", "label": "Choose the Meaning", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
+    {"id": "fvtf", "label": "True or False", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
+    {"id": "fvfill", "label": "Fill in the Blank", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
+    {"id": "fvmisses", "label": "Practice My Misses", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab", "misses": true},
+    {"id": "fpractice", "label": "Mixed Fraction Practice", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
+    {"id": "fchoice", "label": "Choose and Explain", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
+    {"id": "ftf", "label": "True or False", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
+    {"id": "ffill", "label": "Write the Fraction", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
+    {"id": "fmisses", "label": "Practice My Misses", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions", "misses": true},
+
     // Chapter 5: Multiplication Properties and Strategies.
     { id: 'learn', chapter: 5, role: 'vocab', label: 'Learn the Properties', about: 'Meet the five multiplication properties, one at a time, with the teacher\'s words.', icon: 'book', start: true },
     { id: 'words', chapter: 5, role: 'vocabpractice', label: 'Math Vocabulary', about: 'Review My Words, Multiple Choice, True or False, Fill in the Blank and Practice My Misses.', icon: 'cards', page: true },
@@ -476,8 +493,8 @@ export function validateTests(tests, week) {
 }
 
 /** The groups a math test score is shown in on the results screen. */
-export const MATH_SKILLS = ['names', 'facts', 'arrays', 'breaking', 'l61', 'l62', 'l63', 'l64', 'l65', 'l66'];
-export const SKILL_LABEL = { names: 'Naming the properties', facts: 'Times 1, times 0 and turn-around facts', arrays: 'Rows, columns and split arrays', breaking: 'Breaking apart facts',
+export const MATH_SKILLS = ['l71', 'l72', 'l73', 'l74', 'l75', 'l76', 'l77', 'names', 'facts', 'arrays', 'breaking', 'l61', 'l62', 'l63', 'l64', 'l65', 'l66'];
+export const SKILL_LABEL = { l71: 'Equal parts', l72: 'Understand fractions', l73: 'Fraction number lines', l74: 'One whole', l75: 'Whole-number fractions', l76: 'Beyond one', l77: 'Fractions of a set',  names: 'Naming the properties', facts: 'Times 1, times 0 and turn-around facts', arrays: 'Rows, columns and split arrays', breaking: 'Breaking apart facts',
   l61: 'Lesson 6-1: Understand area', l62: 'Lesson 6-2: Count unit squares', l63: 'Lesson 6-3: Multiply length × width',
   l64: 'Lesson 6-4: Composite figures', l65: 'Lesson 6-5: Split a side (Distributive Property)', l66: 'Lesson 6-6: Area problems' };
 const AREA_SKILLS = ['l61', 'l62', 'l63', 'l64', 'l65', 'l66'];

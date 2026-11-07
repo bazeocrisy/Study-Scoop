@@ -1,0 +1,1482 @@
+{
+  "id": "7-4",
+  "chapter": 7,
+  "title": "Represent One Whole as a Fraction",
+  "goal": "I can explain why selecting every equal part represents one whole.",
+  "catchAll": "A fraction equals one when its numerator and denominator count the same number of parts.",
+  "teacher": [
+    {
+      "term": "denominator",
+      "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+    },
+    {
+      "term": "unit fraction",
+      "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+    },
+    {
+      "term": "numerator",
+      "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+    },
+    {
+      "term": "fraction",
+      "def": "A fraction is a number used when a whole is split into equal parts."
+    }
+  ],
+  "glossary": {
+    "whole": "the one shape, unit length, complete piece or entire set named in the question",
+    "partition": "divide a whole into equal parts",
+    "interval": "the distance between neighboring marks on a number line"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Name the whole",
+        "text": [
+          "Every equal part together makes one whole."
+        ],
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      },
+      {
+        "title": "Connect the parts",
+        "text": [
+          "Different denominators can name the same whole.",
+          "A fraction equals one when its numerator and denominator count the same number of parts."
+        ]
+      },
+      {
+        "title": "Check the reasoning",
+        "text": [
+          "The point at one can also be named with a fraction."
+        ]
+      },
+      {
+        "title": "Check the idea",
+        "item": {
+          "id": "r1",
+          "type": "fraction",
+          "prompt": "Write a fraction for the complete whole shown in this paper fan. Use the displayed partition.",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 6,
+            "wholes": 1,
+            "selected": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 6,
+            "d": 6
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "There are 6 equal parts in each whole.",
+            "There are 6 selected parts.",
+            "The fraction is 6/6."
+          ],
+          "yes": "The model represents 6/6."
+        }
+      },
+      {
+        "title": "Check another way",
+        "item": {
+          "id": "r2",
+          "type": "choice",
+          "prompt": "Every part of this display card is selected. What must be true about the numerator and denominator?",
+          "model": {
+            "type": "fraction",
+            "kind": "circle",
+            "parts": 8,
+            "wholes": 1,
+            "selected": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          },
+          "options": [
+            {
+              "text": "The denominator counts only the unselected parts.",
+              "why": "The denominator counts all equal parts in one whole."
+            },
+            {
+              "text": "They are the same because all parts of one whole are counted.",
+              "correct": true
+            },
+            {
+              "text": "The numerator must be one whatever the partition.",
+              "why": "A numerator of one would count only one part; here all parts are selected."
+            }
+          ],
+          "show": [
+            "Every equal part of one whole is counted, so the two counts match."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Explain My Thinking",
+        "item": {
+          "id": "explain",
+          "type": "sentence",
+          "prompt": "Why does a fraction with the same numerator and denominator equal one? Write a complete sentence.",
+          "keywords": [
+            "whole"
+          ],
+          "minKeywords": 0,
+          "minWords": 5,
+          "example": "The denominator counts all equal parts and the matching numerator counts every one of them, so the fraction represents the whole.",
+          "hints": [
+            "Describe what the whole is and how its parts are counted."
+          ],
+          "show": [
+            "Compare your reasoning with a grown-up or the model response.",
+            "The denominator counts all equal parts and the matching numerator counts every one of them, so the fraction represents the whole."
+          ]
+        }
+      }
+    ]
+  },
+  "watch": {
+    "examples": [
+      {
+        "title": "Identify the whole and what is counted",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "steps": [
+          {
+            "say": "Write a fraction for the complete whole shown in this wall hanging. Use the displayed partition."
+          },
+          {
+            "say": "Identify exactly what is being treated as one whole."
+          },
+          {
+            "say": "There are 2 equal parts in each whole."
+          },
+          {
+            "say": "There are 2 selected parts."
+          },
+          {
+            "say": "The fraction is 2/2."
+          }
+        ],
+        "why": {
+          "id": "w1check",
+          "type": "fraction",
+          "prompt": "Write a fraction for the complete whole shown in this wall hanging. Use the displayed partition.",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 2,
+            "wholes": 1,
+            "selected": [
+              0,
+              1
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 2,
+            "d": 2
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "There are 2 equal parts in each whole.",
+            "There are 2 selected parts.",
+            "The fraction is 2/2."
+          ],
+          "yes": "The model represents 2/2."
+        }
+      },
+      {
+        "title": "Explain the meaning of the counts",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 3
+        },
+        "steps": [
+          {
+            "say": "A puzzle mat uses 3 equal pieces for a whole. Another whole uses 4 equal pieces. If every piece is selected in both, which statement is true?"
+          },
+          {
+            "say": "Identify exactly what is being treated as one whole."
+          },
+          {
+            "say": "All parts of each whole together represent one, regardless of the number of equal parts."
+          }
+        ],
+        "why": {
+          "id": "w2check",
+          "type": "choice",
+          "prompt": "A puzzle mat uses 3 equal pieces for a whole. Another whole uses 4 equal pieces. If every piece is selected in both, which statement is true?",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 3,
+            "max": 1,
+            "point": 3
+          },
+          "options": [
+            {
+              "text": "Only the one with more pieces is a whole.",
+              "why": "More pieces do not change the total when all pieces of one whole are selected."
+            },
+            {
+              "text": "Both represent one whole.",
+              "correct": true
+            },
+            {
+              "text": "Only the one with fewer pieces is a whole.",
+              "why": "The number of pieces can differ while each selection covers its whole."
+            }
+          ],
+          "show": [
+            "All parts of each whole together represent one, regardless of the number of equal parts."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Work through another fraction model",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "steps": [
+          {
+            "say": "Write a fraction for the complete whole shown in this music card. Use the displayed partition."
+          },
+          {
+            "say": "Identify exactly what is being treated as one whole."
+          },
+          {
+            "say": "There are 6 equal parts in each whole."
+          },
+          {
+            "say": "There are 6 selected parts."
+          },
+          {
+            "say": "The fraction is 6/6."
+          }
+        ],
+        "why": {
+          "id": "w3check",
+          "type": "fraction",
+          "prompt": "Write a fraction for the complete whole shown in this music card. Use the displayed partition.",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 6,
+            "wholes": 1,
+            "selected": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 6,
+            "d": 6
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "There are 6 equal parts in each whole.",
+            "There are 6 selected parts.",
+            "The fraction is 6/6."
+          ],
+          "yes": "The model represents 6/6."
+        }
+      }
+    ]
+  },
+  "together": {
+    "items": [
+      {
+        "id": "g1",
+        "type": "fraction",
+        "prompt": "Write a fraction for the complete whole shown in this art ribbon. Use the displayed partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 2
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 2 equal parts in each whole.",
+          "The point is 2 intervals from zero.",
+          "The fraction is 2/2."
+        ],
+        "yes": "The model represents 2/2."
+      },
+      {
+        "id": "g2",
+        "type": "choice",
+        "prompt": "Every part of this garden marker is selected. What must be true about the numerator and denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "The denominator counts only the unselected parts.",
+            "why": "The denominator counts all equal parts in one whole."
+          },
+          {
+            "text": "They are the same because all parts of one whole are counted.",
+            "correct": true
+          },
+          {
+            "text": "The numerator must be one whatever the partition.",
+            "why": "A numerator of one would count only one part; here all parts are selected."
+          }
+        ],
+        "show": [
+          "Every equal part of one whole is counted, so the two counts match."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g3",
+        "type": "fraction",
+        "prompt": "The complete whole in this window panel is selected. Write any fraction with the same value as the whole.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 4
+        },
+        "answerPolicy": "value",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "There are 4 selected parts.",
+          "The fraction is 4/4."
+        ],
+        "yes": "The model represents 4/4."
+      },
+      {
+        "id": "g4",
+        "type": "choice",
+        "prompt": "A trail sign uses 6 equal pieces for a whole. Another whole uses 8 equal pieces. If every piece is selected in both, which statement is true?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "options": [
+          {
+            "text": "Only the one with fewer pieces is a whole.",
+            "why": "The number of pieces can differ while each selection covers its whole."
+          },
+          {
+            "text": "Only the one with more pieces is a whole.",
+            "why": "More pieces do not change the total when all pieces of one whole are selected."
+          },
+          {
+            "text": "Both represent one whole.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "All parts of each whole together represent one, regardless of the number of equal parts."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g5",
+        "type": "fraction",
+        "prompt": "Write a fraction for the complete whole shown in this paper mat. Use the displayed partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 8,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "There are 8 selected parts.",
+          "The fraction is 8/8."
+        ],
+        "yes": "The model represents 8/8."
+      },
+      {
+        "id": "g6",
+        "type": "choice",
+        "prompt": "Every part of this festival flag is selected. What must be true about the numerator and denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "They are the same because all parts of one whole are counted.",
+            "correct": true
+          },
+          {
+            "text": "The numerator must be one whatever the partition.",
+            "why": "A numerator of one would count only one part; here all parts are selected."
+          },
+          {
+            "text": "The denominator counts only the unselected parts.",
+            "why": "The denominator counts all equal parts in one whole."
+          }
+        ],
+        "show": [
+          "Every equal part of one whole is counted, so the two counts match."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "number",
+        "prompt": "For this model, what count records the selected parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "answer": "6",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 6."
+        ],
+        "yes": "The count is 6."
+      },
+      {
+        "id": "t2",
+        "type": "number",
+        "prompt": "For this model, what count records the equal parts in one whole?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "answer": "8",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 8."
+        ],
+        "yes": "The count is 8."
+      },
+      {
+        "id": "t3",
+        "type": "number",
+        "prompt": "For this model, what count records the selected parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "answer": "2",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 2."
+        ],
+        "yes": "The count is 2."
+      },
+      {
+        "id": "t4",
+        "type": "number",
+        "prompt": "For this model, what count records the intervals from zero to the point?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 2
+        },
+        "answer": "2",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 2."
+        ],
+        "yes": "The count is 2."
+      },
+      {
+        "id": "t5",
+        "type": "number",
+        "prompt": "For this model, what count records the equal parts in one whole?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "answer": "3",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 3."
+        ],
+        "yes": "The count is 3."
+      },
+      {
+        "id": "t6",
+        "type": "number",
+        "prompt": "For this model, what count records the selected parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "answer": "4",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 4."
+        ],
+        "yes": "The count is 4."
+      },
+      {
+        "id": "t7",
+        "type": "fraction",
+        "prompt": "Write a fraction for the complete whole shown in this reading card. Use the displayed partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 4
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 4 intervals from zero.",
+          "The fraction is 4/4."
+        ],
+        "yes": "The model represents 4/4."
+      },
+      {
+        "id": "t8",
+        "type": "fraction",
+        "prompt": "Write a fraction for the complete whole shown in this fabric strip. Use the displayed partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 8,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "There are 8 selected parts.",
+          "The fraction is 8/8."
+        ],
+        "yes": "The model represents 8/8."
+      },
+      {
+        "id": "t9",
+        "type": "fraction",
+        "prompt": "The complete whole in this club badge is selected. Write any fraction with the same value as the whole.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 4
+        },
+        "answerPolicy": "value",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "There are 4 selected parts.",
+          "The fraction is 4/4."
+        ],
+        "yes": "The model represents 4/4."
+      },
+      {
+        "id": "t10",
+        "type": "fraction",
+        "prompt": "Write a fraction for the complete whole shown in this recipe card. Use the displayed partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 8
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 8,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 8 intervals from zero.",
+          "The fraction is 8/8."
+        ],
+        "yes": "The model represents 8/8."
+      },
+      {
+        "id": "t11",
+        "type": "fraction",
+        "prompt": "Write a fraction for the complete whole shown in this bookmark. Use the displayed partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "There are 3 selected parts.",
+          "The fraction is 3/3."
+        ],
+        "yes": "The model represents 3/3."
+      },
+      {
+        "id": "t12",
+        "type": "fraction",
+        "prompt": "The complete whole in this stage banner is selected. Write any fraction with the same value as the whole.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 3
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 3
+        },
+        "answerPolicy": "value",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 3 intervals from zero.",
+          "The fraction is 3/3."
+        ],
+        "yes": "The model represents 3/3."
+      },
+      {
+        "id": "t13",
+        "type": "choice",
+        "prompt": "A game board uses 6 equal pieces for a whole. Another whole uses 8 equal pieces. If every piece is selected in both, which statement is true?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "options": [
+          {
+            "text": "Only the one with more pieces is a whole.",
+            "why": "More pieces do not change the total when all pieces of one whole are selected."
+          },
+          {
+            "text": "Both represent one whole.",
+            "correct": true
+          },
+          {
+            "text": "Only the one with fewer pieces is a whole.",
+            "why": "The number of pieces can differ while each selection covers its whole."
+          }
+        ],
+        "show": [
+          "All parts of each whole together represent one, regardless of the number of equal parts."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t14",
+        "type": "choice",
+        "prompt": "Every part of this picnic cloth is selected. What must be true about the numerator and denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 2
+        },
+        "options": [
+          {
+            "text": "The numerator must be one whatever the partition.",
+            "why": "A numerator of one would count only one part; here all parts are selected."
+          },
+          {
+            "text": "The denominator counts only the unselected parts.",
+            "why": "The denominator counts all equal parts in one whole."
+          },
+          {
+            "text": "They are the same because all parts of one whole are counted.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Every equal part of one whole is counted, so the two counts match."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t15",
+        "type": "choice",
+        "prompt": "Every part of this display panel is selected. What must be true about the numerator and denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            0,
+            1
+          ]
+        },
+        "options": [
+          {
+            "text": "The denominator counts only the unselected parts.",
+            "why": "The denominator counts all equal parts in one whole."
+          },
+          {
+            "text": "They are the same because all parts of one whole are counted.",
+            "correct": true
+          },
+          {
+            "text": "The numerator must be one whatever the partition.",
+            "why": "A numerator of one would count only one part; here all parts are selected."
+          }
+        ],
+        "show": [
+          "Every equal part of one whole is counted, so the two counts match."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "Which statement correctly explains this model’s whole and its parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "options": [
+          {
+            "text": "The denominator should be 7, including an extra boundary.",
+            "why": "Boundaries are not extra equal parts."
+          },
+          {
+            "text": "The numerator and denominator can be chosen without the model.",
+            "why": "The model fixes the counts."
+          },
+          {
+            "text": "The defined whole has 6 equal parts per unit.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Use 6 for the number of parts in the defined whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "A photo frame uses 4 equal pieces for a whole. Another whole uses 6 equal pieces. If every piece is selected in both, which statement is true?",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "options": [
+          {
+            "text": "Only the one with more pieces is a whole.",
+            "why": "More pieces do not change the total when all pieces of one whole are selected."
+          },
+          {
+            "text": "Both represent one whole.",
+            "correct": true
+          },
+          {
+            "text": "Only the one with fewer pieces is a whole.",
+            "why": "The number of pieces can differ while each selection covers its whole."
+          }
+        ],
+        "show": [
+          "All parts of each whole together represent one, regardless of the number of equal parts."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "Which statement correctly explains this model’s whole and its parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "options": [
+          {
+            "text": "The defined whole has 8 equal parts per unit.",
+            "correct": true
+          },
+          {
+            "text": "The denominator should be 9, including an extra boundary.",
+            "why": "Boundaries are not extra equal parts."
+          },
+          {
+            "text": "The numerator and denominator can be chosen without the model.",
+            "why": "The model fixes the counts."
+          }
+        ],
+        "show": [
+          "Use 8 for the number of parts in the defined whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t19",
+        "type": "choice",
+        "prompt": "Which statement correctly explains this model’s whole and its parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "The denominator should be 4, including an extra boundary.",
+            "why": "Boundaries are not extra equal parts."
+          },
+          {
+            "text": "The numerator and denominator can be chosen without the model.",
+            "why": "The model fixes the counts."
+          },
+          {
+            "text": "The defined whole has 3 equal parts per unit.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Use 3 for the number of parts in the defined whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "A classmate selects every piece of one whole and then doubles both the numerator and denominator in its fraction name. Does the value still represent one?",
+        "options": [
+          {
+            "text": "No; equal numerators and denominators can never name one.",
+            "why": "Matching counts name all parts of a whole."
+          },
+          {
+            "text": "Yes; both counts still match, so the fraction names one whole.",
+            "correct": true
+          },
+          {
+            "text": "No; the value must become two wholes.",
+            "why": "Doubling the denominator makes the parts smaller while the numerator counts all of them."
+          }
+        ],
+        "show": [
+          "A matching numerator and denominator still represent the complete whole."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "test": {
+    "pass": 8,
+    "items": [
+      {
+        "id": "x1",
+        "type": "fraction",
+        "prompt": "Every part of this circular badge is selected. Write the fraction using its parts.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 8,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "There are 8 selected parts.",
+          "The fraction is 8/8."
+        ],
+        "yes": "The model represents 8/8."
+      },
+      {
+        "id": "x2",
+        "type": "fraction",
+        "prompt": "Every equal part is selected. Write any fraction with the value of this whole.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 3
+        },
+        "answerPolicy": "value",
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "There are 3 selected parts.",
+          "The fraction is 3/3."
+        ],
+        "yes": "The model represents 3/3."
+      },
+      {
+        "id": "x3",
+        "type": "number",
+        "prompt": "The point marks one whole divided into six equal intervals. What numerator completes the fraction with denominator six?",
+        "answer": "6",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 6
+        },
+        "show": [
+          "All six of the six equal parts must be counted."
+        ],
+        "yes": "All six of the six equal parts must be counted."
+      },
+      {
+        "id": "x4",
+        "type": "number",
+        "prompt": "Eight equal parts are all selected. What denominator goes with numerator eight to describe exactly one whole?",
+        "answer": "8",
+        "show": [
+          "The denominator is eight because there are eight equal parts in one whole."
+        ],
+        "yes": "The denominator is eight because there are eight equal parts in one whole."
+      },
+      {
+        "id": "x5",
+        "type": "choice",
+        "prompt": "A full strip uses four fourth-sized tiles. How much of that same strip is covered when all four tiles are selected?",
+        "options": [
+          {
+            "text": "Only one-fourth.",
+            "why": "One-fourth counts only one of the four tiles."
+          },
+          {
+            "text": "One whole.",
+            "correct": true
+          },
+          {
+            "text": "Four whole strips.",
+            "why": "The four pieces belong to one strip."
+          }
+        ],
+        "show": [
+          "All four fourth-sized tiles together cover one whole strip."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x6",
+        "type": "choice",
+        "prompt": "Which pair both names exactly one whole?",
+        "options": [
+          {
+            "text": "3/3 and 8/8.",
+            "correct": true
+          },
+          {
+            "text": "1/3 and 1/8.",
+            "why": "These each name one part, not all parts of their whole."
+          },
+          {
+            "text": "3/1 and 8/1.",
+            "why": "These count multiple whole pieces."
+          }
+        ],
+        "show": [
+          "Each numerator matches its denominator in the first pair."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "A point is at 6/6 on a number line. Where is it compared with the point labeled one?",
+        "options": [
+          {
+            "text": "Six whole units farther right.",
+            "why": "Six sixth-sized intervals make one unit."
+          },
+          {
+            "text": "At zero.",
+            "why": "The point is one full unit from zero."
+          },
+          {
+            "text": "At the same location.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The six equal sixth-sized intervals reach one."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x8",
+        "type": "choice",
+        "prompt": "A child says a full circle cannot equal one if it is cut into more pieces. What corrects the claim?",
+        "options": [
+          {
+            "text": "Only an uncut shape can represent one.",
+            "why": "A complete partition can also represent one."
+          },
+          {
+            "text": "Cutting changes the pieces, but all pieces still cover the same whole.",
+            "correct": true
+          },
+          {
+            "text": "More pieces always make more wholes.",
+            "why": "The total whole does not grow when its partition changes."
+          }
+        ],
+        "show": [
+          "The complete set of pieces still covers one whole circle."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x9",
+        "type": "fraction",
+        "prompt": "The entire round plate is selected. Write any fraction equal to its complete whole.",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 4
+        },
+        "answerPolicy": "value",
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "There are 4 selected parts.",
+          "The fraction is 4/4."
+        ],
+        "yes": "The model represents 4/4."
+      },
+      {
+        "id": "x10",
+        "type": "choice",
+        "prompt": "Five parts are selected from six equal parts of a whole. What must happen to show the entire whole?",
+        "options": [
+          {
+            "text": "Remove one selected part.",
+            "why": "Removing a selected part makes less of the whole selected."
+          },
+          {
+            "text": "Change the label without selecting the last part.",
+            "why": "A new label cannot change the selected area."
+          },
+          {
+            "text": "Select the one remaining part.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Every equal part must be included to represent the whole."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "I can explain why selecting every equal part represents one whole."
+      },
+      {
+        "heading": "Ask for reasoning",
+        "list": [
+          "Why does a fraction with the same numerator and denominator equal one?",
+          "What is the whole in this model? How do you know the parts are equal?",
+          "Can you explain the same idea with another picture or real objects?"
+        ]
+      },
+      {
+        "heading": "Try it away from the screen",
+        "list": [
+          "Fold a plain paper strip into equal parts. Discuss whether every part has the same area.",
+          "Let your child explain a mistake before offering a correction."
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Counting unselected parts for the numerator or selected parts for the denominator.",
+          "Changing the whole halfway through a question."
+        ]
+      },
+      {
+        "heading": "About these questions",
+        "text": "These are original Study Scoop lessons aligned to the supplied chapter map. They are practice, not the teacher’s actual test. Written explanations are for comparison with a grown-up and are not automatically judged for mathematical meaning."
+      }
+    ]
+  }
+}

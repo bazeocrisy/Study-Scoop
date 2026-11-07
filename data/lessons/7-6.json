@@ -1,0 +1,1294 @@
+{
+  "id": "7-6",
+  "chapter": 7,
+  "title": "Represent a Fraction Greater Than One on a Number Line",
+  "goal": "I can count fractional units beyond one and compare a fraction with one.",
+  "catchAll": "Keep the denominator fixed as you pass one. A numerator larger than the denominator means more than one whole.",
+  "teacher": [
+    {
+      "term": "denominator",
+      "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+    },
+    {
+      "term": "unit fraction",
+      "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+    },
+    {
+      "term": "numerator",
+      "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+    },
+    {
+      "term": "fraction",
+      "def": "A fraction is a number used when a whole is split into equal parts."
+    }
+  ],
+  "glossary": {
+    "whole": "the one shape, unit length, complete piece or entire set named in the question",
+    "partition": "divide a whole into equal parts",
+    "interval": "the distance between neighboring marks on a number line"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Name the whole",
+        "text": [
+          "Keep the same interval size across all whole units."
+        ],
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 2,
+          "point": 5
+        }
+      },
+      {
+        "title": "Connect the parts",
+        "text": [
+          "Count fractional intervals continuously beyond one.",
+          "Keep the denominator fixed as you pass one. A numerator larger than the denominator means more than one whole."
+        ]
+      },
+      {
+        "title": "Check the reasoning",
+        "text": [
+          "Compare the numerator with the denominator to decide whether the value is below, at or above one."
+        ]
+      },
+      {
+        "title": "Check the idea",
+        "item": {
+          "id": "r1",
+          "type": "fraction",
+          "prompt": "Name the point beyond one on the paper fan number line. Keep the denominator of the displayed unit partition.",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 6,
+            "max": 2,
+            "point": 9
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 9,
+            "d": 6
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Find one whole and count the equal intervals within it.",
+            "Count intervals from zero to the marked point."
+          ],
+          "show": [
+            "There are 6 equal parts in each whole.",
+            "The point is 9 intervals from zero.",
+            "The fraction is 9/6."
+          ],
+          "yes": "The model represents 9/6."
+        }
+      },
+      {
+        "title": "Check another way",
+        "item": {
+          "id": "r2",
+          "type": "fraction",
+          "prompt": "Name the point beyond one on the display card number line. Keep the denominator of the displayed unit partition.",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 8,
+            "max": 2,
+            "point": 14
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 14,
+            "d": 8
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Find one whole and count the equal intervals within it.",
+            "Count intervals from zero to the marked point."
+          ],
+          "show": [
+            "There are 8 equal parts in each whole.",
+            "The point is 14 intervals from zero.",
+            "The fraction is 14/8."
+          ],
+          "yes": "The model represents 14/8."
+        }
+      },
+      {
+        "title": "Explain My Thinking",
+        "item": {
+          "id": "explain",
+          "type": "sentence",
+          "prompt": "How can you tell from the numerator and denominator that a fraction is greater than one? Write a complete sentence.",
+          "keywords": [
+            "whole"
+          ],
+          "minKeywords": 0,
+          "minWords": 5,
+          "example": "When the numerator is greater than the denominator, the counted parts include a whole and additional equal parts, so the value is greater than one.",
+          "hints": [
+            "Describe what the whole is and how its parts are counted."
+          ],
+          "show": [
+            "Compare your reasoning with a grown-up or the model response.",
+            "When the numerator is greater than the denominator, the counted parts include a whole and additional equal parts, so the value is greater than one."
+          ]
+        }
+      }
+    ]
+  },
+  "watch": {
+    "examples": [
+      {
+        "title": "Identify the whole and what is counted",
+        "steps": [
+          {
+            "say": "For a wall hanging, a plan uses 1/2 of a unit. Is that less than, equal to, or greater than one whole unit?"
+          },
+          {
+            "say": "Identify one whole unit, then count equal intervals from zero."
+          },
+          {
+            "say": "Counting 1 unit part gives fewer than the 2 parts in one whole, so 1/2 is less than one."
+          }
+        ],
+        "why": {
+          "id": "w1check",
+          "type": "choice",
+          "prompt": "For a wall hanging, a plan uses 1/2 of a unit. Is that less than, equal to, or greater than one whole unit?",
+          "options": [
+            {
+              "text": "Equal to one.",
+              "why": "Equality requires the same numerator and denominator."
+            },
+            {
+              "text": "Greater than one.",
+              "why": "The numerator is smaller than the number of parts in one whole."
+            },
+            {
+              "text": "Less than one.",
+              "correct": true
+            }
+          ],
+          "show": [
+            "Counting 1 unit part gives fewer than the 2 parts in one whole, so 1/2 is less than one."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Explain the meaning of the counts",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 2,
+          "point": 5
+        },
+        "steps": [
+          {
+            "say": "A student changes from thirds to larger intervals after passing one on the puzzle mat line. What must stay the same?"
+          },
+          {
+            "say": "Identify one whole unit, then count equal intervals from zero."
+          },
+          {
+            "say": "The whole-unit length and fractional interval size stay fixed across the line."
+          }
+        ],
+        "why": {
+          "id": "w2check",
+          "type": "choice",
+          "prompt": "A student changes from thirds to larger intervals after passing one on the puzzle mat line. What must stay the same?",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 3,
+            "max": 2,
+            "point": 5
+          },
+          "options": [
+            {
+              "text": "The distance between whole numbers must shrink.",
+              "why": "Every whole must have the same unit length."
+            },
+            {
+              "text": "The size of each fractional interval.",
+              "correct": true
+            },
+            {
+              "text": "The numerator must start again at one.",
+              "why": "Keep counting fractional intervals continuously from zero."
+            }
+          ],
+          "show": [
+            "The whole-unit length and fractional interval size stay fixed across the line."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Work through another fraction model",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 2,
+          "point": 10
+        },
+        "steps": [
+          {
+            "say": "Name the point beyond one on the music card number line. Keep the denominator of the displayed unit partition."
+          },
+          {
+            "say": "Identify one whole unit, then count equal intervals from zero."
+          },
+          {
+            "say": "There are 6 equal parts in each whole."
+          },
+          {
+            "say": "The point is 10 intervals from zero."
+          },
+          {
+            "say": "The fraction is 10/6."
+          }
+        ],
+        "why": {
+          "id": "w3check",
+          "type": "fraction",
+          "prompt": "Name the point beyond one on the music card number line. Keep the denominator of the displayed unit partition.",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 6,
+            "max": 2,
+            "point": 10
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 10,
+            "d": 6
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Find one whole and count the equal intervals within it.",
+            "Count intervals from zero to the marked point."
+          ],
+          "show": [
+            "There are 6 equal parts in each whole.",
+            "The point is 10 intervals from zero.",
+            "The fraction is 10/6."
+          ],
+          "yes": "The model represents 10/6."
+        }
+      }
+    ]
+  },
+  "together": {
+    "items": [
+      {
+        "id": "g1",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the art ribbon number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 3,
+          "point": 3
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 2 equal parts in each whole.",
+          "The point is 3 intervals from zero.",
+          "The fraction is 3/2."
+        ],
+        "yes": "The model represents 3/2."
+      },
+      {
+        "id": "g2",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the garden marker number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 2,
+          "point": 4
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 4 intervals from zero.",
+          "The fraction is 4/3."
+        ],
+        "yes": "The model represents 4/3."
+      },
+      {
+        "id": "g3",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the window panel number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 2,
+          "point": 5
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 5,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 5 intervals from zero.",
+          "The fraction is 5/4."
+        ],
+        "yes": "The model represents 5/4."
+      },
+      {
+        "id": "g4",
+        "type": "choice",
+        "prompt": "For a trail sign, a plan uses 7/6 of a unit. Is that less than, equal to, or greater than one whole unit?",
+        "options": [
+          {
+            "text": "Equal to one.",
+            "why": "Equality requires the same numerator and denominator."
+          },
+          {
+            "text": "Greater than one.",
+            "correct": true
+          },
+          {
+            "text": "Less than one.",
+            "why": "The numerator counts more parts than are in one whole."
+          }
+        ],
+        "show": [
+          "Counting 7 unit parts gives more than the 6 parts in one whole, so 7/6 is greater than one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g5",
+        "type": "choice",
+        "prompt": "A student changes from eighths to larger intervals after passing one on the paper mat line. What must stay the same?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 2,
+          "point": 10
+        },
+        "options": [
+          {
+            "text": "The distance between whole numbers must shrink.",
+            "why": "Every whole must have the same unit length."
+          },
+          {
+            "text": "The size of each fractional interval.",
+            "correct": true
+          },
+          {
+            "text": "The numerator must start again at one.",
+            "why": "Keep counting fractional intervals continuously from zero."
+          }
+        ],
+        "show": [
+          "The whole-unit length and fractional interval size stay fixed across the line."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g6",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the festival flag number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 2,
+          "point": 5
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 5,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 5 intervals from zero.",
+          "The fraction is 5/3."
+        ],
+        "yes": "The model represents 5/3."
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "number",
+        "prompt": "For this model, what count records the equal parts in one whole?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "answer": "6",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 6."
+        ],
+        "yes": "The count is 6."
+      },
+      {
+        "id": "t2",
+        "type": "number",
+        "prompt": "For this model, what count records the selected parts?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            5
+          ]
+        },
+        "answer": "1",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 1."
+        ],
+        "yes": "The count is 1."
+      },
+      {
+        "id": "t3",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the mural strip number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 2,
+          "point": 7
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 7,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 7 intervals from zero.",
+          "The fraction is 7/6."
+        ],
+        "yes": "The model represents 7/6."
+      },
+      {
+        "id": "t4",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the club badge number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 2,
+          "point": 5
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 5,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 5 intervals from zero.",
+          "The fraction is 5/4."
+        ],
+        "yes": "The model represents 5/4."
+      },
+      {
+        "id": "t5",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the game board number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 3,
+          "point": 9
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 9,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 9 intervals from zero.",
+          "The fraction is 9/6."
+        ],
+        "yes": "The model represents 9/6."
+      },
+      {
+        "id": "t6",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the craft sheet number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 2,
+          "point": 3
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 2 equal parts in each whole.",
+          "The point is 3 intervals from zero.",
+          "The fraction is 3/2."
+        ],
+        "yes": "The model represents 3/2."
+      },
+      {
+        "id": "t7",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the recipe card number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 2,
+          "point": 13
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 13,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 13 intervals from zero.",
+          "The fraction is 13/8."
+        ],
+        "yes": "The model represents 13/8."
+      },
+      {
+        "id": "t8",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the seed tray number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 2,
+          "point": 10
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 10,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 10 intervals from zero.",
+          "The fraction is 10/6."
+        ],
+        "yes": "The model represents 10/6."
+      },
+      {
+        "id": "t9",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the library sign number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 2,
+          "point": 5
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 5,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 5 intervals from zero.",
+          "The fraction is 5/3."
+        ],
+        "yes": "The model represents 5/3."
+      },
+      {
+        "id": "t10",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the reading card number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 2,
+          "point": 7
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 7,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 7 intervals from zero.",
+          "The fraction is 7/4."
+        ],
+        "yes": "The model represents 7/4."
+      },
+      {
+        "id": "t11",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the gift tag number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 2,
+          "point": 14
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 14,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 14 intervals from zero.",
+          "The fraction is 14/8."
+        ],
+        "yes": "The model represents 14/8."
+      },
+      {
+        "id": "t12",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the class pennant number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 2,
+          "point": 15
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 15,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 15 intervals from zero.",
+          "The fraction is 15/8."
+        ],
+        "yes": "The model represents 15/8."
+      },
+      {
+        "id": "t13",
+        "type": "fraction",
+        "prompt": "Name the point beyond one on the paint sample number line. Keep the denominator of the displayed unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 3,
+          "point": 4
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 2 equal parts in each whole.",
+          "The point is 4 intervals from zero.",
+          "The fraction is 4/2."
+        ],
+        "yes": "The model represents 4/2."
+      },
+      {
+        "id": "t14",
+        "type": "choice",
+        "prompt": "For a fabric strip, a plan uses 7/8 of a unit. Is that less than, equal to, or greater than one whole unit?",
+        "options": [
+          {
+            "text": "Less than one.",
+            "correct": true
+          },
+          {
+            "text": "Equal to one.",
+            "why": "Equality requires the same numerator and denominator."
+          },
+          {
+            "text": "Greater than one.",
+            "why": "The numerator is smaller than the number of parts in one whole."
+          }
+        ],
+        "show": [
+          "Counting 7 unit parts gives fewer than the 8 parts in one whole, so 7/8 is less than one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t15",
+        "type": "choice",
+        "prompt": "For a display panel, a plan uses 3/2 of a unit. Is that less than, equal to, or greater than one whole unit?",
+        "options": [
+          {
+            "text": "Greater than one.",
+            "correct": true
+          },
+          {
+            "text": "Less than one.",
+            "why": "The numerator counts more parts than are in one whole."
+          },
+          {
+            "text": "Equal to one.",
+            "why": "Equality requires the same numerator and denominator."
+          }
+        ],
+        "show": [
+          "Counting 3 unit parts gives more than the 2 parts in one whole, so 3/2 is greater than one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "A student changes from halves to larger intervals after passing one on the picnic cloth line. What must stay the same?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 2,
+          "point": 3
+        },
+        "options": [
+          {
+            "text": "The numerator must start again at one.",
+            "why": "Keep counting fractional intervals continuously from zero."
+          },
+          {
+            "text": "The distance between whole numbers must shrink.",
+            "why": "Every whole must have the same unit length."
+          },
+          {
+            "text": "The size of each fractional interval.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The whole-unit length and fractional interval size stay fixed across the line."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "A student changes from thirds to larger intervals after passing one on the bookmark line. What must stay the same?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 3,
+          "point": 8
+        },
+        "options": [
+          {
+            "text": "The size of each fractional interval.",
+            "correct": true
+          },
+          {
+            "text": "The numerator must start again at one.",
+            "why": "Keep counting fractional intervals continuously from zero."
+          },
+          {
+            "text": "The distance between whole numbers must shrink.",
+            "why": "Every whole must have the same unit length."
+          }
+        ],
+        "show": [
+          "The whole-unit length and fractional interval size stay fixed across the line."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "A student changes from fourths to larger intervals after passing one on the photo frame line. What must stay the same?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 2,
+          "point": 5
+        },
+        "options": [
+          {
+            "text": "The distance between whole numbers must shrink.",
+            "why": "Every whole must have the same unit length."
+          },
+          {
+            "text": "The size of each fractional interval.",
+            "correct": true
+          },
+          {
+            "text": "The numerator must start again at one.",
+            "why": "Keep counting fractional intervals continuously from zero."
+          }
+        ],
+        "show": [
+          "The whole-unit length and fractional interval size stay fixed across the line."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t19",
+        "type": "number",
+        "prompt": "The point is beyond two. What numerator goes over denominator four to name its distance from zero?",
+        "answer": "10",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 3,
+          "point": 10
+        },
+        "hints": [
+          "Identify the whole and which count is missing."
+        ],
+        "show": [
+          "Count ten fourth-size intervals from zero."
+        ],
+        "yes": "Count ten fourth-size intervals from zero."
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "The marked point is compared with three whole units. Which statement is correct?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 3,
+          "point": 15
+        },
+        "options": [
+          {
+            "text": "The point is greater than three because its numerator is fifteen.",
+            "why": "Fifteen counts sixth-sized parts, not whole units."
+          },
+          {
+            "text": "The point is less than three; three wholes require eighteen sixth-size intervals.",
+            "correct": true
+          },
+          {
+            "text": "The point equals three because fifteen is greater than six.",
+            "why": "Being greater than one does not mean reaching three."
+          }
+        ],
+        "show": [
+          "Fifteen sixth-sized intervals stop before eighteen sixth-sized intervals."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "test": {
+    "pass": 8,
+    "items": [
+      {
+        "id": "x1",
+        "type": "fraction",
+        "prompt": "Name the marked point using the equal intervals shown in each whole unit.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 3,
+          "point": 13
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 13,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 13 intervals from zero.",
+          "The fraction is 13/8."
+        ],
+        "yes": "The model represents 13/8."
+      },
+      {
+        "id": "x2",
+        "type": "fraction",
+        "prompt": "Write the fraction for this point beyond two, keeping the shown unit partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 3,
+          "point": 11
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 11,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 11 intervals from zero.",
+          "The fraction is 11/4."
+        ],
+        "yes": "The model represents 11/4."
+      },
+      {
+        "id": "x3",
+        "type": "fraction",
+        "prompt": "Name this point between one and two using the line’s partition.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 3,
+          "point": 8
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 8,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 8 intervals from zero.",
+          "The fraction is 8/6."
+        ],
+        "yes": "The model represents 8/6."
+      },
+      {
+        "id": "x4",
+        "type": "number",
+        "prompt": "A line uses thirds. How many third-sized intervals reach two whole units?",
+        "answer": "6",
+        "show": [
+          "Each unit contains three intervals, so two units contain six."
+        ],
+        "yes": "Each unit contains three intervals, so two units contain six."
+      },
+      {
+        "id": "x5",
+        "type": "choice",
+        "prompt": "Which fraction is greater than one but less than two?",
+        "options": [
+          {
+            "text": "9/4.",
+            "why": "Nine fourth-sized parts pass two wholes."
+          },
+          {
+            "text": "7/4.",
+            "correct": true
+          },
+          {
+            "text": "3/4.",
+            "why": "Three fourth-sized parts are less than a whole."
+          }
+        ],
+        "show": [
+          "Seven fourth-sized parts fall between four fourths and eight fourths."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x6",
+        "type": "choice",
+        "prompt": "A walker travels 5/6 of a unit. Has the walker passed the one-unit marker?",
+        "options": [
+          {
+            "text": "No; one full unit needs six sixth-sized parts.",
+            "correct": true
+          },
+          {
+            "text": "Yes; any numerator larger than one passes a unit.",
+            "why": "Compare with six parts in a whole, not with the numeral one alone."
+          },
+          {
+            "text": "Yes; the denominator is greater than the numerator.",
+            "why": "A larger denominator here means the numerator counts less than one whole."
+          }
+        ],
+        "show": [
+          "Five sixth-sized intervals do not reach six sixth-sized intervals."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "The numerator and denominator of a fraction are equal. Which comparison with one is correct?",
+        "options": [
+          {
+            "text": "Greater than one.",
+            "why": "There are no extra parts beyond a whole."
+          },
+          {
+            "text": "Less than one.",
+            "why": "All the parts of one whole are counted."
+          },
+          {
+            "text": "Equal to one.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The counted parts exactly fill one whole."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x8",
+        "type": "choice",
+        "prompt": "A child counts eighth-sized intervals to 7/8, then labels the next two points 1/8 and 2/8. What went wrong?",
+        "options": [
+          {
+            "text": "The denominator should become nine after one.",
+            "why": "The denominator continues to describe eight equal intervals in every whole."
+          },
+          {
+            "text": "The count should continue through 8/8 and 9/8.",
+            "correct": true
+          },
+          {
+            "text": "The intervals should become twice as large after one.",
+            "why": "The fractional unit stays fixed."
+          }
+        ],
+        "show": [
+          "Keep counting from zero instead of restarting the numerator after each whole."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x9",
+        "type": "fraction",
+        "prompt": "Write the marked fraction beyond two on this unit line.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 3,
+          "point": 8
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 8,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 8 intervals from zero.",
+          "The fraction is 8/3."
+        ],
+        "yes": "The model represents 8/3."
+      },
+      {
+        "id": "x10",
+        "type": "choice",
+        "prompt": "A decoration is 5/2 units long and a shelf is three whole units long. Can the decoration fit along the shelf?",
+        "options": [
+          {
+            "text": "No; a fraction can never be compared with a whole number.",
+            "why": "Represent both lengths using the same unit size."
+          },
+          {
+            "text": "No; any numerator of five is longer than three.",
+            "why": "The numerator counts half-units, not whole units."
+          },
+          {
+            "text": "Yes; five half-unit intervals are shorter than six half-unit intervals.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Three units contain six halves; five halves are shorter."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "I can count fractional units beyond one and compare a fraction with one."
+      },
+      {
+        "heading": "Ask for reasoning",
+        "list": [
+          "How can you tell from the numerator and denominator that a fraction is greater than one?",
+          "What is the whole in this model? How do you know the parts are equal?",
+          "Can you explain the same idea with another picture or real objects?"
+        ]
+      },
+      {
+        "heading": "Try it away from the screen",
+        "list": [
+          "Make a paper number line. Keep equal spacing within each whole, and count intervals from zero.",
+          "Let your child explain a mistake before offering a correction."
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Counting boundary tick marks instead of intervals.",
+          "Changing the whole halfway through a question."
+        ]
+      },
+      {
+        "heading": "About these questions",
+        "text": "These are original Study Scoop lessons aligned to the supplied chapter map. They are practice, not the teacher’s actual test. Written explanations are for comparison with a grown-up and are not automatically judged for mathematical meaning."
+      }
+    ]
+  }
+}

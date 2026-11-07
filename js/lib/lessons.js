@@ -2,6 +2,7 @@
 // Lessons are data (data/lessons/<id>.json). One engine serves every lesson; nothing here knows a lesson by name.
 
 import { chainHolds, evaluate, wrongFactsInText } from './arith.js';
+import { checkFraction, fractionItemProblems, fractionModelProblems, rationalValue, rationalChainHolds, wrongFractionFactsInText } from './fractions.js';
 import { counts } from './models.js';
 import { gridCounts, shapeArea, shapeProblems } from './shapes.js';
 import { FROM_RIGHT, NEXT_PLACE, PLACE, roundParts } from './rounding.js';
@@ -22,6 +23,7 @@ const BOX = /\[([a-z][a-z0-9]*)\]/g;
 
 /** Names of the answer boxes in an item, in reading order. */
 export function boxes(item) {
+  if (item.type === 'fraction') return ['n', 'd'];
   if (item.type === 'number') return ['answer'];
   if (item.type === 'round') return ['place', 'dir', 'answer'];
   if (item.type === 'blanks') return [...item.text.join(' ').matchAll(BOX)].map((m) => m[1]);
@@ -37,6 +39,7 @@ export function boxes(item) {
 
 /** The correct value of every box (used by Show me how, the test review and the validator). */
 export function solution(item) {
+  if (item.type === 'fraction') return { ...item.answer };
   if (item.type === 'number') return { answer: evaluate(String(item.answer)) };
   if (item.type === 'round') { const p = roundParts(item.n, item.to); return { place: p.place, dir: p.up ? 'up' : 'stay', answer: p.answer }; }
   if (item.type === 'fill' || item.type === 'decompose' || item.type === 'blanks') return { ...item.answer };
@@ -60,6 +63,7 @@ const fill = (text, values) => String(text).replace(BOX, (_, k) => (values[k] ==
 
 /** Human-readable correct answer (results review). */
 export function answerText(item) {
+  if (item.type === 'fraction') return `${item.answer.n}/${item.answer.d}`;
   const s = solution(item);
   if (item.type === 'choice') return item.options[s.choice].text;
   if (item.type === 'word' || item.type === 'spell') return item.answer;
@@ -117,6 +121,7 @@ export function decompositionOf(a, b, p, q, r, s) {
  * 'correct' | 'notyet' | 'empty' (empty or unreadable answers are never counted as a try).
  */
 export function check(item, response, lesson = {}) {
+  if (item.type === 'fraction') return checkFraction(item, response);
   const catchAll = lesson.catchAll || 'Look at the picture and try again.';
   if (item.type === 'choice') {
     const i = response?.choice;
@@ -377,6 +382,7 @@ const isInt = (v, lo, hi) => Number.isInteger(v) && v >= lo && v <= hi;
 
 function validateModel(m, where, err) {
   if (!m || typeof m !== 'object') return err(`${where}: model is missing`);
+  if (m.type === 'fraction') { for (const problem of fractionModelProblems(m)) err(`${where}: ${problem}`); return; }
   if (m.type === 'plates') {
     if (!isInt(m.plates, 0, 12) || !isInt(m.each, 0, 3)) err(`${where}: plates need 0-12 plates and 0-3 dots each`);
     return;
@@ -449,6 +455,7 @@ function validateItem(item, where, err, ids) {
   if (item.hints && (!Array.isArray(item.hints) || !item.hints.every(isText))) err(`${where}: hints must be a list of text`);
   const sol = (() => { try { return solution(item); } catch (e) { err(`${where}: ${e.message}`); return null; } })();
   if (!sol) return;
+  for (const problem of fractionItemProblems(item)) err(`${where}: ${problem}`);
   const asText = Object.fromEntries(Object.entries(sol).map(([k, v]) => [k, String(v)]));
   // Area pictures (Chapter 6): a box named by "areaBox" holds the figure's area, worked out from the picture.
   if (item.areaBox !== undefined) {
@@ -476,6 +483,10 @@ function validateItem(item, where, err, ids) {
     });
   }
   switch (item.type) {
+    case 'fraction': {
+      if (check(item, asText).status !== 'correct') err(`${where}: its own fraction answer is not accepted`);
+      break;
+    }
     case 'number': {
       // A bare fact prompt ("8 × 3 = ?") must agree with its answer.
       const m = /^\s*(\d+\s*[×x]\s*\d+)\s*=\s*\?\s*$/.exec(item.prompt || '');
@@ -519,10 +530,14 @@ function validateItem(item, where, err, ids) {
         err(`${where}: the picture shows ${item.model.rows} × ${item.model.cols}, but the target is ${item.target}`);
       }
       if (item.target) {
-        const want = evaluate(item.target);
+        const rational = String(item.target).includes('/') || item.options.some((o) => String(o.text).includes('/'));
+        let want;
+        try { want = rational ? rationalValue(item.target) : evaluate(item.target); }
+        catch (e) { err(`${where}: invalid choice target (${e.message})`); break; }
         item.options.forEach((o, i) => {
-          let val = null; try { val = evaluate(o.text); } catch { /* not an expression */ }
-          if (val !== null && (val === want) !== Boolean(o.correct)) err(`${where}: option ${i + 1} (${o.text} = ${val}) is ${o.correct ? 'marked correct but is not' : 'also equal to ' + item.target}`);
+          let val = null; try { val = rational ? rationalValue(o.text) : evaluate(o.text); } catch { /* not an expression */ }
+          const equals = rational ? val !== null && val.n === want.n && val.d === want.d : val === want;
+          if ((val !== null || (rational && o.correct)) && equals !== Boolean(o.correct)) err(`${where}: option ${i + 1} (${o.text}) is ${o.correct ? 'marked correct but is not equal to ' : 'also equal to '}${item.target}`);
         });
       }
       break;
@@ -666,7 +681,7 @@ export function validateLesson(lesson, expectedId) {
     (e.steps || []).forEach((s, j) => {
       if (!isText(s.say)) err(`${w}.steps[${j}]: "say" is missing`);
       if (s.model) validateModel(s.model, `${w}.steps[${j}]`, err);
-      if (s.eq) { try { if (!chainHolds(s.eq)) err(`${w}.steps[${j}]: "${s.eq}" is not true`); } catch (e2) { err(`${w}.steps[${j}]: ${e2.message}`); } }
+      if (s.eq) { try { if (!(s.eq.includes('/') ? rationalChainHolds(s.eq) : chainHolds(s.eq))) err(`${w}.steps[${j}]: "${s.eq}" is not true`); } catch (e2) { err(`${w}.steps[${j}]: ${e2.message}`); } }
       // A step marked "pictured" must write exactly the decomposition its picture shows, in equation order.
       const m = s.model || e.model;
       if (s.pictured) {
@@ -705,7 +720,7 @@ function proseScan(data, err) {
   const scanned = JSON.parse(JSON.stringify(data, (k, v) => (v && typeof v === 'object' && v.quotesMistake ? { ...v, prompt: '' } : v)));
   for (const s of strings(scanned)) {
     if (/\[[a-z][a-z0-9]*\]/.test(s)) continue;
-    for (const bad of wrongFactsInText(s)) err(`wrong arithmetic in text: "${bad}"`);
+    for (const bad of (s.includes('/') ? wrongFractionFactsInText(s) : wrongFactsInText(s))) err(`wrong arithmetic in text: "${bad}"`);
   }
 }
 

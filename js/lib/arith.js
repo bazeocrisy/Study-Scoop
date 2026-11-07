@@ -78,6 +78,7 @@ export function wrongFactsInText(text) {
  *  Only an "x" between numbers is a times sign; words keep their letters. */
 export function speak(text) {
   return String(text)
+    .replace(/(\d+)\s*\/\s*(\d+)/g, '$1 over $2')
     .replace(/\[[a-z0-9]+\]/gi, 'blank')
     .replace(/_{2,}/g, 'blank')
     .replace(/\(\s*\)/g, 'brackets')

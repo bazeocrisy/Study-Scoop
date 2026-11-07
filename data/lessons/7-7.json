@@ -1,0 +1,1503 @@
+{
+  "id": "7-7",
+  "chapter": 7,
+  "title": "Explore Unit Fractions as Part of a Set",
+  "goal": "I can define a set as the whole and name one or more selected objects as a fraction of it.",
+  "catchAll": "Name the whole set. Count every object for the denominator and the selected objects for the numerator.",
+  "teacher": [
+    {
+      "term": "denominator",
+      "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+    },
+    {
+      "term": "unit fraction",
+      "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+    },
+    {
+      "term": "numerator",
+      "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+    },
+    {
+      "term": "fraction",
+      "def": "A fraction is a number used when a whole is split into equal parts."
+    }
+  ],
+  "glossary": {
+    "whole": "the one shape, unit length, complete piece or entire set named in the question",
+    "partition": "divide a whole into equal parts",
+    "interval": "the distance between neighboring marks on a number line"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Name the whole",
+        "text": [
+          "The entire collection is one whole set."
+        ],
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 5,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        }
+      },
+      {
+        "title": "Connect the parts",
+        "text": [
+          "Each single object is one equal counting part of the set.",
+          "Name the whole set. Count every object for the denominator and the selected objects for the numerator."
+        ]
+      },
+      {
+        "title": "Check the reasoning",
+        "text": [
+          "The selected objects need not be next to each other."
+        ]
+      },
+      {
+        "title": "Check the idea",
+        "item": {
+          "id": "r1",
+          "type": "fraction",
+          "prompt": "The entire paper fan collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+          "model": {
+            "type": "fraction",
+            "kind": "set",
+            "parts": 6,
+            "wholes": 1,
+            "selected": [
+              4
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 1,
+            "d": 6
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "There are 6 equal counting parts in the set.",
+            "There is 1 selected part.",
+            "The fraction is 1/6."
+          ],
+          "yes": "The model represents 1/6."
+        }
+      },
+      {
+        "title": "Check another way",
+        "item": {
+          "id": "r2",
+          "type": "fraction",
+          "prompt": "The entire display card collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+          "model": {
+            "type": "fraction",
+            "kind": "set",
+            "parts": 8,
+            "wholes": 1,
+            "selected": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 6,
+            "d": 8
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "There are 8 equal counting parts in the set.",
+            "There are 6 selected parts.",
+            "The fraction is 6/8."
+          ],
+          "yes": "The model represents 6/8."
+        }
+      },
+      {
+        "title": "Explain My Thinking",
+        "item": {
+          "id": "explain",
+          "type": "sentence",
+          "prompt": "How is the whole in a fraction of a set different from a whole shape? Write a complete sentence.",
+          "keywords": [
+            "whole"
+          ],
+          "minKeywords": 0,
+          "minWords": 5,
+          "example": "For a set the whole is the entire collection of objects, while for a shape the whole is the area of one shape.",
+          "hints": [
+            "Describe what the whole is and how its parts are counted."
+          ],
+          "show": [
+            "Compare your reasoning with a grown-up or the model response.",
+            "For a set the whole is the entire collection of objects, while for a shape the whole is the area of one shape."
+          ]
+        }
+      }
+    ]
+  },
+  "watch": {
+    "examples": [
+      {
+        "title": "Define the whole collection",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 10,
+          "wholes": 1,
+          "selected": [
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "steps": [
+          {
+            "say": "All the objects in this wall hanging collection form one whole set. What counts for the denominator?"
+          },
+          {
+            "say": "Identify exactly what is being treated as one whole."
+          },
+          {
+            "say": "The whole is the entire collection, so count every object."
+          }
+        ],
+        "why": {
+          "id": "w1check",
+          "type": "choice",
+          "prompt": "All the objects in this wall hanging collection form one whole set. What counts for the denominator?",
+          "model": {
+            "type": "fraction",
+            "kind": "set",
+            "parts": 10,
+            "wholes": 1,
+            "selected": [
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "options": [
+            {
+              "text": "Only the selected objects.",
+              "why": "The selected objects are counted by the numerator."
+            },
+            {
+              "text": "Only objects in the first row.",
+              "why": "The set can fill more than one row; all its objects belong to the whole."
+            },
+            {
+              "text": "Every object in the collection.",
+              "correct": true
+            }
+          ],
+          "show": [
+            "The whole is the entire collection, so count every object."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Explain the meaning of the counts",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 12,
+          "wholes": 1,
+          "selected": [
+            7
+          ]
+        },
+        "steps": [
+          {
+            "say": "The selected objects in the puzzle mat set are moved to new positions without adding or removing objects. Does their fraction of the set change?"
+          },
+          {
+            "say": "Identify exactly what is being treated as one whole."
+          },
+          {
+            "say": "A fraction of a set depends on counts within the defined whole, not the objects’ positions."
+          }
+        ],
+        "why": {
+          "id": "w2check",
+          "type": "choice",
+          "prompt": "The selected objects in the puzzle mat set are moved to new positions without adding or removing objects. Does their fraction of the set change?",
+          "model": {
+            "type": "fraction",
+            "kind": "set",
+            "parts": 12,
+            "wholes": 1,
+            "selected": [
+              7
+            ]
+          },
+          "options": [
+            {
+              "text": "Yes; the first row is always the whole.",
+              "why": "The defined whole is the entire collection, not one row."
+            },
+            {
+              "text": "No; neither the whole set nor the selected count changed.",
+              "correct": true
+            },
+            {
+              "text": "Yes; spreading them out changes the denominator.",
+              "why": "Moving objects does not change how many are in the whole set."
+            }
+          ],
+          "show": [
+            "A fraction of a set depends on counts within the defined whole, not the objects’ positions."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Count several selected objects",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 10,
+          "wholes": 1,
+          "selected": [
+            0,
+            2,
+            5,
+            8
+          ]
+        },
+        "steps": [
+          {
+            "say": "All ten objects are one whole set. Name the selected fraction using the object count."
+          },
+          {
+            "say": "Identify exactly what is being treated as one whole."
+          },
+          {
+            "say": "There are 10 equal counting parts in the set."
+          },
+          {
+            "say": "There are 4 selected parts."
+          },
+          {
+            "say": "The fraction is 4/10."
+          }
+        ],
+        "why": {
+          "id": "w3check",
+          "type": "fraction",
+          "prompt": "All ten objects are one whole set. Name the selected fraction using the object count.",
+          "model": {
+            "type": "fraction",
+            "kind": "set",
+            "parts": 10,
+            "wholes": 1,
+            "selected": [
+              0,
+              2,
+              5,
+              8
+            ]
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 4,
+            "d": 10
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Identify the whole and count all its equal parts.",
+            "Count only the selected parts for the numerator."
+          ],
+          "show": [
+            "There are 10 equal counting parts in the set.",
+            "There are 4 selected parts.",
+            "The fraction is 4/10."
+          ],
+          "yes": "The model represents 4/10."
+        }
+      }
+    ]
+  },
+  "together": {
+    "items": [
+      {
+        "id": "g1",
+        "type": "fraction",
+        "prompt": "The entire art ribbon collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 2 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/2."
+        ],
+        "yes": "The model represents 1/2."
+      },
+      {
+        "id": "g2",
+        "type": "fraction",
+        "prompt": "The entire garden marker collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            1
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 3 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/3."
+        ],
+        "yes": "The model represents 1/3."
+      },
+      {
+        "id": "g3",
+        "type": "fraction",
+        "prompt": "The entire window panel collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            2
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 4 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/4."
+        ],
+        "yes": "The model represents 1/4."
+      },
+      {
+        "id": "g4",
+        "type": "choice",
+        "prompt": "All the objects in this trail sign collection form one whole set. What counts for the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 5,
+          "wholes": 1,
+          "selected": [
+            3
+          ]
+        },
+        "options": [
+          {
+            "text": "Only the selected objects.",
+            "why": "The selected objects are counted by the numerator."
+          },
+          {
+            "text": "Only objects in the first row.",
+            "why": "The set can fill more than one row; all its objects belong to the whole."
+          },
+          {
+            "text": "Every object in the collection.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The whole is the entire collection, so count every object."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g5",
+        "type": "choice",
+        "prompt": "The selected objects in the paper mat set are moved to new positions without adding or removing objects. Does their fraction of the set change?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            4,
+            5
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; the first row is always the whole.",
+            "why": "The defined whole is the entire collection, not one row."
+          },
+          {
+            "text": "No; neither the whole set nor the selected count changed.",
+            "correct": true
+          },
+          {
+            "text": "Yes; spreading them out changes the denominator.",
+            "why": "Moving objects does not change how many are in the whole set."
+          }
+        ],
+        "show": [
+          "A fraction of a set depends on counts within the defined whole, not the objects’ positions."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g6",
+        "type": "fraction",
+        "prompt": "The entire festival flag collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            5,
+            6
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 8 equal counting parts in the set.",
+          "There are 2 selected parts.",
+          "The fraction is 2/8."
+        ],
+        "yes": "The model represents 2/8."
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "fraction",
+        "prompt": "The entire reading card collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 10,
+          "wholes": 1,
+          "selected": [
+            6
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 10
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 10 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/10."
+        ],
+        "yes": "The model represents 1/10."
+      },
+      {
+        "id": "t2",
+        "type": "fraction",
+        "prompt": "The entire club badge collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            3
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 4 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/4."
+        ],
+        "yes": "The model represents 1/4."
+      },
+      {
+        "id": "t3",
+        "type": "fraction",
+        "prompt": "The entire recipe card collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            1
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 6 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/6."
+        ],
+        "yes": "The model represents 1/6."
+      },
+      {
+        "id": "t4",
+        "type": "fraction",
+        "prompt": "The entire mural strip collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 12,
+          "wholes": 1,
+          "selected": [
+            4
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 12
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 12 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/12."
+        ],
+        "yes": "The model represents 1/12."
+      },
+      {
+        "id": "t5",
+        "type": "fraction",
+        "prompt": "The entire gift tag collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 2 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/2."
+        ],
+        "yes": "The model represents 1/2."
+      },
+      {
+        "id": "t6",
+        "type": "fraction",
+        "prompt": "The entire paint sample collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            7
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 8 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/8."
+        ],
+        "yes": "The model represents 1/8."
+      },
+      {
+        "id": "t7",
+        "type": "fraction",
+        "prompt": "The entire game board collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 12,
+          "wholes": 1,
+          "selected": [
+            7,
+            8,
+            9
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 12
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 12 equal counting parts in the set.",
+          "There are 3 selected parts.",
+          "The fraction is 3/12."
+        ],
+        "yes": "The model represents 3/12."
+      },
+      {
+        "id": "t8",
+        "type": "fraction",
+        "prompt": "The entire class pennant collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            4,
+            5
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 6 equal counting parts in the set.",
+          "There are 2 selected parts.",
+          "The fraction is 2/6."
+        ],
+        "yes": "The model represents 2/6."
+      },
+      {
+        "id": "t9",
+        "type": "fraction",
+        "prompt": "The entire craft sheet collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            1,
+            2
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 3 equal counting parts in the set.",
+          "There are 2 selected parts.",
+          "The fraction is 2/3."
+        ],
+        "yes": "The model represents 2/3."
+      },
+      {
+        "id": "t10",
+        "type": "fraction",
+        "prompt": "The entire seed tray collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 5,
+          "wholes": 1,
+          "selected": [
+            0,
+            2,
+            3,
+            4
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 5
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 5 equal counting parts in the set.",
+          "There are 4 selected parts.",
+          "The fraction is 4/5."
+        ],
+        "yes": "The model represents 4/5."
+      },
+      {
+        "id": "t11",
+        "type": "fraction",
+        "prompt": "The entire library sign collection is one whole set. What fraction of its objects is selected? Use the set’s object count as the denominator.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 10,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 8,
+          "d": 10
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Identify the whole and count all its equal parts.",
+          "Count only the selected parts for the numerator."
+        ],
+        "show": [
+          "There are 10 equal counting parts in the set.",
+          "There are 8 selected parts.",
+          "The fraction is 8/10."
+        ],
+        "yes": "The model represents 8/10."
+      },
+      {
+        "id": "t12",
+        "type": "choice",
+        "prompt": "All the objects in this fabric strip collection form one whole set. What counts for the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            1
+          ]
+        },
+        "options": [
+          {
+            "text": "Every object in the collection.",
+            "correct": true
+          },
+          {
+            "text": "Only the selected objects.",
+            "why": "The selected objects are counted by the numerator."
+          },
+          {
+            "text": "Only objects in the first row.",
+            "why": "The set can fill more than one row; all its objects belong to the whole."
+          }
+        ],
+        "show": [
+          "The whole is the entire collection, so count every object."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t13",
+        "type": "choice",
+        "prompt": "All the objects in this display panel collection form one whole set. What counts for the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            0,
+            1,
+            2,
+            6,
+            7
+          ]
+        },
+        "options": [
+          {
+            "text": "Only objects in the first row.",
+            "why": "The set can fill more than one row; all its objects belong to the whole."
+          },
+          {
+            "text": "Every object in the collection.",
+            "correct": true
+          },
+          {
+            "text": "Only the selected objects.",
+            "why": "The selected objects are counted by the numerator."
+          }
+        ],
+        "show": [
+          "The whole is the entire collection, so count every object."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t14",
+        "type": "choice",
+        "prompt": "All the objects in this stage banner collection form one whole set. What counts for the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "options": [
+          {
+            "text": "Only the selected objects.",
+            "why": "The selected objects are counted by the numerator."
+          },
+          {
+            "text": "Only objects in the first row.",
+            "why": "The set can fill more than one row; all its objects belong to the whole."
+          },
+          {
+            "text": "Every object in the collection.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The whole is the entire collection, so count every object."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t15",
+        "type": "choice",
+        "prompt": "All the objects in this quilt panel collection form one whole set. What counts for the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 12,
+          "wholes": 1,
+          "selected": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        "options": [
+          {
+            "text": "Every object in the collection.",
+            "correct": true
+          },
+          {
+            "text": "Only the selected objects.",
+            "why": "The selected objects are counted by the numerator."
+          },
+          {
+            "text": "Only objects in the first row.",
+            "why": "The set can fill more than one row; all its objects belong to the whole."
+          }
+        ],
+        "show": [
+          "The whole is the entire collection, so count every object."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "The selected objects in the picnic cloth set are moved to new positions without adding or removing objects. Does their fraction of the set change?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            1
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; spreading them out changes the denominator.",
+            "why": "Moving objects does not change how many are in the whole set."
+          },
+          {
+            "text": "Yes; the first row is always the whole.",
+            "why": "The defined whole is the entire collection, not one row."
+          },
+          {
+            "text": "No; neither the whole set nor the selected count changed.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "A fraction of a set depends on counts within the defined whole, not the objects’ positions."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "The selected objects in the bookmark set are moved to new positions without adding or removing objects. Does their fraction of the set change?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 10,
+          "wholes": 1,
+          "selected": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "options": [
+          {
+            "text": "No; neither the whole set nor the selected count changed.",
+            "correct": true
+          },
+          {
+            "text": "Yes; spreading them out changes the denominator.",
+            "why": "Moving objects does not change how many are in the whole set."
+          },
+          {
+            "text": "Yes; the first row is always the whole.",
+            "why": "The defined whole is the entire collection, not one row."
+          }
+        ],
+        "show": [
+          "A fraction of a set depends on counts within the defined whole, not the objects’ positions."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "The selected objects in the photo frame set are moved to new positions without adding or removing objects. Does their fraction of the set change?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 5,
+          "wholes": 1,
+          "selected": [
+            1,
+            2,
+            3
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; the first row is always the whole.",
+            "why": "The defined whole is the entire collection, not one row."
+          },
+          {
+            "text": "No; neither the whole set nor the selected count changed.",
+            "correct": true
+          },
+          {
+            "text": "Yes; spreading them out changes the denominator.",
+            "why": "Moving objects does not change how many are in the whole set."
+          }
+        ],
+        "show": [
+          "A fraction of a set depends on counts within the defined whole, not the objects’ positions."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t19",
+        "type": "number",
+        "prompt": "The entire collection is one whole set. What missing denominator goes under the selected count?",
+        "answer": "12",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 12,
+          "wholes": 1,
+          "selected": [
+            0,
+            3,
+            8,
+            11
+          ]
+        },
+        "hints": [
+          "Identify the whole and which count is missing."
+        ],
+        "show": [
+          "All twelve objects belong to the whole set."
+        ],
+        "yes": "All twelve objects belong to the whole set."
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "In a ten-object set, three objects are selected. A student writes 3/7 because seven are blank. What corrects the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 10,
+          "wholes": 1,
+          "selected": [
+            1,
+            5,
+            9
+          ]
+        },
+        "options": [
+          {
+            "text": "Use numerator ten because the whole set has ten objects.",
+            "why": "The numerator should keep counting the selected objects."
+          },
+          {
+            "text": "Count selected and blank objects together: the whole has ten objects.",
+            "correct": true
+          },
+          {
+            "text": "Count only blank objects: seven is correct.",
+            "why": "The selected objects also belong to the whole set."
+          }
+        ],
+        "show": [
+          "The denominator counts every object in the defined whole set."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "test": {
+    "pass": 8,
+    "items": [
+      {
+        "id": "x1",
+        "type": "fraction",
+        "prompt": "All twelve tokens form one whole set. Name the selected part of that set.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 12,
+          "wholes": 1,
+          "selected": [
+            1,
+            5,
+            10
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 12
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 12 equal counting parts in the set.",
+          "There are 3 selected parts.",
+          "The fraction is 3/12."
+        ],
+        "yes": "The model represents 3/12."
+      },
+      {
+        "id": "x2",
+        "type": "fraction",
+        "prompt": "All ten objects form the whole collection. What fraction is selected?",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 10,
+          "wholes": 1,
+          "selected": [
+            0,
+            2,
+            6,
+            9
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 10
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 10 equal counting parts in the set.",
+          "There are 4 selected parts.",
+          "The fraction is 4/10."
+        ],
+        "yes": "The model represents 4/10."
+      },
+      {
+        "id": "x3",
+        "type": "fraction",
+        "prompt": "The entire group of five items is one whole set. Name the unit fraction shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 5,
+          "wholes": 1,
+          "selected": [
+            4
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 5
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 5 equal counting parts in the set.",
+          "There is 1 selected part.",
+          "The fraction is 1/5."
+        ],
+        "yes": "The model represents 1/5."
+      },
+      {
+        "id": "x4",
+        "type": "number",
+        "prompt": "In this whole collection, what denominator counts every object?",
+        "answer": "8",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            1,
+            2
+          ]
+        },
+        "show": [
+          "The whole collection contains eight objects."
+        ],
+        "yes": "The whole collection contains eight objects."
+      },
+      {
+        "id": "x5",
+        "type": "number",
+        "prompt": "What numerator records the selected objects of this twelve-object set?",
+        "answer": "5",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 12,
+          "wholes": 1,
+          "selected": [
+            0,
+            2,
+            5,
+            8,
+            11
+          ]
+        },
+        "show": [
+          "Five objects are selected, so the numerator is five."
+        ],
+        "yes": "Five objects are selected, so the numerator is five."
+      },
+      {
+        "id": "x6",
+        "type": "choice",
+        "prompt": "One object is selected from a set of ten. What is its unit fraction of the whole set?",
+        "options": [
+          {
+            "text": "1/10.",
+            "correct": true
+          },
+          {
+            "text": "10/1.",
+            "why": "Ten-over-one counts ten wholes."
+          },
+          {
+            "text": "1/9.",
+            "why": "The whole includes the selected object too."
+          }
+        ],
+        "show": [
+          "The one selected object is one of all ten objects."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "A group has four square buttons and two round buttons. The whole is all six buttons. Does shape change the denominator?",
+        "options": [
+          {
+            "text": "Yes; count only the round buttons for the denominator.",
+            "why": "Both kinds of buttons belong to the stated whole."
+          },
+          {
+            "text": "Yes; each shape must be a different whole.",
+            "why": "The question has already defined one whole set."
+          },
+          {
+            "text": "No; count all six objects in the defined set.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Each object is one counting part of the whole collection."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x8",
+        "type": "choice",
+        "prompt": "A set has twelve cards, with one card selected. A student calls it one-eleventh because eleven cards are blank. What was omitted?",
+        "options": [
+          {
+            "text": "The numerator should count all twelve cards.",
+            "why": "The numerator counts only selected cards."
+          },
+          {
+            "text": "The selected card also belongs in the whole-set count.",
+            "correct": true
+          },
+          {
+            "text": "One blank card must be removed.",
+            "why": "Removing a card changes the whole rather than correcting the count."
+          }
+        ],
+        "show": [
+          "The denominator includes the selected card as well as the eleven blank cards."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x9",
+        "type": "fraction",
+        "prompt": "The whole set contains eight objects. Name its selected fraction.",
+        "model": {
+          "type": "fraction",
+          "kind": "set",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [
+            0,
+            3,
+            7
+          ]
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 8 equal counting parts in the set.",
+          "There are 3 selected parts.",
+          "The fraction is 3/8."
+        ],
+        "yes": "The model represents 3/8."
+      },
+      {
+        "id": "x10",
+        "type": "choice",
+        "prompt": "A set has five tasks. Two are complete and three are unfinished. What fraction of the task set is unfinished?",
+        "options": [
+          {
+            "text": "2/5.",
+            "why": "Two-fifths counts complete tasks."
+          },
+          {
+            "text": "3/2.",
+            "why": "The denominator must count all five tasks."
+          },
+          {
+            "text": "3/5.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Three unfinished tasks out of the whole five-task set give three-fifths."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "I can define a set as the whole and name one or more selected objects as a fraction of it."
+      },
+      {
+        "heading": "Ask for reasoning",
+        "list": [
+          "How is the whole in a fraction of a set different from a whole shape?",
+          "What is the whole in this model? How do you know the parts are equal?",
+          "Can you explain the same idea with another picture or real objects?"
+        ]
+      },
+      {
+        "heading": "Try it away from the screen",
+        "list": [
+          "Put a few counters on a mat. Define all the counters as the whole set; move one aside and name its fraction.",
+          "Let your child explain a mistake before offering a correction."
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Counting unselected parts for the numerator or selected parts for the denominator.",
+          "Changing the whole halfway through a question."
+        ]
+      },
+      {
+        "heading": "About these questions",
+        "text": "These are original Study Scoop lessons aligned to the supplied chapter map. They are practice, not the teacher’s actual test. Written explanations are for comparison with a grown-up and are not automatically judged for mathematical meaning."
+      }
+    ]
+  }
+}

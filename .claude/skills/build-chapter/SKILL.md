@@ -4,7 +4,7 @@ description: Build a new Study Scoop Math chapter (for example Chapter 7) from t
 ---
 # Build Chapter
 
-Chapters own their Math content (D26). A new chapter is data plus a few registry entries; the rendering components are shared.
+Chapters own their Math content (D26). Begin with a capability audit. Reuse shared rendering components only when they support the new chapter’s concepts, models, answer policies and validation. Chapter 7 required a fraction engine as well as new data; see `docs/CHAPTER-7-BUILD.md`.
 
 ## 1. Read the textbook (never publish it)
 - Keep the PDF outside the repository (it is public). Note the lesson order, titles, goals and vocabulary.
@@ -19,7 +19,7 @@ Chapters own their Math content (D26). A new chapter is data plus a few registry
 Follow 6-1..6-6: Learn It screens with checkpoints; Watch Me (at least 2 examples, step by step); Practice Together (at least 5, with hints and Show me how); Try It Yourself (20 original items, rising difficulty); a separate 10-15 question test (no hints, no practice repeats); parent notes. Generate with a script so numbers, pictures and answers come from one source, and run `validateLesson`.
 
 ## 4. Diagrams
-Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes). Answers are re-derived from the picture by the validator (`asks`, `areaBox`, `areaOptions`, `compare`). Alt text must not give the answer.
+Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes). Answers are re-derived from the picture by the validator (`asks`, `areaBox`, `areaOptions`, `compare`). Alt text must not give the answer. For fractions, use `js/lib/fractions.js` and `fraction-models.js`: derive values from geometry, declare partition versus value grading, and describe observable parts without stating conclusions the question asks for.
 
 ## 5. Vocabulary center, practice, guide, test
 - Teacher words come from the week file, word for word; extra textbook words are labelled as review.
@@ -32,4 +32,4 @@ Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes).
 - Run the specialist agents (see study-scoop-lead). Fix and re-run.
 
 ## 7. Release
-Feature branch → PR to develop → PR to main. Confirm the Pages deployment for the main commit, then report.
+Feature branch → PR to develop → confirmed preview deployment. Complete the reviewable preview before requesting the owner’s production approval. Only after explicit approval, release through a PR to main and confirm its Pages deployment.

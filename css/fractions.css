@@ -1,0 +1,72 @@
+/* Chapter 7 only: deterministic fraction models and comfortable answer fields. */
+.frac-resources { max-width: 75rem; margin-inline: auto; }
+.frac-word-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: 20px; }
+.frac-word { min-width: 0; }
+.frac-source { color: var(--muted); font-size: .9rem; font-weight: 700; }
+.frac-definition { font-size: 1.1rem; }
+.frac-word p + p, .frac-guide-section p + p, .frac-guide-intro p + p, .frac-performance p + p, .frac-fluency p + p { margin-top: .6rem; }
+.frac-example { margin-bottom: 0; }
+.frac-model { margin: 1rem 0; max-width: 100%; min-width: 0; overflow-wrap: anywhere; }
+.frac-model figure { margin-inline: 0; }
+.frac-model svg { display: block; max-width: 100%; height: auto; max-height: 22rem; margin-inline: auto; }
+.frac-model figcaption { margin-top: .5rem; }
+.frac-guide-intro, .frac-guide-section, .frac-performance, .frac-fluency { margin-block: 20px; }
+.frac-guide-section > h2 { margin-top: 0; }
+.frac-guide-section p, .frac-performance p, .frac-fluency p { max-width: 68ch; overflow-wrap: anywhere; }
+.frac-worked, .frac-check { padding-block: 1rem; border-top: 1px solid var(--line); }
+.frac-mistakes { padding-left: 1.4rem; }
+.frac-mistakes li + li { margin-top: 1rem; }
+.frac-mistakes p { margin-block: .4rem; }
+.frac-answer-key { margin: 1rem 0; padding: .6rem .85rem; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--paper); }
+.frac-answer-key summary { cursor: pointer; font-weight: 700; min-height: 44px; display: list-item; align-content: center; }
+.frac-answer-key summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: 4px; }
+.frac-task-list { padding-left: 1.5rem; }
+.frac-task-list > li { padding: .5rem .25rem 1rem; }
+.frac-task-list > li + li { border-top: 1px solid var(--line); }
+.frac-fluency-options { list-style: disc; padding-left: 1.5rem; }
+.fraction-answer { display: inline-grid; gap: .4rem; justify-items: center; width: min(100%, 12rem); max-width: 100%; margin: .6rem 0; padding: .7rem; }
+.fraction-answer label { display: flex; flex-direction: column; align-items: center; gap: .25rem; font-weight: 700; }
+.fraction-answer .box, .fraction-answer input { width: 6rem; min-height: 3.25rem; max-width: 100%; text-align: center; font: inherit; font-size: 1.4rem; }
+.fraction-answer input:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.fraction-answer .fraction-bar { width: 7rem; max-width: 100%; min-width: 6rem; border-top: 3px solid currentColor; }
+@media (max-width: 640px) {
+  .frac-word-list { gap: 16px; }
+  .frac-model svg { max-height: 18rem; }
+  .fraction-answer { padding: .5rem; }
+  .fraction-answer .box, .fraction-answer input { min-height: 3.5rem; width: 6rem; font-size: 1.4rem; }
+  .frac-answer-key { padding-inline: .7rem; }
+  .frac-task-list { padding-left: 1.15rem; }
+}
+@media print {
+  .frac-resources { max-width: none; }
+  .frac-word-list { display: block; }
+  .frac-word, .frac-worked, .frac-check, .frac-task-list > li { break-inside: avoid; }
+  .frac-model svg { max-height: 2.5in; }
+  .frac-answer-key { border-color: #000; background: #fff; }
+  .frac-answer-key::details-content { content-visibility: visible; }
+  .frac-answer-key > :not(summary) { display: block; }
+  .frac-source { color: #000; }
+}
+/* Shared question cards also render Chapter 7 diagrams, including wide number lines. */
+:is(#lesson-stage[data-lesson^="7-"], #act-stage[data-subject="math"][data-act^="f"], #act-stage[data-act="ch7test"]) :is(.work, .pic-card, .models, .model) { min-width: 0; max-width: 100%; }
+:is(#lesson-stage[data-lesson^="7-"], #act-stage[data-subject="math"][data-act^="f"], #act-stage[data-act="ch7test"]) .model-pic svg { display: block; max-width: 100%; height: auto; margin-inline: auto; }
+/* Keep number-line tick marks and whole-number labels readable after phone scaling. */
+:is(.frac-model, #lesson-stage[data-lesson^="7-"], #act-stage[data-subject="math"][data-act^="f"], #act-stage[data-act="ch7test"]) .model-pic svg text { font-size: 24px; font-weight: 700; }
+:is(.frac-model, #lesson-stage[data-lesson^="7-"], #act-stage[data-subject="math"][data-act^="f"], #act-stage[data-act="ch7test"]) .model-pic svg line { vector-effect: non-scaling-stroke; }
+/* A vocabulary flip card is one reading column, rather than the picture/text study-card grid. */
+.frac-card { display: block; }
+.frac-card > div { max-width: 65ch; }
+.frac-card .model { max-width: 35rem; margin-block: 1rem; }
+.frac-card .btn { margin-top: .75rem; }
+.frac-card .flash-word { overflow-wrap: anywhere; }
+/* Written reasoning is read and reviewed by a person, with room to compare the full response. */
+#lesson-stage[data-lesson^="7-"] .question > textarea.sentence { display: block; width: 100%; height: auto; min-height: 8em; margin-block: .6rem; }
+#lesson-stage[data-lesson^="7-"] .question:has(> textarea.sentence) > label { display: block; font-weight: 700; }
+#lesson-stage[data-lesson^="7-"] [data-written-review] { margin-top: 1rem; }
+#lesson-stage[data-lesson^="7-"] [data-written-review] fieldset { min-width: 0; margin-block: .8rem; padding: 0; border: 0; }
+#lesson-stage[data-lesson^="7-"] [data-written-review] legend { margin-bottom: .5rem; }
+#lesson-stage[data-lesson^="7-"] [data-written-review] .choice { margin-block: .5rem; }
+#lesson-stage[data-lesson^="7-"] .lesson-history summary { min-height: 44px; cursor: pointer; align-content: center; }
+/* Explicitly honor hidden after edits invalidate an earlier written-response comparison. */
+#lesson-stage[data-lesson^="7-"] [data-written-review][hidden],
+#lesson-stage[data-lesson^="7-"] .question .feedback[hidden] { display: none; }

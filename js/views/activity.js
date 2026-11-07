@@ -205,6 +205,7 @@ export function timesFindView(ctx) {
 /** Just the area below the title bar (redrawn in place after each action). */
 export function activityInner(ctx) {
   const run = ctx.run;
+  if (run.act === 'fvflash') return fractionCards(ctx, run);
   if (run.act === 'flash') return flashcards(ctx, run);
   if (run.act === 'cards') return spellingStudyCards(ctx, run);
   if (run.act === 'learn') return run.subject === 'math' ? propertyCards(ctx, run) : studyCards(ctx, run);
@@ -229,6 +230,14 @@ function emptyRun(ctx, run) {
 
 // ---------------------------------------------------------------- practice
 
+function fractionHistory(run, item = null) {
+  if (run.chapter !== 7 || !run.history || run.flash) return '';
+  const rows = (item ? [item] : run.items).map((it) => run.history[it.id.replace(/^test-/, '')]).filter(Boolean);
+  const helped = rows.filter((x) => x.help > 0).length, revealed = rows.filter((x) => x.revealed).length;
+  if (!helped && !revealed) return '';
+  return html`<aside class="notice fraction-history" aria-label="Help history"><p><strong>Help history for this visit:</strong> ${helped} ${helped === 1 ? 'question used' : 'questions used'} Help; ${revealed} had an answer revealed. This stays after a restart. Scores describe the current round only, separately from earlier help. Closing or refreshing clears this history.</p></aside>`;
+}
+
 function practiceQuestion(ctx, run) {
   const i = Math.min(run.i, run.items.length - 1);
   const item = run.items[i];
@@ -238,6 +247,7 @@ function practiceQuestion(ctx, run) {
   const fb = st.status === 'correct' ? html` aria-describedby="fb-${item.id}"` : '';
   return html`
     ${stageTitle(`Question ${i + 1} of ${run.items.length}`)}
+    ${fractionHistory(run, item)}
     ${itemCard(CHECK, item, 'together', { items: run.items_ })}
     <div class="stage-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>` : html`<span></span>`}
@@ -256,6 +266,7 @@ function practiceSummary(ctx, run) {
       : 'Nice effort. Let\'s practice the ones below. They are saved in Practice My Misses for this visit.';
   return html`
     ${stageTitle('Your results')}
+    ${fractionHistory(run)}
     <div class="card results">
       ${scoreLine(first, run.items.length, answered)}
       <p>${praise}</p>
@@ -283,6 +294,7 @@ function testQuestion(ctx, run) {
     ${stageTitle(`Question ${i + 1} of ${run.items.length}`)}
     ${i === 0 ? html`<div class="notice test-intro"><p>${run.instructions}</p><p class="coverage">This test covers: ${run.coverage}</p></div>` : ''}
     ${half ? html`<p class="notice break-note">Halfway there! Take a short break if you need one. Your answers are kept while this page stays open.</p>` : ''}
+    ${fractionHistory(run, item)}
     ${itemCard(CHECK, item, 'test', { items: run.items_ })}
     ${blankList.length ? html`<div class="notice" id="test-warning" tabindex="-1"><p><strong>${blankList.length === 1 ? '1 question has' : `${blankList.length} questions have`} no answer.</strong> Go back to ${blankList.length === 1 ? 'it' : 'them'}, or finish anyway.</p>
       <p class="goto-list"><span>Questions with no answer:</span> ${blankList.map((k) => html`<button type="button" class="btn goto" data-act="goto" data-to="${k}" aria-label="Go to question ${k + 1}">${k + 1}</button>`)}</p></div>` : ''}
@@ -297,6 +309,7 @@ function testQuestion(ctx, run) {
 /** What the child answered, as text (results review). */
 function given(it, st) {
   const r = st?.resp || {};
+  if (it.type === 'fraction') return r.n || r.d ? `${r.n || 'blank'}/${r.d || 'blank'}` : 'No answer';
   if (it.type === 'choice') return r.choice === undefined ? 'No answer' : it.options[Number(r.choice)]?.text || 'No answer';
   if (it.type === 'letters') return Object.values(r).some((v) => String(v).trim()) ? [...it.word].map((c, k) => (it.blanks.includes(k) ? (r[`l${it.blanks.indexOf(k)}`] || '_') : c)).join('') : 'No answer';
   const vals = Object.values(r).map((v) => String(v).trim()).filter(Boolean);
@@ -312,7 +325,7 @@ function testResults(ctx, run) {
   const answered = s.total - unanswered(run.items, { items: run.items_ }).length;
   // A math test belongs to a chapter (D26): its practice and its Practice My Misses are that chapter's.
   const chId = run.areaVocab ? 6 : run.subject === 'math' ? run.chapter || null : run.subject === 'mathwords' ? 5 : null;
-  const CH_HOME = { 6: run.areaVocab ? ['areawords', 'avmisses'] : ['areapractice', 'areamisses'], 5: run.subject === 'mathwords' ? ['words', 'wmisses'] : ['practice', 'misses'] };
+  const CH_HOME = { 7: ['fracpractice', 'fmisses'], 6: run.areaVocab ? ['areawords', 'avmisses'] : ['areapractice', 'areamisses'], 5: run.subject === 'mathwords' ? ['words', 'wmisses'] : ['practice', 'misses'] };
   const [homeSection, homeAct, missAct] = chId ? ['math', ...CH_HOME[chId]] : [...(TEST_HOME[run.subject] || [run.subject, null]), null];
   const practiceHref = homeAct ? ctx.actLink(homeSection, homeAct) : ctx.link(homeSection);
   const inChapter = run.subject === 'math' && ctx.chapter;
@@ -320,6 +333,7 @@ function testResults(ctx, run) {
   const card = run.subject === 'skills' ? parentOf(run) : null;
   return html`
     ${stageTitle(`${run.title}: your score`)}
+    ${fractionHistory(run)}
     <div class="card results">
       ${scoreLine(s.right, s.total, answered, false)}
       <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${run.pass} or more right means you passed. Look at the answers below, then practice and try again.`}</p>
@@ -626,4 +640,19 @@ export function testCenter(ctx, catalog) {
           </li>`)}
       </ul>
     </section>`;
+}
+
+/** Chapter-owned vocabulary cards; these diagrams are for study, not test answers. */
+function fractionCards(ctx, run) {
+  const f = run.flash, list = ctx.fractions?.vocabulary || [];
+  if (!list.length) return emptyRun(ctx, run);
+  const w = list[f.order[f.i]];
+  return html`${stageTitle(`Word ${f.i + 1} of ${list.length}`)}
+    <div class="card study-one frac-card">
+      ${f.flipped ? html`<div><h3>${w.word}</h3><p class="definition">${w.def}</p><p class="tag">${w.source === 'teacher' ? 'Teacher’s exact words' : 'Chapter review'}</p><p>${w.example}</p>${readButton([w.word, w.def, w.example], 'this word and meaning')}</div>` : html`<div><h3 class="flash-word">${w.word}</h3>${w.model ? modelFigure(w.model) : ''}<p>Say what this word means, then flip to check.</p>${readButton(w.word, 'this word')}</div>`}
+      <button type="button" class="btn btn-primary flip-btn" data-act="flip" aria-label="${f.flipped ? 'Show the word' : 'Show the meaning'}">Flip card</button>
+    </div><div class="stage-nav">
+      <button type="button" class="btn" data-act="card-prev"${f.i === 0 ? ' disabled' : ''}>‹ Previous</button>
+      ${f.i < list.length - 1 ? html`<button type="button" class="btn btn-primary" data-act="card-next">Next ›</button>` : html`<button type="button" class="btn" data-act="restart">Start over</button><a class="btn btn-primary" href="${ctx.actLink('math', 'fracwords')}">Done: choose an activity</a>`}
+    </div>`;
 }

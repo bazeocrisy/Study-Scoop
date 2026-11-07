@@ -1,0 +1,1345 @@
+{
+  "id": "7-3",
+  "chapter": 7,
+  "title": "Represent Fractions on a Number Line",
+  "goal": "I can partition one unit into equal intervals and locate a fraction.",
+  "catchAll": "The distance from zero to one is one whole. Count intervals from zero, not tick marks.",
+  "teacher": [
+    {
+      "term": "denominator",
+      "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+    },
+    {
+      "term": "unit fraction",
+      "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+    },
+    {
+      "term": "numerator",
+      "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+    },
+    {
+      "term": "fraction",
+      "def": "A fraction is a number used when a whole is split into equal parts."
+    }
+  ],
+  "glossary": {
+    "whole": "the one shape, unit length, complete piece or entire set named in the question",
+    "partition": "divide a whole into equal parts",
+    "interval": "the distance between neighboring marks on a number line"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Name the whole",
+        "text": [
+          "One whole is the distance from zero to one."
+        ],
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 3
+        }
+      },
+      {
+        "title": "Connect the parts",
+        "text": [
+          "Equal intervals represent equal unit fractions.",
+          "The distance from zero to one is one whole. Count intervals from zero, not tick marks."
+        ]
+      },
+      {
+        "title": "Check the reasoning",
+        "text": [
+          "Count intervals from zero to locate a fraction."
+        ]
+      },
+      {
+        "title": "Check the idea",
+        "item": {
+          "id": "r1",
+          "type": "fraction",
+          "prompt": "A point marks the selected distance on this paper fan number line. Name it using the unit intervals shown.",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 6,
+            "max": 1,
+            "point": 4
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 4,
+            "d": 6
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Find one whole and count the equal intervals within it.",
+            "Count intervals from zero to the marked point."
+          ],
+          "show": [
+            "There are 6 equal parts in each whole.",
+            "The point is 4 intervals from zero.",
+            "The fraction is 4/6."
+          ],
+          "yes": "The model represents 4/6."
+        }
+      },
+      {
+        "title": "Check another way",
+        "item": {
+          "id": "r2",
+          "type": "fraction",
+          "prompt": "A point marks the selected distance on this display card number line. Name it using the unit intervals shown.",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 8,
+            "max": 1,
+            "point": 5
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 5,
+            "d": 8
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Find one whole and count the equal intervals within it.",
+            "Count intervals from zero to the marked point."
+          ],
+          "show": [
+            "There are 8 equal parts in each whole.",
+            "The point is 5 intervals from zero.",
+            "The fraction is 5/8."
+          ],
+          "yes": "The model represents 5/8."
+        }
+      },
+      {
+        "title": "Explain My Thinking",
+        "item": {
+          "id": "explain",
+          "type": "sentence",
+          "prompt": "Why do we count intervals instead of tick marks on a fraction number line? Write a complete sentence.",
+          "keywords": [
+            "whole"
+          ],
+          "minKeywords": 0,
+          "minWords": 5,
+          "example": "We count intervals because each interval is one equal part of the unit, while the first tick only marks where zero begins.",
+          "hints": [
+            "Describe what the whole is and how its parts are counted."
+          ],
+          "show": [
+            "Compare your reasoning with a grown-up or the model response.",
+            "We count intervals because each interval is one equal part of the unit, while the first tick only marks where zero begins."
+          ]
+        }
+      }
+    ]
+  },
+  "watch": {
+    "examples": [
+      {
+        "title": "Identify the whole and what is counted",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 1
+        },
+        "steps": [
+          {
+            "say": "For the wall hanging design, this line shows one unit from zero to one. What should you count to find the denominator?"
+          },
+          {
+            "say": "Identify one whole unit, then count equal intervals from zero."
+          },
+          {
+            "say": "Count equal intervals in the distance from zero to one."
+          }
+        ],
+        "why": {
+          "id": "w1check",
+          "type": "choice",
+          "prompt": "For the wall hanging design, this line shows one unit from zero to one. What should you count to find the denominator?",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 2,
+            "max": 1,
+            "point": 1
+          },
+          "options": [
+            {
+              "text": "Tick marks including zero.",
+              "why": "Tick marks are boundaries; there is one more boundary than intervals."
+            },
+            {
+              "text": "Only the tick marks after the point.",
+              "why": "The denominator comes from the whole unit, not what remains after the point."
+            },
+            {
+              "text": "Equal intervals between zero and one.",
+              "correct": true
+            }
+          ],
+          "show": [
+            "Count equal intervals in the distance from zero to one."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Explain the meaning of the counts",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 2
+        },
+        "steps": [
+          {
+            "say": "A student starts counting at zero as the first part on this puzzle mat number line. What is the mistake?"
+          },
+          {
+            "say": "Identify one whole unit, then count equal intervals from zero."
+          },
+          {
+            "say": "Start at zero, then count the first interval only after moving to the next tick."
+          }
+        ],
+        "why": {
+          "id": "w2check",
+          "type": "choice",
+          "prompt": "A student starts counting at zero as the first part on this puzzle mat number line. What is the mistake?",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 3,
+            "max": 1,
+            "point": 2
+          },
+          "options": [
+            {
+              "text": "The intervals should change size.",
+              "why": "The intervals within each whole must stay equal."
+            },
+            {
+              "text": "Zero is a starting boundary, not a traveled interval.",
+              "correct": true
+            },
+            {
+              "text": "The line should start at one.",
+              "why": "A fraction’s distance is counted from zero."
+            }
+          ],
+          "show": [
+            "Start at zero, then count the first interval only after moving to the next tick."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Work through another fraction model",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 1
+        },
+        "steps": [
+          {
+            "say": "A point marks the selected distance on this music card number line. Name it using the unit intervals shown."
+          },
+          {
+            "say": "Identify one whole unit, then count equal intervals from zero."
+          },
+          {
+            "say": "There are 6 equal parts in each whole."
+          },
+          {
+            "say": "The point is 1 interval from zero."
+          },
+          {
+            "say": "The fraction is 1/6."
+          }
+        ],
+        "why": {
+          "id": "w3check",
+          "type": "fraction",
+          "prompt": "A point marks the selected distance on this music card number line. Name it using the unit intervals shown.",
+          "model": {
+            "type": "fraction",
+            "kind": "line",
+            "parts": 6,
+            "max": 1,
+            "point": 1
+          },
+          "asks": "fraction",
+          "answer": {
+            "n": 1,
+            "d": 6
+          },
+          "answerPolicy": "partition",
+          "hints": [
+            "Find one whole and count the equal intervals within it.",
+            "Count intervals from zero to the marked point."
+          ],
+          "show": [
+            "There are 6 equal parts in each whole.",
+            "The point is 1 interval from zero.",
+            "The fraction is 1/6."
+          ],
+          "yes": "The model represents 1/6."
+        }
+      }
+    ]
+  },
+  "together": {
+    "items": [
+      {
+        "id": "g1",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this art ribbon number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 1
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 2 equal parts in each whole.",
+          "The point is 1 interval from zero.",
+          "The fraction is 1/2."
+        ],
+        "yes": "The model represents 1/2."
+      },
+      {
+        "id": "g2",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this garden marker number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 1
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 1 interval from zero.",
+          "The fraction is 1/3."
+        ],
+        "yes": "The model represents 1/3."
+      },
+      {
+        "id": "g3",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this window panel number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 2
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 2 intervals from zero.",
+          "The fraction is 2/4."
+        ],
+        "yes": "The model represents 2/4."
+      },
+      {
+        "id": "g4",
+        "type": "choice",
+        "prompt": "For the trail sign design, this line shows one unit from zero to one. What should you count to find the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 2
+        },
+        "options": [
+          {
+            "text": "Tick marks including zero.",
+            "why": "Tick marks are boundaries; there is one more boundary than intervals."
+          },
+          {
+            "text": "Only the tick marks after the point.",
+            "why": "The denominator comes from the whole unit, not what remains after the point."
+          },
+          {
+            "text": "Equal intervals between zero and one.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Count equal intervals in the distance from zero to one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g5",
+        "type": "choice",
+        "prompt": "A student starts counting at zero as the first part on this paper mat number line. What is the mistake?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 3
+        },
+        "options": [
+          {
+            "text": "The intervals should change size.",
+            "why": "The intervals within each whole must stay equal."
+          },
+          {
+            "text": "Zero is a starting boundary, not a traveled interval.",
+            "correct": true
+          },
+          {
+            "text": "The line should start at one.",
+            "why": "A fraction’s distance is counted from zero."
+          }
+        ],
+        "show": [
+          "Start at zero, then count the first interval only after moving to the next tick."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g6",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this festival flag number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 1
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 1 interval from zero.",
+          "The fraction is 1/3."
+        ],
+        "yes": "The model represents 1/3."
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "number",
+        "prompt": "For this model, what count records the intervals from zero to the point?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 1
+        },
+        "answer": "1",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 1."
+        ],
+        "yes": "The count is 1."
+      },
+      {
+        "id": "t2",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this reading card number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 1
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 1 interval from zero.",
+          "The fraction is 1/4."
+        ],
+        "yes": "The model represents 1/4."
+      },
+      {
+        "id": "t3",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this seed tray number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 1
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 1 interval from zero.",
+          "The fraction is 1/6."
+        ],
+        "yes": "The model represents 1/6."
+      },
+      {
+        "id": "t4",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this craft sheet number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 1
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 2
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 2 equal parts in each whole.",
+          "The point is 1 interval from zero.",
+          "The fraction is 1/2."
+        ],
+        "yes": "The model represents 1/2."
+      },
+      {
+        "id": "t5",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this gift tag number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 2
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 2 intervals from zero.",
+          "The fraction is 2/8."
+        ],
+        "yes": "The model represents 2/8."
+      },
+      {
+        "id": "t6",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this mural strip number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 3
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 3 intervals from zero.",
+          "The fraction is 3/6."
+        ],
+        "yes": "The model represents 3/6."
+      },
+      {
+        "id": "t7",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this class pennant number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 4
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 4 intervals from zero.",
+          "The fraction is 4/8."
+        ],
+        "yes": "The model represents 4/8."
+      },
+      {
+        "id": "t8",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this game board number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 4
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 4,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 4 intervals from zero.",
+          "The fraction is 4/6."
+        ],
+        "yes": "The model represents 4/6."
+      },
+      {
+        "id": "t9",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this library sign number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 2
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 3
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 3 equal parts in each whole.",
+          "The point is 2 intervals from zero.",
+          "The fraction is 2/3."
+        ],
+        "yes": "The model represents 2/3."
+      },
+      {
+        "id": "t10",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this club badge number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 3
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 3,
+          "d": 4
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 4 equal parts in each whole.",
+          "The point is 3 intervals from zero.",
+          "The fraction is 3/4."
+        ],
+        "yes": "The model represents 3/4."
+      },
+      {
+        "id": "t11",
+        "type": "fraction",
+        "prompt": "A point marks the selected distance on this recipe card number line. Name it using the unit intervals shown.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 7
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 7,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "hints": [
+          "Find one whole and count the equal intervals within it.",
+          "Count intervals from zero to the marked point."
+        ],
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 7 intervals from zero.",
+          "The fraction is 7/8."
+        ],
+        "yes": "The model represents 7/8."
+      },
+      {
+        "id": "t12",
+        "type": "choice",
+        "prompt": "For the fabric strip design, this line shows one unit from zero to one. What should you count to find the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 5
+        },
+        "options": [
+          {
+            "text": "Equal intervals between zero and one.",
+            "correct": true
+          },
+          {
+            "text": "Tick marks including zero.",
+            "why": "Tick marks are boundaries; there is one more boundary than intervals."
+          },
+          {
+            "text": "Only the tick marks after the point.",
+            "why": "The denominator comes from the whole unit, not what remains after the point."
+          }
+        ],
+        "show": [
+          "Count equal intervals in the distance from zero to one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t13",
+        "type": "choice",
+        "prompt": "For the display panel design, this line shows one unit from zero to one. What should you count to find the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 1
+        },
+        "options": [
+          {
+            "text": "Only the tick marks after the point.",
+            "why": "The denominator comes from the whole unit, not what remains after the point."
+          },
+          {
+            "text": "Equal intervals between zero and one.",
+            "correct": true
+          },
+          {
+            "text": "Tick marks including zero.",
+            "why": "Tick marks are boundaries; there is one more boundary than intervals."
+          }
+        ],
+        "show": [
+          "Count equal intervals in the distance from zero to one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t14",
+        "type": "choice",
+        "prompt": "For the stage banner design, this line shows one unit from zero to one. What should you count to find the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 2
+        },
+        "options": [
+          {
+            "text": "Tick marks including zero.",
+            "why": "Tick marks are boundaries; there is one more boundary than intervals."
+          },
+          {
+            "text": "Only the tick marks after the point.",
+            "why": "The denominator comes from the whole unit, not what remains after the point."
+          },
+          {
+            "text": "Equal intervals between zero and one.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Count equal intervals in the distance from zero to one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t15",
+        "type": "choice",
+        "prompt": "For the quilt panel design, this line shows one unit from zero to one. What should you count to find the denominator?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 3
+        },
+        "options": [
+          {
+            "text": "Equal intervals between zero and one.",
+            "correct": true
+          },
+          {
+            "text": "Tick marks including zero.",
+            "why": "Tick marks are boundaries; there is one more boundary than intervals."
+          },
+          {
+            "text": "Only the tick marks after the point.",
+            "why": "The denominator comes from the whole unit, not what remains after the point."
+          }
+        ],
+        "show": [
+          "Count equal intervals in the distance from zero to one."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "A student starts counting at zero as the first part on this picnic cloth number line. What is the mistake?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 2,
+          "max": 1,
+          "point": 1
+        },
+        "options": [
+          {
+            "text": "The line should start at one.",
+            "why": "A fraction’s distance is counted from zero."
+          },
+          {
+            "text": "The intervals should change size.",
+            "why": "The intervals within each whole must stay equal."
+          },
+          {
+            "text": "Zero is a starting boundary, not a traveled interval.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Start at zero, then count the first interval only after moving to the next tick."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "A student starts counting at zero as the first part on this bookmark number line. What is the mistake?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 3,
+          "max": 1,
+          "point": 2
+        },
+        "options": [
+          {
+            "text": "Zero is a starting boundary, not a traveled interval.",
+            "correct": true
+          },
+          {
+            "text": "The line should start at one.",
+            "why": "A fraction’s distance is counted from zero."
+          },
+          {
+            "text": "The intervals should change size.",
+            "why": "The intervals within each whole must stay equal."
+          }
+        ],
+        "show": [
+          "Start at zero, then count the first interval only after moving to the next tick."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "A student starts counting at zero as the first part on this photo frame number line. What is the mistake?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 1
+        },
+        "options": [
+          {
+            "text": "The intervals should change size.",
+            "why": "The intervals within each whole must stay equal."
+          },
+          {
+            "text": "Zero is a starting boundary, not a traveled interval.",
+            "correct": true
+          },
+          {
+            "text": "The line should start at one.",
+            "why": "A fraction’s distance is counted from zero."
+          }
+        ],
+        "show": [
+          "Start at zero, then count the first interval only after moving to the next tick."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t19",
+        "type": "number",
+        "prompt": "The denominator matches the unit partition. What numerator counts the marked distance?",
+        "answer": "4",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 4
+        },
+        "hints": [
+          "Identify the whole and which count is missing."
+        ],
+        "show": [
+          "Four intervals from zero give numerator four."
+        ],
+        "yes": "Four intervals from zero give numerator four."
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "A student uses numerator two correctly but writes denominator seven after counting all marks on a six-interval unit line. Which repair is needed?",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 2
+        },
+        "options": [
+          {
+            "text": "Keep seven; all marks are fractional parts.",
+            "why": "The marks are boundaries, not the equal unit intervals."
+          },
+          {
+            "text": "Use denominator six because the unit has six intervals.",
+            "correct": true
+          },
+          {
+            "text": "Use numerator seven because there are seven marks.",
+            "why": "The numerator counts traveled intervals."
+          }
+        ],
+        "show": [
+          "Count the six spaces in one whole for the denominator."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "test": {
+    "pass": 8,
+    "items": [
+      {
+        "id": "x1",
+        "type": "fraction",
+        "prompt": "Name the marked point using this line’s equal unit intervals.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 6
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 6,
+          "d": 8
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 8 equal parts in each whole.",
+          "The point is 6 intervals from zero.",
+          "The fraction is 6/8."
+        ],
+        "yes": "The model represents 6/8."
+      },
+      {
+        "id": "x2",
+        "type": "fraction",
+        "prompt": "Write the point as a fraction with the denominator shown by one unit.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 2
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 2,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 2 intervals from zero.",
+          "The fraction is 2/6."
+        ],
+        "yes": "The model represents 2/6."
+      },
+      {
+        "id": "x3",
+        "type": "number",
+        "prompt": "How many equal intervals make one unit on this line?",
+        "answer": "4",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 4,
+          "max": 1,
+          "point": 3
+        },
+        "show": [
+          "There are four intervals from zero to one."
+        ],
+        "yes": "There are four intervals from zero to one."
+      },
+      {
+        "id": "x4",
+        "type": "number",
+        "prompt": "How many intervals are traveled from zero to the marked point?",
+        "answer": "5",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 8,
+          "max": 1,
+          "point": 5
+        },
+        "show": [
+          "Five equal intervals lead from zero to the point."
+        ],
+        "yes": "Five equal intervals lead from zero to the point."
+      },
+      {
+        "id": "x5",
+        "type": "choice",
+        "prompt": "A line has seven tick marks from zero through one, including both endpoints. How many equal intervals lie between them?",
+        "options": [
+          {
+            "text": "Eight intervals.",
+            "why": "Count the spaces between neighboring marks."
+          },
+          {
+            "text": "Six intervals.",
+            "correct": true
+          },
+          {
+            "text": "Seven intervals.",
+            "why": "The two endpoints are boundaries, not additional intervals."
+          }
+        ],
+        "show": [
+          "Seven boundary marks enclose six intervals."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x6",
+        "type": "choice",
+        "prompt": "The first interval on a unit line is longer than the others. Is counting four intervals enough to locate fourths?",
+        "options": [
+          {
+            "text": "No; all four intervals must have equal length.",
+            "correct": true
+          },
+          {
+            "text": "Yes; the interval count alone is enough.",
+            "why": "Equal interval lengths are part of the fraction model."
+          },
+          {
+            "text": "Yes; the longest interval always represents one-fourth.",
+            "why": "A longer interval would represent a different distance."
+          }
+        ],
+        "show": [
+          "Fourth-sized intervals must have equal lengths."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "Which action places 2/3 on a line from zero to one?",
+        "options": [
+          {
+            "text": "Divide into two equal intervals and count three.",
+            "why": "That reverses the numerator and denominator."
+          },
+          {
+            "text": "Count zero as the first interval.",
+            "why": "Zero marks the start; no interval has been traveled there."
+          },
+          {
+            "text": "Divide the unit into three equal intervals and count two from zero.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Three tells the equal unit partition and two tells the traveled intervals."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x8",
+        "type": "fraction",
+        "prompt": "Write the marked fraction using the equal intervals of this unit line.",
+        "model": {
+          "type": "fraction",
+          "kind": "line",
+          "parts": 6,
+          "max": 1,
+          "point": 5
+        },
+        "asks": "fraction",
+        "answer": {
+          "n": 5,
+          "d": 6
+        },
+        "answerPolicy": "partition",
+        "show": [
+          "There are 6 equal parts in each whole.",
+          "The point is 5 intervals from zero.",
+          "The fraction is 5/6."
+        ],
+        "yes": "The model represents 5/6."
+      },
+      {
+        "id": "x9",
+        "type": "choice",
+        "prompt": "A point is halfway through the unit. If the unit is divided into eight equal intervals, how many of those intervals lead to the point?",
+        "options": [
+          {
+            "text": "Four.",
+            "correct": true
+          },
+          {
+            "text": "Eight.",
+            "why": "Eight intervals reach the full unit."
+          },
+          {
+            "text": "One.",
+            "why": "One interval would cover only one-eighth."
+          }
+        ],
+        "show": [
+          "Four of the eight equal intervals cover half the unit."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x10",
+        "type": "choice",
+        "prompt": "A fraction point moves one equal interval to the right while the unit partition stays unchanged. What changes in its fraction name?",
+        "options": [
+          {
+            "text": "The denominator increases by one.",
+            "why": "The denominator describes the fixed unit partition."
+          },
+          {
+            "text": "Both numbers must decrease.",
+            "why": "The point is farther from zero, not closer."
+          },
+          {
+            "text": "The numerator increases by one; the denominator stays fixed.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "An extra traveled unit part increases the numerator."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "I can partition one unit into equal intervals and locate a fraction."
+      },
+      {
+        "heading": "Ask for reasoning",
+        "list": [
+          "Why do we count intervals instead of tick marks on a fraction number line?",
+          "What is the whole in this model? How do you know the parts are equal?",
+          "Can you explain the same idea with another picture or real objects?"
+        ]
+      },
+      {
+        "heading": "Try it away from the screen",
+        "list": [
+          "Make a paper number line. Keep equal spacing within each whole, and count intervals from zero.",
+          "Let your child explain a mistake before offering a correction."
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Counting boundary tick marks instead of intervals.",
+          "Changing the whole halfway through a question."
+        ]
+      },
+      {
+        "heading": "About these questions",
+        "text": "These are original Study Scoop lessons aligned to the supplied chapter map. They are practice, not the teacher’s actual test. Written explanations are for comparison with a grown-up and are not automatically judged for mathematical meaning."
+      }
+    ]
+  }
+}

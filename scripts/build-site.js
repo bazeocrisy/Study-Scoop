@@ -12,6 +12,7 @@ import { pictureName } from '../js/lib/data.js';
 import { validateArea } from '../js/lib/area.js';
 import { validatePacket } from '../js/lib/homework.js';
 import { validateReadingIndex, validateStory } from '../js/lib/reading.js';
+import { validateFractionChapter } from '../js/lib/chapter7.js';
 import { isWordIllustration } from '../js/lib/word-illustrations.js';
 
 export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -26,6 +27,7 @@ export const ALLOW = [
   /^data\/lessons\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/,
   /^data\/tests\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
   /^data\/practice\/(?:math|math-words|area)\.json$/,
+  /^data\/chapters\/7\.json$/,
   /^data\/reading\/(?:index|[a-z][a-z0-9]*)\.json$/,
   /^data\/homework\/(?:index|\d{4}-\d{2}-\d{2})\.json$/,
   /^downloads\/homework-\d{4}-\d{2}-\d{2}\.pdf$/,
@@ -263,6 +265,11 @@ export function verifySite(dir) {
     const rel = `data/${bank.week}.json`;
     if (!has(rel)) problems.push(`data/practice/area.json: its week ${bank.week} is not published`);
     else problems.push(...validateArea(bank, readJSON(path.join(dir, rel))));
+  }
+  if (has('data/chapters/7.json')) {
+    const pack = readJSON(path.join(dir, 'data/chapters/7.json'));
+    const teacher = has('data/2026-11-09.json') ? readJSON(path.join(dir, 'data/2026-11-09.json')).mathUpcoming?.words : null;
+    problems.push(...validateFractionChapter(pack, teacher));
   }
   // The picture list must match the published pictures exactly (pages use it so they never ask for a missing file).
   if (has('data/pictures.json')) {

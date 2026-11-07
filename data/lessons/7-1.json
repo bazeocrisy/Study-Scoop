@@ -1,0 +1,1323 @@
+{
+  "id": "7-1",
+  "chapter": 7,
+  "title": "Partition Shapes into Equal Parts",
+  "goal": "I can make and recognize equal-area parts of one whole.",
+  "catchAll": "Equal parts must cover the same amount of the whole. Counting pieces alone is not enough.",
+  "teacher": [
+    {
+      "term": "denominator",
+      "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+    },
+    {
+      "term": "unit fraction",
+      "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+    },
+    {
+      "term": "numerator",
+      "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+    },
+    {
+      "term": "fraction",
+      "def": "A fraction is a number used when a whole is split into equal parts."
+    }
+  ],
+  "glossary": {
+    "whole": "the one shape, unit length, complete piece or entire set named in the question",
+    "partition": "divide a whole into equal parts",
+    "interval": "the distance between neighboring marks on a number line"
+  },
+  "learn": {
+    "screens": [
+      {
+        "title": "Name the whole",
+        "text": [
+          "A whole can be divided in different ways."
+        ],
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": []
+        }
+      },
+      {
+        "title": "Connect the parts",
+        "text": [
+          "Equal parts have equal area, even when their shapes look different.",
+          "Equal parts must cover the same amount of the whole. Counting pieces alone is not enough."
+        ]
+      },
+      {
+        "title": "Check the reasoning",
+        "text": [
+          "More equal parts of the same whole make each part smaller."
+        ]
+      },
+      {
+        "title": "Check the idea",
+        "item": {
+          "id": "r1",
+          "type": "choice",
+          "prompt": "A designer divides a paper fan into the equal parts shown. What is the name for each part?",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 3,
+            "wholes": 1,
+            "selected": [
+              0
+            ]
+          },
+          "options": [
+            {
+              "text": "fourths",
+              "why": "Count every equal part in one whole, then name those parts."
+            },
+            {
+              "text": "whole pieces",
+              "why": "A piece is only part of this whole."
+            },
+            {
+              "text": "thirds",
+              "correct": true
+            }
+          ],
+          "show": [
+            "The whole has 3 equal parts, so the parts are called thirds."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Check another way",
+        "item": {
+          "id": "r2",
+          "type": "choice",
+          "prompt": "The display card has 4 pieces. Is counting those pieces enough to prove that the parts are equal?",
+          "model": {
+            "type": "fraction",
+            "kind": "bar",
+            "parts": 4,
+            "wholes": 1,
+            "selected": [],
+            "weights": [
+              2,
+              2,
+              4,
+              2
+            ]
+          },
+          "options": [
+            {
+              "text": "Yes; a straight outside edge makes them equal.",
+              "why": "The outside edge does not tell you each part’s area."
+            },
+            {
+              "text": "Yes; any pieces are equal when they are counted.",
+              "why": "The picture contains parts with different areas."
+            },
+            {
+              "text": "No; the pieces must also cover equal amounts.",
+              "correct": true
+            }
+          ],
+          "show": [
+            "The widths differ, so these pieces do not cover equal areas."
+          ],
+          "yes": "Compare your reasoning with the explanation."
+        }
+      },
+      {
+        "title": "Explain My Thinking",
+        "item": {
+          "id": "explain",
+          "type": "sentence",
+          "prompt": "How can you tell whether the parts of a shape are equal? Write a complete sentence.",
+          "keywords": [
+            "whole"
+          ],
+          "minKeywords": 0,
+          "minWords": 5,
+          "example": "I can check that every part covers the same amount of the whole, rather than just counting how many pieces I see.",
+          "hints": [
+            "Describe what the whole is and how its parts are counted."
+          ],
+          "show": [
+            "Compare your reasoning with a grown-up or the model response.",
+            "I can check that every part covers the same amount of the whole, rather than just counting how many pieces I see."
+          ]
+        }
+      }
+    ]
+  },
+  "watch": {
+    "examples": [
+      {
+        "title": "Make four equal sections",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": []
+        },
+        "steps": [
+          {
+            "say": "Start with one rectangular strip. Its entire area is one whole."
+          },
+          {
+            "say": "Fold the strip into two matching halves, then fold both halves in half again."
+          },
+          {
+            "say": "Open the strip. The four full-height sections have equal widths, so their areas are equal."
+          },
+          {
+            "say": "Check that the four sections cover the strip once, without gaps or overlap."
+          }
+        ]
+      },
+      {
+        "title": "Make six equal sections",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": []
+        },
+        "steps": [
+          {
+            "say": "Use one new rectangular strip as the whole."
+          },
+          {
+            "say": "Mark its length into six equal distances. Draw a dividing line straight across at each inside mark."
+          },
+          {
+            "say": "Each section has the same width and height. There are six equal areas, called sixths."
+          },
+          {
+            "say": "Joining each pair of neighboring sections would make three larger equal areas."
+          }
+        ]
+      },
+      {
+        "title": "Make eight equal sectors",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 8,
+          "wholes": 1,
+          "selected": []
+        },
+        "steps": [
+          {
+            "say": "Start with one round disk as the whole."
+          },
+          {
+            "say": "Fold it in half, then in half again, then in half once more."
+          },
+          {
+            "say": "Unfold the disk. Eight equal sectors meet at the center."
+          },
+          {
+            "say": "All eight parts cover the same area; the number of pieces alone would not prove this if the folds were unequal."
+          }
+        ]
+      }
+    ]
+  },
+  "together": {
+    "items": [
+      {
+        "id": "g1",
+        "type": "choice",
+        "prompt": "A designer divides a art ribbon into the equal parts shown. What is the name for each part?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "options": [
+          {
+            "text": "thirds",
+            "why": "Count every equal part in one whole, then name those parts."
+          },
+          {
+            "text": "whole pieces",
+            "why": "A piece is only part of this whole."
+          },
+          {
+            "text": "halves",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The whole has 2 equal parts, so the parts are called halves."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g2",
+        "type": "choice",
+        "prompt": "The garden marker has 3 pieces. Is counting those pieces enough to prove that the parts are equal?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [],
+          "weights": [
+            2,
+            2,
+            4
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; a straight outside edge makes them equal.",
+            "why": "The outside edge does not tell you each part’s area."
+          },
+          {
+            "text": "Yes; any pieces are equal when they are counted.",
+            "why": "The picture contains parts with different areas."
+          },
+          {
+            "text": "No; the pieces must also cover equal amounts.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The widths differ, so these pieces do not cover equal areas."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g3",
+        "type": "choice",
+        "prompt": "Two window panels are the same size. One is divided into 4 equal parts and the other into 6 equal parts. Which has smaller parts?",
+        "options": [
+          {
+            "text": "The one with 6 equal parts.",
+            "correct": true
+          },
+          {
+            "text": "The one with 4 equal parts.",
+            "why": "Fewer parts of the same whole make each part larger."
+          },
+          {
+            "text": "The pieces must be the same size.",
+            "why": "The wholes match, but the numbers of equal pieces differ."
+          }
+        ],
+        "show": [
+          "Dividing the same whole into more equal parts makes each part smaller."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g4",
+        "type": "choice",
+        "prompt": "A trail sign is divided into 6 equal-area parts. A classmate says all the pieces must have the same outline. Is that necessary?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "No; equal parts must cover equal area, even if their outlines differ.",
+            "correct": true
+          },
+          {
+            "text": "No; only the color matters.",
+            "why": "Color does not determine area."
+          },
+          {
+            "text": "Yes; equal area always means the same outline.",
+            "why": "Different outlines can cover the same area."
+          }
+        ],
+        "show": [
+          "Equal area is the test for equal parts; matching outlines are not required."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "g5",
+        "type": "number",
+        "prompt": "How many equal parts cover this entire paper mat?",
+        "answer": "8",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 8,
+          "wholes": 1,
+          "selected": []
+        },
+        "hints": [
+          "Count each part once, including parts with no selection."
+        ],
+        "show": [
+          "There are 8 equal parts in the whole."
+        ],
+        "yes": "The whole contains 8 equal parts."
+      },
+      {
+        "id": "g6",
+        "type": "choice",
+        "prompt": "When making equal parts of a festival flag, which check is useful?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 2,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "Check that the pieces cover the whole with no gaps or overlap and have equal areas.",
+            "correct": true
+          },
+          {
+            "text": "Check only that every piece has a different color.",
+            "why": "Color can distinguish pieces but does not prove equal areas."
+          },
+          {
+            "text": "Check only that all cut lines are short.",
+            "why": "Cut-line length does not establish equal area."
+          }
+        ],
+        "show": [
+          "Every part must have equal area, and together the parts must cover the whole exactly once."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "try": {
+    "pass": 16,
+    "items": [
+      {
+        "id": "t1",
+        "type": "number",
+        "prompt": "How many equal parts cover this entire club badge?",
+        "answer": "2",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 2,
+          "wholes": 1,
+          "selected": []
+        },
+        "hints": [
+          "Count each part once, including parts with no selection."
+        ],
+        "show": [
+          "There are 2 equal parts in the whole."
+        ],
+        "yes": "The whole contains 2 equal parts."
+      },
+      {
+        "id": "t2",
+        "type": "number",
+        "prompt": "How many equal parts cover this entire gift tag?",
+        "answer": "3",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": []
+        },
+        "hints": [
+          "Count each part once, including parts with no selection."
+        ],
+        "show": [
+          "There are 3 equal parts in the whole."
+        ],
+        "yes": "The whole contains 3 equal parts."
+      },
+      {
+        "id": "t3",
+        "type": "number",
+        "prompt": "For this model, what count records the equal parts in one whole?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 2,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "answer": "2",
+        "hints": [
+          "Identify exactly which count the question asks for."
+        ],
+        "show": [
+          "The requested count is 2."
+        ],
+        "yes": "The count is 2."
+      },
+      {
+        "id": "t4",
+        "type": "number",
+        "prompt": "How many equal parts cover this entire library sign?",
+        "answer": "4",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": []
+        },
+        "hints": [
+          "Count each part once, including parts with no selection."
+        ],
+        "show": [
+          "There are 4 equal parts in the whole."
+        ],
+        "yes": "The whole contains 4 equal parts."
+      },
+      {
+        "id": "t5",
+        "type": "choice",
+        "prompt": "A designer divides a reading card into the equal parts shown. What is the name for each part?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "options": [
+          {
+            "text": "fourths",
+            "why": "Count every equal part in one whole, then name those parts."
+          },
+          {
+            "text": "whole pieces",
+            "why": "A piece is only part of this whole."
+          },
+          {
+            "text": "thirds",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The whole has 3 equal parts, so the parts are called thirds."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t6",
+        "type": "choice",
+        "prompt": "The game board has 4 pieces. Is counting those pieces enough to prove that the parts are equal?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [],
+          "weights": [
+            4,
+            2,
+            2,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; a straight outside edge makes them equal.",
+            "why": "The outside edge does not tell you each part’s area."
+          },
+          {
+            "text": "Yes; any pieces are equal when they are counted.",
+            "why": "The picture contains parts with different areas."
+          },
+          {
+            "text": "No; the pieces must also cover equal amounts.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The widths differ, so these pieces do not cover equal areas."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t7",
+        "type": "choice",
+        "prompt": "Two fabric strips are the same size. One is divided into 2 equal parts and the other into 3 equal parts. Which has smaller parts?",
+        "options": [
+          {
+            "text": "The one with 3 equal parts.",
+            "correct": true
+          },
+          {
+            "text": "The one with 2 equal parts.",
+            "why": "Fewer parts of the same whole make each part larger."
+          },
+          {
+            "text": "The pieces must be the same size.",
+            "why": "The wholes match, but the numbers of equal pieces differ."
+          }
+        ],
+        "show": [
+          "Dividing the same whole into more equal parts makes each part smaller."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t8",
+        "type": "choice",
+        "prompt": "When making equal parts of a seed tray, which check is useful?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "Check that the pieces cover the whole with no gaps or overlap and have equal areas.",
+            "correct": true
+          },
+          {
+            "text": "Check only that every piece has a different color.",
+            "why": "Color can distinguish pieces but does not prove equal areas."
+          },
+          {
+            "text": "Check only that all cut lines are short.",
+            "why": "Cut-line length does not establish equal area."
+          }
+        ],
+        "show": [
+          "Every part must have equal area, and together the parts must cover the whole exactly once."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t9",
+        "type": "choice",
+        "prompt": "A designer divides a recipe card into the equal parts shown. What is the name for each part?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "options": [
+          {
+            "text": "sixths",
+            "why": "Count every equal part in one whole, then name those parts."
+          },
+          {
+            "text": "whole pieces",
+            "why": "A piece is only part of this whole."
+          },
+          {
+            "text": "fourths",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The whole has 4 equal parts, so the parts are called fourths."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t10",
+        "type": "choice",
+        "prompt": "The display panel has 6 pieces. Is counting those pieces enough to prove that the parts are equal?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [],
+          "weights": [
+            2,
+            2,
+            4,
+            2,
+            2,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; a straight outside edge makes them equal.",
+            "why": "The outside edge does not tell you each part’s area."
+          },
+          {
+            "text": "Yes; any pieces are equal when they are counted.",
+            "why": "The picture contains parts with different areas."
+          },
+          {
+            "text": "No; the pieces must also cover equal amounts.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The widths differ, so these pieces do not cover equal areas."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t11",
+        "type": "choice",
+        "prompt": "Two bookmarks are the same size. One is divided into 4 equal parts and the other into 6 equal parts. Which has smaller parts?",
+        "options": [
+          {
+            "text": "The one with 6 equal parts.",
+            "correct": true
+          },
+          {
+            "text": "The one with 4 equal parts.",
+            "why": "Fewer parts of the same whole make each part larger."
+          },
+          {
+            "text": "The pieces must be the same size.",
+            "why": "The wholes match, but the numbers of equal pieces differ."
+          }
+        ],
+        "show": [
+          "Dividing the same whole into more equal parts makes each part smaller."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t12",
+        "type": "choice",
+        "prompt": "When making equal parts of a craft sheet, which check is useful?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "Check that the pieces cover the whole with no gaps or overlap and have equal areas.",
+            "correct": true
+          },
+          {
+            "text": "Check only that every piece has a different color.",
+            "why": "Color can distinguish pieces but does not prove equal areas."
+          },
+          {
+            "text": "Check only that all cut lines are short.",
+            "why": "Cut-line length does not establish equal area."
+          }
+        ],
+        "show": [
+          "Every part must have equal area, and together the parts must cover the whole exactly once."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t13",
+        "type": "choice",
+        "prompt": "A designer divides a stage banner into the equal parts shown. What is the name for each part?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [
+            0
+          ]
+        },
+        "options": [
+          {
+            "text": "eighths",
+            "why": "Count every equal part in one whole, then name those parts."
+          },
+          {
+            "text": "whole pieces",
+            "why": "A piece is only part of this whole."
+          },
+          {
+            "text": "sixths",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The whole has 6 equal parts, so the parts are called sixths."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t14",
+        "type": "choice",
+        "prompt": "The photo frame has 8 pieces. Is counting those pieces enough to prove that the parts are equal?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 8,
+          "wholes": 1,
+          "selected": [],
+          "weights": [
+            2,
+            2,
+            2,
+            2,
+            4,
+            2,
+            2,
+            2
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; a straight outside edge makes them equal.",
+            "why": "The outside edge does not tell you each part’s area."
+          },
+          {
+            "text": "Yes; any pieces are equal when they are counted.",
+            "why": "The picture contains parts with different areas."
+          },
+          {
+            "text": "No; the pieces must also cover equal amounts.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The widths differ, so these pieces do not cover equal areas."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t15",
+        "type": "choice",
+        "prompt": "When making equal parts of a quilt panel, which check is useful?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "Check that the pieces cover the whole with no gaps or overlap and have equal areas.",
+            "correct": true
+          },
+          {
+            "text": "Check only that every piece has a different color.",
+            "why": "Color can distinguish pieces but does not prove equal areas."
+          },
+          {
+            "text": "Check only that all cut lines are short.",
+            "why": "Cut-line length does not establish equal area."
+          }
+        ],
+        "show": [
+          "Every part must have equal area, and together the parts must cover the whole exactly once."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t16",
+        "type": "choice",
+        "prompt": "A picnic cloth is divided into 8 equal-area parts. A classmate says all the pieces must have the same outline. Is that necessary?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 8,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "No; equal parts must cover equal area, even if their outlines differ.",
+            "correct": true
+          },
+          {
+            "text": "No; only the color matters.",
+            "why": "Color does not determine area."
+          },
+          {
+            "text": "Yes; equal area always means the same outline.",
+            "why": "Different outlines can cover the same area."
+          }
+        ],
+        "show": [
+          "Equal area is the test for equal parts; matching outlines are not required."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t17",
+        "type": "choice",
+        "prompt": "A mural strip is divided into 2 equal-area parts. A classmate says all the pieces must have the same outline. Is that necessary?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 2,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "No; equal parts must cover equal area, even if their outlines differ.",
+            "correct": true
+          },
+          {
+            "text": "No; only the color matters.",
+            "why": "Color does not determine area."
+          },
+          {
+            "text": "Yes; equal area always means the same outline.",
+            "why": "Different outlines can cover the same area."
+          }
+        ],
+        "show": [
+          "Equal area is the test for equal parts; matching outlines are not required."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t18",
+        "type": "choice",
+        "prompt": "A paint sample is divided into 3 equal-area parts. A classmate says all the pieces must have the same outline. Is that necessary?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 3,
+          "wholes": 1,
+          "selected": []
+        },
+        "options": [
+          {
+            "text": "No; equal parts must cover equal area, even if their outlines differ.",
+            "correct": true
+          },
+          {
+            "text": "No; only the color matters.",
+            "why": "Color does not determine area."
+          },
+          {
+            "text": "Yes; equal area always means the same outline.",
+            "why": "Different outlines can cover the same area."
+          }
+        ],
+        "show": [
+          "Equal area is the test for equal parts; matching outlines are not required."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t19",
+        "type": "choice",
+        "prompt": "The whole strip is shown. A maker plans to give every piece to a different person as an equal share. What must be fixed first?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 4,
+          "wholes": 1,
+          "selected": [],
+          "weights": [
+            1,
+            1,
+            3,
+            1
+          ]
+        },
+        "options": [
+          {
+            "text": "Write the same name on every piece.",
+            "why": "Names do not change the pieces’ sizes."
+          },
+          {
+            "text": "Count only the widest piece.",
+            "why": "Every part must be included."
+          },
+          {
+            "text": "Make the areas equal before calling the pieces fair shares.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The wider piece covers more area, so these are not equal shares."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      },
+      {
+        "id": "t20",
+        "type": "choice",
+        "prompt": "A square is first cut into four equal squares. Each small square is cut along a diagonal. What check supports calling the eight final pieces equal parts?",
+        "options": [
+          {
+            "text": "The triangle outlines are enough, without comparing their sizes.",
+            "why": "Triangles can have different sizes."
+          },
+          {
+            "text": "Each diagonal divides an equal square into two equal-area triangles.",
+            "correct": true
+          },
+          {
+            "text": "Eight pieces automatically means equal areas.",
+            "why": "Eight unequal pieces would not be eighths."
+          }
+        ],
+        "show": [
+          "All four starting squares have equal area; each splits into two equal areas, making eight equal areas."
+        ],
+        "yes": "Compare your reasoning with the explanation.",
+        "hints": [
+          "Identify the whole before counting parts.",
+          "Use the definition that matches what is being counted."
+        ]
+      }
+    ]
+  },
+  "test": {
+    "pass": 8,
+    "items": [
+      {
+        "id": "x1",
+        "type": "number",
+        "prompt": "How many equal areas cover this entire round paper design?",
+        "answer": "8",
+        "model": {
+          "type": "fraction",
+          "kind": "circle",
+          "parts": 8,
+          "wholes": 1,
+          "selected": []
+        },
+        "show": [
+          "The circle contains eight equal areas."
+        ],
+        "yes": "The circle contains eight equal areas."
+      },
+      {
+        "id": "x2",
+        "type": "choice",
+        "prompt": "A label calls these pieces sixths. Is that label justified by this picture?",
+        "model": {
+          "type": "fraction",
+          "kind": "bar",
+          "parts": 6,
+          "wholes": 1,
+          "selected": [],
+          "weights": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            1
+          ]
+        },
+        "options": [
+          {
+            "text": "Yes; only the outside shape matters.",
+            "why": "The outside shape does not make the inside areas equal."
+          },
+          {
+            "text": "No; the six areas are unequal.",
+            "correct": true
+          },
+          {
+            "text": "Yes; six pieces always means sixths.",
+            "why": "A fraction name needs equal areas, not only a count."
+          }
+        ],
+        "show": [
+          "Sixths must be six equal areas."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x3",
+        "type": "choice",
+        "prompt": "Six equal sections cover a strip. A maker joins each neighboring pair without changing the strip. What is the result?",
+        "options": [
+          {
+            "text": "Three equal sections.",
+            "correct": true
+          },
+          {
+            "text": "Two equal sections.",
+            "why": "Pairing six sections makes three groups."
+          },
+          {
+            "text": "Six larger equal sections.",
+            "why": "Joining pairs reduces the number of sections."
+          }
+        ],
+        "show": [
+          "Six sections arranged in pairs make three equal areas."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x4",
+        "type": "choice",
+        "prompt": "A square is cut along a diagonal into two triangles. What fact proves that the parts are equal?",
+        "options": [
+          {
+            "text": "Both pieces have three corners.",
+            "why": "A triangle can have many different areas."
+          },
+          {
+            "text": "Both pieces have diagonal edges.",
+            "why": "Having a diagonal edge alone does not establish area."
+          },
+          {
+            "text": "The triangles cover equal areas.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The equal-area relationship proves equal parts."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x5",
+        "type": "number",
+        "prompt": "Four equal strips lie side by side to make a rectangle. How many inside dividing lines separate the four strips?",
+        "answer": "3",
+        "show": [
+          "The boundaries between four neighboring strips make three inside dividing lines."
+        ],
+        "yes": "The boundaries between four neighboring strips make three inside dividing lines."
+      },
+      {
+        "id": "x6",
+        "type": "choice",
+        "prompt": "One side of a rectangle has a narrow piece and a wide piece. Which change could make two equal parts?",
+        "options": [
+          {
+            "text": "Move the dividing line to the middle.",
+            "correct": true
+          },
+          {
+            "text": "Paint both pieces the same color.",
+            "why": "Color does not alter the areas."
+          },
+          {
+            "text": "Keep the line and rename the pieces halves.",
+            "why": "A new name does not change unequal areas."
+          }
+        ],
+        "show": [
+          "Moving the line to the middle makes the two areas equal."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x7",
+        "type": "choice",
+        "prompt": "Two parts cover three unit squares and four unit squares. Are they equal-area parts?",
+        "options": [
+          {
+            "text": "Yes; both are made from unit squares.",
+            "why": "Using the same-size measuring squares does not make the two totals equal."
+          },
+          {
+            "text": "Yes; two pieces always make halves.",
+            "why": "Halves require equal areas, not merely two pieces."
+          },
+          {
+            "text": "No; the covered areas are different.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "Three unit squares cover less area than four unit squares."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x8",
+        "type": "choice",
+        "prompt": "A tiny card has two equal parts. A very large card has eight equal parts. Can the part counts alone tell which piece is larger?",
+        "options": [
+          {
+            "text": "Yes; every eighth is smaller than every half.",
+            "why": "A larger whole can have larger pieces even with more parts."
+          },
+          {
+            "text": "No; the whole cards have different sizes.",
+            "correct": true
+          },
+          {
+            "text": "Yes; the two-part card must have larger pieces.",
+            "why": "The usual more-parts comparison needs the same-size whole."
+          }
+        ],
+        "show": [
+          "Compare the size of the wholes as well as their partitions."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      },
+      {
+        "id": "x9",
+        "type": "number",
+        "prompt": "Two separate rectangles each have three equal parts. How many pieces are there altogether? Keep the two wholes separate.",
+        "answer": "6",
+        "show": [
+          "Three pieces in each of two wholes make six pieces altogether."
+        ],
+        "yes": "Three pieces in each of two wholes make six pieces altogether."
+      },
+      {
+        "id": "x10",
+        "type": "choice",
+        "prompt": "Four equal paper pieces overlap on a board and leave an uncovered corner. Do they partition the board into equal parts?",
+        "options": [
+          {
+            "text": "Yes; four equal pieces are sufficient even with gaps.",
+            "why": "The uncovered corner and overlap prevent a partition of the whole board."
+          },
+          {
+            "text": "Yes; overlap makes the pieces equal.",
+            "why": "Overlap counts some space more than once."
+          },
+          {
+            "text": "No; a partition must cover the whole without overlap.",
+            "correct": true
+          }
+        ],
+        "show": [
+          "The parts must cover the whole exactly once."
+        ],
+        "yes": "Compare your reasoning with the explanation."
+      }
+    ]
+  },
+  "parent": {
+    "sections": [
+      {
+        "heading": "What your child is learning",
+        "text": "I can make and recognize equal-area parts of one whole."
+      },
+      {
+        "heading": "Ask for reasoning",
+        "list": [
+          "How can you tell whether the parts of a shape are equal?",
+          "What is the whole in this model? How do you know the parts are equal?",
+          "Can you explain the same idea with another picture or real objects?"
+        ]
+      },
+      {
+        "heading": "Try it away from the screen",
+        "list": [
+          "Fold a plain paper strip into equal parts. Discuss whether every part has the same area.",
+          "Let your child explain a mistake before offering a correction."
+        ]
+      },
+      {
+        "heading": "Common mistakes",
+        "list": [
+          "Counting pieces without checking equal area.",
+          "Changing the whole halfway through a question."
+        ]
+      },
+      {
+        "heading": "About these questions",
+        "text": "These are original Study Scoop lessons aligned to the supplied chapter map. They are practice, not the teacher’s actual test. Written explanations are for comparison with a grown-up and are not automatically judged for mathematical meaning."
+      }
+    ]
+  }
+}
