@@ -17,7 +17,11 @@ test('count markers survive the figure boundary without changing selection or fr
  assert.match(html,/part 2, width 1 relative units: unshaded, count marker 1/);
  assert.deepEqual(fractionOfModel({...bar,counted:[1,0]}),{n:1,d:2});
  for(const counted of [[2],[0,0],['1'],[-1]]) assert.ok(fractionModelProblems({...bar,counted}).length);
- assert.ok(fractionModelProblems({type:'fraction',kind:'line',parts:2,max:1,point:1,counted:[0]}).length);
+ const countedLine={type:'fraction',kind:'line',parts:2,max:1,point:1,counted:[0]};
+ assert.deepEqual(fractionModelProblems(countedLine),[]);
+ assert.match(modelFigure(countedLine).s,/data-count-marker="1"/);
+ assert.deepEqual(fractionOfModel(countedLine),{n:1,d:2});
+ for(const counted of [[2],[-1],[0,0],['1']]) assert.ok(fractionModelProblems({...countedLine,counted}).length,'line annotations must name unique existing intervals');
  const plain=modelFigure(bar).s;assert.doesNotMatch(plain,/data-count-marker/);
 });
 test('opt-in close framing enlarges teaching circles without changing their mathematics or legacy framing',()=>{
@@ -37,4 +41,15 @@ test('teaching wiring validation rejects missing correction paths and invalid co
  assert.ok(validateLesson(bad,'7-1').some(x=>x.includes('parts must be')));
  const malformed=structuredClone(lesson);malformed.try.items[0].teaching.wrong=[null];
  assert.ok(validateLesson(malformed,'7-1').length);
+});
+
+test('opt-in whole grids preserve equal-size whole units, selected counts and ordinal annotations',()=>{
+ for(const kind of ['bar','circle']){
+  const m={type:'fraction',kind,parts:1,wholes:6,selected:[0,2,5],counted:[0,2,5],wholeLayout:'grid'};
+  assert.deepEqual(fractionModelProblems(m),[]);assert.deepEqual(fractionOfModel(m),{n:3,d:1});
+  const svg=modelFigure(m).s;assert.match(svg,/data-whole-layout="grid"/);for(const k of [1,2,3])assert.match(svg,new RegExp(`data-count-marker="${k}"`));
+  if(kind==='bar'){const rects=[...svg.matchAll(/<rect\b[^>]*>/g)].map(([s])=>Object.fromEntries([...s.matchAll(/(x|y|width|height|fill)="([^"]+)"/g)].map(m=>[m[1],m[2]])));assert.equal(rects.length,6);assert.equal(new Set(rects.map(r=>r.width+':'+r.height)).size,1,'whole rectangles keep equal dimensions');assert.equal(new Set(rects.map(r=>r.x)).size,2,'two columns');assert.equal(new Set(rects.map(r=>r.y)).size,3,'three rows');assert.equal(rects.filter(r=>r.fill==='#583084').length,3);}
+ }
+ for(const base of [{type:'fraction',kind:'line',parts:2,point:1,max:1},{type:'fraction',kind:'set',parts:2,selected:[0]}]){assert.deepEqual(fractionModelProblems(base),[]);assert.ok(fractionModelProblems({...base,wholeLayout:'grid'}).some(e=>e.includes('wholeLayout')));}
+ assert.ok(fractionModelProblems({...bar,wholeLayout:'stack'}).length,'unrecognized whole layout rejected');
 });

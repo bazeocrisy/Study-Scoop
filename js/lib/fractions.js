@@ -22,8 +22,9 @@ export function fractionModelProblems(m) {
   } else if (!Array.isArray(m.selected) || m.selected.some((n) => !int(n, 0, m.parts * wholes - 1)) || new Set(m.selected).size !== m.selected.length) out.push('selected must be distinct part indices within the wholes');
   if (m.weights !== undefined && (m.kind !== 'bar' || !Array.isArray(m.weights) || m.weights.length !== m.parts || m.weights.some((n) => !int(n, 1, 1000)))) out.push('weights need one positive integer per bar part');
   if (m.layout !== undefined && (m.kind !== 'bar' || !['columns', 'rows'].includes(m.layout))) out.push('layout must be columns or rows on a bar');
+  if (m.wholeLayout !== undefined && (!['bar', 'circle'].includes(m.kind) || m.wholeLayout !== 'grid')) out.push('wholeLayout grid is supported only on bar or circle models');
   if (m.framing !== undefined && (m.kind !== 'circle' || m.framing !== 'close')) out.push('close framing is supported only on circle models');
-  if (m.counted !== undefined && (m.kind === 'line' || !Array.isArray(m.counted) || m.counted.some((n) => !int(n, 0, m.parts * wholes - 1)) || new Set(m.counted).size !== m.counted.length)) out.push('counted markers need distinct part indices on a bar, circle or set');
+  if (m.counted !== undefined && (!Array.isArray(m.counted) || m.counted.some((n) => !int(n, 0, m.parts * wholes - 1)) || new Set(m.counted).size !== m.counted.length)) out.push('counted markers need distinct part or interval indices in range');
   return out;
 }
 export function fractionOfModel(m) {

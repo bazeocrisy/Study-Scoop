@@ -712,7 +712,7 @@ async function main() {
         // Learn It: answer each check, then go on.
         const correctFeedback = async (item) => {
           const text = await fb();
-          if (meta.id === '7-1') {
+          if (meta.chapter === 7) {
             eq(await b.js('return document.querySelector("[data-coach=feedback] .coach-instruction")?.textContent;'), item.teaching.correct.text, `${item.id}: visible authored reason`);
           } else if (meta.chapter === 7) expect(text.includes(item.yes || 'Yes!'), `${item.id}: authored correct feedback (${text})`);
           else expect(text.startsWith('Yes!'), `${item.id}: ${text}`);
@@ -744,7 +744,7 @@ async function main() {
         // Watch Me: every step, one at a time, then the "why" question.
         for (const [k, ex] of L.watch.examples.entries()) {
           for (let s = 1; s < ex.steps.length; s++) await press('[data-act="step-next"]');
-          if (meta.id === '7-1') {
+          if (meta.chapter === 7) {
             eq(await b.js('return document.querySelector(".watch-coach .coach-progress").textContent;'), `Step ${ex.steps.length} of ${ex.steps.length}`, `${ex.title}: current final teaching step`);
             eq(await b.js('return document.querySelector(".watch-coach .coach-instruction").textContent;'), ex.steps.at(-1).say, `${ex.title}: final visual explanation`);
           } else eq(await b.js('return document.querySelectorAll(".steps li").length;'), ex.steps.length, `${ex.title}: all steps shown`);
@@ -756,10 +756,10 @@ async function main() {
         for (const [k, item] of L.together.items.entries()) {
           if (k === 0) {
             await answer(item, wrongFor(item)); await checkAnswer(item);
-            if (meta.id === '7-1') eq(await b.js('return document.querySelector("[data-coach=feedback] h3").textContent;'), 'Look at this part again', `${item.id}: local visual reason`);
+            if (meta.chapter === 7) eq(await b.js('return document.querySelector("[data-coach=feedback] h3").textContent;'), 'Look at this part again', `${item.id}: local visual reason`);
             else expect((await fb()).startsWith('Not yet '), `${item.id}: why it is wrong`);
             await press(`form[data-item="${item.id}"] [data-act="help"]`);
-            if (meta.id === '7-1') eq(await b.js('return document.querySelector("[data-coach=help] .coach-instruction").textContent;'), item.teaching.steps[0].text, `${item.id}: first connected visual Help step`);
+            if (meta.chapter === 7) eq(await b.js('return document.querySelector("[data-coach=help] .coach-instruction").textContent;'), item.teaching.steps[0].text, `${item.id}: first connected visual Help step`);
             else eq(await b.js('return document.querySelectorAll(".help-steps li").length;'), 1, `${item.id}: one Help step`);
           }
           await solve(item);
@@ -774,7 +774,7 @@ async function main() {
           if (k < 2) {
             await answer(item, wrongFor(item));
             await checkAnswer(item);
-            if (meta.id === '7-1') eq(await b.js('return document.querySelector("[data-coach=feedback] h3").textContent;'), 'Look at this part again', `${item.id}: visual error feedback`);
+            if (meta.chapter === 7) eq(await b.js('return document.querySelector("[data-coach=feedback] h3").textContent;'), 'Look at this part again', `${item.id}: visual error feedback`);
             else expect((await fb()).startsWith('Not yet'), `${item.id}: wrong answer gets "Not yet" (${await fb()})`);
           }
           await solve(item);

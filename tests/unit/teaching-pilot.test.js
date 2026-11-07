@@ -5,9 +5,9 @@ import { helpSteps } from '../../js/lib/lessons.js';
 const bar=(n=0)=>({type:'fraction',kind:'bar',parts:3,wholes:1,selected:Array.from({length:n},(_,i)=>i)});
 const item={id:'pilot',type:'number',prompt:'How many parts?',model:bar(),answer:'3',hints:['Legacy generic hint.'],show:['Legacy answer 3.'],teaching:{count:{prompt:'Tap each part once.',parts:[0,1,2]},steps:[{text:'Look at the entire strip. It is one whole.',model:bar(0)},{text:'Mark each of its parts as you count.',model:bar(1)},{text:'All three parts together cover the whole.',model:bar(3)}],correct:{text:'Three parts cover the strip, so you counted all the parts.',model:bar(3)},wrong:[{text:'Look for every dividing line, not just shaded pieces.',model:bar(1)}]}};
 const view=(st={},stage='together',lesson='7-1')=>itemCard({id:lesson},item,stage,{items:{pilot:st}}).s;
-test('only opted-in pilot uses authored connected teaching steps rather than generic hints',()=>{
+test('Chapter7 authored teaching is opt-in; Chapter5/6 keep legacy Help',()=>{
  const steps=lessonHelpSteps({id:'7-1'},item);assert.equal(steps[0].text,item.teaching.steps[0].text);assert.equal(steps.length,3);assert.ok(steps.every(s=>s.model));assert.equal(steps.at(-1).kind,'show');
- for(const lesson of ['7-2','6-1'])assert.deepEqual(lessonHelpSteps({id:lesson},item),helpSteps(item));
+ for(const lesson of ['5-1','6-1'])assert.deepEqual(lessonHelpSteps({id:lesson},item),helpSteps(item));
  assert.deepEqual(lessonHelpSteps({id:'7-1'},{...item,teaching:undefined}),helpSteps(item));
 });
 test('success and error feedback explains its local model with one connected diagram',()=>{
@@ -28,7 +28,7 @@ test('counting scaffold precedes and gates entry, counts every part, and is abse
  const html=view();assert.ok(html.indexOf('count-scaffold')<html.indexOf('count-answer-gate'));assert.ok(html.includes('<fieldset disabled'));assert.ok(html.includes('aria-pressed="false"'));
  const counted=view({counted:[0,1,2]});assert.ok(!counted.includes('count-answer-gate'));assert.ok(counted.includes('3 of 3 parts counted'));
  const testHtml=view({},'test');for(const token of ['count-scaffold','data-coach','Legacy answer','Three parts cover','Mark each'])assert.ok(!testHtml.includes(token),token);
- const legacy=view({},'together','7-2');assert.ok(!legacy.includes('count-scaffold'));assert.ok(!legacy.includes('count-answer-gate'));
+ const legacy=view({},'together','6-1');assert.ok(!legacy.includes('count-scaffold'));assert.ok(!legacy.includes('count-answer-gate'));
 });
 
 test('authored pilot all-correct and all-wrong test results explain all ten questions only after submission',async()=>{

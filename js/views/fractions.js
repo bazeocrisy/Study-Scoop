@@ -3,7 +3,7 @@ import { html } from '../lib/html.js';
 import { modelFigure } from '../lib/models.js';
 import { STAGES } from '../lib/lessons.js';
 import { subBar, subjectMenu } from './common.js';
-import { readButton } from './lesson.js';
+import { readButton, coachModels } from './lesson.js';
 
 const back = (ctx) => html`<a class="btn" href="${ctx.chapterLink(7)}">‹ Back to Chapter 7</a>`;
 function bar(ctx, title, goal) {
@@ -14,6 +14,7 @@ function bar(ctx, title, goal) {
 }
 const paragraphs = (text) => (Array.isArray(text) ? text : text ? [text] : []).map((p) => html`<p>${p}</p>`);
 const picture = (model) => model ? html`<div class="frac-model">${modelFigure(model)}</div>` : '';
+const workedSteps = (steps, group) => html`<div class="frac-worked-steps">${steps.map((step, index) => html`<details class="frac-guide-step" name="${group}"${index === 0 ? ' open' : ''}><summary>Step ${index + 1} of ${steps.length}</summary><div class="visual-coach"><p class="coach-instruction">${step.text}</p><div class="coach-model">${coachModels(step)}</div>${readButton(step.text, 'this worked step')}</div></details>`)}</div>`;
 const data = (ctx) => ctx.fractions;
 const available = (ctx, title) => html`${bar(ctx, title, 'Chapter 7: Fractions')}
   <p class="card">The Chapter 7 resources could not be loaded. Please try again later.</p>`;
@@ -34,7 +35,7 @@ function vocabulary(ctx) {
         <p class="frac-source">${w.source === 'teacher' ? 'Teacher’s exact words' : 'Study Scoop review definition'}</p>
         <p class="frac-definition">${w.def}</p>
         ${w.simple ? html`<p><strong>Think of it this way:</strong> ${w.simple}</p>` : ''}
-        ${picture(w.model)}
+        ${w.steps?.length ? workedSteps(w.steps, `word-${i}`) : picture(w.model)}
         ${w.example ? html`<p class="frac-example"><strong>Example:</strong> ${w.example}</p>` : ''}
       </li>`)}</ul>
     </div>
@@ -79,7 +80,7 @@ function guide(ctx) {
       <div class="card frac-guide-intro">${paragraphs(g.intro)}<p class="no-print"><button type="button" class="btn" data-act="print">Print study guide</button></p></div>
       ${(g.sections || []).map((s, i) => html`<section class="card frac-guide-section" aria-labelledby="frac-guide-${i}">
         <h2 id="frac-guide-${i}">${s.title}</h2>${paragraphs(s.text)}
-        ${(s.examples || []).map((e) => html`<div class="frac-worked"><h3>${e.title}</h3>${picture(e.model)}${paragraphs(e.text)}</div>`)}
+        ${(s.examples || []).map((e, exampleIndex) => html`<div class="frac-worked"><h3>${e.title}</h3>${e.steps?.length ? workedSteps(e.steps, `guide-${i}-${exampleIndex}`) : html`${picture(e.model)}${paragraphs(e.text)}`}</div>`)}
         ${s.mistakes?.length ? html`<h3>Watch out</h3><ul class="frac-mistakes">${s.mistakes.map((m) => html`<li><p><strong>A mix-up:</strong> ${m.mistake}</p><p><strong>Try this:</strong> ${m.fix}</p></li>`)}</ul>` : ''}
         ${(s.checks || []).map((q, k) => html`<div class="frac-check"><h3>Try it ${k + 1}</h3><p>${q.question}</p>${picture(q.model)}
           <details class="frac-answer-key"><summary>Check your thinking</summary><p>${q.answer}</p></details></div>`)}

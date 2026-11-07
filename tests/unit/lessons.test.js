@@ -335,8 +335,8 @@ test('the Parent Guide keeps each written fact on one line', () => {
     if (lesson.chapter === 7) {
       // Fraction parent guidance is conceptual; its numeric worked examples belong to the chapter Study Guide.
       const prose = lesson.parent.sections.flatMap(s => [s.text, ...(s.list || [])]).filter(Boolean).join(' ');
-      assert.match(prose, /whole|fraction|equal parts/i, `${lesson.id}: relevant parent guidance`);
-      assert.match(prose, /not automatically judged|grown-up|comparison/i, `${lesson.id}: written explanations are parent reviewed`);
+      assert.match(prose, lesson.id==='7-3'?/whole|fraction|equal parts|interval|unit/i:/whole|fraction|equal parts/i, `${lesson.id}: relevant parent guidance`);
+      assert.match(prose, /not automatically judged|grown-up|comparison|parent reviewed/i, `${lesson.id}: written explanations are parent reviewed`);
     } else assert.ok(facts.length, `${lesson.id} has facts to check`);
     for (const f of facts) assert.ok(out.includes(`<span class="term">${f}</span>`), `${lesson.id}: "${f}" is not kept together`);
   }

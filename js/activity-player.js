@@ -12,7 +12,7 @@ import { FRACTION_VOCAB_MODES, FRACTION_PRACTICE_ACTS, fractionVocabItems, fract
 import { html } from './lib/html.js';
 import { activityInner, timesFlashView, timesFindView } from './views/activity.js';
 import { skillsView } from './views/skills.js';
-import { unanswered } from './views/lesson.js';
+import { unanswered, lessonHelpSteps, teachingFeedbackFor } from './views/lesson.js';
 
 const runs = new Map();    // "week:section:act" -> run
 const fractionHistories = new Map(); // Chapter 7 assistance, held only until this tab reloads.
@@ -304,16 +304,36 @@ export function mountActivity(app, ctx, signal) {
     st.tries += 1;
     noteFractionHistory(run, item, 'check');
     st.status = r.status;
+    if (run.chapter === 7 && item.teaching) {
+      st.teachingFeedback = teachingFeedbackFor({ chapter: 7 }, item, st.resp, r.status);
+      if (st.teachingFeedback) {
+        st.say = st.teachingFeedback.text; st.coachView = 'feedback';
+        if (st.teachingFeedback.revealsAnswer && r.status !== 'correct') noteFractionHistory(run, item, 'reveal');
+      }
+    }
     if (!st.first) { st.first = r.status; noteFirst(item, r.status); }
     if (r.status !== 'correct' && st.tries === 1 && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     // In the homework packet, a right answer moves on to the next question on the page.
     const after = run.packet ? run.items[run.items.findIndex((it) => it.id === item.id) + 1] : null;
-    rerender(r.status === 'correct'
+    const visualFeedback = run.chapter === 7 && st.teachingFeedback;
+    rerender(visualFeedback ? '[data-coach-heading]' : r.status === 'correct'
       ? (run.packet && run.act !== 'packet' ? ['[data-hw-nav="1"]:not([disabled])', '#stage-h'] : after ? [`form[data-item="${after.id}"] input:not([disabled])`, `form[data-item="${after.id}"] textarea`, '[data-act="next"]:not([disabled])'] : ['[data-act="next"]:not([disabled])', '[data-act="print"]'])
       // Focus stays on what the child chose (never on another answer, which would hint at it).
       : [`form[data-item="${item.id}"] input[type=radio]:checked`, `form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea`]);
+    if (visualFeedback) area().querySelector('[data-coach="feedback"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
   }
+
+  app.addEventListener('toggle', (e) => {
+    const detail = e.target;
+    if (run.chapter !== 7 || run.mode !== 'test' || !run.submitted || !detail.open || !detail.dataset.resourceTestCoach) return;
+    const item = byId().get(detail.dataset.resourceTestCoach), st = item && itemState(item.id);
+    if (!item || st.reviewOpened) return;
+    st.reviewOpened = true; noteFractionHistory(run, item, 'reveal');
+    const opened = [...area().querySelectorAll('[data-resource-test-coach][open]')].map((el) => el.dataset.resourceTestCoach);
+    rerender(`[data-resource-test-coach="${item.id}"] summary`);
+    for (const id of opened) { const current = [...area().querySelectorAll('[data-resource-test-coach]')].find((el) => el.dataset.resourceTestCoach === id); if (current) current.open = true; }
+  }, { signal, capture: true });
 
   app.addEventListener('submit', (e) => {
     const form = e.target.closest('form[data-act="check"]');
@@ -349,16 +369,29 @@ export function mountActivity(app, ctx, signal) {
       return;
     }
     if (e.detail > 1 && ['help', 'next', 'back', 'submit', 'goto', 'card-next', 'card-prev', 'flip'].includes(act)) return;
+    if (act === 'coach-retry' && form && run.chapter === 7) {
+      const item = byId().get(form.dataset.item), st = item && itemState(item.id);
+      if (!item?.teaching || st.shown || st.status === 'correct') return;
+      saveForm(form); st.coachView = 'answer'; st.say = ''; st.status = 'unanswered';
+      delete st.lastChecked; delete st.wrong;
+      announce('Try your answer again. Look at the original picture.');
+      rerender([`form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea:not([readonly])`]);
+      area().querySelector('.pic-card')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      return;
+    }
     if (act === 'help' && form) {
       // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = byId().get(form.dataset.item);
       const st = itemState(item.id);
       if (!st.tries || st.status === 'correct' || st.shown) return;
       saveForm(form);
-      const steps = helpSteps(item);
+      const visualHelp = run.chapter === 7 && item.teaching;
+      const steps = visualHelp ? lessonHelpSteps({ chapter: 7 }, item) : helpSteps(item);
+      if (visualHelp) st.coachView = 'help';
       st.help = Math.min((st.help || 0) + 1, steps.length);
       const last = st.help === steps.length;
       noteFractionHistory(run, item, 'help');
+      if (!last && steps[st.help - 1]?.revealsAnswer) noteFractionHistory(run, item, 'reveal');
       if (last) {
         noteFractionHistory(run, item, 'reveal');
         st.shown = true;
@@ -369,8 +402,10 @@ export function mountActivity(app, ctx, signal) {
         st.wrong = undefined;
       }
       announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
-      rerender(last ? '[data-act="next"]:not([disabled])' : ['[data-act="help"]', 'button[type="submit"]']);
-      return showNewStep(area());
+      rerender(visualHelp ? '[data-coach-heading]' : last ? '[data-act="next"]:not([disabled])' : ['[data-act="help"]', 'button[type="submit"]']);
+      if (visualHelp) area().querySelector('[data-coach="help"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      else showNewStep(area());
+      return;
     }
     if (act === 'next' || act === 'back' || act === 'goto') {
       saveForm(form);
