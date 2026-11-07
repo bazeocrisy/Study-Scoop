@@ -2,7 +2,7 @@
 // re-renders the stage area after each action, moves keyboard focus sensibly and announces feedback to screen readers.
 import { check, helpSteps, solution } from './lib/lessons.js';
 import { showNewStep } from './lib/help-scroll.js';
-import { cardsOf, missItems, stageInner, stageOf, unanswered } from './views/lesson.js';
+import { cardsOf, missItems, stageInner, stageOf, unanswered, lessonHelpSteps, countPartsFor, countComplete, teachingFeedbackFor } from './views/lesson.js';
 
 const histories = new Map();
 const isChapter7 = (id) => String(id).startsWith('7-');
@@ -147,7 +147,7 @@ export function mountLesson(app, ctx, signal) {
   if (isChapter7(lesson.id)) { state.seen ||= {}; state.seen[state.i] = true; }
   const rerender = (focus) => {
     if (isChapter7(lesson.id)) { state.seen ||= {}; state.seen[state.i] = true; state.completed = completedLessonStage(lesson, stage, state);
-      if (stage !== 'parent') { state.history.currentRounds ||= {}; state.history.currentRounds[stage] = { right: Object.values(state.items).filter(v => v.first === 'correct').length, retry: Object.values(state.items).filter(v => v.first && v.first !== 'correct').length }; }
+      if (stage !== 'parent') { state.history.currentRounds ||= {}; state.history.currentRounds[stage] = { right: Object.values(state.items).filter(v => v.first === 'correct' && !v.scaffoldAssisted).length, retry: Object.values(state.items).filter(v => v.first && v.first !== 'correct').length }; }
     }
     stopReading();
     area().innerHTML = stageInner({ ...ctx, lessonState: state }).s;
@@ -186,6 +186,7 @@ export function mountLesson(app, ctx, signal) {
       saveForm(form); compareWrittenResponse(st, item); announce(st.say);
       return rerender(st.status === 'empty' ? 'textarea' : '[data-review-check]');
     }
+    if (!countComplete(lesson, item, st)) { announce('Touch and count each part before writing your answer.'); return; }
     st.resp = readForm(form);
     // The same answer checked twice (e.g. a double click) is not a new try.
     const key = JSON.stringify(st.resp);
@@ -203,18 +204,43 @@ export function mountLesson(app, ctx, signal) {
     st.tries += 1;
     const historical = historyItem(item.id); if (historical) historical.attempts += 1;
     st.status = r.status;
+    if (lesson.id === '7-1' && item.teaching) {
+      st.teachingFeedback = teachingFeedbackFor(lesson, item, st.resp, r.status);
+      if (st.teachingFeedback) {
+        st.say = st.teachingFeedback.text; st.coachView = 'feedback';
+        if (st.teachingFeedback.revealsAnswer && r.status !== 'correct') {
+          if (historical) historical.reveals += 1;
+          st.feedbackRevealed = true;
+        }
+      }
+    }
     if (!st.first) {
       st.first = r.status;
-      if (stage === 'together') state.streak = r.status === 'correct' ? state.streak + 1 : 0;
+      if (stage === 'together') state.streak = r.status === 'correct' && !st.scaffoldAssisted ? state.streak + 1 : 0;
     }
     if (r.status !== 'correct' && st.tries === 1 && (stage !== 'test' || state.misses) && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
-    rerender(r.status === 'correct'
-      ? '[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href], form[data-item] .choices input'
+    const visualFeedback = lesson.id === '7-1' && st.teachingFeedback;
+    rerender(visualFeedback ? '[data-coach-heading]' : r.status === 'correct'
+      ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]', 'form[data-item] .choices input:not([disabled])']
       : [`form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled]), form[data-item="${item.id}"] textarea:not([readonly])`]);
+    // A pointer check near the bottom of a phone must expose the picture and its explanation too.
+    if (visualFeedback) area().querySelector('[data-coach="feedback"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
   }
 
   app.addEventListener('click', (e) => { const a = e.target.closest('a[data-invalid-review]'); if (a) { e.preventDefault(); announce('Compare and review your revised response before continuing.'); } }, { signal });
+  app.addEventListener('toggle', (e) => {
+    const detail = e.target;
+    if (lesson.id !== '7-1' || stage !== 'test' || !state.submitted || !detail.open || !detail.dataset.testCoach) return;
+    const st = itemState(detail.dataset.testCoach); if (st.reviewOpened) return;
+    st.reviewOpened = true; const record = historyItem(detail.dataset.testCoach);
+    if (record) {
+      record.testReview = true; if (st.status === 'correct') record.reveals += 1;
+      const opened = [...area().querySelectorAll('[data-test-coach][open]')].map((el) => el.dataset.testCoach);
+      rerender(`[data-test-coach="${detail.dataset.testCoach}"] summary`);
+      for (const id of opened) { const current = [...area().querySelectorAll('[data-test-coach]')].find((el) => el.dataset.testCoach === id); if (current) current.open = true; }
+    }
+  }, { signal, capture: true });
   app.addEventListener('submit', (e) => {
     const form = e.target.closest('form[data-act="check"]');
     if (!form) return;
@@ -233,6 +259,14 @@ export function mountLesson(app, ctx, signal) {
     const form = btn.closest('form[data-item]') || area()?.querySelector('form[data-item]');
     const cards = cardsOf(lesson, stage);
     if (act === 'read') return readAloud(btn);
+    if (act === 'count-part' && form) {
+      const item = items.get(form.dataset.item); const st = itemState(item.id); const part = Number(btn.dataset.part);
+      if (stage === 'test' && !state.misses || !countPartsFor(lesson, item).includes(part)) return;
+      st.counted ||= []; if (st.counted.includes(part)) return;
+      st.counted.push(part); st.scaffoldAssisted = true; const record = historyItem(item.id); if (record) record.countScaffold = true;
+      announce(`${st.counted.length} parts counted.${countComplete(lesson, item, st) ? ' Now write your answer.' : ''}`);
+      return rerender(countComplete(lesson, item, st) ? ['input.box', 'input[type=radio]', 'button[type=submit]'] : `[data-act="count-part"][aria-pressed="false"]`);
+    }
     if (act === 'review-written' && form) {
       const st = itemState(form.dataset.item);
       st.reviewChecks = Object.fromEntries([...form.querySelectorAll('[data-review-check]')].map((el) => [el.dataset.reviewCheck, el.checked]));
@@ -241,13 +275,25 @@ export function mountLesson(app, ctx, signal) {
     }
     // The second click of a double click lands on the redrawn button: it must not skip a question or a step.
     if (e.detail > 1 && ['help', 'next', 'back', 'step-next', 'step-back', 'submit', 'goto', 'misses', 'misses-again', 'misses-exit', 'restart'].includes(act)) return;
+    if (act === 'coach-retry' && form && lesson.id === '7-1') {
+      const item = items.get(form.dataset.item), st = itemState(item.id);
+      if (!item.teaching || st.shown || st.status === 'correct') return;
+      saveForm(form); st.coachView = 'answer'; st.say = ''; st.status = 'unanswered';
+      delete st.lastChecked; delete st.wrong;
+      announce('Try your answer again. Look at the original picture.');
+      rerender([`form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea:not([readonly])`]);
+      // Keep the restored stimulus in view as well as the focused response whenever they fit.
+      area().querySelector('.pic-card')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      return;
+    }
     if (act === 'help' && form) {
       // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = items.get(form.dataset.item);
       const st = itemState(item.id);
       if (!st.tries || st.status === 'correct' || st.shown) return;
       saveForm(form);
-      const steps = helpSteps(item);
+      const steps = lessonHelpSteps(lesson, item);
+      if (lesson.id === '7-1' && item.teaching) st.coachView = 'help';
       const historical = historyItem(item.id); if (historical) historical.help += 1;
       st.help = Math.min((st.help || 0) + 1, steps.length);
       const last = st.help === steps.length;
@@ -262,8 +308,10 @@ export function mountLesson(app, ctx, signal) {
         if (stage === 'together') state.streak = 0;
       }
       announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
-      rerender(last ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]'] : ['[data-act="help"]', 'button[type="submit"]']);
-      showNewStep(area());
+      const visualHelp = lesson.id === '7-1' && item.teaching;
+      rerender(visualHelp ? '[data-coach-heading]' : last ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]'] : ['[data-act="help"]', 'button[type="submit"]']);
+      if (visualHelp) area().querySelector('[data-coach="help"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      else showNewStep(area());
       return;
     }
     if (act === 'step-next' || act === 'step-back') {

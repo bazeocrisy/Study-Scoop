@@ -49,6 +49,8 @@ jobs:
         run: node tests/weekly-labs.browser.js --site _site && node tests/layout.browser.js --site _site
       - name: Chapter 7 fraction journeys (built site)
         run: node tests/chapter7.browser.js --site _site && node tests/chapter7-assessment.browser.js --site _site
+      - name: Teaching sample journeys (built site)
+        run: node tests/chapter7-teaching.browser.js --site _site && node tests/chapter7-teaching-access.browser.js --site _site
       - name: November homework journeys (built site)
         run: node tests/homework-nov02.browser.js --site _site
 
@@ -105,6 +107,13 @@ jobs:
       - name: Chapter 7 fraction journeys (preview build)
         working-directory: develop
         run: node tests/chapter7.browser.js --site "$GITHUB_WORKSPACE/_preview" && node tests/chapter7-assessment.browser.js --site "$GITHUB_WORKSPACE/_preview"
+      - name: Teaching sample journeys (production build, once released)
+        if: ${{ hashFiles('main/tests/chapter7-teaching.browser.js') != '' }}
+        working-directory: main
+        run: node tests/chapter7-teaching.browser.js --site "$GITHUB_WORKSPACE/_site" && node tests/chapter7-teaching-access.browser.js --site "$GITHUB_WORKSPACE/_site"
+      - name: Teaching sample journeys (preview build)
+        working-directory: develop
+        run: node tests/chapter7-teaching.browser.js --site "$GITHUB_WORKSPACE/_preview" && node tests/chapter7-teaching-access.browser.js --site "$GITHUB_WORKSPACE/_preview"
       - name: Put the preview under /preview/
         run: |
           mv "$GITHUB_WORKSPACE/_preview" "$GITHUB_WORKSPACE/_site/preview"

@@ -442,6 +442,38 @@ function factsKey(text) {
   return [f(m[1], m[2]), f(m[3], m[4])].sort().join('+');
 }
 
+// These are wiring/geometry checks, not a judgment that an explanation teaches well.
+function validateTeaching(item, where, err) {
+  if (item.teaching === undefined) return;
+  const t = item.teaching;
+  if (!t || typeof t !== 'object') { err(`${where}: teaching must be an object`); return; }
+  const node = (s, label) => {
+    if (!s || !isText(s.text)) err(`${label}: teaching text is missing`);
+    validateModel(s?.model, `${label}.model`, err);
+    if (s?.nonExample !== undefined && typeof s.nonExample !== 'boolean') err(`${label}: nonExample must be boolean`);
+    if (s?.revealsAnswer !== undefined && typeof s.revealsAnswer !== 'boolean') err(`${label}: revealsAnswer must be boolean`);
+  };
+  node(t.correct, `${where}.teaching.correct`);
+  if (!Array.isArray(t.steps) || t.steps.length < 2) err(`${where}: teaching needs at least two visual steps`);
+  else t.steps.forEach((s, i) => node(s, `${where}.teaching.steps[${i}]`));
+  if (!Array.isArray(t.wrong) || !t.wrong.length) err(`${where}: teaching needs wrong-answer feedback`);
+  else {
+    t.wrong.forEach((s, i) => {
+      node(s, `${where}.teaching.wrong[${i}]`);
+      if (s?.when !== undefined && !['selectedOnly', 'insideLines', 'tooLow', 'tooHigh', 'default'].includes(s?.when)) err(`${where}: unknown numeric teaching condition`);
+    });
+    if (item.type === 'choice') {
+      const wrong = (item.options || []).filter((o) => !o.correct);
+      for (const o of wrong) if (t.wrong.filter((s) => s?.option === o.text).length !== 1) err(`${where}: each wrong choice needs exactly one matching teaching explanation`);
+      if (t.wrong.some((s) => !wrong.some((o) => o.text === s?.option))) err(`${where}: teaching feedback names an unknown or correct choice`);
+    } else if (!t.wrong.some((s) => s?.when === 'default' || (s && s.option === undefined && s.when === undefined && s.answer === undefined))) err(`${where}: typed teaching needs a default explanation`);
+  }
+  if (t.count !== undefined) {
+    const count = item.model?.parts * (item.model?.wholes ?? 1), parts = t.count?.parts;
+    if (!isText(t.count?.prompt) || !['bar', 'circle', 'set'].includes(item.model?.kind) || !Array.isArray(parts) || !parts.length || parts.some((n) => !Number.isInteger(n) || n < 0 || n >= count) || new Set(parts).size !== parts.length) err(`${where}: counting scaffold needs a prompt and distinct model part indices`);
+  }
+}
+
 function validateItem(item, where, err, ids) {
   if (!isText(item.id)) err(`${where}: id is missing`);
   else if (ids.has(item.id)) err(`${where}: id ${item.id} is used twice`);
@@ -453,6 +485,7 @@ function validateItem(item, where, err, ids) {
     else item.models.forEach((m, i) => validateModel(m, `${where}.models[${i}]`, err));
   }
   if (item.hints && (!Array.isArray(item.hints) || !item.hints.every(isText))) err(`${where}: hints must be a list of text`);
+  validateTeaching(item, where, err);
   const sol = (() => { try { return solution(item); } catch (e) { err(`${where}: ${e.message}`); return null; } })();
   if (!sol) return;
   for (const problem of fractionItemProblems(item)) err(`${where}: ${problem}`);

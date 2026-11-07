@@ -99,7 +99,7 @@ test('fraction validators independently reject altered answers and equivalent du
 });
 
 test('the seven source objectives are represented by taught models and appropriately scoped denominators',()=>{
- const ls=lessons();const models=l=>{const out=[];const walk=x=>{if(!x||typeof x!=='object')return;if(x.type==='fraction'&&x.kind)out.push(x);for(const v of Object.values(x))if(typeof v==='object')walk(v);};walk(l);return out;};
+ const ls=lessons();const models=l=>{const out=[];const walk=(x,nonExample=false)=>{if(!x||typeof x!=='object')return;if(x.type==='fraction'&&x.kind)out.push({...x,auditCorrectionNonExample:nonExample});for(const [key,v] of Object.entries(x)){if(key==='wrong'&&Array.isArray(v))v.forEach(node=>walk(node,node?.nonExample===true));else if(typeof v==='object')walk(v,nonExample);}};walk(l);return out;};
  const m=ls.map(models);
  assert.ok(m[0].some(x=>x.weights&&new Set(x.weights).size>1),'7-1 unequal-area nonexample');assert.ok(new Set(m[0].map(x=>x.kind)).size>=2,'7-1 different valid shape representations');
  assert.ok(m[1].some(x=>x.selected?.length===1),'7-2 unit fractions');assert.ok(m[1].some(x=>x.selected?.length>1&&x.selected.length<x.parts),'7-2 proper nonunit fractions');
@@ -110,7 +110,7 @@ test('the seven source objectives are represented by taught models and appropria
  assert.ok(pack().practice.items.some(x=>x.skill==='l76'&&/4/.test(x.prompt)&&/less than|greater than/.test(x.prompt)),'7-6 comparison to whole number four');
  for(const d of [5,10,12])assert.ok(m[6].some(x=>x.kind==='set'&&x.parts===d),`7-7 set denominator${d}`);
  assert.ok(m[6].some(x=>x.kind==='set'&&x.selected.length===1),'7-7 one object');assert.ok(m[6].some(x=>x.kind==='set'&&x.selected.length>1),'7-7 selected/uncompleted object extension');
- for(const here of m)for(const model of here){if(model.kind==='set')assert.ok([2,3,4,5,6,8,10,12].includes(model.parts),'set denominator scope');else assert.ok([1,2,3,4,6,8].includes(model.parts),'area/line denominator scope');}
+ for(const [index,here] of m.entries())for(const model of here){if(model.kind==='set')assert.ok([2,3,4,5,6,8,10,12].includes(model.parts),'set denominator scope');else if(model.auditCorrectionNonExample && index===0 && model.kind==='bar')assert.ok([2,3,4,5,6,7,8,9].includes(model.parts),'7-1 wrong-cut correction counts pieces without naming new fraction units');else assert.ok([1,2,3,4,6,8].includes(model.parts),'area/line denominator scope');}
 });
 
 test('every authored fraction key is independently derivable from geometry and scored tests have no hints',()=>{

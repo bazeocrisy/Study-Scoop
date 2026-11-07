@@ -8,7 +8,7 @@ const js=(s)=>b.js(s),click=async(s)=>{await js(`document.querySelector(${JSON.s
 const edit=async(text)=>js(`const el=document.querySelector('textarea');el.value=${JSON.stringify(text)};el.dispatchEvent(new Event('input',{bubbles:true}));`);
 try {
  await b.load(server.origin+BASE+'#math?lesson=7-1&stage=learn');
- await js(`const {stateFor}=await import('./js/lesson-player.js');stateFor('7-1','learn').i=5;`);
+ await js(`const {stateFor}=await import('./js/lesson-player.js');const L=await(await fetch('data/lessons/7-1.json')).json();stateFor('7-1','learn').i=L.learn.screens.findIndex(s=>s.item?.type==='sentence');`);
  await b.hash('#math?lesson=7-1&stage=watch');await b.hash('#math?lesson=7-1&stage=learn');
  assert.ok(await js('return !!document.querySelector("textarea")'));
  await click('form button[type=submit]');assert.equal(await js('return !!document.querySelector("[data-written-review]")'),false);
