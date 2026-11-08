@@ -21,6 +21,8 @@ export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 export const ALLOW = [
   /^index\.html$/,
   /^labs\/\d{4}-\d{2}-\d{2}-(?:spelling|vocab)\.html$/,
+  // Stand-alone games (D28).
+  /^games\/multiplication-mastery-8\.html$/,
   /^css\/[a-z0-9-]+\.css$/,
   /^js\/(?:(?:lib|views)\/)?[a-z0-9-]+\.js$/,
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
@@ -39,7 +41,7 @@ export const ALLOW = [
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
-const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs'];
+const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games'];
 /** Runtime files the site cannot work without. */
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
 /** Named so a check proves they are absent (the allowlist already excludes them). */
@@ -51,6 +53,8 @@ export const FORBIDDEN = [
 ];
 // Personal names from the original materials (DECISIONS D2). None may be published.
 const NAMES = /\bChris\b|Chris's|Christopher|Bazemore|Ms\. Lee|\bMaya\b|\bJordan\b|\bSam\b/;
+/** The Product Owner chose to publish their own child's name and photos in this one game (D28). No other file is exempt. */
+export const OWNER_APPROVED_NAMES = new Set(['games/multiplication-mastery-8.html']);
 
 const isAllowed = (rel) => ALLOW.some((re) => re.test(rel));
 
@@ -121,7 +125,7 @@ export function verifySite(dir) {
   if (problems.length && !has('index.html')) return problems;
 
   // Follow every reference from index.html; each must exist, be relative, and stay inside the site.
-  const entrypoints = ['index.html', ...files.filter((f) => f.startsWith('labs/') && f.endsWith('.html'))];
+  const entrypoints = ['index.html', ...files.filter((f) => /^(?:labs|games)\//.test(f) && f.endsWith('.html'))];
   const used = new Set(entrypoints);
   const queue = [...entrypoints];
   while (queue.length) {
@@ -287,7 +291,7 @@ export function verifySite(dir) {
     if (/<script|\son[a-z]+\s*=|<foreignObject/i.test(text)) problems.push(`${rel} contains a script`);
     if (/(?:href|src)\s*=\s*["'](?:https?:)?\/\//i.test(text)) problems.push(`${rel} loads something from another site`);
   }
-  for (const rel of files.filter((f) => /\.(html|css|js|json|svg)$/.test(f))) {
+  for (const rel of files.filter((f) => /\.(html|css|js|json|svg)$/.test(f) && !OWNER_APPROVED_NAMES.has(f))) {
     const m = NAMES.exec(read(rel));
     if (m) problems.push(`${rel} contains the personal name ${JSON.stringify(m[0])}`);
   }
