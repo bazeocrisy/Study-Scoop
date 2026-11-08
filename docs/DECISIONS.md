@@ -74,3 +74,20 @@ The replacements keep each sentence's grammar and its article ("an ___" still pr
 - **Voice:** reading aloud uses the browser's built-in voice (a device voice first). Nothing is recorded or sent, and the microphone is not used. The grown-up, not speech recognition, decides which words were missed, because speech recognition quietly corrects mistakes.
 - **Nothing is stored (CLAUDE.md):** readings, scores and tapped words live only while the page is open. Streaks, saved progress and minutes-per-day need a new approved design.
 - **Not built yet (needs approval):** the AI listening coach (a speech service that checks each word and a server to keep keys private), progress saved on the device, and more than eight passages.
+
+## Chapter 7 fractions (November 2026)
+
+Chapter 7 uses a shared rational/model extension rather than the homework helper’s single-whole fraction pictures. Partition-specific prompts require the displayed subdivision; value prompts accept exact equivalent fractions. Original chapter data owns all seven lessons and six activity roles. The November 9 week only recommends it and preserves the teacher’s four definitions; no school Math test is invented. Study history remains tab-memory only, with current-round results distinguished from earlier help/reveals. Written reflections are self/parent assessed, never graded for mathematical meaning by text heuristics. See `CHAPTER-7-BUILD.md` for independent reviews and release gates.
+
+## Teaching-quality acceptance and sample-first review (November 2026)
+
+The owner rejected the original Chapter 7 teaching quality after a mobile walkthrough. A new acceptance gate separates mathematical/functional checks, independent first-time-learner teaching review, and actual child observation. Correct and incorrect paths must explain WHY with the relevant picture; demonstrations must show the reasoning action. A technically green chapter is not thereby teaching-approved. Follow `TEACHING-QUALITY-ACCEPTANCE.md`.
+
+Only Lesson 7-1 is redesigned as the reviewed sample. The owner reviews its teaching pattern before expansion to Lessons 7-2–7-7 or the chapter resources. The original six lesson files remain unchanged and their teaching failures remain open. Production is not approved. The private Math workflow is updated to carry this standard into future builds; saved workflow instructions do not establish learning by a child.
+
+
+## Approved teaching sample expansion (November 2026)
+
+The owner approved the Lesson 7-1 preview ("That's perfect") and authorized the remaining Chapter 7 lessons to use the same teaching pattern, plus a reusable chapter-plugin update. This clears the sample gate for this expansion; it does not establish observed child comprehension or approve production. Work includes Lessons 7-2 through 7-7 and their chapter-owned resources. Keep the approved 7-1 source stable unless a shared integration correction is needed and disclosed. Carry the same concrete visual reasoning, correct-answer WHY, specific misconception corrections, graduated help and independent review into each objective rather than copying equal-parts prose into unrelated topics.
+
+The approved expansion now includes objective-specific visual teaching across the remaining six lessons and all chapter resources, readable number-line interval counts and multiwhole grids, paired Learn/Watch models, exact misconception dispatch, and post-test explanations. Natural equivalent-value grading is preserved. See the expansion report for independent-review scope and release evidence. The private plugin is version 0.4.1; future chapters follow `VISUAL-TEACHING-PATTERN.md`. No production approval is implied.

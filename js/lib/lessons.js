@@ -2,6 +2,7 @@
 // Lessons are data (data/lessons/<id>.json). One engine serves every lesson; nothing here knows a lesson by name.
 
 import { chainHolds, evaluate, wrongFactsInText } from './arith.js';
+import { checkFraction, fractionItemProblems, fractionModelProblems, rationalValue, rationalChainHolds, wrongFractionFactsInText } from './fractions.js';
 import { counts } from './models.js';
 import { gridCounts, shapeArea, shapeProblems } from './shapes.js';
 import { FROM_RIGHT, NEXT_PLACE, PLACE, roundParts } from './rounding.js';
@@ -22,6 +23,7 @@ const BOX = /\[([a-z][a-z0-9]*)\]/g;
 
 /** Names of the answer boxes in an item, in reading order. */
 export function boxes(item) {
+  if (item.type === 'fraction') return ['n', 'd'];
   if (item.type === 'number') return ['answer'];
   if (item.type === 'round') return ['place', 'dir', 'answer'];
   if (item.type === 'blanks') return [...item.text.join(' ').matchAll(BOX)].map((m) => m[1]);
@@ -37,6 +39,7 @@ export function boxes(item) {
 
 /** The correct value of every box (used by Show me how, the test review and the validator). */
 export function solution(item) {
+  if (item.type === 'fraction') return { ...item.answer };
   if (item.type === 'number') return { answer: evaluate(String(item.answer)) };
   if (item.type === 'round') { const p = roundParts(item.n, item.to); return { place: p.place, dir: p.up ? 'up' : 'stay', answer: p.answer }; }
   if (item.type === 'fill' || item.type === 'decompose' || item.type === 'blanks') return { ...item.answer };
@@ -60,6 +63,7 @@ const fill = (text, values) => String(text).replace(BOX, (_, k) => (values[k] ==
 
 /** Human-readable correct answer (results review). */
 export function answerText(item) {
+  if (item.type === 'fraction') return `${item.answer.n}/${item.answer.d}`;
   const s = solution(item);
   if (item.type === 'choice') return item.options[s.choice].text;
   if (item.type === 'word' || item.type === 'spell') return item.answer;
@@ -117,6 +121,7 @@ export function decompositionOf(a, b, p, q, r, s) {
  * 'correct' | 'notyet' | 'empty' (empty or unreadable answers are never counted as a try).
  */
 export function check(item, response, lesson = {}) {
+  if (item.type === 'fraction') return checkFraction(item, response);
   const catchAll = lesson.catchAll || 'Look at the picture and try again.';
   if (item.type === 'choice') {
     const i = response?.choice;
@@ -377,6 +382,7 @@ const isInt = (v, lo, hi) => Number.isInteger(v) && v >= lo && v <= hi;
 
 function validateModel(m, where, err) {
   if (!m || typeof m !== 'object') return err(`${where}: model is missing`);
+  if (m.type === 'fraction') { for (const problem of fractionModelProblems(m)) err(`${where}: ${problem}`); return; }
   if (m.type === 'plates') {
     if (!isInt(m.plates, 0, 12) || !isInt(m.each, 0, 3)) err(`${where}: plates need 0-12 plates and 0-3 dots each`);
     return;
@@ -436,6 +442,43 @@ function factsKey(text) {
   return [f(m[1], m[2]), f(m[3], m[4])].sort().join('+');
 }
 
+// These are wiring/geometry checks, not a judgment that an explanation teaches well.
+function validateTeaching(item, where, err) {
+  if (item.teaching === undefined) return;
+  const t = item.teaching;
+  if (!t || typeof t !== 'object') { err(`${where}: teaching must be an object`); return; }
+  const node = (s, label) => {
+    if (!s || !isText(s.text)) err(`${label}: teaching text is missing`);
+    if (s?.model !== undefined || !s?.models?.length) validateModel(s?.model, `${label}.model`, err);
+    if (s?.models !== undefined) {
+      if (!Array.isArray(s.models) || !s.models.length) err(`${label}: teaching models must be a nonempty list`);
+      else s.models.forEach((m, i) => validateModel(m, `${label}.models[${i}]`, err));
+    }
+    if (s?.nonExample !== undefined && typeof s.nonExample !== 'boolean') err(`${label}: nonExample must be boolean`);
+    if (s?.revealsAnswer !== undefined && typeof s.revealsAnswer !== 'boolean') err(`${label}: revealsAnswer must be boolean`);
+  };
+  node(t.correct, `${where}.teaching.correct`);
+  if (!Array.isArray(t.steps) || t.steps.length < 2) err(`${where}: teaching needs at least two visual steps`);
+  else t.steps.forEach((s, i) => node(s, `${where}.teaching.steps[${i}]`));
+  if (!Array.isArray(t.wrong) || !t.wrong.length) err(`${where}: teaching needs wrong-answer feedback`);
+  else {
+    t.wrong.forEach((s, i) => {
+      node(s, `${where}.teaching.wrong[${i}]`);
+      if (s?.response !== undefined && (!s.response || typeof s.response !== 'object' || !Object.keys(s.response).length || Object.entries(s.response).some(([key, value]) => !['n', 'd', 'answer'].includes(key) || !/^[-+]?\d+$/.test(String(value))))) err(`${where}: teaching response needs integer answer components`);
+      if (s?.when !== undefined && !['selectedOnly', 'insideLines', 'tooLow', 'tooHigh', 'reversed', 'numeratorOnly', 'denominatorOnly', 'zeroDenominator', 'zeroNumerator', 'equivalentPartition', 'default'].includes(s?.when)) err(`${where}: unknown teaching condition`);
+    });
+    if (item.type === 'choice') {
+      const wrong = (item.options || []).filter((o) => !o.correct);
+      for (const o of wrong) if (t.wrong.filter((s) => s?.option === o.text).length !== 1) err(`${where}: each wrong choice needs exactly one matching teaching explanation`);
+      if (t.wrong.some((s) => !wrong.some((o) => o.text === s?.option))) err(`${where}: teaching feedback names an unknown or correct choice`);
+    } else if (!t.wrong.some((s) => s?.when === 'default' || (s && s.option === undefined && s.when === undefined && s.answer === undefined && s.response === undefined))) err(`${where}: typed teaching needs a default explanation`);
+  }
+  if (t.count !== undefined) {
+    const count = item.model?.parts * (item.model?.wholes ?? 1), parts = t.count?.parts;
+    if (!isText(t.count?.prompt) || !['bar', 'circle', 'set'].includes(item.model?.kind) || !Array.isArray(parts) || !parts.length || parts.some((n) => !Number.isInteger(n) || n < 0 || n >= count) || new Set(parts).size !== parts.length) err(`${where}: counting scaffold needs a prompt and distinct model part indices`);
+  }
+}
+
 function validateItem(item, where, err, ids) {
   if (!isText(item.id)) err(`${where}: id is missing`);
   else if (ids.has(item.id)) err(`${where}: id ${item.id} is used twice`);
@@ -447,8 +490,10 @@ function validateItem(item, where, err, ids) {
     else item.models.forEach((m, i) => validateModel(m, `${where}.models[${i}]`, err));
   }
   if (item.hints && (!Array.isArray(item.hints) || !item.hints.every(isText))) err(`${where}: hints must be a list of text`);
+  validateTeaching(item, where, err);
   const sol = (() => { try { return solution(item); } catch (e) { err(`${where}: ${e.message}`); return null; } })();
   if (!sol) return;
+  for (const problem of fractionItemProblems(item)) err(`${where}: ${problem}`);
   const asText = Object.fromEntries(Object.entries(sol).map(([k, v]) => [k, String(v)]));
   // Area pictures (Chapter 6): a box named by "areaBox" holds the figure's area, worked out from the picture.
   if (item.areaBox !== undefined) {
@@ -476,6 +521,10 @@ function validateItem(item, where, err, ids) {
     });
   }
   switch (item.type) {
+    case 'fraction': {
+      if (check(item, asText).status !== 'correct') err(`${where}: its own fraction answer is not accepted`);
+      break;
+    }
     case 'number': {
       // A bare fact prompt ("8 × 3 = ?") must agree with its answer.
       const m = /^\s*(\d+\s*[×x]\s*\d+)\s*=\s*\?\s*$/.exec(item.prompt || '');
@@ -519,10 +568,14 @@ function validateItem(item, where, err, ids) {
         err(`${where}: the picture shows ${item.model.rows} × ${item.model.cols}, but the target is ${item.target}`);
       }
       if (item.target) {
-        const want = evaluate(item.target);
+        const rational = String(item.target).includes('/') || item.options.some((o) => String(o.text).includes('/'));
+        let want;
+        try { want = rational ? rationalValue(item.target) : evaluate(item.target); }
+        catch (e) { err(`${where}: invalid choice target (${e.message})`); break; }
         item.options.forEach((o, i) => {
-          let val = null; try { val = evaluate(o.text); } catch { /* not an expression */ }
-          if (val !== null && (val === want) !== Boolean(o.correct)) err(`${where}: option ${i + 1} (${o.text} = ${val}) is ${o.correct ? 'marked correct but is not' : 'also equal to ' + item.target}`);
+          let val = null; try { val = rational ? rationalValue(o.text) : evaluate(o.text); } catch { /* not an expression */ }
+          const equals = rational ? val !== null && val.n === want.n && val.d === want.d : val === want;
+          if ((val !== null || (rational && o.correct)) && equals !== Boolean(o.correct)) err(`${where}: option ${i + 1} (${o.text}) is ${o.correct ? 'marked correct but is not equal to ' : 'also equal to '}${item.target}`);
         });
       }
       break;
@@ -648,11 +701,17 @@ export function validateLesson(lesson, expectedId) {
   for (const k of ['title', 'goal', 'catchAll']) if (!isText(lesson[k])) err(`"${k}" is missing`);
   const ids = new Set();
 
+  const validatePictures = (node, where) => {
+    if (node.models === undefined) return;
+    if (!Array.isArray(node.models) || !node.models.length) { err(`${where}.models must be a nonempty list`); return; }
+    node.models.forEach((model, index) => validateModel(model, `${where}.models[${index}]`, err));
+  };
   const learn = lesson.learn || {};
   if (!Array.isArray(learn.screens) || !learn.screens.length) err('learn.screens is missing');
   (learn.screens || []).forEach((s, i) => {
     if (!isText(s.title)) err(`learn.screens[${i}]: title is missing`);
     if (s.model) validateModel(s.model, `learn.screens[${i}]`, err);
+    validatePictures(s, `learn.screens[${i}]`);
     if (s.item) validateItem(s.item, `learn.screens[${i}].item`, err, ids);
   });
 
@@ -663,10 +722,12 @@ export function validateLesson(lesson, expectedId) {
     if (!isText(e.title)) err(`${w}: title is missing`);
     if (!Array.isArray(e.steps) || e.steps.length < 2) err(`${w}: needs at least 2 steps`);
     if (e.model) validateModel(e.model, w, err);
+    validatePictures(e, w);
     (e.steps || []).forEach((s, j) => {
       if (!isText(s.say)) err(`${w}.steps[${j}]: "say" is missing`);
       if (s.model) validateModel(s.model, `${w}.steps[${j}]`, err);
-      if (s.eq) { try { if (!chainHolds(s.eq)) err(`${w}.steps[${j}]: "${s.eq}" is not true`); } catch (e2) { err(`${w}.steps[${j}]: ${e2.message}`); } }
+      validatePictures(s, `${w}.steps[${j}]`);
+      if (s.eq) { try { if (!(s.eq.includes('/') ? rationalChainHolds(s.eq) : chainHolds(s.eq))) err(`${w}.steps[${j}]: "${s.eq}" is not true`); } catch (e2) { err(`${w}.steps[${j}]: ${e2.message}`); } }
       // A step marked "pictured" must write exactly the decomposition its picture shows, in equation order.
       const m = s.model || e.model;
       if (s.pictured) {
@@ -705,7 +766,7 @@ function proseScan(data, err) {
   const scanned = JSON.parse(JSON.stringify(data, (k, v) => (v && typeof v === 'object' && v.quotesMistake ? { ...v, prompt: '' } : v)));
   for (const s of strings(scanned)) {
     if (/\[[a-z][a-z0-9]*\]/.test(s)) continue;
-    for (const bad of wrongFactsInText(s)) err(`wrong arithmetic in text: "${bad}"`);
+    for (const bad of (s.includes('/') ? wrongFractionFactsInText(s) : wrongFactsInText(s))) err(`wrong arithmetic in text: "${bad}"`);
   }
 }
 

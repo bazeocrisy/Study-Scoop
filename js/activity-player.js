@@ -8,12 +8,14 @@ import { PROPERTIES } from './lib/mathlearn.js';
 import { SKILL_SETS, timesFamilyFlash, timesFamilyPractice, timesFamilyFind } from './lib/skills.js';
 import { AREA_CARDS, AREA_SETS, areaItems, areaVocabWords } from './lib/area.js';
 import { packetItems } from './lib/homework.js';
+import { FRACTION_VOCAB_MODES, FRACTION_PRACTICE_ACTS, fractionVocabItems, fractionPracticeItems } from './lib/chapter7.js';
 import { html } from './lib/html.js';
 import { activityInner, timesFlashView, timesFindView } from './views/activity.js';
 import { skillsView } from './views/skills.js';
-import { unanswered } from './views/lesson.js';
+import { unanswered, lessonHelpSteps, teachingFeedbackFor } from './views/lesson.js';
 
 const runs = new Map();    // "week:section:act" -> run
+const fractionHistories = new Map(); // Chapter 7 assistance, held only until this tab reloads.
 const misses = new Map();  // "week:subject" -> Map(key -> { item, fromMark })
 
 const missMap = (weekId, subject) => {
@@ -22,7 +24,7 @@ const missMap = (weekId, subject) => {
   if (!misses.has(k)) misses.set(k, new Map());
   return misses.get(k);
 };
-export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'area', 'areavocab', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
+export const missCounts = (weekId) => Object.fromEntries(['vocab', 'spelling', 'math', 'mathwords', 'area', 'areavocab', 'fractions', 'fractionvocab', 'skilladd', 'skillround', 'skilltimes'].map((g) => [g, missMap(weekId, g).size]));
 
 /** One entry per spelling word (Missing Letters and Hear and Spell share it); vocabulary questions are kept apart. */
 // (Rounding questions also have a number `n`, but they are kept by their own id, which names the number and the place.)
@@ -40,7 +42,7 @@ const seed = () => (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0;
 /** A choice question with its options in a new order (True/False stays in order). */
 const reshuffle = (item, rand) => (item.type === 'choice' && item.options.length > 2 ? { ...item, options: shuffle(item.options, rand) } : item);
 /** What the cards of a card activity show: spelling words, vocabulary words, or the four math properties. */
-const cardsFor = (ctx, subject, act) => (AREA_CARDS.includes(act) ? areaVocabWords(ctx.area) : subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
+const cardsFor = (ctx, subject, act) => (subject === 'math' && ctx.chapter?.id === 7 ? (ctx.fractions?.vocabulary || []) : AREA_CARDS.includes(act) ? areaVocabWords(ctx.area) : subject === 'math' ? PROPERTIES : subject === 'vocab' ? ctx.week.vocab.words : ctx.week.spelling.words);
 
 function newRun(ctx, section, act) {
   const rand = rng(seed());
@@ -53,6 +55,19 @@ function newRun(ctx, section, act) {
     return { ...base, ...t, subject: act, group: chapter === 6 ? 'area' : act, act, mode: 'test', chapter, goal: `${t.topic} · ${t.items.length} questions` };
   }
   const info = activityInfo(section, act);
+  if (section === 'math' && info?.chapter === 7) {
+    const run = { ...base, subject: section, chapter: 7, group: missGroup(section, act), act, mode: info.test ? 'test' : 'practice', title: info.label, goal: info.about };
+    const historyKey = `${ctx.weekId}:${run.group}`;
+    if (!fractionHistories.has(historyKey)) fractionHistories.set(historyKey, {});
+    run.history = fractionHistories.get(historyKey);
+    if (!ctx.fractions) return { ...run, unavailable: true };
+    if (info.test) return { ...run, ...ctx.fractions.test, items: ctx.fractions.test.items.map((x) => JSON.parse(JSON.stringify(x))), kind: 'math', chapter: 7 };
+    if (act === 'fvflash') run.flash = { order: ctx.fractions.vocabulary.map((_, i) => i), i: 0, flipped: false, marks: {} };
+    else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
+    else if (FRACTION_VOCAB_MODES[act]) run.items = fractionVocabItems(ctx.fractions, FRACTION_VOCAB_MODES[act], rand);
+    else if (FRACTION_PRACTICE_ACTS.includes(act)) run.items = fractionPracticeItems(ctx.fractions, act, rand);
+    return run;
+  }
   // A Math chapter's practice test (D26): the chapter's own test, taken inside the chapter (no Help until the end).
   if (section === 'math' && info.test) {
     const t = testFor('math', ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);
@@ -87,7 +102,7 @@ export function runFor(ctx, section, act) {
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).
-  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (activityInfo(section, act)?.test && section === 'math' ? ctx.tests : WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] || AREA_CARDS.includes(act) ? ctx.area : ctx.practice));
+  const stale = (isMissesAct(old?.act) && (old.finished || !Object.keys(old.items_).length)) || (old?.unavailable && (activityInfo(section, act)?.chapter === 7 ? ctx.fractions : activityInfo(section, act)?.test && section === 'math' ? ctx.tests : WORD_MODES[act] ? ctx.mathWords : AREA_SETS[act] || AREA_CARDS.includes(act) ? ctx.area : ctx.practice));
   if (old && !stale) {
     // A misses run in progress also gets the questions missed since it started (QA5-1).
     if (isMissesAct(old.act)) {
@@ -99,6 +114,16 @@ export function runFor(ctx, section, act) {
   const run = newRun(ctx, section, act);
   if (run) runs.set(key, run);
   return run;
+}
+
+/** Keep help/reveal history separate from a fresh round's first-attempt score. */
+function noteFractionHistory(run, item, kind) {
+  if (run.chapter !== 7 || !run.history) return;
+  const id = item.id.replace(/^test-/, '');
+  const entry = run.history[id] ||= { help: 0, revealed: false, checks: 0 };
+  if (kind === 'check') entry.checks++;
+  if (kind === 'help') entry.help++;
+  if (kind === 'reveal') entry.revealed = true;
 }
 
 // ---------------------------------------------------------------- speech
@@ -277,17 +302,38 @@ export function mountActivity(app, ctx, signal) {
     }
     st.lastChecked = keyed;
     st.tries += 1;
+    noteFractionHistory(run, item, 'check');
     st.status = r.status;
+    if (run.chapter === 7 && item.teaching) {
+      st.teachingFeedback = teachingFeedbackFor({ chapter: 7 }, item, st.resp, r.status);
+      if (st.teachingFeedback) {
+        st.say = st.teachingFeedback.text; st.coachView = 'feedback';
+        if (st.teachingFeedback.revealsAnswer && r.status !== 'correct') noteFractionHistory(run, item, 'reveal');
+      }
+    }
     if (!st.first) { st.first = r.status; noteFirst(item, r.status); }
     if (r.status !== 'correct' && st.tries === 1 && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
     // In the homework packet, a right answer moves on to the next question on the page.
     const after = run.packet ? run.items[run.items.findIndex((it) => it.id === item.id) + 1] : null;
-    rerender(r.status === 'correct'
+    const visualFeedback = run.chapter === 7 && st.teachingFeedback;
+    rerender(visualFeedback ? '[data-coach-heading]' : r.status === 'correct'
       ? (run.packet && run.act !== 'packet' ? ['[data-hw-nav="1"]:not([disabled])', '#stage-h'] : after ? [`form[data-item="${after.id}"] input:not([disabled])`, `form[data-item="${after.id}"] textarea`, '[data-act="next"]:not([disabled])'] : ['[data-act="next"]:not([disabled])', '[data-act="print"]'])
       // Focus stays on what the child chose (never on another answer, which would hint at it).
       : [`form[data-item="${item.id}"] input[type=radio]:checked`, `form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea`]);
+    if (visualFeedback) area().querySelector('[data-coach="feedback"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
   }
+
+  app.addEventListener('toggle', (e) => {
+    const detail = e.target;
+    if (run.chapter !== 7 || run.mode !== 'test' || !run.submitted || !detail.open || !detail.dataset.resourceTestCoach) return;
+    const item = byId().get(detail.dataset.resourceTestCoach), st = item && itemState(item.id);
+    if (!item || st.reviewOpened) return;
+    st.reviewOpened = true; noteFractionHistory(run, item, 'reveal');
+    const opened = [...area().querySelectorAll('[data-resource-test-coach][open]')].map((el) => el.dataset.resourceTestCoach);
+    rerender(`[data-resource-test-coach="${item.id}"] summary`);
+    for (const id of opened) { const current = [...area().querySelectorAll('[data-resource-test-coach]')].find((el) => el.dataset.resourceTestCoach === id); if (current) current.open = true; }
+  }, { signal, capture: true });
 
   app.addEventListener('submit', (e) => {
     const form = e.target.closest('form[data-act="check"]');
@@ -323,16 +369,31 @@ export function mountActivity(app, ctx, signal) {
       return;
     }
     if (e.detail > 1 && ['help', 'next', 'back', 'submit', 'goto', 'card-next', 'card-prev', 'flip'].includes(act)) return;
+    if (act === 'coach-retry' && form && run.chapter === 7) {
+      const item = byId().get(form.dataset.item), st = item && itemState(item.id);
+      if (!item?.teaching || st.shown || st.status === 'correct') return;
+      saveForm(form); st.coachView = 'answer'; st.say = ''; st.status = 'unanswered';
+      delete st.lastChecked; delete st.wrong;
+      announce('Try your answer again. Look at the original picture.');
+      rerender([`form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea:not([readonly])`]);
+      area().querySelector('.pic-card')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      return;
+    }
     if (act === 'help' && form) {
       // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = byId().get(form.dataset.item);
       const st = itemState(item.id);
       if (!st.tries || st.status === 'correct' || st.shown) return;
       saveForm(form);
-      const steps = helpSteps(item);
+      const visualHelp = run.chapter === 7 && item.teaching;
+      const steps = visualHelp ? lessonHelpSteps({ chapter: 7 }, item) : helpSteps(item);
+      if (visualHelp) st.coachView = 'help';
       st.help = Math.min((st.help || 0) + 1, steps.length);
       const last = st.help === steps.length;
+      noteFractionHistory(run, item, 'help');
+      if (!last && steps[st.help - 1]?.revealsAnswer) noteFractionHistory(run, item, 'reveal');
       if (last) {
+        noteFractionHistory(run, item, 'reveal');
         st.shown = true;
         st.resp = Object.fromEntries(Object.entries(solution(item)).map(([k, v]) => [k, String(v)]));
         if (!st.first) { st.first = 'shown'; noteFirst(item, 'shown'); }
@@ -341,8 +402,10 @@ export function mountActivity(app, ctx, signal) {
         st.wrong = undefined;
       }
       announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
-      rerender(last ? '[data-act="next"]:not([disabled])' : ['[data-act="help"]', 'button[type="submit"]']);
-      return showNewStep(area());
+      rerender(visualHelp ? '[data-coach-heading]' : last ? '[data-act="next"]:not([disabled])' : ['[data-act="help"]', 'button[type="submit"]']);
+      if (visualHelp) area().querySelector('[data-coach="help"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      else showNewStep(area());
+      return;
     }
     if (act === 'next' || act === 'back' || act === 'goto') {
       saveForm(form);
@@ -369,6 +432,8 @@ export function mountActivity(app, ctx, signal) {
       for (const it of run.items) {
         const st = itemState(it.id);
         st.status = check(it, st.resp, {}).status === 'correct' ? 'correct' : 'notyet';
+        noteFractionHistory(run, it, 'check');
+        if (st.status !== 'correct') noteFractionHistory(run, it, 'reveal');
         // Missed spelling and vocabulary test questions go to Practice My Misses in their practice form (with hints).
         if (st.status !== 'correct' && run.subject === 'spelling') {
           addMiss(ctx.weekId, 'spelling', spellItem(ctx.week.spelling.words[it.n - 1], ctx.week.spelling));
@@ -418,7 +483,7 @@ export function mountActivity(app, ctx, signal) {
       f.flipped = !f.flipped;
       const w = cardWord();
       const rule = run.act === 'avflash' ? '' : ctx.week.spelling.rules?.[w.rule];
-      const backSays = run.act === 'avflash' ? `Back of the card: ${w.word}. ${w.example}` : `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}`;
+      const backSays = run.act === 'fvflash' ? `Back of the card: ${w.word}. ${w.def}. ${w.example}` : run.act === 'avflash' ? `Back of the card: ${w.word}. ${w.example}` : `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}`;
       if (!btn.classList.contains('flashcard')) announce(f.flipped ? backSays : 'Front of the card.');
       // Keep focus where it was: on the card itself, or on the Flip Card button.
       rerender(btn.classList.contains('flashcard') ? '.flashcard' : '.flip-btn');

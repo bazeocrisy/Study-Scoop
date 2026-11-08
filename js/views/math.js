@@ -11,6 +11,7 @@ import { lessonView, readButton } from './lesson.js';
 import { AREA_EXAMPLES, AREA_LEARN, AREA_TIPS, AREA_WORDS, CH6_GUIDE, CH6_MISTAKES } from '../lib/area.js';
 import { chapterLessons, chapterList, chapterMenu, chapterStatus, recommendedChapter } from '../lib/chapters.js';
 import { activityView } from './activity.js';
+import { fractionPage } from './fractions.js';
 
 const MATH = (ctx) => ({ label: 'Math', href: ctx.link('math') });
 
@@ -37,6 +38,8 @@ export function mathView(ctx) {
   if (ctx.lesson) return lessonView(ctx);
   if (ctx.run) return activityView(ctx);
   if (ctx.chapterMenu) return chapterPage(ctx, ctx.chapterMenu);
+  const fractions = fractionPage(ctx);
+  if (fractions) return fractions;
   const PAGES = {
     words: wordsMenu, practice: practiceMenu, guide: studyGuide, ch5: lessonsMenu,
     arealearn: areaLearn, areawords: areaWordsMenu, areapractice: areaPracticeMenu, ch6guide: chapter6Guide, ch6: lessonsMenu,
@@ -86,7 +89,7 @@ function chapterPage(ctx, id) {
   const c = chapterList(ctx.lessons).find((x) => x.id === id);
   const shown = ctx.shownWeek || ctx.week;
   const menu = chapterMenu(id);
-  const misses = id === 6 ? (ctx.misses?.area || 0) + (ctx.misses?.areavocab || 0) : (ctx.misses?.math || 0) + (ctx.misses?.mathwords || 0);
+  const misses = id === 7 ? (ctx.misses?.fractions || 0) + (ctx.misses?.fractionvocab || 0) : id === 6 ? (ctx.misses?.area || 0) + (ctx.misses?.areavocab || 0) : (ctx.misses?.math || 0) + (ctx.misses?.mathwords || 0);
   const first = menu.find((r) => r.act.start) || menu[0];
   return html`
     ${subBar(ctx, {

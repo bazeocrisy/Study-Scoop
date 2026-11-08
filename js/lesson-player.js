@@ -2,19 +2,63 @@
 // re-renders the stage area after each action, moves keyboard focus sensibly and announces feedback to screen readers.
 import { check, helpSteps, solution } from './lib/lessons.js';
 import { showNewStep } from './lib/help-scroll.js';
-import { cardsOf, missItems, stageInner, stageOf, unanswered } from './views/lesson.js';
+import { cardsOf, missItems, stageInner, stageOf, unanswered, lessonHelpSteps, countPartsFor, countComplete, teachingFeedbackFor } from './views/lesson.js';
 
+const histories = new Map();
+const isChapter7 = (id) => String(id).startsWith('7-');
+export function updateWrittenResponse(st, text) {
+  if (String(st.resp?.text ?? '') === text) return false;
+  st.resp = { text }; st.revision = (st.revision || 0) + 1;
+  delete st.comparedRevision; delete st.reviewedRevision; st.reviewChecks = {}; st.status = undefined; st.say = ''; st.shown = false;
+  return true;
+}
+export function compareWrittenResponse(st, item) {
+  const text = String(st.resp?.text || '').trim();
+  if (!text || (item.starter && text === item.starter.trim())) { st.status = 'empty'; st.say = 'Write your own response before comparing.'; st.wrong = ['text']; return false; }
+  delete st.reviewedRevision;
+  st.comparedRevision = st.revision || 0; st.reviewChecks = {}; st.status = 'compared'; st.wrong = undefined;
+  st.say = 'Compare your reasoning with the example. The computer does not judge your mathematical explanation.';
+  return true;
+}
+export function updateWrittenChecks(st, checks) {
+  const changed = JSON.stringify(st.reviewChecks || {}) !== JSON.stringify(checks);
+  st.reviewChecks = checks;
+  if (changed && st.reviewedRevision !== undefined) { delete st.reviewedRevision; st.status = 'compared'; return true; }
+  return false;
+}
+export function reviewWrittenResponse(st) {
+  if (st.comparedRevision !== (st.revision || 0) || !String(st.resp?.text || '').trim() || !st.reviewChecks?.whole || !st.reviewChecks?.reason || !st.reviewChecks?.compare) return false;
+  st.reviewedRevision = st.revision || 0; st.status = 'correct'; st.say = 'Review completed by you or a grown-up. This is not a computer grade for mathematical meaning.';
+  return true;
+}
 const progress = new Map(); // "5-1:try" -> { i, items: { id: { resp, status, say, tries, first, hints, shown } }, steps, streak, submitted }
 
 /** The stages of a lesson opened during this visit (the stepper marks only these as done). */
 export function visitedStages(lessonId) {
-  return new Set([...progress.keys()].filter((k) => k.startsWith(`${lessonId}:`)).map((k) => k.slice(lessonId.length + 1)));
+  return new Set([...progress.keys()].filter((k) => k.startsWith(`${lessonId}:`) && (!isChapter7(lessonId) || progress.get(k).completed)).map((k) => k.slice(lessonId.length + 1)));
 }
 
+export function completedLessonStage(lesson, stage, state) {
+  if (stage === 'parent') return false;
+  if (stage === 'test') return Boolean(state.submitted);
+  if (stage === 'try') return state.i >= lesson.try.items.length;
+  return cardsOf(lesson, stage).every((card, i) => {
+    if (!state.seen?.[i]) return false;
+    if (stage === 'watch' && (state.steps?.[i] ?? 1) < card.steps.length) return false;
+    const item = stage === 'learn' ? card.item : stage === 'watch' ? card.why : card;
+    if (!item) return true;
+    const st = state.items[item.id]; return st?.status === 'correct' || Boolean(st?.shown);
+  });
+}
 export function stateFor(lessonId, stage) {
   const key = `${lessonId}:${stageOf(stage)}`;
   if (!progress.has(key)) progress.set(key, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false });
-  return progress.get(key);
+  const state = progress.get(key);
+  if (isChapter7(lessonId)) {
+    if (!histories.has(lessonId)) histories.set(lessonId, { restarts: 0, missRounds: 0, items: {} });
+    state.history = histories.get(lessonId); state.stage = stageOf(stage);
+  }
+  return state;
 }
 
 /** Every question in a stage (including Learn It checks and Watch Me "why" questions), by id. */
@@ -100,7 +144,11 @@ export function mountLesson(app, ctx, signal) {
     live.textContent = '';
     announceTimer = setTimeout(() => { live.textContent = text; }, 60); // re-announce even when the text repeats
   };
+  if (isChapter7(lesson.id)) { state.seen ||= {}; state.seen[state.i] = true; }
   const rerender = (focus) => {
+    if (isChapter7(lesson.id)) { state.seen ||= {}; state.seen[state.i] = true; state.completed = completedLessonStage(lesson, stage, state);
+      if (stage !== 'parent') { state.history.currentRounds ||= {}; state.history.currentRounds[stage] = { right: Object.values(state.items).filter(v => v.first === 'correct' && !v.scaffoldAssisted).length, retry: Object.values(state.items).filter(v => v.first && v.first !== 'correct').length }; }
+    }
     stopReading();
     area().innerHTML = stageInner({ ...ctx, lessonState: state }).s;
     hideReadIfUnavailable();
@@ -111,12 +159,34 @@ export function mountLesson(app, ctx, signal) {
   };
   // In Practice My Misses the answers are kept apart, so the results of the first round stay as they were.
   const itemState = (id) => ((state.misses ? state.misses.items : state.items)[id] ||= { resp: {}, tries: 0, hints: 0 });
-  const saveForm = (form) => { if (form?.dataset.item) itemState(form.dataset.item).resp = readForm(form); };
+  const written = (item) => isChapter7(lesson.id) && item?.type === 'sentence';
+  const historyItem = (id) => (state.history ? (state.history.items[`${stage}:${id}`] ||= { label: `${stage === 'try' ? 'Try It Yourself' : stage === 'together' ? 'Practice Together' : stage === 'watch' ? 'Watch Me' : stage === 'test' ? 'Test Your Knowledge' : 'Learn It'}, question ${[...items.keys()].indexOf(id) + 1}`, attempts: 0, help: 0, reveals: 0 }) : null);
+  const saveForm = (form) => {
+    if (!form?.dataset.item) return;
+    const st = itemState(form.dataset.item), item = items.get(form.dataset.item), resp = readForm(form);
+    if (written(item)) {
+      const edited = updateWrittenResponse(st, String(resp.text || ''));
+      const checks = [...form.querySelectorAll('[data-review-check]')];
+      const unchecked = checks.length && updateWrittenChecks(st, Object.fromEntries(checks.map((el) => [el.dataset.reviewCheck, el.checked])));
+      if (edited || unchecked) {
+        state.completed = false;
+        if (edited) form.querySelector('[data-written-review]')?.setAttribute('hidden', '');
+        form.querySelector('[data-written-complete]')?.setAttribute('hidden', '');
+        form.querySelector('.feedback')?.setAttribute('hidden', '');
+        for (const el of area().querySelectorAll('.stage-nav [data-act="next"], .stage-nav .btn-primary')) { if (el.tagName === 'BUTTON') el.disabled = true; else { el.setAttribute('aria-disabled', 'true'); el.dataset.invalidReview = 'true'; } }
+      }
+    } else st.resp = resp;
+  };
 
   function onCheck(form) {
     const item = items.get(form.dataset.item);
     if (!item) return;
     const st = itemState(item.id);
+    if (written(item)) {
+      saveForm(form); compareWrittenResponse(st, item); announce(st.say);
+      return rerender(st.status === 'empty' ? 'textarea' : '[data-review-check]');
+    }
+    if (!countComplete(lesson, item, st)) { announce('Touch and count each part before writing your answer.'); return; }
     st.resp = readForm(form);
     // The same answer checked twice (e.g. a double click) is not a new try.
     const key = JSON.stringify(st.resp);
@@ -132,18 +202,45 @@ export function mountLesson(app, ctx, signal) {
     }
     st.lastChecked = key;
     st.tries += 1;
+    const historical = historyItem(item.id); if (historical) historical.attempts += 1;
     st.status = r.status;
+    if (isChapter7(lesson.id) && item.teaching) {
+      st.teachingFeedback = teachingFeedbackFor(lesson, item, st.resp, r.status);
+      if (st.teachingFeedback) {
+        st.say = st.teachingFeedback.text; st.coachView = 'feedback';
+        if (st.teachingFeedback.revealsAnswer && r.status !== 'correct') {
+          if (historical) historical.reveals += 1;
+          st.feedbackRevealed = true;
+        }
+      }
+    }
     if (!st.first) {
       st.first = r.status;
-      if (stage === 'together') state.streak = r.status === 'correct' ? state.streak + 1 : 0;
+      if (stage === 'together') state.streak = r.status === 'correct' && !st.scaffoldAssisted ? state.streak + 1 : 0;
     }
     if (r.status !== 'correct' && st.tries === 1 && (stage !== 'test' || state.misses) && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
     announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
-    rerender(r.status === 'correct'
-      ? '[data-act="next"]:not([disabled]), .stage-nav a.btn-primary[href], form[data-item] .choices input'
+    const visualFeedback = isChapter7(lesson.id) && st.teachingFeedback;
+    rerender(visualFeedback ? '[data-coach-heading]' : r.status === 'correct'
+      ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]', 'form[data-item] .choices input:not([disabled])']
       : [`form[data-item="${item.id}"] [aria-invalid="true"]`, `form[data-item="${item.id}"] input:not([disabled]), form[data-item="${item.id}"] textarea:not([readonly])`]);
+    // A pointer check near the bottom of a phone must expose the picture and its explanation too.
+    if (visualFeedback) area().querySelector('[data-coach="feedback"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
   }
 
+  app.addEventListener('click', (e) => { const a = e.target.closest('a[data-invalid-review]'); if (a) { e.preventDefault(); announce('Compare and review your revised response before continuing.'); } }, { signal });
+  app.addEventListener('toggle', (e) => {
+    const detail = e.target;
+    if (!isChapter7(lesson.id) || stage !== 'test' || !state.submitted || !detail.open || !detail.dataset.testCoach) return;
+    const st = itemState(detail.dataset.testCoach); if (st.reviewOpened) return;
+    st.reviewOpened = true; const record = historyItem(detail.dataset.testCoach);
+    if (record) {
+      record.testReview = true; if (st.status === 'correct') record.reveals += 1;
+      const opened = [...area().querySelectorAll('[data-test-coach][open]')].map((el) => el.dataset.testCoach);
+      rerender(`[data-test-coach="${detail.dataset.testCoach}"] summary`);
+      for (const id of opened) { const current = [...area().querySelectorAll('[data-test-coach]')].find((el) => el.dataset.testCoach === id); if (current) current.open = true; }
+    }
+  }, { signal, capture: true });
   app.addEventListener('submit', (e) => {
     const form = e.target.closest('form[data-act="check"]');
     if (!form) return;
@@ -162,18 +259,47 @@ export function mountLesson(app, ctx, signal) {
     const form = btn.closest('form[data-item]') || area()?.querySelector('form[data-item]');
     const cards = cardsOf(lesson, stage);
     if (act === 'read') return readAloud(btn);
+    if (act === 'count-part' && form) {
+      const item = items.get(form.dataset.item); const st = itemState(item.id); const part = Number(btn.dataset.part);
+      if (stage === 'test' && !state.misses || !countPartsFor(lesson, item).includes(part)) return;
+      st.counted ||= []; if (st.counted.includes(part)) return;
+      st.counted.push(part); st.scaffoldAssisted = true; const record = historyItem(item.id); if (record) record.countScaffold = true;
+      announce(`${st.counted.length} parts counted.${countComplete(lesson, item, st) ? ' Now write your answer.' : ''}`);
+      return rerender(countComplete(lesson, item, st) ? ['input.box', 'input[type=radio]', 'button[type=submit]'] : `[data-act="count-part"][aria-pressed="false"]`);
+    }
+    if (act === 'review-written' && form) {
+      const st = itemState(form.dataset.item);
+      st.reviewChecks = Object.fromEntries([...form.querySelectorAll('[data-review-check]')].map((el) => [el.dataset.reviewCheck, el.checked]));
+      if (!reviewWrittenResponse(st)) { announce('Check all three review statements for this response, or revise it and compare again.'); return; }
+      announce(st.say); return rerender(['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]']);
+    }
     // The second click of a double click lands on the redrawn button: it must not skip a question or a step.
     if (e.detail > 1 && ['help', 'next', 'back', 'step-next', 'step-back', 'submit', 'goto', 'misses', 'misses-again', 'misses-exit', 'restart'].includes(act)) return;
+    if (act === 'coach-retry' && form && isChapter7(lesson.id)) {
+      const item = items.get(form.dataset.item), st = itemState(item.id);
+      if (!item.teaching || st.shown || st.status === 'correct') return;
+      saveForm(form); st.coachView = 'answer'; st.say = ''; st.status = 'unanswered';
+      delete st.lastChecked; delete st.wrong;
+      announce('Try your answer again. Look at the original picture.');
+      rerender([`form[data-item="${item.id}"] input:not([disabled])`, `form[data-item="${item.id}"] textarea:not([readonly])`]);
+      // Keep the restored stimulus in view as well as the focused response whenever they fit.
+      area().querySelector('.pic-card')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      return;
+    }
     if (act === 'help' && form) {
       // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = items.get(form.dataset.item);
       const st = itemState(item.id);
       if (!st.tries || st.status === 'correct' || st.shown) return;
       saveForm(form);
-      const steps = helpSteps(item);
+      const steps = lessonHelpSteps(lesson, item);
+      if (isChapter7(lesson.id) && item.teaching) st.coachView = 'help';
+      const historical = historyItem(item.id); if (historical) historical.help += 1;
       st.help = Math.min((st.help || 0) + 1, steps.length);
       const last = st.help === steps.length;
+      if (!last && steps[st.help - 1]?.revealsAnswer && historical) historical.reveals += 1;
       if (last) {
+        if (historical) historical.reveals += 1;
         st.shown = true;
         st.resp = Object.fromEntries(Object.entries(solution(item)).map(([k, v]) => [k, String(v)]));
         if (!st.first) st.first = 'shown';
@@ -183,8 +309,10 @@ export function mountLesson(app, ctx, signal) {
         if (stage === 'together') state.streak = 0;
       }
       announce(`${last ? "Here's how. " : ''}Step ${st.help} of ${steps.length}. ${steps[st.help - 1].text}${last ? ' The answer is filled in.' : ''}`);
-      rerender(last ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]'] : ['[data-act="help"]', 'button[type="submit"]']);
-      showNewStep(area());
+      const visualHelp = isChapter7(lesson.id) && item.teaching;
+      rerender(visualHelp ? '[data-coach-heading]' : last ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]'] : ['[data-act="help"]', 'button[type="submit"]']);
+      if (visualHelp) area().querySelector('[data-coach="help"]')?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      else showNewStep(area());
       return;
     }
     if (act === 'step-next' || act === 'step-back') {
@@ -214,6 +342,7 @@ export function mountLesson(app, ctx, signal) {
           ? cards.filter((it) => state.items[it.id]?.status !== 'correct').map((it) => it.id)
           : cards.filter((it) => state.items[it.id]?.first !== 'correct').map((it) => it.id);
       if (!ids.length) return;
+      if (state.history) state.history.missRounds += 1;
       state.misses = { ids, i: 0, items: {}, done: false };
       announce(`Practice My Misses: ${ids.length} question${ids.length === 1 ? '' : 's'}.`);
       rerender('#stage-h');
@@ -246,6 +375,7 @@ export function mountLesson(app, ctx, signal) {
         const st = itemState(it.id);
         const r = check(it, st.resp, lesson);
         st.status = r.status === 'correct' ? 'correct' : 'notyet';
+        if (state.history) { st.first = st.status; const historical = historyItem(it.id); historical.attempts += 1; if (st.status !== 'correct') historical.reveals += 1; }
       }
       state.submitted = true;
       const right = cards.filter((it) => state.items[it.id].status === 'correct').length;
@@ -254,7 +384,8 @@ export function mountLesson(app, ctx, signal) {
       return;
     }
     if (act === 'restart') {
-      Object.assign(state, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false, misses: null });
+      if (state.history) state.history.restarts += 1;
+      Object.assign(state, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false, misses: null, completed: false, seen: {} });
       rerender('#stage-h');
     }
   }, { signal });

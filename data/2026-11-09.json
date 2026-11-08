@@ -269,7 +269,7 @@
   },
   "mathUpcoming": {
     "title": "Topic 7: Fractions — class vocabulary",
-    "note": "The class is studying fractions. No Math test is announced. Chapter 7 lessons are not yet available in Study Scoop; the Math library remains available for earlier-topic review.",
+    "note": "The class is studying fractions. Chapter 7 lessons, fraction vocabulary, practice and a study guide are available in the Math library. No Math test is announced; the Chapter 7 test is optional study practice.",
     "words": [
       {
         "word": "denominator",
@@ -312,5 +312,6 @@
   "labs": {
     "spelling": "labs/2026-11-09-spelling.html",
     "vocab": "labs/2026-11-09-vocab.html"
-  }
+  },
+  "mathChapter": 7
 }

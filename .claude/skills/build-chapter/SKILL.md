@@ -4,7 +4,7 @@ description: Build a new Study Scoop Math chapter (for example Chapter 7) from t
 ---
 # Build Chapter
 
-Chapters own their Math content (D26). A new chapter is data plus a few registry entries; the rendering components are shared.
+Chapters own their Math content (D26). Begin with a capability audit. Reuse shared rendering components only when they support the new chapter’s concepts, models, answer policies and validation. Chapter 7 required a fraction engine as well as new data; see `docs/CHAPTER-7-BUILD.md`.
 
 ## 1. Read the textbook (never publish it)
 - Keep the PDF outside the repository (it is public). Note the lesson order, titles, goals and vocabulary.
@@ -15,11 +15,13 @@ Chapters own their Math content (D26). A new chapter is data plus a few registry
 - `js/lib/activities.js` `ACTIVITIES.math`: one activity per role, each with `chapter: N` and a `role`: `vocab`, `vocabpractice`, `lessons` (id `chN`), `practice`, `guide`, `test` (id `chNtest`, `test: true`, its misses `group`). Sub-menu items get `chapter: N` and `parent`.
 - `validateChapters` (js/lib/chapters.js) fails the build if a role or a lesson is missing.
 
+Follow `docs/VISUAL-TEACHING-PATTERN.md` for every lesson and chapter resource. Once the owner explicitly approves a reviewed sample, record that approval and expand the authorized pattern without re-requesting the same approval. Review each remaining lesson independently.
+
 ## 3. Build each lesson (`data/lessons/N-k.json`)
-Follow 6-1..6-6: Learn It screens with checkpoints; Watch Me (at least 2 examples, step by step); Practice Together (at least 5, with hints and Show me how); Try It Yourself (20 original items, rising difficulty); a separate 10-15 question test (no hints, no practice repeats); parent notes. Generate with a script so numbers, pictures and answers come from one source, and run `validateLesson`.
+Follow 6-1..6-6: Learn It screens with checkpoints; Watch Me (at least 3 examples with changing mathematical pictures, step by step); Practice Together (at least 6, with hints and Show me how); Try It Yourself (20 original items, rising difficulty); a separate 10-15 question test (no hints, no practice repeats); parent notes. Generate with a script so numbers, pictures and answers come from one source, and run `validateLesson`.
 
 ## 4. Diagrams
-Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes). Answers are re-derived from the picture by the validator (`asks`, `areaBox`, `areaOptions`, `compare`). Alt text must not give the answer.
+Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes). Answers are re-derived from the picture by the validator (`asks`, `areaBox`, `areaOptions`, `compare`). Alt text must not give the answer. For fractions, use `js/lib/fractions.js` and `fraction-models.js`: derive values from geometry, declare partition versus value grading, and describe observable parts without stating conclusions the question asks for.
 
 ## 5. Vocabulary center, practice, guide, test
 - Teacher words come from the week file, word for word; extra textbook words are labelled as review.
@@ -28,8 +30,10 @@ Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes).
 - A chapter practice test covering every lesson (not presented as the teacher's test).
 
 ## 6. Tests and audit
+- Follow `docs/TEACHING-QUALITY-ACCEPTANCE.md` as a separate first-time-learner acceptance gate. Review every correct/wrong path, not just model keys or item counts. An independent reviewer must explain what a confused child still would not understand.
+- Show the owner one fully reviewed teaching sample before expanding the pattern across the chapter. Keep technical correctness, teaching quality and observed child usability as separate verdicts; the last is NOT VERIFIED without a real child session.
 - Add unit tests like tests/unit/chapter6.test.js and chapter isolation markers in tests/unit/chapters.test.js; add browser checks.
 - Run the specialist agents (see study-scoop-lead). Fix and re-run.
 
 ## 7. Release
-Feature branch → PR to develop → PR to main. Confirm the Pages deployment for the main commit, then report.
+Feature branch → PR to develop → confirmed preview deployment. Complete the reviewable preview before requesting the owner’s production approval. Only after explicit approval, release through a PR to main and confirm its Pages deployment.

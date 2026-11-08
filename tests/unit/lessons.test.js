@@ -38,6 +38,8 @@ test('arithmetic: precedence, parentheses, "=" chains and reading aloud', () => 
   assert.deepEqual(wrongFactsInText('So 5 × 3 = 15, and 7 × 4 = 29.'), ['7 × 4 = 29']);
   assert.deepEqual(wrongFactsInText('6 × 3 = 5 × 3 + 1 × 3 = 15 + 3 = 18'), []);
   assert.equal(speak('6 × 3 = [a] × 3 + (1 × 3)'), '6 times 3 equals blank times 3, plus 1 times 3');
+  assert.equal(speak('3/4'), '3 over 4');
+  assert.equal(speak('7/2 = 3 + 1/2'), '7 over 2 equals 3, plus 1 over 2');
   assert.doesNotMatch(speak('(5 × 3) + (1 × 3)'), /parenthes/);
 });
 
@@ -92,7 +94,7 @@ test('open decompositions: any valid cut, either factor, facts turned around or 
 });
 
 test('every lesson is valid and every question accepts its own answer', () => {
-  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6']);
+  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6', '7-1', '7-2', '7-3', '7-4', '7-5', '7-6', '7-7']);
   for (const lesson of LESSONS) {
     assert.deepEqual(validateLesson(lesson, lesson.id), [], lesson.id);
     for (const [, item] of allItems(lesson)) {
@@ -102,6 +104,9 @@ test('every lesson is valid and every question accepts its own answer', () => {
         // A written explanation is never marked "right": it is compared with a model answer, and only in Learn It.
         assert.ok(r.say.includes(item.example), `${lesson.id} ${item.id}: the model answer is shown after an attempt`);
         assert.ok(lesson.learn.screens.some((sc) => sc.item === item), `${lesson.id} ${item.id}: a written explanation belongs in an unscored Learn It screen`);
+      } else if (lesson.chapter === 7 || lesson.id.startsWith('7-')) {
+        assert.ok(r.say.length > 0, `${lesson.id} ${item.id}: specific correct-answer feedback`);
+        if (item.yes) assert.equal(r.say, item.yes, `${lesson.id} ${item.id}: authored feedback is preserved`);
       } else assert.match(r.say, /^Yes!/, `${lesson.id} ${item.id}: a correct answer starts with "Yes!"`);
       // An empty answer is never counted as a try.
       if (item.type !== 'choice') assert.equal(check(item, {}, lesson).status, 'empty', `${lesson.id} ${item.id}`);
@@ -113,7 +118,8 @@ test('teacher definitions in lessons are word for word the teacher\'s (from the 
   const week = readJSON('data/2026-10-19.json');
   // Chapter 5 words come from Oct 19–23 (Unit 5); Chapter 6 words (Area, Square Unit, Multiply) from Oct 26–30.
   const area = readJSON('data/2026-10-26.json');
-  const teacherDef = (term) => [...week.math.words, ...area.math.words].find((w) => w.word === term)?.def;
+  const fractions = readJSON('data/2026-11-09.json').mathUpcoming.words;
+  const teacherDef = (term) => [...week.math.words, ...area.math.words, ...fractions].find((w) => w.word === term)?.def;
   for (const lesson of LESSONS) {
     for (const t of lesson.teacher) {
       assert.equal(t.def, teacherDef(t.term), `${lesson.id} ${t.term}`);
@@ -287,6 +293,11 @@ test('question pictures never say the answer', () => {
     for (const [, item] of allItems(lesson)) {
       if (item.type !== 'number' || !item.model) continue;
       const label = /aria-label="([^"]+)"/.exec(modelFigure(item.model).s)[1];
+      if (item.model.type === 'fraction') {
+        // Part/tick indices and observed selections are necessary equivalent access, not a computed answer.
+        assert.doesNotMatch(label, /(?:answer|numerator|denominator) (?:is|equals)/i, `${lesson.id} ${item.id}: no computed answer label`);
+        continue;
+      }
       assert.ok(!new RegExp(`\\b${solution(item).answer}\\b`).test(label), `${lesson.id} ${item.id}: "${label}"`);
     }
   }
@@ -321,7 +332,12 @@ test('the Parent Guide keeps each written fact on one line', () => {
   for (const lesson of LESSONS) {
     const out = lessonView(ctx(lesson, 'parent')).s;
     const facts = lesson.parent.sections.flatMap((s) => [s.text, ...(s.list || [])]).filter(Boolean).join(' ').match(/\d+(?:\s*[×+=−-]\s*\d+)+/g) || [];
-    assert.ok(facts.length, `${lesson.id} has facts to check`);
+    if (lesson.chapter === 7) {
+      // Fraction parent guidance is conceptual; its numeric worked examples belong to the chapter Study Guide.
+      const prose = lesson.parent.sections.flatMap(s => [s.text, ...(s.list || [])]).filter(Boolean).join(' ');
+      assert.match(prose, lesson.id==='7-3'?/whole|fraction|equal parts|interval|unit/i:/whole|fraction|equal parts/i, `${lesson.id}: relevant parent guidance`);
+      assert.match(prose, /not automatically judged|grown-up|comparison|parent reviewed/i, `${lesson.id}: written explanations are parent reviewed`);
+    } else assert.ok(facts.length, `${lesson.id} has facts to check`);
     for (const f of facts) assert.ok(out.includes(`<span class="term">${f}</span>`), `${lesson.id}: "${f}" is not kept together`);
   }
 });

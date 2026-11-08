@@ -13,6 +13,8 @@ const ICON_SPEAK = html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColo
 const VJOIN = html`<svg class="vjoin" viewBox="0 0 72 18" aria-hidden="true" focusable="false"><path d="M6 3 L36 15 L66 3"/></svg>`;
 const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page, this part starts again.';
 
+const hasChapter7Teaching = (lesson) => lesson.chapter === 7 || /^7-[1-7]$/.test(String(lesson.id));
+
 export const stageOf = (stage) => (STAGE_IDS.includes(stage) ? stage : 'learn');
 
 /** "Read to me": reads the text aloud with the device's own voice (the player hides it where speech is unavailable). */
@@ -33,13 +35,26 @@ export function lessonView(ctx) {
   return html`
     ${lessonBar(ctx, lesson, stage)}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">
-      ${stageBody(ctx, lesson, stage, state)}
+      ${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}
     </div>`;
 }
 
 /** Just the stage area (re-rendered in place after each answer, so the page does not jump). */
 export function stageInner(ctx) {
-  return stageBody(ctx, ctx.lesson, stageOf(ctx.stage), ctx.lessonState || { i: 0, items: {}, steps: {} });
+  const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
+  return html`${stageBody(ctx, ctx.lesson, stageOf(ctx.stage), state)}${lessonHistoryPanel(ctx.lesson, state)}`;
+}
+
+function lessonHistoryPanel(lesson, state) {
+  if (chapterOf(lesson.id) !== 7 || !state.history) return '';
+  const records = Object.entries(state.history.items || {}), current = Object.values(state.items || {});
+  const helped = records.reduce((n, [, v]) => n + v.help, 0), revealed = records.reduce((n, [, v]) => n + v.reveals, 0);
+  return html`<details class="card lesson-history"><summary>Parent summary: this visit</summary>
+    ${state.stage === 'parent' ? html`<p>Latest activity rounds are listed separately from earlier assistance below. Written reasoning is self-reviewed or parent-reviewed and is not scored for meaning.</p>` : html`<p>Current round: ${current.filter((v) => v.first === 'correct' && !v.scaffoldAssisted).length} questions right on the first attempt without counting assistance; ${current.filter((v) => v.first && v.first !== 'correct').length} needing another attempt. Written reasoning is reviewed separately and is not scored for meaning.</p>`}
+    ${state.stage === 'parent' && Object.keys(state.history.currentRounds || {}).length ? html`<ul>${Object.entries(state.history.currentRounds).map(([stage, round]) => html`<li>${stageLabel(stage)}, latest round: ${round.right} right on the first attempt; ${round.retry} needing another attempt.</li>`)}</ul>` : ''}
+    <p>Across this visit, including earlier rounds: ${helped} help steps opened; ${revealed} answers revealed; ${state.history.restarts} restarts or retakes; ${state.history.missRounds} missed-question rounds. These earlier events remain after a retry.</p>
+    ${records.length ? html`<ul>${records.map(([id, r]) => html`<li>${r.label || 'Question'}: ${r.attempts} checked attempts, ${r.help} help steps, ${r.reveals} answer reveals${r.countScaffold ? ', counting scaffold used' : ''}.</li>`)}</ul>` : ''}
+    <p>Kept only in this open tab. Closing or refreshing clears this summary.</p></details>`;
 }
 
 function lessonBar(ctx, lesson, stage) {
@@ -84,11 +99,12 @@ function stageBody(ctx, lesson, stage, state) {
 
 function learnCard(lesson, s, state) {
   if (s.item) return html`<h3 class="card-title">${s.title}</h3>${itemCard(lesson, s.item, 'learn', state)}`;
+  const pictures = hasChapter7Teaching(lesson) && s.models?.length ? s.models : s.model ? [{ ...s.model, caption: s.caption ?? s.model.caption }] : [];
   const teacher = s.teacher ? (lesson.teacher || []) : [];
   const words = (s.words || []).map((w) => [w, lesson.glossary?.[w]]).filter(([, d]) => d);
   return html`
-    <div class="work${s.model ? ' has-pic' : ''}">
-      ${s.model ? html`<div class="card pic-card">${modelFigure(s.model, s.caption)}</div>` : ''}
+    <div class="work${pictures.length ? ' has-pic' : ''}">
+      ${pictures.length ? html`<div class="card pic-card">${pictures.map((picture) => modelFigure(picture, picture.caption))}</div>` : ''}
       <div class="card">
         <div class="instruct-head"><h3>${s.title}</h3>${readButton([s.title, ...(s.text || []), ...teacher.map((t) => `${t.term}: ${t.def}`), ...(s.pairs || [])], 'this screen')}</div>
         ${(s.text || []).map((t) => html`<p>${t}</p>`)}
@@ -106,21 +122,21 @@ function exampleCard(lesson, ex, idx, state) {
   const step = ex.steps[shown - 1];
   // The picture for the current step: the step's own picture (e.g. the cut before its facts are found),
   // otherwise the example's labelled picture.
-  const pic = step.model || ex.model;
+  const pictures = hasChapter7Teaching(lesson) ? step.models?.length ? step.models : step.model ? [step.model] : ex.models?.length ? ex.models : ex.model ? [ex.model] : [] : [step.model || ex.model].filter(Boolean);
   const done = shown >= ex.steps.length;
   const word = ex.steps.slice(0, shown).map((s) => s.word).filter(Boolean).pop();
   const whyState = state.items?.[ex.why?.id];
   const another = ex.another ? (ex.another.models || [ex.another.model]) : [];
   return html`
-    <div class="work has-pic">
-      <div class="card pic-card">${modelFigure(pic)}</div>
+    <div class="work${pictures.length ? ' has-pic' : ''}">
+      ${pictures.length ? html`<div class="card pic-card">${pictures.map((picture) => modelFigure(picture, hasChapter7Teaching(lesson) ? picture.caption : undefined))}</div>` : ''}
       <div class="card">
-        <div class="instruct-head"><h3>${ex.title}</h3>${readButton([ex.title, ...ex.steps.slice(0, shown).map((s) => (s.eq ? `${s.say} ${s.eq}` : s.say))], 'these steps')}</div>
-        <ol class="steps">
+        <div class="instruct-head"><h3>${ex.title}</h3>${readButton([ex.title, ...(hasChapter7Teaching(lesson) && ex.teaching ? [step] : ex.steps.slice(0, shown)).map((s) => (s.eq ? `${s.say} ${s.eq}` : s.say))], 'these steps')}</div>
+        ${hasChapter7Teaching(lesson) && ex.teaching ? html`<div class="visual-coach watch-coach"><p class="coach-progress">Step ${shown} of ${ex.steps.length}</p><p class="coach-instruction">${step.say}${step.eq ? html`<span class="eq">${step.eq}</span>` : ''}</p>${shown > 1 ? html`<details><summary>Review earlier steps</summary><ol>${ex.steps.slice(0, shown - 1).map((s) => html`<li>${s.say}</li>`)}</ol></details>` : ''}</div>` : html`<ol class="steps">
           ${ex.steps.slice(0, shown).map((s, k) => html`
             <li class="${k === shown - 1 ? 'now' : ''}"><span class="sn" aria-hidden="true">${k + 1}</span>
               <span>${s.say}${s.eq ? html`<span class="eq">${s.eq}</span>` : ''}</span></li>`)}
-        </ol>
+        </ol>`}
         ${word && lesson.glossary?.[word] ? html`<p><span class="chip"><strong>${word}</strong>: ${lesson.glossary[word]}</span></p>` : ''}
         <div class="btn-row step-row">
           <button type="button" class="btn" data-act="step-back"${shown <= 1 ? ' disabled' : ''}>‹ Back</button>
@@ -148,32 +164,108 @@ function sayItem(item) {
   return parts;
 }
 
+/** Chapter 7 authored visual teaching; legacy lessons keep their existing Help contract. */
+export function lessonHelpSteps(lesson, item) {
+  if (hasChapter7Teaching(lesson) && item.teaching?.steps?.length) return item.teaching.steps.map((s, i, list) => ({ ...s, kind: i === list.length - 1 ? 'show' : 'hint' }));
+  return helpSteps(item);
+}
+export function teachingFeedbackFor(lesson, item, response, status) {
+  if (!hasChapter7Teaching(lesson) || !item.teaching) return null;
+  const option = item.options?.[Number(response?.choice)]?.text;
+  if (status === 'correct') return item.teaching.correct;
+  const answer = String(response?.answer ?? '').trim();
+  const sameInteger = (value) => /^[-+]?\d+$/.test(answer) && /^[-+]?\d+$/.test(String(value)) && BigInt(answer) === BigInt(String(value));
+  const wrong = item.teaching.wrong || [];
+  const int = (value) => /^[-+]?\d+$/.test(String(value ?? '').trim()) ? BigInt(String(value).trim()) : null;
+  const n = int(response?.n), d = int(response?.d), en = int(item.answer?.n), ed = int(item.answer?.d);
+  const fraction = n !== null && d !== null && en !== null && ed !== null;
+  const integer = /^[-+]?\d+$/.test(answer) ? BigInt(answer) : null;
+  const expected = /^[-+]?\d+$/.test(String(item.answer)) ? BigInt(item.answer) : null;
+  const matches = {
+    zeroDenominator: fraction && d === 0n,
+    zeroNumerator: fraction && n === 0n && d > 0n,
+    equivalentPartition: fraction && d > 0n && item.answerPolicy === 'partition' && n * ed === en * d && (n !== en || d !== ed),
+    reversed: fraction && n === ed && d === en && en !== ed,
+    numeratorOnly: fraction && n !== en && d === ed,
+    denominatorOnly: fraction && n === en && d !== ed,
+    selectedOnly: integer !== null && integer === BigInt(item.model?.selected?.length || 0),
+    insideLines: integer !== null && item.model?.kind === 'bar' && integer === BigInt(item.model.parts - 1),
+    tooLow: integer !== null && expected !== null && integer < expected,
+    tooHigh: integer !== null && expected !== null && integer > expected,
+  };
+  return wrong.find((s) => s.option !== undefined && s.option === option)
+    || ['zeroDenominator', 'zeroNumerator'].map((kind) => matches[kind] && wrong.find((s) => s.when === kind)).find(Boolean)
+    || wrong.find((s) => s.answer !== undefined && sameInteger(s.answer))
+    || wrong.find((s) => s.response && Object.entries(s.response).every(([key, value]) => int(response?.[key]) !== null && int(response?.[key]) === int(value)))
+    || ['equivalentPartition', 'reversed', 'numeratorOnly', 'denominatorOnly', 'selectedOnly', 'insideLines', 'tooLow', 'tooHigh'].map((kind) => matches[kind] && wrong.find((s) => s.when === kind)).find(Boolean)
+    || wrong.find((s) => s.when === 'default' || (s.option === undefined && s.answer === undefined && s.response === undefined && s.when === undefined));
+}
+export function coachModels(step) {
+  const models = step?.models?.length ? step.models : step?.model ? [step.model] : [];
+  return html`${models.map((model) => modelFigure(model, model.caption))}`;
+}
+export function countPartsFor(lesson, item) {
+  return hasChapter7Teaching(lesson) && item.teaching?.count ? item.teaching.count.parts || [] : [];
+}
+export function countComplete(lesson, item, st) {
+  const parts = countPartsFor(lesson, item);
+  return parts.every((p) => (st.counted || []).includes(p));
+}
+function countScaffold(lesson, item, st) {
+  const parts = countPartsFor(lesson, item); if (!parts.length) return '';
+  const seen = st.counted || [];
+  return html`<section class="count-scaffold" aria-label="Count the parts before answering">
+    <h3>Touch and count</h3><p>${item.teaching.count.prompt}</p>
+    <div class="btn-row">${parts.map((p, i) => html`<button type="button" class="btn${seen.includes(p) ? ' is-counted' : ''}" data-act="count-part" data-part="${p}" aria-pressed="${seen.includes(p) ? 'true' : 'false'}" aria-label="Part ${i + 1}${seen.includes(p) ? ', counted' : ', tap to count'}">${seen.includes(p) ? '✓ ' : ''}Part ${i + 1}</button>`)}</div>
+    <p class="count-status" role="status">${seen.length} of ${parts.length} parts counted.${countComplete(lesson, item, st) ? ' Now write your answer.' : ' Tap each part once before answering.'}</p>
+  </section>`;
+}
 /** One question with its answer boxes or choices, feedback, and Help (one step at a time, after a wrong answer). */
 export function itemCard(lesson, item, stage, state) {
   const st = state.items?.[item.id] || {};
   const test = stage === 'test';
+  const writtenReview = chapterOf(lesson.id) === 7 && item.type === 'sentence' && !test;
   const resp = st.resp || {};
   const done = !test && (st.status === 'correct' || st.shown);
-  const steps = test ? [] : helpSteps(item);
+  const steps = test ? [] : lessonHelpSteps(lesson, item);
   const opened = st.shown ? steps.length : Math.min(st.help || 0, steps.length);
   const helpAllowed = !test && !done && (st.tries || 0) >= 1 && opened < steps.length;
-  const pics = item.models || (item.model ? [item.model] : []);
+  const coached = hasChapter7Teaching(lesson) && item.teaching && !test;
+  const countReady = test || countComplete(lesson, item, st);
+  const feedbackMode = coached && st.coachView === 'feedback' && st.teachingFeedback;
+  const activeCoach = feedbackMode || (coached && st.coachView !== 'answer' && opened ? steps[Math.min(opened, steps.length) - 1] : null);
+  const pics = (activeCoach?.models?.length || activeCoach?.model) ? [] : item.models || (item.model ? [{ ...item.model, ...(coached && item.teaching.count ? { counted: st.counted || [] } : {}) }] : []);
   const inline = item.type === 'number' && /=\s*\?\s*$/.test(item.prompt);
   return html`
     <div class="work${pics.length ? ' has-pic' : ''}">
       ${pics.length ? html`<div class="card pic-card"><div class="models">${pics.map((m) => modelFigure(m, m.caption))}</div></div>` : ''}
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
         <div class="instruct-head">${item.type === 'choice' || item.type === 'multi' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' || item.type === 'letters' ? '' : readButton(sayItem(item), 'the question')}</div>
-        ${answerArea(item, resp, st, test, done)}
-        ${test ? '' : html`
+        ${coached && !activeCoach ? countScaffold(lesson, item, st) : ''}
+        ${writtenReview ? writtenReviewArea(item, st) : !countReady ? html`<fieldset disabled class="count-answer-gate"><legend>Count the parts above before answering</legend>${answerArea(item, resp, st, test, done)}</fieldset>` : answerArea(item, resp, st, test, done)}
+        ${test || writtenReview ? '' : html`
           <div class="btn-row">
-            ${done ? '' : html`<button type="submit" class="btn btn-primary">Check Answer</button>`}
+            ${done ? '' : html`<button type="submit" class="btn btn-primary"${countReady ? '' : ' disabled'}>Check Answer</button>`}
             ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${opened ? 'Next step' : 'Help'}</button>` : ''}
           </div>`}
-        ${!test && opened ? helpPanel(item, steps, opened, st.shown, done) : ''}
-        ${!test && st.say ? feedbackPanel(item, st, opened) : ''}
+        ${!test && !writtenReview && opened && !feedbackMode && st.coachView !== 'answer' ? helpPanel(item, steps, opened, st.shown, done, coached) : ''}
+        ${!test && !writtenReview && st.say && (!coached || feedbackMode || !opened) ? feedbackPanel(item, st, opened, coached) : ''}
       </form>
     </div>`;
+}
+
+function writtenReviewArea(item, st) {
+  const compared = st.comparedRevision === (st.revision || 0), reviewed = st.reviewedRevision === (st.revision || 0);
+  return html`<label for="${item.id}-text">Write your own explanation</label>
+    <textarea class="box text sentence" id="${item.id}-text" name="text" rows="5" maxlength="600"${st.status === 'empty' ? html` aria-invalid="true"` : ''}>${val(st.resp || {}, 'text')}</textarea>
+    <p>This explanation is reviewed by you or a grown-up. The computer does not grade its mathematical meaning.</p>
+    <button class="btn btn-primary" type="submit">Compare my response with an example</button>
+    ${st.status === 'empty' ? html`<p class="feedback info">${st.say}</p>` : ''}
+    ${compared ? html`<section data-written-review id="fb-${item.id}" class="card"><h3>Compare and review</h3><p><strong>One example:</strong> ${item.example}</p>
+      <fieldset><legend>You or a grown-up: review this version of your response</legend>
+        ${[['whole', 'I identified the whole or the quantities in the question.'], ['reason', 'I explained why my answer makes sense, using the model or an example.'], ['compare', 'I compared my reasoning with the example, or asked a grown-up to review it.']].map(([key, label]) => html`<label class="choice"><input type="checkbox" data-review-check="${key}"${st.reviewChecks?.[key] ? ' checked' : ''}> ${label}</label>`)}
+      </fieldset><button type="button" class="btn" data-act="review-written">Finish my review</button>
+      ${reviewed ? html`<p data-written-complete role="status">Review completed for this response. This is not a computer grade for mathematical meaning.</p>` : ''}</section>` : ''}`;
 }
 
 /** A written blank ("___") drawn as a line; screen readers say "blank" instead of a row of underscores. */
@@ -216,7 +308,13 @@ function roundArea(item, resp, st, done) {
   </div>`;
 }
 
-function feedbackPanel(item, st, opened = 0) {
+function feedbackPanel(item, st, opened = 0, coached = false) {
+  if (coached && st.teachingFeedback && st.coachView === 'feedback' && ['correct', 'notyet'].includes(st.status)) {
+    const step = st.teachingFeedback;
+    return html`<div class="feedback ${st.status === 'correct' ? 'ok' : 'notyet'} visual-coach" id="fb-${item.id}" data-coach="feedback">
+      <div class="fb-head"><h3 tabindex="-1" data-coach-heading>${st.status === 'correct' ? 'Yes — here is why' : 'Look at this part again'}</h3>${readButton(step.text, 'the explanation')}</div>
+      <div class="coach-model">${coachModels(step)}</div><p class="coach-instruction">${step.text}</p>${st.status === 'notyet' ? html`<button type="button" class="btn btn-primary" data-act="coach-retry">Try again</button>` : ''}</div>`;
+  }
   const id = `fb-${item.id}`;
   // Once Help is open the "press Help" reminder is out of date.
   if (opened) st = { ...st, say: String(st.say).replace(' Press Help to see one step at a time.', '') };
@@ -230,7 +328,16 @@ function feedbackPanel(item, st, opened = 0) {
 }
 
 /** The Help steps opened so far; when the last one is open the answer is filled in. */
-function helpPanel(item, steps, opened, finished, done) {
+function helpPanel(item, steps, opened, finished, done, coached = false) {
+  if (coached) {
+    const step = steps[Math.min(opened, steps.length) - 1];
+    return html`<section class="feedback info help-panel visual-coach" id="help-${item.id}" data-coach="help" aria-label="Visual help">
+      <h3 tabindex="-1" data-coach-heading class="coach-progress">Step ${opened} of ${steps.length}${finished ? ': put it together' : ''}</h3>
+      <div class="coach-model">${coachModels(step)}</div><p class="coach-instruction">${step.text}</p>${readButton(step.text, 'this teaching step')}
+      ${opened > 1 ? html`<details><summary>Review earlier steps</summary><ol>${steps.slice(0, opened - 1).map((s) => html`<li>${s.text}</li>`)}</ol></details>` : ''}
+      ${done ? '' : html`<p>Try your answer now, or go to the next teaching step.</p><button type="button" class="btn btn-primary" data-act="coach-retry">Try again</button>`}
+    </section>`;
+  }
   const shownSteps = steps.slice(0, opened);
   const title = finished ? "Here's how" : `Help: step ${opened} of ${steps.length}`;
   return html`<div class="feedback info help-panel" id="help-${item.id}">
@@ -307,6 +414,13 @@ function answerArea(item, resp, st, test, done) {
     return html`<p class="word-answer sentence-answer"><label for="${item.id}-text">Write your answer in a complete sentence</label>
       <textarea class="box text sentence${done ? ' is-compared' : ''}" name="text" id="${item.id}-text" rows="5" maxlength="300" autocapitalize="sentences"
         spellcheck="true"${marked ? html` aria-invalid="true"` : ''}${done ? ' readonly' : ''}>${val(resp, 'text')}</textarea></p>`;
+  }
+  if (item.type === 'fraction') {
+    return html`<fieldset class="fraction-answer"><legend>Write the fraction</legend>
+      <label for="${item.id}-n">Numerator (top number)</label>${box(item, 'n', 'Numerator, top number', resp, st, done)}
+      <span class="fraction-bar" aria-hidden="true"></span>
+      <label for="${item.id}-d">Denominator (bottom number)</label>${box(item, 'd', 'Denominator, bottom number', resp, st, done)}
+    </fieldset>`;
   }
   if (item.type === 'number') {
     const fact = /^(.*=)\s*\?\s*$/.exec(item.prompt);
@@ -455,7 +569,7 @@ function testNext(ctx, lesson, passed) {
   if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
   // The last lesson of a chapter: that chapter's Study Guide and Chapter Test (D26).
   const ch = chapterOf(lesson.id);
-  const guide = ch === 6 ? 'ch6guide' : 'guide';
+  const guide = ch === 7 ? 'ch7guide' : ch === 6 ? 'ch6guide' : 'guide';
   return {
     text: `You finished the last lesson of Chapter ${ch}! Review with the Chapter ${ch} Study Guide, then try the Chapter ${ch} Practice Test.`,
     main: html`<a class="btn" href="${ctx.actLink('math', `ch${ch}test`)}">Chapter ${ch} Practice Test</a><a class="btn btn-primary" href="${ctx.actLink('math', guide)}">Chapter ${ch} Study Guide ›</a>`, retakeSecondary: true,
@@ -472,7 +586,8 @@ const reviewItem = (it, you = null) => html`<li>
 
 function trySummary(ctx, lesson, state) {
   const items = lesson.try.items;
-  const first = items.filter((it) => state.items?.[it.id]?.first === 'correct').length;
+  const first = items.filter((it) => state.items?.[it.id]?.first === 'correct' && !state.items?.[it.id]?.scaffoldAssisted).length;
+  const scaffolded = items.filter((it) => state.items?.[it.id]?.scaffoldAssisted && state.items?.[it.id]?.status === 'correct').length;
   const missed = items.filter((it) => state.items?.[it.id]?.first !== 'correct');
   const answered = items.filter((it) => state.items?.[it.id]?.first).length;
   const passed = first >= lesson.try.pass;
@@ -480,6 +595,7 @@ function trySummary(ctx, lesson, state) {
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Try It Yourself: your results</h2></div>
     <div class="card results">
       ${scoreLine(first, items.length, answered)}
+      ${scaffolded ? html`<p>${scaffolded} answers were completed with the counting scaffold. They are assisted practice, not unassisted first-attempt credit or wrong answers.</p>` : ''}
       <p>${passed ? 'Great work! You are ready for the test.' : `Practice a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
       <p class="next-step"><strong>What next?</strong> ${missed.length ? 'Press Practice My Misses to try the questions you missed again, with Help. Then take Test Your Knowledge.' : 'Take Test Your Knowledge.'}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => reviewItem(it))}</ul>` : ''}
@@ -499,6 +615,7 @@ function testResults(ctx, lesson, state) {
   const s = score(items, state.items || {}, lesson.test.pass);
   const shown = (it) => {
     const r = state.items?.[it.id]?.resp || {};
+    if (it.type === 'fraction') return r.n || r.d ? `${r.n || 'blank'}/${r.d || 'blank'}` : 'No answer';
     if (it.type === 'choice') return r.choice === undefined ? 'No answer' : it.options[Number(r.choice)]?.text || 'No answer';
     const vals = boxes(it).map((b) => r[b]).filter((x) => x !== undefined && x !== '');
     return vals.length ? vals.join(', ') : 'No answer';
@@ -513,6 +630,16 @@ function testResults(ctx, lesson, state) {
       <p class="next-step"><strong>What next?</strong> ${s.missed.length ? 'Press Practice My Misses to learn from the questions you missed. ' : ''}${what.text}</p>
       ${s.missed.length ? html`<h3>Questions to look at again</h3>
         <ul class="review">${s.missed.map((it) => reviewItem(it, shown(it)))}</ul>` : html`<p>You got every question right!</p>`}
+      ${hasChapter7Teaching(lesson) && items.some((it) => it.teaching) ? html`<section class="pilot-test-explanations"><h3>Understand every answer</h3>
+        <p>Open each question to see the picture and the reason, including answers you got right.</p>
+        ${items.map((it, i) => {
+          const record = state.items[it.id] || {}, right = record.status === 'correct';
+          const feedback = teachingFeedbackFor(lesson, it, record.resp, record.status) || { text: it.explain, model: it.model, models: it.models };
+          return html`<details class="test-teaching-review" data-test-coach="${it.id}"><summary>Question ${i + 1}: ${right ? 'correct' : 'look again'}</summary>
+            <p>${it.prompt}</p><p>Your answer: ${shown(it)}</p><p>Correct answer: ${answerText(it)}</p>
+            <div class="visual-coach" data-coach="test-review"><div class="coach-model">${coachModels(feedback)}</div><p class="coach-instruction">${feedback?.text || ''}</p>${feedback?.text ? readButton(feedback.text, 'why this answer works') : ''}</div>
+          </details>`;
+        })}</section>` : ''}
     </div>
     <div class="stage-nav end-nav">
       <span class="btn-row">

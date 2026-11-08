@@ -8,6 +8,7 @@ import { validateIndex, validateWeek } from './lib/validate.js';
 import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
 import { hasPropertyWords } from './lib/mathlearn.js';
 import { validateArea } from './lib/area.js';
+import { validateFractionChapter } from './lib/chapter7.js';
 import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson-player.js';
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { chapterFor, validateChapters } from './lib/chapters.js';
@@ -91,6 +92,13 @@ async function render() {
   // Math is chapter-first (D26): the chapter named by the address (a chapter menu, one of its activities, or one of
   // its lessons) owns the content. Its teacher's words, tests and misses come from the chapter's own week.
   const chapter = route.section === 'math' ? chapterFor(lessons, { ch: route.ch, act: route.act, lesson: lesson?.id || null }) : null;
+  let fractions = null;
+  if (route.section === 'math' && chapter?.id === 7) {
+    try {
+      fractions = await loadJSON('data/chapters/7.json');
+      if (validateFractionChapter(fractions).length) fractions = null;
+    } catch { fractions = null; }
+  }
   let practice = null;
   if (route.section === 'math' && route.act && chapter?.id === 5) {
     try {
@@ -163,7 +171,7 @@ async function render() {
   if (chapterWeekId && chapterWeekId !== weekId) {
     try { chapterWeek = await loadWeek(chapterWeekId); if (validateWeek(chapterWeek, chapterWeekId).length) chapterWeek = null; } catch { chapterWeek = null; }
   }
-  if (route.section === 'math' && chapterWeekId && activityInfo('math', route.act)?.test) {
+  if (route.section === 'math' && chapter?.id !== 7 && chapterWeekId && activityInfo('math', route.act)?.test) {
     try {
       const list = await loadJSON('data/tests/index.json');
       if (list.weeks?.includes(chapterWeekId)) tests = await loadJSON(`data/tests/${chapterWeekId}.json`);
@@ -234,7 +242,7 @@ async function render() {
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
-    reading, tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, packet, page: info?.page ? act : null,
+    reading, tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, fractions, packet, page: info?.page ? act : null,
     mathWeekId: chapterWeekId || lessons?.chapters?.find((c) => c.id === week.mathChapter)?.week || contentId,
   };
   ctx.run = act && !info.page ? runFor(ctx, route.section, act) : testKind ? runFor(ctx, 'tests', testKind) : null;
