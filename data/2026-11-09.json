@@ -64,7 +64,27 @@
       "title": "Weekly homework packet",
       "due": "Friday, Nov 13",
       "source": "newsletter",
-      "status": "Sent home each Monday according to the newsletter; this week’s packet has not been uploaded."
+      "status": "Four physical worksheet pages received Nov 9: two fraction number-line worksheets, a cherries fluency passage, and two cherries comprehension questions. A printable digital reconstruction is available for review.",
+      "worksheets": [
+        {
+          "title": "Fractions on a Number Line – Greater Than 1",
+          "page": 1
+        },
+        {
+          "title": "Cherries: Good to Eat and Good for You Too!",
+          "page": 2
+        },
+        {
+          "title": "Cherries – Comprehension Questions",
+          "page": 3
+        },
+        {
+          "title": "Fractions – Number Line",
+          "page": 4
+        }
+      ],
+      "url": "homework/2026-11-09-recreated.html",
+      "description": "Printable four-page digital reconstruction from parent-provided photos; verify against originals before use."
     },
     {
       "title": "Reading Log",
