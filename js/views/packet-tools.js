@@ -15,6 +15,25 @@ export function fractionFigure(f) {
   }
   return html`<figure class="hw-fraction"><svg role="img" aria-label="${f.kind==='set'?'A set of objects. Count all objects and the dotted objects.':'A whole divided into equal parts. Count all parts and the shaded parts.'}" viewBox="0 0 200 200" width="200" height="200">${raw(shapes.join(''))}</svg><span class="sr-only">${Array.from({length:f.d},(_,i)=>html`<span>${f.kind==='set'?'Object':'Part'} ${i+1}: ${i<f.n?'shaded'+(f.kind==='set'?', dotted':''):'unshaded'}. </span>`)}</span></figure>`;
 }
+export function fractionNumberLine({ n, d, wholes, labelParts }) {
+  const steps = d * wholes;
+  const position = (tick) => 24 + tick * 392 / steps;
+  const label = labelParts
+    ? `Number line from zero to one with equal steps. The blank is at tick ${n} after zero. Other fraction ticks are labeled.`
+    : `Number line from zero to ${wholes} with ${d} equal steps per whole. X is at tick ${n} after zero.`;
+  return html`<figure class="hw-fraction"><svg role="img" aria-label="${label}" viewBox="0 0 440 82" width="440" height="82">
+    <path d="M 10 35 H 430 M 10 35 l 8 -5 m -8 5 l 8 5 M 430 35 l -8 -5 m 8 5 l -8 5" fill="none" stroke="currentColor" stroke-width="2"/>
+    ${Array.from({ length: steps + 1 }, (_, tick) => {
+      const x = position(tick);
+      const tickLabel = tick % d === 0 ? tick / d : labelParts && tick !== n ? `${tick}/${d}` : '';
+      return html`<path d="M ${x} 29 v 12" stroke="currentColor" stroke-width="2"/>
+        <text x="${x}" y="62" text-anchor="middle" fill="currentColor" font-size="17">${tickLabel}</text>`;
+    })}
+    ${labelParts
+      ? html`<rect x="${position(n) - 13}" y="46" width="26" height="21" fill="none" stroke="currentColor" stroke-width="2"/>`
+      : html`<circle cx="${position(n)}" cy="35" r="5" fill="currentColor"/><text x="${position(n)}" y="22" text-anchor="middle" fill="currentColor" font-size="17">X</text>`}
+  </svg></figure>`;
+}
 export function drawingTools(run) {
  const st=run.tools||{};
  return html`<div class="card"><h3>Draw equal parts</h3><p>On your class paper, draw a triangle in halves and a rectangle in eighths. Try building those partitions here first.</p>
@@ -31,9 +50,13 @@ function rectangleResult(rows,cols) {
  const lines=[];for(let i=1;i<rows;i++)lines.push(`<path d="M10 ${10+140*i/rows} H210"/>`);for(let i=1;i<cols;i++)lines.push(`<path d="M${10+200*i/cols} 10 V150"/>`);
  return html`<svg role="img" aria-label="A rectangle with ${rows} equal rows and ${cols} equal columns" viewBox="0 0 220 160" width="220" height="160"><rect x="10" y="10" width="200" height="140" fill="white" stroke="#222" stroke-width="2"/><g stroke="#222" stroke-width="2">${raw(lines.join(''))}</g></svg><p>${rows*cols===8?'Eight equal parts: each part is one-eighth. Now draw it on your paper.':`You made ${rows*cols} equal parts. Eighths need eight equal parts. Change the rows or columns and try again.`}</p>`;
 }
+const fluencyDetails = (run) => typeof run.packetFluency === 'object'
+  ? run.packetFluency : { title: 'My Favorite Author', words: 196 };
+
 export function fluencyTracker(run) {
+ const { title, words } = fluencyDetails(run);
  const st=run.tools||{};
- return html`<div class="card"><h3>Class passage: parent-assisted reading tracker</h3><p>Read My Favorite Author from your class paper three times. A grown-up enters words read right (WRR) and errors for each attempt. These are manual records, not automatic scores. Print before leaving to keep your record.</p><div class="hw-table-scroll"><table class="fluency"><caption>Class passage — three reading attempts (not saved)</caption><thead><tr><th scope="col">Record</th>${[1,2,3].map(n=>html`<th scope="col">Read ${n}</th>`)}</tr></thead><tbody>${[['right','Words read right'],['errors','Errors']].map(([key,label])=>html`<tr><th scope="row">${label}</th>${[1,2,3].map(n=>html`<td><input type="number" min="0" max="196" step="1" data-fluency="${key}${n}" value="${st[key+n]??''}" aria-label="${label}, class passage read ${n}"></td>`)}</tr>`)}</tbody></table></div><p class="hint">The class page has 196 words. Count errors only among the words attempted; WRR is words attempted minus errors. Follow the teacher’s directions for what counts as an error.</p></div>`;
+ return html`<div class="card"><h3>Class passage: parent-assisted reading tracker</h3><p>Read ${title} from your class paper three times. A grown-up enters words read right (WRR) and errors for each attempt. These are manual records, not automatic scores. Print before leaving to keep your record.</p><div class="hw-table-scroll"><table class="fluency"><caption>Class passage — three reading attempts (not saved)</caption><thead><tr><th scope="col">Record</th>${[1,2,3].map(n=>html`<th scope="col">Read ${n}</th>`)}</tr></thead><tbody>${[['right','Words read right'],['errors','Errors']].map(([key,label])=>html`<tr><th scope="row">${label}</th>${[1,2,3].map(n=>html`<td><input type="number" min="0" max="${words}" step="1" data-fluency="${key}${n}" value="${st[key+n]??''}" aria-label="${label}, class passage read ${n}"></td>`)}</tr>`)}</tbody></table></div><p class="hint">The class page has ${words} words. Count errors only among the words attempted; WRR is words attempted minus errors. Follow the teacher’s directions for what counts as an error.</p></div>`;
 }
 export function mountPacketTools(app,getRun,signal,onUpdate) {
  app.addEventListener('click',e=>{const btn=e.target.closest('[data-hw-nav]');if(!btn)return;const run=getRun();run.pi=Math.max(0,(run.pi||0)+Number(btn.dataset.hwNav));onUpdate();},{signal});
@@ -42,6 +65,7 @@ export function mountPacketTools(app,getRun,signal,onUpdate) {
 }
 
 export function fluencyStatus(run) {
- const st=run.tools||{};const filled=[1,2,3].filter(n=>['right','errors'].every(k=>st[k+n]!==undefined && st[k+n]!=='' && Number.isInteger(Number(st[k+n])) && Number(st[k+n])>=0 && Number(st[k+n])<=196) && Number(st['right'+n])+Number(st['errors'+n])<=196).length;
+ const { words } = fluencyDetails(run);
+ const st=run.tools||{};const filled=[1,2,3].filter(n=>['right','errors'].every(k=>st[k+n]!==undefined && st[k+n]!=='' && Number.isInteger(Number(st[k+n])) && Number(st[k+n])>=0 && Number(st[k+n])<=words) && Number(st['right'+n])+Number(st['errors'+n])<=words).length;
  return `${filled} of 3 reading attempts recorded with valid counts. A grown-up checks accuracy; print to keep your record.`;
 }

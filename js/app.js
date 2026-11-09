@@ -272,8 +272,16 @@ async function render() {
   } else if (ctx.page || route.section === 'newsletter' || route.section === 'homework') {
     // Pages to read only need their Print button (the Study Guides) and, on the Newsletter, Zoom in.
     mounted = new AbortController();
-    app.addEventListener('click', (e) => {
-      if (e.target.closest('[data-act="print"]')) window.print();
+    const { signal } = mounted;
+    app.addEventListener('click', async (e) => {
+      if (e.target.closest('[data-act="print"]')) {
+        const sheets = [...app.querySelectorAll('.homework-papers img')];
+        await Promise.allSettled(sheets.map((img) => {
+          img.loading = 'eager';
+          return img.decode();
+        }));
+        if (!signal.aborted) window.print();
+      }
       const z = e.target.closest('[data-act="zoom"]');
       if (z) {
         const on = z.getAttribute('aria-pressed') !== 'true';
