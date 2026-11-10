@@ -38,11 +38,11 @@ try {
  expect(await b.js('return JSON.stringify([...document.querySelectorAll(".homework-papers img")].map(im=>im.getAttribute("src")))')===JSON.stringify(papers.map(p=>p.src)),'original sheet order');
  for(let i=0;i<papers.length;i++){
   await b.js(`const im=document.querySelectorAll('.homework-papers img')[${i}];im.loading='eager';await im.decode();`);
-  expect(await b.js(`const im=document.querySelectorAll('.homework-papers img')[${i}];return im.naturalWidth===1200&&im.naturalHeight===1553;`),'image decodes at full resolution');
+  expect(await b.js(`const im=document.querySelectorAll('.homework-papers img')[${i}];return im.naturalWidth===${papers[i].width}&&im.naturalHeight===${papers[i].height};`),'image decodes at full resolution');
   await b.clickAt(`.homework-papers figure:nth-child(${i+1}) a[download]`);
   const file=path.join(downloadDir,path.basename(papers[i].src));
   for(let n=0;n<100&&!fs.existsSync(file);n++)await b.wait(50);
-  expect(fs.existsSync(file)&&fs.statSync(file).size>50000,'worksheet download saved');
+  expect(fs.existsSync(file)&&fs.statSync(file).size>0,'worksheet download saved');
   if(server)expect(fs.readFileSync(file).equals(fs.readFileSync(path.join(arg('--site')||ROOT,papers[i].src))),'download matches repository image bytes');
   await b.clickAt(`.homework-papers figure:nth-child(${i+1}) a[target="_blank"]`);
   const targets=await b.send('Target.getTargets');

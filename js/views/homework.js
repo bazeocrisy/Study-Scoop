@@ -86,10 +86,10 @@ export function homeworkPapersSection(week) {
     <p>The classroom scans for this week are not yet available here. You can use the Study Scoop homework activities above while the originals are prepared and privacy-reviewed.</p>
   </section>`;
   return html`<section class="card flyer homework-papers" aria-labelledby="h-papers">
-    <div class="instruct-head"><h2 id="h-papers">Original homework papers</h2>
+    <div class="instruct-head"><h2 id="h-papers">${papers.recreated ? 'Printable homework papers' : 'Original homework papers'}</h2>
       <span class="btn-row no-print"><button type="button" class="btn" data-act="zoom" aria-pressed="false">Zoom in</button>
       <button type="button" class="btn" data-act="print">Print the homework</button></span></div>
-    <p class="hint no-print">All ${papers.pages.length} pages from school. Open a page full size, download each worksheet image, or print the pages. Handwritten examples on the supplied papers are included.</p>
+    <p class="hint no-print">${papers.recreated ? 'These print-friendly copies follow the classroom assignments.' : `All ${papers.pages.length} pages from school. Handwritten examples on the supplied papers are included.`} Open a page full size, download each worksheet image, or print the pages.</p>
     <div class="flyer-pages">
       ${papers.pages.map((pg) => html`<figure class="flyer-page">
         <div class="flyer-scroll" tabindex="0" role="region" aria-label="${pg.label}"><img src="${pg.src}" alt="${pg.alt}" width="${pg.width}" height="${pg.height}" loading="lazy" decoding="async"></div>
