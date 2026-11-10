@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 7-2 · Understand Fractions · Study Scoop</title>
+<style>
+:root{
+  --ink:#1f2a44; --muted:#5b6478; --bg:#eef3f9; --card:#ffffff; --line:#d5dde9;
+  --green:#1f9d55; --purple:#5b3fa6; --blue:#1e6fd9; --orange:#e08a1e; --red:#cf3b3b;
+  --ok:#e5f6ec; --okline:#9ad7b1; --bad:#fdecec; --badline:#f1aaaa; --hint:#fff6d6; --hintline:#f0d27a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Trebuchet MS","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;font-size:19px;line-height:1.45}
+button{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 16px 8px}
+.top-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.lesson{font-weight:700;color:var(--blue);white-space:nowrap;font-size:16px}
+.bar{flex:1;height:12px;background:#d9e2ee;border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--blue));width:0;transition:width .3s}
+.stepnum{font-size:15px;color:var(--muted);white-space:nowrap}
+main{max-width:880px;margin:0 auto;padding:4px 16px 120px}
+.card{background:var(--card);border-radius:18px;padding:20px 22px;box-shadow:0 2px 0 #d9e1ec;margin-bottom:16px}
+.chip{display:inline-block;font-weight:800;font-size:15px;letter-spacing:.3px;padding:4px 12px;border-radius:99px;color:#fff;margin-bottom:8px}
+.c-curious{background:var(--green)} .c-learn{background:var(--purple)} .c-together{background:var(--blue)}
+.c-own{background:var(--purple)} .c-reflect{background:var(--blue)} .c-done{background:var(--orange)}
+h1{font-size:30px;margin:2px 0 6px;line-height:1.2}
+h2{font-size:23px;margin:6px 0 8px;line-height:1.25}
+.num{color:var(--blue);font-weight:800;margin-right:6px}
+p{margin:6px 0 10px}
+.vocab{background:#fff1a8;padding:0 5px;border-radius:4px;font-weight:800}
+.mathis{border:2px solid #7fb2ef;border-radius:10px;overflow:hidden;max-width:420px;margin:12px 0}
+.mathis .hd{background:var(--blue);color:#fff;font-weight:800;padding:4px 10px;font-size:16px}
+.mathis .hd b{color:#cfe3ff;margin-left:6px}
+.mathis .bd{background:#eaf3ff;padding:8px 12px}
+.say{border:0;background:#e6efff;color:var(--blue);border-radius:99px;padding:4px 12px;font-size:15px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:6px}
+.say:active{transform:scale(.96)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{border:2px solid var(--line);background:#fff;border-radius:14px;padding:10px 16px;min-height:48px;cursor:pointer;font-weight:700}
+.btn:hover{border-color:#aebcd2}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.go{background:var(--green);border-color:var(--green);color:#fff}
+.btn.small{min-height:40px;padding:6px 12px;font-size:16px}
+.btn[disabled]{opacity:.45;cursor:default}
+.opt{display:block;width:100%;text-align:left;margin:8px 0}
+.opt.right{background:var(--ok);border-color:var(--green)}
+.opt.wrong{background:var(--bad);border-color:var(--badline)}
+.fb{border-radius:12px;padding:10px 14px;margin:10px 0;font-weight:600;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--ok);border:2px solid var(--okline)}
+.fb.no{background:var(--bad);border:2px solid var(--badline)}
+.fb.hint{background:var(--hint);border:2px solid var(--hintline)}
+.boards{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:720px){.boards.two{grid-template-columns:1fr 1fr}}
+.board{border:2px solid var(--line);border-radius:16px;padding:12px;background:#fbfdff}
+.stage{position:relative;width:100%;max-width:380px;margin:0 auto;aspect-ratio:1/1;touch-action:none;user-select:none;-webkit-user-select:none}
+.stage canvas,.stage svg{position:absolute;inset:0;width:100%;height:100%}
+.stage canvas{opacity:.85}
+.tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.howto{font-size:16px;color:var(--muted);text-align:center;margin:4px 0 0}
+.done-badge{display:inline-block;background:var(--green);color:#fff;border-radius:99px;padding:2px 10px;font-size:14px;font-weight:800;margin-left:8px;vertical-align:middle}
+.nav{position:fixed;left:0;right:0;bottom:0;background:rgba(238,243,249,.96);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.nav-inner{max-width:880px;margin:0 auto;display:flex;justify-content:space-between;gap:12px}
+.nav .btn{min-width:130px;font-size:19px}
+.wood{background:linear-gradient(180deg,#8a5a3a,#6e4529);border-radius:14px;padding:10px}
+.cheese{cursor:pointer}
+.cheese:focus{outline:none}
+.cheese.picked circle.rim{stroke:#ffcf33;stroke-width:7}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.tab{border:2px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-weight:700;cursor:pointer;min-height:44px}
+.tab.on{background:var(--purple);border-color:var(--purple);color:#fff}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.thumb{border:3px solid transparent;border-radius:10px;padding:4px;background:#fff;cursor:pointer}
+.thumb.on{border-color:var(--purple)}
+.palette{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.swatch{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line);cursor:pointer}
+.swatch.on{box-shadow:0 0 0 4px var(--ink)}
+.keybox{background:#fff8e6;border-left:6px solid var(--orange);padding:10px 14px;border-radius:8px;font-weight:700;margin:12px 0}
+.split{display:grid;grid-template-columns:1fr;gap:16px;align-items:start}
+@media(min-width:720px){.split{grid-template-columns:1.1fr .9fr}}
+.figure{max-width:340px;margin:0 auto}
+.figure svg{width:100%;height:auto;display:block}
+.blank{display:inline-block;min-width:90px;border-bottom:3px solid var(--blue);text-align:center;font-weight:800;color:var(--blue);padding:0 6px}
+.pick{border:2px solid var(--line);background:#fff;border-radius:12px;min-width:52px;min-height:48px;padding:6px 12px;font-weight:800;cursor:pointer}
+.pick.on{background:var(--blue);border-color:var(--blue);color:#fff}
+textarea,input[type=text]{width:100%;font:inherit;border:2px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
+textarea{min-height:110px;resize:vertical}
+textarea:focus,input:focus{outline:3px solid #b8d4ff;border-color:var(--blue)}
+.starter{font-size:16px}
+table.rep{width:100%;border-collapse:collapse;font-size:17px}
+table.rep td,table.rep th{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:middle}
+.tag{display:inline-block;border-radius:99px;padding:2px 10px;font-size:14px;font-weight:800;margin:2px 4px 2px 0}
+.t-first{background:#d6f3e1;color:#146b3a}.t-tries{background:#e3ecfb;color:#1d4f9c}
+.t-hint{background:#fff1bf;color:#7a5a00}.t-shown{background:#fde0e0;color:#962626}.t-todo{background:#eceff3;color:#5b6478}
+.mini{width:64px;height:64px;vertical-align:middle}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.confetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:2px;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.8}}
+[hidden]{display:none!important}
+.c-teach{background:var(--orange)}
+.remember{background:#eef6ff;border:2px solid #b9d6fb;border-radius:12px;padding:10px 14px;margin:8px 0 12px}
+.remember .btn{margin-left:4px}
+.demo{border:2px solid var(--line);border-radius:16px;padding:12px;background:#fbfdff}
+.demo .figure{max-width:340px}
+.steptext{font-size:21px;font-weight:600;min-height:3.2em;margin:8px 4px 10px;text-align:center}
+.steplabel{color:var(--orange)}
+.stepcount{font-size:15px;color:var(--muted)}
+.names{display:grid;gap:10px;margin:8px 0}
+.namerow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.draw{stroke-dasharray:600;stroke-dashoffset:600;animation:draw 1s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.fade{animation:fade .7s ease both}
+@keyframes fade{from{opacity:0}}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse .7s ease 3}
+@keyframes pulse{50%{transform:scale(1.8)}}
+.turn,.turned{transform-box:view-box;transform-origin:150px 150px}
+.turn{animation:turn 1.6s ease .4s forwards}
+.turned{transform:rotate(90deg)}
+@keyframes turn{to{transform:rotate(90deg)}}
+@media (prefers-reduced-motion: reduce){.draw,.fade,.pulse,.turn{animation:none;stroke-dashoffset:0}.turn{transform:rotate(90deg)}}
+.flagbox{max-width:420px;margin:0 auto}
+/* Compact sizing for laptop / desktop screens */
+@media (min-width:760px){
+  html,body{font-size:16px}
+  h1{font-size:25px} h2{font-size:19px}
+  main{max-width:820px}
+  .card{padding:16px 20px;margin-bottom:12px}
+  .btn{min-height:40px;padding:7px 14px}
+  .btn.small{min-height:34px;padding:4px 10px;font-size:14px}
+  .opt{margin:6px 0}
+  .tab{min-height:36px;padding:5px 12px;font-size:15px}
+  .pick{min-width:44px;min-height:40px}
+  .swatch{width:34px;height:34px}
+  .nav{padding-top:7px;padding-bottom:7px}
+  .nav .btn{min-width:110px;font-size:16px}
+  .flagbox{max-width:300px}
+  .stage{max-width:290px}
+  .boards.two .stage{max-width:260px}
+  .figure,.demo .figure{max-width:260px}
+  .steptext{font-size:17px;min-height:2.6em}
+  .thumb svg{width:76px;height:52px}
+  .namerow svg{width:110px!important}
+  .fb{padding:8px 12px}
+  .say{font-size:13px;padding:3px 10px}
+  .howto{font-size:14px}
+}
+.slider{width:100%;max-width:420px;accent-color:var(--blue);height:36px}
+@media print{.top,.nav,.say,.noprint{display:none!important}main{padding:0}.card{box-shadow:none;border:1px solid #ccc}}
+
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-weight:800;line-height:1.05;margin:0 3px}
+.frac>span:first-child{border-bottom:2.5px solid currentColor;padding:0 3px}
+.frac.big{font-size:44px}
+.numr{color:#c0392b}.denr{color:#5b3fa6}
+.bigfrac{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.fraclabels{font-size:16px;display:grid;gap:4px}
+.fracin{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.fbox{width:58px!important;height:50px;font-size:26px!important;font-weight:800;text-align:center;padding:0!important}
+.fbar{display:block;width:66px;border-top:4px solid var(--ink)}
+.fracq .row{gap:14px}
+.live{text-align:center;font-weight:700}
+.tri{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:720px){.tri{grid-template-columns:1fr 1fr 1fr}}
+@media(min-width:760px){.fbox{height:44px;font-size:22px!important}.frac.big{font-size:38px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="top-inner">
+  <span class="lesson">Lesson 7-2</span>
+  <div class="bar"><i id="bar"></i></div>
+  <span class="stepnum" id="stepnum"></span>
+</div></div>
+<main id="main"></main>
+<div class="nav"><div class="nav-inner">
+  <button class="btn" id="back">◀ Back</button>
+  <button class="btn primary" id="next">Next ▶</button>
+</div></div>
+<script>
+"use strict";
+/* ---------------- storage ---------------- */
+const KEY = "lesson7-2-fractions-v1";
+let S = {page:0, items:{}, reflect:"", mindset:"", notice:""};
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function item(id){ return S.items[id] || (S.items[id] = {tries:0, hint:false, shown:false, done:false}); }
+
+/* ---------------- helpers ---------------- */
+const $ = (s, r=document) => r.querySelector(s);
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const k in attrs){
+    if (k === "class") e.className = attrs[k];
+    else if (k === "html") e.innerHTML = attrs[k];
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  for (const c of kids.flat()) if (c != null) e.append(c.nodeType ? c : document.createTextNode(c));
+  return e;
+}
+const NS = "http://www.w3.org/2000/svg";
+function s(tag, attrs={}, ...kids){
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs){
+    if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]);
+    else e.setAttribute(k, attrs[k]);
+  }
+  for (const c of kids.flat()) if (c != null) e.append(c.nodeType ? c : document.createTextNode(c));
+  return e;
+}
+const pts = a => a.map(p => p.join(",")).join(" ");
+const canSpeak = "speechSynthesis" in window;
+function say(t){
+  if (!canSpeak) return;
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.rate = .9; speechSynthesis.speak(u); } catch(e){}
+}
+function sayBtn(text){ return canSpeak ? h("button",{class:"say","aria-label":"Read to me",onclick:()=>say(text)},"🔊 Read") : null; }
+function confetti(){
+  const box = h("div",{class:"confetti"}); const cols=["#1f9d55","#1e6fd9","#e08a1e","#5b3fa6","#e4507a","#f2c230"];
+  for (let i=0;i<40;i++){ const c=h("i"); c.style.left=Math.random()*100+"vw"; c.style.background=cols[i%cols.length];
+    c.style.animationDelay=(Math.random()*.5)+"s"; box.append(c); }
+  document.body.append(box); setTimeout(()=>box.remove(), 2400);
+}
+function fb(el, kind, text){ el.className = "fb show " + kind; el.textContent = text; }
+const WORD = {2:"halves",3:"thirds",4:"fourths",6:"sixths",8:"eighths"};
+const PALE = ["#ffd0d0","#ffe3b0","#fff3a6","#cdf1c6","#bfe3ff","#d9cffd","#ffd1ec","#bff0ea","#f6dcc0","#d6e6c3","#e2d6f7","#c9e7f5"];
+
+/* ---------------- multiple choice ---------------- */
+function mc(id, options, onRight){
+  const it = item(id); const box = h("div"); const msg = h("div",{class:"fb"});
+  options.forEach((o,i) => {
+    const b = h("button",{class:"btn opt"+(it.done && o.ok ? " right":""),onclick:()=>{
+      if (it.done) return;
+      if (o.ok){ it.done = true; save(); b.classList.add("right"); fb(msg,"ok","⭐ "+(o.fb||"Yes!")); confetti(); onRight && onRight(); }
+      else { it.tries++; save(); b.classList.add("wrong"); fb(msg,"no",o.fb||"Not quite. Try again!"); }
+    }}, o.t);
+    box.append(b);
+  });
+  if (it.done){ const r = options.find(o=>o.ok); fb(msg,"ok","⭐ "+(r.fb||"Yes!")); }
+  box.append(msg); return box;
+}
+
+const STUDY_LINK = () => h("p",{class:"noprint"}, h("a",{class:"btn small",href:"../index.html#math?ch=7"},"‹ Back to Study Scoop, Chapter 7"));
+const PRINT_BTN = () => h("button",{class:"btn primary",onclick:()=>window.print()},"🖨 Print this page");
+const RESET_BTN = () => h("button",{class:"btn noprint",onclick:e=>{ const b=e.currentTarget; if (b.dataset.sure){ S={page:0,items:{},reflect:"",mindset:"",notice:""}; save(); go(0);} else { b.dataset.sure="1"; b.textContent="Tap again to erase everything"; } }},"Start over");
+/* ---------------- Teach Me: step-by-step lessons ---------------- */
+function pageIndex(name){ return pages.findIndex(p => p.pname === name); }
+function remember(text, teach){
+  return h("div",{class:"remember"}, h("b",{},"📘 Remember: "), text, " ",
+    teach ? h("button",{class:"btn small",onclick:()=>{ S.returnTo = S.page; save(); go(pageIndex(teach)); }},"▶ Watch the lesson again") : null);
+}
+function backToProblem(){
+  if (S.returnTo == null || S.returnTo <= S.page) return null;
+  return h("div",{class:"row",style:"margin-bottom:10px"}, h("button",{class:"btn go",onclick:()=>{ const r=S.returnTo; S.returnTo=null; save(); go(r); }},"↩ Back to the problem"));
+}
+let clipN = 0;
+const D = {
+  line:(L,a,b,n,col="#1b3a8a",w=5)=>L.line.append(s("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:col,"stroke-width":w,"stroke-linecap":"round",class:n?"draw":""})),
+  circle:(L,c,r)=>L.line.append(s("circle",{cx:c[0],cy:c[1],r,fill:"none",stroke:"#2b2b2b","stroke-width":4})),
+  poly:(L,P,fill,n)=>L.fill.append(s("polygon",{points:pts(P),fill,class:n?"fade":""})),
+  outline:(L,P)=>L.line.append(s("polygon",{points:pts(P),fill:"none",stroke:"#2b2b2b","stroke-width":4,"stroke-linejoin":"round"})),
+  path:(L,d,fill,n)=>L.fill.append(s("path",{d,fill,class:n?"fade":""})),
+  dot:(L,p,n)=>L.top.append(s("circle",{cx:p[0],cy:p[1],r:9,fill:"#1e6fd9",class:n?"pulse":""})),
+  text:(L,x,y,t,n,size=26,fill="#1f2a44")=>L.top.append(s("text",{x,y:y+size*.35,"text-anchor":"middle","font-size":size,"font-weight":800,fill,stroke:"#fff","stroke-width":5,"paint-order":"stroke",class:n?"fade":""},t))
+};
+function sector(c,r,a0,a1){ const p=a=>[c[0]+r*Math.cos(a*Math.PI/180), c[1]+r*Math.sin(a*Math.PI/180)];
+  const [x0,y0]=p(a0),[x1,y1]=p(a1); return `M${c[0]},${c[1]} L${x0},${y0} A${r},${r} 0 ${a1-a0>180?1:0} 1 ${x1},${y1} Z`; }
+function pizza(L, n, a0, newOnes){ // n equal slices of the demo circle, starting at angle a0
+  const C=[150,150], R=110;
+  for (let k=0;k<n;k++) D.path(L, sector(C,R,a0+360*k/n,a0+360*(k+1)/n), PALE[k], newOnes);
+  for (let k=0;k<n/2;k++){ const a=(a0+360*k/n)*Math.PI/180; D.line(L,[150+R*Math.cos(a),150+R*Math.sin(a)],[150-R*Math.cos(a),150-R*Math.sin(a)],false); }
+}
+function stepper(id, steps){
+  const it = item(id); let i = 0;
+  const svg = s("svg",{viewBox:"0 0 300 300",style:"width:100%;height:auto;display:block"});
+  const txt = h("div",{class:"steptext"}), cnt = h("span",{class:"stepcount"});
+  const prev = h("button",{class:"btn",onclick:()=>{ if(i>0){ i--; render(false); } }},"◀ Step back");
+  const next = h("button",{class:"btn primary",onclick:()=>{ if(i<steps.length-1){ i++; render(true); } }},"Next step ▶");
+  const again = h("button",{class:"btn",onclick:()=>{ i=0; render(true); }},"↻ Watch again");
+  const read = canSpeak ? h("button",{class:"say",onclick:()=>say(steps[i].text)},"🔊 Read") : null;
+  function render(speak){
+    let start = 0; for (let k=0;k<=i;k++) if (steps[k].reset) start = k;
+    const L = {defs:s("defs"), fill:s("g"), line:s("g"), top:s("g"), svg};
+    svg.replaceChildren(L.defs, L.fill, L.line, L.top);
+    for (let k=start;k<=i;k++) steps[k].draw && steps[k].draw(L, k===i);
+    txt.replaceChildren(h("b",{class:"steplabel"}, steps[i].label), " ", steps[i].text);
+    cnt.textContent = `Step ${i+1} of ${steps.length}`;
+    prev.disabled = i===0; next.hidden = i===steps.length-1; again.hidden = i!==steps.length-1;
+    if (i===steps.length-1 && !it.done){ it.done = true; save(); }
+    if (speak) say(steps[i].text);
+  }
+  render(false);
+  return h("div",{class:"demo"}, h("div",{class:"figure"},svg), txt, h("div",{class:"row",style:"justify-content:center"},prev,next,again,read), h("p",{class:"howto"},cnt));
+}
+const teachChip = () => h("span",{class:"chip c-teach"},"Teach Me");
+
+/* type-your-own explanation */
+function explainBox(id, o, onDone){
+  const it = item(id); it.text = it.text || "";
+  const ta = h("textarea",{id:"ta-"+id,placeholder:"Type your explanation here…",oninput:e=>{ it.text = e.target.value; save(); }}); ta.value = it.text;
+  const msg = h("div",{class:"fb"});
+  const starters = o.starters.map(s0=>h("button",{class:"btn small starter",onclick:()=>{
+    ta.value += (ta.value && !/\s$/.test(ta.value) ? " " : "") + s0.replace("…"," "); it.text = ta.value; save(); ta.focus(); }},s0));
+  const words = () => it.text.trim().split(/\s+/).filter(Boolean).length;
+  const done = h("button",{class:"btn go",onclick:()=>{
+    if (it.done) return;
+    if (words() < 5){ fb(msg,"no","Write a little more. Use a full sentence that tells WHY."); return; }
+    if (!o.keywords.test(it.text) && !it.nudged){ it.nudged = true; save(); fb(msg,"hint","💡 "+o.nudge+" You can add to your answer, or press the button again to keep it."); return; }
+    it.done = true; it.matched = o.keywords.test(it.text); save();
+    fb(msg,"ok", it.matched ? "⭐ "+o.praise : "Thanks for explaining! Now check your thinking below.");
+    ta.readOnly = true; done.hidden = true; onDone && onDone();
+  }},"✔ I'm done explaining");
+  if (it.done){ ta.readOnly = true; done.hidden = true; fb(msg,"ok", it.matched ? "⭐ "+o.praise : "Thanks for explaining! Now check your thinking below."); }
+  return h("div",{},
+    h("h2",{style:"margin-top:14px"}, o.prompt, sayBtn(o.prompt+" Type your explanation in your own words. If you need help starting, tap a sentence starter.")),
+    h("p",{class:"howto",style:"text-align:left"},"Use your own words. Need help starting? Tap a sentence starter:"),
+    h("div",{class:"row",style:"margin-bottom:8px"}, starters), ta,
+    h("div",{class:"row",style:"margin-top:10px"}, done), msg);
+}
+
+/* ================= Lesson 7-2: Understand Fractions ================= */
+const pages = [];
+const page = (fn, name) => { fn.pname = name; pages.push(fn); };
+const RCT = (x,y,w,hh)=>[[x,y],[x+w,y],[x+w,y+hh],[x,y+hh]];
+function centroid(P){ return [P.reduce((a,p)=>a+p[0],0)/P.length, P.reduce((a,p)=>a+p[1],0)/P.length]; }
+const reg = (n, R, a0, cx=150, cy=150) => Array.from({length:n},(_,k)=>{const a=(a0+360*k/n)*Math.PI/180; return [+(cx+R*Math.cos(a)).toFixed(2), +(cy+R*Math.sin(a)).toFixed(2)];});
+const GREEN = "#4caf50";
+
+/* ---- fraction figures: each part is {pts} (polygon) or {d} (path) with a label spot {c} ---- */
+const FIG = {
+  grid:(cols,rows,x=40,y=60,w=220,hh=180)=>{ const out=[]; for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ const P=RCT(x+w*c/cols,y+hh*r/rows,w/cols,hh/rows); out.push({pts:P,c:centroid(P)}); } return out; },
+  strips:(n,x=20,y=95,w=260,hh=110)=>FIG.grid(n,1,x,y,w,hh),
+  pie:(n,a0=-90,R=120)=>Array.from({length:n},(_,k)=>{ const a=a0+360*k/n, b=a0+360*(k+1)/n, m=(a+b)/2*Math.PI/180;
+      return {d:sector([150,150],R,a,b), c:[150+R*.6*Math.cos(m),150+R*.6*Math.sin(m)]}; }),
+  radial:(n,a0,R=125)=>{ const P=reg(n,R,a0); return P.map((p,k)=>{ const T=[[150,150],p,P[(k+1)%n]]; return {pts:T,c:centroid(T)}; }); },
+  tri3:()=>{ const A=[150,35],B=[30,250],C=[270,250],G=centroid([A,B,C]); return [[A,B],[B,C],[C,A]].map(([p,q])=>{ const T=[G,p,q]; return {pts:T,c:centroid(T)}; }); },
+  sq8:()=>{ const P=[[45,45],[255,45],[255,255],[45,255]], O=[150,150], out=[];
+    for(let i=0;i<4;i++){ const a=P[i], b=P[(i+1)%4], m=[(a[0]+b[0])/2,(a[1]+b[1])/2]; out.push({pts:[O,a,m],c:centroid([O,a,m])},{pts:[O,m,b],c:centroid([O,m,b])}); } return out; }
+};
+function fracSvg(parts, {shaded=[], fill=GREEN, tap, count=false, extra}={}){
+  const svg = s("svg",{viewBox:"0 0 300 300",style:"width:100%;height:auto;display:block"});
+  const labels = s("g",{"pointer-events":"none"}); let n = 0;
+  const els = parts.map((p,i) => {
+    const attrs = {fill: shaded.includes(i)?fill:"#fff", stroke:"#2b2b2b","stroke-width":3,"stroke-linejoin":"round"};
+    const e = p.d ? s("path",{d:p.d,...attrs}) : s("polygon",{points:pts(p.pts),...attrs});
+    if (tap || count){ e.style.cursor="pointer"; e.addEventListener("click",()=>{
+      if (tap) tap(i,e);
+      else if (!e.dataset.n){ e.dataset.n = ++n; labels.append(s("text",{x:p.c[0],y:p.c[1]+8,"text-anchor":"middle","font-size":22,"font-weight":800,fill:"#1f2a44",stroke:"#fff","stroke-width":4,"paint-order":"stroke"},String(n))); }
+    }); }
+    svg.append(e); return e;
+  });
+  if (extra) extra(svg);
+  svg.append(labels);
+  svg.resetCount = () => { n = 0; labels.replaceChildren(); els.forEach(e=>delete e.dataset.n); };
+  svg.els = els; return svg;
+}
+function countFigure(parts, opts={}){
+  const svg = fracSvg(parts,{...opts,count:true});
+  return h("div",{}, h("div",{class:"figure"},svg),
+    h("p",{class:"howto"},"Tap each part to count it."),
+    h("div",{class:"row",style:"justify-content:center"}, h("button",{class:"btn small",onclick:()=>svg.resetCount()},"Count again")));
+}
+const fracHTML = (n,d) => h("span",{class:"frac"}, h("span",{},String(n)), h("span",{},String(d)));
+
+/* ---- type a fraction ---- */
+function fracInput(id, ans, kind){
+  const it = item(id);
+  const mk = (lab) => h("input",{type:"text",inputmode:"numeric",maxlength:2,autocomplete:"off","aria-label":lab,class:"fbox"});
+  const top = mk("top number (numerator)"), bot = mk("bottom number (denominator)");
+  const msg = h("div",{class:"fb"});
+  const chk = h("button",{class:"btn go small",onclick:check},"✔ Check");
+  const win = () => `⭐ Yes! ${ans[0]}/${ans[1]}.`;
+  function check(){
+    if (it.done) return;
+    const n = parseInt(top.value,10), d = parseInt(bot.value,10);
+    if (isNaN(n) || isNaN(d)){ fb(msg,"no","Fill in both boxes: a top number and a bottom number."); return; }
+    if (n===ans[0] && d===ans[1]){ it.done=true; save(); fb(msg,"ok",win()); top.readOnly=bot.readOnly=true; chk.hidden=true; confetti(); say(`Yes! ${ans[0]} over ${ans[1]}.`); return; }
+    it.tries++; save();
+    let t;
+    if (n===ans[1] && d===ans[0]) t = "Flip it! The BOTTOM number counts all the equal parts. The TOP number counts the parts you are talking about.";
+    else if (d!==ans[1] && kind!=="unit" && d===ans[1]-ans[0]) t = "It looks like you counted only some of the parts for the bottom number. The bottom number counts ALL the equal parts, shaded and white.";
+    else if (d!==ans[1]) t = "Check the bottom number. Count ALL the equal parts in the whole.";
+    else if (kind==="unit") t = "A unit fraction always has 1 on top. It names ONE equal part.";
+    else if (kind==="unshaded") t = "Check the top number. Count only the WHITE (unshaded) parts.";
+    else t = "Check the top number. Count only the SHADED parts.";
+    fb(msg,"no",t);
+  }
+  if (it.done){ top.value=ans[0]; bot.value=ans[1]; top.readOnly=bot.readOnly=true; chk.hidden=true; fb(msg,"ok",win()); }
+  [top,bot].forEach(e=>e.addEventListener("keydown",ev=>{ if(ev.key==="Enter") check(); }));
+  return h("div",{class:"fracq"}, h("div",{class:"row"}, h("span",{class:"fracin"}, top, h("span",{class:"fbar"}), bot), chk), msg);
+}
+
+/* ---- shade parts to show a fraction ---- */
+function shadeIt(id, parts, ans){
+  const it = item(id); it.on = it.on || [];
+  const msg = h("div",{class:"fb"}); const live = h("p",{class:"live"});
+  const svg = fracSvg(parts,{shaded:it.on, tap:(i,e)=>{
+    if (it.done) return;
+    const k = it.on.indexOf(i); if (k>=0) it.on.splice(k,1); else it.on.push(i);
+    e.setAttribute("fill", it.on.includes(i)?GREEN:"#fff"); save(); upd(); msg.className="fb"; }});
+  function upd(){ live.replaceChildren(`You shaded ${it.on.length} of ${parts.length} parts: `, fracHTML(it.on.length, parts.length)); }
+  const chk = h("button",{class:"btn go small",onclick:()=>{
+    if (it.done) return;
+    const x = it.on.length;
+    if (x===ans[0]){ it.done=true; save(); fb(msg,"ok",`⭐ Yes! ${x} of ${ans[1]} equal parts are shaded. That shows ${ans[0]}/${ans[1]}.`); chk.hidden=true; confetti(); return; }
+    it.tries++; save();
+    fb(msg,"no", x<ans[0] ? `The top number is ${ans[0]}, so shade ${ans[0]} parts. You shaded ${x}. Shade more.` : `The top number is ${ans[0]}, so shade only ${ans[0]} parts. You shaded ${x}. Tap a part to un-shade it.`);
+  }},"✔ Check");
+  upd(); if (it.done){ chk.hidden=true; fb(msg,"ok",`⭐ Yes! That shows ${ans[0]}/${ans[1]}.`); }
+  return h("div",{}, h("div",{class:"figure"},svg), h("p",{class:"howto"},"Tap a part to shade it. Tap again to un-shade."), live, h("div",{class:"row",style:"justify-content:center"},chk), msg);
+}
+
+/* ---- one numbered problem card ---- */
+function problem(n, text, sayText, ...body){
+  return h("div",{class:"card"}, h("h2",{}, h("span",{class:"num"},n+"."), text, sayBtn(sayText||text)), ...body);
+}
+const twoCol = (a,b) => h("div",{class:"split"}, h("div",{},a), h("div",{},b));
+
+/* ================= pages ================= */
+/* Start */
+page(() => [h("div",{class:"card"},
+  h("span",{class:"chip c-learn"},"Chapter 7 · Fractions"),
+  h("h1",{},"Lesson 7-2: Understand Fractions"),
+  h("p",{},"Today you will learn what a ", h("b",{},"fraction")," is, and how to write one for part of a shape.",
+    sayBtn("Lesson 7 dash 2. Understand fractions. Today you will learn what a fraction is, and how to write one for part of a shape.")),
+  STUDY_LINK(),
+  h("div",{class:"keybox",style:"margin-top:18px"},"How it works: First, the orange Teach Me pages show you how, one step at a time. Then you try it yourself. Press 🔊 Read to hear any page. Press Next ▶ to go on."))]);
+
+/* Get Curious: the spinner */
+page(() => {
+  const COLS = ["#e53935","#1e88e5","#fdd835","#43a047","#1e88e5","#e53935","#43a047","#fdd835"];
+  const svg = s("svg",{viewBox:"0 0 300 300",style:"width:100%;max-width:300px;height:auto;display:block;margin:0 auto"});
+  FIG.pie(8,-90,125).forEach((p,k)=>svg.append(s("path",{d:p.d,fill:COLS[k],stroke:"#fff","stroke-width":4})));
+  svg.append(s("circle",{cx:150,cy:150,r:125,fill:"none",stroke:"#2b2b2b","stroke-width":4}),
+    s("polygon",{points:"150,150 143,70 150,55 157,70",fill:"#222"}), s("circle",{cx:150,cy:150,r:12,fill:"#222"}));
+  const ta = h("textarea",{id:"notice",placeholder:"I notice…",style:"min-height:80px",oninput:e=>{ S.notice=e.target.value; save(); }}); ta.value = S.notice||"";
+  return [h("div",{class:"card"},
+    h("span",{class:"chip c-curious"},"? Get Curious"),
+    h("h2",{},"Tell me everything you notice about this game spinner.", sayBtn("Get curious. Tell me everything you notice about this game spinner.")),
+    twoCol(h("div",{class:"wood",style:"background:#e9f3ff"}, svg),
+      h("div",{}, h("p",{class:"howto",style:"text-align:left"},"Type what you notice (you can skip this):"), ta))),
+   h("div",{class:"card"},
+    h("h2",{},"1) How many equal parts does the spinner have?", sayBtn("How many equal parts does the spinner have?")),
+    mc("cur-parts",[{t:"4 parts", fb:"Count every slice, all the way around."},{t:"6 parts", fb:"Count every slice, all the way around."},{t:"8 parts", ok:true, fb:"Yes! The spinner has 8 equal parts."}]),
+    h("h2",{style:"margin-top:16px"},"2) How many of those parts are blue?", sayBtn("How many of those parts are blue?")),
+    mc("cur-blue",[{t:"1 part", fb:"Look again. There is more than one blue part."},{t:"2 parts", ok:true, fb:"Yes! 2 of the 8 equal parts are blue. Today you will learn to write that as a fraction."},{t:"4 parts", fb:"Count only the blue parts."}]),
+    h("div",{class:"mathis"}, h("div",{class:"hd"},"Think about it"), h("div",{class:"bd"},"What helps you keep trying your best, even when work is hard?")))];
+});
+
+/* Learn: cornbread */
+page(() => {
+  const it = item("learn-cornbread"); it.on = it.on || [];
+  const parts = FIG.grid(4,2,30,70,240,160);
+  const big = h("div",{class:"bigfrac"}); const msg = h("div",{class:"fb"});
+  const svg = fracSvg(parts,{shaded:it.on, fill:"#f2c14e", tap:(i,e)=>{
+    const k = it.on.indexOf(i); if (k>=0) it.on.splice(k,1); else it.on.push(i);
+    e.setAttribute("fill", it.on.includes(i)?"#f2c14e":"#fff"); save(); upd(); },
+    extra:(g)=>{} });
+  parts.forEach(p=>svg.append(s("text",{x:p.c[0],y:p.c[1]+6,"text-anchor":"middle","font-size":15,"font-weight":800,fill:"#5b6478","pointer-events":"none"},"1/8")));
+  function upd(){
+    big.replaceChildren(h("span",{class:"frac big"}, h("span",{class:"numr"},String(it.on.length)), h("span",{class:"denr"},"8")),
+      h("div",{class:"fraclabels"}, h("div",{},h("b",{style:"color:#c0392b"},"numerator: "),`${it.on.length} pieces left (counted)`), h("div",{},h("b",{style:"color:#5b3fa6"},"denominator: "),"8 equal pieces in the whole pan")));
+    if (it.on.length===5){ if(!it.done){ it.done=true; save(); confetti(); } fb(msg,"ok","⭐ Yes! 5 of the 8 equal pieces are left. We write that as the fraction 5/8."); }
+    else msg.className="fb";
+  }
+  upd();
+  // denominator explorer
+  const sv = h("div",{style:"max-width:420px"}); const lab = h("p",{style:"font-weight:700"});
+  const sl = h("input",{id:"densl",type:"range",min:2,max:8,value:2,class:"slider","aria-label":"denominator",oninput:()=>drawEx()});
+  function drawEx(){ const k=+sl.value; const g=s("svg",{viewBox:"0 0 300 50",style:"width:100%;height:auto"});
+    g.append(s("rect",{x:10,y:5,width:280,height:40,fill:"#fff",stroke:"#2b2b2b","stroke-width":3}), s("rect",{x:10,y:5,width:280/k,height:40,fill:"#bfe3ff",stroke:"#2b2b2b","stroke-width":3}));
+    for (let i=1;i<k;i++) g.append(s("line",{x1:10+280*i/k,y1:5,x2:10+280*i/k,y2:45,stroke:"#2b2b2b","stroke-width":3}));
+    sv.replaceChildren(g); lab.replaceChildren("The blue part is ", fracHTML(1,k), ` of the bar. Denominator ${k}.`); }
+  drawEx();
+  return [h("div",{class:"card"},
+    h("span",{class:"chip c-learn"},"Learn"),
+    h("p",{},"Jada bakes a pan of cornbread and cuts it into 8 equal pieces. Her family eats some. Now 5 pieces are left.",
+      sayBtn("Jada bakes a pan of cornbread and cuts it into 8 equal pieces. Her family eats some. Now 5 pieces are left. How can you show how much of the cornbread is left?")),
+    h("h2",{},"How can you show how much of the cornbread is left?"),
+    h("p",{},"Each piece is one-eighth of the pan, written ", fracHTML(1,8), ". Tap the pieces to shade the ", h("b",{},"5 pieces that are left"), "."),
+    twoCol(h("div",{class:"figure"},svg), h("div",{}, big, msg))),
+   h("div",{class:"card"},
+    h("p",{},"A ", h("span",{class:"vocab"},"fraction")," is a number that names part of a whole."),
+    h("p",{},"The ", h("span",{class:"vocab"},"denominator")," is the bottom number. It tells how many ", h("b",{},"equal parts")," are in the whole."),
+    h("p",{},"The ", h("span",{class:"vocab"},"numerator")," is the top number. It tells how many of those parts you are ", h("b",{},"counting"),"."),
+    h("p",{},"A ", h("span",{class:"vocab"},"unit fraction")," names just ONE equal part, so its numerator is 1, like ", fracHTML(1,8), "."),
+    sayBtn("A fraction is a number that names part of a whole. The denominator is the bottom number. It tells how many equal parts are in the whole. The numerator is the top number. It tells how many of those parts you are counting. A unit fraction names just one equal part, so its numerator is 1."),
+    h("div",{class:"mathis"}, h("div",{class:"hd"},"Think about it"), h("div",{class:"bd"},"What happens to the size of each part when the denominator gets bigger? Why? ", h("i",{},"Slide to see."))),
+    sl, sv, lab)];
+});
+
+/* ---------- Teach Me ---------- */
+D.frac = (L,x,y,n,d,isNew,size=28,col="#1f2a44") => {
+  const g = s("g",{class:isNew?"fade":""});
+  g.append(s("text",{x,y:y-4,"text-anchor":"middle","font-size":size,"font-weight":800,fill:col,stroke:"#fff","stroke-width":4,"paint-order":"stroke"},String(n)),
+    s("line",{x1:x-size*.45,y1:y+2,x2:x+size*.45,y2:y+2,stroke:col,"stroke-width":3}),
+    s("text",{x,y:y+size*.95,"text-anchor":"middle","font-size":size,"font-weight":800,fill:col,stroke:"#fff","stroke-width":4,"paint-order":"stroke"},String(d)));
+  L.top.append(g);
+};
+const partsDraw = (L, parts, fills, n) => parts.forEach((p,k)=>{ const f=fills(k); if (!f) return;
+  if (p.d) D.path(L,p.d,f,n); else D.poly(L,p.pts,f,n); });
+const partsLines = (L, parts) => parts.forEach(p=>L.line.append(p.d ? s("path",{d:p.d,fill:"none",stroke:"#2b2b2b","stroke-width":3}) : s("polygon",{points:pts(p.pts),fill:"none",stroke:"#2b2b2b","stroke-width":3,"stroke-linejoin":"round"})));
+
+page(() => {
+  const P = FIG.strips(4,20,50,260,100);
+  const st = stepper("watch-fraction",[
+    {label:"The whole:", text:"This rectangle is one whole.", draw:L=>D.outline(L,RCT(20,50,260,100))},
+    {label:"Step 1:", text:"Partition it into 4 equal parts.", draw:(L,n)=>{ partsDraw(L,P,k=>PALE[k],n); partsLines(L,P); }},
+    {label:"Step 2:", text:"Each part is one fourth of the whole. We write one fourth as 1 over 4. It is called a unit fraction because the top number is 1.", draw:(L,n)=>P.forEach(p=>D.frac(L,p.c[0],p.c[1]-4,1,4,n,22))},
+    {label:"Step 3:", text:"Now 3 of the parts are shaded.", reset:true, draw:(L,n)=>{ partsDraw(L,P,k=>k<3?GREEN:"#fff",n); partsLines(L,P); }},
+    {label:"Step 4:", text:"The bottom number is the denominator. It tells how many equal parts are in the whole. There are 4.", draw:(L,n)=>{ D.frac(L,150,212,"?",4,n,34,"#5b3fa6"); D.text(L,240,245,"denominator",n,15,"#5b3fa6"); }},
+    {label:"Step 5:", text:"The top number is the numerator. It tells how many parts we are counting: 3 shaded parts. So 3 fourths of the rectangle is shaded.", reset:true, draw:(L,n)=>{
+      partsDraw(L,P,k=>k<3?GREEN:"#fff",false); partsLines(L,P); D.frac(L,150,212,3,4,n,34);
+      D.text(L,60,205,"numerator",n,15,"#c0392b"); D.text(L,240,245,"denominator",n,15,"#5b3fa6"); }}
+  ]);
+  return [h("div",{class:"card"}, backToProblem(), teachChip(), h("h2",{},"Watch me: the parts of a fraction"),
+    h("p",{},"Press ", h("b",{},"Next step ▶")," to watch one step at a time."), st),
+   h("div",{class:"card"}, h("h2",{},"Quick check: in the fraction 2/6, what does the 6 tell you?", sayBtn("Quick check. In the fraction 2 over 6, what does the 6 tell you?")),
+    mc("teach-parts",[{t:"6 parts are shaded.", fb:"The TOP number tells how many parts are counted. What does the BOTTOM number tell?"},
+      {t:"The whole has 6 equal parts.", ok:true, fb:"Yes! The denominator, 6, tells how many equal parts are in the whole."},
+      {t:"You count by 6s.", fb:"The 6 is the denominator. Watch Step 4 again."}]))];
+}, "teach-parts");
+
+page(() => {
+  const shapes = [
+    {n:2, parts:FIG.pie(2,-90,110), name:"halves"},
+    {n:3, parts:FIG.strips(3,30,90,240,120), name:"thirds"},
+    {n:4, parts:FIG.grid(2,2,50,40,200,200), name:"fourths"},
+    {n:6, parts:FIG.radial(6,0,120), name:"sixths"},
+    {n:8, parts:FIG.pie(8,-90,110), name:"eighths"}];
+  const steps = shapes.map(sh=>({label:`${sh.n} equal parts:`, reset:true,
+    text:`This whole has ${sh.n} equal parts, ${sh.name}. Each part is 1 over ${sh.n}.`,
+    draw:(L,n)=>{ partsDraw(L,sh.parts,k=>k===0?"#bfe3ff":"#fff",n); partsLines(L,sh.parts); D.frac(L,sh.parts[0].c[0],sh.parts[0].c[1]-6,1,sh.n,n,24); }}));
+  steps.push({label:"Remember:", reset:true, text:"A unit fraction has 1 on top. The bottom number is how many equal parts are in the whole.", draw:(L,n)=>{
+    [[2,"halves"],[3,"thirds"],[4,"fourths"],[6,"sixths"],[8,"eighths"]].forEach(([d,w],k)=>{ D.frac(L,40+55*k,120,1,d,n,28); D.text(L,40+55*k,190,w,n,12,"#5b3fa6"); }); }});
+  return [h("div",{class:"card"}, backToProblem(), teachChip(), h("h2",{},"Watch me: unit fractions"), stepper("watch-unit",steps)),
+   h("div",{class:"card"}, h("h2",{},"Quick check: a shape has 6 equal parts. What unit fraction is each part?", sayBtn("Quick check. A shape has 6 equal parts. What unit fraction is each part?")),
+    mc("teach-unit",[{t:"6/1", fb:"Flip it! The bottom number tells how many equal parts."},{t:"1/6", ok:true, fb:"Yes! 1 part out of 6 equal parts is 1/6."},{t:"1/5", fb:"Count again: the whole has 6 equal parts."}]))];
+}, "teach-unit");
+
+page(() => {
+  const P = FIG.radial(6,0,115); const SH=[0,1,2,3];
+  const nums = (L,n,idx) => idx.forEach((k,i)=>D.text(L,P[k].c[0],P[k].c[1],String(i+1),n,20));
+  const st = stepper("watch-write",[
+    {label:"The question:", text:"What fraction of this hexagon is shaded?", draw:(L,n)=>{ partsDraw(L,P,k=>SH.includes(k)?GREEN:"#fff",n); partsLines(L,P); }},
+    {label:"Step 1:", text:"Count ALL the equal parts: 1, 2, 3, 4, 5, 6. That is the bottom number, 6.", draw:(L,n)=>{ nums(L,n,[0,1,2,3,4,5]); D.frac(L,265,40,"?",6,n,24,"#5b3fa6"); }},
+    {label:"Step 2:", text:"Count only the SHADED parts: 1, 2, 3, 4. That is the top number, 4. So 4 sixths is shaded.", reset:true, draw:(L,n)=>{
+      partsDraw(L,P,k=>SH.includes(k)?GREEN:"#fff",false); partsLines(L,P); nums(L,n,SH); D.frac(L,265,40,4,6,n,24); }},
+    {label:"Step 3:", text:"What part is NOT shaded? Count the white parts: 1, 2. Same bottom number. So 2 sixths is not shaded.", reset:true, draw:(L,n)=>{
+      partsDraw(L,P,k=>SH.includes(k)?GREEN:"#fff",false); partsLines(L,P); nums(L,n,[4,5]); D.frac(L,265,40,2,6,n,24,"#c0392b"); }},
+    {label:"Step 4:", text:"4 sixths shaded and 2 sixths white make 6 sixths. That is the whole hexagon!", draw:(L,n)=>{ D.text(L,150,282,"4/6 + 2/6 = 6/6 = 1 whole",n,18); }}
+  ]);
+  return [h("div",{class:"card"}, backToProblem(), teachChip(), h("h2",{},"Watch me: write a fraction for a shaded part"), st),
+   h("div",{class:"card"}, h("h2",{},"Quick check: a square has 4 equal parts. 1 part is shaded. What fraction is NOT shaded?", sayBtn("Quick check. A square has 4 equal parts. 1 part is shaded. What fraction is not shaded?")),
+    mc("teach-write",[{t:"1/4", fb:"1/4 is the shaded part. Count the WHITE parts for the top number."},{t:"3/4", ok:true, fb:"Yes! 3 of the 4 equal parts are white, so 3/4 is not shaded."},{t:"3/1", fb:"The bottom number counts ALL the equal parts: 4."}]))];
+}, "teach-write");
+
+page(() => {
+  const ds=[2,3,4,6,8];
+  const bar = (L,k,n) => { const d=ds[k], y=20+k*52;
+    L.fill.append(s("rect",{x:70,y,width:210/d,height:36,fill:"#bfe3ff",class:n?"fade":""}));
+    for (let i=0;i<d;i++) L.line.append(s("rect",{x:70+210*i/d,y,width:210/d,height:36,fill:"none",stroke:"#2b2b2b","stroke-width":2.5}));
+    D.frac(L,35,y+16,1,d,n,17); };
+  const steps = ds.map((d,k)=>({label:`1/${d}:`, text:`Cut the same bar into ${d} equal parts. One part is 1 over ${d}.`, draw:(L,n)=>bar(L,k,n)}));
+  steps.push({label:"See it?", text:"The bottom number got bigger, so each part got SMALLER. More equal parts means smaller parts. So 1/2 is bigger than 1/8.", draw:(L,n)=>D.text(L,150,288,"bigger denominator → smaller parts",n,15,"#c0392b")});
+  return [h("div",{class:"card"}, backToProblem(), teachChip(), h("h2",{},"Watch me: bigger denominator, smaller parts"), stepper("watch-size",steps)),
+   h("div",{class:"card"}, h("h2",{},"Quick check: which part is bigger, 1/3 or 1/8 of the same bar?", sayBtn("Quick check. Which part is bigger, 1 third or 1 eighth of the same bar?")),
+    mc("teach-size",[{t:"1/3", ok:true, fb:"Yes! Thirds are bigger than eighths, because the bar is cut into fewer parts."},{t:"1/8", fb:"8 is a bigger number, but cutting into 8 parts makes each part SMALLER."},{t:"They are the same size.", fb:"Watch the bars again. Are the blue parts the same size?"}]))];
+}, "teach-size");
+
+page(() => {
+  const box = (L,n,filled) => { for (let i=0;i<4;i++){ const x=30+i*62;
+      L.fill.append(s("rect",{x,y:90,width:54,height:70,rx:6,fill:filled.includes(i)?"#ffd54f":"#37474f",class:n?"fade":""}));
+      if (filled.includes(i)) L.top.append(s("text",{x:x+27,y:133,"text-anchor":"middle","font-size":26},"🖍️")); } };
+  const H2 = FIG.strips(2,40,90,220,120), H4 = FIG.strips(4,40,90,220,120);
+  const st = stepper("watch-careful",[
+    {label:"Watch out!", text:"This box has 4 equal spaces. 1 space has crayons. Someone says 1/3 of the box has crayons, because there are 3 empty spaces.", draw:(L,n)=>{ box(L,n,[0]); D.text(L,150,210,"1/3 ?",n,26,"#c0392b"); }},
+    {label:"Count ALL:", text:"The bottom number counts ALL the equal spaces, full and empty. There are 4. So 1/4 of the box has crayons, not 1/3.", reset:true, draw:(L,n)=>{
+      box(L,false,[0]); [0,1,2,3].forEach(i=>D.text(L,57+i*62,72,String(i+1),n,20)); D.frac(L,150,205,1,4,n,30,"#1f9d55"); }},
+    {label:"Another name:", text:"Here, 1 out of 2 equal parts is shaded. That is 1/2.", reset:true, draw:(L,n)=>{ partsDraw(L,H2,k=>k===0?GREEN:"#fff",n); partsLines(L,H2); D.frac(L,150,240,1,2,n,28); }},
+    {label:"Another name:", text:"Now cut each half into 2 equal parts. 2 out of 4 parts are shaded: 2/4. It is the same amount! 1/2 and 2/4 name the same part of the whole.", reset:true, draw:(L,n)=>{
+      partsDraw(L,H4,k=>k<2?GREEN:"#fff",false); partsLines(L,H4); D.text(L,150,250,"1/2 = 2/4",n,26); }}
+  ]);
+  return [h("div",{class:"card"}, backToProblem(), teachChip(), h("h2",{},"Watch me: be careful counting"), st),
+   h("div",{class:"card"}, h("h2",{},"Quick check: a box has 6 equal spaces. 2 spaces have toys. What fraction of the box has toys?", sayBtn("Quick check. A box has 6 equal spaces. 2 spaces have toys. What fraction of the box has toys?")),
+    mc("teach-careful",[{t:"2/4", fb:"4 is the number of EMPTY spaces. The bottom number counts ALL the spaces."},{t:"2/6", ok:true, fb:"Yes! 2 of the 6 equal spaces have toys: 2/6."},{t:"6/2", fb:"Flip it! The bottom number counts all the equal spaces."}]))];
+}, "teach-careful");
+
+/* Try It Together */
+page(() => {
+  const P = FIG.strips(6,20,95,260,110);
+  const step3 = h("div",{style:item("wt-x").done?"":"display:none"});
+  const step2 = h("div",{style:item("wt-a").done?"":"display:none"},
+    explainBox("wt-x",{prompt:"Explain: why is it not 2/4?", starters:["It is not 2/4 because…","The whole has…","The bottom number counts…"],
+      keywords:/6|six|all (the )?parts|whole|bottom|denominator|sixths/i, nudge:"Think about the bottom number. How many equal parts are in the WHOLE rectangle?",
+      praise:"Great explaining! You talked about counting all the parts in the whole."}, ()=>{ step3.style.display=""; }), step3);
+  step3.append(h("h2",{style:"margin-top:14px"},"What fraction IS shaded?", sayBtn("What fraction is shaded? Type the top number and the bottom number.")), fracInput("wt-f",[2,6],"shaded"));
+  return [h("div",{class:"card"},
+    h("span",{class:"chip c-together"},"Try It Together"),
+    h("h2",{},"Ravi says the shaded part of this rectangle shows 2/4, because 2 parts are shaded and 4 parts are white. Do you agree? Explain.",
+      sayBtn("Try it together. Ravi says the shaded part of this rectangle shows 2 fourths, because 2 parts are shaded and 4 parts are white. Do you agree? Explain.")),
+    twoCol(mc("wt-a",[{t:"I agree with Ravi.", fb:"Count ALL the equal parts in the rectangle. Is that 4?"},{t:"I do NOT agree with Ravi.", ok:true, fb:"Right! Now explain why in your own words."}],()=>{ step2.style.display=""; }),
+      countFigure(P,{shaded:[0,1]})),
+    remember("The bottom number counts ALL the equal parts, shaded and white.", "teach-careful"), step2)];
+});
+
+/* On Your Own */
+const OWN_HEAD = () => [h("span",{class:"chip c-own"},"On Your Own")];
+page(() => [h("div",{class:"card"}, ...OWN_HEAD(), h("p",{style:"font-weight:700"},"What unit fraction is each part of the figure?", sayBtn("What unit fraction is each part of the figure? Type the top number and the bottom number.")),
+    remember("A unit fraction has 1 on top. The bottom number is how many equal parts.", "teach-unit")),
+  problem(1,"Each part is…","Number 1. What unit fraction is each part?", twoCol(countFigure(FIG.pie(4,-90)), fracInput("own-1",[1,4],"unit"))),
+  problem(2,"Each part is…","Number 2. What unit fraction is each part?", twoCol(countFigure(FIG.strips(6)), fracInput("own-2",[1,6],"unit")))]);
+const SHADED = [
+  {n:3, parts:FIG.grid(3,2), sh:[0,1,3,4], ans:[4,6]},
+  {n:4, parts:FIG.radial(8,22.5), sh:[0,1,2,5,6], ans:[5,8]},
+  {n:5, parts:FIG.pie(2,-90), sh:[1], ans:[1,2]},
+  {n:6, parts:FIG.tri3(), sh:[0,1], ans:[2,3]}];
+[[0,1],[2,3]].forEach(pair => page(() => [h("div",{class:"card"}, ...OWN_HEAD(), h("p",{style:"font-weight:700"},"What fraction is shown by the shaded part of the figure?", sayBtn("What fraction is shown by the shaded part of the figure?")),
+    remember("Bottom: count ALL the equal parts. Top: count the SHADED parts.", "teach-write")),
+  ...pair.map(k=>{ const q=SHADED[k]; return problem(q.n,"What fraction is shaded?",`Number ${q.n}. What fraction is shaded?`, twoCol(countFigure(q.parts,{shaded:q.sh}), fracInput("own-"+q.n,q.ans,"shaded"))); })]));
+
+page(() => {
+  const figs = [{parts:FIG.grid(2,2,50,50,200,200), sh:[0,1,2], a:[3,4]},{parts:FIG.strips(6), sh:[0], a:[1,6]},{parts:FIG.pie(8,-90), sh:[0,1,2,3,4], a:[5,8]}];
+  return [h("div",{class:"card"}, ...OWN_HEAD(), h("h2",{},h("span",{class:"num"},"7."),"For each figure, what fraction is shaded? What fraction is NOT shaded?",
+      sayBtn("Number 7. For each figure, what fraction is shaded? What fraction is not shaded?")),
+    remember("Shaded and white use the SAME bottom number. Only the top number changes.", "teach-write"),
+    h("div",{class:"tri"}, figs.map((f,k)=>h("div",{class:"board"}, h("div",{class:"figure",style:"max-width:200px"}, fracSvg(f.parts,{shaded:f.sh})),
+      h("p",{style:"font-weight:700;margin:8px 0 4px"},"Shaded:"), fracInput(`own-7${"abc"[k]}s`,f.a,"shaded"),
+      h("p",{style:"font-weight:700;margin:8px 0 4px"},"Not shaded:"), fracInput(`own-7${"abc"[k]}u`,[f.a[1]-f.a[0],f.a[1]],"unshaded")))))];
+});
+
+page(() => {
+  const P = FIG.grid(4,2,30,70,240,160); const planted=[0,1,4];
+  return [h("div",{class:"card"}, ...OWN_HEAD(),
+    h("h2",{},h("span",{class:"num"},"8."),"Tasha's garden bed has 8 equal sections. The green sections are planted. The brown sections are not planted yet.",
+      sayBtn("Number 8. Tasha's garden bed has 8 equal sections. The green sections are planted. The brown sections are not planted yet.")),
+    twoCol(h("div",{},
+      h("p",{style:"font-weight:700"},"a. What fraction of the garden is planted?"), fracInput("own-8a",[3,8],"shaded"),
+      h("p",{style:"font-weight:700;margin-top:14px"},"b. What fraction is NOT planted?"), fracInput("own-8b",[5,8],"unshaded")),
+      countFigure(P,{shaded:planted, fill:"#43a047"})),
+    remember("Bottom: ALL the equal sections. Top: only the sections you are asked about.", "teach-write"))];
+});
+
+page(() => {
+  const P = FIG.grid(3,2,40,80,220,150); const full=[0,2,4,5];
+  const step3 = h("div",{style:item("own-9x").done?"":"display:none"});
+  const step2 = h("div",{style:item("own-9a").done?"":"display:none"},
+    explainBox("own-9x",{prompt:"Explain: why don't you agree with Owen?", starters:["I do not agree because…","The bottom number should be…","There are 6…"],
+      keywords:/6|six|all|whole|bottom|denominator|sixths|4\/6/i, nudge:"Think about the bottom number. How many equal spaces are in the WHOLE box?",
+      praise:"Great explaining! You talked about counting all the spaces."}, ()=>{ step3.style.display=""; }), step3);
+  step3.append(h("h2",{style:"margin-top:14px"},"What fraction of the box has markers?", sayBtn("What fraction of the box has markers?")), fracInput("own-9f",[4,6],"shaded"));
+  const extra = (svg)=>full.forEach(k=>{ const c=P[k].c; svg.append(s("rect",{x:c[0]-22,y:c[1]-8,width:44,height:16,rx:6,fill:["#e53935","#1e88e5","#fdd835","#8e24aa"][full.indexOf(k)],"pointer-events":"none"})); });
+  return [h("div",{class:"card"}, ...OWN_HEAD(),
+    h("h2",{},h("span",{class:"num"},"9."),h("span",{style:"color:var(--blue)"},"Find the Mistake")," Owen's pencil box has 6 equal spaces. 4 spaces have markers. Owen says 4/2 of the box has markers. Do you agree? Explain.",
+      sayBtn("Number 9. Find the mistake. Owen's pencil box has 6 equal spaces. 4 spaces have markers. Owen says 4 halves of the box has markers. Do you agree? Explain.")),
+    twoCol(mc("own-9a",[{t:"I agree with Owen.", fb:"Count ALL the spaces in the box. What should the bottom number be?"},{t:"I do NOT agree with Owen.", ok:true, fb:"Right! Now explain why in your own words."}],()=>{ step2.style.display=""; }),
+      h("div",{}, h("div",{class:"figure"}, fracSvg(P,{fill:"#455a64",extra})))),
+    remember("The bottom number counts ALL the equal spaces, full and empty.", "teach-careful"), step2)];
+});
+
+page(() => [h("div",{class:"card"}, ...OWN_HEAD(), h("p",{style:"font-weight:700"},"Shade equal parts to show the fraction.", sayBtn("Shade equal parts to show the fraction. Tap a part to shade it.")),
+    remember("The top number tells how many parts to shade.", "teach-parts")),
+  problem(10, h("span",{},"Shade ", fracHTML(3,4)), "Number 10. Shade 3 fourths.", shadeIt("own-10", FIG.strips(4), [3,4])),
+  problem(11, h("span",{},"Shade ", fracHTML(4,6)), "Number 11. Shade 4 sixths.", shadeIt("own-11", FIG.radial(6,0), [4,6])),
+  problem(12, h("span",{},"Shade ", fracHTML(5,8)), "Number 12. Shade 5 eighths.", shadeIt("own-12", FIG.sq8(), [5,8]))]);
+
+page(() => {
+  const L = [[20,90],[150,90],[150,210],[20,210]], R = RCT(150,90,130,120);
+  const thirds = [0,1,2].map(i=>({pts:RCT(20+130*i/3,90,130/3,120)}));
+  const svg = s("svg",{viewBox:"0 0 300 300",style:"width:100%;height:auto;display:block"});
+  thirds.forEach(p=>svg.append(s("polygon",{points:pts(p.pts),fill:GREEN,stroke:"#2b2b2b","stroke-width":3})));
+  svg.append(s("polygon",{points:pts(R),fill:"#fff",stroke:"#2b2b2b","stroke-width":3}), s("polygon",{points:pts([[20,90],[280,90],[280,210],[20,210]]),fill:"none",stroke:"#2b2b2b","stroke-width":4}));
+  const it = item("own-13m"); it.pick = it.pick || [];
+  const OPTS = [["1/2",true],["3/4",false],["3/6",true],["1/3",false]];
+  const msg = h("div",{class:"fb"});
+  const picks = h("div",{class:"row"}, OPTS.map(([t]) => { const b = h("button",{class:"pick"+(it.pick.includes(t)?" on":""),onclick:()=>{
+      if (it.done) return; const k=it.pick.indexOf(t); if(k>=0) it.pick.splice(k,1); else it.pick.push(t); b.classList.toggle("on"); save(); }},t); return b; }));
+  const chk = h("button",{class:"btn go small",onclick:()=>{
+    if (it.done) return;
+    const right = OPTS.filter(o=>o[1]).map(o=>o[0]);
+    const wrong = it.pick.filter(t=>!right.includes(t)), missing = right.filter(t=>!it.pick.includes(t));
+    if (!wrong.length && !missing.length){ it.done=true; save(); chk.hidden=true; fb(msg,"ok","⭐ Yes! The shaded part is 1/2 of the rectangle (1 of 2 halves), and also 3/6 (if you cut the white half into 3 parts too, there are 6 equal parts and 3 are shaded)."); confetti(); return; }
+    it.tries++; save();
+    fb(msg,"no", wrong.length ? `${wrong.join(" and ")} does not match. Think: what part of the WHOLE rectangle is shaded?` : "You found one! There is one more fraction that also works. Imagine cutting the white half into equal parts too.");
+  }},"✔ Check");
+  if (it.done){ chk.hidden=true; fb(msg,"ok","⭐ Yes! 1/2 and 3/6 both name the shaded part."); }
+  const step2 = h("div",{style:item("own-13x").done?"":"display:none"}, h("h2",{style:"margin-top:14px"},"Pick ALL the fractions that name the shaded part.", sayBtn("Pick all the fractions that name the shaded part. Then press check.")), picks, h("div",{class:"row",style:"margin-top:10px"},chk), msg);
+  return [h("div",{class:"card"}, ...OWN_HEAD(),
+    h("h2",{},h("span",{class:"num"},"13."),h("span",{style:"color:var(--blue)"},"Stretch Your Thinking")," What fractions can name the shaded part of this rectangle? Explain.",
+      sayBtn("Number 13. Stretch your thinking. What fractions can name the shaded part of this rectangle? Explain.")),
+    twoCol(h("div",{}, explainBox("own-13x",{prompt:"First, explain what you see.", starters:["The shaded part is…","The rectangle has…","If I cut the white part…"],
+        keywords:/half|1\/2|halves|3\/6|sixths|6|two (equal )?parts|2 (equal )?parts/i, nudge:"Look at the whole rectangle. What part of it is shaded? Could you cut the white part the same way?",
+        praise:"Great thinking! You described how the shaded part fits in the whole."}, ()=>{ step2.style.display=""; })),
+      h("div",{class:"figure"},svg)),
+    remember("The same amount can have more than one name, like 1/2 = 2/4.", "teach-careful"), step2)];
+});
+
+/* Reflect */
+page(() => {
+  const ta = h("textarea",{id:"reflect",placeholder:"Type your answer here…",oninput:e=>{S.reflect=e.target.value; save();}}); ta.value = S.reflect;
+  const ta2 = h("textarea",{id:"mindset",placeholder:"Type your answer here…",style:"min-height:80px",oninput:e=>{S.mindset=e.target.value; save();}}); ta2.value = S.mindset;
+  const starters = ["A fraction names…","The bottom number tells…","The top number tells…"].map(t=>h("button",{class:"btn small starter",onclick:()=>{ ta.value += (ta.value && !/\s$/.test(ta.value)?" ":"") + t.replace("…"," "); S.reflect=ta.value; save(); ta.focus(); }},t));
+  return [h("div",{class:"card"},
+    h("span",{class:"chip c-reflect"},"Reflect"),
+    h("h2",{},"How would you explain what a fraction like 3/4 means to a friend?", sayBtn("Reflect. How would you explain what a fraction like 3 fourths means to a friend? Write your answer in your own words.")),
+    h("p",{class:"howto",style:"text-align:left"},"Need help starting? Tap a sentence starter:"),
+    h("div",{class:"row",style:"margin-bottom:8px"}, starters), ta,
+    h("div",{class:"mathis",style:"max-width:none"}, h("div",{class:"hd"},"Think about it"),
+      h("div",{class:"bd"}, h("p",{style:"margin-top:0"},"What helped you keep trying your best today?", sayBtn("Think about it. What helped you keep trying your best today?")), ta2)))];
+});
+
+/* Report */
+const REPORT = [
+  ["cur-parts","Get Curious: how many equal parts?"],["cur-blue","Get Curious: how many are blue?"],["learn-cornbread","Learn: shade the cornbread"],
+  ["teach-parts","Teach Me: parts of a fraction (check)"],["teach-unit","Teach Me: unit fractions (check)"],["teach-write","Teach Me: write a fraction (check)"],
+  ["teach-size","Teach Me: bigger denominator (check)"],["teach-careful","Teach Me: be careful counting (check)"],
+  ["wt-a","Together: agree with Ravi?"],["wt-x","Together: wrote own explanation"],["wt-f","Together: write the fraction"],
+  ["own-1","1. unit fraction"],["own-2","2. unit fraction"],["own-3","3. shaded fraction"],["own-4","4. shaded fraction"],["own-5","5. shaded fraction"],["own-6","6. shaded fraction"],
+  ["own-7as","7. square: shaded"],["own-7au","7. square: not shaded"],["own-7bs","7. bar: shaded"],["own-7bu","7. bar: not shaded"],["own-7cs","7. circle: shaded"],["own-7cu","7. circle: not shaded"],
+  ["own-8a","8a. planted"],["own-8b","8b. not planted"],["own-9a","9. Owen: agree?"],["own-9x","9. Owen: wrote own explanation"],["own-9f","9. Owen: correct fraction"],
+  ["own-10","10. shade 3/4"],["own-11","11. shade 4/6"],["own-12","12. shade 5/8"],["own-13x","13. wrote own explanation"],["own-13m","13. pick all the fractions"]
+];
+page(() => {
+  let done=0, first=0;
+  const rows = REPORT.map(([id,label])=>{
+    const it = S.items[id] || {tries:0}; const tags=[];
+    if (!it.done) tags.push(h("span",{class:"tag t-todo"},"not finished"));
+    else { done++; if (!it.tries && !it.hint && !it.shown){ first++; tags.push(h("span",{class:"tag t-first"},"✓ first try")); }
+           else tags.push(h("span",{class:"tag t-tries"},`✓ after ${it.tries+1} tries`)); }
+    return h("tr",{}, h("td",{},label), h("td",{},tags));
+  });
+  const txt = (id) => (S.items[id]||{}).text || "(no answer)";
+  return [h("div",{class:"card"},
+    h("span",{class:"chip c-done"},"All done!"),
+    h("h1",{},"Great work! 🎉"),
+    h("p",{},`You finished ${done} of ${REPORT.length} questions. ${first} on the first try.`),
+    h("div",{class:"row noprint"}, PRINT_BTN(), RESET_BTN(), STUDY_LINK())),
+   h("div",{class:"card"},
+    h("h2",{},"Report for a grown-up"),
+    h("p",{class:"howto",style:"text-align:left"},`Lesson 7-2 · ${new Date().toLocaleDateString()}`),
+    h("table",{class:"rep"}, h("tr",{},h("th",{},"Question"),h("th",{},"Result")), rows),
+    h("h2",{style:"margin-top:18px"},"Together (Ravi): his explanation"), h("p",{style:"white-space:pre-wrap"}, txt("wt-x")),
+    h("h2",{},"#9 Owen: his explanation"), h("p",{style:"white-space:pre-wrap"}, txt("own-9x")),
+    h("h2",{},"#13: his explanation"), h("p",{style:"white-space:pre-wrap"}, txt("own-13x")),
+    h("h2",{},"What he noticed (Get Curious)"), h("p",{style:"white-space:pre-wrap"}, S.notice || "(no answer)"),
+    h("h2",{},"Reflect"), h("p",{style:"white-space:pre-wrap"}, S.reflect || "(no answer)"),
+    h("h2",{},"Think about it"), h("p",{style:"white-space:pre-wrap"}, S.mindset || "(no answer)"))];
+});
+/* ---------------- navigation ---------------- */
+function go(i){
+  if (canSpeak) try{ speechSynthesis.cancel(); }catch(e){}
+  S.page = Math.max(0, Math.min(pages.length-1, i)); save();
+  $("#main").replaceChildren(...pages[S.page]());
+  $("#bar").style.width = (100*S.page/(pages.length-1))+"%";
+  $("#stepnum").textContent = `Page ${S.page+1} of ${pages.length}`;
+  $("#back").disabled = S.page===0;
+  $("#next").textContent = S.page===pages.length-2 ? "Finish ▶" : "Next ▶";
+  $("#next").style.visibility = S.page===pages.length-1 ? "hidden" : "visible";
+  window.scrollTo(0,0);
+}
+$("#back").onclick = () => go(S.page-1);
+$("#next").onclick = () => go(S.page+1);
+go(S.page || 0);
+</script>
+</body>
+</html>

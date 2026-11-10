@@ -107,9 +107,28 @@ function chapterPage(ctx, id) {
         </a></li>`)}
       </ul>
     </section>
+    ${id === 7 ? interactiveChapter7() : ''}
     ${misses ? html`<p class="hint menu-foot">You have ${misses} question${misses === 1 ? '' : 's'} to practice again: open Vocabulary Practice or Practice Problems, then Practice My Misses.</p>` : ''}
     ${id === 6 ? html`<p class="hint menu-foot">For the class test on Tuesday, Nov 3 (Area, Square Unit and Multiply), take the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a> in Tests.</p>` : ''}
     <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a>${first ? html`<a class="btn btn-primary" href="${ctx.actLink('math', first.act.id)}">Start: ${first.label} ›</a>` : html`<span></span>`}</div>`;
+}
+
+/** Interactive Chapter 7 (D29): stand-alone lesson pages, one card per lesson. */
+export const INTERACTIVE_7 = [
+  { id: '7-1', title: 'Lesson 7-1: Equal Parts', about: 'Watch how to cut shapes into equal parts, then draw the lines yourself.' },
+  { id: '7-2', title: 'Lesson 7-2: Understand Fractions', about: 'Learn the numerator and denominator, then name and shade fractions.' },
+];
+function interactiveChapter7() {
+  return html`<section class="menu" aria-labelledby="h-interactive7"><h2 id="h-interactive7" class="ask">Interactive Chapter 7</h2>
+      <p class="hint">Teach Me pages show each step, then you try it. Your answers stay on this device.</p>
+      <ul class="menu-grid subject-math count-${INTERACTIVE_7.length}">
+        ${INTERACTIVE_7.map((l) => html`<li><a class="menu-card" href="interactive/${l.id}.html" data-interactive="${l.id}">
+          <span class="mc-icon">${ICONS.steps}</span>
+          <span class="mc-text"><span class="mc-title">${l.title}</span><span class="mc-about">${l.about}</span></span>
+          <span class="mc-go" aria-hidden="true">›</span>
+        </a></li>`)}
+      </ul>
+    </section>`;
 }
 
 /** Chapter 6 > Learn Vocabulary. */
