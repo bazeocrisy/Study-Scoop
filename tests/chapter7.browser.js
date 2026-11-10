@@ -23,8 +23,11 @@ const assertLayout=async label=>{
 try{
  await b.viewport(390,844);
  await route('#math?ch=7&week=2026-11-02');
- const menu=await b.js('return [...document.querySelectorAll(".menu-card")].map(e=>({href:e.getAttribute("href"),text:e.innerText}));');
+ const menu=await b.js('return [...document.querySelectorAll(".menu-card[data-role]")].map(e=>({href:e.getAttribute("href"),text:e.innerText}));');
  expect(menu.length===6,'Chapter 7 has six role cards');
+ // Interactive Chapter 7 (D29): one extra card per stand-alone lesson page.
+ const inter=await b.js('return [...document.querySelectorAll(".menu-card[data-interactive]")].map(e=>e.getAttribute("href"));');
+ expect(JSON.stringify(inter)===JSON.stringify(['interactive/7-1.html','interactive/7-2.html']),'Chapter 7 shows the Interactive Chapter 7 lesson cards');
  for(const word of ['Vocabulary','Lessons','Practice','Guide','Test'])expect(menu.some(c=>c.text.includes(word)),`Chapter 7 role ${word}`);
  expect(menu.every(c=>!/[?&](?:ch=[56]|lesson=[56]-|act=(?:ch[56]|area|props|split|breakapart))/.test(c.href)),'Chapter 7 menu contains only its chapter');
  for(const l of lessons)for(const stage of ['learn','watch','together','try','test','parent']){

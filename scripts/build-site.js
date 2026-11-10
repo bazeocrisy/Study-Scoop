@@ -23,6 +23,8 @@ export const ALLOW = [
   /^labs\/\d{4}-\d{2}-\d{2}-(?:spelling|vocab)\.html$/,
   // Stand-alone games (D28).
   /^games\/multiplication-mastery-8\.html$/,
+  // Interactive Chapter 7 lessons, stand-alone pages linked from Math > Chapter 7 (D29).
+  /^interactive\/7-[1-7]\.html$/,
   /^css\/[a-z0-9-]+\.css$/,
   /^js\/(?:(?:lib|views)\/)?[a-z0-9-]+\.js$/,
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
@@ -41,7 +43,7 @@ export const ALLOW = [
   /^fonts\/[a-z0-9-]+\.woff2$/,
 ];
 /** Where the build looks. Nothing outside these is ever read. */
-const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games'];
+const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games', 'interactive'];
 /** Runtime files the site cannot work without. */
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
 /** Named so a check proves they are absent (the allowlist already excludes them). */
@@ -125,7 +127,7 @@ export function verifySite(dir) {
   if (problems.length && !has('index.html')) return problems;
 
   // Follow every reference from index.html; each must exist, be relative, and stay inside the site.
-  const entrypoints = ['index.html', ...files.filter((f) => /^(?:labs|games)\//.test(f) && f.endsWith('.html'))];
+  const entrypoints = ['index.html', ...files.filter((f) => /^(?:labs|games|interactive)\//.test(f) && f.endsWith('.html'))];
   const used = new Set(entrypoints);
   const queue = [...entrypoints];
   while (queue.length) {

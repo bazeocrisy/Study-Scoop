@@ -56,10 +56,12 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
     // Original newsletter flyers (D26): only the pages a listed week names in its privacy-reviewed "flyer".
     ...weeks.flatMap((f) => { const w = JSON.parse(fs.readFileSync(path.join(REPO, f), 'utf8')); return [...Object.values(w.labs || {}), ...[w.flyer, w.homeworkPapers].flatMap((papers) => papers?.reviewed ? papers.pages.map((pg) => pg.src) : [])]; }),
     // Stand-alone game (D28).
-    'games/multiplication-mastery-8.html'];
+    'games/multiplication-mastery-8.html',
+    // Interactive Chapter 7 lessons (D29).
+    'interactive/7-1.html', 'interactive/7-2.html'];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
-  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'fonts', 'games', 'images', 'index.html', 'js', 'labs']);
+  assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'fonts', 'games', 'images', 'index.html', 'interactive', 'js', 'labs']);
 });
 
 test('a flyer image is published only when a listed week names it in a reviewed "flyer"; raw newsletter photos never (D26)', () => {
@@ -83,7 +85,7 @@ test('a flyer image is published only when a listed week names it in a reviewed 
 
 test('a draft lesson (not listed) is left out, and a broken lesson fails verification', () => {
   const src = tmp('lesson-src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games', 'interactive']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   put(src, 'data/lessons/9-9.json', '{"id":"9-9"}');
   const out = tmp('lesson-out');
   const result = buildSite(out, src);
@@ -113,7 +115,7 @@ test('development files are absent from the built site, not merely unlinked', ()
 
 test('the build leaves out anything not on the allowlist, even inside approved folders', () => {
   const src = tmp('src');
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games', 'interactive']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   for (const rel of ['reference/vocabulary-prototype.html', 'tests/browser.test.js', 'docs/notes.md', 'images/newsletters/2026-10-12.jpg',
     'images/words/scan.png', 'js/notes.md', 'js/.secret.js', 'css/draft.css.bak', 'data/2099-11-02.json', 'data/notes.json',
     'images/mockup.svg']) put(src, rel);
@@ -173,7 +175,7 @@ test('the verifier checks the weekly data and its pictures', () => {
 
 test('a draft practice test (not listed) is left out, and a wrong answer key fails verification', () => {
   const src = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-src-'));
-  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
+  for (const s of ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games', 'interactive']) fs.cpSync(path.join(REPO, s), path.join(src, s), { recursive: true });
   put(src, 'data/tests/2026-10-12.json', '{"id":"2026-10-12"}');
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-out-'));
   const result = buildSite(out, src);

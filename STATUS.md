@@ -6,6 +6,8 @@ Chapter 7 is under a stronger teaching-quality review. The original technically 
 
 Chapter 7 fractions is implemented on the chapter feature branch for preview review: seven lessons, validated area/set/number-line models, exact fraction entry policies, chapter-owned vocabulary/practice/guide/test, and independent specialist checks. See `docs/CHAPTER-7-BUILD.md` for scope, verification and release status. The November 9 week recommends Chapter 7; the selected current week and concurrent weekly labs are preserved. Production requires owner approval of the completed preview.
 
+Interactive Chapter 7 (D29, on `feature/interactive-chapter-7`): Math > Chapter 7 has an "Interactive Chapter 7" section with cards for stand-alone lessons 7-1 (Equal Parts) and 7-2 (Understand Fractions): animated Teach Me steps with read-aloud, checked drawing, fraction entry and shading, typed explanations and a report for a grown-up. Original problems only. Awaiting owner review on the preview.
+
 Earlier milestones:
 Chapter-first Math (D26): Math opens on Choose Your Chapter; Chapter 5 and Chapter 6 each have Learn Vocabulary, Vocabulary Practice, Math Lessons, Practice Problems, Study Guide and Chapter Test, loading only their own content. This Week recommends the week's chapter (Oct 26–30: Chapter 6; Oct 12–23: Chapter 5) with shortcuts. The Newsletter shows the privacy-reviewed Oct 26–30 flyer (zoom, print); Oct 12 and Oct 19 flyers were never supplied and show as unavailable. Reusable workflows: `.claude/skills/build-chapter`, `.claude/skills/update-week`, `.claude/agents`.
 
