@@ -1,6 +1,6 @@
 // The homework packet page (DECISIONS D23): every page of Study Scoop's version of this week's homework, in order,
 // like the paper packet. Each question has Check, a reason when it is wrong, and Help one step at a time.
-import { fractionFigure, drawingTools, fluencyTracker, fluencyStatus } from './packet-tools.js';
+import { fractionFigure, fractionNumberLine, drawingTools, fluencyTracker, fluencyStatus } from './packet-tools.js';
 import { html } from '../lib/html.js';
 import { passageLines } from '../lib/homework.js';
 import { itemCard, readButton } from './lesson.js';
@@ -36,10 +36,13 @@ export function packetPage(ctx, run) {
       </p>
     </div>
     <p class="print-only name-line">Name ____________________________ &nbsp; Date ______________ &nbsp; <span class="small">${ctx.week.label} · Study Scoop's version of the homework</span></p>
-    ${pages.map((pg, k) => html`
+    ${pages.map((pg, k) => {
+      const classPassage = pg.subject === 'Reading' && ctx.week.homeworkPapers?.pages.find((paper) => paper.activity === 'fluency');
+      return html`
       <section class="packet-page" aria-labelledby="pg-${pg.id}">
         <h2 id="pg-${pg.id}" class="packet-title"><span class="pg-num">Page ${k + 1}</span> ${pg.title}</h2>
         ${pg.directions ? html`<p class="directions"><strong>Directions:</strong> ${pg.directions}${pg.problems.length ? html`<span class="no-print"> Press Check Answer after each one.</span>` : ''}</p>` : ''}
+        ${classPassage ? html`<p class="no-print"><a class="action" href="${classPassage.src}" target="_blank" rel="noopener">Open the class reading passage</a></p>` : ''}
         ${pg.fluency ? fluencyTracker(run) : ''}
         ${pg.passage ? (pg.fluency ? html`<details><summary>Open the optional original practice passage</summary>${passage(pg.passage, true)}</details>` : passage(pg.passage)) : ''}
         ${run.act !== 'packet' && pg.problems.length ? html`<div class="btn-row no-print"><button type="button" class="btn" data-hw-nav="-1"${!(run.pi||0)?' disabled':''}>Previous</button><span>Step ${(run.pi||0)+1} of ${pg.problems.length+(pg.drawing?1:0)}</span><button type="button" class="btn" data-hw-nav="1"${(run.pi||0)>=pg.problems.length+(pg.drawing?0:-1)?' disabled':''}>Next</button></div>` : ''}
@@ -48,11 +51,11 @@ export function packetPage(ctx, run) {
             <li class="problem${run.act !== 'packet' && pr.n !== (run.pi||0)+1?' hw-offscreen':''}" id="${pg.id}-${pr.n}">
               <h3 class="pnum">${pg.passage ? 'Question' : 'Problem'} ${pr.n}</h3>
               ${pr.story ? html`<div class="story card"><p>${pr.story}</p>${readButton(pr.story, 'the problem')}</div><div class="print-only show-work">Show your work</div>` : ''}
-              ${pr.items.map((it) => html`${it.fraction ? fractionFigure(it.fraction) : ''}${view(byId.get(it.id))}`)}
+              ${pr.items.map((it) => html`${it.fraction ? fractionFigure(it.fraction) : ''}${it.fractionLine ? fractionNumberLine(it.fractionLine) : ''}${view(byId.get(it.id))}`)}
             </li>`)}
         </ol>
         ${pg.drawing ? html`<div class="${run.act !== 'packet' && (run.pi||0)!==pg.problems.length?'hw-offscreen':''}">${drawingTools(run)}</div>` : ''}
-      </section>`)}
+      </section>`; })}
     <div class="card packet-progress" aria-live="off">
       <h2>How you are doing</h2>
       ${run.act === 'fluency' ? html`<p data-fluency-summary>${fluencyStatus(run)}</p>` : html`<p><strong>${finished} of ${run.items.length}</strong> questions done · ${answered} answered · ${firstTry} of ${scored.length} right on the first try (written answers are compared with an example, not scored)</p>`}

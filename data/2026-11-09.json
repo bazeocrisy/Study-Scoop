@@ -61,10 +61,52 @@
   ],
   "homework": [
     {
-      "title": "Weekly homework packet",
+      "title": "Fractions on a Number Line — Greater Than 1",
+      "subject": "Math",
       "due": "Friday, Nov 13",
-      "source": "newsletter",
-      "status": "Sent home each Monday according to the newsletter; this week’s packet has not been uploaded."
+      "source": "received",
+      "status": "Class paper received. Open the activity or use the original paper below.",
+      "practice": {
+        "section": "homework",
+        "act": "fractions",
+        "label": "Open activity"
+      }
+    },
+    {
+      "title": "Fractions — Missing Fractions on a Number Line",
+      "subject": "Math",
+      "due": "Friday, Nov 13",
+      "source": "received",
+      "status": "Class paper received. Open the activity or use the original paper below.",
+      "practice": {
+        "section": "homework",
+        "act": "parts",
+        "label": "Open activity"
+      }
+    },
+    {
+      "title": "Cherries: Good to Eat and Good for You Too!",
+      "subject": "Reading",
+      "due": "Friday, Nov 13",
+      "source": "received",
+      "status": "Class paper received. Open the activity or use the original paper below.",
+      "practice": {
+        "section": "homework",
+        "act": "fluency",
+        "label": "Open activity"
+      }
+    },
+    {
+      "title": "Cherries — Comprehension Questions",
+      "subject": "Reading",
+      "due": "Friday, Nov 13",
+      "source": "received",
+      "status": "Class paper received. Open the activity or use the original paper below.",
+      "practice": {
+        "section": "homework",
+        "act": "comprehension",
+        "label": "Open activity"
+      }
     },
     {
       "title": "Reading Log",
@@ -313,5 +355,40 @@
     "spelling": "labs/2026-11-09-spelling.html",
     "vocab": "labs/2026-11-09-vocab.html"
   },
-  "mathChapter": 7
+  "mathChapter": 7,
+  "homeworkPapers": {
+    "reviewed": "2026-11-09",
+    "note": "Four source photographs reviewed against the supplied cleaned PDF. Page crops were redone from the originals to preserve visible text, diagrams, handwritten directions and publisher credits.",
+    "pages": [
+      {
+        "src": "images/homework/2026-11-09-greater-than-one.webp",
+        "label": "Fractions on a Number Line — Greater Than 1",
+        "alt": "Six number lines, including the handwritten 4/3 example.",
+        "width": 1200,
+        "height": 1553
+      },
+      {
+        "src": "images/homework/2026-11-09-cherries-fluency.webp",
+        "label": "Cherries: Good to Eat and Good for You Too!",
+        "alt": "Parent copy with cumulative word counts and a three-read score chart.",
+        "width": 1200,
+        "height": 1553,
+        "activity": "fluency"
+      },
+      {
+        "src": "images/homework/2026-11-09-cherries-comprehension.webp",
+        "label": "Cherries — Comprehension Questions",
+        "alt": "Two questions with writing lines and directions to answer in complete sentences.",
+        "width": 1200,
+        "height": 1553
+      },
+      {
+        "src": "images/homework/2026-11-09-missing-fraction.webp",
+        "label": "Fractions — Missing Fractions on a Number Line",
+        "alt": "Six number lines from 0 to 1 with one missing fraction on each line.",
+        "width": 1200,
+        "height": 1553
+      }
+    ]
+  }
 }

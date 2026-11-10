@@ -53,6 +53,7 @@ try {
  await b.initScript('window.print=()=>{window.__homeworkPrinted=true;};');
  await b.load(base+'#homework?week=2026-11-02');
  await b.clickAt('.homework-papers [data-act=print]');
+ await b.waitFor('window.__homeworkPrinted===true');
  expect(await b.js('return window.__homeworkPrinted===true;'),'Print the homework calls print');
  await b.js('await Promise.all([...document.querySelectorAll(".homework-papers img")].map(im=>{im.loading="eager";return im.decode();}));');
  const printed=await b.send('Page.printToPDF',{paperWidth:8.5,paperHeight:11,printBackground:true,displayHeaderFooter:false});
