@@ -91,7 +91,15 @@ function newRun(ctx, section, act) {
   else if (section === 'math') { run.items = mathItems(ctx.practice, act, rand); run.unavailable = !ctx.practice; }
   else if (section === 'skills') run.items = SKILL_SETS[act].make(rand);
   // The homework packet: every page at once, in order (not shuffled), like the paper packet.
-  else if (section === 'homework') { run.items = packetItems(ctx.packet).filter((it) => act === 'packet' || it.page === act); run.packet = true; run.unavailable = !ctx.packet || (act !== 'packet' && !ctx.packet.pages.some((pg) => pg.id === act)); }
+  else if (section === 'homework') {
+    const pages = ctx.packet?.pages || [];
+    const page = pages.find((pg) => pg.id === act);
+    run.items = packetItems(ctx.packet).filter((it) => act === 'packet' || it.page === act);
+    run.packet = true;
+    run.packetFluency = pages.find((pg) => pg.fluency)?.fluency;
+    run.unavailable = !ctx.packet || (act !== 'packet' && !page);
+    run.title = page?.title || run.title;
+  }
   else if (section === 'vocab') run.items = shuffleRounds(vocabItems(ctx.week, act, rand), rand);
   else run.items = shuffleRounds(spellingItems(ctx.week, act), rand);
   return run;

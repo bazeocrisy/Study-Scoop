@@ -69,7 +69,8 @@ try{
    }
   }
   await b.clickAt('.lab-return a');await b.ready();
-  expect(await b.js(`return location.hash==='#${subject}?week=${id}';`),'returns to exact week');
+  // The site drops "?week=" when the week is the current one, so accept either address and check the week shown.
+  expect(await b.js(`return (location.hash==='#${subject}?week=${id}'||location.hash==='#${subject}')&&document.querySelector('#weekSelect').value==='${id}';`),'returns to exact week');
  }
  // The canonical Learn My Words view uses the same week-scoped picture registry.
  await b.load(base+`#spelling?week=${id}&act=learn`);

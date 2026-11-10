@@ -1,0 +1,516 @@
+{
+  "week": "2026-11-09",
+  "title": "Homework: November 9–13",
+  "about": "Work through the four class assignments with Study Scoop. Open or print the original papers from the Homework gallery. Use Save my work to keep your answers before leaving.",
+  "pages": [
+    {
+      "id": "fractions",
+      "title": "Fractions on a Number Line — Greater Than 1",
+      "subject": "Math",
+      "directions": "Use the example on the class paper first. Count the equal spaces in one whole and the steps to X. Keep the denominator shown by the line.",
+      "problems": [
+        {
+          "n": 1,
+          "items": [
+            {
+              "id": "g1",
+              "type": "blanks",
+              "prompt": "What improper fraction is marked by X?",
+              "fractionLine": {
+                "n": 4,
+                "d": 3,
+                "wholes": 2,
+                "labelParts": false
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 4,
+                "b": 3
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 3 equal parts, and the marked tick is 4 steps from zero.",
+                "Write 4/3."
+              ],
+              "yes": "Yes! The marked fraction is 4/3.",
+              "explain": "There are 3 equal steps per whole and 4 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "items": [
+            {
+              "id": "g2",
+              "type": "blanks",
+              "prompt": "What improper fraction is marked by X?",
+              "fractionLine": {
+                "n": 6,
+                "d": 4,
+                "wholes": 2,
+                "labelParts": false
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 6,
+                "b": 4
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 4 equal parts, and the marked tick is 6 steps from zero.",
+                "Write 6/4."
+              ],
+              "yes": "Yes! The marked fraction is 6/4.",
+              "explain": "There are 4 equal steps per whole and 6 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "items": [
+            {
+              "id": "g3",
+              "type": "blanks",
+              "prompt": "What improper fraction is marked by X?",
+              "fractionLine": {
+                "n": 5,
+                "d": 2,
+                "wholes": 3,
+                "labelParts": false
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 5,
+                "b": 2
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 2 equal parts, and the marked tick is 5 steps from zero.",
+                "Write 5/2."
+              ],
+              "yes": "Yes! The marked fraction is 5/2.",
+              "explain": "There are 2 equal steps per whole and 5 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "items": [
+            {
+              "id": "g4",
+              "type": "blanks",
+              "prompt": "What improper fraction is marked by X?",
+              "fractionLine": {
+                "n": 8,
+                "d": 5,
+                "wholes": 2,
+                "labelParts": false
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 8,
+                "b": 5
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 5 equal parts, and the marked tick is 8 steps from zero.",
+                "Write 8/5."
+              ],
+              "yes": "Yes! The marked fraction is 8/5.",
+              "explain": "There are 5 equal steps per whole and 8 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "items": [
+            {
+              "id": "g5",
+              "type": "blanks",
+              "prompt": "What improper fraction is marked by X?",
+              "fractionLine": {
+                "n": 9,
+                "d": 5,
+                "wholes": 2,
+                "labelParts": false
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 9,
+                "b": 5
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 5 equal parts, and the marked tick is 9 steps from zero.",
+                "Write 9/5."
+              ],
+              "yes": "Yes! The marked fraction is 9/5.",
+              "explain": "There are 5 equal steps per whole and 9 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "items": [
+            {
+              "id": "g6",
+              "type": "blanks",
+              "prompt": "What improper fraction is marked by X?",
+              "fractionLine": {
+                "n": 5,
+                "d": 3,
+                "wholes": 2,
+                "labelParts": false
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 5,
+                "b": 3
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 3 equal parts, and the marked tick is 5 steps from zero.",
+                "Write 5/3."
+              ],
+              "yes": "Yes! The marked fraction is 5/3.",
+              "explain": "There are 3 equal steps per whole and 5 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fluency",
+      "title": "Cherries: Good to Eat and Good for You Too!",
+      "subject": "Reading",
+      "directions": "Open the class passage and read aloud three times. A grown-up records words read right and errors. Follow the teacher’s timing directions.",
+      "problems": [],
+      "fluency": {
+        "title": "Cherries: Good to Eat and Good for You Too!",
+        "words": 175
+      }
+    },
+    {
+      "id": "comprehension",
+      "title": "Cherries — Comprehension Questions",
+      "subject": "Reading",
+      "directions": "Read the class cherries passage. Restate each question and answer in a complete sentence. Review the meaning with a grown-up.",
+      "problems": [
+        {
+          "n": 1,
+          "items": [
+            {
+              "id": "c1",
+              "type": "sentence",
+              "prompt": "What do you think the word versatile means?",
+              "example": "Versatile means that something can be used in many different ways.",
+              "keywords": [
+                "versatile",
+                "ways"
+              ],
+              "minKeywords": 0,
+              "minWords": 5,
+              "hints": [
+                "Restate the question in a complete sentence.",
+                "Look for the different ways people use cherries."
+              ],
+              "show": [
+                "Compare your response with this example.",
+                "Versatile means that something can be used in many different ways."
+              ],
+              "yes": "Compare your answer with a grown-up.",
+              "explain": "A grown-up checks your meaning and the details you used from the passage."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "items": [
+            {
+              "id": "c2",
+              "type": "sentence",
+              "prompt": "What are some of the health benefits of tart cherries?",
+              "example": "According to the passage, tart cherries contain vitamin A and are believed to help relieve the pain of gout and arthritis.",
+              "keywords": [
+                "cherries",
+                "vitamin"
+              ],
+              "minKeywords": 0,
+              "minWords": 5,
+              "hints": [
+                "Restate the question in a complete sentence.",
+                "Find the sentences about tart cherries and health benefits."
+              ],
+              "show": [
+                "Compare your response with this example.",
+                "According to the passage, tart cherries contain vitamin A and are believed to help relieve the pain of gout and arthritis."
+              ],
+              "yes": "Compare your answer with a grown-up.",
+              "explain": "A grown-up checks your meaning and the details you used from the passage."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parts",
+      "title": "Fractions — Missing Fractions on a Number Line",
+      "subject": "Math",
+      "directions": "Label the missing fraction. Count the equal spaces from 0 to 1 and keep the denominator shown by the number line.",
+      "problems": [
+        {
+          "n": 1,
+          "items": [
+            {
+              "id": "m1",
+              "type": "blanks",
+              "prompt": "What fraction belongs in the box?",
+              "fractionLine": {
+                "n": 2,
+                "d": 3,
+                "wholes": 1,
+                "labelParts": true
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 3
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 3 equal parts, and the marked tick is 2 steps from zero.",
+                "Write 2/3."
+              ],
+              "yes": "Yes! The marked fraction is 2/3.",
+              "explain": "There are 3 equal steps per whole and 2 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 2,
+          "items": [
+            {
+              "id": "m2",
+              "type": "blanks",
+              "prompt": "What fraction belongs in the box?",
+              "fractionLine": {
+                "n": 2,
+                "d": 6,
+                "wholes": 1,
+                "labelParts": true
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 2,
+                "b": 6
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 6 equal parts, and the marked tick is 2 steps from zero.",
+                "Write 2/6."
+              ],
+              "yes": "Yes! The marked fraction is 2/6.",
+              "explain": "There are 6 equal steps per whole and 2 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 3,
+          "items": [
+            {
+              "id": "m3",
+              "type": "blanks",
+              "prompt": "What fraction belongs in the box?",
+              "fractionLine": {
+                "n": 1,
+                "d": 2,
+                "wholes": 1,
+                "labelParts": true
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 2
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 2 equal parts, and the marked tick is 1 steps from zero.",
+                "Write 1/2."
+              ],
+              "yes": "Yes! The marked fraction is 1/2.",
+              "explain": "There are 2 equal steps per whole and 1 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 4,
+          "items": [
+            {
+              "id": "m4",
+              "type": "blanks",
+              "prompt": "What fraction belongs in the box?",
+              "fractionLine": {
+                "n": 4,
+                "d": 5,
+                "wholes": 1,
+                "labelParts": true
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 4,
+                "b": 5
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 5 equal parts, and the marked tick is 4 steps from zero.",
+                "Write 4/5."
+              ],
+              "yes": "Yes! The marked fraction is 4/5.",
+              "explain": "There are 5 equal steps per whole and 4 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 5,
+          "items": [
+            {
+              "id": "m5",
+              "type": "blanks",
+              "prompt": "What fraction belongs in the box?",
+              "fractionLine": {
+                "n": 1,
+                "d": 4,
+                "wholes": 1,
+                "labelParts": true
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 1,
+                "b": 4
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 4 equal parts, and the marked tick is 1 steps from zero.",
+                "Write 1/4."
+              ],
+              "yes": "Yes! The marked fraction is 1/4.",
+              "explain": "There are 4 equal steps per whole and 1 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        },
+        {
+          "n": 6,
+          "items": [
+            {
+              "id": "m6",
+              "type": "blanks",
+              "prompt": "What fraction belongs in the box?",
+              "fractionLine": {
+                "n": 5,
+                "d": 8,
+                "wholes": 1,
+                "labelParts": true
+              },
+              "text": [
+                "Numerator: [a]",
+                "Denominator: [b]"
+              ],
+              "answer": {
+                "a": 5,
+                "b": 8
+              },
+              "hints": [
+                "Count the equal spaces from 0 to 1 for the denominator.",
+                "Start at 0 and count the spaces up to the marked tick for the numerator."
+              ],
+              "show": [
+                "Each whole has 8 equal parts, and the marked tick is 5 steps from zero.",
+                "Write 5/8."
+              ],
+              "yes": "Yes! The marked fraction is 5/8.",
+              "explain": "There are 8 equal steps per whole and 5 steps from 0 to the marked tick.",
+              "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
