@@ -1350,3 +1350,6 @@ ol.rd-key { list-style: decimal; padding-left: 1.4em; }
 .tabs { justify-content: flex-start; gap: .5rem; }
 .path-head.section-head { min-height: 0; padding-bottom: 2rem; }
 .path-card h2, .path-card h3 { color: inherit; }
+
+.path-controls { display: flex; flex-wrap: wrap; gap: .75rem; margin: 0 0 1.25rem; }
+@media print { .path-controls { display: none !important; } }

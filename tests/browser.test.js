@@ -120,10 +120,9 @@ async function main() {
       eq(await b.js('return location.hash;'), '', 'hash untouched on first load');
       eq(b.errors, [], 'console errors');
     });
-    await check('navigation contains the two paths and existing activity links', async () => {
-      const labels = await b.js('return [...document.querySelectorAll("nav.tabs a")].map((a) => a.textContent.trim());');
-      eq(labels, ['Home','Extra Learning','Schoolwork', ...SECTIONS.slice(1).map(s=>s[0]==='reading'?'Reading':s[1])], 'nav labels');
-      eq(await b.js('return document.querySelector("nav.tabs").getAttribute("aria-label");'), 'Learning paths', 'nav label');
+    await check('Home offers two cards without a competing top menu', async () => {
+      eq(await b.js('return document.querySelectorAll("nav.tabs").length;'), 0, 'no tab row');
+      eq(await b.js('return [...document.querySelectorAll(".home-paths [data-path]")].map(a=>a.dataset.path);'), ['week','extra'], 'two paths');
     });
     await check('Oct 19–23 This Week counts down to each test from Friday, Oct 16', async () => {
       await b.load(url(H19('#week')));
@@ -159,7 +158,7 @@ async function main() {
       await check(`#${id} shows ${label} with the right tab marked`, async () => {
         await b.load(url(`#${id}`));
         eq(await b.js('return document.querySelector("#app h1").textContent;'), label, 'h1');
-        eq(await b.js('return [...document.querySelectorAll("nav.tabs a[aria-current=page]")].map((a) => a.dataset.tab);'), [id], 'aria-current');
+        eq(await b.js('return [document.body.dataset.section, document.querySelectorAll("nav.tabs").length];'), [id, 0], 'section opens without competing tabs');
         eq(await b.js('return document.title;'), `${label === 'Reading Practice' ? 'Reading' : label} · Study Scoop`, 'title');
       });
     }
@@ -168,7 +167,7 @@ async function main() {
       eq(await b.js('return document.querySelector(".intro").textContent;'), "This week's pattern: -ed words (15 words)", 'pattern');
       eq(await b.js('return document.getElementById("weekSelect").value;'), '2026-10-12', 'picker');
       expect(await b.js('return !!document.querySelector(".notice");'), 'earlier-week notice shown');
-      eq(await b.js('return document.querySelector("nav.tabs a[data-tab=vocab]").getAttribute("href");'), '#vocab?week=2026-10-12', 'nav keeps week');
+      eq(await b.js('return document.querySelector(".path-controls a").getAttribute("href");'), '#home?week=2026-10-12', 'Home keeps week');
     });
     await check('unknown section or week falls back safely and fixes the address', async () => {
       await b.load(url('#nope'));
@@ -260,22 +259,22 @@ async function main() {
     });
 
     console.log('Keyboard and accessibility');
-    await check('Tab order follows the visible Schoolwork navigation', async () => {
-      await b.load(url('#week'));
-      // fresh load: focus starts at the top of the page
+    await check('Tab order reaches the two Home cards without any subject tabs', async () => {
+      await b.load(url('#home'));
       const order = [];
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 5; i++) {
         await b.key('Tab');
-        order.push(await b.js('const e = document.activeElement; return e.id || e.dataset.tab || e.className || e.tagName;'));
+        order.push(await b.js('const e=document.activeElement; return e.id || e.dataset.path || e.className || e.tagName;'));
       }
-      eq(order, ['skip', 'brand', 'weekSelect', 'home','extra','week','spelling','vocab','math','homework','newsletter','tests'], 'focus order');
+      eq(order, ['skip','brand','weekSelect','week','extra'], 'focus order');
     });
     await check('keyboard focus is clearly visible', async () => {
       const o = await b.js('const s = getComputedStyle(document.activeElement); return [s.outlineStyle, parseFloat(s.outlineWidth)];');
       expect(o[0] !== 'none' && o[1] >= 2, `outline ${o}`);
     });
     await check('Enter on a section link opens it and moves focus to the content', async () => {
-      await b.js('document.querySelector("nav.tabs a[data-tab=spelling]").focus();');
+      await b.load(url('#week'));
+      await b.js('document.querySelector(".path-grid a[href*=spelling]").focus();');
       const before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.key('Enter');
       await b.ready(before);
@@ -362,7 +361,7 @@ async function main() {
       await b.media('print');
       await helpers(b);
       const r = await b.js(`
-        const hidden = ['.drips', 'nav.tabs', '.weekpick', '.foot', '.bar-btns', '.crumbs', '.stage-nav'].every((s) => getComputedStyle(document.querySelector(s)).display === 'none');
+        const hidden = ['.drips', '.path-controls', '.weekpick', '.foot', '.bar-btns', '.crumbs', '.stage-nav'].every((s) => !document.querySelector(s) || getComputedStyle(document.querySelector(s)).display === 'none');
         const fills = [...document.querySelectorAll('body *')].filter((el) => {
           const c = __t.parse(getComputedStyle(el).backgroundColor); const r = el.getBoundingClientRect();
           return c && c.a > 0.1 && r.width * r.height > 5000 && __t.lum(c) < 0.85 && !el.closest('.pic');
@@ -503,7 +502,7 @@ async function main() {
       eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent, document.title];'),
         ['#math?lesson=5-1&stage=learn', L51.title, `Learn It · Lesson 5-1: ${L51.title} · Study Scoop`], 'unknown stage');
       eq(await b.js('return [...document.querySelectorAll(".stepper a[aria-current=step]")].map((a) => a.textContent.trim());'), ['1 Learn It'], 'stepper');
-      eq(await b.js('return document.querySelector("nav.tabs a[aria-current=page]").dataset.tab;'), 'math', 'Math tab stays marked');
+      eq(await b.js('return document.body.dataset.section;'), 'math', 'Math section stays active');
     });
     await check('keyboard: type a wrong answer and press Enter, then fix it (Learn It, Ready? question)', async () => {
       await b.load(url(lessonHash('5-1', 'learn')));
@@ -1241,7 +1240,7 @@ async function main() {
       const NAME = { spelling: 'Spelling', vocab: 'Vocabulary', math: 'Math' };
       for (const [subject, labels] of Object.entries(MENUS)) {
         await b.load(url('#week'));
-        await b.js(`document.querySelector('nav.tabs a[data-tab="${subject}"]').click();`);
+        await b.js(`location.hash=${JSON.stringify("#"+subject)};`);
         await b.waitFor(`location.hash === "#${subject}" && document.querySelector("#app h1")?.textContent === ${JSON.stringify(NAME[subject])}`);
         eq(await b.js('return [document.querySelector(".ask").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim())];'),
           [ASK[subject], labels], subject + ' menu');
@@ -1368,19 +1367,19 @@ async function main() {
       eq(await b.js('const d = document.getElementById("leave-dialog"); return [!!d?.open, document.activeElement.textContent, location.hash];'), [true, 'Keep working', '#tests?test=vocab'], 'asks first');
       await b.js('document.querySelector("[data-choice=stay]").click();');
       eq(await b.js('return [!!document.getElementById("leave-dialog"), location.hash];'), [false, '#tests?test=vocab'], 'Keep working stays');
-      await b.js('document.querySelector("nav.tabs a[data-tab=math]").click();');
+      await b.js('document.querySelector(".crumbs a[href*=week]").click();');
       // Wait for the Math page to finish rendering before going back, or the next hash change can race it.
       const ready = await b.js('return document.getElementById("app").dataset.ready || "";');
       await b.js('document.querySelector("[data-choice=go]").click();');
       await b.ready(ready);
-      eq(await b.js('return location.hash;'), '#math', 'Leave goes to Math');
+      eq(await b.js('return location.hash;'), '#week', 'Leave goes to Schoolwork');
       await b.hash('#tests?test=vocab');
       eq(await b.js('return document.querySelector("#act-stage input[name=choice]:checked")?.value;'), String(solution(first).choice), 'the answer is kept');
     });
     await check('Test Center: three practice tests this week; an earlier week shows only the tests that exist', async () => {
       await b.viewport(1366, 768, false);
       await b.load(url(H19('#week')));
-      await go('nav.tabs a[data-tab=tests]');
+      await go('.path-grid a[href^="#tests"]');
       expect(await b.js('const actions=[...document.querySelectorAll(".test-card a.btn")].slice(0,2).map(a=>a.getBoundingClientRect());return actions.length===2 && actions.every(r=>r.bottom<=innerHeight) && Math.abs(actions[0].top-actions[1].top)<2;'), 'first-row Start test buttons align and remain on the first screen at 1366 x 768');
       await b.viewport(1366, 900, false);
       await b.load(url(H19('#tests')));
