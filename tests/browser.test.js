@@ -1376,7 +1376,7 @@ async function main() {
       expect((await b.js('return document.querySelector(".test-vocab").textContent;')).includes('purple words'), 'vocabulary coverage names the missing purple words');
       await b.hash('#tests?week=2026-10-12');
       eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [!!c.querySelector("a.btn"), !!c.querySelector(".unavailable")]);'),
-        [[false, true], [true, false], [false, true], [true, false]], 'Oct 12: the spelling test and the Math Vocabulary test (not tied to a week) can start');
+        [[true, false], [false, true]], 'Oct 12: only the listed spelling and vocabulary tests appear; vocabulary awaits its questions');
       await b.hash('#tests?week=2026-10-12&test=math');
       eq(await b.js('return location.hash;'), '#tests?week=2026-10-12', 'a test that does not exist goes back to the Test Center');
     });
@@ -1656,8 +1656,7 @@ async function main() {
     await check('Oct 26 Test Center: the Chapter 6 Practice Test, spelling, green-word vocabulary and the Nov 3 Math Vocabulary test', async () => {
       await b.load(url('#tests'));
       eq(await b.js('return [...document.querySelectorAll(".test-card")].map((c) => [c.querySelector("h3").textContent, c.querySelector(".topic")?.textContent, c.querySelector(".facts div:first-child dt").textContent, c.querySelector(".facts div:first-child dd").textContent, c.querySelector(".facts div:last-child dd").textContent, !!c.querySelector("a.btn")]);'),
-        [['Chapter 6 Practice Test', 'Chapter 6: Connect Area and Multiplication', 'Review of', 'Chapter 6 (all lessons)', '27', true],
-          ['Spelling Practice Test', '-er / -or words', 'Class test', 'Friday, October 30', '15', true],
+        [['Spelling Practice Test', '-er / -or words', 'Class test', 'Friday, October 30', '15', true],
           ['Vocabulary Practice Test', 'Because of Winn-Dixie — Four Green Words', 'Class test', 'Friday, October 30', '16', true],
           ['Math Vocabulary Practice Test', 'Nov 3 words: Area, Square Unit, Multiply', 'Class test', 'Tuesday, November 3', '12', true]], 'cards');
     });
@@ -1746,8 +1745,8 @@ async function main() {
       await b.hash('#math?act=areamisses');
       eq(await progress(), 'Nothing to practice yet', 'Mixed Practice misses are kept apart');
     });
-    // The Chapter 6 test, taken from Tests and from Math > Chapter 6 > Chapter Test (D26): the same 27 questions.
-    for (const [where, start] of [['Tests', '#tests?test=math'], ['Math > Chapter 6', '#math?act=ch6test']]) await check(`Oct 26 Chapter 6 Practice Test (from ${where}): 27 questions from all six lessons, no hints, a score for each lesson, review, misses in Chapter 6`, async () => {
+    // Whole-chapter review stays inside Math > Chapter 6, separate from the weekly test list.
+    for (const [where, start] of [['Math > Chapter 6', '#math?act=ch6test']]) await check(`Oct 26 Chapter 6 Practice Test (from ${where}): 27 questions from all six lessons, no hints, a score for each lesson, review, misses in Chapter 6`, async () => {
       await b.load(url(start));
       const items = T26.math.items;
       eq(await progress(), 'Question 1 of 27', '27 questions');
@@ -1817,7 +1816,7 @@ async function main() {
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('const s = document.getElementById("weekSelect"); s.value = "2026-10-26"; s.dispatchEvent(new Event("change"));');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.querySelector(".test-math .topic").textContent];'), ['#tests', 'Chapter 6: Connect Area and Multiplication'], 'back to Oct 26');
+      eq(await b.js('return [location.hash, document.querySelector(".test-mathwords .topic").textContent];'), ['#tests', 'Nov 3 words: Area, Square Unit, Multiply'], 'back to Oct 26’s announced vocabulary test');
       // A chapter does not change with the week (D26): in Oct 19, the old Area link opens the same Chapter 6.
       await b.hash(H19('#math?act=area'));
       eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [H19('#math?ch=6'), 'Chapter 6: Connect Area and Multiplication'], 'Chapter 6 in the Oct 19 week');

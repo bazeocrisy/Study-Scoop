@@ -3,7 +3,7 @@ import { mountPacketTools } from './views/packet-tools.js';
 // Progress, misses and test answers live in memory for this visit only (never stored), keyed by week, so weeks never mix.
 import { check, helpSteps, solution } from './lib/lessons.js';
 import { showNewStep } from './lib/help-scroll.js';
-import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
+import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, weeklyTestListed, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
 import { SKILL_SETS, timesFamilyFlash, timesFamilyPractice, timesFamilyFind } from './lib/skills.js';
 import { AREA_CARDS, AREA_SETS, areaItems, areaVocabWords } from './lib/area.js';
@@ -48,6 +48,7 @@ function newRun(ctx, section, act) {
   const rand = rng(seed());
   const base = { items: [], items_: {}, i: 0, finished: false, submitted: false, warned: false, noSound: false };
   if (section === 'tests') {
+    if (!weeklyTestListed(act, ctx.week)) return null;
     const t = testFor(act, ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);
     if (!t) return null;
     // The weekly math test belongs to the week's chapter (D26): its misses go to that chapter's Practice My Misses.
@@ -107,6 +108,7 @@ function newRun(ctx, section, act) {
 
 /** The activity or test named in the address (made on first visit, kept while the page is open). */
 export function runFor(ctx, section, act) {
+  if (section === 'tests' && !weeklyTestListed(act, ctx.week)) return null;
   const key = `${ctx.weekId}:${section}:${act}`;
   const old = runs.get(key);
   // Practice My Misses always starts from the current list of misses (a run in progress keeps going).

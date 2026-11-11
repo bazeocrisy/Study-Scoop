@@ -114,18 +114,18 @@ test('the Nov 3 Math Vocabulary practice test: only Area, Square Unit and Multip
   assert.ok(sets.size > 1, 'a retake can differ');
 });
 
-test('Oct 26 Test Center: the Chapter 6 Practice Test (27, every lesson), spelling, green-word vocabulary, and the Nov 3 vocabulary test', () => {
+test('Oct 26 Test Center shows announced spelling and vocabulary; chapter review remains in Math', () => {
   assert.deepEqual(validateTests(T26, W26), []);
   const per = Object.fromEntries(['l61', 'l62', 'l63', 'l64', 'l65', 'l66'].map((k) => [k, T26.math.items.filter((i) => i.skill === k).length]));
   assert.equal(T26.math.items.length, 27);
   for (const [k, n] of Object.entries(per)) assert.ok(n >= 4, `${k}: ${n}`);
   const cards = testCatalog(W26, T26, null, AREA);
-  assert.deepEqual(cards.map((c) => [c.title, c.count, c.available]), [['Chapter 6 Practice Test', 27, true], ['Spelling Practice Test', 15, true],
+  assert.deepEqual(cards.map((c) => [c.title, c.count, c.available]), [['Spelling Practice Test', 15, true],
     ['Vocabulary Practice Test', 16, true], ['Math Vocabulary Practice Test', 12, true]]);
   const mv = cards.find((c) => c.kind === 'mathwords');
   assert.deepEqual([mv.dateLabel, mv.date, mv.classTest], ['Class test', '2026-11-03', 'Math Topic 6 Vocabulary Test']);
   const ch = cards.find((c) => c.kind === 'math');
-  assert.deepEqual([ch.dateLabel, ch.date, ch.review], ['Review of', null, 'Chapter 6 (all lessons)'], 'the chapter test is a review, not a class test');
+  assert.equal(ch, undefined, 'whole-chapter review belongs in Math, not weekly Tests');
   // The vocabulary test is only about the four green words.
   assert.deepEqual([...new Set(T26.vocab.items.map((i) => i.word))].sort(), ['Constellations', 'Distracted', 'Irritating', 'Trustworthy']);
 });
