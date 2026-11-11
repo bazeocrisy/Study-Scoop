@@ -1,3 +1,4 @@
+import { mountPartitionLab } from './partition-lab.js';
 // Lesson player: the only DOM code for lessons. It keeps progress in memory for this visit only (never stored),
 // re-renders the stage area after each action, moves keyboard focus sensibly and announces feedback to screen readers.
 import { check, helpSteps, solution } from './lib/lessons.js';
@@ -122,6 +123,7 @@ export function mountReadButtons(app, signal) {
 
 /** Attaches the lesson controls to the rendered page. `signal` removes the listeners on the next navigation. */
 export function mountLesson(app, ctx, signal) {
+  if (ctx.lesson.id === '7-1') mountPartitionLab(app, signal);
   const { lesson } = ctx;
   const stage = stageOf(ctx.stage);
   const state = stateFor(lesson.id, stage);
@@ -286,12 +288,24 @@ export function mountLesson(app, ctx, signal) {
       area().querySelector('.pic-card')?.scrollIntoView({ block: 'start', behavior: 'instant' });
       return;
     }
+    if (act === 'writing-help' && form && lesson.id === '7-1' && stage !== 'test') {
+      const item = items.get(form.dataset.item), st = itemState(item.id);
+      if (item.type !== 'sentence') return;
+      saveForm(form);
+      const previous = st.writingHelp || 0;
+      st.writingHelp = Math.min(previous + 1, 3);
+      const historical = historyItem(item.id);
+      if (historical && previous < 3) { historical.help += 1; if (st.writingHelp === 3) historical.reveals += 1; }
+      rerender('[data-written-help]');
+      return;
+    }
     if (act === 'help' && form) {
       // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = items.get(form.dataset.item);
       const st = itemState(item.id);
-      if (!st.tries || st.status === 'correct' || st.shown) return;
+      if ((!st.tries && lesson.id !== '7-1') || st.status === 'correct' || st.shown || (stage === 'test' && !state.misses)) return;
       saveForm(form);
+      if (lesson.id === '7-1') st.scaffoldAssisted = true;
       const steps = lessonHelpSteps(lesson, item);
       if (isChapter7(lesson.id) && item.teaching) st.coachView = 'help';
       const historical = historyItem(item.id); if (historical) historical.help += 1;

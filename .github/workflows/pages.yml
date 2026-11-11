@@ -53,6 +53,8 @@ jobs:
         run: node tests/chapter7-teaching.browser.js --site _site && node tests/chapter7-teaching-access.browser.js --site _site
       - name: Complete Chapter 7 teaching and resources (built site)
         run: node tests/chapter7-teaching-all.browser.js --site _site
+      - name: Lesson 7-1 partition lab (built site)
+        run: node tests/partition-lab.browser.js --site _site
       - name: Weekly test scope (built site)
         run: node tests/weekly-tests.browser.js --site _site
       - name: November homework journeys (built site)
@@ -132,6 +134,13 @@ jobs:
       - name: Weekly test scope (preview build)
         working-directory: develop
         run: node tests/weekly-tests.browser.js --site "$GITHUB_WORKSPACE/_preview"
+      - name: Lesson 7-1 partition lab (production build, once released)
+        if: ${{ hashFiles('main/tests/partition-lab.browser.js') != '' }}
+        working-directory: main
+        run: node tests/partition-lab.browser.js --site "$GITHUB_WORKSPACE/_site"
+      - name: Lesson 7-1 partition lab (preview build)
+        working-directory: develop
+        run: node tests/partition-lab.browser.js --site "$GITHUB_WORKSPACE/_preview"
       - name: Put the preview under /preview/
         run: |
           mv "$GITHUB_WORKSPACE/_preview" "$GITHUB_WORKSPACE/_site/preview"

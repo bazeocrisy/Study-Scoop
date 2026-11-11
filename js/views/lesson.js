@@ -1,6 +1,7 @@
 // One view for every lesson and stage (Learn It, Watch Me, Practice Together, Try It Yourself, Test, Parent Guide).
 // Pure: it renders the lesson data plus the in-memory progress (state). js/lesson-player.js handles clicks and typing.
 import { html } from '../lib/html.js';
+import { partitionLabShell } from '../partition-lab.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { PLACE } from '../lib/rounding.js';
@@ -34,6 +35,7 @@ export function lessonView(ctx) {
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   return html`
     ${lessonBar(ctx, lesson, stage)}
+    ${lesson.id === '7-1' && ['learn', 'parent'].includes(stage) ? partitionLabShell() : ''}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">
       ${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}
     </div>`;
@@ -50,7 +52,7 @@ function lessonHistoryPanel(lesson, state) {
   const records = Object.entries(state.history.items || {}), current = Object.values(state.items || {});
   const helped = records.reduce((n, [, v]) => n + v.help, 0), revealed = records.reduce((n, [, v]) => n + v.reveals, 0);
   return html`<details class="card lesson-history"><summary>Parent summary: this visit</summary>
-    ${state.stage === 'parent' ? html`<p>Latest activity rounds are listed separately from earlier assistance below. Written reasoning is self-reviewed or parent-reviewed and is not scored for meaning.</p>` : html`<p>Current round: ${current.filter((v) => v.first === 'correct' && !v.scaffoldAssisted).length} questions right on the first attempt without counting assistance; ${current.filter((v) => v.first && v.first !== 'correct').length} needing another attempt. Written reasoning is reviewed separately and is not scored for meaning.</p>`}
+    ${state.stage === 'parent' ? html`<p>Latest activity rounds are listed separately from earlier assistance below. Written reasoning is self-reviewed or parent-reviewed and is not scored for meaning.</p>` : html`<p>Current round: ${current.filter((v) => v.first === 'correct' && !v.scaffoldAssisted).length} questions right on the first attempt without help or counting assistance; ${current.filter((v) => v.first && v.first !== 'correct').length} needing another attempt. Written reasoning is reviewed separately and is not scored for meaning.</p>`}
     ${state.stage === 'parent' && Object.keys(state.history.currentRounds || {}).length ? html`<ul>${Object.entries(state.history.currentRounds).map(([stage, round]) => html`<li>${stageLabel(stage)}, latest round: ${round.right} right on the first attempt; ${round.retry} needing another attempt.</li>`)}</ul>` : ''}
     <p>Across this visit, including earlier rounds: ${helped} help steps opened; ${revealed} answers revealed; ${state.history.restarts} restarts or retakes; ${state.history.missRounds} missed-question rounds. These earlier events remain after a retry.</p>
     ${records.length ? html`<ul>${records.map(([id, r]) => html`<li>${r.label || 'Question'}: ${r.attempts} checked attempts, ${r.help} help steps, ${r.reveals} answer reveals${r.countScaffold ? ', counting scaffold used' : ''}.</li>`)}</ul>` : ''}
@@ -229,7 +231,9 @@ export function itemCard(lesson, item, stage, state) {
   const done = !test && (st.status === 'correct' || st.shown);
   const steps = test ? [] : lessonHelpSteps(lesson, item);
   const opened = st.shown ? steps.length : Math.min(st.help || 0, steps.length);
-  const helpAllowed = !test && !done && (st.tries || 0) >= 1 && opened < steps.length;
+  const questionHelp = lesson.id === '7-1';
+  const helpAllowed = !test && !done && (questionHelp || (st.tries || 0) >= 1) && opened < steps.length;
+  const helpLabel = questionHelp ? (opened === 0 ? '? Hint' : opened === steps.length - 1 ? '? Show Answer' : '? Show Steps') : (opened ? 'Next step' : 'Help');
   const coached = hasChapter7Teaching(lesson) && item.teaching && !test;
   const countReady = test || countComplete(lesson, item, st);
   const feedbackMode = coached && st.coachView === 'feedback' && st.teachingFeedback;
@@ -242,11 +246,11 @@ export function itemCard(lesson, item, stage, state) {
       <form class="card question" data-act="check" data-item="${item.id}" data-state="${st.status || 'unanswered'}" novalidate>
         <div class="instruct-head">${item.type === 'choice' || item.type === 'multi' || inline ? html`<span></span>` : html`<p class="prompt" id="q-${item.id}">${blanks(item.prompt)}</p>`}${item.type === 'spell' || item.type === 'letters' ? '' : readButton(sayItem(item), 'the question')}</div>
         ${coached && !activeCoach ? countScaffold(lesson, item, st) : ''}
-        ${writtenReview ? writtenReviewArea(item, st) : !countReady ? html`<fieldset disabled class="count-answer-gate"><legend>Count the parts above before answering</legend>${answerArea(item, resp, st, test, done)}</fieldset>` : answerArea(item, resp, st, test, done)}
+        ${writtenReview ? writtenReviewArea(item, st, lesson.id === '7-1') : !countReady ? html`<fieldset disabled class="count-answer-gate"><legend>Count the parts above before answering</legend>${answerArea(item, resp, st, test, done)}</fieldset>` : answerArea(item, resp, st, test, done)}
         ${test || writtenReview ? '' : html`
           <div class="btn-row">
             ${done ? '' : html`<button type="submit" class="btn btn-primary"${countReady ? '' : ' disabled'}>Check Answer</button>`}
-            ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${opened ? 'Next step' : 'Help'}</button>` : ''}
+            ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${questionHelp ? `${helpLabel.replace('? ', '')} for this question, step ${opened + 1} of ${steps.length}` : opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${helpLabel}</button>` : ''}
           </div>`}
         ${!test && !writtenReview && opened && !feedbackMode && st.coachView !== 'answer' ? helpPanel(item, steps, opened, st.shown, done, coached) : ''}
         ${!test && !writtenReview && st.say && (!coached || feedbackMode || !opened) ? feedbackPanel(item, st, opened, coached) : ''}
@@ -254,10 +258,15 @@ export function itemCard(lesson, item, stage, state) {
     </div>`;
 }
 
-function writtenReviewArea(item, st) {
+function writtenReviewArea(item, st, questionHelp = false) {
   const compared = st.comparedRevision === (st.revision || 0), reviewed = st.reviewedRevision === (st.revision || 0);
+  const help = st.writingHelp || 0;
   return html`<label for="${item.id}-text">Write your own explanation</label>
     <textarea class="box text sentence" id="${item.id}-text" name="text" rows="5" maxlength="600"${st.status === 'empty' ? html` aria-invalid="true"` : ''}>${val(st.resp || {}, 'text')}</textarea>
+    ${questionHelp ? html`<button type="button" class="btn btn-help" data-act="writing-help">? ${help === 0 ? 'Hint' : help === 1 ? 'Show Steps' : help === 2 ? 'Show Answer' : 'Review example'}</button>
+      ${help ? html`<section class="visual-coach" data-written-help tabindex="-1"><h3>${help === 1 ? 'Hint: find the whole' : help === 2 ? 'Show Steps: compare areas' : 'One sample explanation'}</h3>
+        ${modelFigure({ type: 'fraction', kind: 'bar', parts: help === 1 ? 1 : 4, wholes: 1, selected: help === 1 ? [0] : help === 2 ? [0, 1] : [0, 1, 2, 3] })}
+        <p>${help === 1 ? 'Trace the outside edge. Include every part inside this one whole.' : help === 2 ? 'Compare two pieces. Their widths match and their heights match. Check the other pieces too; matching widths and heights give matching areas.' : item.example}</p><p>Use your own words. A grown-up reviews your mathematical explanation.</p></section>` : ''}` : ''}
     <p>This explanation is reviewed by you or a grown-up. The computer does not grade its mathematical meaning.</p>
     <button class="btn btn-primary" type="submit">Compare my response with an example</button>
     ${st.status === 'empty' ? html`<p class="feedback info">${st.say}</p>` : ''}
@@ -595,7 +604,7 @@ function trySummary(ctx, lesson, state) {
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Try It Yourself: your results</h2></div>
     <div class="card results">
       ${scoreLine(first, items.length, answered)}
-      ${scaffolded ? html`<p>${scaffolded} answers were completed with the counting scaffold. They are assisted practice, not unassisted first-attempt credit or wrong answers.</p>` : ''}
+      ${scaffolded ? html`<p>${scaffolded} answers were completed with help or a counting scaffold. They are assisted practice, not unassisted first-attempt credit or wrong answers.</p>` : ''}
       <p>${passed ? 'Great work! You are ready for the test.' : `Practice a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
       <p class="next-step"><strong>What next?</strong> ${missed.length ? 'Press Practice My Misses to try the questions you missed again, with Help. Then take Test Your Knowledge.' : 'Take Test Your Knowledge.'}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => reviewItem(it))}</ul>` : ''}

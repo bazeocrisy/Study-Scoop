@@ -1,0 +1,18 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { TASKS, validatePartition, partitionPolygon, polygonArea, makeTestTask } from '../../js/lib/partition-geometry.js';
+const task=id=>TASKS.find(t=>t.id===id);
+for(const t of TASKS) test(`${t.id}: all supported constructions cover the whole in equal parts`,()=>{
+ for(const solution of t.solutions){const result=validatePartition(t,solution);assert.equal(result.valid,true);assert.equal(result.count,t.count);const whole=t.shape==='circle'?Math.PI*t.radius**2:polygonArea(t.polygon);assert.ok(Math.abs(result.areas.reduce((a,b)=>a+b,0)-whole)<1e-5);for(const area of result.areas)assert.ok(Math.abs(area-whole/t.count)<1e-5);}
+});
+test('construction is validated from regions; reversed, reordered and duplicate lines remain valid',()=>{const t=task('triangle-fourths');assert.equal(validatePartition(t,[...t.solution].reverse().map(([a,b])=>[b,a]).concat(t.solution)).valid,true);});
+test('empty and incomplete work cannot count as a completed construction',()=>{for(const t of TASKS){assert.equal(validatePartition(t,[]).valid,false);assert.equal(validatePartition(t,t.solution.slice(0,1)).valid,false);}});
+test('wrong four parts fail equal-area checking',()=>{const poly=[[0,0],[12,0],[12,12],[0,12]];const cuts=[[[1,0],[1,12]],[[3,0],[3,12]],[[6,0],[6,12]]];const parts=partitionPolygon(poly,cuts);assert.equal(parts.length,4);assert.deepEqual(parts.map(polygonArea).sort((a,b)=>a-b),[12,24,36,72]);const t={count:4,shape:'polygon',polygon:poly,points:cuts.flat().map((p,i)=>({id:String(i),x:p[0],y:p[1]}))};assert.equal(validatePartition(t,[['0','1'],['2','3'],['4','5']]).valid,false);});
+test('unjoined interior strokes do not split a region',()=>{const p=[[0,0],[12,0],[12,12],[0,12]];assert.equal(partitionPolygon(p,[[[2,2],[10,10]]]).length,1);});
+test('cuts outside a nonconvex cross are clipped to the original whole',()=>{const t=task('cross-fourths');const p=partitionPolygon(t.polygon,[[[0,70],[300,70]]]);assert.equal(p.length,2);assert.equal(p.reduce((s,r)=>s+polygonArea(r),0),polygonArea(t.polygon));});
+test('midpoint theorem independently gives one fourth of triangle area',()=>{const t=task('triangle-fourths');const [a,b,c]=t.polygon;const mid=(x,y)=>[(x[0]+y[0])/2,(x[1]+y[1])/2];const ab=mid(a,b),bc=mid(b,c),ca=mid(c,a);for(const p of [[a,ab,ca],[ab,b,bc],[ca,bc,c],[ab,bc,ca]])assert.equal(polygonArea(p),polygonArea(t.polygon)/4);});
+test('scaling the whole scales every area by the square of the scale',()=>{const t=task('hexagon-sixths');for(const scale of [.2,2,10]){const scaled={...t,polygon:t.polygon.map(p=>p.map(n=>n*scale)),points:t.points.map(p=>({...p,x:p.x*scale,y:p.y*scale}))};const r=validatePartition(scaled,t.solution);assert.equal(r.valid,true);assert.ok(Math.abs(r.areas[0]-validatePartition(t,t.solution).areas[0]*scale**2)<1e-5);}});
+test('circle rejects unsupported chords, unequal angles and malformed endpoints',()=>{const t=task('circle-eighths');assert.equal(validatePartition(t,[['v0','v2']]).valid,false);assert.equal(validatePartition(t,[['c','v0'],['c','v1'],['c','v3']]).valid,false);assert.equal(validatePartition(t,[['c','missing']]).valid,false);assert.equal(validatePartition(t,[['c','c']]).valid,false);});
+test('polygon accepts valid alternative solutions rather than comparing stored answers',()=>{const t=task('octagon-fourths');assert.equal(validatePartition(t,[['v1','v5'],['v3','v7']]).valid,true);});
+
+test('fresh transfer problems retain valid geometry, including new circle sixths',()=>{for(const t of TASKS){const v=makeTestTask(t);for(const solution of v.solutions)assert.equal(validatePartition(v,solution).valid,true,v.id);assert.equal(validatePartition(v,[]).valid,false);}});
