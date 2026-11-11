@@ -221,7 +221,7 @@ try {
   ok(/1 finished after a hint/.test(sum), 'summary counts hint-assisted completions');
   ok(/1 right on the first try with no help/.test(sum), 'summary counts independent first-try successes (Guide Me diamond only)');
   ok(/Solo tries \(My Turn and Check & Reflect\): 0 of 15/.test(sum), 'a My Turn fixed after a wrong first try is not counted as a solo success');
-  ok(/Skills to practise more/.test(sum) && /Diamond into fourths/.test(sum), 'summary lists skills needing practice');
+  ok(/Skills to practice more/.test(sum) && /Diamond into fourths/.test(sum), 'summary lists skills needing practice');
   ok(await b.js('return !!document.querySelector(".parent-guide") && !!document.querySelector(".j-extra a[href*=\\"stage=try\\"]")'), 'parent page keeps the Parent Guide and links the original extra practice');
 
   // The original stages still work as optional extra practice.

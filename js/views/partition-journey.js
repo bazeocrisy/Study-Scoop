@@ -365,7 +365,7 @@ export function journeySummary(ctx, state) {
       <li><strong>${t.notTried}</strong> not checked yet</li>
       <li><strong>${s.viewed} of ${s.demos}</strong> worked examples watched to the end</li>
     </ul>
-    <h3>Skills to practise more</h3>
+    <h3>Skills to practice more</h3>
     <p class="j-note">A skill is listed when a question was wrong on the first try, needed help, or is unfinished.</p>
     ${s.needs.length ? html`<ul>${s.needs.map((n) => html`<li>${n}</li>`)}</ul>` : html`<p>None flagged in this visit.</p>`}
     ${s.untried.length ? html`<h3>Not tried yet</h3><ul>${s.untried.map((n) => html`<li>${n}</li>`)}</ul>` : ''}
