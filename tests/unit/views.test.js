@@ -81,13 +81,16 @@ for (const [index, id, week] of cases) {
   });
 }
 
-test('This Week counts down to each test from a fixed date', () => {
+test('Schoolwork is a six-card launcher; weekly test dates remain in Newsletter', () => {
   const week = readJSON('data/2026-10-19.json');
-  const out = weekView(ctxFor(historicalIndex, '2026-10-19', 'week', week)).s;
-  assert.match(out, /In 5 days[\s\S]*Math Test[\s\S]*Wednesday, October 21/);
-  assert.match(out, /In 7 days[\s\S]*Vocabulary Quiz[\s\S]*Friday, October 23/);
-  const past = weekView(ctxFor(historicalIndex, '2026-10-12', 'week', readJSON('data/2026-10-12.json'))).s;
-  assert.match(past, /Today[\s\S]*Friday, October 16/);
+  const ctx = ctxFor(historicalIndex, '2026-10-19', 'week', week);
+  const out = weekView(ctx).s;
+  assert.match(out, /<h1[^>]*>Schoolwork<\/h1>/);
+  assert.equal((out.match(/class="path-card"/g) || []).length, 6);
+  assert.doesNotMatch(out, /View Original Newsletter|math-week|Quizzes and tests|What we're learning|class="crumbs"|Open Homework/);
+  const newsletter = newsletterView({ ...ctx, section: 'newsletter' }).s;
+  assert.match(newsletter, /Wednesday, October 21[\s\S]*Math Test/);
+  assert.match(newsletter, /Friday, October 23[\s\S]*Vocabulary Quiz/);
 });
 
 test('Skill Builders opens on three skill cards, each with Learn It, practice, Practice My Misses and a test', () => {

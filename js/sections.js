@@ -1,8 +1,8 @@
-// The nine sections, in navigation order. `id` is the hash route.
+// Registered sections. Stable hash IDs preserve existing activity links.
 export const SECTIONS = [
   { id: 'home', label: 'Home' },
   { id: 'extra', label: 'Extra Learning' },
-  { id: 'week', label: 'This Week' },
+  { id: 'week', label: 'Schoolwork' },
   { id: 'spelling', label: 'Spelling' },
   { id: 'vocab', label: 'Vocabulary' },
   { id: 'reading', label: 'Reading' },

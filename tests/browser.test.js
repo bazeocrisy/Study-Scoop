@@ -12,7 +12,7 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 // Preserve the historical Oct 26 student journeys as weeks roll forward.
 // The November homework suite tests the actual current-week index without overlays.
 const INDEX = readJSON('tests/fixtures/data/weeks-regression.json');
-const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading Practice'], ['math', 'Math'],
+const SECTIONS = [['week', 'Schoolwork'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading Practice'], ['math', 'Math'],
   ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
 const L51 = readJSON('data/lessons/5-1.json');
@@ -124,35 +124,23 @@ async function main() {
       eq(await b.js('return document.querySelectorAll("nav.tabs").length;'), 0, 'no tab row');
       eq(await b.js('return [...document.querySelectorAll(".home-paths [data-path]")].map(a=>a.dataset.path);'), ['week','extra'], 'two paths');
     });
-    await check('Oct 19–23 This Week counts down to each test from Friday, Oct 16', async () => {
-      await b.load(url(H19('#week')));
-      const cards = await b.js('return [...document.querySelectorAll(".test")].map((c) => c.querySelector(".count").textContent + " | " + c.querySelector("h3").textContent + " | " + c.querySelector(".date").textContent);');
-      eq(cards, ['In 5 days | Math Test | Wednesday, October 21', 'In 7 days | Vocabulary Quiz | Friday, October 23',
-        'In 7 days | Spelling Test | Friday, October 23'], 'test cards');
-      eq(await b.js('return [...document.querySelectorAll(".test .action")].map((a) => a.getAttribute("href"));'),
-        ['#math?ch=5', '#tests', '#vocab', '#tests', '#spelling', '#tests'].map(H19), 'study (the week\'s chapter: Chapter 5) and practice-test links');
-    });
-    await check('Oct 26–30 (this week) This Week counts down from Monday, Oct 26: green-word quiz, spelling test, Topic 6 vocabulary test', async () => {
-      // A second frozen "today" for this check only (Monday, Oct 26, 2026, 8 AM).
-      const { result } = await b.send('Page.addScriptToEvaluateOnNewDocument', { source: FREEZE_DATE.replace('new R(2026, 9, 16, 12, 0, 0)', 'new R(2026, 9, 26, 8, 0, 0)') });
-      try {
-        await b.load(url('#week'));
-        eq(await b.js('return document.getElementById("weekSelect").value;'), OCT26, 'Oct 26 opens by default');
-        const cards = await b.js('return [...document.querySelectorAll(".test")].map((c) => c.querySelector(".count").textContent + " | " + c.querySelector("h3").textContent + " | " + c.querySelector(".date").textContent);');
-        eq(cards, ['In 4 days | Academic Vocabulary Quiz | Friday, October 30', 'In 4 days | Spelling Test | Friday, October 30',
-          'In 8 days | Math Topic 6 Vocabulary Test | Tuesday, November 3'], 'test cards');
-        eq(await b.js('return [...document.querySelectorAll(".test .action")].map((a) => a.getAttribute("href"));'),
-          ['#vocab', '#tests', '#spelling', '#tests', '#math?ch=6', '#tests'], 'study links (the Nov 3 test opens Chapter 6) and practice-test links');
-        expect((await b.js('return document.querySelector(".test-vocab").textContent;')).includes('Trustworthy, Constellations, Irritating, Distracted'), 'the quiz names the four green words');
-        const learning = await b.js('return [...document.querySelectorAll(".learning div")].map((d) => d.querySelector("dt").textContent + " " + d.querySelector("dd").textContent);');
-        eq(learning, ['Math Area', 'Reading Novel Study: Because of Winn-Dixie', 'Writing Opinion', 'Spelling -er / -or', 'ELA Pronouns', 'Science Georgia Habitats'], 'what we are learning');
-        eq(await b.js('return [...document.querySelectorAll(".dates li")].map((l) => l.textContent.replace(/\\s+/g, " ").trim());'),
-          ['Oct 26–30 Red Ribbon Week', 'Oct 29, 6–7 PM BOONanza', 'Nov 18 Field Trip', 'Nov 20, noon Early Release'], 'dates to know');
-      } finally {
-        await b.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: result.identifier });
+    await check('Schoolwork is a compact six-card chooser for each selected week', async () => {
+      for (const week of [OCT19, OCT26]) {
+        await b.load(url(inWeek('#week', week)));
+        eq(await b.js('return [document.querySelector("h1").textContent, [...document.querySelectorAll(".schoolwork-cards h2")].map(e=>e.textContent)];'),
+          ['Schoolwork',['Homework','Spelling','Vocabulary','Math','Newsletter','Practice Tests']], 'six subject choices');
+        eq(await b.js('return [document.querySelectorAll("#app a[href*=newsletter]").length, !!document.querySelector(".math-week"), !!document.querySelector(".launcher-head .crumbs")];'), [1,false,false], 'no duplicate dashboard or return controls');
       }
-      await b.load(url('#week'));
-      eq(await b.js('return document.querySelector(".test .count").textContent;'), 'In 14 days', 'back to the usual frozen day (Friday, Oct 16)');
+    });
+    await check('Newsletter preserves the selected week’s school test dates and announcements', async () => {
+      await b.load(url(H19('#newsletter')));
+      const text = await b.js('return document.querySelector("#h-nl-tests").parentElement.textContent;');
+      for (const value of ['Wednesday, October 21','Math Test','Friday, October 23','Vocabulary Quiz','Spelling Test']) expect(text.includes(value), value);
+      await b.load(url('#newsletter'));
+      const text26=await b.js('return document.querySelector("#h-nl-tests").parentElement.textContent;');
+      for(const value of ['Friday, October 30','Academic Vocabulary Quiz','Tuesday, November 3','Math Topic 6 Vocabulary Test','Trustworthy, Constellations, Irritating, Distracted']) expect(text26.includes(value),value);
+      eq(await b.js('return [...document.querySelectorAll("#h-nl-dates ~ .dates li")].map(l=>l.textContent.replace(/\\s+/g," ").trim());'),
+        ['Oct 26–30 Red Ribbon Week','Oct 29, 6–7 PM BOONanza','Nov 18 Field Trip','Nov 20, noon Early Release'],'school dates remain available');
     });
     for (const [id, label] of SECTIONS) {
       await check(`#${id} shows ${label} with the right tab marked`, async () => {
@@ -205,7 +193,7 @@ async function main() {
       const before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');
       await b.ready(before);
-      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'This Week', 'after back');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'Schoolwork', 'after back');
     });
 
     console.log('Content accuracy');
@@ -331,7 +319,7 @@ async function main() {
     await check('a device set to dark mode still gets the light theme', async () => {
       await b.media('', [{ name: 'prefers-color-scheme', value: 'dark' }]);
       await b.load(url('#week'));
-      eq(await b.js('return [getComputedStyle(document.body).backgroundColor, getComputedStyle(document.querySelector(".card")).backgroundColor];'),
+      eq(await b.js('return [getComputedStyle(document.body).backgroundColor, getComputedStyle(document.querySelector(".card, .path-card")).backgroundColor];'),
         ['rgb(251, 244, 233)', 'rgb(255, 255, 255)'], 'page and card colours');
     });
     await b.media('', [{ name: 'prefers-color-scheme', value: 'light' }]);
@@ -1840,15 +1828,14 @@ async function main() {
     });
 
     console.log('Chapter-first Math and the original newsletter (D26)');
-    await check('This Week recommends the week\'s chapter: shortcuts open only that chapter (Oct 26: Chapter 6; Oct 19: Chapter 5)', async () => {
-      for (const [id, ch, acts] of [[OCT26, 6, ['arealearn', 'ch6', 'areapractice', 'ch6guide']], [OCT19, 5, ['learn', 'ch5', 'practice', 'guide']]]) {
-        await b.load(url(inWeek('#week', id)));
-        eq(await b.js('return document.querySelector(".math-week h2").textContent;'), `Math this week: Chapter ${ch}: ${readJSON('data/lessons/index.json').chapters.find((c) => c.id === ch).name}`, `${id}: the week's chapter`);
-        eq(await b.js('return [...document.querySelectorAll(".math-week a")].map((a) => a.getAttribute("href"));'),
-          [...acts.map((a) => inWeek(`#math?act=${a}`, id)), inWeek(`#math?ch=${ch}`, id)], `${id}: Vocabulary, Lessons, Practice, Study Guide and the whole chapter`);
-        await go(`.math-week a[href="${inWeek(`#math?act=${acts[1]}`, id)}"]`);
-        eq(await b.js('return document.querySelector("#app h1").textContent;'), `Chapter ${ch} Lessons`, `${id}: the shortcut opens Chapter ${ch} Lessons`);
-        expect(await b.js(`return [...document.querySelectorAll(".lesson-num")].every((n) => n.textContent.startsWith("${ch}-"));`), `${id}: only Chapter ${ch} lessons`);
+    await check('Schoolwork opens Math, where the selected week recommends its chapter', async () => {
+      for (const [id,ch,act] of [[OCT26,6,'ch6'],[OCT19,5,'ch5']]) {
+        await b.load(url(inWeek('#week',id)));
+        await go('.schoolwork-cards a[data-path=math]');
+        expect(await b.js(`return document.querySelector(".intro").textContent.includes("Chapter ${ch}:");`), 'Math recommends the selected chapter');
+        await go(`.chapter-card[data-chapter="${ch}"]`);
+        await go(`.menu-card[href="${inWeek('#math?act='+act,id)}"]`);
+        eq(await b.js('return document.querySelector("h1").textContent;'), `Chapter ${ch} Lessons`, 'the chapter lessons remain available');
       }
     });
     await check('the week picker never moves a child out of a Math chapter; other subjects go to the chosen week\'s menu', async () => {
@@ -1867,7 +1854,7 @@ async function main() {
     });
     await check('Newsletter: the reviewed Oct 26–30 flyer (both pages, zoom, open full size, print); earlier weeks say theirs is unavailable', async () => {
       await b.load(url('#week'));
-      await go('.page-head a[data-flyer]');
+      await go('.schoolwork-cards a[data-path=newsletter]');
       eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), ['#newsletter', 'Newsletter'], 'View Original Newsletter');
       await b.waitFor('[...document.querySelectorAll(".flyer img")].every((i) => i.complete && i.naturalWidth > 0)');
       eq(await b.js('return [...document.querySelectorAll(".flyer img")].map((i) => [i.getAttribute("src"), i.naturalWidth > 1000, i.alt.length > 40]);'),
@@ -1922,7 +1909,7 @@ async function main() {
       eq(await b.js('return document.querySelector(".summary-score").textContent;'), `${T19.math.items.length} out of ${T19.math.items.length} right (100%)`, 'score');
       eq(await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");'), '#math?ch=5', 'Back to Chapter 5');
     });
-    await check('responsive: Math, both chapters, This Week, the Newsletter and the Chapter 6 guide fit at 360, 390, 768, 1024, 1366 and 1920 px', async () => {
+    await check('responsive: Math, both chapters, Schoolwork, the Newsletter and the Chapter 6 guide fit at 360, 390, 768, 1024, 1366 and 1920 px', async () => {
       for (const [w, h] of [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]]) {
         await b.viewport(w, h, w < 1024);
         for (const r of ['#math', '#math?ch=5', '#math?ch=6', '#week', '#newsletter', '#math?act=ch6guide', '#math?act=areapractice']) {
