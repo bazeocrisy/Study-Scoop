@@ -35,11 +35,15 @@ try {
    check(await b.js('return document.documentElement.scrollWidth<=innerWidth;'),`${width} ${route}: no overflow`);
   }
  }
- fs.mkdirSync('/workspace/output/home-paths',{recursive:true});
- for(const [name,hash] of [['home','#home'],['schoolwork','#week'],['extra-learning','#extra'],['reading','#reading']]){
-  await b.viewport(1366,1000,false);await go(hash);await b.shot(`/workspace/output/home-paths/${name}.png`);
+ // Screenshots are an optional local review artifact, never a machine-specific CI requirement.
+ const shots=process.env.SS_PATH_SHOTS;
+ if(shots){
+  fs.mkdirSync(shots,{recursive:true});
+  for(const [name,hash] of [['home','#home'],['schoolwork','#week'],['extra-learning','#extra'],['reading','#reading']]){
+   await b.viewport(1366,1000,false);await go(hash);await b.shot(path.join(shots,`${name}.png`));
+  }
+  await b.viewport(390,1000,false);await go('#home');await b.shot(path.join(shots,'home-phone.png'));
  }
- await b.viewport(390,1000,false);await go('#home');await b.shot('/workspace/output/home-paths/home-phone.png');
  check(b.errors.length===0,JSON.stringify(b.errors));
  check(b.failures.length===0,JSON.stringify(b.failures));
  console.log(`${checks} learning-path browser checks passed`);
