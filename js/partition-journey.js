@@ -125,10 +125,12 @@ export function mountJourney(app, ctx, signal) {
     const out = act(stageId, action, data);
     if (out.quiet) return;
     render(out.focus);
+    // After Check, make sure the result is on screen (short Chromebook screens).
+    if (action === 'check') root.querySelector('.j-feedback')?.scrollIntoView({ block: 'nearest' });
     // Help: read out the newest help text itself, and put focus on it.
     if (['hint', 'steps', 'next-help', 'answer'].includes(action)) {
       const block = [...root.querySelectorAll('.j-help-block')].pop();
-      if (block) { block.setAttribute('tabindex', '-1'); block.focus({ preventScroll: false }); announce(block.textContent.replace(/\s+/g, ' ').trim()); return; }
+      if (block) { block.setAttribute('tabindex', '-1'); block.focus({ preventScroll: false }); announce([...block.children].map((c) => c.textContent.trim()).filter(Boolean).join('. ')); return; }
     }
     announce(out.say);
   };

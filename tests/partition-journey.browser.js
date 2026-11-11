@@ -277,6 +277,20 @@ try {
   ok(await b.js('return !document.querySelector("[data-written-complete]")'), 'revealing a writing sample does not grade or complete the child response');
   await b.hash('#math?lesson=7-1&stage=test');
   ok(await b.js('return !document.querySelector("[data-act=help],[data-act=writing-help]")'), 'shared scored test still withholds hints and writing solutions');
+  // Every card (not only the first of each section) fits the screen at phone, tablet and Chromebook widths.
+  for (const [w, h] of [[320, 640], [360, 740], [390, 844], [768, 1024], [1366, 768]]) {
+    await b.viewport(w, h);
+    for (const stage of meta.journey) {
+      await b.load(url(stage));
+      for (let i = 0; i < meta.cards[stage].length; i++) {
+        const over = await b.js('return document.documentElement.scrollWidth - innerWidth');
+        const pic = await b.js('const s=document.querySelector(".j-stage-pic svg");if(!s)return true;const r=s.getBoundingClientRect();return r.left>=-1&&r.right<=innerWidth+1');
+        ok(over <= 0 && pic, `${w}px ${meta.cards[stage][i].id}: fits the screen (overflow ${over}px)`);
+        if (i < meta.cards[stage].length - 1) await tap(J('next'));
+      }
+    }
+  }
+  await b.viewport(1366, 768, false);
   ok(b.errors.length === 0, `no browser errors: ${b.errors.join('; ')}`);
   ok(server.missing.length === 0, `no missing requests: ${server.missing.join('; ')}`);
   console.log(`Lesson 7-1 journey: ${checks} checks passed (${arg < 0 ? 'repository' : 'built site'}).`);

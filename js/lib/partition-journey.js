@@ -194,7 +194,7 @@ const SHAPE_DEFS = [
       solutions: [[['v0', 'v4'], ['v2', 'v6']], [['v1', 'v5'], ['v3', 'v7']], [['m0', 'm4'], ['m2', 'm6']], [['m1', 'm5'], ['m3', 'm7']]],
       hint: 'An octagon has 8 equal sides. Think about splitting it in half, then splitting each half again.',
       why: 'Both lines go through the center and cross like a plus sign. A quarter turn moves each part onto the next one, so the 4 parts are fourths.',
-      teach: [{ text: 'Join the top corner to the bottom corner. That makes 2 equal halves.', lines: [['v0', 'v4']] }, { text: 'Join the left corner to the right corner. Now each half is cut in half.', lines: [['v0', 'v4'], ['v2', 'v6']] }],
+      teach: [{ text: 'Join a corner to the corner straight across. That makes 2 equal halves.', lines: [['v0', 'v4']] }, { text: 'Skip one corner and join the next corner to the one straight across. The lines cross like a plus sign, so each half is cut in half.', lines: [['v0', 'v4'], ['v2', 'v6']] }],
     }),
   },
   {
@@ -214,7 +214,7 @@ const SHAPE_DEFS = [
       solutions: [fan(8), [['v0', 'v4'], ['v1', 'v5'], ['v2', 'v6'], ['v3', 'v7']], fan(8, 'm')],
       hint: 'Eight sides, eight parts. Try joining the center to every corner.',
       why: 'All 8 parts are the same size and shape and fit together around the center, so each one is an eighth.',
-      teach: [{ text: 'Join the center to one corner.', lines: fan(8).slice(0, 1) }, { text: 'Join the center to the next corner. That is one triangle.', lines: fan(8).slice(0, 2) }, { text: 'Keep going around: center to each corner.', lines: fan(8).slice(0, 5) }, { text: 'Finish the last corners. Count 8 matching triangles.', lines: fan(8) }],
+      teach: [{ text: 'Join the center to one corner.', lines: fan(8).slice(0, 1) }, { text: 'Join the center to the next corner. That is one triangle.', lines: fan(8).slice(0, 2) }, { text: 'Keep going around: center to each corner.', lines: fan(8).slice(0, 5) }, { text: 'Finish the last corners. Count 8 matching triangles.', lines: fan(8) }, { text: 'Another way: join each corner to the corner straight across. These 4 lines make the same 8 triangles, without a center dot.', lines: [['v0', 'v4'], ['v1', 'v5'], ['v2', 'v6'], ['v3', 'v7']] }],
     }),
   },
 ];
@@ -229,7 +229,8 @@ export function bare(task) {
   const ok = (lines) => lines.every((l) => l.every((id) => ids.has(id)));
   const solutions = task.solutions.filter(ok);
   const teach = task.teach?.filter((st) => ok(st.lines));
-  return { ...task, points: keep, solutions, solution: solutions[0], teach: teach?.length ? teach : undefined, bare: true };
+  const hint = task.shape === 'circle' ? 'There is no center dot this time. Join each edge point to the point straight across the circle.' : 'There is no center dot this time. Join each corner to the corner straight across. The lines all cross in the middle.';
+  return { ...task, points: keep, solutions, solution: solutions[0], teach: teach?.length ? teach : undefined, hint, bare: true };
 }
 export const SHAPES = SHAPE_DEFS.map((d) => ({ ...d, guide: d.make(false), myTurn: bare(d.make(true)) }));
 
@@ -248,7 +249,7 @@ const star = (c, s) => Array.from({ length: 8 }, (_, k) => { const t = k * Math.
 export function segmentCount(regions) { const keys = new Set(); for (const r of regions) r.forEach((p, i) => { const q = r[(i + 1) % r.length]; keys.add([p, q].map((v) => v.map((n) => Math.round(n)).join(',')).sort().join('|')); }); return keys.size; }
 
 export const FIGURES = {
-  tiles: { id: 'tiles', viewBox: [320, 220], regions: lattice([20, 40], [80, 0], [40, 80 * Math.sqrt(3) / 2], 3, 2), name: 'tile pattern', alt: 'A slanted shape made of 2 rows of 3 matching diamond-shaped tiles.' },
+  tiles: { id: 'tiles', viewBox: [340, 210], regions: lattice([10, 30], [80, 0], [40, 80 * Math.sqrt(3) / 2], 3, 2), name: 'tile pattern', alt: 'A slanted shape made of 2 rows of 3 matching diamond-shaped tiles.' },
   slant: { id: 'slant', viewBox: [320, 260], regions: lattice([30, 30], [100, 0], [30, 100], 2, 2).flatMap(([a, b, c, d]) => [[a, b, c], [a, c, d]]), name: 'slanted shape', alt: 'A slanted four-sided shape split into 4 smaller slanted pieces, each cut corner to corner into 2 triangles.' },
   tiles2: { id: 'tiles2', viewBox: [320, 280], regions: lattice([40, 20], [70, 0], [35, 70 * Math.sqrt(3) / 2], 2, 3), name: 'tile pattern', alt: 'A slanted shape made of 3 rows of 2 matching diamond-shaped tiles.' },
   triangle: { id: 'triangle', viewBox: [320, 280], regions: midTri([40, 250], [290, 230], [120, 30]), name: 'triangle', alt: 'A triangle whose three side midpoints are joined, making 4 smaller triangles.' },
@@ -365,7 +366,7 @@ export const CARDS = {
         { text: 'The whole stays the same size, so more parts must share the same space.', correct: true, why: 'Exactly. Sharing one whole among more equal parts makes each part smaller.' },
       ],
       help: { hint: 'Did the size of the whole strip change?', steps: [{ text: 'All three strips start and end at the same place. The whole did not change.', picture: { kind: 'strips', parts: [2, 3, 6], guide: false } }] } }),
-    write('e-write', { skill: 'sizes', title: 'In your own words', picture: { kind: 'strips', parts: [4, 6, 8], shade: true },
+    write('e-write', { skill: 'sizes', title: 'In your own words', picture: { kind: 'strips', parts: [2, 3, 6], shade: true },
       prompt: 'Finish this idea in your own words: More equal parts means each part is...',
       sample: 'When the same whole is cut into more equal parts, each part gets smaller, because more parts have to share the same amount of space.',
       checks: ['I said the whole stays the same size.', 'I said each part gets smaller.', 'I said why: more parts share the same space.'],

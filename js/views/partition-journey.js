@@ -143,7 +143,7 @@ function cookie({ flip = false, heights = false } = {}) {
   const end = `M${a},${n2(cy - h)} A${r},${r} 0 0,0 ${a},${n2(cy + h)} Z`, flipped = `M${a},${n2(cy - h)} A${r},${r} 0 0,1 ${a},${n2(cy + h)} Z`;
   const tall = (x, word) => { const y = Math.sqrt(r * r - (x - cx) ** 2); return html`<line class="j-guide" x1="${n2(x)}" x2="${n2(x)}" y1="${n2(cy - y)}" y2="${n2(cy + y)}"/><text class="j-tag" x="${n2(x)}" y="${n2(cy + y + 18)}">${word}</text>`; };
   return html`<svg class="j-svg" viewBox="0 0 320 290" role="img" aria-label="A round cookie cut by 3 evenly spaced up-and-down lines into 4 pieces. The 2 middle pieces are tall; the 2 end pieces are short and curved.${flip ? ' A copy of an end piece is flipped onto a middle piece and leaves space uncovered.' : ''}${heights ? ' Dashed lines show a middle piece is taller than an end piece.' : ''}">
-    <circle class="j-whole pie" cx="${cx}" cy="${cy}" r="${r}"/>${flip ? html`<path class="j-region r1 ok" d="${end}"/><path class="j-ghost" d="${flipped}"/><text class="j-tag" x="${cx - 26}" y="${cy - 75}">space left</text>` : ''}
+    <circle class="j-whole pie" cx="${cx}" cy="${cy}" r="${r}"/>${flip ? html`<path class="j-region r1 ok" d="${end}"/><path class="j-ghost" d="${flipped}"/><text class="j-tag" x="${cx - 27}" y="${n2(cy + h + 22)}">dashed: space left over</text>` : ''}
     ${cuts}${heights ? html`${tall(cx - 27.5, 'tall')}${tall(cx - 85, 'short')}` : ''}</svg>`;
 }
 function oval({ mark = false } = {}) {
@@ -179,7 +179,9 @@ export function picture(p) {
 export function helpSteps(card, ui = {}) {
   if (card.type === 'build') {
     const t = card.task, src = card.different ? CROSS.teach2.slice(1) : t.teach || t.solution.map((_, i) => ({ text: i === 0 ? 'Start with this line.' : 'Add this line next.', lines: t.solution.slice(0, i + 1) }));
-    return src.filter((s) => s.lines?.length && !validatePartition(t, s.lines).valid).map((s) => ({ text: s.text, svg: taskSvg(t, { lines: s.lines, small: true, label: `Help picture: ${s.text}` }) }));
+    const partial = (list) => list.filter((s) => s.lines?.length && !validatePartition(t, s.lines).valid);
+    const steps = partial(src).length ? partial(src) : partial(t.solution.map((_, i) => ({ text: i === 0 ? 'Start with this line.' : 'Add this line next.', lines: t.solution.slice(0, i + 1) })));
+    return steps.map((s) => ({ text: s.text, svg: taskSvg(t, { lines: s.lines, small: true, label: `Help picture: ${s.text}` }) }));
   }
   if (card.type === 'count') {
     const n = card.figure.regions.length, half = Math.max(1, Math.floor(n / 2));
@@ -328,7 +330,7 @@ export function journeyCard(ctx, stageId, state) {
   const settled = !asks || ui.ok || ui.compared || (ui.help?.level || 0) >= 3;
   const nextCls = settled ? 'btn btn-primary' : 'btn';
   return html`<div class="j-head"><p class="j-eyebrow">Part ${String.fromCharCode(65 + si)} of I · ${stage.title}</p>
-      <p class="progress j-progress"><span class="j-count">Card ${i + 1} of ${cards.length}</span>${cards.length > 10 ? '' : html`<span class="j-bar" aria-hidden="true">${cards.map((c, k) => html`<span class="${k === i ? 'now' : k < i ? 'past' : ''}"></span>`)}</span>`}</p></div>
+      <p class="progress j-progress"><span class="j-cardnum">Card ${i + 1} of ${cards.length}</span>${cards.length > 10 ? '' : html`<span class="j-bar" aria-hidden="true">${cards.map((c, k) => html`<span class="${k === i ? 'now' : k < i ? 'past' : ''}"></span>`)}</span>`}</p></div>
     ${shapeTracker(card, state)}
     <article class="card j-card j-${card.type}" data-card="${card.id}">
       <div class="j-title-row"><h2 id="stage-h" tabindex="-1">${card.title}</h2><div class="j-title-btns">${readButton([card.title, prompt, ...(card.text || [])])}${asks ? helpButton(card, ui) : ''}</div></div>

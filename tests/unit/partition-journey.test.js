@@ -103,6 +103,23 @@ test('count figures: the rendered regions are equal, fill the outline without ov
   assert.equal(checkCount(card, '', 'sixths').incomplete, true);
 });
 
+test('every figure and construction fits inside its own picture frame', () => {
+  const inside = ([x, y], [w, h]) => x >= -1e-6 && y >= -1e-6 && x <= w + 1e-6 && y <= h + 1e-6;
+  for (const f of Object.values(FIGURES)) for (const r of f.regions) for (const p of r) assert.ok(inside(p, f.viewBox), `${f.id} point ${p} outside ${f.viewBox}`);
+  for (const c of ALL_CARDS.filter((x) => x.type === 'build')) {
+    const t = c.task, box = t.viewBox || [300, 300];
+    const pts2 = t.shape === 'circle' ? [[t.center[0] - t.radius, t.center[1] - t.radius], [t.center[0] + t.radius, t.center[1] + t.radius]] : t.polygon;
+    for (const p of pts2) assert.ok(inside(p, box), `${c.id} outside its frame`);
+  }
+});
+
+test('My Turn hints never mention a center dot that is not there', () => {
+  for (const s2 of SHAPES) if (s2.myTurn.bare) assert.match(s2.myTurn.hint, /no center dot/, s2.skill);
+  for (const s2 of SHAPES) { const steps = helpSteps({ type: 'build', task: s2.myTurn }); assert.ok(steps.length >= 1, `${s2.skill} My Turn has visual steps`); const words = steps.map((x) => x.text).join(' '), t = s2.myTurn;
+    if (t.bare) assert.doesNotMatch(words, /join the center|center to|center dot/i, `${s2.skill} steps never ask to use a hidden center dot`);
+    if (/top corner/i.test(words)) assert.ok(t.polygon.every((p) => p[1] >= t.polygon[0][1] - 1e-9) && t.polygon.filter((p) => Math.abs(p[1] - t.polygon[0][1]) < 1e-6).length === 1, `${s2.skill}: "top corner" only when corner 1 is the single top point`); }
+});
+
 test('unit-square rectangle: the pieces tile the grid exactly, 6 squares each, in two different shapes', () => {
   const all = GRID.pieces.flatMap((p) => p.cells.map((c) => c.join(',')));
   assert.equal(all.length, GRID.cols * GRID.rows); assert.equal(new Set(all).size, all.length);

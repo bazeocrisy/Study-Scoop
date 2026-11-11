@@ -6,12 +6,12 @@
 .j-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 14px 0 8px; }
 .j-eyebrow { margin: 0; font-weight: 700; color: var(--berry); }
 .j-progress { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--muted); }
-.j-count { white-space: nowrap; }
+.j-cardnum { white-space: nowrap; }
 .j-bar { display: inline-flex; gap: 4px; }
 .j-bar span { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--paper); }
 .j-bar span.past { background: var(--line-strong); }
 .j-bar span.now { background: var(--berry); border-color: var(--berry); }
-.j-card { display: grid; gap: 12px; }
+.j-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .j-title-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
 .j-title-row h2 { margin: 0; }
 .j-title-btns { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -24,7 +24,7 @@
 .j-prompt { font-size: 1.15rem; margin: 0; }
 .j-badge { justify-self: start; margin: 0; padding: 4px 12px; border-radius: 999px; background: var(--honey-tint); color: var(--ink); border: 2px solid var(--honey); font-weight: 700; font-size: .9rem; }
 .j-badge.guided { background: var(--teal-tint); border-color: var(--teal); }
-.j-stage-pic { display: grid; place-items: center; }
+.j-stage-pic { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
 .j-svg { display: block; width: min(100%, 520px); height: auto; overflow: visible; touch-action: manipulation; }
 .j-svg.wide { width: min(100%, 640px); }
 .j-svg.small { width: min(100%, 300px); }
@@ -150,10 +150,10 @@
   .j-shape-btn { min-height: 48px; grid-template-columns: auto auto; grid-auto-flow: column; justify-content: center; align-items: center; gap: 2px 6px; }
   .j-shape-btn .j-dots { grid-column: 1 / -1; }
 }
-@media (min-width: 901px) and (max-height: 860px) { .j-stage-pic .j-svg { max-height: 56vh; width: auto; max-width: 100%; } }
+@media (min-width: 901px) and (max-height: 860px) { .j-stage-pic .j-svg { max-height: 56vh; } }
 @media (max-width: 600px) {
   .j-card { padding: 14px 10px; }
-  .j-stage-pic .j-svg { width: 100%; }
+  .j-stage-pic .j-svg { width: min(100%, 520px); }
   .j-point.mark .dot { r: 7px; }
   .j-point.corner .dot, .j-point.center .dot { r: 8.5px; }
   .j-phase-list { display: none; }
