@@ -81,3 +81,53 @@ Each review was done by a separate agent that did not write the code. Each revie
 Not changed, by decision: the order of the six Shape Builder skills and the midpoint-triangle item both follow the assignment's explicit list. The plus shape is the existing reviewed outline. These echo the workbook's structure and are listed for the owner's review under *Open questions*.
 
 Still open (nice-to-have): arrow-key movement between dots (today each dot is a Tab stop); a mixed-shape review card; a solo rectangle-sixths check; phone dot hit areas of 33–36 px on the densest rectangles (above the 24 px AA minimum, below the 44 px goal).
+
+## 5. Test evidence
+
+Commands were run in this container (Node 22, headless Chromium) on the final commit. Every suite runs on its own, so one failure cannot hide the results after it. Logs are in the session scratchpad and are not committed.
+
+Final run on **`1454bff`** (application and tests; later commits change docs only). All exits 0.
+
+| Suite | Repository | Built site (`_site`, allowlist build) |
+|---|---|---|
+| `npm test` (unit; 333 at baseline + 22 new journey tests) | 355 passed, 0 failed | n/a |
+| `scripts/build-site.js` verification | n/a | approved files only, every reference resolves, data valid, no personal names |
+| `browser.test.js` (all sections, navigation, accessibility, contrast, layout, print) | 347 passed, 0 failed | 349 passed, 0 failed |
+| `homework-nov02` / `homework-nov09` | 220 / 220 | 220 / 220 |
+| `weekly-labs` / `layout` | 80 / 79 | 80 / 79 |
+| `chapter7` (Chapters 5–7 journeys) | 547 | 547 |
+| `chapter7-assessment` / `-teaching` / `-teaching-access` / `-teaching-all` | 3 / 8 / 10 / 18 | 3 / 8 / 10 / 18 |
+| **`partition-journey` (new)** | **715** | **715** |
+
+Earlier runs on this branch, kept for honesty:
+- **Baseline at `c0b49f9`, before any change:** 333 unit tests passed. All repository browser suites passed, including the old Partition Lab suite (151 checks).
+- **Run 1 at `ac65246`:** 350 unit tests passed. `browser.test.js` failed 2 checks in both the repository and the built site: (a) at 360 px the parent-page summary table went past the edge; (b) the Chapter 7 lesson-goals list picked up the new "Extra practice" link. Because the npm scripts chain with `&&`, the later suites did not run. Both were fixed in `fdd1b24`.
+- **Run 3 at `21158ea`:** 355 unit tests passed; `browser.test.js` 347/0; homework, labs and layout passed; Chapter 7 547 and assessment passed. `chapter7-teaching.browser.js` failed one check: after "Try again" on the original Practice Together stage, the picture and the answer no longer fit on screen together, because the extra headers pushed them down. Fixed in `3a0ab57` by keeping the original stages' own layout. That suite then passed alone (8 passed, 0 failed).
+- **The independent reviewers' own scripts:** the counts are in §4.
+
+What the new suites cover:
+- `tests/unit/partition-journey.test.js`: every answer key, alternative constructions, fresh solo geometry, the "different way" rule, an independent rendered-diagram audit (count figures, unit grids, halves, the cookie, oval and pie areas by integral, sandwiches, garden, strips), frames, help never showing a finished answer early, record rules, the controller, writing, the summary and an originality guard.
+- `tests/partition-journey.browser.js`: a complete walk through all sections with real clicks, plus wrong first tries, every listed alternative construction, an unequal partition, an unsupported circle chord, every help level with the child's drawing preserved, focus, keyboard, touch, the grown-up summary counts, and the original stages. It also checks that every card fits at 320, 360, 390, 768 and 1366 px.
+
+## 6. Decisions and remaining limits
+
+- **The collapsed Partition Lab is replaced, not duplicated.** The assignment ruled out collapsed sections and dropdowns. The UI (`js/partition-lab.js`, `css/partition-lab.css`) and its browser suite were removed. That suite's checks of the original stages were moved into the new suite. `js/lib/partition-reasoning.js` and its audit test are kept, because deleting a test needs the owner's approval. They are listed in `RETIRED` in `scripts/build-site.js` and are not published; the owner may delete both later.
+- **Help on solo questions.** Help is available everywhere, as the assignment requires. Using it is recorded, and that question then cannot count as independent. Lesson 7-1's original scored test still has no hints.
+- **Nothing is stored.** Results last only while the tab is open, in line with the repository's privacy policy. The summary says so.
+- **Invented names:** Rio, Jun, Lee, Mia and Leo. The owner should confirm none matches a classmate.
+- **Not verified:** a real child using it, physical Chromebook or touch hardware, a real screen reader, audible speech, and printing. Technical checks cannot show that a child has learned the skill. The grown-up summary asks for a paper check, then the printed workbook with no help.
+
+## 7. Originality
+
+All wording, examples, characters and diagrams are new. Diagrams are inline SVG computed from coordinates; there are no images. The reference PDF is not in the repository; an md5 comparison against every tracked file found no match. The build output has no PDF-derived files. After the originality screen, these changes were made: the reflection sentence was reworded; "Work Together" and "On My Own" were renamed "Try It Together" and "Solo try"; the item-7 analogue now uses strips of 2, 3 and 6; the octagon and hexagon orientations were changed; and the slanted-shape figure is a new composition.
+
+**Open questions for the owner** (screening only, not legal advice):
+- Is following the workbook's item order acceptable? The six-shape list and the midpoint triangle come from the assignment.
+- Earlier merges published homework images and a homework PDF. These are outside this change, but the screener asked whether they have a recorded permission review.
+
+## 8. Preview, release and rollback
+
+- **Preview:** the shared `/preview/` is built from `develop`, so it changes only when `develop` changes, and that needs the owner's approval. To see this exact branch locally, run `npm run serve`, then open `…/Study-Scoop/#math?lesson=7-1`. To see the exact publishable set, run `node scripts/build-site.js _site`, then serve `_site`.
+- **Screenshots:** `docs/reviews/images/lesson-7-1-journey-*-{1366,1280,390}.png` (Chromebook and phone).
+- **Release:** merge only after approval. The workflow's Lesson 7-1 steps run whichever suite each branch has.
+- **Rollback:** revert the merge commit. No data or storage migration is involved.
