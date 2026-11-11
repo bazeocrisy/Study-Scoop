@@ -27,9 +27,16 @@ function walk(dir) {
 const APP_FILES = ['index.html', 'css/style.css', ...walk('js')];
 const PUBLISHED = ['index.html', ...walk('js'), ...walk('css'), ...walk('data'), ...walk('images'), ...walk('reference'), ...walk('docs')];
 
-test('the app never stores anything or tracks anyone', () => {
+// D29: the only storage is Lesson 7-1 progress, in js/lib/journey-store.js, under one localStorage key.
+const STORE_FILE = 'js/lib/journey-store.js';
+test('the app never stores anything or tracks anyone (except Lesson 7-1 progress, D29)', () => {
   for (const f of APP_FILES) {
     const src = code(f);
+    if (f === STORE_FILE) {
+      refute(/sessionStorage|indexedDB|document\.cookie|serviceWorker|sendBeacon|fetch\(|XMLHttpRequest/, src, f);
+      assert.deepEqual([...new Set(src.match(/'studyScoop\.[^']*'/g))], ["'studyScoop.lesson7-1.progress'"], 'one storage key');
+      continue;
+    }
     refute(/localStorage|sessionStorage|indexedDB|document\.cookie|serviceWorker|sendBeacon/, src, f);
     refute(/gtag|google-analytics|googletagmanager|analytics|plausible|matomo|fbq\(/i, src, f);
   }

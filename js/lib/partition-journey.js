@@ -527,7 +527,7 @@ export function checkCount(card, number, name) {
   return { valid, message: `${number} is right. Now the name: ${card.answer} equal parts are called ${NAMES.find(([n]) => n === card.answer)[1]}.` };
 }
 
-// ------------------------------------------------------------------ progress (this open tab only; nothing is stored)
+// ------------------------------------------------------------------ progress records (saved in this browser only, D29)
 /** Help levels: 1 hint, 2 visual steps, 3 answer shown. */
 export const HELP_LABELS = ['', 'hint', 'visual steps', 'answer shown'];
 export function newRecord(card) { return { id: card.id, attempts: 0, first: null, correct: false, help: 0, helpBeforeCorrect: 0, viewed: false, written: false, reviewed: false }; }

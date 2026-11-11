@@ -24,7 +24,7 @@ function sectorPath([cx, cy], r, a, b) {
 const sectorMid = ([cx, cy], r, [a, b]) => { const sweep = ((b - a) + Math.PI * 2) % (Math.PI * 2) || Math.PI * 2, t = a + sweep / 2; return [cx + r * .6 * Math.cos(t), cy + r * .6 * Math.sin(t)]; };
 
 /** A construction picture: the whole, shaded regions, divider lines and (when active) the tappable points. */
-export function taskSvg(task, { lines = [], result = null, active = false, selected = null, label = '', small = false, dots: showDots = true } = {}) {
+export function taskSvg(task, { lines = [], result = null, active = false, selected = null, cursor = null, label = '', small = false, dots: showDots = true } = {}) {
   const [w, h] = task.viewBox || [300, 300];
   const at = new Map(task.points.map((p) => [p.id, p]));
   const shapes = result?.shapes || [];
@@ -39,10 +39,12 @@ export function taskSvg(task, { lines = [], result = null, active = false, selec
   // The touch target around each dot is as large as possible without overlapping a neighbour (at most 22 units).
   task._hit ||= Math.min(22, ...task.points.flatMap((p, i) => task.points.slice(i + 1).map((q) => Math.hypot(p.x - q.x, p.y - q.y) / 2 - .5)));
   const kind = (id) => (id === 'c' ? 'center' : /^[vk]\d/.test(id) ? 'corner' : 'mark');
-  const dots = task.points.map((p) => html`<g class="j-point ${kind(p.id)}${selected === p.id ? ' selected' : ''}"${active ? html` role="button" tabindex="0" data-point="${p.id}" aria-label="${p.label}" aria-pressed="${selected === p.id}"` : ''}>${active ? html`<circle class="hit" cx="${n2(p.x)}" cy="${n2(p.y)}" r="${n2(task._hit)}"/>` : ''}<circle class="dot" cx="${n2(p.x)}" cy="${n2(p.y)}" r="${kind(p.id) === 'mark' ? 5.5 : 7}"/></g>`);
+  // One Tab stop for the whole drawing (roving tabindex); arrow keys move between dots (js/partition-journey.js).
+  const tabTo = active ? (task.points.some((p) => p.id === cursor) ? cursor : selected || task.points[0].id) : null;
+  const dots = task.points.map((p) => html`<g class="j-point ${kind(p.id)}${selected === p.id ? ' selected' : ''}"${active ? html` role="button" tabindex="${p.id === tabTo ? 0 : -1}" data-point="${p.id}" aria-label="${p.label}" aria-pressed="${selected === p.id}"` : ''}>${active ? html`<circle class="hit" cx="${n2(p.x)}" cy="${n2(p.y)}" r="${n2(task._hit)}"/><circle class="ring" cx="${n2(p.x)}" cy="${n2(p.y)}" r="17"/>` : ''}<circle class="dot" cx="${n2(p.x)}" cy="${n2(p.y)}" r="${kind(p.id) === 'mark' ? 5.5 : 7}"/></g>`);
   const whole = task.shape === 'circle' ? html`<circle class="j-whole" cx="${task.center[0]}" cy="${task.center[1]}" r="${task.radius}"/>` : html`<polygon class="j-whole" points="${pts(task.polygon)}"/>`;
   const desc = label || `${task.label}. ${lines.length} line${lines.length === 1 ? '' : 's'} drawn.`;
-  return html`<svg class="j-svg${small ? ' small' : ''}" viewBox="0 0 ${w} ${h}" ${active ? html`role="group"` : html`role="img"`} aria-label="${desc}">${whole}${regions}<g class="j-outline-top">${task.shape === 'circle' ? html`<circle cx="${task.center[0]}" cy="${task.center[1]}" r="${task.radius}"/>` : html`<polygon points="${pts(task.polygon)}"/>`}</g>${drawn}${active || (showDots && (lines.length || small)) ? dots : ''}</svg>`;
+  return html`<svg class="j-svg${small ? ' small' : ''}${active ? ' j-build' : ''}" viewBox="0 0 ${w} ${h}" ${active ? html`role="group" data-build` : html`role="img"`} aria-label="${active ? `${desc} Use the arrow keys to move between dots, and Enter or Space to choose one.` : desc}">${whole}${regions}<g class="j-outline-top">${task.shape === 'circle' ? html`<circle cx="${task.center[0]}" cy="${task.center[1]}" r="${task.radius}"/>` : html`<polygon points="${pts(task.polygon)}"/>`}</g>${drawn}${active || (showDots && (lines.length || small)) ? dots : ''}</svg>`;
 }
 
 const gridOf = () => GRID;
@@ -236,9 +238,10 @@ function buildCard(card, ui) {
   const result = ui.result || null;
   const sel = card.task.points.find((p) => p.id === ui.selected);
   return html`
-    <div class="j-stage-pic">${taskSvg(card.task, { lines: ui.lines || [], result, active: true, selected: ui.selected })}</div>
+    <div class="j-stage-pic">${taskSvg(card.task, { lines: ui.lines || [], result, active: true, selected: ui.selected, cursor: ui.cursor })}</div>
+    <p class="j-preview" data-j-preview aria-hidden="true">&nbsp;</p>
     <p class="j-legend"><span class="key corner"></span> corner${card.task.points.some((p) => !/^[vkce]\d|^c$/.test(p.id)) ? html` <span class="key mark"></span> mark on an edge` : ''}${card.task.points.some((p) => /^e\d/.test(p.id)) ? html` <span class="key mark"></span> point on the edge` : ''}${card.task.points.some((p) => p.id === 'c') ? html` <span class="key center"></span> center` : ''}</p>
-    <p class="j-howto">${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap where the line should end.` : 'Tap a dot, then tap another dot to draw a line between them. Tap the same two dots again to erase that line.'}</p>
+    <p class="j-howto">${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap where the line should end.` : 'Tap a dot, then tap another dot to draw a line between them. Not sure you hit the right dot? Keep your finger down and slide: the circled dot is the one you will get. Tap the same two dots again to erase a line.'}</p>
     <div class="j-row j-tools">
       <button type="button" class="btn btn-primary" data-j="check">Check my parts</button>
       <button type="button" class="btn" data-j="undo" ${(ui.lines || []).length ? '' : html`disabled`}>Undo last line</button>
@@ -346,7 +349,7 @@ export function journeyCard(ctx, stageId, state) {
         : nextStage ? html`<a class="${nextCls}" data-j-next-stage href="${ctx.lessonLink('7-1', nextStage.id)}">Next: ${nextStage.label} ›</a>`
         : html`<a class="${nextCls}" data-j-next-stage href="${ctx.lessonLink('7-1', 'parent')}">Finish: see my results ›</a>`}
     </div>
-    <p class="hint">Your work stays while this page is open. Refreshing or closing it starts over. Nothing is saved or sent.</p>`;
+    <p class="hint">Your work is saved on this device, so you can come back later. Nothing is sent anywhere.</p>`;
 }
 
 // ------------------------------------------------------------------ parent summary
@@ -354,7 +357,7 @@ export function journeySummary(ctx, state) {
   const s = summarize(state.records), t = s.totals;
   const wrote = s.written.filter((w) => w.rec?.written);
   return html`<section class="card j-summary" aria-labelledby="j-sum-h">
-    <h2 id="j-sum-h">Lesson 7-1 results (this visit)</h2>
+    <h2 id="j-sum-h" tabindex="-1">Lesson 7-1 results</h2>
     <p>Solo tries (My Turn and Check & Reflect): <strong>${t.independentDone} of ${t.independentOpportunities}</strong> right on the first try with no help.</p>
     <ul class="j-totals">
       <li><strong>${t.independent}</strong> right on the first try with no help (all checked questions)</li>
@@ -378,7 +381,15 @@ export function journeySummary(ctx, state) {
     <p class="j-note"><strong>Written answers need a grown-up to read them.</strong> The checklist is ticked by the child or a grown-up. The computer does not grade their meaning. A correct construction here shows the steps worked on screen; it does not prove mastery. Try the printed workbook page without help to confirm.</p>
     <h3>Try it on paper</h3>
     <p>On screen, lines join dots. On paper there are no dots. Before the workbook, ask your child to draw on blank shapes: a diamond, a square, a circle, an octagon and a hexagon. Watch for two things: lines that cross in the middle of the shape, and parts that look the same size. Then use the printed lesson as the final check, with no help.</p>
-    <p class="j-note">Kept only while this page is open. Nothing is saved or sent.</p>
+    <section class="j-reset" aria-labelledby="j-reset-h" data-j-reset-box>
+      <h3 id="j-reset-h">Saved progress (for grown-ups)</h3>
+      <p>Lesson 7-1 progress is saved only in this browser on this device, so your child can stop and come back. It holds answers, drawings, written answers and the results above. It holds no name, and nothing is sent anywhere. Other Study Scoop pages are not saved. Erase it when another child will use this device, or to start Lesson 7-1 again.</p>
+      <div class="j-row" data-j-reset-ask><button type="button" class="btn" data-j-reset="ask">Reset Lesson 7-1 progress…</button></div>
+      <div class="j-confirm" data-j-reset-confirm hidden>
+        <p role="alert"><strong>Erase all Lesson 7-1 progress on this device?</strong> This cannot be undone.</p>
+        <div class="j-row"><button type="button" class="btn btn-primary" data-j-reset="yes">Yes, erase Lesson 7-1 progress</button><button type="button" class="btn" data-j-reset="no">Cancel</button></div>
+      </div>
+    </section>
   </section>`;
 }
 export { SKILLS };

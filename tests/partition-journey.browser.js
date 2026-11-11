@@ -25,12 +25,17 @@ const meta = await (async () => { await b.load(url('explore')); return b.js(`con
     solutions:c.task?.solutions||null,options:c.options?.map(o=>({correct:!!o.correct,value:o.value}))||null,answer:c.answer||null,name:c.name||null,regions:c.figure?.regions.length||0,different:c.different||null}))])) };`); })();
 
 const used = {};
-/** A fresh visit opened at one card (a reload clears the visit, so the card is chosen after loading). */
+const KEY = 'studyScoop.lesson7-1.progress';
+/** A fresh start at one card: saved progress (D29) is erased first, so earlier checks cannot leak into this one. */
 async function openCard(stage, index) {
   await b.load(url(stage));
-  await b.js(`const m=await import('./js/partition-journey.js');m.resetJourney();m.journeyState.at['${stage}']=${index};`);
-  await b.hash('#math?lesson=7-1&stage=parent'); await b.hash(`#math?lesson=7-1&stage=${stage}`);
+  await b.js(`localStorage.removeItem('${KEY}');const m=await import('./js/partition-journey.js');m.resetJourney();m.journeyState.at['${stage}']=${index};`);
+  const away = stage === 'parent' ? 'explore' : 'parent';
+  await b.hash(`#math?lesson=7-1&stage=${away}`); await b.hash(`#math?lesson=7-1&stage=${stage}`);
+  if (stage === 'parent') await b.js(`localStorage.removeItem('${KEY}');const m=await import('./js/partition-journey.js');m.resetJourney();`);
 }
+const fresh = (stage) => openCard(stage, 0);
+const saved = () => b.js(`return JSON.parse(localStorage.getItem('${KEY}') || 'null')`);
 // Taps the middle (centroid) of a region, where a child would touch, rather than the middle of its bounding box.
 async function tapRegion(i) {
   const [x, y] = await b.js(`const g=document.querySelector('.j-stage-pic [data-region="${i}"]');g.scrollIntoView({block:'center'});const poly=g.querySelector('polygon'),svg=g.ownerSVGElement,m=poly.getScreenCTM(),p=[...poly.points];const c=p.reduce((s,q)=>[s[0]+q.x/p.length,s[1]+q.y/p.length],[0,0]);const q=svg.createSVGPoint();q.x=c[0];q.y=c[1];const r=q.matrixTransform(m);return [r.x,r.y];`);
@@ -108,7 +113,8 @@ try {
   await b.viewport(1366, 768, false);
   // Entry: Lesson 7-1 opens on the journey, not a collapsed panel or a dropdown.
   await b.load(url());
-  ok(await b.js('return location.hash.includes("stage=explore")'), 'Lesson 7-1 opens on section A');
+  await b.js(`localStorage.removeItem('${KEY}')`); await b.load(url());
+  ok(await b.js('return location.hash.includes("stage=explore")'), 'Lesson 7-1 opens on section A when nothing is saved');
   ok(await b.js('return !document.querySelector("details.partition-lab-shell, #lesson-stage select, .j-stepper select")'), 'no collapsed lab panel and no dropdown to find activities');
   ok(await b.js('return document.querySelectorAll(".j-stepper li").length === 10'), 'stepper shows sections A–I and the grown-up summary');
   ok(await b.js('return document.querySelector(".j-stepper a[aria-current=step]").textContent.includes("Explore")'), 'stepper marks the current section');
@@ -141,7 +147,7 @@ try {
   ok(await b.js('return /Finish|results/i.test(document.title + document.querySelector(".j-summary h2").textContent)'), 'the last card leads to the results summary');
 
   // Every alternative construction listed for a shape is accepted through the real controls (not only the first).
-  await b.load(url('shapes'));
+  await fresh('shapes');
   for (const c of meta.cards.shapes.filter((x) => x.type === 'build')) {
     await b.js(`const m=await import('./js/partition-journey.js');m.journeyState.at.shapes=${meta.cards.shapes.findIndex((x) => x.id === c.id)};`);
     await b.hash('#math?lesson=7-1&stage=parent'); await b.hash('#math?lesson=7-1&stage=shapes');
@@ -234,12 +240,10 @@ try {
   for (const [w, h] of [[360, 740], [390, 844], [768, 1024], [1024, 768], [1280, 800], [1366, 768], [1920, 1080]]) {
     await b.viewport(w, h);
     for (const stage of ['explore', 'method', 'shapes', 'count', 'area', 'parent']) {
-      await b.load(url(stage));
+      await fresh(stage);
       ok(await b.js('return document.documentElement.scrollWidth <= innerWidth'), `${w}px ${stage}: no horizontal scroll`);
     }
-    await b.load(url('shapes')); await tap(J('next'));
-    const minPoint = await b.js('return Math.min(...[...document.querySelectorAll(".j-stage-pic [data-point] .hit")].map(e=>e.getBoundingClientRect().width))');
-    ok(minPoint >= 24, `${w}px: construction targets at least 24px (smallest ${minPoint.toFixed(0)}px)`);
+    await openCard('shapes', 1);
     const minBtn = await b.js('return Math.min(...[...document.querySelectorAll("#lesson-stage button.btn, .j-help-btn")].filter(e=>e.offsetParent).map(e=>e.getBoundingClientRect().height))');
     ok(minBtn >= 44, `${w}px: buttons at least 44px tall (smallest ${minBtn.toFixed(0)}px)`);
     if (w === 390) {
@@ -281,7 +285,7 @@ try {
   for (const [w, h] of [[320, 640], [360, 740], [390, 844], [768, 1024], [1366, 768]]) {
     await b.viewport(w, h);
     for (const stage of meta.journey) {
-      await b.load(url(stage));
+      await fresh(stage);
       for (let i = 0; i < meta.cards[stage].length; i++) {
         const over = await b.js('return document.documentElement.scrollWidth - innerWidth');
         const pic = await b.js('const s=document.querySelector(".j-stage-pic svg");if(!s)return true;const r=s.getBoundingClientRect();return r.left>=-1&&r.right<=innerWidth+1');
@@ -291,6 +295,99 @@ try {
     }
   }
   await b.viewport(1366, 768, false);
+  // ---- Choosing dots (touch targets). The usable target of a dot is its "nearest dot" area: every press on the
+  // drawing goes to the closest dot (no gaps, no overlaps), with a ring preview and slide-to-adjust before lifting.
+  const dense = ['method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-make')], sparse = ['shapes', 1];
+  const targetReport = [];
+  const press = async (x, y, type = 'mouse', moveTo = null) => {
+    if (type === 'touch') {
+      await b.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+      if (moveTo) await b.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: moveTo[0], y: moveTo[1] }] });
+      await b.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    } else {
+      await b.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y }); await b.send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
+      if (moveTo) { await b.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: moveTo[0], y: moveTo[1], button: 'left', buttons: 1 }); ok(await b.js('return /lift to choose/.test(document.querySelector("[data-j-preview]").textContent) && !!document.querySelector(".j-point.preview")'), 'while pressing, the dot that will be chosen is ringed and named'); }
+      await b.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: moveTo ? moveTo[0] : x, y: moveTo ? moveTo[1] : y, button: 'left', clickCount: 1 });
+    }
+  };
+  const selected = () => b.js('return document.querySelector(".j-stage-pic [data-point][aria-pressed=true]")?.dataset.point || null');
+  const geometry = () => b.js(`const s=document.querySelector('.j-stage-pic svg');s.scrollIntoView({block:'center'});return [...s.querySelectorAll('[data-point]')].map(g=>{const r=g.querySelector('.dot').getBoundingClientRect();return {id:g.dataset.point,x:r.x+r.width/2,y:r.y+r.height/2};});`);
+  for (const [w, h] of [[320, 640], [360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768]]) {
+    await b.viewport(w, h);
+    for (const [stage, index] of [dense, sparse]) {
+      await openCard(stage, index);
+      const pts = await geometry(), type = w < 1024 ? 'touch' : 'mouse';
+      let smallest = Infinity;
+      for (const p of pts) {
+        const nb = pts.filter((q) => q !== p).sort((a, c) => Math.hypot(a.x - p.x, a.y - p.y) - Math.hypot(c.x - p.x, c.y - p.y))[0];
+        const d = Math.hypot(nb.x - p.x, nb.y - p.y); smallest = Math.min(smallest, d);
+        // Worst case: press just short of halfway toward the closest neighbour. It must still choose this dot.
+        const reach = Math.min(d / 2 - 2, 44), k = reach / d, x = p.x + (nb.x - p.x) * k, y = p.y + (nb.y - p.y) * k;
+        await press(x, y, type);
+        ok((await selected()) === p.id, `${w}px ${stage}: a press ${Math.round(reach)}px from ${p.id}, toward ${nb.id}, chooses ${p.id}`);
+        await press(p.x, p.y, type); // press it again to un-choose
+        ok((await selected()) === null, `${w}px: pressing the chosen dot again un-chooses it`);
+      }
+      targetReport.push(`${w}px ${stage === 'method' ? 'densest (rectangle eighths)' : 'diamond'}: closest dots ${smallest.toFixed(0)}px apart`);
+      if (w >= 768) ok(smallest >= 44, `${w}px: every dot owns a target at least 44px across (${smallest.toFixed(0)}px)`);
+      else ok(smallest >= 28, `${w}px: dots at least 28px apart (${smallest.toFixed(0)}px), with nearest-dot choosing, ring preview and slide`);
+      // Slide to adjust: press on one dot, slide to another, lift: only the second is chosen. A scroll cancels.
+      const [a, c] = [pts[0], pts[pts.length - 1]];
+      await press(a.x, a.y, 'mouse', [c.x, c.y]);
+      ok((await selected()) === c.id, `${w}px: sliding to another dot before lifting chooses that dot`);
+      await press(c.x, c.y);
+      // A press far from every dot does nothing.
+      const far = await b.js('const r=document.querySelector(".j-stage-pic svg").getBoundingClientRect();return [r.left+4,r.top+4]');
+      const nearestFar = Math.min(...pts.map((p) => Math.hypot(p.x - far[0], p.y - far[1])));
+      if (nearestFar > 52) { await press(far[0], far[1]); ok((await selected()) === null, `${w}px: a press far from every dot chooses nothing`); }
+    }
+  }
+  console.log('Dot targets: ' + targetReport.join('; '));
+  // Keyboard: one Tab stop for the drawing, arrow keys move between dots, Enter chooses.
+  await b.viewport(1366, 768, false);
+  await openCard('method', 1);
+  ok(await b.js('return document.querySelectorAll(".j-stage-pic [data-point][tabindex=\\"0\\"]").length === 1'), 'the drawing is a single Tab stop');
+  await b.js('document.querySelector(".j-stage-pic [data-point][tabindex=\\"0\\"]").focus()');
+  const first = await b.js('return document.activeElement.dataset.point');
+  await b.key('ArrowRight');
+  const second = await b.js('return document.activeElement.dataset.point');
+  ok(second && second !== first && (await b.js('return document.activeElement.getAttribute("tabindex")')) === '0', `ArrowRight moves from ${first} to ${second} and keeps one Tab stop`);
+  await b.key('Enter'); ok((await selected()) === second, 'Enter chooses the focused dot');
+
+  // ---- Saved progress (D29): refresh, reopen, resume, and the grown-up reset.
+  await openCard('shapes', 1);
+  await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check'));                      // Guide Me diamond: independent
+  await tap(J('next')); await tap(J('help')); await tap(J('hint'));                       // My Turn diamond: hint, then
+  await draw(meta.cards.shapes.find((c) => c.id === 'd-diamond-myturn').solutions[0]); await tap(J('check'));
+  await tap(J('next')); await tap(J('next')); await draw([['t2-6', 'b2-6']]);              // square Guide Me: half-drawn
+  const beforeRefresh = await state();
+  let data = await saved();
+  ok(data && data.stage === 'shapes' && data.at.shapes === 4, 'progress is saved as the child works (section and card)');
+  ok(JSON.stringify(Object.keys(await b.js('return {...localStorage}'))) === JSON.stringify([KEY]), 'only the one Lesson 7-1 key is stored');
+  await b.load(url());                                                                     // refresh / reopen with no section named
+  ok(await b.js('return location.hash.includes("stage=shapes")') && (await card()) === 'd-square-guide', 'reopening Lesson 7-1 resumes at the same section and card');
+  ok(await b.js('return document.querySelectorAll(".j-stage-pic .j-cut").length === 1'), 'the half-finished drawing is still there');
+  const restored = await state();
+  ok(restored.records['d-diamond-guide'].first === 'correct' && restored.records['d-diamond-myturn'].helpBeforeCorrect === 1 && restored.records['d-diamond-myturn'].correct, 'independent and hint-assisted results survive the refresh');
+  ok(JSON.stringify(restored.records) === JSON.stringify(beforeRefresh.records), 'every record is restored exactly');
+  await b.hash('#math?lesson=7-1&stage=parent');
+  const sum2 = await b.js('return document.querySelector(".j-summary").textContent.replace(/\\s+/g," ")');
+  ok(/1 right on the first try with no help/.test(sum2) && /1 finished after a hint/.test(sum2), 'the grown-up summary after a refresh still separates independent and assisted work');
+  ok(/saved only in this browser on this device/.test(sum2) && /no name/.test(sum2), 'the summary explains what is saved and that nothing is sent');
+  // Reset needs a confirmation; Cancel keeps everything.
+  await tap('[data-j-reset="ask"]');
+  ok(await b.js('return !document.querySelector("[data-j-reset-confirm]").hidden && document.activeElement.dataset.jReset === "no"'), 'Reset asks to confirm, with focus on Cancel');
+  await tap('[data-j-reset="no"]');
+  ok((await saved()) !== null && await b.js('return document.querySelector("[data-j-reset-confirm]").hidden'), 'Cancel keeps the saved progress');
+  await tap('[data-j-reset="ask"]'); await tap('[data-j-reset="yes"]');
+  ok((await saved()) === null, 'confirmed Reset erases the saved Lesson 7-1 progress');
+  ok(/0 right on the first try/.test(await b.js('return document.querySelector(".j-summary").textContent.replace(/\\s+/g," ")')), 'the summary shows a fresh start right away');
+  await b.load(url());
+  ok(await b.js('return location.hash.includes("stage=explore")') && Object.keys((await state()).records).length === 0, 'after Reset, Lesson 7-1 starts again at section A');
+  // Other Study Scoop pages still store nothing.
+  await b.load(`${server.origin}${BASE}#math?lesson=7-2&stage=try`); await b.load(`${server.origin}${BASE}#spelling`);
+  ok(JSON.stringify(Object.keys(await b.js('return {...localStorage}'))).replace(KEY, '') === '[""]' || (await b.js('return localStorage.length')) <= 1, 'no other page adds anything to storage');
+
   ok(b.errors.length === 0, `no browser errors: ${b.errors.join('; ')}`);
   ok(server.missing.length === 0, `no missing requests: ${server.missing.join('; ')}`);
   console.log(`Lesson 7-1 journey: ${checks} checks passed (${arg < 0 ? 'repository' : 'built site'}).`);

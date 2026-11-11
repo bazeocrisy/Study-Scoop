@@ -1,10 +1,28 @@
-// Lesson 7-1 learning journey controller: taps, keys, focus and the in-tab record of independent and assisted work.
-// Nothing is stored or sent; refreshing the page starts over (repository privacy policy).
-import { CARDS, JOURNEY, checkBuild, checkCount, partitionKey, onSameEdge, unequalTip, newRecord, noteHelp, noteCheck } from './lib/partition-journey.js';
-import { journeyCard } from './views/partition-journey.js';
+// Lesson 7-1 learning journey controller: taps, keys, focus and the record of independent and assisted work.
+// Progress is saved in this browser only (DECISIONS D29, js/lib/journey-store.js) and never sent anywhere.
+import { CARDS, JOURNEY, ALL_CARDS, checkBuild, checkCount, partitionKey, onSameEdge, unequalTip, newRecord, noteHelp, noteCheck } from './lib/partition-journey.js';
+import { loadProgress, saveProgress, clearProgress } from './lib/journey-store.js';
+import { journeyCard, journeySummary } from './views/partition-journey.js';
 
-export const journeyState = { at: {}, ui: {}, records: {} };
-export function resetJourney() { journeyState.at = {}; journeyState.ui = {}; journeyState.records = {}; }
+export const journeyState = { stage: null, at: {}, ui: {}, records: {} };
+export function resetJourney() { journeyState.stage = null; journeyState.at = {}; journeyState.ui = {}; journeyState.records = {}; }
+/** Restores saved progress into the journey (pictures of checked constructions are recomputed, not stored). */
+export function restoreJourney(saved = loadProgress()) {
+  resetJourney();
+  if (!saved) return false;
+  Object.assign(journeyState, { stage: saved.stage, at: saved.at, ui: saved.ui, records: saved.records });
+  for (const c of ALL_CARDS) {
+    const ui = journeyState.ui[c.id];
+    if (c.type === 'build' && ui?.checked && ui.lines?.length) { const r = checkBuild(c.task, ui.lines); ui.result = !ui.ok && r.valid ? { ...r, valid: false } : r; }
+  }
+  return true;
+}
+export const saveJourney = () => saveProgress(journeyState);
+/** Grown-up reset: erases this browser's saved Lesson 7-1 progress and the progress on screen. */
+export function eraseJourney() { clearProgress(); resetJourney(); }
+/** Where "Lesson 7-1" should open: the section the child was last in, or section A. */
+export const resumeStage = () => (journeyState.stage && journeyState.stage !== 'parent' && CARDS[journeyState.stage] ? journeyState.stage : JOURNEY[0].id);
+restoreJourney();
 const rec = (card) => (journeyState.records[card.id] ||= newRecord(card));
 const uiFor = (card) => (journeyState.ui[card.id] ||= {});
 
@@ -24,7 +42,7 @@ export function act(stageId, action, data = {}, state = journeyState) {
     case 'prev': state.at[stageId] = Math.max(0, at - 1); return { focus: '#stage-h' };
     case 'goto': state.at[stageId] = Math.max(0, Math.min(cards.length - 1, Number(data.index) || 0)); return { focus: '#stage-h' };
     case 'point': {
-      const id = data.id;
+      const id = data.id; ui.cursor = id;
       if (ui.selected && ui.selected !== id) {
         ui.lines ||= [];
         if (onSameEdge(card.task, ui.selected, id)) { ui.selected = null; reset(); ui.say = 'That line would sit on the edge of the shape. Pick a dot on a different side.'; return { focus: `[data-point="${id}"]`, say: ui.say }; }
@@ -121,8 +139,10 @@ export function mountJourney(app, ctx, signal) {
     if (el) el.focus({ preventScroll: !focus.startsWith('#stage-h') && !focus.includes('help') && focus !== '.j-compare' });
     if (focus === '#stage-h') root.querySelector('.j-head')?.scrollIntoView({ block: 'start' });
   };
+  journeyState.stage = stageId; saveJourney();
   const run = (action, data) => {
     const out = act(stageId, action, data);
+    saveJourney();
     if (out.quiet) return;
     render(out.focus);
     // After Check, make sure the result is on screen (short Chromebook screens).
@@ -136,16 +156,71 @@ export function mountJourney(app, ctx, signal) {
   };
   const cardEl = () => root.querySelector('[data-card]');
   root.addEventListener('click', (e) => {
-    const p = e.target.closest('[data-point]'); if (p) return run('point', { id: p.dataset.point });
+    // Pointer taps on dots are handled by the press-preview-lift code below; clicks here come from the keyboard.
+    const p = e.target.closest('[data-point]'); if (p) { if (e.detail === 0) run('point', { id: p.dataset.point }); return; }
     const g = e.target.closest('[data-region]'); if (g) return run('region', { index: Number(g.dataset.region) });
     const piece = e.target.closest('[data-piece]'); if (piece) return run('piece', { index: Number(piece.dataset.piece) });
     const b = e.target.closest('[data-j]'); if (!b || b.disabled) return;
     run(b.dataset.j, { ...b.dataset });
   }, { signal });
   root.addEventListener('keydown', (e) => {
+    if (e.target.matches?.('[data-point]') && e.key.startsWith('Arrow')) { e.preventDefault(); moveFocus(e.target, e.key); return; }
     if (e.key === 'Escape' && root.querySelector('.j-help')) { e.preventDefault(); run('close-help'); return; }
     if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('[data-point], [data-region], [data-piece]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
   }, { signal });
+  // Choosing a dot: a press anywhere on the drawing picks the nearest dot (no gaps, no overlaps) and rings it;
+  // sliding moves the ring; lifting chooses it. A scroll gesture cancels. Taps far from every dot do nothing.
+  const REACH = 48; // CSS pixels from a dot's center
+  let pending = null;
+  const svgOf = (e) => e.target.closest?.('svg[data-build]');
+  const nearest = (svg, e) => {
+    const m = svg.getScreenCTM(); if (!m) return null;
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    const q = pt.matrixTransform(m.inverse()), scale = Math.hypot(m.a, m.b) || 1;
+    let best = null, bd = Infinity;
+    for (const g of svg.querySelectorAll('[data-point]')) { const c = g.querySelector('.dot'), d = Math.hypot(c.cx.baseVal.value - q.x, c.cy.baseVal.value - q.y); if (d < bd) { bd = d; best = g; } }
+    return best && bd * scale <= REACH ? best : null;
+  };
+  const show = (svg, g, cls) => {
+    svg.querySelectorAll(`.j-point.${cls}`).forEach((x) => { if (x !== g) x.classList.remove(cls); });
+    if (g) g.classList.add(cls);
+    if (cls === 'preview') { const out = root.querySelector('[data-j-preview]'); if (out) out.textContent = g ? `${g.getAttribute('aria-label')}: lift to choose` : '\u00a0'; }
+  };
+  root.addEventListener('pointerdown', (e) => {
+    const svg = svgOf(e); if (!svg || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    const g = nearest(svg, e); if (!g) return;
+    pending = { svg, id: e.pointerId, g }; show(svg, g, 'preview');
+    try { svg.setPointerCapture(e.pointerId); } catch { /* not capturable */ }
+  }, { signal });
+  root.addEventListener('pointermove', (e) => {
+    const svg = pending?.svg || svgOf(e); if (!svg) return;
+    const g = nearest(svg, e);
+    if (pending && e.pointerId === pending.id) { if (g) { pending.g = g; show(svg, g, 'preview'); } }
+    else if (e.pointerType === 'mouse') show(svg, g, 'near');
+  }, { signal });
+  const finish = (e, commit) => {
+    if (!pending || e.pointerId !== pending.id) return;
+    const { svg, g } = pending; pending = null; show(svg, null, 'preview');
+    if (commit && g) run('point', { id: g.dataset.point });
+  };
+  root.addEventListener('pointerup', (e) => finish(e, true), { signal });
+  root.addEventListener('pointercancel', (e) => finish(e, false), { signal });
+  // Arrow keys move between dots: to the closest dot in that direction.
+  const moveFocus = (from, key) => {
+    const svg = from.ownerSVGElement, dot = (g) => { const c = g.querySelector('.dot'); return [c.cx.baseVal.value, c.cy.baseVal.value]; };
+    const [x, y] = dot(from), dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] }[key];
+    let best = null, score = Infinity;
+    for (const g of svg.querySelectorAll('[data-point]')) {
+      if (g === from) continue;
+      const [gx, gy] = dot(g), dx = gx - x, dy = gy - y, along = dx * dir[0] + dy * dir[1], across = Math.abs(dx * dir[1] - dy * dir[0]);
+      if (along <= 0.5) continue;
+      const sc = along + 2 * across; if (sc < score) { score = sc; best = g; }
+    }
+    if (!best) return;
+    svg.querySelectorAll('[data-point]').forEach((g) => g.setAttribute('tabindex', g === best ? '0' : '-1'));
+    best.focus();
+    const card = cardEl()?.dataset.card; if (card) (journeyState.ui[card] ||= {}).cursor = best.dataset.point;
+  };
   root.addEventListener('change', (e) => {
     const t = e.target;
     if (t.matches('[data-j-choice]')) run('choice', { values: [...cardEl().querySelectorAll('[data-j-choice]:checked')].map((x) => x.value) });
@@ -158,3 +233,21 @@ export function mountJourney(app, ctx, signal) {
   root.addEventListener('input', (e) => { if (e.target.matches('[data-j-text]')) { const was = journeyState.ui[cardEl().dataset.card]?.compared; run('text', { text: e.target.value }); if (was) root.querySelectorAll('[data-j-review]').forEach((x) => { x.checked = false; }); } }, { signal });
 }
 export { uiFor, rec };
+
+/** Grown-up Summary: Reset Lesson 7-1 progress, with an on-page confirmation step. */
+export function mountJourneyReset(app, ctx, signal) {
+  const live = document.getElementById('live');
+  app.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-j-reset]'); if (!b) return;
+    const box = app.querySelector('[data-j-reset-box]'), ask = box?.querySelector('[data-j-reset-ask]'), confirm = box?.querySelector('[data-j-reset-confirm]');
+    if (!box) return;
+    if (b.dataset.jReset === 'ask') { ask.hidden = true; confirm.hidden = false; confirm.querySelector('[data-j-reset="no"]').focus(); return; }
+    if (b.dataset.jReset === 'no') { confirm.hidden = true; ask.hidden = false; ask.querySelector('button').focus(); return; }
+    eraseJourney();
+    const summary = app.querySelector('.j-summary');
+    if (summary) summary.outerHTML = journeySummary(ctx, journeyState).s;
+    app.querySelectorAll('.j-stepper li.done').forEach((li) => li.classList.remove('done'));
+    app.querySelector('#j-sum-h')?.focus();
+    if (live) { live.textContent = ''; setTimeout(() => { live.textContent = 'Lesson 7-1 progress erased. The lesson will start again at section A.'; }, 60); }
+  }, { signal });
+}

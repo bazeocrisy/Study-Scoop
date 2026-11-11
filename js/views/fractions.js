@@ -117,6 +117,6 @@ function lessons(ctx) {
       <h2 class="h3">Lesson ${l.id}: ${l.title}</h2><p>${l.summary || l.strategy}</p>
       <ol class="stage-links" aria-label="Steps in Lesson ${l.id}">${(l.id === JOURNEY_LESSON ? JOURNEY : STAGES).map((s, i) => html`<li><a href="${ctx.lessonLink(l.id, s.id)}"><span class="n" aria-hidden="true">${l.id === JOURNEY_LESSON ? String.fromCharCode(65 + i) : i + 1}</span> ${s.label}</a></li>`)}</ol>
       ${l.id === JOURNEY_LESSON ? html`<div class="lesson-extra"><a href="${ctx.lessonLink(l.id, 'learn')}">Extra practice: naming equal parts</a></div>` : ''}
-    </div><a class="btn btn-primary" href="${ctx.lessonLink(l.id, l.id === JOURNEY_LESSON ? JOURNEY[0].id : 'learn')}">Start<span class="sr-only"> Lesson ${l.id}</span></a></li>`)}</ol>
+    </div><a class="btn btn-primary" href="${ctx.lessonLink(l.id, l.id === JOURNEY_LESSON ? undefined : 'learn')}">Start<span class="sr-only"> Lesson ${l.id}</span></a></li>`)}</ol>
     <div class="stage-nav">${back(ctx)}<a class="btn" href="${ctx.actLink('math', 'ch7guide')}">Chapter 7 Study Guide</a></div>`;
 }

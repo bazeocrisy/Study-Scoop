@@ -1,5 +1,6 @@
 // Study Scoop: one-page app. Reads data/weeks.json and data/<week>.json and shows one of eight sections.
-// Nothing is stored: no localStorage, cookies, accounts or analytics. The chosen week lives in the address.
+// Nothing is stored: no cookies, accounts or analytics. The chosen week lives in the address.
+// The one exception is Lesson 7-1 progress, kept in this browser only (DECISIONS D29, js/lib/journey-store.js).
 
 import { html } from './lib/html.js';
 import { loadIndex, loadJSON, loadWeek } from './lib/data.js';
@@ -10,7 +11,8 @@ import { hasPropertyWords } from './lib/mathlearn.js';
 import { validateArea } from './lib/area.js';
 import { validateFractionChapter } from './lib/chapter7.js';
 import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson-player.js';
-import { JOURNEY, JOURNEY_LESSON, isJourneyStage, journeyLabel } from './lib/partition-journey.js';
+import { JOURNEY_LESSON, isJourneyStage, journeyLabel } from './lib/partition-journey.js';
+import { resumeStage } from './partition-journey.js';
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { chapterFor, validateChapters } from './lib/chapters.js';
 import { missCounts, mountActivity, mountTimesApp, runFor } from './activity-player.js';
@@ -180,7 +182,7 @@ async function render() {
   }
   if (n !== renderCount) return; // a newer navigation started while lessons were loading (keep its address)
   // Lesson 7-1 opens on its learning journey; its original stages remain as extra practice.
-  const stage = lesson ? (STAGE_IDS.includes(route.stage) || isJourneyStage(lesson.id, route.stage) ? route.stage : lesson.id === JOURNEY_LESSON ? JOURNEY[0].id : 'learn') : null;
+  const stage = lesson ? (STAGE_IDS.includes(route.stage) || isJourneyStage(lesson.id, route.stage) ? route.stage : lesson.id === JOURNEY_LESSON ? resumeStage() : 'learn') : null;
   // An activity named in the address: a page to read (Learn My Words, a menu) or questions to answer (a run).
   // An earlier address (alias) opens the page that replaced it: "area" is the Chapter 6 menu, "lessons" the chapter list.
   let info = route.act && route.section !== 'reading' ? activityInfo(route.section, route.act) : null;
