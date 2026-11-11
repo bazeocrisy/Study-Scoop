@@ -22,10 +22,10 @@ function libraryView(ctx) {
   const picks = todaysPicks(index.stories.filter((s) => s.step <= 3), ctx.today);
   return html`
     <div class="page-head section-head menu-head subject-reading">
-      ${crumbs(ctx, [{ label: 'Reading' }])}
-      <h1 tabindex="-1">Reading</h1>
-      <p class="week-of">${(ctx.shownWeek || ctx.week).label}</p>
-      <p class="intro">Listen, tap any word you do not know, then read the story yourself. Read each story three times and watch your speed go up.</p>
+      ${crumbs(ctx, [{ label: 'Reading Practice' }])}
+      <h1 tabindex="-1">Reading Practice</h1>
+
+      <p class="intro">Extra passages for reading and understanding. Listen, tap an unfamiliar word, read it yourself, then use the Story Guide and questions to explain what it means.</p>
     </div>
     <section class="menu subject-reading" aria-labelledby="h-today">
       <h2 id="h-today" class="ask">Today's reading</h2>

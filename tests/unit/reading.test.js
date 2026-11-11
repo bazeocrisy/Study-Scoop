@@ -192,7 +192,7 @@ const ctxFor = (story = null) => ({
 
 test('the library shows today\'s two picks, every step and each story\'s word count', () => {
   const out = readingView(ctxFor()).s;
-  assert.match(out, /<h1[^>]*>Reading<\/h1>/);
+  assert.match(out, /<h1[^>]*>Reading Practice<\/h1>/);
   assert.match(out, /Today's reading/);
   for (const { e } of STORIES) assert.ok(out.includes(`href="#reading?act=${e.id}"`), `${e.id} has a link`);
   for (const { e } of STORIES) assert.ok(out.includes(`${e.words} words`), `${e.id} shows ${e.words} words`);

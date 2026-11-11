@@ -12,7 +12,7 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 // Preserve the historical Oct 26 student journeys as weeks roll forward.
 // The November homework suite tests the actual current-week index without overlays.
 const INDEX = readJSON('tests/fixtures/data/weeks-regression.json');
-const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading'], ['math', 'Math'],
+const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading Practice'], ['math', 'Math'],
   ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
 const L51 = readJSON('data/lessons/5-1.json');
@@ -114,16 +114,16 @@ async function main() {
     await b.viewport(1366, 900, false);
 
     console.log('Routing and sections');
-    await check('home page opens on This Week with no errors', async () => {
+    await check('home page opens on two learning paths with no errors', async () => {
       await b.load(url());
-      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'This Week', 'h1');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'What would you like to work on?', 'h1');
       eq(await b.js('return location.hash;'), '', 'hash untouched on first load');
       eq(b.errors, [], 'console errors');
     });
-    await check('navigation lists the nine sections in order', async () => {
+    await check('navigation contains the two paths and existing activity links', async () => {
       const labels = await b.js('return [...document.querySelectorAll("nav.tabs a")].map((a) => a.textContent.trim());');
-      eq(labels, SECTIONS.map((s) => s[1]), 'nav labels');
-      eq(await b.js('return document.querySelector("nav.tabs").getAttribute("aria-label");'), 'Sections', 'nav label');
+      eq(labels, ['Home','Extra Learning','Schoolwork', ...SECTIONS.slice(1).map(s=>s[0]==='reading'?'Reading':s[1])], 'nav labels');
+      eq(await b.js('return document.querySelector("nav.tabs").getAttribute("aria-label");'), 'Learning paths', 'nav label');
     });
     await check('Oct 19–23 This Week counts down to each test from Friday, Oct 16', async () => {
       await b.load(url(H19('#week')));
@@ -152,15 +152,15 @@ async function main() {
       } finally {
         await b.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: result.identifier });
       }
-      await b.load(url());
+      await b.load(url('#week'));
       eq(await b.js('return document.querySelector(".test .count").textContent;'), 'In 14 days', 'back to the usual frozen day (Friday, Oct 16)');
     });
     for (const [id, label] of SECTIONS) {
       await check(`#${id} shows ${label} with the right tab marked`, async () => {
-        await b.hash(`#${id}`);
+        await b.load(url(`#${id}`));
         eq(await b.js('return document.querySelector("#app h1").textContent;'), label, 'h1');
         eq(await b.js('return [...document.querySelectorAll("nav.tabs a[aria-current=page]")].map((a) => a.dataset.tab);'), [id], 'aria-current');
-        eq(await b.js('return document.title;'), `${label} · Study Scoop`, 'title');
+        eq(await b.js('return document.title;'), `${label === 'Reading Practice' ? 'Reading' : label} · Study Scoop`, 'title');
       });
     }
     await check('deep link to an earlier week opens that week', async () => {
@@ -172,7 +172,7 @@ async function main() {
     });
     await check('unknown section or week falls back safely and fixes the address', async () => {
       await b.load(url('#nope'));
-      eq(await b.js('return [document.querySelector("#app h1").textContent, location.hash];'), ['This Week', '#week'], 'unknown section');
+      eq(await b.js('return [document.querySelector("#app h1").textContent, location.hash];'), ['What would you like to work on?', '#home'], 'unknown section');
       await b.load(url('#math?week=2030-01-01'));
       eq(await b.js('return [document.querySelector("#app h1").textContent, location.hash, document.getElementById("weekSelect").value];'),
         ['Math', '#math', INDEX.current], 'unknown week');
@@ -260,15 +260,15 @@ async function main() {
     });
 
     console.log('Keyboard and accessibility');
-    await check('Tab order: skip link, logo, week picker, then the nine sections', async () => {
+    await check('Tab order follows the visible Schoolwork navigation', async () => {
       await b.load(url('#week'));
       // fresh load: focus starts at the top of the page
       const order = [];
-      for (let i = 0; i < 3 + SECTIONS.length; i++) {
+      for (let i = 0; i < 12; i++) {
         await b.key('Tab');
         order.push(await b.js('const e = document.activeElement; return e.id || e.dataset.tab || e.className || e.tagName;'));
       }
-      eq(order, ['skip', 'brand', 'weekSelect', ...SECTIONS.map((s) => s[0])], 'focus order');
+      eq(order, ['skip', 'brand', 'weekSelect', 'home','extra','week','spelling','vocab','math','homework','newsletter','tests'], 'focus order');
     });
     await check('keyboard focus is clearly visible', async () => {
       const o = await b.js('const s = getComputedStyle(document.activeElement); return [s.outlineStyle, parseFloat(s.outlineWidth)];');
@@ -494,7 +494,7 @@ async function main() {
       await b.waitFor(`location.hash === ${JSON.stringify(inWeek('#math?ch=5', id))}`);
       // On a menu, Home is the first step of the crumbs.
       await b.js('document.querySelector(".crumbs a").click();');
-      await b.waitFor('document.querySelector("#app h1")?.textContent === "This Week"');
+      await b.waitFor('document.querySelector("#app h1")?.textContent === "What would you like to work on?"');
     });
     await check('lesson addresses: unknown lessons go back to Math, unknown stages open Learn It, the stepper marks the stage', async () => {
       await b.load(url('#math?lesson=9-9&stage=watch'));
@@ -785,7 +785,7 @@ async function main() {
         eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '18 out of 20 right on the first try (90%)', 'score');
         eq(await b.js('return document.querySelector(".score-facts").textContent.replace(/\\s+/g, " ").trim();'), 'Answered: 20 of 20 · Missed: 2', 'answered and missed');
         eq(await b.js('return document.querySelectorAll(".review li").length;'), 2, 'the two missed questions are explained');
-        expect(await b.js('return [...document.querySelectorAll(".stage-nav a")].some((a) => a.textContent.includes("Back to Lessons")) && !!document.querySelector(".stage-nav a.btn .ico, .stage-nav a[href=\'#week\']");'), 'Back to Lessons and Home');
+        expect(await b.js('return [...document.querySelectorAll(".stage-nav a")].some((a) => a.textContent.includes("Back to Lessons")) && !!document.querySelector(".stage-nav a.btn .ico, .stage-nav a[href=\'#home\']");'), 'Back to Lessons and Home');
         // Practice My Misses: the two missed questions again, then back to the results.
         await press('[data-act="misses"]');
         eq(await b.js('return [document.getElementById("stage-h").textContent, document.querySelector(".stage-title .progress").textContent];'), ['Practice My Misses', 'Question 1 of 2'], 'misses round');
@@ -837,8 +837,8 @@ async function main() {
       await press('[data-act="next"]');
       eq(await stageTitle(), 'Practice My Misses: how you did', 'summary');
       await press('[data-act="misses-exit"]');
-      await go('.stage-nav a.btn[href="#week"]');
-      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'This Week', 'Home');
+      await go('.stage-nav a.btn[href="#home"]');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'What would you like to work on?', 'Home');
     });
 
     await check('Oct 19–23 Math > Math Vocabulary: five cards; Review My Words shows all five properties with Previous and Next', async () => {
@@ -948,7 +948,7 @@ async function main() {
         await press(k < 14 ? '[data-act="next"]' : '[data-act="submit"]');
       }
       eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '15 out of 15 right (100%)', 'score');
-      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=words', '#week', '#tests'].map(H19), 'Practice Math Vocabulary, Home, Back to Tests');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=words', '#home', '#tests'].map(H19), 'Practice Math Vocabulary, Home, Back to Tests');
     });
 
     for (const id of [OCT19, OCT26]) await check(`${id}: Study Guide: Unit 5 sections (with Unit 5's own test date), lesson links, and answers that print`, async () => {
@@ -1255,13 +1255,13 @@ async function main() {
         for (const [k, href] of hrefs.entries()) {
           await b.hash(href);
           eq(await b.js('return document.querySelector("#app h1").textContent;'), labels[k], href + ' title');
-          eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', NAME[subject], CRUMB(subject, k, labels[k])], href + ' crumbs');
+          eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', subject === 'skills' ? 'Extra Learning' : 'Schoolwork', NAME[subject], CRUMB(subject, k, labels[k])], href + ' crumbs');
           eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => [a.textContent.trim(), a.getAttribute("href")]);'),
-            [[`‹ Back to ${NAME[subject]}`, `#${subject}`], ['Home', '#week']], href + ' Back and Home');
+            [[`‹ Back to ${NAME[subject]}`, `#${subject}`], ['Home', '#home']], href + ' Back and Home');
         }
       }
       await b.js('document.querySelector(".bar-btns a.home").click();');
-      await b.waitFor('document.querySelector("#app h1")?.textContent === "This Week" && location.hash === "#week"');
+      await b.waitFor('document.querySelector("#app h1")?.textContent === "What would you like to work on?" && location.hash === "#home"');
       // Browser Back returns to the menu, then Forward to Home again.
       let before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');
@@ -1270,7 +1270,7 @@ async function main() {
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.forward();');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.activeElement.tagName, document.activeElement.textContent];'), ['#week', 'H1', 'This Week'], 'browser Forward (focus on the heading)');
+      eq(await b.js('return [location.hash, document.activeElement.tagName, document.activeElement.textContent];'), ['#home', 'H1', 'What would you like to work on?'], 'browser Forward (focus on the heading)');
     });
     await check('Math > Practice Problems > Match the Split Array: from the menu, right and wrong answers, Help step by step, results, misses', async () => {
       const PRACTICE = readJSON('data/practice/math.json');
@@ -1281,8 +1281,8 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'),
         ['Identify the Property', 'Match the Split Array', 'Break Apart a Factor', 'Mixed Practice', 'Practice My Misses'], 'kinds of problems');
       await go('.menu-card[href="#math?act=split"]');
-      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Chapter 5', 'Practice Problems', 'Match the Split Array'], 'crumbs');
-      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?act=practice', '#math?ch=5', '#week'], 'Back to Practice Problems, Back to Chapter 5, Home');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Schoolwork', 'Math', 'Chapter 5', 'Practice Problems', 'Match the Split Array'], 'crumbs');
+      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?act=practice', '#math?ch=5', '#home'], 'Back to Practice Problems, Back to Chapter 5, Home');
       for (let k = 0; k < PRACTICE.sets.split.length; k++) {
         eq(await progress(), `Question ${k + 1} of ${PRACTICE.sets.split.length}`, 'progress');
         const item = ITEM.get(await formId());
@@ -1329,7 +1329,7 @@ async function main() {
         await b.load(url(h + '&week=2026-10-12'.replace(/^&/, h.includes('?') ? '&' : '?')));
         expect(!(await shown()), h + ': week picker hidden');
         eq(await b.js('const a = document.querySelector(".bar-btns a.home"); return [a.textContent.trim(), getComputedStyle(a.querySelector("span")).display !== "none", !!a.querySelector("svg"), a.getAttribute("href")];'),
-          ['Home', true, true, '#week?week=2026-10-12'], h + ': Home with icon and word, keeping the week');
+          ['Home', true, true, '#home?week=2026-10-12'], h + ': Home with icon and word, keeping the week');
       }
       await b.viewport(1366, 900, false);
     });
@@ -1340,14 +1340,14 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => [...c.querySelectorAll(".stage-links a")].map((a) => a.textContent.trim().replace(/\\s+/g, " ")));').then((x) => x.map((l) => l.length)), [5, 5, 5, 5, 5, 5, 5], 'seven Chapter 5 lessons, five steps each');
       await go('.stage-links a[href="#math?lesson=5-1&stage=together"]');
       eq(await b.js('return [document.getElementById("stage-h").textContent, [...document.querySelectorAll(".bar-btns a")].map((a) => [a.textContent.trim(), a.getAttribute("href")])];'),
-        ['Practice Together', [['‹ Back to Lessons', '#math?act=ch5'], ['Back to Chapter 5', '#math?ch=5'], ['Home', '#week']]], 'Practice Together, with Back and Home');
+        ['Practice Together', [['‹ Back to Lessons', '#math?act=ch5'], ['Back to Chapter 5', '#math?ch=5'], ['Home', '#home']]], 'Practice Together, with Back and Home');
       await b.js('document.querySelector(".bar-btns a.back").click();');
       await b.waitFor('location.hash === "#math?act=ch5"');
       await b.load(url('#math?act=ch6'));
       eq(await b.js('return [...document.querySelectorAll(".lesson-card")].map((c) => c.querySelectorAll(".stage-links a").length);'), [5, 5, 5, 5, 5, 5], 'six Chapter 6 lessons, five steps each');
       await go('.stage-links a[href="#math?lesson=6-4&stage=test"]');
       eq(await b.js('return [...document.querySelectorAll(".crumbs a")].map((a) => [a.textContent.trim(), a.getAttribute("href")]);'),
-        [['Home', '#week'], ['Math', '#math'], ['Chapter 6', '#math?ch=6'], ['Chapter 6 Lessons', '#math?act=ch6']], 'Home > Math > Chapter 6 > Chapter 6 Lessons');
+        [['Home', '#home'], ['Schoolwork', '#week'], ['Math', '#math'], ['Chapter 6', '#math?ch=6'], ['Chapter 6 Lessons', '#math?act=ch6']], 'Home > Math > Chapter 6 > Chapter 6 Lessons');
       // Back never leads into the other chapter.
       await b.js('document.querySelectorAll(".bar-btns a.back")[1].click();');
       await b.waitFor('location.hash === "#math?ch=6"');
@@ -1358,7 +1358,7 @@ async function main() {
       await go('a.btn[href="#tests?test=vocab"]');
       // Nothing answered yet: Home just goes home.
       await b.js('document.querySelector(".bar-btns a.home").click();');
-      await b.waitFor('location.hash === "#week"');
+      await b.waitFor('location.hash === "#home"');
       await b.hash('#tests?test=vocab');
       const first = T19.vocab.items[0];
       await answer(first, solution(first));
@@ -1581,7 +1581,7 @@ async function main() {
       }
       eq([kinds.filter((x) => x === 'sp').length, kinds.filter((x) => x === 'bw').length], [15, 5], '15 spoken words, then 5 built words');
       eq(await b.js('return document.querySelector(".summary-score").textContent;'), '19 out of 20 right on the first try (95%)', 'results');
-      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#spelling?act=misses', '#week', '#spelling'], 'Practice My Misses, Home, Choose another activity');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#spelling?act=misses', '#home', '#spelling'], 'Practice My Misses, Home, Choose another activity');
     });
     await check('Oct 26 Flashcards: front never shows the word; back shows the word, its own drawing, rule and sentence', async () => {
       await b.load(url('#spelling?act=flash'));
@@ -1613,7 +1613,7 @@ async function main() {
       await press('[data-act="submit"]');
       eq(await b.js('return document.querySelector(".summary-score").textContent;'), '14 out of 15 right (93%)', 'score');
       eq(await b.js('return document.querySelectorAll(".review li").length;'), 1, 'the missed word is reviewed');
-      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#spelling?act=misses', '#spelling', '#week', '#tests'], 'Practice My Misses, Practice Spelling, Home, Back to Tests');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#spelling?act=misses', '#spelling', '#home', '#tests'], 'Practice My Misses, Practice Spelling, Home, Back to Tests');
     });
     await check('Oct 26 Vocabulary: 12 study cards with the teacher\'s exact words; 20 Multiple Choice, 20 True or False, 20 Fill in the Blank', async () => {
       await b.load(url('#vocab?act=learn'));
@@ -1690,13 +1690,13 @@ async function main() {
           ['Practice Problems', '#math?act=areapractice'], ['Study Guide', '#math?act=ch6guide'], ['Chapter Test', '#math?act=ch6test']]], 'the Chapter 6 menu: six activities, all Chapter 6');
       await go('.menu-card[href="#math?act=arealearn"]');
       eq(await b.js('return [...document.querySelectorAll(".area-word h3")].map((h) => h.textContent);'), ['1. Area', '2. Square Unit', '3. Multiply'], 'three words');
-      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?ch=6', '#math', '#week'], 'Back to Chapter 6, Back to Math, Home');
+      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?ch=6', '#math', '#home'], 'Back to Chapter 6, Back to Math, Home');
       eq(await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");'), '#math?act=areawords', 'then Vocabulary Practice');
       await b.hash('#math?act=areapractice');
       eq(await b.js('return [document.querySelector("#app h1").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim())];'),
         ['Area Practice Problems', ['Mixed Practice', 'Practice My Misses']], 'Chapter 6 Practice Problems');
       await go('.menu-card[href="#math?act=areafind"]');
-      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Chapter 6', 'Area Practice Problems', 'Mixed Practice'], 'Home > Math > Chapter 6 > Practice Problems');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Schoolwork', 'Math', 'Chapter 6', 'Area Practice Problems', 'Mixed Practice'], 'Home > Math > Chapter 6 > Practice Problems');
       eq(await progress(), 'Question 1 of 20', 'Mixed Practice: 20 questions');
       for (let k = 0; k < 20; k++) {
         const fid = await formId();
@@ -1776,7 +1776,7 @@ async function main() {
       eq(await b.js('return [...document.querySelectorAll(".skills tr")].map((r) => r.lastElementChild.textContent);'), ['4 of 4', '4 of 4', '4 of 5', '4 of 4', '5 of 5', '5 of 5'], 'a score for each lesson');
       eq(await b.js('return [...document.querySelectorAll(".review li")].map((l) => [l.querySelector(".you").textContent, l.querySelector(".right").textContent]);'), [['Your answer: 11', 'Correct answer: 28']], 'review');
       eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => [a.textContent.trim(), a.getAttribute("href")]);'),
-        [['Practice My Misses', '#math?act=areamisses'], ['Chapter 6 Practice', '#math?act=areapractice'], ['Home', '#week'],
+        [['Practice My Misses', '#math?act=areamisses'], ['Chapter 6 Practice', '#math?act=areapractice'], ['Home', '#home'],
           where === 'Tests' ? ['Back to Tests', '#tests'] : ['Back to Chapter 6', '#math?ch=6']], 'Chapter 6 misses and practice; back where the test started');
       await go('.stage-nav a[href="#math?act=areamisses"]');
       eq(await progress(), 'Question 1 of 1', 'the missed test question is in Chapter 6 > Practice My Misses');
@@ -1801,7 +1801,7 @@ async function main() {
         await press(k < 11 ? '[data-act="next"]' : '[data-act="submit"]');
       }
       eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '11 out of 12 right (92%)', 'score');
-      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=avmisses', '#math?act=areawords', '#week', '#tests'], 'Practice My Misses (Area Words), Practice, Home, Back to Tests');
+      eq(await b.js('return [...document.querySelectorAll(".stage-nav a")].map((a) => a.getAttribute("href"));'), ['#math?act=avmisses', '#math?act=areawords', '#home', '#tests'], 'Practice My Misses (Area Words), Practice, Home, Back to Tests');
       await go('.stage-nav a[href="#math?act=avmisses"]');
       eq(await progress(), 'Question 1 of 1', 'the missed word is in Area Words > Practice My Misses');
     });
@@ -1903,7 +1903,7 @@ async function main() {
       expect(await b.js('return document.querySelectorAll(".guide-sections .model-svg, .guide-sections svg").length >= 7;'), 'a picture for each idea');
       await b.js('document.querySelector(".answers summary").click();');
       expect(await b.js('return document.querySelector(".answers").open;'), 'Show the answers');
-      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?ch=6', '#math', '#week'], 'Back to Chapter 6, Back to Math, Home');
+      eq(await b.js('return [...document.querySelectorAll(".bar-btns a")].map((a) => a.getAttribute("href"));'), ['#math?ch=6', '#math', '#home'], 'Back to Chapter 6, Back to Math, Home');
       await b.load(url('#math?ch=5'));
       await go('.menu-card[href="#math?act=guide"]');
       const t5 = await b.js('return document.getElementById("app").textContent;');
@@ -1913,7 +1913,7 @@ async function main() {
       await b.load(url('#math?ch=5'));
       await go('.menu-card[href="#math?act=ch5test"]');
       eq(await progress(), `Question 1 of ${T19.math.items.length}`, 'the whole Chapter 5 test');
-      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Math', 'Chapter 5', 'Chapter 5 Practice Test'], 'crumbs');
+      eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Schoolwork', 'Math', 'Chapter 5', 'Chapter 5 Practice Test'], 'crumbs');
       eq(await b.js('return document.querySelectorAll("#act-stage [data-act=help], #act-stage .feedback").length;'), 0, 'no hints');
       for (const [k, item] of T19.math.items.entries()) {
         await answer(item, item.type === 'word' ? { text: item.answer } : solution(item));
@@ -1977,7 +1977,7 @@ async function main() {
         await b.load(url('#skills'));
         await go(`.menu-card[href="#skills?act=${card}"]`);
         eq(await b.js('return [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.firstChild.textContent.trim());'), labels, `${card} menu`);
-        eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Skill Builders', labels.at(-1).replace(' Test', '').replace('Mental Add', 'Mental Add')], `${card} crumbs`);
+        eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', 'Extra Learning', 'Skill Builders', labels.at(-1).replace(' Test', '').replace('Mental Add', 'Mental Add')], `${card} crumbs`);
         await go(`.menu-card[href="#skills?act=${card}learn"]`);
         expect((await b.js('return document.querySelector("h1").textContent;')).endsWith(': Learn It'), `${card} Learn It`);
         expect(await b.js('return document.querySelectorAll(".skill-ex").length;') >= 4, `${card} examples`);
@@ -2235,8 +2235,8 @@ async function main() {
         ['2026-10-26', '2026-10-19', '2026-10-12'], 'week picker');
       for (const [id, label] of SECTIONS) {
         await f.hash(`#${id}`);
-        eq(await f.js('return [document.querySelector("#app h1").textContent, document.querySelector(".week-of").textContent];'),
-          [label, 'Sample test week <not real> & October 26–30'], `#${id}`);
+        eq(await f.js('return [document.querySelector("#app h1").textContent, document.querySelector(".week-of")?.textContent || null];'),
+          [label, id === 'reading' ? null : 'Sample test week <not real> & October 26–30'], `#${id}`);
       }
     });
     await check('symbols in the data are shown as text, never as page markup', async () => {

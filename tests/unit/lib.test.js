@@ -8,18 +8,18 @@ import { SECTION_IDS, SECTIONS } from '../../js/sections.js';
 
 const INDEX = { current: '2026-10-19', weeks: [{ id: '2026-10-19' }, { id: '2026-10-12' }] };
 
-test('there are exactly nine sections in the approved order', () => {
+test('there are Home and Extra Learning plus the existing activity routes', () => {
   assert.deepEqual(SECTIONS.map((s) => s.label),
-    ['This Week', 'Spelling', 'Vocabulary', 'Reading', 'Math', 'Skill Builders', 'Homework', 'Newsletter', 'Tests']);
+    ['Home', 'Extra Learning', 'This Week', 'Spelling', 'Vocabulary', 'Reading', 'Math', 'Skill Builders', 'Homework', 'Newsletter', 'Tests']);
 });
 
 test('parseHash reads sections and weeks', () => {
-  assert.deepEqual(parseHash('', SECTION_IDS), { section: 'week', week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: true });
-  assert.deepEqual(parseHash('#', SECTION_IDS), { section: 'week', week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: true });
+  assert.deepEqual(parseHash('', SECTION_IDS), { section: 'home', week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: true });
+  assert.deepEqual(parseHash('#', SECTION_IDS), { section: 'home', week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: true });
   for (const id of SECTION_IDS) assert.deepEqual(parseHash(`#${id}`, SECTION_IDS), { section: id, week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: true });
   assert.deepEqual(parseHash('#vocab?week=2026-10-12', SECTION_IDS), { section: 'vocab', week: '2026-10-12', lesson: null, stage: null, act: null, ch: null, test: null, known: true });
-  assert.deepEqual(parseHash('#nope', SECTION_IDS), { section: 'week', week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: false });
-  assert.deepEqual(parseHash('#nope?week=2026-10-12', SECTION_IDS), { section: 'week', week: '2026-10-12', lesson: null, stage: null, act: null, ch: null, test: null, known: false });
+  assert.deepEqual(parseHash('#nope', SECTION_IDS), { section: 'home', week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: false });
+  assert.deepEqual(parseHash('#nope?week=2026-10-12', SECTION_IDS), { section: 'home', week: '2026-10-12', lesson: null, stage: null, act: null, ch: null, test: null, known: false });
   assert.deepEqual(parseHash('#math?week=', SECTION_IDS), { section: 'math', week: null, lesson: null, stage: null, act: null, ch: null, test: null, known: true });
 });
 

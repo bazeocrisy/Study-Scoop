@@ -69,7 +69,7 @@ function endNav(ctx, run, { missed = false, again = 'Try again' } = {}) {
       <span class="btn-row">
         ${again ? html`<button type="button" class="btn" data-act="restart">${again}</button>` : ''}
         ${missed ? html`<a class="btn" href="${ctx.actLink(run.subject, missesAct(run.subject, run.act))}">Practice My Misses</a>` : ''}
-        <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
+        <a class="btn" href="${ctx.link('home')}">${ICONS.home}<span>Home</span></a>
       </span>
       <a class="btn btn-primary" href="${menuLink(ctx, run)}">Choose another activity</a>
     </div>`;
@@ -364,7 +364,7 @@ function testResults(ctx, run) {
         <button type="button" class="btn" data-act="print">Print my results</button>
         ${s.missed.length && (run.subject !== 'math' || missAct) ? html`<a class="btn" href="${card ? ctx.actLink('skills', missesAct('skills', run.act)) : missAct ? ctx.actLink('math', missAct) : ctx.actLink(homeSection, 'misses')}">Practice My Misses</a>` : ''}
         ${card ? '' : html`<a class="btn" href="${practiceHref}">${chId ? `Chapter ${chId} Practice` : `Practice ${SUBJECT[run.subject]}`}</a>`}
-        <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
+        <a class="btn" href="${ctx.link('home')}">${ICONS.home}<span>Home</span></a>
       </span>
       ${card ? html`<a class="btn btn-primary" href="${ctx.actLink('skills', card.id)}">Back to ${card.label}</a>`
         : inChapter ? html`<a class="btn btn-primary" href="${ctx.chapterLink(ctx.chapter.id)}">Back to Chapter ${ctx.chapter.id}</a>`

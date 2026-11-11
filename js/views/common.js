@@ -83,7 +83,7 @@ export const ICONS = {
 
 /** "Home > Math > Practice Problems": where the child is. The last step is the page itself (not a link). */
 export function crumbs(ctx, trail) {
-  const all = [{ label: 'Home', href: ctx.link('week') }, ...trail];
+  const all = [{ label: 'Home', href: ctx.link('home') }, ...(ctx.section === 'home' ? [] : ['extra', 'reading', 'skills'].includes(ctx.section) ? (ctx.section === 'extra' ? [] : [{ label: 'Extra Learning', href: ctx.link('extra') }]) : [{ label: 'Schoolwork', href: ctx.link('week') }]), ...trail];
   return html`<nav class="crumbs" aria-label="You are here"><ol>${all.map((c, k) => (k === all.length - 1
     ? html`<li><span aria-current="page">${c.label}</span></li>`
     : html`<li><a href="${c.href}">${c.label}</a></li>`))}</ol></nav>`;
@@ -101,7 +101,7 @@ export function subBar(ctx, { tone, trail, title, goal, eyebrow, back = [] }) {
       </div>
       <p class="bar-btns">
         ${back.map((b) => html`<a class="btn back" href="${b.href}" data-leave>${b.label}</a>`)}
-        <a class="btn home" href="${ctx.link('week')}" data-leave>${ICONS.home}<span>Home</span></a>
+        <a class="btn home" href="${ctx.link('home')}" data-leave>${ICONS.home}<span>Home</span></a>
       </p>
     </div>
     ${ctx.isCurrent ? '' : html`<p class="notice" role="note">You are looking at ${weekTiming(ctx)} week.</p>`}`;

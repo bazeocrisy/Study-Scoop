@@ -22,7 +22,7 @@ try{
   await b.viewport(width,900,width<1024);await b.load(url('tests'));
   const result=await b.js(`
    await document.fonts.ready;
-   const links=[...document.querySelectorAll('.tabs a')];
+   const links=[...document.querySelectorAll('.tabs a:not([hidden])')];
    const labels=links.map(a=>{const range=document.createRange();range.selectNodeContents(a.querySelector('span'));const t=range.getBoundingClientRect(),i=a.querySelector('.ico').getBoundingClientRect(),r=a.getBoundingClientRect();return {left:Math.min(t.left,i.left),right:Math.max(t.right,i.right),top:r.top,height:r.height,width:r.width}});
    const gaps=labels.slice(0,-1).flatMap((l,k)=>Math.abs(l.top-labels[k+1].top)<1?[labels[k+1].left-l.right]:[]);
    const cards=[...document.querySelectorAll('.test-card')];

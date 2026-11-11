@@ -1333,3 +1333,20 @@ ol.rd-key { list-style: decimal; padding-left: 1.4em; }
 .rd-apanel { padding: 10px 14px; border: 2px solid var(--teal); border-top: 0; border-radius: 0 0 var(--r) var(--r); background: var(--well); display: grid; gap: 4px; }
 .rd-apanel ol { margin: 0; padding-left: 1.4em; }
 .rd-key { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+
+/* Home separates weekly schoolwork from the reusable extra-practice library. */
+.tabs a[hidden] { display: none; }
+.path-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; list-style: none; padding: 0; margin: 1.5rem 0; }
+.path-grid > li { min-width: 0; display: flex; }
+.path-card { display: flex; flex-direction: column; width: 100%; padding: 1.5rem; border: 2px solid #c9b999; border-radius: 20px; background: #fff; color: #241d18; text-decoration: none; }
+.path-card h2, .path-card h3 { margin: 0 0 .75rem; }
+.path-card p { margin: 0 0 1.25rem; }
+.path-card > span { margin-top: auto; color: #72208f; font-weight: 800; }
+.path-card:hover { border-color: #72208f; background: #faf5fd; }
+.path-card:focus-visible { outline: 3px solid #72208f; outline-offset: 4px; }
+.home-paths .path-card { min-height: 230px; border-top: 7px solid #72208f; }
+.home-paths li:first-child .path-card { border-top-color: #407369; }
+@media (max-width: 640px) { .path-grid { grid-template-columns: 1fr; } .home-paths .path-card { min-height: 0; } }
+.tabs { justify-content: flex-start; gap: .5rem; }
+.path-head.section-head { min-height: 0; padding-bottom: 2rem; }
+.path-card h2, .path-card h3 { color: inherit; }

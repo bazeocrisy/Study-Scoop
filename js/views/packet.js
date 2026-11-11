@@ -65,7 +65,7 @@ export function packetPage(ctx, run) {
     <div class="stage-nav no-print">
       <span class="btn-row">
         <button type="button" class="btn" data-act="restart">Start over</button>
-        <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>
+        <a class="btn" href="${ctx.link('home')}">${ICONS.home}<span>Home</span></a>
       </span>
       <a class="btn btn-primary" href="${ctx.link('homework')}">Back to Homework</a>
     </div>`;
