@@ -15,8 +15,8 @@ import { chapterFor, validateChapters } from './lib/chapters.js';
 import { missCounts, mountActivity, mountTimesApp, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
 import { validatePacket } from './lib/homework.js';
-import { SECTIONS, SECTION_IDS, sectionLabel, EXTRA_SECTIONS, SCHOOL_SECTIONS } from './sections.js';
-import { homeView, extraView } from './views/paths.js';
+import { SECTION_IDS, sectionLabel } from './sections.js';
+import { homeView, extraView, pathControls } from './views/paths.js';
 import { weekView } from './views/week.js';
 import { spellingView } from './views/spelling.js';
 import { vocabView } from './views/vocab.js';
@@ -36,7 +36,6 @@ const VIEWS = {
 const app = document.getElementById('app');
 const select = document.getElementById('weekSelect');
 const weekLabel = document.getElementById('weekLabel');
-const nav = document.querySelector('nav.tabs');
 const brand = document.querySelector('.brand');
 
 let index = null;
@@ -228,14 +227,7 @@ async function render() {
   select.value = weekId;
   weekLabel.textContent = `3rd grade · ${entry.label}`;
   brand.href = buildHash('home', weekId, index.current);
-  const extraPath = EXTRA_SECTIONS.includes(route.section);
-  nav.setAttribute('aria-label', route.section === 'home' ? 'Learning paths' : extraPath ? 'Extra Learning navigation' : 'Schoolwork navigation');
-  for (const a of nav.querySelectorAll('a[data-tab]')) {
-    a.hidden = !['home', 'extra', 'week'].includes(a.dataset.tab) && (route.section === 'home' || !(extraPath ? EXTRA_SECTIONS : SCHOOL_SECTIONS).includes(a.dataset.tab));
-    a.href = buildHash(a.dataset.tab, weekId, index.current);
-    if (a.dataset.tab === route.section) a.setAttribute('aria-current', 'page');
-    else a.removeAttribute('aria-current');
-  }
+
 
   const ctx = {
     week: content, shownWeek: week, unit5Week: unit5Week || week, index, weekId: contentId, shownWeekId: weekId, section: route.section, isCurrent: weekId === index.current, today: new Date(),
@@ -259,7 +251,7 @@ async function render() {
   document.body.dataset.section = route.section;
   document.body.classList.toggle('in-lesson', Boolean(lesson));
   document.body.classList.toggle('in-activity', Boolean(ctx.run));
-  app.innerHTML = VIEWS[route.section](ctx).s;
+  app.innerHTML = pathControls(ctx).s + VIEWS[route.section](ctx).s;
   document.title = reading?.story ? `${reading.story.title} · Reading · Study Scoop` : lesson
     ? `${stageLabel(stage)} · Lesson ${lesson.id}: ${lesson.title} · Study Scoop`
     : ctx.run ? `${ctx.run.title} · ${sectionLabel(route.section)} · Study Scoop`
@@ -331,6 +323,4 @@ document.querySelector('.skip').addEventListener('click', (e) => {
   app.focus();
 });
 
-// The navigation links are written in index.html; check they match the section list.
-if (nav.querySelectorAll('a[data-tab]').length !== SECTIONS.length) console.warn('Navigation does not match SECTIONS');
 start();

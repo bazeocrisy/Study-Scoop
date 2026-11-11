@@ -22,26 +22,20 @@ try{
   await b.viewport(width,900,width<1024);await b.load(url('tests'));
   const result=await b.js(`
    await document.fonts.ready;
-   const links=[...document.querySelectorAll('.tabs a:not([hidden])')];
-   const labels=links.map(a=>{const range=document.createRange();range.selectNodeContents(a.querySelector('span'));const t=range.getBoundingClientRect(),i=a.querySelector('.ico').getBoundingClientRect(),r=a.getBoundingClientRect();return {left:Math.min(t.left,i.left),right:Math.max(t.right,i.right),top:r.top,height:r.height,width:r.width}});
-   const gaps=labels.slice(0,-1).flatMap((l,k)=>Math.abs(l.top-labels[k+1].top)<1?[labels[k+1].left-l.right]:[]);
    const cards=[...document.querySelectorAll('.test-card')];
    const first=cards.slice(0,2).map(c=>({card:c.getBoundingClientRect(),action:c.querySelector('.test-card-action').getBoundingClientRect(),facts:c.querySelector('.facts').getBoundingClientRect()}));
-   const nav=document.querySelector('.tabs').getBoundingClientRect();
    return {overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth,
-    labelsFit:labels.every(l=>l.left>=nav.left&&l.right<=nav.right&&l.width>=44&&l.height>=44),
-    minGap:Math.min(...gaps),gapSpread:Math.max(...gaps)-Math.min(...gaps),oneRow:labels.every(l=>Math.abs(l.top-labels[0].top)<1),
+    noTabs:!document.querySelector('.tabs'),
     twoColumns:Math.abs(first[0].card.top-first[1].card.top)<1,
     actionAligned:Math.abs(first[0].action.top-first[1].action.top)<1,
     factsAligned:Math.abs(first[0].facts.top-first[1].facts.top)<1,
     unavailableMargin:getComputedStyle(document.querySelector('.unavailable')).marginTop};
   `);
   expect(!result.overflow,'page fits '+width);
-  expect(result.labelsFit&&result.minGap>=4,'nav labels fit with space and accessible targets '+width);
+  expect(result.noTabs,'cards have no competing top subject menu '+width);
   expect(result.twoColumns===(width>=700),'responsive card columns '+width);
   expect(result.unavailableMargin==='0px','unavailable message has no automatic spacer '+width);
   if(width>=700)expect(result.actionAligned&&result.factsAligned,'actions and facts share rows '+width);
-  if(width>1200)expect(result.oneRow&&result.gapSpread<=2,'one desktop navigation row with even label gaps '+width);
   if(process.env.SS_LAYOUT_SHOTS&&[390,1366,1920].includes(width))await b.shot(path.join(process.env.SS_LAYOUT_SHOTS,`tests-${width}.png`));
  }
  for(const week of ['2026-10-12','2026-10-19','2026-11-02']){

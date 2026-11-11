@@ -1,7 +1,7 @@
 import { html } from '../lib/html.js';
 import { crumbs } from './common.js';
 
-const card = (ctx, id, title, about, action) => html`<li><a class="path-card" href="${ctx.link(id)}"><h2>${title}</h2><p>${about}</p><span>${action} ›</span></a></li>`;
+const card = (ctx, id, title, about, action) => html`<li><a class="path-card" data-path="${id}" href="${ctx.link(id)}"><h2>${title}</h2><p>${about}</p><span>${action} ›</span></a></li>`;
 
 export function homeView(ctx) {
   return html`<div class="page-head section-head path-head"><h1 tabindex="-1">What would you like to work on?</h1><p class="intro">Choose a path to get started.</p></div>
@@ -17,4 +17,15 @@ export function extraView(ctx) {
     ${card(ctx, 'reading', 'Reading Practice', 'Listen to a passage, get help with words, read it yourself, and answer questions about its meaning.', 'Choose a passage')}
     ${card(ctx, 'skills', 'Skill Builders', 'Practice math facts, number skills, and more.', 'Choose a skill')}
   </ul>`;
+}
+
+/** A return route, never a second activity chooser. Deeper screens have their own Back/Home bar. */
+export function pathControls(ctx) {
+  if (ctx.section === 'home' || ctx.lesson || ctx.run || ctx.page || ctx.chapterMenu || ctx.reading?.story) return html``;
+  const extra = ['extra', 'reading', 'skills'].includes(ctx.section);
+  const landing = ctx.section === 'week' || ctx.section === 'extra';
+  return html`<nav class="path-controls" aria-label="Go back">
+    <a class="btn" href="${ctx.link('home')}">‹ Home</a>
+    ${landing ? '' : html`<a class="btn" href="${ctx.link(extra ? 'extra' : 'week')}">‹ Back to ${extra ? 'Extra Learning' : 'Schoolwork'}</a>`}
+  </nav>`;
 }
