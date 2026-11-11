@@ -23,7 +23,7 @@ try {
   check(await b.js('return document.querySelector(".crumbs").textContent.includes("Extra Learning");'),'Reading breadcrumb names path');
   await go('#home');
   await b.clickAt('.home-paths a[href="#week"]');
-  await b.waitFor('document.querySelector("h1")?.textContent==="This Week"');
+  await b.waitFor('document.querySelector("h1")?.textContent==="Schoolwork"');
   await b.clickAt('.path-grid a[href="#spelling"]');
   await b.waitFor('document.querySelector("h1")?.textContent==="Spelling"');
   check((await nav()).length===0,'chosen subject has no competing top menu');
@@ -31,7 +31,7 @@ try {
   await b.waitFor('document.querySelector(".path-grid")');
   check(await b.js('return document.querySelectorAll(".path-grid .path-card").length===6;'),'Back returns to the six Schoolwork cards');
   await go('#week?week=2026-11-09');
-  check(await b.js('document.documentElement.dataset.theme="dark"; return [...document.querySelectorAll(".path-card h3")].every(h=>getComputedStyle(h).color==="rgb(36, 29, 24)");'),'Schoolwork card headings remain readable in the optional dark palette');
+  check(await b.js('document.documentElement.dataset.theme="dark"; return [...document.querySelectorAll(".path-card h2")].every(h=>getComputedStyle(h).color==="rgb(36, 29, 24)");'),'Schoolwork card headings remain readable in the optional dark palette');
   await b.js('delete document.documentElement.dataset.theme;');
   check((await nav()).length===0,'Schoolwork offers cards without a competing tab row');
   check(await b.js('return document.querySelectorAll(".path-grid .path-card").length===6;'),'Schoolwork has six subject cards');
@@ -46,6 +46,19 @@ try {
    check(await b.js('return document.documentElement.scrollWidth<=innerWidth;'),`${width} ${route}: no overflow`);
   }
  }
+ for(const [width,height] of [[1366,768],[1920,914]]){
+  await b.viewport(width,height,false);await go('#week');
+  check(await b.js('await document.fonts.ready;return [...document.querySelectorAll(".schoolwork-cards .path-card")].every(c=>c.getBoundingClientRect().bottom<=innerHeight);'),'all six Schoolwork cards fit the laptop/desktop viewport');
+  check(await b.js('return document.querySelectorAll("#app a").length===7;'),'six choices and one Home return only');
+  check(await b.js('return document.querySelectorAll("#app a[href*=newsletter]").length===1&&!document.querySelector(".math-week, .launcher-head .crumbs");'),'no duplicate newsletter, breadcrumb, or weekly dashboard');
+  check(await b.js('const r=[...document.querySelectorAll(".schoolwork-cards .path-card")].map(e=>e.getBoundingClientRect());return Math.abs(r[0].top-r[2].top)<1&&r[3].top>r[0].top;'),'desktop grid has three columns and two rows');
+ }
+ await b.viewport(390,844,true);await go('#week');
+ check(await b.js('await document.fonts.ready;return document.querySelector(".schoolwork-cards").getBoundingClientRect().top<=innerHeight/3;'),'phone shows the first school choice in the upper third');
+ await b.clickAt('.launcher-home');await b.waitFor('document.querySelector(".home-paths")');
+ await b.clickAt('.home-paths a[data-path=extra]');await b.waitFor('document.querySelector(".extra-cards")');
+ check(await b.js('return [...document.querySelectorAll(".extra-cards .path-card")].every(c=>c.getBoundingClientRect().bottom<=innerHeight);'),'both Extra Learning choices fit the phone viewport');
+ check(await b.js('return [...document.querySelectorAll("#app a")].filter(a=>a.hash==="#home").length===1;'),'Extra Learning has one Home return');
  // Screenshots are an optional local review artifact, never a machine-specific CI requirement.
  const shots=process.env.SS_PATH_SHOTS;
  if(shots){

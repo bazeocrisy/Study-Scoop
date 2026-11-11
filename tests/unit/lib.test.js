@@ -10,7 +10,7 @@ const INDEX = { current: '2026-10-19', weeks: [{ id: '2026-10-19' }, { id: '2026
 
 test('there are Home and Extra Learning plus the existing activity routes', () => {
   assert.deepEqual(SECTIONS.map((s) => s.label),
-    ['Home', 'Extra Learning', 'This Week', 'Spelling', 'Vocabulary', 'Reading', 'Math', 'Skill Builders', 'Homework', 'Newsletter', 'Tests']);
+    ['Home', 'Extra Learning', 'Schoolwork', 'Spelling', 'Vocabulary', 'Reading', 'Math', 'Skill Builders', 'Homework', 'Newsletter', 'Tests']);
 });
 
 test('parseHash reads sections and weeks', () => {

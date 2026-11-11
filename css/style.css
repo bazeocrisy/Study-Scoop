@@ -1353,3 +1353,27 @@ ol.rd-key { list-style: decimal; padding-left: 1.4em; }
 
 .path-controls { display: flex; flex-wrap: wrap; gap: .75rem; margin: 0 0 1.25rem; }
 @media print { .path-controls { display: none !important; } }
+
+/* Launchers present choices; weekly summaries stay inside their subject pages. */
+.launcher-head.section-head { min-height: 0; padding: 0; margin: 0 0 1rem; border: 0; border-radius: 0; background: none; }
+.launcher-head h1 { font-size: 2rem; line-height: 1.2; }
+.launcher-head .week-of { margin: .4rem 0 0; }
+.launcher-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0; }
+.launcher-cards.extra-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.launcher-cards .path-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: .75rem; row-gap: .4rem; align-content: center; min-height: 128px; padding: 1.25rem; }
+.launcher-cards .path-card h2 { grid-column: 1; margin: 0; font-size: 1.25rem; line-height: 1.3; }
+.launcher-cards .path-card p { grid-column: 1; margin: 0; font-size: 1rem; line-height: 1.45; }
+.launcher-cards .path-arrow { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; font-size: 1.8rem; }
+@media (min-width: 600px) and (max-width: 991px) { .launcher-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 599px) {
+  .launcher-cards, .launcher-cards.extra-cards { grid-template-columns: 1fr; gap: .75rem; }
+  .launcher-cards .path-card { min-height: 92px; padding: 1rem; }
+  .launcher-head h1 { font-size: 1.8rem; }
+}
+
+body[data-section="week"] #app, body[data-section="extra"] #app { gap: 16px; }
+.launcher-head.section-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .4rem 1rem; margin: 0; }
+.launcher-head h1 { grid-column: 1; grid-row: 1; }
+.launcher-head .launcher-home { grid-column: 2; grid-row: 1; font-size: 1rem; }
+.launcher-head .week-of { grid-column: 1 / -1; margin: 0; }
+@media (max-width: 599px) { .launcher-head .launcher-home { padding: .5rem .65rem; } }

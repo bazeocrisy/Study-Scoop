@@ -11,12 +11,12 @@ try{
  for(const width of [1366,1920]){
   await b.viewport(width,900,false);
   const headers=[];
-  for(const section of ['week','spelling','vocab','reading','math','skills','homework','newsletter','tests']){
+  for(const section of ['spelling','vocab','reading','math','skills','homework','newsletter','tests']){
    await b.load(url(section));
    headers.push(await b.js('await document.fonts.ready;const h=document.querySelector(".section-head"),t=h.querySelector("h1"),r=h.getBoundingClientRect(),s=t.getBoundingClientRect();return [r.x,r.y,r.width,r.height,s.x,s.y];'));
    expect(await b.js('return !!document.querySelector(".section-head .crumbs a");'),section+' keeps Home navigation');
   }
-  expect(headers.every(h=>h.every((n,i)=>Math.abs(n-headers[0][i])<2)),'all nine section headers and title positions align at '+width);
+  expect(headers.every(h=>h.every((n,i)=>Math.abs(n-headers[0][i])<2)),'subject section headers and title positions align at '+width);
  }
  for(const width of [360,390,640,641,768,1024,1100,1200,1201,1366,1920]){
   await b.viewport(width,900,width<1024);await b.load(url('tests'));

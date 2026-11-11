@@ -115,19 +115,14 @@ test('the week recommends its chapter; the Math library keeps every chapter open
     const out = mathView(ctxFor(id)).s;
     for (const c of [5, 6]) assert.match(out, new RegExp(`href="#math\\?(?:week=${id}&amp;)?ch=${c}"`), `${id}: Chapter ${c} is open`);
   }
-  // This Week: a Math card with shortcuts into the week's chapter only.
+  // Schoolwork opens Math; the Math library recommends the week's chapter and keeps all chapters open.
   for (const [id, ch] of [['2026-10-26', 6], ['2026-10-19', 5]]) {
     const ctx = { ...ctxFor(id), section: 'week', week: WEEK[id] };
     const out = weekView(ctx).s;
-    const card = out.slice(out.indexOf('class="card math-week"'), out.indexOf('</section>', out.indexOf('class="card math-week"')));
-    assert.match(card, new RegExp(`Math this week: Chapter ${ch}`));
-    for (const role of ['vocab', 'lessons', 'practice', 'guide']) {
-      const act = chapterMenu(ch).find((r) => r.role === role).act.id;
-      assert.ok(card.includes(`act=${act}"`), `${id}: ${role} shortcut`);
-    }
-    for (const re of ONLY[ch === 5 ? 6 : 5]) assert.doesNotMatch(card, re, `${id}: the card never opens the other chapter`);
-    // The button shows only when the week has a reviewed flyer (Oct 26); other weeks have none to show.
-    if (WEEK[id].flyer) assert.match(out, /View Original Newsletter/); else assert.doesNotMatch(out, /View Original Newsletter/);
+    assert.match(out, new RegExp(`href="#math(?:\\?week=${id})?"`));
+    assert.doesNotMatch(out, /math-week|View Original Newsletter/);
+    const math = mathView(ctxFor(id)).s;
+    assert.match(math, new RegExp(`This week your class is studying <strong>Chapter ${ch}:`));
   }
 });
 
