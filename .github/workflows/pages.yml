@@ -53,8 +53,8 @@ jobs:
         run: node tests/chapter7-teaching.browser.js --site _site && node tests/chapter7-teaching-access.browser.js --site _site
       - name: Complete Chapter 7 teaching and resources (built site)
         run: node tests/chapter7-teaching-all.browser.js --site _site
-      - name: Lesson 7-1 partition lab (built site)
-        run: node tests/partition-lab.browser.js --site _site
+      - name: Lesson 7-1 learning journey (built site)
+        run: node tests/partition-journey.browser.js --site _site
       - name: November homework journeys (built site)
         run: node tests/homework-nov02.browser.js --site _site
 
@@ -125,10 +125,21 @@ jobs:
       - name: Complete Chapter 7 teaching and resources (preview build)
         working-directory: develop
         run: node tests/chapter7-teaching-all.browser.js --site "$GITHUB_WORKSPACE/_preview"
-      - name: Lesson 7-1 partition lab (production build)
+      # Lesson 7-1: the learning journey replaced the Partition Lab suite. Each branch runs whichever suite it has.
+      - name: Lesson 7-1 learning journey (production build)
+        if: ${{ hashFiles('main/tests/partition-journey.browser.js') != '' }}
+        working-directory: main
+        run: node tests/partition-journey.browser.js --site "$GITHUB_WORKSPACE/_site"
+      - name: Lesson 7-1 partition lab (production build, before the journey)
+        if: ${{ hashFiles('main/tests/partition-lab.browser.js') != '' }}
         working-directory: main
         run: node tests/partition-lab.browser.js --site "$GITHUB_WORKSPACE/_site"
-      - name: Lesson 7-1 partition lab (preview build)
+      - name: Lesson 7-1 learning journey (preview build)
+        if: ${{ hashFiles('develop/tests/partition-journey.browser.js') != '' }}
+        working-directory: develop
+        run: node tests/partition-journey.browser.js --site "$GITHUB_WORKSPACE/_preview"
+      - name: Lesson 7-1 partition lab (preview build, before the journey)
+        if: ${{ hashFiles('develop/tests/partition-lab.browser.js') != '' }}
         working-directory: develop
         run: node tests/partition-lab.browser.js --site "$GITHUB_WORKSPACE/_preview"
       - name: Put the preview under /preview/

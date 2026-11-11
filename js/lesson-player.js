@@ -1,4 +1,5 @@
-import { mountPartitionLab } from './partition-lab.js';
+import { mountJourney } from './partition-journey.js';
+import { isJourneyStage } from './lib/partition-journey.js';
 // Lesson player: the only DOM code for lessons. It keeps progress in memory for this visit only (never stored),
 // re-renders the stage area after each action, moves keyboard focus sensibly and announces feedback to screen readers.
 import { check, helpSteps, solution } from './lib/lessons.js';
@@ -123,7 +124,7 @@ export function mountReadButtons(app, signal) {
 
 /** Attaches the lesson controls to the rendered page. `signal` removes the listeners on the next navigation. */
 export function mountLesson(app, ctx, signal) {
-  if (ctx.lesson.id === '7-1') mountPartitionLab(app, signal);
+  if (isJourneyStage(ctx.lesson.id, ctx.stage)) { mountReadButtons(app, signal); mountJourney(app, ctx, signal); return; }
   const { lesson } = ctx;
   const stage = stageOf(ctx.stage);
   const state = stateFor(lesson.id, stage);

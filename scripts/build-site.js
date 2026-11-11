@@ -44,6 +44,8 @@ export const ALLOW = [
 const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'downloads', 'labs', 'games'];
 /** Runtime files the site cannot work without. */
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
+/** Source kept for its audited tests but no longer used by any page (Lesson 7-1 journey replaced the Partition Lab). */
+export const RETIRED = ['js/lib/partition-reasoning.js'];
 /** Named so a check proves they are absent (the allowlist already excludes them). */
 export const FORBIDDEN = [
   'reference', 'reference/vocabulary-prototype.html', 'reference/spelling-test-prototype.html',
@@ -92,6 +94,7 @@ export function buildSite(out, src = REPO) {
   for (const rel of SOURCES.flatMap((s) => walk(src, s))) {
     let why = null;
     if (!isAllowed(rel)) why = 'not on the allowlist';
+    else if (RETIRED.includes(rel)) why = 'retired: kept in the repository for its tests, not used by the site';
     else if (rel.startsWith('labs/') && !labs.has(rel)) why = 'not named by a published week';
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
     else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';

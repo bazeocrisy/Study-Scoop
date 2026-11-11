@@ -5,10 +5,10 @@
   "description": "Study Scoop: free third-grade learning hub (static site, no build step, no dependencies)",
   "scripts": {
     "test": "node --test \"tests/unit/*.test.js\"",
-    "test:browser": "node tests/browser.test.js && node tests/homework-nov02.browser.js && node tests/homework-nov09.browser.js && node tests/weekly-labs.browser.js && node tests/layout.browser.js && node tests/chapter7.browser.js && node tests/chapter7-assessment.browser.js && node tests/chapter7-teaching.browser.js && node tests/chapter7-teaching-access.browser.js && node tests/chapter7-teaching-all.browser.js && node tests/partition-lab.browser.js",
+    "test:browser": "node tests/browser.test.js && node tests/homework-nov02.browser.js && node tests/homework-nov09.browser.js && node tests/weekly-labs.browser.js && node tests/layout.browser.js && node tests/chapter7.browser.js && node tests/chapter7-assessment.browser.js && node tests/chapter7-teaching.browser.js && node tests/chapter7-teaching-access.browser.js && node tests/chapter7-teaching-all.browser.js && node tests/partition-journey.browser.js",
     "build": "node scripts/build-site.js",
     "homework-pdf": "node scripts/make-homework-pdf.mjs",
-    "test:site": "node scripts/build-site.js && node tests/browser.test.js --site _site && node tests/homework-nov02.browser.js --site _site && node tests/homework-nov09.browser.js --site _site && node tests/weekly-labs.browser.js --site _site && node tests/layout.browser.js --site _site && node tests/chapter7.browser.js --site _site && node tests/chapter7-assessment.browser.js --site _site && node tests/chapter7-teaching.browser.js --site _site && node tests/chapter7-teaching-access.browser.js --site _site && node tests/chapter7-teaching-all.browser.js --site _site && node tests/partition-lab.browser.js --site _site",
+    "test:site": "node scripts/build-site.js && node tests/browser.test.js --site _site && node tests/homework-nov02.browser.js --site _site && node tests/homework-nov09.browser.js --site _site && node tests/weekly-labs.browser.js --site _site && node tests/layout.browser.js --site _site && node tests/chapter7.browser.js --site _site && node tests/chapter7-assessment.browser.js --site _site && node tests/chapter7-teaching.browser.js --site _site && node tests/chapter7-teaching-access.browser.js --site _site && node tests/chapter7-teaching-all.browser.js --site _site && node tests/partition-journey.browser.js --site _site",
     "test:all": "npm test && npm run test:browser && npm run test:site",
     "serve": "node tests/serve.js"
   }

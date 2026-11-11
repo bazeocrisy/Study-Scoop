@@ -1,7 +1,9 @@
 // One view for every lesson and stage (Learn It, Watch Me, Practice Together, Try It Yourself, Test, Parent Guide).
 // Pure: it renders the lesson data plus the in-memory progress (state). js/lesson-player.js handles clicks and typing.
 import { html } from '../lib/html.js';
-import { partitionLabShell } from '../partition-lab.js';
+import { journeyStepper, journeyCard, journeySummary } from './partition-journey.js';
+import { journeyState, doneStages } from '../partition-journey.js';
+import { JOURNEY_LESSON, isJourneyStage } from '../lib/partition-journey.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { PLACE } from '../lib/rounding.js';
@@ -32,13 +34,41 @@ export function cardsOf(lesson, stage) {
 export function lessonView(ctx) {
   const { lesson } = ctx;
   const stage = stageOf(ctx.stage);
+  if (lesson.id === JOURNEY_LESSON) return journeyLessonView(ctx);
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   return html`
     ${lessonBar(ctx, lesson, stage)}
-    ${lesson.id === '7-1' && ['learn', 'parent'].includes(stage) ? partitionLabShell() : ''}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">
       ${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}
     </div>`;
+}
+
+/**
+ * Lesson 7-1: one guided journey (sections A to I and a grown-up summary). Its original five stages stay
+ * available as optional extra practice, reached from the Check & Reflect section and the summary.
+ */
+function journeyLessonView(ctx) {
+  const { lesson } = ctx;
+  const journey = isJourneyStage(lesson.id, ctx.stage), stage = journey ? ctx.stage : stageOf(ctx.stage);
+  const jctx = { ...ctx, journeyDone: doneStages(journeyState) };
+  const top = subBar(ctx, {
+    tone: 'math', eyebrow: `Lesson ${lesson.id}`, title: lesson.title, goal: stage === 'explore' ? lesson.goal : '',
+    trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Chapter 7', href: ctx.chapterLink(7) }, { label: 'Chapter 7 Lessons', href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
+    back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.chapterLink(7), label: 'Back to Chapter 7' }],
+  });
+  if (journey) return html`${top}${journeyStepper(jctx, stage)}<div class="stage j-stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${journeyCard(jctx, stage, journeyState)}</div>`;
+  const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
+  if (stage === 'parent') return html`${top}${journeyStepper(jctx, 'parent')}
+    <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="parent">${journeySummary(jctx, journeyState)}${extraPractice(ctx, lesson)}${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;
+  return html`${top}${journeyStepper(jctx, null)}
+    <section class="card j-extra-note" aria-label="Extra practice"><p><strong>Extra practice (optional): naming equal parts.</strong> These steps practise counting equal parts in strips and circles. The main lesson is in the steps above.</p></section>
+    ${stageStepper(ctx, lesson, stage, 'Extra practice steps')}
+    <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;
+}
+function extraPractice(ctx, lesson) {
+  return html`<section class="card j-extra" aria-labelledby="j-extra-h"><h2 id="j-extra-h" class="h3">Extra practice (optional)</h2>
+    <p>More questions about counting and naming equal parts in strips and circles.</p>
+    <p class="btn-row">${STAGES.map((s) => html`<a class="btn" href="${ctx.lessonLink(lesson.id, s.id)}">${s.label}</a>`)}</p></section>`;
 }
 
 /** Just the stage area (re-rendered in place after each answer, so the page does not jump). */
@@ -67,8 +97,13 @@ function lessonBar(ctx, lesson, stage) {
       trail: [{ label: 'Math', href: ctx.link('math') }, { label: `Chapter ${chapterOf(lesson.id)}`, href: ctx.chapterLink(chapterOf(lesson.id)) }, { label: `Chapter ${chapterOf(lesson.id)} Lessons`, href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
       back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.chapterLink(chapterOf(lesson.id)), label: `Back to Chapter ${chapterOf(lesson.id)}` }],
     })}
+    ${stageStepper(ctx, lesson, stage)}`;
+}
+
+function stageStepper(ctx, lesson, stage, label = 'Lesson steps') {
+  return html`
     <div class="lesson-steps">
-      <nav class="stepper" aria-label="Lesson steps">
+      <nav class="stepper" aria-label="${label}">
         <ol>${STAGES.map((s, i) => html`<li class="${s.id !== stage && ctx.lessonVisited?.has(s.id) ? 'done' : ''}"><a href="${ctx.lessonLink(lesson.id, s.id)}"${s.id === stage ? html` aria-current="step"` : ''}><span class="n">${i + 1}</span> <span class="name">${s.label}</span></a></li>`)}</ol>
       </nav>
     </div>`;
@@ -726,5 +761,5 @@ function parentGuide(ctx, lesson) {
         ${s.list ? html`<ul>${s.list.map((x) => html`<li>${keepFacts(x)}</li>`)}</ul>` : ''}</section>`)}
       <section><h3>About "Read to me"</h3><p>Read to me uses your device's own voice when it has one. Some browsers use an online voice instead; nothing else is sent by Study Scoop.</p></section>
     </div>
-    <div class="stage-nav"><a class="btn" href="${ctx.lessonLink(lesson.id, 'learn')}">‹ Back to the lesson</a><span></span></div>`;
+    <div class="stage-nav"><a class="btn" href="${ctx.lessonLink(lesson.id, lesson.id === JOURNEY_LESSON ? 'explore' : 'learn')}">‹ Back to the lesson</a><span></span></div>`;
 }

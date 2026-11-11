@@ -4,6 +4,7 @@ import { modelFigure } from '../lib/models.js';
 import { STAGES } from '../lib/lessons.js';
 import { subBar, subjectMenu } from './common.js';
 import { readButton, coachModels } from './lesson.js';
+import { JOURNEY, JOURNEY_LESSON } from '../lib/partition-journey.js';
 
 const back = (ctx) => html`<a class="btn" href="${ctx.chapterLink(7)}">‹ Back to Chapter 7</a>`;
 function bar(ctx, title, goal) {
@@ -111,10 +112,11 @@ function fluency(f) {
 
 function lessons(ctx) {
   const list = (ctx.lessons?.lessons || []).filter((l) => l.chapter === 7 || l.id.startsWith('7-'));
-  return html`${bar(ctx, 'Chapter 7 Lessons', 'Start with Learn It, or choose a lesson step. Every lesson is open.')}
+  return html`${bar(ctx, 'Chapter 7 Lessons', 'Press Start to begin a lesson at its first step, or choose any step. Every lesson is open.')}
     <ol class="lesson-list">${list.map((l) => html`<li class="card lesson-card"><span class="lesson-num">${l.id}</span><div>
       <h2 class="h3">Lesson ${l.id}: ${l.title}</h2><p>${l.summary || l.strategy}</p>
-      <ol class="stage-links" aria-label="Steps in Lesson ${l.id}">${STAGES.map((s, i) => html`<li><a href="${ctx.lessonLink(l.id, s.id)}"><span class="n" aria-hidden="true">${i + 1}</span> ${s.label}</a></li>`)}</ol>
-    </div><a class="btn btn-primary" href="${ctx.lessonLink(l.id, 'learn')}">Start<span class="sr-only"> Lesson ${l.id}</span></a></li>`)}</ol>
+      <ol class="stage-links" aria-label="Steps in Lesson ${l.id}">${(l.id === JOURNEY_LESSON ? JOURNEY : STAGES).map((s, i) => html`<li><a href="${ctx.lessonLink(l.id, s.id)}"><span class="n" aria-hidden="true">${l.id === JOURNEY_LESSON ? String.fromCharCode(65 + i) : i + 1}</span> ${s.label}</a></li>`)}</ol>
+      ${l.id === JOURNEY_LESSON ? html`<p class="hint"><a href="${ctx.lessonLink(l.id, 'learn')}">Extra practice: naming equal parts</a></p>` : ''}
+    </div><a class="btn btn-primary" href="${ctx.lessonLink(l.id, l.id === JOURNEY_LESSON ? JOURNEY[0].id : 'learn')}">Start<span class="sr-only"> Lesson ${l.id}</span></a></li>`)}</ol>
     <div class="stage-nav">${back(ctx)}<a class="btn" href="${ctx.actLink('math', 'ch7guide')}">Chapter 7 Study Guide</a></div>`;
 }
