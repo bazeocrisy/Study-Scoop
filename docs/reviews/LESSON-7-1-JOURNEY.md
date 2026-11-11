@@ -80,7 +80,7 @@ Each review was done by a separate agent that did not write the code. Each revie
 
 Not changed, by decision: the order of the six Shape Builder skills and the midpoint-triangle item both follow the assignment's explicit list. The plus shape is the existing reviewed outline. These echo the workbook's structure and are listed for the owner's review under *Open questions*.
 
-Still open (nice-to-have): arrow-key movement between dots (today each dot is a Tab stop); a mixed-shape review card; a solo rectangle-sixths check; phone dot hit areas of 33–36 px on the densest rectangles (above the 24 px AA minimum, below the 44 px goal).
+Still open (nice-to-have): a mixed-shape review card; a solo rectangle-sixths check. Arrow keys and touch targets were done in round 3 (§9).
 
 ## 5. Test evidence
 
@@ -131,3 +131,47 @@ All wording, examples, characters and diagrams are new. Diagrams are inline SVG 
 - **Screenshots:** `docs/reviews/images/lesson-7-1-journey-*-{1366,1280,390}.png` (Chromebook and phone).
 - **Release:** merge only after approval. The workflow's Lesson 7-1 steps run whichever suite each branch has.
 - **Rollback:** revert the merge commit. No data or storage migration is involved.
+
+
+## 9. Round 3 (owner brief of 2026-11-11): touch targets and saved progress
+
+**Saved progress (DECISIONS D29, owner-approved Option 1).**
+- `js/lib/journey-store.js` saves the journey in this browser only, under one key (`studyScoop.lesson7-1.progress`). It saves the last section and card, drawings, answers, counts, writing and checklists, help levels, and the independent/assisted records.
+- Everything read back is checked: unknown cards, impossible lines, out-of-range choices and damaged JSON are dropped. If storage is blocked or full, the lesson still works.
+- Opening Lesson 7-1 without a section resumes where the child stopped.
+- Open tabs stay in sync through the browser's `storage` event, so a Reset in one tab is not undone by another.
+- The Grown-up Summary explains what is saved and has **Reset Lesson 7-1 progress** with an on-page confirmation. Cancel is the emphasised button, and Escape closes the confirmation.
+- No names are collected and nothing is sent. Every other page still stores nothing (D4); the D4 unit and browser tests now allow exactly this one key, from exactly that file.
+
+**Choosing dots (touch targets).** Geometry is unchanged. On a 320–390 px phone, the densest drawing (rectangle eighths) has dots 30–37 px apart. Giving each dot a separate 44 px target would mean overlapping targets or a drawing wider than the screen. So the drawing itself is the control:
+- **Nearest dot:** a press anywhere within 48 px of a dot chooses the nearest dot. There are no gaps and no overlaps.
+- **Preview and slide:** while pressing, the dot that will be chosen is ringed and named. Sliding moves the ring, and lifting chooses it. Lifting away from every dot chooses nothing.
+- **Touch:** holding still for a moment, then sliding, works in any direction. A quick swipe still scrolls the page, and any scroll cancels the press.
+- **Keyboard:** the drawing is a single Tab stop. Arrow keys move between dots, and Enter or Space chooses.
+- **Screen readers:** a hidden list says which lines are drawn. Clicks from assistive technology are accepted.
+
+Measured closest-dot spacing on screen (browser suite):
+
+| Width | 320 | 360 | 390 | 768 | 1024 | 1366 |
+|---|---|---|---|---|---|---|
+| Densest drawing (rectangle eighths) | 30 px | 34 px | 37 px | 57 px | 54 px | 54 px |
+| Typical drawing (diamond) | 64 px | 73 px | 80 px | 123 px | 108 px | 108 px |
+
+At every width, a press just short of halfway toward the closest neighbour (capped at 44 px) still chooses the right dot, by touch and by mouse. That is checked for every dot of both drawings: 6 widths, 2 drawings, all dots. So targets are 44 px or more from tablet width up. On phones, the densest drawings meet WCAG 2.5.8 (AA, 24 px) and rely on the equivalent controls above for the 44 px goal. An independent reviewer found that mouse clicks 16 px off-centre on the 320 px densest card picked a neighbouring dot 32 times in 192 tries. That is a recoverable near-miss (the ring shows it, and the dot can be tapped again or the line undone), but it is not a true 44 px target.
+
+**Independent reviews in round 3** (agents that did not write the code):
+- *Interaction and persistence:* 17 checks passed, including refresh mid-drawing, mid-help and mid-writing, browser reopen, exact summary match, damaged data and blocked storage, and no other page writing storage. It found two tabs overwriting each other, Reset being undone by another tab, and stale choices breaking Check. All three are fixed in `be200ee` and covered by tests.
+- *Accessibility and touch:* keyboard, live messages, contrast (light and dark), reflow and the Reset flow passed. It found vertical slide-to-correct impossible on touch, preview text shifting the buttons, drawn lines not described to screen readers, and assistive-technology clicks possibly ignored. All are fixed in `be200ee`. Not verified: real phones, VoiceOver or TalkBack, Safari or Firefox.
+
+Evidence for this round: final run on **`be200ee`**, with every suite run separately and all exits 0.
+- Unit tests: 361 passed, 0 failed (6 new saved-progress tests).
+- Allowlist build: verified.
+
+| Suite | Repository | Built site |
+|---|---|---|
+| `browser.test.js` | 347/0 | 349/0 |
+| Homework (both weeks), weekly labs, layout | 220 / 220 / 80 / 79 | the same |
+| Chapter 7: journeys, assessment, teaching, teaching access, teaching (all) | 547 / 3 / 8 / 10 / 18 | the same |
+| Lesson 7-1 journey (now including touch targets, keyboard, saved progress, reset and two tabs) | 1191 | 1191 |
+
+The re-checks by both independent reviewers at `be200ee` passed every item.
