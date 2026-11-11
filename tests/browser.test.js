@@ -12,7 +12,7 @@ const readJSON = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 // Preserve the historical Oct 26 student journeys as weeks roll forward.
 // The November homework suite tests the actual current-week index without overlays.
 const INDEX = readJSON('tests/fixtures/data/weeks-regression.json');
-const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading'], ['math', 'Math'],
+const SECTIONS = [['week', 'This Week'], ['spelling', 'Spelling'], ['vocab', 'Vocabulary'], ['reading', 'Reading Practice'], ['math', 'Math'],
   ['skills', 'Skill Builders'], ['homework', 'Homework'], ['newsletter', 'Newsletter'], ['tests', 'Tests']];
 const VIEWPORTS = [[360, 740], [390, 844], [768, 1024], [1024, 768], [1366, 768], [1920, 1080]];
 const L51 = readJSON('data/lessons/5-1.json');
@@ -114,16 +114,16 @@ async function main() {
     await b.viewport(1366, 900, false);
 
     console.log('Routing and sections');
-    await check('home page opens on This Week with no errors', async () => {
+    await check('home page opens on two learning paths with no errors', async () => {
       await b.load(url());
-      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'This Week', 'h1');
+      eq(await b.js('return document.querySelector("#app h1").textContent;'), 'What would you like to work on?', 'h1');
       eq(await b.js('return location.hash;'), '', 'hash untouched on first load');
       eq(b.errors, [], 'console errors');
     });
-    await check('navigation lists the nine sections in order', async () => {
+    await check('navigation contains the two paths and existing activity links', async () => {
       const labels = await b.js('return [...document.querySelectorAll("nav.tabs a")].map((a) => a.textContent.trim());');
-      eq(labels, SECTIONS.map((s) => s[1]), 'nav labels');
-      eq(await b.js('return document.querySelector("nav.tabs").getAttribute("aria-label");'), 'Sections', 'nav label');
+      eq(labels, ['Home','Extra Learning','Schoolwork', ...SECTIONS.slice(1).map(s=>s[0]==='reading'?'Reading':s[1])], 'nav labels');
+      eq(await b.js('return document.querySelector("nav.tabs").getAttribute("aria-label");'), 'Learning paths', 'nav label');
     });
     await check('Oct 19–23 This Week counts down to each test from Friday, Oct 16', async () => {
       await b.load(url(H19('#week')));
@@ -152,15 +152,15 @@ async function main() {
       } finally {
         await b.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: result.identifier });
       }
-      await b.load(url());
+      await b.load(url('#week'));
       eq(await b.js('return document.querySelector(".test .count").textContent;'), 'In 14 days', 'back to the usual frozen day (Friday, Oct 16)');
     });
     for (const [id, label] of SECTIONS) {
       await check(`#${id} shows ${label} with the right tab marked`, async () => {
-        await b.hash(`#${id}`);
+        await b.load(url(`#${id}`));
         eq(await b.js('return document.querySelector("#app h1").textContent;'), label, 'h1');
         eq(await b.js('return [...document.querySelectorAll("nav.tabs a[aria-current=page]")].map((a) => a.dataset.tab);'), [id], 'aria-current');
-        eq(await b.js('return document.title;'), `${label} · Study Scoop`, 'title');
+        eq(await b.js('return document.title;'), `${label === 'Reading Practice' ? 'Reading' : label} · Study Scoop`, 'title');
       });
     }
     await check('deep link to an earlier week opens that week', async () => {
@@ -172,7 +172,7 @@ async function main() {
     });
     await check('unknown section or week falls back safely and fixes the address', async () => {
       await b.load(url('#nope'));
-      eq(await b.js('return [document.querySelector("#app h1").textContent, location.hash];'), ['This Week', '#week'], 'unknown section');
+      eq(await b.js('return [document.querySelector("#app h1").textContent, location.hash];'), ['What would you like to work on?', '#home'], 'unknown section');
       await b.load(url('#math?week=2030-01-01'));
       eq(await b.js('return [document.querySelector("#app h1").textContent, location.hash, document.getElementById("weekSelect").value];'),
         ['Math', '#math', INDEX.current], 'unknown week');
@@ -260,15 +260,15 @@ async function main() {
     });
 
     console.log('Keyboard and accessibility');
-    await check('Tab order: skip link, logo, week picker, then the nine sections', async () => {
+    await check('Tab order follows the visible Schoolwork navigation', async () => {
       await b.load(url('#week'));
       // fresh load: focus starts at the top of the page
       const order = [];
-      for (let i = 0; i < 3 + SECTIONS.length; i++) {
+      for (let i = 0; i < 12; i++) {
         await b.key('Tab');
         order.push(await b.js('const e = document.activeElement; return e.id || e.dataset.tab || e.className || e.tagName;'));
       }
-      eq(order, ['skip', 'brand', 'weekSelect', ...SECTIONS.map((s) => s[0])], 'focus order');
+      eq(order, ['skip', 'brand', 'weekSelect', 'home','extra','week','spelling','vocab','math','homework','newsletter','tests'], 'focus order');
     });
     await check('keyboard focus is clearly visible', async () => {
       const o = await b.js('const s = getComputedStyle(document.activeElement); return [s.outlineStyle, parseFloat(s.outlineWidth)];');
@@ -494,7 +494,7 @@ async function main() {
       await b.waitFor(`location.hash === ${JSON.stringify(inWeek('#math?ch=5', id))}`);
       // On a menu, Home is the first step of the crumbs.
       await b.js('document.querySelector(".crumbs a").click();');
-      await b.waitFor('document.querySelector("#app h1")?.textContent === "This Week"');
+      await b.waitFor('document.querySelector("#app h1")?.textContent === "What would you like to work on?"');
     });
     await check('lesson addresses: unknown lessons go back to Math, unknown stages open Learn It, the stepper marks the stage', async () => {
       await b.load(url('#math?lesson=9-9&stage=watch'));
@@ -1261,7 +1261,7 @@ async function main() {
         }
       }
       await b.js('document.querySelector(".bar-btns a.home").click();');
-      await b.waitFor('document.querySelector("#app h1")?.textContent === "This Week" && location.hash === "#week"');
+      await b.waitFor('document.querySelector("#app h1")?.textContent === "What would you like to work on?" && location.hash === "#week"');
       // Browser Back returns to the menu, then Forward to Home again.
       let before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');

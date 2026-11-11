@@ -11,6 +11,7 @@ export function weekView(ctx) {
   const now = recommendedChapter(week, ctx.lessons);
   return html`
     ${pageHead('This Week', ctx, null, week.flyer?.reviewed ? html`<a class="btn" href="${ctx.link('newsletter')}" data-flyer>View Original Newsletter</a>` : '')}
+    ${schoolworkMenu(ctx)}
     ${now ? mathCard(ctx, now) : ''}
 
     <section aria-labelledby="h-tests">
@@ -82,4 +83,9 @@ export function homeworkList(homework) {
   return homework.length
     ? html`<ul class="plain">${homework.map((h) => html`<li><strong>${h.title}</strong> <span class="due">${h.due}</span></li>`)}</ul>`
     : html`<p>No homework is listed for this week.</p>`;
+}
+
+function schoolworkMenu(ctx) {
+  const items = [['homework', 'Homework', 'Open this week’s packet, including assigned reading.'], ['spelling', 'Spelling', 'Study this week’s words.'], ['vocab', 'Vocabulary', 'Understand this week’s words.'], ['math', 'Math', 'Open the chapter lessons and practice.'], ['newsletter', 'Newsletter', 'See the school’s weekly information.'], ['tests', 'Practice Tests', 'Practice for this week’s school topics.']];
+  return html`<section aria-labelledby="school-menu"><h2 id="school-menu">This week’s schoolwork</h2><ul class="path-grid">${items.map(([id, title, about]) => html`<li><a class="path-card" href="${ctx.link(id)}"><h3>${title}</h3><p>${about}</p><span>Open ${title} ›</span></a></li>`)}</ul></section>`;
 }

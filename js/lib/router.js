@@ -5,7 +5,7 @@
 // Activities: "#vocab?act=choice", "#spelling?act=listen", "#math?act=split", "#skills?act=roundten"; practice tests: "#tests?test=math" (D18, D19, D22).
 // The week lives in the address (not in storage), so links can be shared and nothing is saved.
 
-export const DEFAULT_SECTION = 'week';
+export const DEFAULT_SECTION = 'home';
 const LESSON_ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 // Activity and test names: lowercase letters, then letters or digits ("ch6review").
 const WORD = /^[a-z][a-z0-9]*$/;

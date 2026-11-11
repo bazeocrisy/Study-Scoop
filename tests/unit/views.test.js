@@ -134,7 +134,7 @@ test('Math opens on Choose Your Chapter; each chapter opens its own six activiti
   }
   const practice = mathView(at({ page: 'practice' })).s;
   for (const act of ['props', 'split', 'breakapart', 'mixed', 'misses']) assert.ok(practice.includes(`href="#math?act=${act}"`), act);
-  assert.match(practice, /Home<\/a><\/li><li><a href="#math">Math<\/a><\/li><li><a href="#math\?ch=5">Chapter 5<\/a><\/li><li><span aria-current="page">Practice Problems/, 'Home > Math > Chapter 5 > Practice Problems');
+  assert.match(practice, /Home<\/a><\/li><li><a href="#week">Schoolwork<\/a><\/li><li><a href="#math">Math<\/a><\/li><li><a href="#math\?ch=5">Chapter 5<\/a><\/li><li><span aria-current="page">Practice Problems/, 'Home > Math > Chapter 5 > Practice Problems');
 });
 
 test('Learn the Properties uses the teacher\'s exact words when the week lists them, and works without them', () => {

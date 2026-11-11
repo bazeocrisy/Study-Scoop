@@ -15,7 +15,8 @@ import { chapterFor, validateChapters } from './lib/chapters.js';
 import { missCounts, mountActivity, mountTimesApp, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
 import { validatePacket } from './lib/homework.js';
-import { SECTIONS, SECTION_IDS, sectionLabel } from './sections.js';
+import { SECTIONS, SECTION_IDS, sectionLabel, EXTRA_SECTIONS, SCHOOL_SECTIONS } from './sections.js';
+import { homeView, extraView } from './views/paths.js';
 import { weekView } from './views/week.js';
 import { spellingView } from './views/spelling.js';
 import { vocabView } from './views/vocab.js';
@@ -28,7 +29,7 @@ import { mountReading } from './reading-player.js';
 import { validateReadingIndex, validateStory } from './lib/reading.js';
 
 const VIEWS = {
-  week: weekView, spelling: spellingView, vocab: vocabView, reading: readingView, math: mathView,
+  home: homeView, extra: extraView, week: weekView, spelling: spellingView, vocab: vocabView, reading: readingView, math: mathView,
   skills: skillsView, homework: homeworkView, newsletter: newsletterView, tests: testsView,
 };
 
@@ -226,8 +227,11 @@ async function render() {
   const entry = index.weeks.find((w) => w.id === weekId);
   select.value = weekId;
   weekLabel.textContent = `3rd grade · ${entry.label}`;
-  brand.href = buildHash('week', weekId, index.current);
+  brand.href = buildHash('home', weekId, index.current);
+  const extraPath = EXTRA_SECTIONS.includes(route.section);
+  nav.setAttribute('aria-label', route.section === 'home' ? 'Learning paths' : extraPath ? 'Extra Learning navigation' : 'Schoolwork navigation');
   for (const a of nav.querySelectorAll('a[data-tab]')) {
+    a.hidden = !['home', 'extra', 'week'].includes(a.dataset.tab) && (route.section === 'home' || !(extraPath ? EXTRA_SECTIONS : SCHOOL_SECTIONS).includes(a.dataset.tab));
     a.href = buildHash(a.dataset.tab, weekId, index.current);
     if (a.dataset.tab === route.section) a.setAttribute('aria-current', 'page');
     else a.removeAttribute('aria-current');
