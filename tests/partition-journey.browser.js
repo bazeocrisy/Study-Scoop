@@ -306,7 +306,7 @@ try {
       await b.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     } else {
       await b.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y }); await b.send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
-      if (moveTo) { await b.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: moveTo[0], y: moveTo[1], button: 'left', buttons: 1 }); ok(await b.js('return /lift to choose/.test(document.querySelector("[data-j-preview]").textContent) && !!document.querySelector(".j-point.preview")'), 'while pressing, the dot that will be chosen is ringed and named'); }
+      if (moveTo) { await b.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: moveTo[0], y: moveTo[1], button: 'left', buttons: 1 }); ok(await b.js('return document.querySelector("[data-j-preview]").textContent.trim().length > 3 && !!document.querySelector(".j-point.preview")'), 'while pressing, the dot that will be chosen is ringed and named'); }
       await b.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: moveTo ? moveTo[0] : x, y: moveTo ? moveTo[1] : y, button: 'left', clickCount: 1 });
     }
   };
@@ -336,10 +336,28 @@ try {
       await press(a.x, a.y, 'mouse', [c.x, c.y]);
       ok((await selected()) === c.id, `${w}px: sliding to another dot before lifting chooses that dot`);
       await press(c.x, c.y);
+      if (type === 'touch') {
+        // Hold, then slide straight down to another dot: the ring follows and lifting chooses it (no scrolling).
+        const down = pts.filter((q) => Math.abs(q.x - a.x) < 3 && q.y > a.y + 10).sort((m, n) => m.y - n.y)[0] || pts.find((q) => q !== a);
+        const y0 = await b.js('return scrollY');
+        await b.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: a.x, y: a.y }] });
+        await b.wait(300);
+        for (let t = 1; t <= 4; t++) await b.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: a.x + (down.x - a.x) * t / 4, y: a.y + (down.y - a.y) * t / 4 }] });
+        await b.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+        ok((await selected()) === down.id && (await b.js('return scrollY')) === y0, `${w}px touch: hold then slide down from ${a.id} chooses ${down.id} without scrolling`);
+        await press(down.x, down.y, 'touch');
+        // A quick swipe that starts on the drawing still scrolls the page and chooses nothing.
+        await b.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: a.x, y: a.y }] });
+        for (let t = 1; t <= 6; t++) await b.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: a.x, y: a.y - 20 * t }] });
+        await b.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+        await b.wait(500);
+        ok((await selected()) === null, `${w}px touch: a quick swipe on the drawing chooses nothing (checked after a pause)`);
+      }
       // A press far from every dot does nothing.
+      const now = await geometry();
       const far = await b.js('const r=document.querySelector(".j-stage-pic svg").getBoundingClientRect();return [r.left+4,r.top+4]');
-      const nearestFar = Math.min(...pts.map((p) => Math.hypot(p.x - far[0], p.y - far[1])));
-      if (nearestFar > 52) { await press(far[0], far[1]); ok((await selected()) === null, `${w}px: a press far from every dot chooses nothing`); }
+      const nearestFar = Math.min(...now.map((p) => Math.hypot(p.x - far[0], p.y - far[1])));
+      if (nearestFar > 52) { const pre = await selected(); await press(far[0], far[1]); const got = await selected(); ok(got === null, `${w}px: a press far from every dot chooses nothing (before ${pre}, got ${got}, nearest ${nearestFar.toFixed(0)}px, at ${far.map(Math.round)})`); }
     }
   }
   console.log('Dot targets: ' + targetReport.join('; '));
@@ -384,6 +402,36 @@ try {
   ok(/0 right on the first try/.test(await b.js('return document.querySelector(".j-summary").textContent.replace(/\\s+/g," ")')), 'the summary shows a fresh start right away');
   await b.load(url());
   ok(await b.js('return location.hash.includes("stage=explore")') && Object.keys((await state()).records).length === 0, 'after Reset, Lesson 7-1 starts again at section A');
+  // Two copies of the lesson at once (a second tab, here a same-origin frame): neither overwrites the other,
+  // and a Reset in one is not undone by the other.
+  await openCard('explore', 0);
+  await b.js(`const f=document.createElement('iframe');f.id='tab2';f.style.cssText='width:1000px;height:700px';f.src=location.pathname+'#math?lesson=7-1&stage=explore';document.body.append(f);`);
+  await b.waitFor('!!document.getElementById("tab2").contentDocument?.querySelector("[data-card]")', 10000);
+  await b.js(`const d=document.getElementById('tab2').contentDocument;d.querySelectorAll('input[data-j-choice]')[1].click();d.querySelector('[data-j="check"]').click();`);
+  await b.waitFor(`(JSON.parse(localStorage.getItem('${KEY}')||'{}').records||{})['a-same']?.correct === true`);
+  await b.waitFor(`(await import('./js/partition-journey.js')).journeyState.records['a-same']?.correct === true`);
+  ok(true, 'an answer checked in the other tab arrives in this tab');
+  await tap(J('next')); await tap('input[data-j-choice][value="0"]'); await tap('input[data-j-choice][value="2"]'); await tap(J('check'));
+  data = await saved();
+  ok(data.records['a-same']?.correct && data.records['a-equal']?.correct, `work from both tabs is kept (no overwrite): ${JSON.stringify(data.records)} card=${await card()} fb=${await feedback()}`);
+  await b.js(`const w=document.getElementById('tab2').contentWindow;w.localStorage.removeItem('${KEY}');`); // a Reset in the other tab
+  await b.waitFor(`Object.keys((await import('./js/partition-journey.js')).journeyState.records).length === 0`);
+  ok((await card()) === 'a-same', 'this tab shows the fresh start right away');
+  await tap(J('next'));
+  data = await saved();
+  ok(!data || (!Object.values(data.records || {}).some((r) => r.correct || r.attempts) && !data.ui?.['a-same']?.choice?.length && !data.ui?.['a-equal']), `after a Reset in another tab, this tab does not write the old progress back: ${JSON.stringify(data)}`);
+  await b.js('document.getElementById("tab2").remove()');
+  // A stale saved answer (an option that no longer exists) cannot break Check.
+  await b.js(`localStorage.setItem('${KEY}', JSON.stringify({v:1,stage:'explore',at:{explore:0},ui:{'a-same':{choice:['9']}},records:{}}))`);
+  await b.load(url());
+  await tap(J('check'));
+  ok(/Choose an answer first/.test(await feedback()), 'a stale saved choice is dropped and Check still works');
+  // Escape closes the Reset confirmation; Cancel is the emphasised (safe) button.
+  await b.hash('#math?lesson=7-1&stage=parent'); await tap('[data-j-reset="ask"]');
+  ok(await b.js('return document.querySelector("[data-j-reset=no]").classList.contains("btn-primary") && !document.querySelector("[data-j-reset=yes]").classList.contains("btn-primary")'), 'Cancel is the emphasised choice, erasing is not');
+  await b.key('Escape');
+  ok(await b.js('return document.querySelector("[data-j-reset-confirm]").hidden'), 'Escape closes the Reset confirmation');
+  await b.js(`localStorage.removeItem('${KEY}')`);
   // Other Study Scoop pages still store nothing.
   await b.load(`${server.origin}${BASE}#math?lesson=7-2&stage=try`); await b.load(`${server.origin}${BASE}#spelling`);
   ok(JSON.stringify(Object.keys(await b.js('return {...localStorage}'))).replace(KEY, '') === '[""]' || (await b.js('return localStorage.length')) <= 1, 'no other page adds anything to storage');

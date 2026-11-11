@@ -112,7 +112,7 @@ function fluency(f) {
 
 function lessons(ctx) {
   const list = (ctx.lessons?.lessons || []).filter((l) => l.chapter === 7 || l.id.startsWith('7-'));
-  return html`${bar(ctx, 'Chapter 7 Lessons', 'Press Start to begin a lesson at its first step, or choose any step. Every lesson is open.')}
+  return html`${bar(ctx, 'Chapter 7 Lessons', 'Press Start to begin a lesson, or choose any step. Lesson 7-1 continues where you stopped. Every lesson is open.')}
     <ol class="lesson-list">${list.map((l) => html`<li class="card lesson-card"><span class="lesson-num">${l.id}</span><div>
       <h2 class="h3">Lesson ${l.id}: ${l.title}</h2><p>${l.summary || l.strategy}</p>
       <ol class="stage-links" aria-label="Steps in Lesson ${l.id}">${(l.id === JOURNEY_LESSON ? JOURNEY : STAGES).map((s, i) => html`<li><a href="${ctx.lessonLink(l.id, s.id)}"><span class="n" aria-hidden="true">${l.id === JOURNEY_LESSON ? String.fromCharCode(65 + i) : i + 1}</span> ${s.label}</a></li>`)}</ol>

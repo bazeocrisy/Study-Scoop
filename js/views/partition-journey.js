@@ -239,9 +239,10 @@ function buildCard(card, ui) {
   const sel = card.task.points.find((p) => p.id === ui.selected);
   return html`
     <div class="j-stage-pic">${taskSvg(card.task, { lines: ui.lines || [], result, active: true, selected: ui.selected, cursor: ui.cursor })}</div>
+    <p class="sr-only" aria-live="off">${(ui.lines || []).length ? `Lines drawn: ${(ui.lines || []).map(([a, b]) => `${card.task.points.find((p) => p.id === a)?.label} to ${card.task.points.find((p) => p.id === b)?.label}`).join('; ')}.` : 'No lines drawn yet.'}</p>
     <p class="j-preview" data-j-preview aria-hidden="true">&nbsp;</p>
     <p class="j-legend"><span class="key corner"></span> corner${card.task.points.some((p) => !/^[vkce]\d|^c$/.test(p.id)) ? html` <span class="key mark"></span> mark on an edge` : ''}${card.task.points.some((p) => /^e\d/.test(p.id)) ? html` <span class="key mark"></span> point on the edge` : ''}${card.task.points.some((p) => p.id === 'c') ? html` <span class="key center"></span> center` : ''}</p>
-    <p class="j-howto">${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap where the line should end.` : 'Tap a dot, then tap another dot to draw a line between them. Not sure you hit the right dot? Keep your finger down and slide: the circled dot is the one you will get. Tap the same two dots again to erase a line.'}</p>
+    <p class="j-howto">${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap where the line should end.` : 'Tap a dot, then tap another dot to draw a line between them. Not sure you hit the right dot? Hold your finger still for a moment, then slide: the circled dot is the one you will get when you lift. Tap the same two dots again to erase a line.'}</p>
     <div class="j-row j-tools">
       <button type="button" class="btn btn-primary" data-j="check">Check my parts</button>
       <button type="button" class="btn" data-j="undo" ${(ui.lines || []).length ? '' : html`disabled`}>Undo last line</button>
@@ -387,7 +388,7 @@ export function journeySummary(ctx, state) {
       <div class="j-row" data-j-reset-ask><button type="button" class="btn" data-j-reset="ask">Reset Lesson 7-1 progress…</button></div>
       <div class="j-confirm" data-j-reset-confirm hidden>
         <p role="alert"><strong>Erase all Lesson 7-1 progress on this device?</strong> This cannot be undone.</p>
-        <div class="j-row"><button type="button" class="btn btn-primary" data-j-reset="yes">Yes, erase Lesson 7-1 progress</button><button type="button" class="btn" data-j-reset="no">Cancel</button></div>
+        <div class="j-row"><button type="button" class="btn btn-primary" data-j-reset="no">Cancel: keep progress</button><button type="button" class="btn j-danger" data-j-reset="yes">Yes, erase Lesson 7-1 progress</button></div>
       </div>
     </section>
   </section>`;

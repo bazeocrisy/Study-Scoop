@@ -29,7 +29,7 @@ function cleanUi(ui, card) {
   if (!ui || typeof ui !== 'object') return null;
   const out = {};
   const lines = cleanLines(ui.lines, card); if (lines) out.lines = lines;
-  if (Array.isArray(ui.choice)) out.choice = ui.choice.filter((v) => typeof v === 'string').slice(0, 10).map((v) => v.slice(0, 20));
+  if (Array.isArray(ui.choice) && card?.options) { const ok = new Set(card.options.map((o, i) => (card.type === 'area' ? o.value : String(i)))); out.choice = [...new Set(ui.choice.filter((v) => ok.has(v)))]; }
   for (const k of ['num', 'name', 'say', 'lastKey', 'solvedKey']) { const v = str(ui[k], k === 'say' ? 500 : 4000); if (v !== undefined) out[k] = v; }
   for (const k of ['ok', 'checked', 'compared', 'units']) { const v = bool(ui[k]); if (v !== undefined) out[k] = v; }
   const counted = cleanIndexes(ui.counted, (card?.figure?.regions.length || 0) - 1); if (counted) out.counted = counted;

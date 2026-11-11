@@ -1,7 +1,7 @@
 // Lesson 7-1 learning journey controller: taps, keys, focus and the record of independent and assisted work.
 // Progress is saved in this browser only (DECISIONS D29, js/lib/journey-store.js) and never sent anywhere.
 import { CARDS, JOURNEY, ALL_CARDS, checkBuild, checkCount, partitionKey, onSameEdge, unequalTip, newRecord, noteHelp, noteCheck } from './lib/partition-journey.js';
-import { loadProgress, saveProgress, clearProgress } from './lib/journey-store.js';
+import { STORE_KEY, loadProgress, saveProgress, clearProgress } from './lib/journey-store.js';
 import { journeyCard, journeySummary } from './views/partition-journey.js';
 
 export const journeyState = { stage: null, at: {}, ui: {}, records: {} };
@@ -23,6 +23,11 @@ export function eraseJourney() { clearProgress(); resetJourney(); }
 /** Where "Lesson 7-1" should open: the section the child was last in, or section A. */
 export const resumeStage = () => (journeyState.stage && journeyState.stage !== 'parent' && CARDS[journeyState.stage] ? journeyState.stage : JOURNEY[0].id);
 restoreJourney();
+// Another open tab saved or erased Lesson 7-1 progress: adopt it, so tabs never overwrite each other
+// and a grown-up's Reset cannot be undone by a tab left open.
+const listeners = new Set();
+export const onJourneyChange = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
+globalThis.addEventListener?.('storage', (e) => { if (e.key === null || e.key === STORE_KEY) { restoreJourney(); listeners.forEach((fn) => fn()); } });
 const rec = (card) => (journeyState.records[card.id] ||= newRecord(card));
 const uiFor = (card) => (journeyState.ui[card.id] ||= {});
 
@@ -112,7 +117,8 @@ function check(card, ui, r, state) {
     return done(res.valid, res.message.replace(/^Yes! /, ''), `${ui.num}|${ui.name}`);
   }
   // choice and area questions
-  const picked = ui.choice || [];
+  const valid = new Set(card.options.map((o, i) => (card.type === 'area' ? o.value : String(i))));
+  const picked = (ui.choice || []).filter((v) => valid.has(v));
   if (!picked.length) { ui.say = 'Choose an answer first.'; ui.ok = false; ui.checked = false; return { focus: '[data-j="check"]', say: ui.say }; }
   if (card.type === 'area') { const o = card.options.find((x) => x.value === picked[0]); return done(Boolean(o.correct), o.why, picked[0]); }
   const right = card.options.map((o, i) => (o.correct ? String(i) : null)).filter((x) => x !== null);
@@ -140,9 +146,12 @@ export function mountJourney(app, ctx, signal) {
     if (focus === '#stage-h') root.querySelector('.j-head')?.scrollIntoView({ block: 'start' });
   };
   journeyState.stage = stageId; saveJourney();
+  // Another tab changed progress: redraw quietly (no focus move, no scrolling).
+  const off = onJourneyChange(() => { if (!root.isConnected) return; journeyState.stage ||= stageId; render(null); });
+  signal.addEventListener('abort', off);
   const run = (action, data) => {
     const out = act(stageId, action, data);
-    saveJourney();
+    journeyState.stage = stageId; saveJourney();
     if (out.quiet) return;
     render(out.focus);
     // After Check, make sure the result is on screen (short Chromebook screens).
@@ -157,7 +166,8 @@ export function mountJourney(app, ctx, signal) {
   const cardEl = () => root.querySelector('[data-card]');
   root.addEventListener('click', (e) => {
     // Pointer taps on dots are handled by the press-preview-lift code below; clicks here come from the keyboard.
-    const p = e.target.closest('[data-point]'); if (p) { if (e.detail === 0) run('point', { id: p.dataset.point }); return; }
+    // (A click with no pointer press just before it, e.g. from a screen reader or switch access, still works.)
+    const p = e.target.closest('[data-point]'); if (p) { if (e.detail === 0 || Date.now() - lastLift > 600) run('point', { id: p.dataset.point }); return; }
     const g = e.target.closest('[data-region]'); if (g) return run('region', { index: Number(g.dataset.region) });
     const piece = e.target.closest('[data-piece]'); if (piece) return run('piece', { index: Number(piece.dataset.piece) });
     const b = e.target.closest('[data-j]'); if (!b || b.disabled) return;
@@ -171,7 +181,7 @@ export function mountJourney(app, ctx, signal) {
   // Choosing a dot: a press anywhere on the drawing picks the nearest dot (no gaps, no overlaps) and rings it;
   // sliding moves the ring; lifting chooses it. A scroll gesture cancels. Taps far from every dot do nothing.
   const REACH = 48; // CSS pixels from a dot's center
-  let pending = null;
+  let pending = null, lastLift = 0;
   const svgOf = (e) => e.target.closest?.('svg[data-build]');
   const nearest = (svg, e) => {
     const m = svg.getScreenCTM(); if (!m) return null;
@@ -184,27 +194,32 @@ export function mountJourney(app, ctx, signal) {
   const show = (svg, g, cls) => {
     svg.querySelectorAll(`.j-point.${cls}`).forEach((x) => { if (x !== g) x.classList.remove(cls); });
     if (g) g.classList.add(cls);
-    if (cls === 'preview') { const out = root.querySelector('[data-j-preview]'); if (out) out.textContent = g ? `${g.getAttribute('aria-label')}: lift to choose` : '\u00a0'; }
+    if (cls === 'preview') { const out = root.querySelector('[data-j-preview]'); if (out) out.textContent = g ? g.getAttribute('aria-label') : '\u00a0'; }
   };
   root.addEventListener('pointerdown', (e) => {
     const svg = svgOf(e); if (!svg || (e.pointerType === 'mouse' && e.button !== 0)) return;
-    const g = nearest(svg, e); if (!g) return;
-    pending = { svg, id: e.pointerId, g }; show(svg, g, 'preview');
+    const g = nearest(svg, e); if (!g) { pending = null; return; }
+    pending = { svg, id: e.pointerId, g, t: Date.now() }; show(svg, g, 'preview');
     try { svg.setPointerCapture(e.pointerId); } catch { /* not capturable */ }
   }, { signal });
   root.addEventListener('pointermove', (e) => {
     const svg = pending?.svg || svgOf(e); if (!svg) return;
     const g = nearest(svg, e);
-    if (pending && e.pointerId === pending.id) { if (g) { pending.g = g; show(svg, g, 'preview'); } }
+    if (pending && e.pointerId === pending.id) { pending.g = g; show(svg, g, 'preview'); } // off every dot: lifting chooses nothing
     else if (e.pointerType === 'mouse') show(svg, g, 'near');
   }, { signal });
   const finish = (e, commit) => {
     if (!pending || e.pointerId !== pending.id) return;
-    const { svg, g } = pending; pending = null; show(svg, null, 'preview');
+    const { svg, g } = pending; pending = null; lastLift = Date.now(); show(svg, null, 'preview');
     if (commit && g) run('point', { id: g.dataset.point });
   };
   root.addEventListener('pointerup', (e) => finish(e, true), { signal });
+  // Touch: a quick swipe scrolls the page as usual; a finger held still for a moment, then slid, adjusts the ring
+  // in any direction instead of scrolling.
+  root.addEventListener('touchmove', (e) => { if (pending && e.cancelable && Date.now() - pending.t >= 150) e.preventDefault(); }, { signal, passive: false });
   root.addEventListener('pointercancel', (e) => finish(e, false), { signal });
+  // If the page scrolls during a press, it was a scroll, not a choice (some browsers report the cancel late).
+  window.addEventListener('scroll', () => { if (pending) { show(pending.svg, null, 'preview'); pending = null; } }, { signal, passive: true });
   // Arrow keys move between dots: to the closest dot in that direction.
   const moveFocus = (from, key) => {
     const svg = from.ownerSVGElement, dot = (g) => { const c = g.querySelector('.dot'); return [c.cx.baseVal.value, c.cy.baseVal.value]; };
@@ -214,7 +229,7 @@ export function mountJourney(app, ctx, signal) {
       if (g === from) continue;
       const [gx, gy] = dot(g), dx = gx - x, dy = gy - y, along = dx * dir[0] + dy * dir[1], across = Math.abs(dx * dir[1] - dy * dir[0]);
       if (along <= 0.5) continue;
-      const sc = along + 2 * across; if (sc < score) { score = sc; best = g; }
+      const sc = along + 3 * across; if (sc < score) { score = sc; best = g; }
     }
     if (!best) return;
     svg.querySelectorAll('[data-point]').forEach((g) => g.setAttribute('tabindex', g === best ? '0' : '-1'));
@@ -237,6 +252,7 @@ export { uiFor, rec };
 /** Grown-up Summary: Reset Lesson 7-1 progress, with an on-page confirmation step. */
 export function mountJourneyReset(app, ctx, signal) {
   const live = document.getElementById('live');
+  app.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !app.querySelector('[data-j-reset-confirm]')?.hidden) app.querySelector('[data-j-reset="no"]')?.click(); }, { signal });
   app.addEventListener('click', (e) => {
     const b = e.target.closest('[data-j-reset]'); if (!b) return;
     const box = app.querySelector('[data-j-reset-box]'), ask = box?.querySelector('[data-j-reset-ask]'), confirm = box?.querySelector('[data-j-reset-confirm]');

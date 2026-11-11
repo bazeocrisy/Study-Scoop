@@ -77,3 +77,13 @@ test('reset erases only the Lesson 7-1 key and starts the lesson again at sectio
   restoreJourney(loadProgress(s)); assert.equal(resumeStage(), 'explore'); assert.deepEqual(journeyState.at, {});
   assert.ok(CARDS.explore.length > 0);
 });
+
+test('saved answer choices must be real options of that card; a stale choice can never break Check', () => {
+  const s = fake();
+  s.setItem(STORE_KEY, JSON.stringify({ v: 1, stage: 'explore', at: { explore: 0 }, ui: { 'a-same': { choice: ['9', '1', '1'] }, 'h-grid': { choice: ['zzz'] } }, records: {} }));
+  const r = loadProgress(s);
+  assert.deepEqual(r.ui['a-same'].choice, ['1']); assert.deepEqual(r.ui['h-grid'].choice, []);
+  restoreJourney({ stage: 'explore', at: { explore: 0 }, ui: { 'a-same': { choice: ['9'] } }, records: {} });
+  assert.doesNotThrow(() => act('explore', 'check'));
+  assert.match(journeyState.ui['a-same'].say, /Choose an answer first/);
+});
