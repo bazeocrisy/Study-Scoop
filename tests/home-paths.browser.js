@@ -22,6 +22,8 @@ try {
   check(await b.js('return document.querySelectorAll(".rd-card").length>=8;'),'existing passage library opens');
   check(await b.js('return document.querySelector(".crumbs").textContent.includes("Extra Learning");'),'Reading breadcrumb names path');
   await go('#week?week=2026-11-09');
+  check(await b.js('document.documentElement.dataset.theme="dark"; return [...document.querySelectorAll(".path-card h3")].every(h=>getComputedStyle(h).color==="rgb(36, 29, 24)");'),'Schoolwork card headings remain readable in the optional dark palette');
+  await b.js('delete document.documentElement.dataset.theme;');
   check(!(await nav()).includes('reading')&&!(await nav()).includes('skills'),'Schoolwork separates extra activities');
   check(await b.js('return document.querySelector(".path-grid a[href*=homework]").hash.includes("week=2026-11-09") || document.querySelector("#weekSelect").value==="2026-11-09";'),'Schoolwork keeps selected week');
   await go('#homework?week=2026-11-09&act=comprehension');
