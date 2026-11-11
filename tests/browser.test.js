@@ -2235,8 +2235,8 @@ async function main() {
         ['2026-10-26', '2026-10-19', '2026-10-12'], 'week picker');
       for (const [id, label] of SECTIONS) {
         await f.hash(`#${id}`);
-        eq(await f.js('return [document.querySelector("#app h1").textContent, document.querySelector(".week-of").textContent];'),
-          [label, 'Sample test week <not real> & October 26–30'], `#${id}`);
+        eq(await f.js('return [document.querySelector("#app h1").textContent, document.querySelector(".week-of")?.textContent || null];'),
+          [label, id === 'reading' ? null : 'Sample test week <not real> & October 26–30'], `#${id}`);
       }
     });
     await check('symbols in the data are shown as text, never as page markup', async () => {
