@@ -60,9 +60,12 @@ function journeyLessonView(ctx) {
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   if (stage === 'parent') return html`${top}${journeyStepper(jctx, 'parent')}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="parent">${journeySummary(jctx, journeyState)}${extraPractice(ctx, lesson)}${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;
-  return html`${top}${journeyStepper(jctx, null)}
-    <section class="card j-extra-note" aria-label="Extra practice"><p><strong>Extra practice (optional): naming equal parts.</strong> These steps practise counting equal parts in strips and circles. The main lesson is in the steps above.</p></section>
-    ${stageStepper(ctx, lesson, stage, 'Extra practice steps')}
+  // The original stages keep their own layout, labelled as optional extra practice, with a way back to the journey.
+  return html`${subBar(ctx, {
+    tone: 'math', eyebrow: `Lesson ${lesson.id} · Extra practice (optional)`, title: lesson.title, goal: '',
+    trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Chapter 7', href: ctx.chapterLink(7) }, { label: 'Chapter 7 Lessons', href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
+    back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.lessonLink(lesson.id, 'explore'), label: '‹ Main lesson' }],
+  })}${stageStepper(ctx, lesson, stage, 'Extra practice steps')}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;
 }
 function extraPractice(ctx, lesson) {

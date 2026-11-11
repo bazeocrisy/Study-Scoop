@@ -143,7 +143,7 @@ function cookie({ flip = false, heights = false } = {}) {
   const end = `M${a},${n2(cy - h)} A${r},${r} 0 0,0 ${a},${n2(cy + h)} Z`, flipped = `M${a},${n2(cy - h)} A${r},${r} 0 0,1 ${a},${n2(cy + h)} Z`;
   const tall = (x, word) => { const y = Math.sqrt(r * r - (x - cx) ** 2); return html`<line class="j-guide" x1="${n2(x)}" x2="${n2(x)}" y1="${n2(cy - y)}" y2="${n2(cy + y)}"/><text class="j-tag" x="${n2(x)}" y="${n2(cy + y + 18)}">${word}</text>`; };
   return html`<svg class="j-svg" viewBox="0 0 320 290" role="img" aria-label="A round cookie cut by 3 evenly spaced up-and-down lines into 4 pieces. The 2 middle pieces are tall; the 2 end pieces are short and curved.${flip ? ' A copy of an end piece is flipped onto a middle piece and leaves space uncovered.' : ''}${heights ? ' Dashed lines show a middle piece is taller than an end piece.' : ''}">
-    <circle class="j-whole pie" cx="${cx}" cy="${cy}" r="${r}"/>${flip ? html`<path class="j-region r1 ok" d="${end}"/><path class="j-ghost" d="${flipped}"/><text class="j-tag" x="${cx - 27}" y="${n2(cy + h + 22)}">dashed: space left over</text>` : ''}
+    <circle class="j-whole pie" cx="${cx}" cy="${cy}" r="${r}"/>${flip ? html`<path class="j-region r1 ok" d="${end}"/><path class="j-ghost" d="${flipped}"/><text class="j-tag" x="${cx}" y="${cy + r + 28}">dashed line: space left over</text>` : ''}
     ${cuts}${heights ? html`${tall(cx - 27.5, 'tall')}${tall(cx - 85, 'short')}` : ''}</svg>`;
 }
 function oval({ mark = false } = {}) {

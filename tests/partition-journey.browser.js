@@ -226,7 +226,7 @@ try {
 
   // The original stages still work as optional extra practice.
   await b.load(url('learn'));
-  ok(await b.js('return !!document.querySelector(".j-stepper") && !!document.querySelector("nav.stepper[aria-label=\\"Extra practice steps\\"] a[aria-current=step]")'), 'original Learn It opens as extra practice with both steppers');
+  ok(await b.js('return /Extra practice/.test(document.querySelector(".eyebrow").textContent) && !!document.querySelector("nav.stepper[aria-label=\\"Extra practice steps\\"] a[aria-current=step]") && !!document.querySelector(".bar-btns a[href*=\\"stage=explore\\"]")'), 'original Learn It opens as labelled extra practice with a way back to the main lesson');
   await b.load(url('test'));
   ok(await b.js('return !document.querySelector("[data-j=help]") && !document.querySelector("[data-act=help]")'), 'original scored test still has no hints');
 
