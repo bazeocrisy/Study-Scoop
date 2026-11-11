@@ -369,19 +369,20 @@ function board(o){
     paint(r, good);
     if (good){
       it.done = true; r.ok = true; save();
-      fb(msg,"ok",`⭐ Yes! ${o.target} equal parts. That shows ${word}! Every part has the same area.`);
-      hintBox.className = "fb"; confetti(); say(`Yes! ${o.target} equal parts. That shows ${word}!`);
+      fb(msg,"ok",`Drawing estimate: ${o.target} parts look close in area. This pixel check cannot prove exact equality. Use the precise Partition Lab to check equal-area constructions.`);
+      hintBox.className = "fb"; confetti(); say(`The drawing looks close. This estimate does not prove the areas are equal.`);
     } else {
       if (!it.done) it.tries++; save(); fb(msg,"no",text);
     }
     updateHelp(); refreshTitle();
   }
   const titleEl = h("div",{style:"font-weight:800;text-align:center;margin-bottom:4px"});
-  function refreshTitle(){ titleEl.replaceChildren(...[o.title || "", it.done ? h("span",{class:"done-badge"},"✓ done") : ""].filter(Boolean)); titleEl.style.display = titleEl.childNodes.length ? "" : "none"; }
+  function refreshTitle(){ titleEl.replaceChildren(...[o.title || "", it.done ? h("span",{class:"done-badge"},"sketch checked") : ""].filter(Boolean)); titleEl.style.display = titleEl.childNodes.length ? "" : "none"; }
   drawLines(); updateHelp(); refreshTitle();
   if (it.done && it.segs.length){ const r = analyze(inside,it.segs); r.ok = true; result = r; paint(r,true); }
   const el = h("div",{class:"board"}, titleEl, stage,
     h("p",{class:"howto"},"Tap a dot, then tap another dot to draw a line. (Or drag from dot to dot.)"),
+    h("p",{class:"howto"},"This sketch checker estimates areas with pixels. Close-looking parts are not proof of equal area. ",h("a",{href:"../index.html#math?lesson=7-1&stage=learn"},"Open the precise Partition Lab in Lesson 7-1.")),
     h("div",{class:"tools"}, undo, clear, check, hintBtn, showBtn), msg, hintBox);
   return {el, get result(){ return result; }};
 }
@@ -985,7 +986,8 @@ page(() => {
   const rows = REPORT.map(([id,label,shape])=>{
     const it = S.items[id] || {tries:0}; const tags=[];
     if (!it.done) tags.push(h("span",{class:"tag t-todo"},"not finished"));
-    else { done++; if (!it.tries && !it.hint && !it.shown){ first++; tags.push(h("span",{class:"tag t-first"},"✓ first try")); }
+    else { done++; if (shape) tags.push(h("span",{class:"tag t-tries"},"sketch estimate; equality not verified"));
+           else if (!it.tries && !it.hint && !it.shown){ first++; tags.push(h("span",{class:"tag t-first"},"✓ first try")); }
            else tags.push(h("span",{class:"tag t-tries"},`✓ after ${it.tries+1} tries`)); }
     if (it.hint) tags.push(h("span",{class:"tag t-hint"},"used hint"));
     if (it.shown) tags.push(h("span",{class:"tag t-shown"},"looked at answer"));
@@ -995,10 +997,11 @@ page(() => {
   return [h("div",{class:"card"},
     h("span",{class:"chip c-done"},"All done!"),
     h("h1",{},"Great work! 🎉"),
-    h("p",{},`You finished ${done} of ${REPORT.length} questions. ${first} on the first try.`),
+    h("p",{},`You finished ${done} of ${REPORT.length} questions. ${first} non-drawing checks on the first try. Drawing estimates do not count as independent equal-area mastery.`),
     h("div",{class:"row noprint"}, h("button",{class:"btn primary",onclick:()=>window.print()},"🖨 Print this page"), reset, STUDY_LINK())),
    h("div",{class:"card"},
     h("h2",{},"Report for a grown-up"),
+    h("p",{},"Drawing checks use approximate pixel areas and may accept slightly unequal parts. They record sketch completion only, not verified equality or independent mastery. Use the precise Partition Lab for validated constructions. Typed explanations need a grown-up review; automated word matching does not establish mathematical understanding."),
     h("p",{class:"howto",style:"text-align:left"},`Lesson 7-1 · ${new Date().toLocaleDateString()}`),
     h("table",{class:"rep"}, h("tr",{},h("th",{},"Question"),h("th",{},"Drawing"),h("th",{},"Result")), rows),
     h("h2",{style:"margin-top:18px"},"#8 Marcus: the explanation"), h("p",{style:"white-space:pre-wrap"}, (S.items["own-8x"]||{}).text || "(no answer)"),

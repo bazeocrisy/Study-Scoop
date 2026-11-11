@@ -70,7 +70,7 @@ test('pilot wrong and partial Help offer explicit retry; answer mode restores or
  for(const html of [wrong,help]) assert.ok(html.includes('data-act="coach-retry"'));
  assert.ok(help.includes('tabindex="-1" data-coach-heading'));
  const retry=view({status:'unanswered',tries:1,help:1,counted:[0,1,2],coachView:'answer',say:''});
- assert.ok(retry.includes('pic-card'));assert.ok(!retry.includes('data-coach='));assert.ok(retry.includes('Next step'));
+ assert.ok(retry.includes('pic-card'));assert.ok(!retry.includes('data-coach='));assert.ok(retry.includes('? Show Steps'));
  const correct=view({status:'correct',tries:2,counted:[0,1,2],coachView:'feedback',teachingFeedback:item.teaching.correct,say:'correct'});
  assert.ok(!correct.includes('data-act="coach-retry"'));
 });
