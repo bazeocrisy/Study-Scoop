@@ -44,7 +44,12 @@ The independent reviewer inspected the new thirteen-task lab source and executed
 
 | Source requirement | Added lab evidence | Content coverage after correction |
 |---|---|---|
-| Questions 1–6 | `diamond-fourths`, `square-sixths`, `circle-eighths`, `octagon-fourths`, `hexagon-sixths`, `octagon-eighths`: changing-picture instructions and active endpoint constructions | Fully covered |
+| Question 1 | `diamond-fourths`: changing-picture instruction and active diagonal construction | Fully covered |
+| Question 2 | `square-sixths`: equal strips and a 3×2 grid; both constructions accepted | Fully covered |
+| Question 3 | `circle-eighths`: equally spaced diameters or radial dividers, checked by sector areas | Fully covered |
+| Question 4 | `octagon-fourths`: shape-specific opposite-corner construction and quarter-turn reason | Fully covered |
+| Question 5 | `hexagon-sixths`: center-to-corner construction and equal base/height reason | Fully covered |
+| Question 6 | `octagon-eighths`: center-to-corner construction and equal central triangle areas | Fully covered |
 | Question 7 | `more-parts`: fixed-size bars, one-share comparison, Practice It and fresh 2/4/8 test | Fully covered |
 | Question 8 | `circle-error`: unequal circle bands versus genuinely equal quarter-turn test figure | Fully covered |
 | Question 9 | `rhombi-name`: original six-tile diamond lattice; fresh four-tile test | Fully covered |

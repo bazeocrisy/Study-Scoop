@@ -18,7 +18,7 @@ Walked every initial Learn It step for all eight construction shapes, followed b
 6. SVG accessible description initially reports only the number of drawn lines. It does not describe which points are joined. Request an accessible list of drawn connections and point mappings, without disclosing an answer in Test Me.
 7. The initial final triangle demonstration lacks a visible label showing one-fourth on each resulting triangle. Request final teaching-region labels and visible area reasoning.
 
-Final dispositions and retest evidence will be added after the authors' fixes.
+Final dispositions and executed retest evidence follow below.
 
 ## Limits
 
@@ -44,10 +44,12 @@ Additional actual teaching/correction screenshots: [triangle teaching at 390 px]
 
 Independently reviewed the later requested question-help change in actual Chromium. For **all 13 lab tasks**, exercised keyboard activation of the question `?`, Hint, every Show Steps preview, explicit Show Answer, reset, and the Test Me `?`. The construction previews use between two and eight incremental steps; they stop before the complete construction. Reasoning previews introduce the whole and comparison/counting method before the conclusion. The reveal flag remains false through Hint/Show Steps and becomes true only after explicit Show Answer.
 
-For each task, the student's existing drawn divider or selected radio answer was identical before and after the entire help sequence. Hint, visual-step and reveal histories were recorded separately and retained after reset. Opening help places keyboard focus on its visible heading; closing returns to the question's help control. Test Me `?` explains independent work and offers no hints, preview steps or worked-answer controls. No JavaScript errors occurred in this 13-task walkthrough.
+For each task, the student's existing drawn divider or selected radio answer was identical before and after the entire help sequence. Hint, visual-step and reveal histories were recorded separately and retained after reset. Opening help places keyboard focus on its visible heading. Test Me `?` explains independent work and offers no hints, preview steps or worked-answer controls. No JavaScript errors occurred in this 13-task walkthrough.
 
 On the shared lesson, checked that a guided question offers `? Hint` before the first checked answer and progresses through `? Show Steps` to `? Show Answer`. Typed an original reflection response, then opened its three help levels. All three preserve the exact response and focus the help panel; the final level shows a human-reviewed sample rather than claiming to grade the student's explanation. The original reflection instructions remain visible.
 
 Reviewed the help layout at 390 and 1024 px: no horizontal overflow, help heading visible after opening, and help buttons at least 44 × 44 px. Screenshots: [390 px](images/partition-lab-question-help-390.png), [1024 px](images/partition-lab-question-help-1024.png).
 
 Addendum verdict: PASS for the reviewed progressive-help interaction and layout. Earlier limits concerning physical devices, assistive technology and observed child understanding still apply.
+
+Additional 390 px evidence preserves a student-drawn divider above the help panel: [partial construction help](images/partition-lab-question-help-own-work-390.png), then [explicit Show Answer](images/partition-lab-question-answer-own-work-390.png). The original drawing remains a single midpoint-to-midpoint divider; the revealed worked solution appears separately below it.
