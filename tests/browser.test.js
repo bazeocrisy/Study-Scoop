@@ -785,7 +785,7 @@ async function main() {
         eq(await b.js('return document.querySelector(".summary-score").textContent.replace(/\\s+/g, " ").trim();'), '18 out of 20 right on the first try (90%)', 'score');
         eq(await b.js('return document.querySelector(".score-facts").textContent.replace(/\\s+/g, " ").trim();'), 'Answered: 20 of 20 · Missed: 2', 'answered and missed');
         eq(await b.js('return document.querySelectorAll(".review li").length;'), 2, 'the two missed questions are explained');
-        expect(await b.js('return [...document.querySelectorAll(".stage-nav a")].some((a) => a.textContent.includes("Back to Lessons")) && !!document.querySelector(".stage-nav a.btn .ico, .stage-nav a[href=\'#week\']");'), 'Back to Lessons and Home');
+        expect(await b.js('return [...document.querySelectorAll(".stage-nav a")].some((a) => a.textContent.includes("Back to Lessons")) && !!document.querySelector(".stage-nav a.btn .ico, .stage-nav a[href=\'#home\']");'), 'Back to Lessons and Home');
         // Practice My Misses: the two missed questions again, then back to the results.
         await press('[data-act="misses"]');
         eq(await b.js('return [document.getElementById("stage-h").textContent, document.querySelector(".stage-title .progress").textContent];'), ['Practice My Misses', 'Question 1 of 2'], 'misses round');
