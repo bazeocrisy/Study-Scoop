@@ -545,7 +545,7 @@ export function unanswered(items, state) {
 /** Where a finished lesson stage can go: Back to Lessons and Home (with its icon and its word). */
 function lessonExits(ctx) {
   return html`<a class="btn" href="${chapterLink(ctx, ctx.lesson)}">‹ Back to Lessons</a>
-    <a class="btn" href="${ctx.link('week')}">${ICONS.home}<span>Home</span></a>`;
+    <a class="btn" href="${ctx.link('home')}">${ICONS.home}<span>Home</span></a>`;
 }
 
 /** A lesson's own chapter lesson list (Math > Chapter N > Chapter N Lessons). */
