@@ -117,7 +117,7 @@ try {
   const triedWrong = new Set();
   for (const stage of meta.journey) {
     // Move on with the card's own "Next: <section>" link, as a child would (a reload would clear this visit's record).
-    if (stage !== meta.journey[0]) { const before = await b.js('return document.getElementById("app").dataset.ready'); await tap('.j-nav a.btn-primary'); await b.ready(before); }
+    if (stage !== meta.journey[0]) { const before = await b.js('return document.getElementById("app").dataset.ready'); await tap('[data-j-next-stage]'); await b.ready(before); }
     ok(await b.js(`return location.hash.includes('stage=${stage}')`), `Next link leads to section ${stage}`);
     const list = meta.cards[stage];
     for (let i = 0; i < list.length; i++) {
@@ -136,7 +136,7 @@ try {
   const after = await state();
   const gradedIds = Object.values(meta.cards).flat().filter((c) => !['demo', 'concept', 'sizes', 'write'].includes(c.type)).map((c) => c.id);
   ok(gradedIds.every((id) => after.records[id]?.correct), `all ${gradedIds.length} graded cards were completed in one visit`);
-  await tap('.j-nav a.btn-primary');
+  await tap('[data-j-next-stage]');
   await b.waitFor(`!!document.querySelector(".j-summary")`);
   ok(await b.js('return /Finish|results/i.test(document.title + document.querySelector(".j-summary h2").textContent)'), 'the last card leads to the results summary');
 
@@ -162,8 +162,7 @@ try {
   ok(/4 parts/.test(fb) && /bigger/.test(fb) && await b.js('return document.querySelectorAll(".j-tag").length === 2'), `unequal partition explained and the bigger/smaller parts are marked: ${fb}`);
 
   // Circle chords that miss the center are not accepted as slices.
-  await b.load(url('mistake'));
-  await tap(J('next'));
+  await openCard('mistake', meta.cards.mistake.findIndex((c) => c.id === 'f-fix'));
   await draw([['e0', 'e2'], ['e4', 'e6']]); await tap(J('check'));
   ok(!(await isOk()) && /center/.test(await feedback()), 'unsupported circle chord gets an honest message, not success');
 
@@ -221,7 +220,7 @@ try {
   ok(/1 wrong on the first try/.test(sum), `summary counts wrong first tries: ${sum.slice(0, 300)}`);
   ok(/1 finished after a hint/.test(sum), 'summary counts hint-assisted completions');
   ok(/1 right on the first try with no help/.test(sum), 'summary counts independent first-try successes (Guide Me diamond only)');
-  ok(/On-my-own questions \(My Turn and Check & Reflect\): 0 of 14/.test(sum), 'a My Turn fixed after a wrong first try is not counted as on-my-own success');
+  ok(/Solo tries \(My Turn and Check & Reflect\): 0 of 15/.test(sum), 'a My Turn fixed after a wrong first try is not counted as a solo success');
   ok(/Skills to practise more/.test(sum) && /Diamond into fourths/.test(sum), 'summary lists skills needing practice');
   ok(await b.js('return !!document.querySelector(".parent-guide") && !!document.querySelector(".j-extra a[href*=\\"stage=try\\"]")'), 'parent page keeps the Parent Guide and links the original extra practice');
 

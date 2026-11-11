@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { ALL_CARDS, CARDS, JOURNEY, FIGURES, GRID, GRID_UNEQUAL, SHAPES, CROSS, checkBuild, checkCount, partitionKey, newRecord, noteHelp, noteCheck, outcome, summarize } from '../../js/lib/partition-journey.js';
+import { ALL_CARDS, CARDS, JOURNEY, FIGURES, GRID, SHAPES, CROSS, HALVES, HALVES2, checkBuild, checkCount, partitionKey, onSameEdge, newRecord, noteHelp, noteCheck, outcome, summarize } from '../../js/lib/partition-journey.js';
 import { picture, helpSteps, helpAnswer, journeyCard, journeyStepper } from '../../js/views/partition-journey.js';
 import { act, resetJourney, journeyState, stageDone } from '../../js/partition-journey.js';
 import { partitionPolygon, validatePartition } from '../../js/lib/partition-geometry.js';
@@ -51,7 +51,7 @@ test('alternative constructions are found by geometry, not by matching the answe
   assert.equal(bad.valid, false); assert.equal(bad.count, 4); assert.ok(bad.big >= 0 && bad.small >= 0 && bad.big !== bad.small);
   assert.ok(near(bad.areas[bad.big] / bad.areas[bad.small], 3), '3/8 vs 1/8 of the rectangle');
   // Circle: a chord that misses the center is reported as unsupported, never as success.
-  const pie = CARDS.mistake[1].task, chord = checkBuild(pie, [['e0', 'e2']]);
+  const pie = CARDS.mistake.find((c) => c.id === 'f-fix').task, chord = checkBuild(pie, [['e0', 'e2']]);
   assert.equal(chord.valid, false); assert.match(chord.message, /center/);
 });
 
@@ -103,18 +103,60 @@ test('count figures: the rendered regions are equal, fill the outline without ov
   assert.equal(checkCount(card, '', 'sixths').incomplete, true);
 });
 
-test('unit-square rectangles: pieces tile the grid exactly; the equal one has 6 squares each, the new one does not', () => {
-  for (const [g, sizes] of [[GRID, [6, 6, 6, 6]], [GRID_UNEQUAL, [8, 4, 8, 4]]]) {
-    const all = g.pieces.flatMap((p) => p.cells.map((c) => c.join(',')));
-    assert.equal(all.length, g.cols * g.rows); assert.equal(new Set(all).size, all.length);
-    assert.deepEqual(g.pieces.map((p) => p.cells.length), sizes);
-    const svg = picture({ kind: 'grid', grid: g === GRID ? undefined : 'unequal', show: [0, 1, 2, 3] }).s;
-    assert.equal(tags(svg, 'rect').filter((r) => /j-region/.test(r.class)).length, g.cols * g.rows, 'one drawn unit square per cell');
-  }
-  // Different-looking: in the equal grid two pieces are 6-by-1 strips and two are 3-by-2 blocks.
+test('unit-square rectangle: the pieces tile the grid exactly, 6 squares each, in two different shapes', () => {
+  const all = GRID.pieces.flatMap((p) => p.cells.map((c) => c.join(',')));
+  assert.equal(all.length, GRID.cols * GRID.rows); assert.equal(new Set(all).size, all.length);
+  assert.deepEqual(GRID.pieces.map((p) => p.cells.length), [6, 6, 6, 6]);
+  const svg = picture({ kind: 'grid', show: [0, 1, 2, 3] }).s;
+  assert.equal(tags(svg, 'rect').filter((r) => /j-region/.test(r.class)).length, GRID.cols * GRID.rows, 'one drawn unit square per cell');
   const dims = GRID.pieces.map((p) => { const xs = p.cells.map((c) => c[0]), ys = p.cells.map((c) => c[1]); return `${Math.max(...xs) - Math.min(...xs) + 1}x${Math.max(...ys) - Math.min(...ys) + 1}`; });
   assert.deepEqual(dims.sort(), ['3x2', '3x2', '6x1', '6x1']);
-  assert.equal(CARDS.area[0].answer, 'equal'); assert.equal(CARDS.check.find((c) => c.id === 'i-grid').answer, 'unequal');
+  assert.equal(CARDS.area.find((c) => c.id === 'h-grid').answer, 'equal');
+});
+
+test('half of a half, with no grid: both rectangles really are fourths, with two different part shapes each', () => {
+  for (const t of [HALVES, HALVES2]) {
+    const r = checkBuild(t, t.solution); assert.equal(r.valid, true, t.id);
+    const svg = picture({ kind: 'task', task: t.id, lines: t.solution, shade: true }).s;
+    const polys = tags(svg, 'polygon').filter((p) => /j-region/.test(p.class)).map((p) => pts(p.points));
+    assert.equal(polys.length, 4); assert.ok(polys.every((p) => near(area(p), area(t.polygon) / 4)));
+    assert.equal(new Set(polys.map((p) => p.length)).size >= 1 && new Set(polys.map((p) => { const xs = p.map((q) => q[0]), ys = p.map((q) => q[1]); return `${Math.round(Math.max(...xs) - Math.min(...xs))}x${Math.round(Math.max(...ys) - Math.min(...ys))}`; })).size, 2, `${t.id} two different-looking kinds of part`);
+    assert.doesNotMatch(svg, /j-unit/, 'no unit squares to count');
+  }
+  for (const id of ['h-halves', 'i-halves']) assert.match(ALL_CARDS.find((c) => c.id === id).options.find((o) => o.correct).text, /^Yes/);
+});
+
+test('evenly spaced parallel cuts in a circle and an oval: the middle pieces are bigger (the classic not-fourths)', () => {
+  const svg = picture({ kind: 'cookie' }).s, c = tags(svg, 'circle')[0], r = +c.r, cx = +c.cx;
+  const xs = tags(svg, 'line').filter((l) => /j-cut/.test(l.class)).map((l) => +l.x1).sort((a, b) => a - b);
+  assert.deepEqual(xs.map((x) => x - cx), [-r / 2, 0, r / 2], 'three evenly spaced up-and-down cuts');
+  // Area of a circle between two vertical lines (integral of chord height).
+  const F = (x) => { const z = x - cx; return z * Math.sqrt(Math.max(0, r * r - z * z)) + r * r * Math.asin(Math.max(-1, Math.min(1, z / r))); };
+  const edges = [cx - r, ...xs, cx + r], parts = edges.slice(1).map((x, i) => F(x) - F(edges[i]));
+  assert.ok(near(parts.reduce((a, b) => a + b, 0), Math.PI * r * r));
+  assert.ok(parts[1] > parts[0] * 1.5 && near(parts[0], parts[3]) && near(parts[1], parts[2]), parts.map(Math.round).join(','));
+  const o = tags(picture({ kind: 'oval' }).s, 'ellipse')[0], ys = tags(picture({ kind: 'oval' }).s, 'line').map((l) => +l.y1 - +o.cy).sort((a, b) => a - b);
+  assert.deepEqual(ys, [-o.ry / 2, 0, o.ry / 2].map(Number));
+  assert.equal(ALL_CARDS.find((x) => x.id === 'f-cookie').options.findIndex((x) => x.correct), 1);
+  assert.match(ALL_CARDS.find((x) => x.id === 'i-oval').options.find((x) => x.correct).text, /^No/);
+});
+
+test('review fixes: corners-only My Turn, no lines along an edge, and a "different way" answer that really differs', () => {
+  for (const s2 of SHAPES) if (s2.skill !== 'square') assert.ok(s2.myTurn.points.every((p) => /^[ve]\d/.test(p.id)) && s2.myTurn.solutions.length >= 1, `${s2.skill} My Turn has only corners or edge points`);
+  const rect = CARDS.method[1].task;
+  assert.equal(onSameEdge(rect, 'k0', 't1-4'), true); assert.equal(onSameEdge(rect, 't1-4', 'b1-4'), false);
+  resetJourney(); journeyState.at.method = 1; act('method', 'point', { id: 'k0' }); act('method', 'point', { id: 't2-4' });
+  assert.equal((journeyState.ui['b-fourths-make'].lines || []).length, 0, 'edge line refused');
+  assert.match(journeyState.ui['b-fourths-make'].say, /edge/);
+  const card = CARDS.cross.find((c) => c.id === 'c-make2');
+  for (const first of CROSS.solutions) {
+    const ans = helpAnswer(card, { avoidKey: partitionKey(CROSS, first) });
+    const drawn = tags(ans.svg.s, 'line').map((l) => [[+l.x1, +l.y1], [+l.x2, +l.y2]]);
+    assert.notEqual(partitionKey({ ...CROSS, points: drawn.flat().map((p, i) => ({ id: String(i), x: p[0], y: p[1] })) }, drawn.map((_, i) => [String(2 * i), String(2 * i + 1)])), partitionKey(CROSS, first), 'shown answer differs from the first way');
+  }
+  // One part: correct grammar and a short message.
+  resetJourney(); journeyState.at.shapes = 1; act('shapes', 'point', { id: 'v0' }); act('shapes', 'point', { id: 'm0' }); act('shapes', 'check');
+  assert.doesNotMatch(journeyState.ui['d-diamond-guide'].say, /1 parts/);
 });
 
 test('Rio\'s pie: the rendered cut gives two bigger top pieces; the fair cracker gives four equal pieces', () => {

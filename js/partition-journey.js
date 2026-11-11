@@ -1,6 +1,6 @@
 // Lesson 7-1 learning journey controller: taps, keys, focus and the in-tab record of independent and assisted work.
 // Nothing is stored or sent; refreshing the page starts over (repository privacy policy).
-import { CARDS, JOURNEY, checkBuild, checkCount, partitionKey, newRecord, noteHelp, noteCheck } from './lib/partition-journey.js';
+import { CARDS, JOURNEY, checkBuild, checkCount, partitionKey, onSameEdge, unequalTip, newRecord, noteHelp, noteCheck } from './lib/partition-journey.js';
 import { journeyCard } from './views/partition-journey.js';
 
 export const journeyState = { at: {}, ui: {}, records: {} };
@@ -27,6 +27,7 @@ export function act(stageId, action, data = {}, state = journeyState) {
       const id = data.id;
       if (ui.selected && ui.selected !== id) {
         ui.lines ||= [];
+        if (onSameEdge(card.task, ui.selected, id)) { ui.selected = null; reset(); ui.say = 'That line would sit on the edge of the shape. Pick a dot on a different side.'; return { focus: `[data-point="${id}"]`, say: ui.say }; }
         const k = ui.lines.findIndex((l) => l.includes(ui.selected) && l.includes(id));
         if (k < 0) ui.lines.push([ui.selected, id]); else ui.lines.splice(k, 1);
         ui.selected = null; reset();
@@ -76,12 +77,16 @@ function check(card, ui, r, state) {
     const result = checkBuild(card.task, lines); ui.result = result;
     const key = JSON.stringify(lines.map((l) => [...l].sort()).sort());
     if (result.valid && card.different) {
-      const first = state.ui[card.different]?.solvedKey;
+      // Compare with the child's first answer, or with the taught Way 1 if the first card was skipped.
+      const first = state.ui[card.different]?.solvedKey || partitionKey(card.task, card.task.solutions[0]);
       if (first && partitionKey(card.task, lines) === first) { ui.result = { ...result, valid: false }; return done(false, 'These are equal parts, but it is the same way as your first answer. Find a different way to make fourths.', key); }
     }
     if (result.valid) { if (card.task.shape === 'polygon') ui.solvedKey = partitionKey(card.task, lines); return done(true, card.task.why, key); }
-    if (result.count === card.task.count) return done(false, `You made ${result.count} parts, but they are not all the same size. The part marked “bigger” covers more space than the part marked “smaller”. Change a line and check again.`, key);
-    return done(false, result.message.replace(/ A line must finish.*$/, '') + (result.count < card.task.count ? ' A line has to go all the way across a part to split it.' : ''), key);
+    const n = result.count, want = card.task.count;
+    if (n === want && result.areas.length) return done(false, `You made ${n} parts, but they are not all the same size. Compare the parts marked “bigger” and “smaller”. ${unequalTip(card.task)}`, key);
+    if (card.task.shape === 'circle' && !result.areas.length) return done(false, `That line does not go through the center. ${unequalTip(card.task)}`, key);
+    if (n < want) return done(false, `You made ${n} part${n === 1 ? '' : 's'}. We need ${want} equal parts. A line must go all the way across the shape, or to another line, to split it.`, key);
+    return done(false, `You made ${n} parts. We need ${want} equal parts. Use Undo to take a line away.`, key);
   }
   if (card.type === 'count') {
     const res = checkCount(card, ui.num, ui.name);
@@ -120,6 +125,11 @@ export function mountJourney(app, ctx, signal) {
     const out = act(stageId, action, data);
     if (out.quiet) return;
     render(out.focus);
+    // Help: read out the newest help text itself, and put focus on it.
+    if (['hint', 'steps', 'next-help', 'answer'].includes(action)) {
+      const block = [...root.querySelectorAll('.j-help-block')].pop();
+      if (block) { block.setAttribute('tabindex', '-1'); block.focus({ preventScroll: false }); announce(block.textContent.replace(/\s+/g, ' ').trim()); return; }
+    }
     announce(out.say);
   };
   const cardEl = () => root.querySelector('[data-card]');
@@ -131,6 +141,7 @@ export function mountJourney(app, ctx, signal) {
     run(b.dataset.j, { ...b.dataset });
   }, { signal });
   root.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && root.querySelector('.j-help')) { e.preventDefault(); run('close-help'); return; }
     if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('[data-point], [data-region], [data-piece]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
   }, { signal });
   root.addEventListener('change', (e) => {
