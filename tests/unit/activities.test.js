@@ -173,7 +173,7 @@ test('the validator catches wrong answer keys, mismatched split arrays and chang
   caught(broken((t) => { t.math.items[0].skill = 'other'; }), /skill must be one of/);
 });
 
-test('Test Center: four cards per week, and no test is offered without its questions', () => {
+test('Test Center follows the selected week, and no test starts without its questions', () => {
   const MW = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/practice/math-words.json'), 'utf8'));
   const cards = testCatalog(W19, T19, MW);
   assert.deepEqual(cards.map((c) => [c.kind, c.available, c.count, c.date]),
@@ -182,7 +182,7 @@ test('Test Center: four cards per week, and no test is offered without its quest
   assert.match(cards[3].dateLabel, /Helps with/);
   assert.equal(testCatalog(W19, T19, null)[3].available, false);
   const old = testCatalog(WEEKS.find((w) => w.id === '2026-10-12'), null, MW);
-  assert.deepEqual(old.map((c) => c.available), [false, true, false, true]);
+  assert.deepEqual(old.map((c) => c.available), [true, false]);
   for (const c of old.filter((x) => !x.available)) assert.ok(c.reason);
   assert.equal(testFor('math', W19, null), null);
 });

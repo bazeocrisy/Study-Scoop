@@ -29,7 +29,7 @@ try{
     twoColumns:Math.abs(first[0].card.top-first[1].card.top)<1,
     actionAligned:Math.abs(first[0].action.top-first[1].action.top)<1,
     factsAligned:Math.abs(first[0].facts.top-first[1].facts.top)<1,
-    unavailableMargin:getComputedStyle(document.querySelector('.unavailable')).marginTop};
+    unavailableMargin:(document.querySelector('.unavailable') ? getComputedStyle(document.querySelector('.unavailable')).marginTop : '0px')};
   `);
   expect(!result.overflow,'page fits '+width);
   expect(result.noTabs,'cards have no competing top subject menu '+width);

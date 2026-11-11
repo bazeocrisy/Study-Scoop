@@ -422,7 +422,7 @@ export function spellingTest(week, rand = Math.random) {
 }
 
 /** A test from data/tests/<week>.json (math or vocab), the generated spelling test, or the Math Vocabulary test
- *  (from data/practice/math-words.json). Null when there is none. */
+ *  (from data/practice/math-words.json). Null when there is none. Weekly callers must first check weeklyTestListed; chapters own their review tests. */
 export function testFor(kind, week, tests, rand, mathWords = null, area = null) {
   if (kind === 'spelling') return week.spelling?.words?.length ? spellingTest(week, rand) : null;
   // In the Area week the Math Vocabulary test is the Nov 3 vocabulary test (Area, Square Unit, Multiply).
@@ -435,16 +435,22 @@ export function testFor(kind, week, tests, rand, mathWords = null, area = null) 
   return { kind, title: `${SUBJECT[kind]} Practice Test`, ...t, items, pass: t.pass ?? passMark(items.length) };
 }
 
-/** The Test Center cards for a week: what each test covers, when the class test is, and if it can start.
- *  The Math Vocabulary test has no class test of its own: its card names the week's math test as the one it helps with. */
+/** Weekly Tests follows the selected newsletter. Chapter review stays inside Math. */
+export function weeklyTestListed(kind, week) {
+  const scheduled = week?.tests || [];
+  const hasMathTest = scheduled.some(t => t.kind === 'math');
+  if (kind === 'mathwords') return hasMathTest && (isAreaWeek(week) || hasPropertyWords(week));
+  // An Area vocabulary announcement does not schedule the whole chapter's review test.
+  if (kind === 'math' && isAreaWeek(week)) return false;
+  return TEST_KINDS.includes(kind) && scheduled.some(t => t.kind === kind);
+}
+
+/** Only announced weekly topics appear. Missing question banks stay unavailable; chapter reviews stay in Math. */
 export function testCatalog(week, tests, mathWords = null, area = null) {
-  return TEST_KINDS.map((kind) => {
+  return TEST_KINDS.filter(kind => weeklyTestListed(kind, week)).map((kind) => {
     const related = kind === 'mathwords';
-    // The Math Vocabulary test is about the Unit 5 property words: it helps with the week's math test only when
-    // that test is the properties test (not, say, the Topic 6 Area vocabulary test).
     const areaWeek = isAreaWeek(week);
-    const chapterReview = kind === 'math' && areaWeek;
-    const sched = (related && !hasPropertyWords(week) && !areaWeek) || chapterReview ? null : week.tests.find((t) => t.kind === (related ? 'math' : kind)) || null;
+    const sched = week.tests.find(t => t.kind === (related ? 'math' : kind)) || null;
     const t = testFor(kind, week, tests, () => 0, mathWords, area);
     let reason = '';
     if (!t) reason = related ? 'The Math Vocabulary questions could not be loaded. Please try again later.'
@@ -452,9 +458,8 @@ export function testCatalog(week, tests, mathWords = null, area = null) {
     return {
       kind, subject: SUBJECT[kind], title: t?.title || `${SUBJECT[kind]} Practice Test`,
       topic: t?.topic || sched?.detail || '', date: sched?.date || null, classTest: sched?.title || null,
-      // Area week: the Math Vocabulary test is for the Nov 3 class vocabulary test, and the Math test is a chapter review.
-      dateLabel: related ? (areaWeek ? 'Class test' : hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : chapterReview ? 'Review of' : 'Class test',
-      review: chapterReview ? 'Chapter 6 (all lessons)' : related && !hasPropertyWords(week) && !areaWeek ? 'Unit 5 (properties)' : '',
+      dateLabel: related && !areaWeek ? 'Helps with math test' : 'Class test',
+      review: '',
       count: t ? t.items.length : 0, coverage: t?.coverage || '', note: t?.note || '', available: Boolean(t), reason,
     };
   });

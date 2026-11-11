@@ -7,10 +7,10 @@ import { buildHash, parseHash, resolveWeek } from './lib/router.js';
 import { validateIndex, validateWeek } from './lib/validate.js';
 import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
 import { hasPropertyWords } from './lib/mathlearn.js';
-import { validateArea } from './lib/area.js';
+import { validateArea, isAreaWeek } from './lib/area.js';
 import { validateFractionChapter } from './lib/chapter7.js';
 import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson-player.js';
-import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
+import { TEST_KINDS, weeklyTestListed, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { chapterFor, validateChapters } from './lib/chapters.js';
 import { missCounts, mountActivity, mountTimesApp, runFor } from './activity-player.js';
 import { testsView } from './views/tests.js';
@@ -108,12 +108,12 @@ async function render() {
   }
   // Topic 6: Area questions (Math > Topic 6: Area), checked against the week's teacher words before they are shown.
   let area = null;
-  if ((route.section === 'math' && chapter?.id === 6) || route.section === 'tests') {
+  if (route.section === 'math' && chapter?.id === 6) {
     try { area = await loadJSON('data/practice/area.json'); } catch { area = null; }
   }
   // Math Vocabulary questions (Math > Math Vocabulary and the Math Vocabulary practice test), checked like the lessons.
   let mathWords = null;
-  if ((route.section === 'math' && route.act && chapter?.id === 5) || route.section === 'tests') {
+  if (route.section === 'math' && route.act && chapter?.id === 5) {
     try {
       mathWords = await loadJSON('data/practice/math-words.json');
       if (validateMathWords(mathWords).length) mathWords = null;
@@ -215,6 +215,19 @@ async function render() {
   // week is chosen); the week picker, the header and every link keep the week the child chose.
   const content = route.section === 'math' && chapterWeekId ? (chapterWeekId === weekId ? week : chapterWeek || week) : week;
   const contentId = content.id || weekId;
+  // Weekly Tests loads only the vocabulary bank matching an announced math test.
+  // Chapter review banks are loaded separately by Math above.
+  if (route.section === 'tests' && weeklyTestListed('mathwords', content)) {
+    if (isAreaWeek(content)) {
+      try { area = await loadJSON('data/practice/area.json'); } catch { area = null; }
+    } else {
+      try {
+        mathWords = await loadJSON('data/practice/math-words.json');
+        if (validateMathWords(mathWords).length) mathWords = null;
+      } catch { mathWords = null; }
+    }
+    if (n !== renderCount) return;
+  }
   // Reuse the chapter's Area bank in later Area weeks only when its content and exact teacher definitions validate.
   if (area && validateArea(area, content).length) area = null;
   if (tests) {
