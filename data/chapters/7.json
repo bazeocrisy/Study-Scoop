@@ -3336,7 +3336,7 @@
         "id": "p302",
         "skill": "l73",
         "type": "fraction",
-        "prompt": "Write the fraction shown by this practice point. Use the equal spaces shown for the bottom number.",
+        "prompt": "Write the fraction shown by this practice point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -3843,7 +3843,7 @@
         "id": "p306",
         "skill": "l73",
         "type": "fraction",
-        "prompt": "Write the fraction at this practice marker, using the intervals shown. Use the equal spaces shown for the bottom number.",
+        "prompt": "Write the fraction at this practice marker, using the intervals shown.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -3975,7 +3975,7 @@
         "id": "p401",
         "skill": "l74",
         "type": "fraction",
-        "prompt": "All parts of this practice strip are selected. Write the fraction using the partition shown. Use the equal parts shown for the bottom number.",
+        "prompt": "All parts of this practice strip are selected. Write the fraction using the partition shown.",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -4167,7 +4167,7 @@
         "id": "p402",
         "skill": "l74",
         "type": "fraction",
-        "prompt": "All parts of this practice circle are selected. Write the fraction using the partition shown. Use the equal parts shown for the bottom number.",
+        "prompt": "All parts of this practice circle are selected. Write the fraction using the partition shown.",
         "model": {
           "type": "fraction",
           "kind": "circle",
@@ -4635,7 +4635,7 @@
         "id": "p405",
         "skill": "l74",
         "type": "fraction",
-        "prompt": "Write the fraction at 1 using the equal intervals in this practice line. Use the equal spaces shown for the bottom number.",
+        "prompt": "Write the fraction at 1 using the equal intervals in this practice line.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -6434,7 +6434,7 @@
         "id": "p606",
         "skill": "l76",
         "type": "fraction",
-        "prompt": "Count equal intervals from zero and write the practice fraction. Use the equal spaces shown for the bottom number.",
+        "prompt": "Count equal intervals from zero and write the practice fraction.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -7956,7 +7956,7 @@
               }
             },
             {
-              "text": "Each complete shape is 1 whole. Count the 1 whole shapes shown.",
+              "text": "Each complete shape is 1 whole. Count the 1 whole shape shown.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -11163,7 +11163,7 @@
         "id": "x601",
         "skill": "l76",
         "type": "fraction",
-        "prompt": "A hiking marker lies at this point. Write its fraction using the equal intervals shown. Use the equal spaces shown for the bottom number.",
+        "prompt": "A hiking marker lies at this point. Write its fraction using the equal intervals shown.",
         "model": {
           "type": "fraction",
           "kind": "line",

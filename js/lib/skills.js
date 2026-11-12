@@ -356,6 +356,11 @@ export function timesFamilyPractice(families, rand) {
  * type: 'blanks', two boxes [a] and [b], either order accepted.
  * If the child types a correct fact from the wrong family, a nudge message fires.
  */
+/** Times App Find It: the typed pair is right when it is the card's fact or any accepted fact (either order). */
+export function findItCorrect(item, va, vb) {
+  return [item.answer, ...(item.accept || [])].some((p) => (p.a === va && p.b === vb) || (p.a === vb && p.b === va));
+}
+
 export function timesFamilyFind(families, rand) {
   return familyPairs(families, rand).map(([a, b]) => {
     const P = a * b;

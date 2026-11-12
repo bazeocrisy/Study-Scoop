@@ -1634,7 +1634,7 @@
           "The numbered gap is one step; the starting tick itself is not a step.",
           "Only the 1 space crossed counts on top. The spaces from 0 to 1 go on the bottom."
         ],
-        "yes": "The top number counts the equal gaps from 0 to the point. That 1 gap is numbered. The ticks mark where each gap starts and ends.",
+        "yes": "The top number counts the equal gaps from 0 to the point. That 1 gap is numbered. The ticks mark its two ends.",
         "teaching": {
           "steps": [
             {
@@ -1676,7 +1676,7 @@
             }
           ],
           "correct": {
-            "text": "The top number counts the equal gaps from 0 to the point. That 1 gap is numbered. The ticks mark where each gap starts and ends.",
+            "text": "The top number counts the equal gaps from 0 to the point. That 1 gap is numbered. The ticks mark its two ends.",
             "model": {
               "type": "fraction",
               "kind": "line",

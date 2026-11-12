@@ -2,7 +2,10 @@
 // Study Scoop string in data/ passes it. Teacher-source text is reported, never changed silently.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { proofreadText, proofreadFiles } from '../../scripts/proofread.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { proofreadText, proofreadFiles, proofreadCode } from '../../scripts/proofread.mjs';
 
 test('the gate catches the kinds of slips the audit found', () => {
   for (const [bad, rule] of [
@@ -17,4 +20,16 @@ test('the gate catches the kinds of slips the audit found', () => {
 test('every Study Scoop string in data/ passes the proofreading gate', () => {
   const found = proofreadFiles().filter((f) => f.source === 'study-scoop');
   assert.deepEqual(found.map((f) => `${f.file} ${f.path}: ${f.why}: ${f.match}`), []);
+});
+
+test('the gate reads vocabulary entries, notes and the text in code, games and labs', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ss-proof-'));
+  const week = path.join(dir, 'week.json'), page = path.join(dir, 'page.js');
+  fs.writeFileSync(week, JSON.stringify({ vocab: { words: [{ word: 'Peculiar', def: 'strange or unusual', sentence: 'The the cat looked peculiar.', note: 'Short skills to practise.' }] }, spelling: { words: ['tractor', 'form'] } }));
+  fs.writeFileSync(page, "// a comment that says practise is ignored\nconst label = 'Short skills to practise any week.';\nconst ok = 'Lesson 7-1 parts';");
+  const data = proofreadFiles([week]), code = proofreadCode([page]);
+  assert.ok(data.some((f) => f.rule === 'doubled' && /sentence/.test(f.path)), 'vocabulary sentence');
+  assert.ok(data.some((f) => f.rule === 'british' && /note/.test(f.path)), 'note');
+  assert.equal(code.length, 1); assert.equal(code[0].rule, 'british');
+  assert.deepEqual(proofreadCode().map((f) => `${f.file}: ${f.why}: ${f.match}`), [], 'site code, games and labs');
 });

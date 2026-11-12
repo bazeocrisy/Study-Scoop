@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { vocabItems } from '../../js/lib/activities.js';
-import { timesFamilyFind } from '../../js/lib/skills.js';
+import { timesFamilyFind, findItCorrect } from '../../js/lib/skills.js';
 import { check } from '../../js/lib/lessons.js';
 
 const read = (p) => JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -34,9 +34,11 @@ test('teacher definitions are kept exactly; mismatched ones carry a plain-words 
 });
 
 test('graders accept every correct answer: Times App Find It and partial areas in either order', () => {
-  let it = timesFamilyFind([2, 3], Math.random).find((i) => i.answer.a * i.answer.b === 12); it = { ...it, text: it.lines };
-  for (const [a, b] of [[2, 6], [6, 2], [3, 4], [4, 3]]) assert.equal(check(it, { a: String(a), b: String(b) }).status, 'correct', `${a} × ${b}`);
-  assert.notEqual(check(it, { a: '1', b: '12' }).status, 'correct', 'outside the chosen families');
+  // The function the Find It button uses (js/activity-player.js find-check).
+  const it = timesFamilyFind([2, 3], Math.random).find((i) => i.answer.a * i.answer.b === 12);
+  for (const [a, b] of [[2, 6], [6, 2], [3, 4], [4, 3]]) assert.ok(findItCorrect(it, a, b), `${a} × ${b}`);
+  assert.ok(!findItCorrect(it, 1, 12), 'outside the chosen families'); assert.ok(!findItCorrect(it, 5, 2), 'wrong product');
+  assert.match(fs.readFileSync('js/activity-player.js', 'utf8'), /const corr = findItCorrect\(item, va, vb\)/, 'the live handler uses it');
   const L = read('data/lessons/6-4.json'), x1 = L.test.items.find((i) => i.id === 'x1');
   assert.equal(check(x1, { a: '12', b: '9', p1: '9', p2: '12', t: '21' }, L).status, 'correct');
   assert.notEqual(check(x1, { a: '12', b: '9', p1: '9', p2: '9', t: '18' }, L).status, 'correct');

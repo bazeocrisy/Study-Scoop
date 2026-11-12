@@ -8,7 +8,7 @@ const line=(d,n,max=1)=>({type:'fraction',kind:'line',parts:d,max,point:n});
 const ratio=m=>m.kind==='line'?{n:m.point,d:m.parts}:{n:m.selected.length,d:m.parts};
 const frac=(id,skill,prompt,model,policy='partition')=>{
  // Text audit: a short, child-sized reminder (only when the prompt does not already say what goes on the bottom).
- if(policy==='partition'&&!/denominator|bottom number/i.test(prompt)) prompt += model.kind==='set'?' Count all the objects for the bottom number.':model.kind==='line'?' Use the equal spaces shown for the bottom number.':' Use the equal parts shown for the bottom number.';
+ if(policy==='partition'&&!/denominator|bottom number|shown|equal intervals|equal parts/i.test(prompt)) prompt += model.kind==='set'?' Count all the objects for the bottom number.':model.kind==='line'?' Use the equal spaces shown for the bottom number.':' Use the equal parts shown for the bottom number.';
  const a=ratio(model), out=`${a.n}/${a.d}`;
  const pl=(n,one,many)=>`${n} ${n===1?one:many}`;
  const reason=a.d===1?(model.kind==='line'?`Each jump from one whole number to the next is 1 whole. The point is ${pl(a.n,'whole','wholes')} from zero, so it is ${out}.`:`Each shape is 1 whole. ${pl(a.n,'whole is','wholes are')} selected, so the fraction is ${out}.`)
@@ -191,7 +191,7 @@ function enrich(item){
  const total=m.parts*(m.wholes||1), selected=m.selected?.length||0;
  const observation=m.kind==='line'?'Find the interval from 0 to 1. That distance is ONE whole.':m.kind==='set'?'The entire collection is ONE whole set. Touch one object to see one part.':'Trace the outside edge. That complete shape is ONE whole.';
  const numericNumerator=item.type==='number'&&/numerator|top number/i.test(item.prompt);
- const counting=item.skill==='l75'?(m.kind==='line'?'The space from 0 to 1 is 1 whole. Count the whole jumps from 0 to the point.':`Each complete shape is 1 whole. Count the ${m.wholes||1} whole shapes shown.`):item.skill==='l74'?`Count the ${m.parts} parts inside ONE outline. Together they fill one whole, not ${m.parts} wholes.`:m.kind==='line'?`Count the ${m.parts} spaces between 0 and 1. Those spaces give the denominator.`:m.kind==='set'?`Count all ${m.parts} objects in the whole set. That count gives the denominator.`:`Count all ${m.parts} pieces inside ONE outline. Check that their areas match before naming them.`;
+ const counting=item.skill==='l75'?(m.kind==='line'?'The space from 0 to 1 is 1 whole. Count the whole jumps from 0 to the point.':`Each complete shape is 1 whole. Count the ${m.wholes||1} whole ${(m.wholes||1)===1?'shape':'shapes'} shown.`):item.skill==='l74'?`Count the ${m.parts} parts inside ONE outline. Together they fill one whole, not ${m.parts} wholes.`:m.kind==='line'?`Count the ${m.parts} spaces between 0 and 1. Those spaces give the denominator.`:m.kind==='set'?`Count all ${m.parts} objects in the whole set. That count gives the denominator.`:`Count all ${m.parts} pieces inside ONE outline. Check that their areas match before naming them.`;
  partition.counted=seq(item.skill==='l75'&&item.type==='number'?total:m.parts);
  const reason=item.explain||item.show.join(' ');
  item.teaching={steps:[{text:observation,model:start},{text:counting,model:partition,revealsAnswer:true},{text:reason,model:clone(m),revealsAnswer:true}],correct:{text:reason,model:clone(m)},wrong:[]};
