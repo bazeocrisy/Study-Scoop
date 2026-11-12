@@ -8433,6 +8433,315 @@
                 ]
               }
             }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t18",
+              "type": "choice",
+              "prompt": "Each separate outside outline is one whole. Which picture counts complete whole-sized pieces rather than small pieces inside one whole?",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 1,
+                "wholes": 3,
+                "selected": [
+                  0,
+                  1,
+                  2
+                ],
+                "wholeLayout": "grid",
+                "caption": "First picture"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 1,
+                  "wholes": 3,
+                  "selected": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "wholeLayout": "grid",
+                  "caption": "First picture"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "wholeLayout": "grid",
+                  "caption": "Second picture"
+                }
+              ],
+              "options": [
+                {
+                  "text": "Only the first picture.",
+                  "correct": true
+                },
+                {
+                  "text": "Only the second picture.",
+                  "why": "Having one outline does not make every piece inside it a whole. The second selected piece leaves plain pieces inside that same outline."
+                },
+                {
+                  "text": "Both pictures, because both have selected parts.",
+                  "why": "Selection alone does not decide part size. Look at whether the selected piece fills its entire outside outline."
+                }
+              ],
+              "hints": [
+                "Find the separate outside outlines before looking at selected pieces.",
+                "Compare a selected piece with the outline it belongs to."
+              ],
+              "show": [
+                "Find the separate outside outlines before looking at selected pieces.",
+                "Compare a selected piece with the outline it belongs to.",
+                "A selected piece in the first picture fills a complete outline. The second selected piece fills only part of its outline."
+              ],
+              "yes": "The first picture counts complete wholes. The second counts one of 3 smaller pieces in ONE whole, so its selected piece is not whole-sized.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find the separate outside outlines before looking at selected pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [],
+                      "wholeLayout": "grid",
+                      "caption": "Second picture"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 1,
+                        "wholes": 3,
+                        "selected": [],
+                        "wholeLayout": "grid",
+                        "caption": "First picture"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [],
+                        "wholeLayout": "grid",
+                        "caption": "Second picture"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Compare a selected piece with the outline it belongs to.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "wholeLayout": "grid",
+                      "caption": "Second picture"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 1,
+                        "wholes": 3,
+                        "selected": [
+                          0
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "First picture"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "Second picture"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "A selected piece in the first picture fills a complete outline. The second selected piece fills only part of its outline.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "wholeLayout": "grid",
+                      "caption": "Second picture"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 1,
+                        "wholes": 3,
+                        "selected": [
+                          0,
+                          1,
+                          2
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "First picture"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "Second picture"
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The first picture counts complete wholes. The second counts one of 3 smaller pieces in ONE whole, so its selected piece is not whole-sized.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 3,
+                    "wholes": 1,
+                    "selected": [
+                      0
+                    ],
+                    "wholeLayout": "grid",
+                    "caption": "Second picture"
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 1,
+                      "wholes": 3,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "wholeLayout": "grid",
+                      "caption": "First picture"
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "wholeLayout": "grid",
+                      "caption": "Second picture"
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "Only the second picture.",
+                    "text": "Having one outline does not make every piece inside it a whole. The second selected piece leaves plain pieces inside that same outline.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "wholeLayout": "grid",
+                      "caption": "Second picture"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 1,
+                        "wholes": 3,
+                        "selected": [
+                          0,
+                          1,
+                          2
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "First picture"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "Second picture"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Both pictures, because both have selected parts.",
+                    "text": "Selection alone does not decide part size. Look at whether the selected piece fills its entire outside outline.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "wholeLayout": "grid",
+                      "caption": "Second picture"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 1,
+                        "wholes": 3,
+                        "selected": [
+                          0
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "First picture"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0
+                        ],
+                        "wholeLayout": "grid",
+                        "caption": "Second picture"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
           }
         ]
       },
@@ -8521,209 +8830,7 @@
                   ]
                 }
               }
-            ],
-            "why": {
-              "id": "w1check",
-              "type": "fraction",
-              "prompt": "Each separate shape is one whole. Write the selected whole shapes as a fraction with denominator one.",
-              "model": {
-                "type": "fraction",
-                "kind": "bar",
-                "parts": 1,
-                "wholes": 3,
-                "selected": [
-                  0,
-                  1,
-                  2
-                ],
-                "wholeLayout": "grid"
-              },
-              "asks": "fraction",
-              "answer": {
-                "n": 3,
-                "d": 1
-              },
-              "answerPolicy": "partition",
-              "hints": [
-                "Each separate outside outline is one whole; it is not divided into smaller parts.",
-                "The highlighted piece fills one complete outline, so one whole has one part."
-              ],
-              "show": [
-                "Each separate outside outline is one whole; it is not divided into smaller parts.",
-                "The highlighted piece fills one complete outline, so one whole has one part.",
-                "3 complete strips are counted. Write 3 above 1: 3/1 means 3 wholes."
-              ],
-              "yes": "The bottom 1 says each counted piece is a whole, and the top 3 counts 3 complete strips. So 3/1 is 3.",
-              "teaching": {
-                "steps": [
-                  {
-                    "text": "Each separate outside outline is one whole; it is not divided into smaller parts.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [],
-                      "wholeLayout": "grid"
-                    }
-                  },
-                  {
-                    "text": "The highlighted piece fills one complete outline, so one whole has one part.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0
-                      ],
-                      "wholeLayout": "grid"
-                    }
-                  },
-                  {
-                    "text": "3 complete strips are counted. Write 3 above 1: 3/1 means 3 wholes.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "wholeLayout": "grid",
-                      "counted": [
-                        0,
-                        1,
-                        2
-                      ]
-                    },
-                    "revealsAnswer": true
-                  }
-                ],
-                "correct": {
-                  "text": "The bottom 1 says each counted piece is a whole, and the top 3 counts 3 complete strips. So 3/1 is 3.",
-                  "model": {
-                    "type": "fraction",
-                    "kind": "bar",
-                    "parts": 1,
-                    "wholes": 3,
-                    "selected": [
-                      0,
-                      1,
-                      2
-                    ],
-                    "wholeLayout": "grid",
-                    "counted": [
-                      0,
-                      1,
-                      2
-                    ]
-                  }
-                },
-                "wrong": [
-                  {
-                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "wholeLayout": "grid"
-                    },
-                    "when": "zeroDenominator"
-                  },
-                  {
-                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "wholeLayout": "grid"
-                    },
-                    "when": "equivalentPartition"
-                  },
-                  {
-                    "text": "The bottom describes pieces inside ONE outline, not the number of outlines. This highlighted piece already fills a whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0
-                      ],
-                      "wholeLayout": "grid"
-                    },
-                    "when": "reversed"
-                  },
-                  {
-                    "text": "Your bottom 1 fits a complete whole. For the top, include every selected whole, not just the first marked one.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "wholeLayout": "grid",
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "numeratorOnly"
-                  },
-                  {
-                    "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0
-                      ],
-                      "wholeLayout": "grid"
-                    },
-                    "when": "denominatorOnly"
-                  },
-                  {
-                    "text": "First decide what one whole is. The first numbered piece is a complete whole; the bottom counts parts in that one whole and the top counts all selected wholes.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "wholeLayout": "grid",
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "default"
-                  }
-                ]
-              }
-            }
+            ]
           },
           {
             "kind": "item",
@@ -9043,96 +9150,132 @@
             "kind": "item",
             "phase": "youdo",
             "item": {
-              "id": "t4",
+              "id": "jb1",
               "type": "number",
-              "prompt": "Each 0-to-1 length is one whole. What numerator counts the whole-unit jumps from zero to the point?",
+              "prompt": "Each separate shape or 0-to-1 length is one whole. What numerator counts the selected whole pieces or jumps from zero?",
               "model": {
                 "type": "fraction",
-                "kind": "line",
+                "kind": "bar",
                 "parts": 1,
-                "max": 5,
-                "point": 4
+                "wholes": 6,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "wholeLayout": "grid"
               },
-              "answer": "4",
+              "answer": "6",
               "hints": [
-                "Find the whole unit between 0 and 1 before counting any jumps.",
+                "Find each complete outline before counting any pieces.",
                 "Begin with the highlighted first whole, then include each complete whole to the endpoint."
               ],
               "show": [
-                "Find the whole unit between 0 and 1 before counting any jumps.",
+                "Find each complete outline before counting any pieces.",
                 "Begin with the highlighted first whole, then include each complete whole to the endpoint.",
-                "4 complete wholes are counted, so the numerator is 4."
+                "6 complete wholes are counted, so the numerator is 6."
               ],
-              "yes": "The 4 complete whole jumps are the numerator; each one is a whole-size piece.",
+              "yes": "The 6 complete whole pieces or jumps are the numerator; each one is a whole-size piece.",
               "teaching": {
                 "steps": [
                   {
-                    "text": "Find the whole unit between 0 and 1 before counting any jumps.",
+                    "text": "Find each complete outline before counting any pieces.",
                     "model": {
                       "type": "fraction",
-                      "kind": "line",
+                      "kind": "bar",
                       "parts": 1,
-                      "max": 5,
-                      "point": 0,
-                      "counted": []
+                      "wholes": 6,
+                      "selected": [],
+                      "wholeLayout": "grid"
                     }
                   },
                   {
                     "text": "Begin with the highlighted first whole, then include each complete whole to the endpoint.",
                     "model": {
                       "type": "fraction",
-                      "kind": "line",
+                      "kind": "bar",
                       "parts": 1,
-                      "max": 5,
-                      "point": 1,
-                      "counted": [
+                      "wholes": 6,
+                      "selected": [
                         0
-                      ]
+                      ],
+                      "wholeLayout": "grid"
                     }
                   },
                   {
-                    "text": "4 complete wholes are counted, so the numerator is 4.",
+                    "text": "6 complete wholes are counted, so the numerator is 6.",
                     "model": {
                       "type": "fraction",
-                      "kind": "line",
+                      "kind": "bar",
                       "parts": 1,
-                      "max": 5,
-                      "point": 4,
+                      "wholes": 6,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "wholeLayout": "grid",
                       "counted": [
                         0,
                         1,
                         2,
-                        3
+                        3,
+                        4,
+                        5
                       ]
                     },
                     "revealsAnswer": true
                   }
                 ],
                 "correct": {
-                  "text": "The 4 complete whole jumps are the numerator; each one is a whole-size piece.",
+                  "text": "The 6 complete whole pieces or jumps are the numerator; each one is a whole-size piece.",
                   "model": {
                     "type": "fraction",
-                    "kind": "line",
+                    "kind": "bar",
                     "parts": 1,
-                    "max": 5,
-                    "point": 4,
+                    "wholes": 6,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ],
+                    "wholeLayout": "grid",
                     "counted": [
                       0,
                       1,
                       2,
-                      3
+                      3,
+                      4,
+                      5
                     ]
                   }
                 },
                 "wrong": [
                   {
-                    "text": "That count stops before reaching the marked endpoint. Count complete unit jumps from zero.",
+                    "text": "That count leaves out a complete selected shape. Include every selected outline once.",
                     "model": {
                       "type": "fraction",
-                      "kind": "line",
+                      "kind": "bar",
                       "parts": 1,
-                      "max": 5,
-                      "point": 4,
+                      "wholes": 6,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "wholeLayout": "grid",
                       "counted": [
                         0
                       ]
@@ -9143,10 +9286,18 @@
                     "text": "That count adds pieces beyond the selected wholes or counts boundaries as if they were whole jumps.",
                     "model": {
                       "type": "fraction",
-                      "kind": "line",
+                      "kind": "bar",
                       "parts": 1,
-                      "max": 5,
-                      "point": 4,
+                      "wholes": 6,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "wholeLayout": "grid",
                       "counted": [
                         0
                       ]
@@ -9157,16 +9308,18 @@
                     "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
                     "model": {
                       "type": "fraction",
-                      "kind": "line",
+                      "kind": "bar",
                       "parts": 1,
-                      "max": 5,
-                      "point": 4,
-                      "counted": [
+                      "wholes": 6,
+                      "selected": [
                         0,
                         1,
                         2,
-                        3
-                      ]
+                        3,
+                        4,
+                        5
+                      ],
+                      "wholeLayout": "grid"
                     },
                     "when": "default"
                   }
@@ -9204,22 +9357,24 @@
             "kind": "item",
             "phase": "wedo",
             "item": {
-              "id": "g3",
+              "id": "jw1",
               "type": "fraction",
               "prompt": "Each separate shape is one whole. Write the selected whole shapes as a fraction with denominator one.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
                 "parts": 1,
-                "wholes": 2,
+                "wholes": 3,
                 "selected": [
                   0,
-                  1
-                ]
+                  1,
+                  2
+                ],
+                "wholeLayout": "grid"
               },
               "asks": "fraction",
               "answer": {
-                "n": 2,
+                "n": 3,
                 "d": 1
               },
               "answerPolicy": "partition",
@@ -9230,9 +9385,9 @@
               "show": [
                 "Each separate outside outline is one whole; it is not divided into smaller parts.",
                 "The highlighted piece fills one complete outline, so one whole has one part.",
-                "2 complete strips are counted. Write 2 above 1: 2/1 means 2 wholes."
+                "3 complete strips are counted. Write 3 above 1: 3/1 means 3 wholes."
               ],
-              "yes": "The bottom 1 says each counted piece is a whole, and the top 2 counts 2 complete strips. So 2/1 is 2.",
+              "yes": "The bottom 1 says each counted piece is a whole, and the top 3 counts 3 complete strips. So 3/1 is 3.",
               "teaching": {
                 "steps": [
                   {
@@ -9241,8 +9396,9 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
-                      "selected": []
+                      "wholes": 3,
+                      "selected": [],
+                      "wholeLayout": "grid"
                     }
                   },
                   {
@@ -9251,45 +9407,52 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0
-                      ]
+                      ],
+                      "wholeLayout": "grid"
                     }
                   },
                   {
-                    "text": "2 complete strips are counted. Write 2 above 1: 2/1 means 2 wholes.",
+                    "text": "3 complete strips are counted. Write 3 above 1: 3/1 means 3 wholes.",
                     "model": {
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0,
-                        1
+                        1,
+                        2
                       ],
+                      "wholeLayout": "grid",
                       "counted": [
                         0,
-                        1
+                        1,
+                        2
                       ]
                     },
                     "revealsAnswer": true
                   }
                 ],
                 "correct": {
-                  "text": "The bottom 1 says each counted piece is a whole, and the top 2 counts 2 complete strips. So 2/1 is 2.",
+                  "text": "The bottom 1 says each counted piece is a whole, and the top 3 counts 3 complete strips. So 3/1 is 3.",
                   "model": {
                     "type": "fraction",
                     "kind": "bar",
                     "parts": 1,
-                    "wholes": 2,
+                    "wholes": 3,
                     "selected": [
                       0,
-                      1
+                      1,
+                      2
                     ],
+                    "wholeLayout": "grid",
                     "counted": [
                       0,
-                      1
+                      1,
+                      2
                     ]
                   }
                 },
@@ -9300,11 +9463,13 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0,
-                        1
-                      ]
+                        1,
+                        2
+                      ],
+                      "wholeLayout": "grid"
                     },
                     "when": "zeroDenominator"
                   },
@@ -9314,11 +9479,13 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0,
-                        1
-                      ]
+                        1,
+                        2
+                      ],
+                      "wholeLayout": "grid"
                     },
                     "when": "equivalentPartition"
                   },
@@ -9328,10 +9495,11 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0
-                      ]
+                      ],
+                      "wholeLayout": "grid"
                     },
                     "when": "reversed"
                   },
@@ -9341,11 +9509,13 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0,
-                        1
+                        1,
+                        2
                       ],
+                      "wholeLayout": "grid",
                       "counted": [
                         0
                       ]
@@ -9358,10 +9528,11 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0
-                      ]
+                      ],
+                      "wholeLayout": "grid"
                     },
                     "when": "denominatorOnly"
                   },
@@ -9371,11 +9542,13 @@
                       "type": "fraction",
                       "kind": "bar",
                       "parts": 1,
-                      "wholes": 2,
+                      "wholes": 3,
                       "selected": [
                         0,
-                        1
+                        1,
+                        2
                       ],
+                      "wholeLayout": "grid",
                       "counted": [
                         0
                       ]
@@ -10320,19 +10493,19 @@
             "kind": "item",
             "phase": "wedo",
             "item": {
-              "id": "g5",
+              "id": "jl1",
               "type": "fraction",
               "prompt": "Each 0-to-1 length is one whole unit. Name the marked point with denominator one.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
                 "parts": 1,
-                "max": 4,
-                "point": 3
+                "max": 3,
+                "point": 2
               },
               "asks": "fraction",
               "answer": {
-                "n": 3,
+                "n": 2,
                 "d": 1
               },
               "answerPolicy": "partition",
@@ -10343,9 +10516,9 @@
               "show": [
                 "The distance from 0 to 1 is one whole unit; it is not split into smaller jumps.",
                 "The first jump reaches 1; each next jump has that same length.",
-                "3 complete one-unit jumps from zero are counted. Write 3 above 1: 3/1 means 3 wholes."
+                "2 complete one-unit jumps from zero are counted. Write 2 above 1: 2/1 means 2 wholes."
               ],
-              "yes": "The bottom 1 says each counted piece is a whole, and the top 3 counts 3 complete one-unit jumps from zero. So 3/1 is 3.",
+              "yes": "The bottom 1 says each counted piece is a whole, and the top 2 counts 2 complete one-unit jumps from zero. So 2/1 is 2.",
               "teaching": {
                 "steps": [
                   {
@@ -10354,7 +10527,7 @@
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
+                      "max": 3,
                       "point": 0,
                       "counted": []
                     }
@@ -10365,7 +10538,7 @@
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
+                      "max": 3,
                       "point": 1,
                       "counted": [
                         0
@@ -10373,34 +10546,32 @@
                     }
                   },
                   {
-                    "text": "3 complete one-unit jumps from zero are counted. Write 3 above 1: 3/1 means 3 wholes.",
+                    "text": "2 complete one-unit jumps from zero are counted. Write 2 above 1: 2/1 means 2 wholes.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
-                      "point": 3,
+                      "max": 3,
+                      "point": 2,
                       "counted": [
                         0,
-                        1,
-                        2
+                        1
                       ]
                     },
                     "revealsAnswer": true
                   }
                 ],
                 "correct": {
-                  "text": "The bottom 1 says each counted piece is a whole, and the top 3 counts 3 complete one-unit jumps from zero. So 3/1 is 3.",
+                  "text": "The bottom 1 says each counted piece is a whole, and the top 2 counts 2 complete one-unit jumps from zero. So 2/1 is 2.",
                   "model": {
                     "type": "fraction",
                     "kind": "line",
                     "parts": 1,
-                    "max": 4,
-                    "point": 3,
+                    "max": 3,
+                    "point": 2,
                     "counted": [
                       0,
-                      1,
-                      2
+                      1
                     ]
                   }
                 },
@@ -10411,12 +10582,11 @@
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
-                      "point": 3,
+                      "max": 3,
+                      "point": 2,
                       "counted": [
                         0,
-                        1,
-                        2
+                        1
                       ]
                     },
                     "when": "zeroDenominator"
@@ -10427,12 +10597,11 @@
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
-                      "point": 3,
+                      "max": 3,
+                      "point": 2,
                       "counted": [
                         0,
-                        1,
-                        2
+                        1
                       ]
                     },
                     "when": "equivalentPartition"
@@ -10443,7 +10612,7 @@
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
+                      "max": 3,
                       "point": 1,
                       "counted": [
                         0
@@ -10452,13 +10621,13 @@
                     "when": "reversed"
                   },
                   {
-                    "text": "Your bottom 1 fits a complete whole. For the top, include every whole-unit jump to the point, not just the first marked one.",
+                    "text": "Your bottom 1 fits a complete whole. For the top, include every selected whole, not just the first marked one.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
-                      "point": 3,
+                      "max": 3,
+                      "point": 2,
                       "counted": [
                         0
                       ]
@@ -10471,7 +10640,7 @@
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
+                      "max": 3,
                       "point": 1,
                       "counted": [
                         0
@@ -10480,13 +10649,13 @@
                     "when": "denominatorOnly"
                   },
                   {
-                    "text": "First decide what one whole is. The first numbered jump is a complete whole; the bottom counts parts in that one whole and the top counts all whole-unit jumps from zero.",
+                    "text": "First decide what one whole is. The first numbered piece is a complete whole; the bottom counts parts in that one whole and the top counts all selected wholes.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
                       "parts": 1,
-                      "max": 4,
-                      "point": 3,
+                      "max": 3,
+                      "point": 2,
                       "counted": [
                         0
                       ]
@@ -11238,7 +11407,319 @@
       {
         "id": "back",
         "label": "Back again",
-        "title": "From n/1 back to a whole number, and fixing mistakes",
+        "title": "From n/1 back to a whole number",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "From n/1 back to a whole number",
+            "text": [
+              "6/1 means 6 wholes: each jump from one whole number to the next is 1 whole.",
+              "On the number line, 6/1 is at the same place as 6. So 6/1 is the same as 6."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "line",
+              "parts": 1,
+              "max": 7,
+              "point": 6,
+              "counted": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "je1",
+              "type": "number",
+              "prompt": "What whole number is the same as 3/1?",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 1,
+                "max": 4,
+                "point": 3
+              },
+              "answer": "3",
+              "hints": [
+                "The bottom 1 says each part is one whole.",
+                "The top says how many wholes. Count whole jumps from 0."
+              ],
+              "show": [
+                "The bottom 1 says each part is one whole.",
+                "The top says how many wholes. Count whole jumps from 0.",
+                "3 whole jumps reach 3. So 3/1 is the same as 3."
+              ],
+              "yes": "3/1 means 3 wholes, so it is the same as 3.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The bottom 1 says each part is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 4,
+                      "point": 1,
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "The top says how many wholes. Count whole jumps from 0.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 4,
+                      "point": 3,
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "3 whole jumps reach 3. So 3/1 is the same as 3.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 4,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "3/1 means 3 wholes, so it is the same as 3.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 1,
+                    "max": 4,
+                    "point": 3,
+                    "counted": [
+                      0,
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "Count every whole jump from 0. 3/1 has 3 of them.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 4,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "3/1 has only 3 wholes. Count the whole jumps from 0 to the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 4,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 4,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t14",
+              "type": "number",
+              "prompt": "What whole number is the same as 4/1?",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 1,
+                "max": 5,
+                "point": 4
+              },
+              "answer": "4",
+              "hints": [
+                "The bottom 1 says each part is one whole.",
+                "The top says how many wholes. Count whole jumps from 0."
+              ],
+              "show": [
+                "The bottom 1 says each part is one whole.",
+                "The top says how many wholes. Count whole jumps from 0.",
+                "4 whole jumps reach 4. So 4/1 is the same as 4."
+              ],
+              "yes": "4/1 means 4 wholes, so it is the same as 4.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The bottom 1 says each part is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 5,
+                      "point": 1,
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "The top says how many wholes. Count whole jumps from 0.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 5,
+                      "point": 4,
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "4 whole jumps reach 4. So 4/1 is the same as 4.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 5,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "4/1 means 4 wholes, so it is the same as 4.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 1,
+                    "max": 5,
+                    "point": 4,
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "Count every whole jump from 0. 4/1 has 4 of them.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 5,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "4/1 has only 4 wholes. Count the whole jumps from 0 to the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 5,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 5,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "fix",
+        "label": "Fix it",
+        "title": "Fix a whole-number fraction",
         "cards": [
           {
             "kind": "example",
@@ -11572,149 +12053,6 @@
             "kind": "item",
             "phase": "youdo",
             "item": {
-              "id": "t14",
-              "type": "number",
-              "prompt": "What whole number is the same as 4/1?",
-              "model": {
-                "type": "fraction",
-                "kind": "line",
-                "parts": 1,
-                "max": 5,
-                "point": 4
-              },
-              "answer": "4",
-              "hints": [
-                "The bottom 1 says each part is one whole.",
-                "The top says how many wholes. Count whole jumps from 0."
-              ],
-              "show": [
-                "The bottom 1 says each part is one whole.",
-                "The top says how many wholes. Count whole jumps from 0.",
-                "4 whole jumps reach 4. So 4/1 is the same as 4."
-              ],
-              "yes": "4/1 means 4 wholes, so it is the same as 4.",
-              "teaching": {
-                "steps": [
-                  {
-                    "text": "The bottom 1 says each part is one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 1,
-                      "max": 5,
-                      "point": 1,
-                      "counted": [
-                        0
-                      ]
-                    }
-                  },
-                  {
-                    "text": "The top says how many wholes. Count whole jumps from 0.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 1,
-                      "max": 5,
-                      "point": 4,
-                      "counted": [
-                        0
-                      ]
-                    }
-                  },
-                  {
-                    "text": "4 whole jumps reach 4. So 4/1 is the same as 4.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 1,
-                      "max": 5,
-                      "point": 4,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "revealsAnswer": true
-                  }
-                ],
-                "correct": {
-                  "text": "4/1 means 4 wholes, so it is the same as 4.",
-                  "model": {
-                    "type": "fraction",
-                    "kind": "line",
-                    "parts": 1,
-                    "max": 5,
-                    "point": 4,
-                    "counted": [
-                      0,
-                      1,
-                      2,
-                      3
-                    ]
-                  }
-                },
-                "wrong": [
-                  {
-                    "text": "Count every whole jump from 0. 4/1 has 4 of them.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 1,
-                      "max": 5,
-                      "point": 4,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "when": "tooLow"
-                  },
-                  {
-                    "text": "4/1 has only 4 wholes. Count the whole jumps from 0 to the point.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 1,
-                      "max": 5,
-                      "point": 4,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "when": "tooHigh"
-                  },
-                  {
-                    "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 1,
-                      "max": 5,
-                      "point": 4,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "when": "default"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "kind": "item",
-            "phase": "youdo",
-            "item": {
               "id": "t16",
               "type": "choice",
               "prompt": "Each complete shape is one whole. A student writes 1/5 for 5 wholes. What repairs the mistake?",
@@ -11855,306 +12193,132 @@
             "kind": "item",
             "phase": "youdo",
             "item": {
-              "id": "t18",
+              "id": "t17",
               "type": "choice",
-              "prompt": "Each separate outside outline is one whole. Which picture counts complete whole-sized pieces rather than small pieces inside one whole?",
+              "prompt": "Each complete unit length is one whole. A student writes 1/6 for 6 wholes. What repairs the mistake?",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 3,
-                "selected": [
-                  0,
-                  1,
-                  2
-                ],
-                "wholeLayout": "grid",
-                "caption": "First picture"
+                "max": 7,
+                "point": 6
               },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "bar",
-                  "parts": 1,
-                  "wholes": 3,
-                  "selected": [
-                    0,
-                    1,
-                    2
-                  ],
-                  "wholeLayout": "grid",
-                  "caption": "First picture"
-                },
-                {
-                  "type": "fraction",
-                  "kind": "bar",
-                  "parts": 3,
-                  "wholes": 1,
-                  "selected": [
-                    0
-                  ],
-                  "wholeLayout": "grid",
-                  "caption": "Second picture"
-                }
-              ],
               "options": [
                 {
-                  "text": "Only the first picture.",
+                  "text": "Whole numbers cannot be fractions.",
+                  "why": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1."
+                },
+                {
+                  "text": "Write 6/1: count 6 complete wholes.",
                   "correct": true
                 },
                 {
-                  "text": "Only the second picture.",
-                  "why": "Having one outline does not make every piece inside it a whole. The second selected piece leaves plain pieces inside that same outline."
-                },
-                {
-                  "text": "Both pictures, because both have selected parts.",
-                  "why": "Selection alone does not decide part size. Look at whether the selected piece fills its entire outside outline."
+                  "text": "Keep 1/6: the entire display is one whole.",
+                  "why": "One whole is 0 to 1, not the entire drawn line. Count jumps of that unit length."
                 }
               ],
               "hints": [
-                "Find the separate outside outlines before looking at selected pieces.",
-                "Compare a selected piece with the outline it belongs to."
+                "Find the 0-to-1 whole unit before counting jumps.",
+                "That whole contains one complete part; the bottom is 1."
               ],
               "show": [
-                "Find the separate outside outlines before looking at selected pieces.",
-                "Compare a selected piece with the outline it belongs to.",
-                "A selected piece in the first picture fills a complete outline. The second selected piece fills only part of its outline."
+                "Find the 0-to-1 whole unit before counting jumps.",
+                "That whole contains one complete part; the bottom is 1.",
+                "Count the complete wholes for the top: 6/1."
               ],
-              "yes": "The first picture counts complete wholes. The second counts one of 3 smaller pieces in ONE whole, so its selected piece is not whole-sized.",
+              "yes": "Each counted piece fills a whole, so the bottom is 1. There are 6 such wholes, so the top is 6.",
               "teaching": {
                 "steps": [
                   {
-                    "text": "Find the separate outside outlines before looking at selected pieces.",
+                    "text": "Find the 0-to-1 whole unit before counting jumps.",
                     "model": {
                       "type": "fraction",
-                      "kind": "bar",
-                      "parts": 3,
-                      "wholes": 1,
-                      "selected": [],
-                      "wholeLayout": "grid",
-                      "caption": "Second picture"
-                    },
-                    "models": [
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 1,
-                        "wholes": 3,
-                        "selected": [],
-                        "wholeLayout": "grid",
-                        "caption": "First picture"
-                      },
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 3,
-                        "wholes": 1,
-                        "selected": [],
-                        "wholeLayout": "grid",
-                        "caption": "Second picture"
-                      }
-                    ]
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 7,
+                      "point": 0,
+                      "counted": []
+                    }
                   },
                   {
-                    "text": "Compare a selected piece with the outline it belongs to.",
+                    "text": "That whole contains one complete part; the bottom is 1.",
                     "model": {
                       "type": "fraction",
-                      "kind": "bar",
-                      "parts": 3,
-                      "wholes": 1,
-                      "selected": [
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 7,
+                      "point": 1,
+                      "counted": [
                         0
-                      ],
-                      "wholeLayout": "grid",
-                      "caption": "Second picture"
-                    },
-                    "models": [
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 1,
-                        "wholes": 3,
-                        "selected": [
-                          0
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "First picture"
-                      },
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 3,
-                        "wholes": 1,
-                        "selected": [
-                          0
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "Second picture"
-                      }
-                    ]
+                      ]
+                    }
                   },
                   {
-                    "text": "A selected piece in the first picture fills a complete outline. The second selected piece fills only part of its outline.",
+                    "text": "Count the complete wholes for the top: 6/1.",
                     "model": {
                       "type": "fraction",
-                      "kind": "bar",
-                      "parts": 3,
-                      "wholes": 1,
-                      "selected": [
-                        0
-                      ],
-                      "wholeLayout": "grid",
-                      "caption": "Second picture"
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 7,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
                     },
-                    "models": [
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 1,
-                        "wholes": 3,
-                        "selected": [
-                          0,
-                          1,
-                          2
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "First picture"
-                      },
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 3,
-                        "wholes": 1,
-                        "selected": [
-                          0
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "Second picture"
-                      }
-                    ],
                     "revealsAnswer": true
                   }
                 ],
                 "correct": {
-                  "text": "The first picture counts complete wholes. The second counts one of 3 smaller pieces in ONE whole, so its selected piece is not whole-sized.",
+                  "text": "Each counted piece fills a whole, so the bottom is 1. There are 6 such wholes, so the top is 6.",
                   "model": {
                     "type": "fraction",
-                    "kind": "bar",
-                    "parts": 3,
-                    "wholes": 1,
-                    "selected": [
-                      0
-                    ],
-                    "wholeLayout": "grid",
-                    "caption": "Second picture"
-                  },
-                  "models": [
-                    {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 1,
-                      "wholes": 3,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "wholeLayout": "grid",
-                      "caption": "First picture"
-                    },
-                    {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 3,
-                      "wholes": 1,
-                      "selected": [
-                        0
-                      ],
-                      "wholeLayout": "grid",
-                      "caption": "Second picture"
-                    }
-                  ]
+                    "kind": "line",
+                    "parts": 1,
+                    "max": 7,
+                    "point": 6,
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  }
                 },
                 "wrong": [
                   {
-                    "option": "Only the second picture.",
-                    "text": "Having one outline does not make every piece inside it a whole. The second selected piece leaves plain pieces inside that same outline.",
+                    "option": "Keep 1/6: the entire display is one whole.",
+                    "text": "One whole is 0 to 1, not the entire drawn line. Count jumps of that unit length.",
                     "model": {
                       "type": "fraction",
-                      "kind": "bar",
-                      "parts": 3,
-                      "wholes": 1,
-                      "selected": [
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 7,
+                      "point": 1,
+                      "counted": [
                         0
-                      ],
-                      "wholeLayout": "grid",
-                      "caption": "Second picture"
-                    },
-                    "models": [
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 1,
-                        "wholes": 3,
-                        "selected": [
-                          0,
-                          1,
-                          2
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "First picture"
-                      },
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 3,
-                        "wholes": 1,
-                        "selected": [
-                          0
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "Second picture"
-                      }
-                    ]
+                      ]
+                    }
                   },
                   {
-                    "option": "Both pictures, because both have selected parts.",
-                    "text": "Selection alone does not decide part size. Look at whether the selected piece fills its entire outside outline.",
+                    "option": "Whole numbers cannot be fractions.",
+                    "text": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1.",
                     "model": {
                       "type": "fraction",
-                      "kind": "bar",
-                      "parts": 3,
-                      "wholes": 1,
-                      "selected": [
+                      "kind": "line",
+                      "parts": 1,
+                      "max": 7,
+                      "point": 1,
+                      "counted": [
                         0
-                      ],
-                      "wholeLayout": "grid",
-                      "caption": "Second picture"
-                    },
-                    "models": [
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 1,
-                        "wholes": 3,
-                        "selected": [
-                          0
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "First picture"
-                      },
-                      {
-                        "type": "fraction",
-                        "kind": "bar",
-                        "parts": 3,
-                        "wholes": 1,
-                        "selected": [
-                          0
-                        ],
-                        "wholeLayout": "grid",
-                        "caption": "Second picture"
-                      }
-                    ]
+                      ]
+                    }
                   }
                 ]
               }

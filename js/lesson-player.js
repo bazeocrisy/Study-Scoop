@@ -373,6 +373,9 @@ export function mountLesson(app, ctx, signal) {
       // Help opened before the first check makes a right answer assisted, not independent.
       if (lesson.id === '7-1' || !st.tries) st.scaffoldAssisted = true;
       const steps = lessonHelpSteps(lesson, item);
+      // You Do (7-2 to 7-7): the last step fills in the answer, so it waits until 4 tries (as in Lesson 7-1).
+      const youDo = stage === 'try' && /^7-[2-7]$/.test(lesson.id) || (section && phaseOfItem(section, item.id) === 'youdo');
+      if (youDo && (st.help || 0) >= steps.length - 1 && (st.tries || 0) < 4) return;
       if (isChapter7(lesson.id) && item.teaching) st.coachView = 'help';
       const historical = historyItem(item.id); if (historical) historical.help += 1;
       st.help = Math.min((st.help || 0) + 1, steps.length);

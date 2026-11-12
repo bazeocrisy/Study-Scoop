@@ -7128,6 +7128,43 @@
           {
             "kind": "screen",
             "phase": "ido",
+            "title": "Start with a familiar strip",
+            "text": [
+              "This strip has three equal pieces.",
+              "One selected piece is 1/3 of the whole."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "bar",
+              "parts": 3,
+              "wholes": 1,
+              "selected": [
+                0
+              ]
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Now use a distance instead",
+            "text": [
+              "This line also divides one whole into thirds.",
+              "One equal interval reaches 1/3; the whole is the distance from 0 to 1."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "line",
+              "parts": 3,
+              "max": 1,
+              "point": 1,
+              "counted": [
+                0
+              ]
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
             "title": "Divide the distance equally",
             "text": [
               "The distance from 0 to 1 has four equal spaces.",
@@ -8050,16 +8087,16 @@
             "kind": "item",
             "phase": "wedo",
             "item": {
-              "id": "g3",
+              "id": "jc1",
               "type": "number",
               "prompt": "What numerator fits this number line? Count equal spaces from 0 to the point.",
-              "answer": "3",
+              "answer": "6",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 4,
+                "parts": 8,
                 "max": 1,
-                "point": 3
+                "point": 6
               },
               "hints": [
                 "Locate 0 and 1 before counting any spaces.",
@@ -8068,9 +8105,9 @@
               "show": [
                 "Locate 0 and 1 before counting any spaces.",
                 "Count spaces crossed after leaving 0.",
-                "3 equal intervals lead from 0 to the point, so the numerator is 3."
+                "6 equal intervals lead from 0 to the point, so the numerator is 6."
               ],
-              "yes": "3 equal intervals lead from 0 to the point, so the numerator is 3.",
+              "yes": "6 equal intervals lead from 0 to the point, so the numerator is 6.",
               "teaching": {
                 "steps": [
                   {
@@ -8078,7 +8115,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 4,
+                      "parts": 8,
                       "max": 1,
                       "point": 0
                     }
@@ -8088,40 +8125,46 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 4,
+                      "parts": 8,
                       "max": 1,
-                      "point": 3
+                      "point": 6
                     }
                   },
                   {
-                    "text": "3 equal intervals lead from 0 to the point, so the numerator is 3.",
+                    "text": "6 equal intervals lead from 0 to the point, so the numerator is 6.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 4,
+                      "parts": 8,
                       "max": 1,
-                      "point": 3,
+                      "point": 6,
                       "counted": [
                         0,
                         1,
-                        2
+                        2,
+                        3,
+                        4,
+                        5
                       ]
                     },
                     "revealsAnswer": true
                   }
                 ],
                 "correct": {
-                  "text": "3 equal intervals lead from 0 to the point, so the numerator is 3.",
+                  "text": "6 equal intervals lead from 0 to the point, so the numerator is 6.",
                   "model": {
                     "type": "fraction",
                     "kind": "line",
-                    "parts": 4,
+                    "parts": 8,
                     "max": 1,
-                    "point": 3,
+                    "point": 6,
                     "counted": [
                       0,
                       1,
-                      2
+                      2,
+                      3,
+                      4,
+                      5
                     ]
                   }
                 },
@@ -8131,23 +8174,23 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 4,
+                      "parts": 8,
                       "max": 1,
-                      "point": 3,
+                      "point": 6,
                       "counted": [
                         0
                       ]
                     },
-                    "answer": 4
+                    "answer": 7
                   },
                   {
                     "text": "That count leaves out some spaces before the point. Start at the first and touch each once.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 4,
+                      "parts": 8,
                       "max": 1,
-                      "point": 3
+                      "point": 6
                     },
                     "when": "tooLow"
                   },
@@ -8156,9 +8199,9 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 4,
+                      "parts": 8,
                       "max": 1,
-                      "point": 3
+                      "point": 6
                     },
                     "when": "tooHigh"
                   },
@@ -8167,9 +8210,9 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 4,
+                      "parts": 8,
                       "max": 1,
-                      "point": 3
+                      "point": 6
                     },
                     "when": "default"
                   }
@@ -8776,43 +8819,6 @@
         "label": "Name the point",
         "title": "Name a point on the number line",
         "cards": [
-          {
-            "kind": "screen",
-            "phase": "ido",
-            "title": "Start with a familiar strip",
-            "text": [
-              "This strip has three equal pieces.",
-              "One selected piece is 1/3 of the whole."
-            ],
-            "model": {
-              "type": "fraction",
-              "kind": "bar",
-              "parts": 3,
-              "wholes": 1,
-              "selected": [
-                0
-              ]
-            }
-          },
-          {
-            "kind": "screen",
-            "phase": "ido",
-            "title": "Now use a distance instead",
-            "text": [
-              "This line also divides one whole into thirds.",
-              "One equal interval reaches 1/3; the whole is the distance from 0 to 1."
-            ],
-            "model": {
-              "type": "fraction",
-              "kind": "line",
-              "parts": 3,
-              "max": 1,
-              "point": 1,
-              "counted": [
-                0
-              ]
-            }
-          },
           {
             "kind": "example",
             "phase": "ido",
@@ -9437,18 +9443,494 @@
             "kind": "item",
             "phase": "youdo",
             "item": {
-              "id": "t1",
+              "id": "t2",
               "type": "fraction",
               "asks": "fraction",
               "answer": {
-                "n": 1,
-                "d": 3
+                "n": 2,
+                "d": 4
               },
               "answerPolicy": "partition",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 3,
+                "parts": 4,
+                "max": 1,
+                "point": 2
+              },
+              "prompt": "What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.",
+              "hints": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0."
+              ],
+              "show": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0.",
+                "The space from 0 to 1 has 4 equal intervals. The point is 2 intervals to the right of 0. Write 2 above 4: 2/4."
+              ],
+              "yes": "The space from 0 to 1 has 4 equal intervals. The point is 2 intervals to the right of 0. Write 2 above 4: 2/4.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find 0 and 1; their distance is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 0
+                    }
+                  },
+                  {
+                    "text": "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One jump covers one interval; start counting jumps after 0.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 1
+                    }
+                  },
+                  {
+                    "text": "The space from 0 to 1 has 4 equal intervals. The point is 2 intervals to the right of 0. Write 2 above 4: 2/4.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The space from 0 to 1 has 4 equal intervals. The point is 2 intervals to the right of 0. Write 2 above 4: 2/4.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 4,
+                    "max": 1,
+                    "point": 2,
+                    "counted": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "You counted the tick marks. Count the spaces between the ticks instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 3,
+                      "d": 5
+                    }
+                  },
+                  {
+                    "text": "That top number matches the tick count including 0. Zero marks the start; count the spaces crossed to reach the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 3,
+                      "d": 4
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts intervals from 0 to 1; the top counts intervals from 0 to the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount spaces from 0 to the point, starting after 0 for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the point’s distance. For the bottom, count all equal spaces from 0 to 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count its equal spaces for the bottom; then count spaces from 0 to the point for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 2,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t18",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 6,
+                "d": 8
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 8,
+                "max": 1,
+                "point": 6
+              },
+              "prompt": "What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.",
+              "hints": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0."
+              ],
+              "show": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0.",
+                "The space from 0 to 1 has 8 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 8: 6/8."
+              ],
+              "yes": "The space from 0 to 1 has 8 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 8: 6/8.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find 0 and 1; their distance is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 0
+                    }
+                  },
+                  {
+                    "text": "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One jump covers one interval; start counting jumps after 0.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 1
+                    }
+                  },
+                  {
+                    "text": "The space from 0 to 1 has 8 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 8: 6/8.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The space from 0 to 1 has 8 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 8: 6/8.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 8,
+                    "max": 1,
+                    "point": 6,
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "You counted the tick marks. Count the spaces between the ticks instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 7,
+                      "d": 9
+                    }
+                  },
+                  {
+                    "text": "That top number matches the tick count including 0. Zero marks the start; count the spaces crossed to reach the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 7,
+                      "d": 8
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 8
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts intervals from 0 to 1; the top counts intervals from 0 to the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount spaces from 0 to the point, starting after 0 for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the point’s distance. For the bottom, count all equal spaces from 0 to 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count its equal spaces for the bottom; then count spaces from 0 to the point for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 8,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t3",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 1,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 6,
                 "max": 1,
                 "point": 1
               },
@@ -9462,9 +9944,9 @@
                 "Find 0 and 1; their distance is one whole.",
                 "Count the spaces from 0 to 1. That number goes in the bottom box.",
                 "One jump covers one interval; start counting jumps after 0.",
-                "The space from 0 to 1 has 3 equal intervals. The point is 1 interval to the right of 0. Write 1 above 3: 1/3."
+                "The space from 0 to 1 has 6 equal intervals. The point is 1 interval to the right of 0. Write 1 above 6: 1/6."
               ],
-              "yes": "The space from 0 to 1 has 3 equal intervals. The point is 1 interval to the right of 0. Write 1 above 3: 1/3.",
+              "yes": "The space from 0 to 1 has 6 equal intervals. The point is 1 interval to the right of 0. Write 1 above 6: 1/6.",
               "teaching": {
                 "steps": [
                   {
@@ -9472,7 +9954,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 0
                     }
@@ -9482,13 +9964,16 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
                         0,
                         1,
-                        2
+                        2,
+                        3,
+                        4,
+                        5
                       ]
                     },
                     "revealsAnswer": true
@@ -9498,17 +9983,17 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1
                     }
                   },
                   {
-                    "text": "The space from 0 to 1 has 3 equal intervals. The point is 1 interval to the right of 0. Write 1 above 3: 1/3.",
+                    "text": "The space from 0 to 1 has 6 equal intervals. The point is 1 interval to the right of 0. Write 1 above 6: 1/6.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
@@ -9519,11 +10004,11 @@
                   }
                 ],
                 "correct": {
-                  "text": "The space from 0 to 1 has 3 equal intervals. The point is 1 interval to the right of 0. Write 1 above 3: 1/3.",
+                  "text": "The space from 0 to 1 has 6 equal intervals. The point is 1 interval to the right of 0. Write 1 above 6: 1/6.",
                   "model": {
                     "type": "fraction",
                     "kind": "line",
-                    "parts": 3,
+                    "parts": 6,
                     "max": 1,
                     "point": 1,
                     "counted": [
@@ -9537,7 +10022,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
@@ -9546,7 +10031,7 @@
                     },
                     "response": {
                       "n": 2,
-                      "d": 4
+                      "d": 7
                     }
                   },
                   {
@@ -9554,7 +10039,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
@@ -9563,7 +10048,7 @@
                     },
                     "response": {
                       "n": 2,
-                      "d": 3
+                      "d": 6
                     }
                   },
                   {
@@ -9571,24 +10056,27 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
-                      "point": 3
+                      "point": 6
                     },
                     "when": "zeroDenominator"
                   },
                   {
-                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
                         0,
                         1,
-                        2
+                        2,
+                        3,
+                        4,
+                        5
                       ]
                     },
                     "when": "equivalentPartition",
@@ -9599,7 +10087,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
@@ -9613,7 +10101,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
@@ -9627,13 +10115,16 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
                       "counted": [
                         0,
                         1,
-                        2
+                        2,
+                        3,
+                        4,
+                        5
                       ]
                     },
                     "when": "denominatorOnly"
@@ -9643,497 +10134,9 @@
                     "model": {
                       "type": "fraction",
                       "kind": "line",
-                      "parts": 3,
+                      "parts": 6,
                       "max": 1,
                       "point": 1,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "default"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "kind": "item",
-            "phase": "youdo",
-            "item": {
-              "id": "t4",
-              "type": "fraction",
-              "asks": "fraction",
-              "answer": {
-                "n": 3,
-                "d": 8
-              },
-              "answerPolicy": "partition",
-              "model": {
-                "type": "fraction",
-                "kind": "line",
-                "parts": 8,
-                "max": 1,
-                "point": 3
-              },
-              "prompt": "What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.",
-              "hints": [
-                "Find 0 and 1; their distance is one whole.",
-                "Count the spaces from 0 to 1. That number goes in the bottom box.",
-                "One jump covers one interval; start counting jumps after 0."
-              ],
-              "show": [
-                "Find 0 and 1; their distance is one whole.",
-                "Count the spaces from 0 to 1. That number goes in the bottom box.",
-                "One jump covers one interval; start counting jumps after 0.",
-                "The space from 0 to 1 has 8 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 8: 3/8."
-              ],
-              "yes": "The space from 0 to 1 has 8 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 8: 3/8.",
-              "teaching": {
-                "steps": [
-                  {
-                    "text": "Find 0 and 1; their distance is one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 0
-                    }
-                  },
-                  {
-                    "text": "Count the spaces from 0 to 1. That number goes in the bottom box.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "One jump covers one interval; start counting jumps after 0.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 1
-                    }
-                  },
-                  {
-                    "text": "The space from 0 to 1 has 8 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 8: 3/8.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0,
-                        1,
-                        2
-                      ]
-                    },
-                    "revealsAnswer": true
-                  }
-                ],
-                "correct": {
-                  "text": "The space from 0 to 1 has 8 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 8: 3/8.",
-                  "model": {
-                    "type": "fraction",
-                    "kind": "line",
-                    "parts": 8,
-                    "max": 1,
-                    "point": 3,
-                    "counted": [
-                      0,
-                      1,
-                      2
-                    ]
-                  }
-                },
-                "wrong": [
-                  {
-                    "text": "You counted the tick marks. Count the spaces between the ticks instead.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "response": {
-                      "n": 4,
-                      "d": 9
-                    }
-                  },
-                  {
-                    "text": "That top number matches the tick count including 0. Zero marks the start; count the spaces crossed to reach the point.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "response": {
-                      "n": 4,
-                      "d": 8
-                    }
-                  },
-                  {
-                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 8
-                    },
-                    "when": "zeroDenominator"
-                  },
-                  {
-                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "when": "equivalentPartition",
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "The two counts have different jobs. The bottom box counts intervals from 0 to 1; the top counts intervals from 0 to the point.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "reversed"
-                  },
-                  {
-                    "text": "Your bottom count matches the whole. Recount spaces from 0 to the point, starting after 0 for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "numeratorOnly"
-                  },
-                  {
-                    "text": "Your top count matches the point’s distance. For the bottom, count all equal spaces from 0 to 1.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "when": "denominatorOnly"
-                  },
-                  {
-                    "text": "Find the whole first. Count its equal spaces for the bottom; then count spaces from 0 to the point for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 3,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "default"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "kind": "item",
-            "phase": "youdo",
-            "item": {
-              "id": "t5",
-              "type": "fraction",
-              "asks": "fraction",
-              "answer": {
-                "n": 5,
-                "d": 8
-              },
-              "answerPolicy": "partition",
-              "model": {
-                "type": "fraction",
-                "kind": "line",
-                "parts": 8,
-                "max": 1,
-                "point": 5
-              },
-              "prompt": "What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.",
-              "hints": [
-                "Find 0 and 1; their distance is one whole.",
-                "Count the spaces from 0 to 1. That number goes in the bottom box.",
-                "One jump covers one interval; start counting jumps after 0."
-              ],
-              "show": [
-                "Find 0 and 1; their distance is one whole.",
-                "Count the spaces from 0 to 1. That number goes in the bottom box.",
-                "One jump covers one interval; start counting jumps after 0.",
-                "The space from 0 to 1 has 8 equal intervals. The point is 5 intervals to the right of 0. Write 5 above 8: 5/8."
-              ],
-              "yes": "The space from 0 to 1 has 8 equal intervals. The point is 5 intervals to the right of 0. Write 5 above 8: 5/8.",
-              "teaching": {
-                "steps": [
-                  {
-                    "text": "Find 0 and 1; their distance is one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 0
-                    }
-                  },
-                  {
-                    "text": "Count the spaces from 0 to 1. That number goes in the bottom box.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "One jump covers one interval; start counting jumps after 0.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 1
-                    }
-                  },
-                  {
-                    "text": "The space from 0 to 1 has 8 equal intervals. The point is 5 intervals to the right of 0. Write 5 above 8: 5/8.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ]
-                    },
-                    "revealsAnswer": true
-                  }
-                ],
-                "correct": {
-                  "text": "The space from 0 to 1 has 8 equal intervals. The point is 5 intervals to the right of 0. Write 5 above 8: 5/8.",
-                  "model": {
-                    "type": "fraction",
-                    "kind": "line",
-                    "parts": 8,
-                    "max": 1,
-                    "point": 5,
-                    "counted": [
-                      0,
-                      1,
-                      2,
-                      3,
-                      4
-                    ]
-                  }
-                },
-                "wrong": [
-                  {
-                    "text": "You counted the tick marks. Count the spaces between the ticks instead.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "response": {
-                      "n": 6,
-                      "d": 9
-                    }
-                  },
-                  {
-                    "text": "That top number matches the tick count including 0. Zero marks the start; count the spaces crossed to reach the point.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "response": {
-                      "n": 6,
-                      "d": 8
-                    }
-                  },
-                  {
-                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 8
-                    },
-                    "when": "zeroDenominator"
-                  },
-                  {
-                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "when": "equivalentPartition",
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "The two counts have different jobs. The bottom box counts intervals from 0 to 1; the top counts intervals from 0 to the point.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "reversed"
-                  },
-                  {
-                    "text": "Your bottom count matches the whole. Recount spaces from 0 to the point, starting after 0 for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "numeratorOnly"
-                  },
-                  {
-                    "text": "Your top count matches the point’s distance. For the bottom, count all equal spaces from 0 to 1.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "when": "denominatorOnly"
-                  },
-                  {
-                    "text": "Find the whole first. Count its equal spaces for the bottom; then count spaces from 0 to the point for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "line",
-                      "parts": 8,
-                      "max": 1,
-                      "point": 5,
                       "counted": [
                         0
                       ]
@@ -10149,24 +10152,26 @@
       {
         "id": "fix",
         "label": "Fix it",
-        "title": "Fix mistakes and move the point",
+        "title": "Fix a point mistake",
         "cards": [
           {
             "kind": "screen",
             "phase": "ido",
             "title": "Check a point",
             "text": [
-              "A learner wrote 2/4 for this point.",
-              "Count the spaces from 0, not the ticks. One space reaches the point, so the point is 1/4. The 2 counted the tick at 0 too."
+              "A learner wrote 4/8 for this point.",
+              "Count the spaces from 0, not the ticks. Three spaces reach the point, so it is 3/8. The learner counted the tick at 0 as well."
             ],
             "model": {
               "type": "fraction",
               "kind": "line",
-              "parts": 4,
+              "parts": 8,
               "max": 1,
-              "point": 1,
+              "point": 3,
               "counted": [
-                0
+                0,
+                1,
+                2
               ]
             }
           },
@@ -10501,6 +10506,314 @@
                       "max": 1,
                       "point": 1
                     }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "move",
+        "label": "Move it",
+        "title": "Move the point one space",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Move the point one space",
+            "text": [
+              "This point is at 3/6: three spaces from 0.",
+              "If it moves one more space to the right, it is four spaces from 0: 4/6. The top grows by 1. The bottom stays 6, because one whole still has 6 spaces."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "line",
+              "parts": 6,
+              "max": 1,
+              "point": 3,
+              "counted": [
+                0,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "jm1",
+              "type": "choice",
+              "prompt": "The point moves one equal interval to the right. What happens to the two fraction counts?",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 6,
+                "max": 1,
+                "point": 2,
+                "caption": "Before one more step"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 1,
+                  "point": 2,
+                  "caption": "Before one more step"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 1,
+                  "point": 3,
+                  "caption": "After one more step"
+                }
+              ],
+              "options": [
+                {
+                  "text": "The bottom increases by 1; the top stays 2.",
+                  "why": "The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves."
+                },
+                {
+                  "text": "Both counts increase by 1.",
+                  "why": "Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top."
+                },
+                {
+                  "text": "The top count increases by 1; the bottom stays 6.",
+                  "correct": true
+                }
+              ],
+              "hints": [
+                "Both lines keep the same whole unit and the same equal gap size.",
+                "The new point crosses one more gap. The gaps in one whole stay the same."
+              ],
+              "show": [
+                "Both lines keep the same whole unit and the same equal gap size.",
+                "The new point crosses one more gap. The gaps in one whole stay the same.",
+                "The trip uses one more gap, so the top increases by 1. One whole still has 6 gaps, so the bottom stays 6."
+              ],
+              "yes": "Only the traveled distance changes: one gap is added. The unit still contains 6 equal intervals, so its denominator is unchanged.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Both lines keep the same whole unit and the same equal gap size.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 2,
+                      "caption": "Same starting position"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 2,
+                        "caption": "Before one more step"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 2,
+                        "caption": "Same starting position"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "The new point crosses one more gap. The gaps in one whole stay the same.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 3,
+                      "caption": "After one more step",
+                      "counted": [
+                        2
+                      ]
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 2,
+                        "caption": "Before one more step",
+                        "counted": [
+                          0,
+                          1
+                        ]
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 3,
+                        "caption": "After one more step",
+                        "counted": [
+                          2
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "text": "The trip uses one more gap, so the top increases by 1. One whole still has 6 gaps, so the bottom stays 6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 3,
+                      "caption": "After one more step",
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 2,
+                        "caption": "Before one more step",
+                        "counted": [
+                          0,
+                          1
+                        ]
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 3,
+                        "caption": "After one more step",
+                        "counted": [
+                          0,
+                          1,
+                          2
+                        ]
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Only the traveled distance changes: one gap is added. The unit still contains 6 equal intervals, so its denominator is unchanged.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 6,
+                    "max": 1,
+                    "point": 3,
+                    "caption": "After one more step",
+                    "counted": [
+                      0,
+                      1,
+                      2
+                    ]
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 2,
+                      "caption": "Before one more step",
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 3,
+                      "caption": "After one more step",
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "The bottom increases by 1; the top stays 2.",
+                    "text": "The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 3,
+                      "caption": "After one more step"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 2,
+                        "caption": "Before one more step"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 3,
+                        "caption": "After one more step"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Both counts increase by 1.",
+                    "text": "Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 3,
+                      "caption": "After one more step"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 2,
+                        "caption": "Before one more step"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "line",
+                        "parts": 6,
+                        "max": 1,
+                        "point": 3,
+                        "caption": "After one more step"
+                      }
+                    ]
                   }
                 ]
               }

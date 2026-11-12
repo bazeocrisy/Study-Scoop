@@ -10196,235 +10196,7 @@
                   ]
                 }
               }
-            ],
-            "why": {
-              "id": "w1check",
-              "type": "fraction",
-              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
-              "model": {
-                "type": "fraction",
-                "kind": "set",
-                "parts": 6,
-                "wholes": 1,
-                "selected": [
-                  1
-                ]
-              },
-              "asks": "fraction",
-              "answer": {
-                "n": 1,
-                "d": 6
-              },
-              "answerPolicy": "partition",
-              "hints": [
-                "The whole is the collection of every object, including plain objects.",
-                "Count each object once, selected and plain. That count goes on the bottom.",
-                "Now use only the selected objects for the top; start with this marked selected object."
-              ],
-              "show": [
-                "The whole is the collection of every object, including plain objects.",
-                "Count each object once, selected and plain. That count goes on the bottom.",
-                "Now use only the selected objects for the top; start with this marked selected object.",
-                "1 selected object out of 6 objects in the whole set gives 1/6."
-              ],
-              "yes": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
-              "teaching": {
-                "steps": [
-                  {
-                    "text": "The whole is the collection of every object, including plain objects.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": []
-                    }
-                  },
-                  {
-                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5
-                      ]
-                    }
-                  },
-                  {
-                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        1
-                      ]
-                    }
-                  },
-                  {
-                    "text": "1 selected object out of 6 objects in the whole set gives 1/6.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        1
-                      ]
-                    },
-                    "revealsAnswer": true
-                  }
-                ],
-                "correct": {
-                  "text": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
-                  "model": {
-                    "type": "fraction",
-                    "kind": "set",
-                    "parts": 6,
-                    "wholes": 1,
-                    "selected": [
-                      1
-                    ],
-                    "counted": [
-                      1
-                    ]
-                  }
-                },
-                "wrong": [
-                  {
-                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        1
-                      ]
-                    },
-                    "response": {
-                      "n": 5,
-                      "d": 6
-                    }
-                  },
-                  {
-                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ]
-                    },
-                    "when": "zeroDenominator"
-                  },
-                  {
-                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ]
-                    },
-                    "when": "equivalentPartition"
-                  },
-                  {
-                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        1
-                      ]
-                    },
-                    "when": "reversed"
-                  },
-                  {
-                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        1
-                      ]
-                    },
-                    "when": "numeratorOnly"
-                  },
-                  {
-                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5
-                      ]
-                    },
-                    "when": "denominatorOnly"
-                  },
-                  {
-                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "set",
-                      "parts": 6,
-                      "wholes": 1,
-                      "selected": [
-                        1
-                      ],
-                      "counted": [
-                        1
-                      ]
-                    },
-                    "when": "default"
-                  }
-                ]
-              }
-            }
+            ]
           },
           {
             "kind": "item",
@@ -10740,6 +10512,161 @@
                         7,
                         8,
                         9
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "jx1",
+              "type": "choice",
+              "prompt": "A student writes 2/4 because 4 objects are plain. What fixes the denominator?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  1,
+                  2
+                ]
+              },
+              "options": [
+                {
+                  "text": "Keep 4; the plain objects alone are the whole.",
+                  "why": "That leaves the selected objects outside their own whole. Include each selected object in the bottom count too."
+                },
+                {
+                  "text": "Put every object in the numerator instead.",
+                  "why": "The numerator asks for the selected part; every object is the denominator’s job."
+                },
+                {
+                  "text": "Count all 6 objects, including the selected ones.",
+                  "correct": true
+                }
+              ],
+              "hints": [
+                "Every object shown is part of the whole collection.",
+                "The selected objects still belong to that collection."
+              ],
+              "show": [
+                "Every object shown is part of the whole collection.",
+                "The selected objects still belong to that collection.",
+                "The whole-set count is 6, so the selected fraction is 2/6."
+              ],
+              "yes": "The plain group is only part of the set. The whole includes 2 selected plus 4 plain objects, so its denominator is 6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Every object shown is part of the whole collection.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "The selected objects still belong to that collection.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1,
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "text": "The whole-set count is 6, so the selected fraction is 2/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The plain group is only part of the set. The whole includes 2 selected plus 4 plain objects, so its denominator is 6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      1,
+                      2
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Keep 4; the plain objects alone are the whole.",
+                    "text": "That leaves the selected objects outside their own whole. Include each selected object in the bottom count too.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1,
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "option": "Put every object in the numerator instead.",
+                    "text": "The numerator asks for the selected part; every object is the denominator’s job.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1,
+                        2
                       ]
                     }
                   }
@@ -11773,22 +11700,22 @@
             "kind": "item",
             "phase": "youdo",
             "item": {
-              "id": "t3",
+              "id": "t6",
               "type": "fraction",
               "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 6,
+                "parts": 8,
                 "wholes": 1,
                 "selected": [
-                  1
+                  7
                 ]
               },
               "asks": "fraction",
               "answer": {
                 "n": 1,
-                "d": 6
+                "d": 8
               },
               "answerPolicy": "partition",
               "hints": [
@@ -11800,9 +11727,9 @@
                 "The whole is the collection of every object, including plain objects.",
                 "Count each object once, selected and plain. That count goes on the bottom.",
                 "Now use only the selected objects for the top; start with this marked selected object.",
-                "1 selected object out of 6 objects in the whole set gives 1/6."
+                "1 selected object out of 8 objects in the whole set gives 1/8."
               ],
-              "yes": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
+              "yes": "The selected objects are 1 of the 8 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/8.",
               "teaching": {
                 "steps": [
                   {
@@ -11810,7 +11737,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": []
                     }
@@ -11820,10 +11747,10 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
                         0,
@@ -11831,7 +11758,9 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ]
                     }
                   },
@@ -11840,45 +11769,45 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
-                        1
+                        7
                       ]
                     }
                   },
                   {
-                    "text": "1 selected object out of 6 objects in the whole set gives 1/6.",
+                    "text": "1 selected object out of 8 objects in the whole set gives 1/8.",
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
-                        1
+                        7
                       ]
                     },
                     "revealsAnswer": true
                   }
                 ],
                 "correct": {
-                  "text": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
+                  "text": "The selected objects are 1 of the 8 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/8.",
                   "model": {
                     "type": "fraction",
                     "kind": "set",
-                    "parts": 6,
+                    "parts": 8,
                     "wholes": 1,
                     "selected": [
-                      1
+                      7
                     ],
                     "counted": [
-                      1
+                      7
                     ]
                   }
                 },
@@ -11888,18 +11817,18 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
-                        1
+                        7
                       ]
                     },
                     "response": {
-                      "n": 5,
-                      "d": 6
+                      "n": 7,
+                      "d": 8
                     }
                   },
                   {
@@ -11907,23 +11836,23 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ]
                     },
                     "when": "zeroDenominator"
                   },
                   {
-                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 8 on the bottom: that is how many parts are in one whole.",
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ]
                     },
                     "when": "equivalentPartition"
@@ -11933,13 +11862,13 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
-                        1
+                        7
                       ]
                     },
                     "when": "reversed"
@@ -11949,13 +11878,13 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
-                        1
+                        7
                       ]
                     },
                     "when": "numeratorOnly"
@@ -11965,10 +11894,10 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
                         0,
@@ -11976,7 +11905,9 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ]
                     },
                     "when": "denominatorOnly"
@@ -11986,13 +11917,13 @@
                     "model": {
                       "type": "fraction",
                       "kind": "set",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
-                        1
+                        7
                       ],
                       "counted": [
-                        1
+                        7
                       ]
                     },
                     "when": "default"
@@ -13603,7 +13534,7 @@
       {
         "id": "move",
         "label": "Moving",
-        "title": "Moving objects and naming other groups",
+        "title": "Moving objects does not change the fraction",
         "cards": [
           {
             "kind": "screen",
@@ -13620,31 +13551,6 @@
               "wholes": 1,
               "selected": [
                 1,
-                3,
-                5
-              ]
-            }
-          },
-          {
-            "kind": "screen",
-            "phase": "ido",
-            "title": "Name what is selected",
-            "text": [
-              "A question may ask for unfinished tasks or plain objects instead of colored ones.",
-              "Use the prompt to decide the chosen group. For this picture the four plain objects can be the chosen group: 4/6."
-            ],
-            "model": {
-              "type": "fraction",
-              "kind": "set",
-              "parts": 6,
-              "wholes": 1,
-              "selected": [
-                0,
-                4
-              ],
-              "counted": [
-                1,
-                2,
                 3,
                 5
               ]
@@ -14773,6 +14679,284 @@
                         "caption": "After moving"
                       }
                     ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Other groups",
+        "title": "Name another group in the set",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Name what is selected",
+            "text": [
+              "A question may ask for unfinished tasks or plain objects instead of colored ones.",
+              "Use the prompt to decide the chosen group. For this picture the four plain objects can be the chosen group: 4/6."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                0,
+                4
+              ],
+              "counted": [
+                1,
+                2,
+                3,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "ju1",
+              "type": "fraction",
+              "prompt": "All 6 tasks form one whole set. The dotted selected tasks are unfinished. What fraction of all tasks is unfinished? Use the object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  1,
+                  3
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 2,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "2 selected objects out of 6 objects in the whole set gives 2/6."
+              ],
+              "yes": "The 2 dotted tasks are the unfinished group requested. They are 2 out of 6 tasks in the whole set, so 2/6 are unfinished.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "text": "2 selected objects out of 6 objects in the whole set gives 2/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        1,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The 2 dotted tasks are the unfinished group requested. They are 2 out of 6 tasks in the whole set, so 2/6 are unfinished.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      1,
+                      3
+                    ],
+                    "counted": [
+                      1,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "response": {
+                      "n": 4,
+                      "d": 6
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        3
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "default"
                   }
                 ]
               }

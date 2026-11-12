@@ -305,7 +305,9 @@ export function itemCard(lesson, item, stage, state) {
   const steps = test ? [] : lessonHelpSteps(lesson, item);
   const opened = st.shown ? steps.length : Math.min(st.help || 0, steps.length);
   const questionHelp = lesson.id === '7-1';
-  const helpAllowed = !test && !done && (questionHelp || (st.tries || 0) >= 1 || (stage === 'together' && teachFirst(lesson))) && opened < steps.length;
+  // You Do (Lessons 7-2 to 7-7), as in Lesson 7-1: the step that shows the answer waits until 4 tries.
+  const answerWaits = stage === 'try' && teachFirst(lesson) && (st.tries || 0) < 4 && opened >= steps.length - 1;
+  const helpAllowed = !test && !done && (questionHelp || (st.tries || 0) >= 1 || (stage === 'together' && teachFirst(lesson))) && opened < steps.length && !answerWaits;
   const helpLabel = questionHelp ? (opened === 0 ? '? Hint' : opened === steps.length - 1 ? '? Show Answer' : '? Show Steps') : (opened ? 'Next step' : 'Help');
   const coached = hasChapter7Teaching(lesson) && item.teaching && !test;
   const countReady = test || countComplete(lesson, item, st);
@@ -325,6 +327,7 @@ export function itemCard(lesson, item, stage, state) {
             ${done ? '' : html`<button type="submit" class="btn btn-primary"${countReady ? '' : ' disabled'}>Check Answer</button>`}
             ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${questionHelp ? `${helpLabel.replace('? ', '')} for this question, step ${opened + 1} of ${steps.length}` : opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${helpLabel}</button>` : ''}
           </div>`}
+        ${answerWaits && !done && opened ? html`<p class="hint">Try again with the steps above. The answer can be shown after 4 tries.</p>` : ''}
         ${!test && !writtenReview && opened && !feedbackMode && st.coachView !== 'answer' ? helpPanel(item, steps, opened, st.shown, done, coached, (st.tries || 0) > 0) : ''}
         ${!test && !writtenReview && st.say && (!coached || feedbackMode || !opened) ? feedbackPanel(item, st, opened, coached) : ''}
       </form>

@@ -172,12 +172,12 @@
           "hints": [
             "Trace the outside of the complete strip; this is one whole.",
             "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-            "One highlighted piece is one unit fraction of this whole."
+            "Count the colored pieces one at a time. That number goes in the top box."
           ],
           "show": [
             "Trace the outside of the complete strip; this is one whole.",
             "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-            "One highlighted piece is one unit fraction of this whole.",
+            "Count the colored pieces one at a time. That number goes in the top box.",
             "All 6 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 6 equal pieces are colored. Write 3 above 6: 3/6."
           ],
           "yes": "All 6 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 6 equal pieces are colored. Write 3 above 6: 3/6.",
@@ -217,7 +217,7 @@
                 "revealsAnswer": true
               },
               {
-                "text": "One highlighted piece is one unit fraction of this whole.",
+                "text": "Count the colored pieces one at a time. That number goes in the top box.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -936,12 +936,12 @@
         "hints": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 3 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 3 equal pieces is colored. Write 1 above 3: 1/3."
         ],
         "yes": "All 3 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 3 equal pieces is colored. Write 1 above 3: 1/3.",
@@ -976,7 +976,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1486,12 +1486,12 @@
         "hints": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 8 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 8 equal pieces are colored. Write 3 above 8: 3/8."
         ],
         "yes": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 8 equal pieces are colored. Write 3 above 8: 3/8.",
@@ -1535,7 +1535,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2044,12 +2044,12 @@
         "hints": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 2 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 2 equal pieces is colored. Write 1 above 2: 1/2."
         ],
         "yes": "All 2 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 2 equal pieces is colored. Write 1 above 2: 1/2.",
@@ -2083,7 +2083,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2250,12 +2250,12 @@
         "hints": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 3 equal pieces, colored and plain, fill this one disk. Exactly 1 of those 3 equal pieces is colored. Write 1 above 3: 1/3."
         ],
         "yes": "All 3 equal pieces, colored and plain, fill this one disk. Exactly 1 of those 3 equal pieces is colored. Write 1 above 3: 1/3.",
@@ -2292,7 +2292,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2490,12 +2490,12 @@
         "hints": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 4 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4."
         ],
         "yes": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4.",
@@ -2533,7 +2533,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2743,12 +2743,12 @@
         "hints": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 6 equal pieces, colored and plain, fill this one disk. Exactly 1 of those 6 equal pieces is colored. Write 1 above 6: 1/6."
         ],
         "yes": "All 6 equal pieces, colored and plain, fill this one disk. Exactly 1 of those 6 equal pieces is colored. Write 1 above 6: 1/6.",
@@ -2788,7 +2788,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2997,12 +2997,12 @@
         "hints": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 8 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8."
         ],
         "yes": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8.",
@@ -3046,7 +3046,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4243,12 +4243,12 @@
         "hints": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 6 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 6 equal pieces are colored. Write 5 above 6: 5/6."
         ],
         "yes": "All 6 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 6 equal pieces are colored. Write 5 above 6: 5/6.",
@@ -4290,7 +4290,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4532,12 +4532,12 @@
         "hints": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 8 equal pieces, colored and plain, fill this one disk. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8."
         ],
         "yes": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8.",
@@ -4585,7 +4585,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -4857,12 +4857,12 @@
         "hints": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 4 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 4 equal pieces are colored. Write 2 above 4: 2/4."
         ],
         "yes": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 4 equal pieces are colored. Write 2 above 4: 2/4.",
@@ -4899,7 +4899,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -5084,12 +5084,12 @@
         "hints": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 6 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 6 equal pieces are colored. Write 4 above 6: 4/6."
         ],
         "yes": "All 6 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 6 equal pieces are colored. Write 4 above 6: 4/6.",
@@ -5132,7 +5132,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -5629,12 +5629,12 @@
         "hints": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 8 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 8 equal pieces are colored. Write 3 above 8: 3/8."
         ],
         "yes": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 8 equal pieces are colored. Write 3 above 8: 3/8.",
@@ -5678,7 +5678,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -5914,12 +5914,12 @@
         "hints": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole."
+          "Count the colored pieces one at a time. That number goes in the top box."
         ],
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 8 equal pieces, colored and plain, fill this one disk. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8."
         ],
         "yes": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8.",
@@ -5965,7 +5965,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6325,7 +6325,7 @@
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 2 equal pieces, colored and plain, fill this one disk. Exactly 1 of those 2 equal pieces is colored. Write 1 above 2: 1/2."
         ],
         "yes": "All 2 equal pieces, colored and plain, fill this one disk. Exactly 1 of those 2 equal pieces is colored. Write 1 above 2: 1/2.",
@@ -6361,7 +6361,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6538,7 +6538,7 @@
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 3 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 3 equal pieces are colored. Write 2 above 3: 2/3."
         ],
         "yes": "All 3 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 3 equal pieces are colored. Write 2 above 3: 2/3.",
@@ -6574,7 +6574,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6774,7 +6774,7 @@
         "show": [
           "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 4 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4."
         ],
         "yes": "All 4 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4.",
@@ -6814,7 +6814,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -7035,7 +7035,7 @@
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 6 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 6 equal pieces are colored. Write 2 above 6: 2/6."
         ],
         "yes": "All 6 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 6 equal pieces are colored. Write 2 above 6: 2/6.",
@@ -7074,7 +7074,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -7286,7 +7286,7 @@
         "show": [
           "Trace the outside of the complete strip; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
           "All 8 equal pieces, colored and plain, fill this one strip. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8."
         ],
         "yes": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8.",
@@ -7332,7 +7332,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -8038,343 +8038,149 @@
       },
       {
         "id": "x9",
-        "type": "choice",
-        "prompt": "Both wholes have the same equal pieces. Different pieces are colored. Which counts change?",
+        "type": "fraction",
+        "asks": "fraction",
+        "answer": {
+          "n": 1,
+          "d": 4
+        },
+        "answerPolicy": "partition",
         "model": {
           "type": "fraction",
-          "kind": "circle",
+          "kind": "bar",
           "parts": 4,
           "wholes": 1,
           "selected": [
-            0,
-            1,
             2
-          ],
-          "framing": "close",
-          "caption": "First selection"
+          ]
         },
-        "models": [
-          {
-            "type": "fraction",
-            "kind": "circle",
-            "parts": 4,
-            "wholes": 1,
-            "selected": [
-              0,
-              1,
-              2
-            ],
-            "framing": "close",
-            "caption": "First selection"
-          },
-          {
-            "type": "fraction",
-            "kind": "circle",
-            "parts": 4,
-            "wholes": 1,
-            "selected": [
-              1,
-              2,
-              3
-            ],
-            "framing": "close",
-            "caption": "New selection"
-          }
-        ],
-        "options": [
-          {
-            "text": "Neither count changes; the whole and selected piece counts match.",
-            "correct": true
-          },
-          {
-            "text": "The numerator changes because different positions are colored.",
-            "why": "The numerator counts how many pieces, not their positions. Count the colored pieces in each picture."
-          },
-          {
-            "text": "The denominator changes because different positions are colored.",
-            "why": "The denominator counts all pieces in the whole. No dividing line moved and no piece was added or removed."
-          }
-        ],
+        "prompt": "What fraction of this one strip is colored? Use all the equal pieces shown for the denominator.",
         "show": [
-          "Both complete wholes have the same equal partition.",
-          "Count the colored pieces in each selection.",
-          "Each whole still has 4 equal pieces, and each selection counts 3. Neither fraction count changes."
+          "Trace the outside of the complete strip; this is one whole.",
+          "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+          "Count the colored pieces one at a time. That number goes in the top box.",
+          "All 4 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 4 equal pieces is colored. Write 1 above 4: 1/4."
         ],
-        "yes": "Positions do not change the size or number of equal pieces. Each picture has 3 selected out of 4, so both counts remain the same.",
+        "yes": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 4 equal pieces is colored. Write 1 above 4: 1/4.",
         "teaching": {
           "steps": [
             {
-              "text": "Both complete wholes have the same equal partition.",
+              "text": "Trace the outside of the complete strip; this is one whole.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 4,
                 "wholes": 1,
-                "selected": [],
-                "framing": "close",
-                "caption": "New selection"
-              },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [],
-                  "framing": "close",
-                  "caption": "First selection"
-                },
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [],
-                  "framing": "close",
-                  "caption": "New selection"
-                }
-              ]
+                "selected": []
+              }
             },
             {
-              "text": "Count the colored pieces in each selection.",
+              "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1,
-                  2,
-                  3
+                  2
                 ],
-                "framing": "close",
-                "caption": "New selection",
                 "counted": [
+                  0,
                   1,
                   2,
                   3
                 ]
               },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    0,
-                    1,
-                    2
-                  ],
-                  "framing": "close",
-                  "caption": "First selection",
-                  "counted": [
-                    0,
-                    1,
-                    2
-                  ]
-                },
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    1,
-                    2,
-                    3
-                  ],
-                  "framing": "close",
-                  "caption": "New selection",
-                  "counted": [
-                    1,
-                    2,
-                    3
-                  ]
-                }
-              ]
+              "revealsAnswer": true
             },
             {
-              "text": "Each whole still has 4 equal pieces, and each selection counts 3. Neither fraction count changes.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1,
-                  2,
-                  3
+                  0
+                ]
+              }
+            },
+            {
+              "text": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 4 equal pieces is colored. Write 1 above 4: 1/4.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  2
                 ],
-                "framing": "close",
-                "caption": "New selection"
+                "counted": [
+                  2
+                ]
               },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    0,
-                    1,
-                    2
-                  ],
-                  "framing": "close",
-                  "caption": "First selection"
-                },
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    1,
-                    2,
-                    3
-                  ],
-                  "framing": "close",
-                  "caption": "New selection"
-                }
-              ],
               "revealsAnswer": true
             }
           ],
           "correct": {
-            "text": "Positions do not change the size or number of equal pieces. Each picture has 3 selected out of 4, so both counts remain the same.",
+            "text": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 4 equal pieces is colored. Write 1 above 4: 1/4.",
             "model": {
               "type": "fraction",
-              "kind": "circle",
+              "kind": "bar",
               "parts": 4,
               "wholes": 1,
               "selected": [
-                1,
-                2,
-                3
+                2
               ],
-              "framing": "close",
-              "caption": "New selection",
               "counted": [
-                1,
-                2,
-                3
+                2
               ]
-            },
-            "models": [
-              {
-                "type": "fraction",
-                "kind": "circle",
-                "parts": 4,
-                "wholes": 1,
-                "selected": [
-                  0,
-                  1,
-                  2
-                ],
-                "framing": "close",
-                "caption": "First selection",
-                "counted": [
-                  0,
-                  1,
-                  2
-                ]
-              },
-              {
-                "type": "fraction",
-                "kind": "circle",
-                "parts": 4,
-                "wholes": 1,
-                "selected": [
-                  1,
-                  2,
-                  3
-                ],
-                "framing": "close",
-                "caption": "New selection",
-                "counted": [
-                  1,
-                  2,
-                  3
-                ]
-              }
-            ]
+            }
           },
           "wrong": [
             {
-              "option": "The numerator changes because different positions are colored.",
-              "text": "The numerator counts how many pieces, not their positions. Count the colored pieces in each picture.",
+              "text": "That top number counts the 3 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1,
-                  2,
-                  3
-                ],
-                "framing": "close",
-                "caption": "New selection",
-                "counted": [
+                  2
+                ]
+              },
+              "response": {
+                "n": 3,
+                "d": 4
+              },
+              "revealsAnswer": true
+            },
+            {
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
                   1,
                   2,
                   3
                 ]
               },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    0,
-                    1,
-                    2
-                  ],
-                  "framing": "close",
-                  "caption": "First selection",
-                  "counted": [
-                    0,
-                    1,
-                    2
-                  ]
-                },
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    1,
-                    2,
-                    3
-                  ],
-                  "framing": "close",
-                  "caption": "New selection",
-                  "counted": [
-                    1,
-                    2,
-                    3
-                  ]
-                }
-              ]
+              "when": "zeroDenominator"
             },
             {
-              "option": "The denominator changes because different positions are colored.",
-              "text": "The denominator counts all pieces in the whole. No dividing line moved and no piece was added or removed.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1,
-                  2,
-                  3
+                  2
                 ],
-                "framing": "close",
-                "caption": "New selection",
                 "counted": [
                   0,
                   1,
@@ -8382,50 +8188,79 @@
                   3
                 ]
               },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    0,
-                    1,
-                    2
-                  ],
-                  "framing": "close",
-                  "caption": "First selection",
-                  "counted": [
-                    0,
-                    1,
-                    2,
-                    3
-                  ]
-                },
-                {
-                  "type": "fraction",
-                  "kind": "circle",
-                  "parts": 4,
-                  "wholes": 1,
-                  "selected": [
-                    1,
-                    2,
-                    3
-                  ],
-                  "framing": "close",
-                  "caption": "New selection",
-                  "counted": [
-                    0,
-                    1,
-                    2,
-                    3
-                  ]
-                }
-              ]
+              "when": "equivalentPartition",
+              "revealsAnswer": true
+            },
+            {
+              "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  2
+                ],
+                "counted": [
+                  2
+                ]
+              },
+              "when": "reversed"
+            },
+            {
+              "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  2
+                ],
+                "counted": [
+                  2
+                ]
+              },
+              "when": "numeratorOnly"
+            },
+            {
+              "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  2
+                ],
+                "counted": [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "when": "denominatorOnly"
+            },
+            {
+              "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  2
+                ],
+                "counted": [
+                  2
+                ]
+              },
+              "when": "default"
             }
           ]
         },
-        "explain": "Positions do not change the size or number of equal pieces. Each picture has 3 selected out of 4, so both counts remain the same."
+        "explain": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 4 equal pieces is colored. Write 1 above 4: 1/4."
       },
       {
         "id": "x10",
@@ -8438,7 +8273,7 @@
         "answerPolicy": "partition",
         "model": {
           "type": "fraction",
-          "kind": "bar",
+          "kind": "circle",
           "parts": 8,
           "wholes": 1,
           "selected": [
@@ -8449,34 +8284,34 @@
             5,
             6
           ],
-          "layout": "rows"
+          "framing": "close"
         },
-        "prompt": "What fraction of this one strip is colored? Use all the equal pieces shown for the denominator.",
+        "prompt": "What fraction of this one disk is colored? Use all the equal pieces shown for the denominator.",
         "show": [
-          "Trace the outside of the complete strip; this is one whole.",
+          "Trace the outside of the complete disk; this is one whole.",
           "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-          "One highlighted piece is one unit fraction of this whole.",
-          "All 8 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8."
+          "Count the colored pieces one at a time. That number goes in the top box.",
+          "All 8 equal pieces, colored and plain, fill this one disk. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8."
         ],
-        "yes": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8.",
+        "yes": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8.",
         "teaching": {
           "steps": [
             {
-              "text": "Trace the outside of the complete strip; this is one whole.",
+              "text": "Trace the outside of the complete disk; this is one whole.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [],
-                "layout": "rows"
+                "framing": "close"
               }
             },
             {
               "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8487,7 +8322,7 @@
                   5,
                   6
                 ],
-                "layout": "rows",
+                "framing": "close",
                 "counted": [
                   0,
                   1,
@@ -8502,23 +8337,23 @@
               "revealsAnswer": true
             },
             {
-              "text": "One highlighted piece is one unit fraction of this whole.",
+              "text": "Count the colored pieces one at a time. That number goes in the top box.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
                   0
                 ],
-                "layout": "rows"
+                "framing": "close"
               }
             },
             {
-              "text": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8.",
+              "text": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8529,7 +8364,7 @@
                   5,
                   6
                 ],
-                "layout": "rows",
+                "framing": "close",
                 "counted": [
                   1,
                   2,
@@ -8543,10 +8378,10 @@
             }
           ],
           "correct": {
-            "text": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8.",
+            "text": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8.",
             "model": {
               "type": "fraction",
-              "kind": "bar",
+              "kind": "circle",
               "parts": 8,
               "wholes": 1,
               "selected": [
@@ -8557,7 +8392,7 @@
                 5,
                 6
               ],
-              "layout": "rows",
+              "framing": "close",
               "counted": [
                 1,
                 2,
@@ -8573,7 +8408,7 @@
               "text": "That top number counts the 2 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8584,7 +8419,7 @@
                   5,
                   6
                 ],
-                "layout": "rows"
+                "framing": "close"
               },
               "response": {
                 "n": 2,
@@ -8596,7 +8431,7 @@
               "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8609,7 +8444,7 @@
                   6,
                   7
                 ],
-                "layout": "rows"
+                "framing": "close"
               },
               "when": "zeroDenominator"
             },
@@ -8617,7 +8452,7 @@
               "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8628,7 +8463,7 @@
                   5,
                   6
                 ],
-                "layout": "rows",
+                "framing": "close",
                 "counted": [
                   0,
                   1,
@@ -8647,7 +8482,7 @@
               "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8658,7 +8493,7 @@
                   5,
                   6
                 ],
-                "layout": "rows",
+                "framing": "close",
                 "counted": [
                   1
                 ]
@@ -8669,7 +8504,7 @@
               "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8680,7 +8515,7 @@
                   5,
                   6
                 ],
-                "layout": "rows",
+                "framing": "close",
                 "counted": [
                   1
                 ]
@@ -8691,7 +8526,7 @@
               "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8702,7 +8537,7 @@
                   5,
                   6
                 ],
-                "layout": "rows",
+                "framing": "close",
                 "counted": [
                   0,
                   1,
@@ -8720,7 +8555,7 @@
               "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 8,
                 "wholes": 1,
                 "selected": [
@@ -8731,7 +8566,7 @@
                   5,
                   6
                 ],
-                "layout": "rows",
+                "framing": "close",
                 "counted": [
                   1
                 ]
@@ -8740,7 +8575,7 @@
             }
           ]
         },
-        "explain": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8."
+        "explain": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 6 of those 8 equal pieces are colored. Write 6 above 8: 6/8."
       }
     ]
   },
@@ -8812,6 +8647,39 @@
                 0
               ]
             }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Fraction parts must be equal",
+            "text": [
+              "Both strips have 4 pieces.",
+              "In the first strip every piece is the same size: these are fourths. In the second strip one piece is bigger, so those pieces are not fourths."
+            ],
+            "models": [
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [],
+                "caption": "Equal parts: fourths"
+              },
+              {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [],
+                "weights": [
+                  1,
+                  2,
+                  1,
+                  1
+                ],
+                "caption": "Not equal: not fourths"
+              }
+            ]
           },
           {
             "kind": "item",
@@ -9461,18 +9329,19 @@
             "kind": "item",
             "phase": "youdo",
             "item": {
-              "id": "t7",
+              "id": "jd1",
               "type": "number",
               "prompt": "What denominator fits this disk? Count all equal pieces in the whole.",
-              "answer": "6",
+              "answer": "8",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
-                "parts": 6,
+                "parts": 8,
                 "wholes": 1,
                 "selected": [
                   0,
-                  1
+                  1,
+                  2
                 ],
                 "framing": "close"
               },
@@ -9483,9 +9352,9 @@
               "show": [
                 "Find the complete outside edge of the disk.",
                 "Include plain pieces as well as colored pieces.",
-                "6 equal pieces fill this whole, so the denominator is 6."
+                "8 equal pieces fill this whole, so the denominator is 8."
               ],
-              "yes": "6 equal pieces fill this whole, so the denominator is 6.",
+              "yes": "8 equal pieces fill this whole, so the denominator is 8.",
               "teaching": {
                 "steps": [
                   {
@@ -9493,7 +9362,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [],
                       "framing": "close"
@@ -9504,7 +9373,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
                         0,
@@ -9512,17 +9381,19 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ],
                       "framing": "close"
                     }
                   },
                   {
-                    "text": "6 equal pieces fill this whole, so the denominator is 6.",
+                    "text": "8 equal pieces fill this whole, so the denominator is 8.",
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
                         0,
@@ -9530,7 +9401,9 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ],
                       "framing": "close",
                       "counted": [
@@ -9539,18 +9412,20 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ]
                     },
                     "revealsAnswer": true
                   }
                 ],
                 "correct": {
-                  "text": "6 equal pieces fill this whole, so the denominator is 6.",
+                  "text": "8 equal pieces fill this whole, so the denominator is 8.",
                   "model": {
                     "type": "fraction",
                     "kind": "circle",
-                    "parts": 6,
+                    "parts": 8,
                     "wholes": 1,
                     "selected": [
                       0,
@@ -9558,7 +9433,9 @@
                       2,
                       3,
                       4,
-                      5
+                      5,
+                      6,
+                      7
                     ],
                     "framing": "close",
                     "counted": [
@@ -9567,7 +9444,9 @@
                       2,
                       3,
                       4,
-                      5
+                      5,
+                      6,
+                      7
                     ]
                   }
                 },
@@ -9577,11 +9456,12 @@
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
                         0,
-                        1
+                        1,
+                        2
                       ],
                       "framing": "close"
                     },
@@ -9592,7 +9472,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
                         0,
@@ -9600,7 +9480,9 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ],
                       "framing": "close"
                     },
@@ -9611,7 +9493,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
                         0,
@@ -9619,7 +9501,9 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ],
                       "framing": "close"
                     },
@@ -9630,7 +9514,7 @@
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
-                      "parts": 6,
+                      "parts": 8,
                       "wholes": 1,
                       "selected": [
                         0,
@@ -9638,7 +9522,9 @@
                         2,
                         3,
                         4,
-                        5
+                        5,
+                        6,
+                        7
                       ],
                       "framing": "close"
                     },
@@ -10935,12 +10821,12 @@
               "hints": [
                 "Trace the outside of the complete strip; this is one whole.",
                 "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole."
+                "Count the colored pieces one at a time. That number goes in the top box."
               ],
               "show": [
                 "Trace the outside of the complete strip; this is one whole.",
                 "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole.",
+                "Count the colored pieces one at a time. That number goes in the top box.",
                 "All 3 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 3 equal pieces is colored. Write 1 above 3: 1/3."
               ],
               "yes": "All 3 equal pieces, colored and plain, fill this one strip. Exactly 1 of those 3 equal pieces is colored. Write 1 above 3: 1/3.",
@@ -10975,7 +10861,7 @@
                     "revealsAnswer": true
                   },
                   {
-                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "text": "Count the colored pieces one at a time. That number goes in the top box.",
                     "model": {
                       "type": "fraction",
                       "kind": "bar",
@@ -11168,12 +11054,12 @@
               "hints": [
                 "Trace the outside of the complete disk; this is one whole.",
                 "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole."
+                "Count the colored pieces one at a time. That number goes in the top box."
               ],
               "show": [
                 "Trace the outside of the complete disk; this is one whole.",
                 "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole.",
+                "Count the colored pieces one at a time. That number goes in the top box.",
                 "All 8 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 8 equal pieces are colored. Write 3 above 8: 3/8."
               ],
               "yes": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 8 equal pieces are colored. Write 3 above 8: 3/8.",
@@ -11217,7 +11103,7 @@
                     "revealsAnswer": true
                   },
                   {
-                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "text": "Count the colored pieces one at a time. That number goes in the top box.",
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
@@ -11431,562 +11317,6 @@
             "kind": "item",
             "phase": "youdo",
             "item": {
-              "id": "t3",
-              "type": "fraction",
-              "asks": "fraction",
-              "answer": {
-                "n": 3,
-                "d": 4
-              },
-              "answerPolicy": "partition",
-              "model": {
-                "type": "fraction",
-                "kind": "bar",
-                "parts": 4,
-                "wholes": 1,
-                "selected": [
-                  0,
-                  1,
-                  2
-                ]
-              },
-              "prompt": "What fraction of this one strip is colored? Use all the equal pieces shown for the denominator.",
-              "hints": [
-                "Trace the outside of the complete strip; this is one whole.",
-                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole."
-              ],
-              "show": [
-                "Trace the outside of the complete strip; this is one whole.",
-                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole.",
-                "All 4 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4."
-              ],
-              "yes": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4.",
-              "teaching": {
-                "steps": [
-                  {
-                    "text": "Trace the outside of the complete strip; this is one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": []
-                    }
-                  },
-                  {
-                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "One highlighted piece is one unit fraction of this whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0
-                      ]
-                    }
-                  },
-                  {
-                    "text": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2
-                      ]
-                    },
-                    "revealsAnswer": true
-                  }
-                ],
-                "correct": {
-                  "text": "All 4 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 4 equal pieces are colored. Write 3 above 4: 3/4.",
-                  "model": {
-                    "type": "fraction",
-                    "kind": "bar",
-                    "parts": 4,
-                    "wholes": 1,
-                    "selected": [
-                      0,
-                      1,
-                      2
-                    ],
-                    "counted": [
-                      0,
-                      1,
-                      2
-                    ]
-                  }
-                },
-                "wrong": [
-                  {
-                    "text": "That top number counts the 1 plain piece. This question names colored pieces; count the dotted, colored pieces instead.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ]
-                    },
-                    "response": {
-                      "n": 1,
-                      "d": 4
-                    },
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "when": "zeroDenominator"
-                  },
-                  {
-                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "when": "equivalentPartition",
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "reversed"
-                  },
-                  {
-                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "numeratorOnly"
-                  },
-                  {
-                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3
-                      ]
-                    },
-                    "when": "denominatorOnly"
-                  },
-                  {
-                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 4,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2
-                      ],
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "default"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "kind": "item",
-            "phase": "youdo",
-            "item": {
-              "id": "t5",
-              "type": "fraction",
-              "asks": "fraction",
-              "answer": {
-                "n": 5,
-                "d": 8
-              },
-              "answerPolicy": "partition",
-              "model": {
-                "type": "fraction",
-                "kind": "bar",
-                "parts": 8,
-                "wholes": 1,
-                "selected": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4
-                ]
-              },
-              "prompt": "What fraction of this one strip is colored? Use all the equal pieces shown for the denominator.",
-              "hints": [
-                "Trace the outside of the complete strip; this is one whole.",
-                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole."
-              ],
-              "show": [
-                "Trace the outside of the complete strip; this is one whole.",
-                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole.",
-                "All 8 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8."
-              ],
-              "yes": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8.",
-              "teaching": {
-                "steps": [
-                  {
-                    "text": "Trace the outside of the complete strip; this is one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": []
-                    }
-                  },
-                  {
-                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "One highlighted piece is one unit fraction of this whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0
-                      ]
-                    }
-                  },
-                  {
-                    "text": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ]
-                    },
-                    "revealsAnswer": true
-                  }
-                ],
-                "correct": {
-                  "text": "All 8 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 8 equal pieces are colored. Write 5 above 8: 5/8.",
-                  "model": {
-                    "type": "fraction",
-                    "kind": "bar",
-                    "parts": 8,
-                    "wholes": 1,
-                    "selected": [
-                      0,
-                      1,
-                      2,
-                      3,
-                      4
-                    ],
-                    "counted": [
-                      0,
-                      1,
-                      2,
-                      3,
-                      4
-                    ]
-                  }
-                },
-                "wrong": [
-                  {
-                    "text": "That top number counts the 3 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ]
-                    },
-                    "response": {
-                      "n": 3,
-                      "d": 8
-                    },
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "when": "zeroDenominator"
-                  },
-                  {
-                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "when": "equivalentPartition",
-                    "revealsAnswer": true
-                  },
-                  {
-                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ],
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "reversed"
-                  },
-                  {
-                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ],
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "numeratorOnly"
-                  },
-                  {
-                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ],
-                      "counted": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4,
-                        5,
-                        6,
-                        7
-                      ]
-                    },
-                    "when": "denominatorOnly"
-                  },
-                  {
-                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
-                    "model": {
-                      "type": "fraction",
-                      "kind": "bar",
-                      "parts": 8,
-                      "wholes": 1,
-                      "selected": [
-                        0,
-                        1,
-                        2,
-                        3,
-                        4
-                      ],
-                      "counted": [
-                        0
-                      ]
-                    },
-                    "when": "default"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            "kind": "item",
-            "phase": "youdo",
-            "item": {
               "id": "t12",
               "type": "fraction",
               "asks": "fraction",
@@ -12012,12 +11342,12 @@
               "hints": [
                 "Trace the outside of the complete strip; this is one whole.",
                 "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole."
+                "Count the colored pieces one at a time. That number goes in the top box."
               ],
               "show": [
                 "Trace the outside of the complete strip; this is one whole.",
                 "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
-                "One highlighted piece is one unit fraction of this whole.",
+                "Count the colored pieces one at a time. That number goes in the top box.",
                 "All 6 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 6 equal pieces are colored. Write 5 above 6: 5/6."
               ],
               "yes": "All 6 equal pieces, colored and plain, fill this one strip. Exactly 5 of those 6 equal pieces are colored. Write 5 above 6: 5/6.",
@@ -12059,7 +11389,7 @@
                     "revealsAnswer": true
                   },
                   {
-                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "text": "Count the colored pieces one at a time. That number goes in the top box.",
                     "model": {
                       "type": "fraction",
                       "kind": "bar",
@@ -12272,6 +11602,632 @@
                 ]
               }
             }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t13",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 7,
+                "d": 8
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ],
+                "framing": "close"
+              },
+              "prompt": "What fraction of this one disk is colored? Use all the equal pieces shown for the denominator.",
+              "hints": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "Count the colored pieces one at a time. That number goes in the top box."
+              ],
+              "show": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "Count the colored pieces one at a time. That number goes in the top box.",
+                "All 8 equal pieces, colored and plain, fill this one disk. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8."
+              ],
+              "yes": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the outside of the complete disk; this is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "Count the colored pieces one at a time. That number goes in the top box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "All 8 equal pieces, colored and plain, fill this one disk. Exactly 7 of those 8 equal pieces are colored. Write 7 above 8: 7/8.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ],
+                    "framing": "close",
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top number counts the 1 plain piece. This question names colored pieces; count the dotted, colored pieces instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close"
+                    },
+                    "response": {
+                      "n": 1,
+                      "d": 8
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t15",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 4,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "framing": "close"
+              },
+              "prompt": "What fraction of this one disk is colored? Use all the equal pieces shown for the denominator.",
+              "hints": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "Count the colored pieces one at a time. That number goes in the top box."
+              ],
+              "show": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "Count the colored pieces one at a time. That number goes in the top box.",
+                "All 6 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 6 equal pieces are colored. Write 4 above 6: 4/6."
+              ],
+              "yes": "All 6 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 6 equal pieces are colored. Write 4 above 6: 4/6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the outside of the complete disk; this is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "Count the colored pieces one at a time. That number goes in the top box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "All 6 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 6 equal pieces are colored. Write 4 above 6: 4/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "All 6 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 6 equal pieces are colored. Write 4 above 6: 4/6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ],
+                    "framing": "close",
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top number counts the 2 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close"
+                    },
+                    "response": {
+                      "n": 2,
+                      "d": 6
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
           }
         ]
       },
@@ -12285,23 +12241,20 @@
             "phase": "ido",
             "title": "Check a fraction",
             "text": [
-              "A learner wrote 5/8 for this strip. Let us check.",
-              "Count all the equal pieces: 8. Count the colored pieces: 3. The fraction is 3/8, not 5/8. The 5 counted the plain pieces."
+              "A learner wrote 5/6 for this disk. Let's check.",
+              "Count all the equal pieces: 6. Count the colored pieces: 1. The fraction is 1/6, not 5/6. The 5 counted the plain pieces."
             ],
             "model": {
               "type": "fraction",
-              "kind": "bar",
-              "parts": 8,
+              "kind": "circle",
+              "parts": 6,
               "wholes": 1,
               "selected": [
-                0,
-                1,
-                2
+                0
               ],
+              "framing": "close",
               "counted": [
-                0,
-                1,
-                2
+                0
               ]
             }
           },
