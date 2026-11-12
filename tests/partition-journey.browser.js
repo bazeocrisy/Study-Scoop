@@ -236,7 +236,7 @@ try {
   await tap(J('next')); await draw([['v0', 'v2']]); await tap(J('check'));                                // You Do diamond: wrong first,
   await tap(J('clear')); await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check'));                 // then right
   await tap(J('next')); while (!(await b.js(`return document.querySelector('${J('demo-next')}').disabled`))) await tap(J('demo-next'));
-  await tap(J('next')); await tap(J('help')); await tap(J('hint')); await draw([['t2-6', 'b2-6'], ['t4-6', 'b4-6'], ['l1-2', 'r1-2']]); await tap(J('check')); // We Do square: hint
+  await tap(J('next')); await tap(J('help')); await tap(J('hint')); await draw([['l2-6', 'r2-6'], ['l4-6', 'r4-6'], ['t1-2', 'b1-2']]); await tap(J('check')); // We Do square: hint
   await b.hash('#math?lesson=7-1&stage=parent');
   const sum = await b.js('return document.querySelector(".j-summary").textContent.replace(/\\s+/g," ")');
   ok(/1 wrong on the first try/.test(sum), `report counts wrong first tries: ${sum.slice(0, 300)}`);
@@ -400,7 +400,7 @@ try {
   await tap(J('next')); await draw([['v0', 'v2']]); await tap(J('check'));               // You Do diamond: wrong, then
   await tap(J('clear')); await draw(meta.cards.shapes.find((c) => c.id === 'd-diamond-myturn').solutions[0]); await tap(J('check'));
   await tap(J('next')); while (!(await b.js(`return document.querySelector('${J('demo-next')}').disabled`))) await tap(J('demo-next'));
-  await tap(J('next')); await draw([['t2-6', 'b2-6']]);                                     // We Do square: half-drawn
+  await tap(J('next')); await draw([['l2-6', 'r2-6']]);                                     // We Do square: half-drawn
   const beforeRefresh = await state();
   let data = await saved();
   ok(data && data.stage === 'shapes' && data.at.shapes === 4, 'progress is saved as the child works (section and card)');

@@ -41,7 +41,7 @@ export function act(stageId, action, data = {}, state = journeyState) {
   const cards = CARDS[stageId], at = Math.min(state.at[stageId] || 0, cards.length - 1, frontier(stageId, state.records)), card = cards[at];
   state.at[stageId] = at;
   const ui = (state.ui[card.id] ||= {}), r = (state.records[card.id] ||= newRecord(card));
-  const reset = () => { ui.result = null; ui.say = ''; ui.ok = false; ui.checked = false; };
+  const reset = () => { ui.result = null; ui.say = ''; ui.ok = false; ui.checked = false; ui.confirm = false; };
   // A Final Check question is answered once; after that it cannot be changed.
   const locked = card.phase === 'assess' && r.attempts > 0;
   if (locked && ['point', 'undo', 'clear', 'choice', 'num', 'name', 'region', 'recount', 'piece', 'check'].includes(action)) return { quiet: true };
@@ -71,8 +71,8 @@ export function act(stageId, action, data = {}, state = journeyState) {
     case 'clear': ui.lines = []; ui.selected = null; reset(); return { focus: '[data-j="check"]', say: 'All lines removed.' };
     case 'choice': ui.choice = data.values; reset(); return { quiet: true };
     case 'num': case 'name': ui[action] = data.value; reset(); return { quiet: true };
-    case 'region': { ui.counted ||= []; const k = ui.counted.indexOf(data.index); if (k < 0) ui.counted.push(data.index); else ui.counted.splice(k, 1); return { focus: `[data-region="${data.index}"]`, say: `${ui.counted.length} counted.` }; }
-    case 'recount': ui.counted = []; return { focus: '[data-region="0"]', say: 'Count again from zero.' };
+    case 'region': { ui.confirm = false; ui.counted ||= []; const k = ui.counted.indexOf(data.index); if (k < 0) ui.counted.push(data.index); else ui.counted.splice(k, 1); return { focus: `[data-region="${data.index}"]`, say: `${ui.counted.length} counted.` }; }
+    case 'recount': ui.confirm = false; ui.counted = []; return { focus: '[data-region="0"]', say: 'Count again from zero.' };
     case 'piece': { ui.shown ||= []; const k = ui.shown.indexOf(data.index); if (k < 0) ui.shown.push(data.index); else ui.shown.splice(k, 1); return { focus: `[data-piece="${data.index}"]` }; }
     case 'units': ui.units = ui.units === false; return { focus: '[data-j="units"]' };
     case 'parts': ui.parts = Number(data.parts); r.viewed = true; return { focus: `[data-parts="${data.parts}"]` };
@@ -261,6 +261,7 @@ export function mountJourney(app, ctx, signal) {
     else if (t.matches('[data-j-name]')) run('name', { value: t.value });
     else if (t.matches('[data-j-review]')) run('review', { index: Number(t.dataset.jReview), checked: t.checked });
     // Clear stale feedback without re-rendering, so the chosen control keeps focus.
+    if (t.matches('[data-j-choice], [data-j-num], [data-j-name]')) { const btn = root.querySelector('[data-j="check"]'); if (btn && /one try/.test(btn.textContent)) btn.textContent = 'Check my answer'; }
     const fb = root.querySelector('.j-feedback'); if (fb && t.matches('[data-j-choice], [data-j-num], [data-j-name]')) { fb.textContent = ''; fb.className = 'j-feedback'; root.querySelectorAll('.j-option.right, .j-option.wrong').forEach((o) => o.classList.remove('right', 'wrong')); }
   }, { signal });
   root.addEventListener('input', (e) => { if (e.target.matches('[data-j-text]')) { const was = journeyState.ui[cardEl().dataset.card]?.compared; run('text', { text: e.target.value }); if (was) root.querySelectorAll('[data-j-review]').forEach((x) => { x.checked = false; }); } }, { signal });

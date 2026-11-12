@@ -114,13 +114,13 @@ RECT_SIXTHS.ways = [
 ];
 export const RECT_EIGHTHS = rectTask({
   id: 'rect-eighths', label: 'Rectangle: eighths', count: 8, x: 20, y: 60, w: 280, h: 160, across: E8, down: Q,
-  solutions: [cols(8), [...cols(8, [2, 4, 6]), ['l2-4', 'r2-4']], [['t4-8', 'b4-8'], ...rows(4)]],
+  solutions: [[...cols(8, [2, 4, 6]), ['l2-4', 'r2-4']], cols(8), [['t4-8', 'b4-8'], ...rows(4)]],
   why: 'Eight parts with the same size cover the whole rectangle. Eight equal parts are eighths.',
   hint: 'Make 4 equal columns, then split every column in half. 4 times 2 is 8.',
 });
 RECT_EIGHTHS.ways = [
-  { text: 'Way 1: seven up-and-down lines make 8 thin columns of the same width.', lines: RECT_EIGHTHS.solutions[0] },
-  { text: 'Way 2: make 4 equal columns and 2 equal rows. 4 times 2 is 8 equal parts.', lines: RECT_EIGHTHS.solutions[1] },
+  { text: 'Way 1: seven up-and-down lines make 8 thin columns of the same width.', lines: RECT_EIGHTHS.solutions[1] },
+  { text: 'Way 2: make 4 equal columns and 2 equal rows. 4 times 2 is 8 equal parts.', lines: RECT_EIGHTHS.solutions[0] },
   { text: 'Way 3: make 2 equal columns and 4 equal rows. 2 times 4 is also 8 equal parts.', lines: RECT_EIGHTHS.solutions[2] },
 ];
 
@@ -145,7 +145,7 @@ function plusSign(id, inner, outer) {
 }
 export const CROSS_WEDO = plusSign('cross-wedo', [120, 180], [30, 270]);
 export const CROSS_YOU = plusSign('cross-you', [100, 200], [20, 280]);
-export const CROSS_Q = plusSign('cross-q', [105, 195], [30, 270]);
+export const CROSS_Q = plusSign('cross-q', [85, 215], [45, 255]);
 /**
  * "A different way" on the new plus sign: the child's own We Do lines are redrawn on the new plus sign (the points
  * have the same names), and that partition is the one to avoid. With no saved lines, Way 1 is avoided.
@@ -260,23 +260,30 @@ export function bare(task) {
 function variant(task, { rot = 0, sx = 1, sy = sx, id }) {
   const c = task.shape === 'circle' ? task.center : centroid(task.polygon), cos = Math.cos(rot), sin = Math.sin(rot);
   const f = ([x, y]) => { const dx = (x - c[0]) * sx, dy = (y - c[1]) * sy; return [c[0] + dx * cos - dy * sin, c[1] + dx * sin + dy * cos]; };
-  const out = { ...task, id, points: task.points.map((p) => { const [x, y] = f([p.x, p.y]); return { ...p, x, y }; }), _hit: undefined };
+  const relabel = (p, x, y) => p.id === 'c' ? p.label : p.label.replace(/, (upper |lower )?(right|left|top|bottom)$/, `, ${dir([x, y], c)}`);
+  const out = { ...task, id, points: task.points.map((p) => { const [x, y] = f([p.x, p.y]); return { ...p, x, y, label: relabel(p, x, y) }; }), _hit: undefined };
   if (task.shape === 'circle') out.radius = task.radius * sx; else out.polygon = task.polygon.map(f);
   return out;
 }
-const WEDO = { diamond: { sx: 1.15, sy: 0.85 }, square: { sx: 0.85 }, circle: { rot: Math.PI / 16, sx: 0.92 }, octagon4: { rot: Math.PI / 16, sx: 0.9 }, hexagon: { rot: Math.PI / 4, sx: 0.92 }, octagon8: { rot: Math.PI / 16, sx: 0.9 } };
+const WEDO = { diamond: { sx: 1.15, sy: 0.85 }, circle: { rot: Math.PI / 16, sx: 0.92 }, octagon4: { rot: Math.PI / 16, sx: 0.9 }, hexagon: { rot: Math.PI / 4, sx: 0.92 }, octagon8: { rot: Math.PI / 16, sx: 0.9 } };
 /** "Let's learn it again" for a corners-only You Do: the shape from the worked example, drawn with corner-to-corner lines only. */
 function simpleSteps(teach, goal) {
   const sol = teach.solutions.find((x) => x.every((l) => l.every((id) => /^[ve]\d/.test(id))));
   if (!sol) return null;
-  const word = teach.shape === 'circle' ? 'edge point' : 'corner';
+  const word = teach.shape === 'circle' ? 'edge point' : 'corner', a = teach.shape === 'circle' ? 'an' : 'a';
+  // Space the lines evenly: halves, then fourths (a plus sign), then the in-between lines.
+  if (sol.length === 4) sol.splice(0, 4, sol[0], sol[2], sol[1], sol[3]);
   return [
     { text: `Let's go back to the shape from the example. This time, use only the ${word}s.`, lines: [] },
-    ...sol.map((_, i) => ({ text: i === 0 ? `First make halves: join a ${word} to the ${word} straight across.` : `Add another line from a ${word} to the ${word} straight across. It goes through the middle too.`, lines: sol.slice(0, i + 1) })),
+    ...sol.map((_, i) => ({ text: i === 0 ? `First make halves: join ${a} ${word} to the ${word} straight across.` : `Add another line from ${a} ${word} to the ${word} straight across. Space the lines evenly around the middle.`, lines: sol.slice(0, i + 1) })),
     { text: `Count the parts: ${teach.count} equal parts, or ${goal}. Do your new shape the same way.`, lines: sol },
   ];
 }
-export const SHAPES = SHAPE_DEFS.map((d) => { const guide = d.make(false); return { ...d, guide, wedo: variant(guide, { ...WEDO[d.skill], id: `${guide.id}-wedo` }), myTurn: bare(d.make(true)), relearnSteps: simpleSteps(guide, d.goal) }; });
+const SQUARE_WEDO = rectTask({ id: 'square-wedo', label: 'Square: sixths', count: 6, x: 60, y: 30, w: 210, h: 210, across: T3, down: [...S6], viewBox: [320, 280],
+  solutions: [[...rows(6, [2, 4]), ['t1-2', 'b1-2']], rows(6), [['l3-6', 'r3-6'], ...cols(3, [1, 2])]], hint: 'This time the marks for sixths are on the sides. Try 3 equal rows and 2 equal columns.',
+  why: '6 parts with the same width and height cover the square, so each is one sixth.',
+  teach: [{ text: 'Make 3 equal rows: join the left mark two sixths down to the matching right mark.', lines: [['l2-6', 'r2-6']] }, { text: 'Join the marks four sixths down. Now there are 3 equal rows.', lines: [['l2-6', 'r2-6'], ['l4-6', 'r4-6']] }, { text: 'Cut down the middle. 3 rows times 2 columns is 6 matching rectangles.', lines: [['l2-6', 'r2-6'], ['l4-6', 'r4-6'], ['t1-2', 'b1-2']] }] });
+export const SHAPES = SHAPE_DEFS.map((d) => { const guide = d.make(false); return { ...d, guide, wedo: d.skill === 'square' ? SQUARE_WEDO : variant(guide, { ...WEDO[d.skill], id: `${guide.id}-wedo` }), myTurn: bare(d.make(true)), relearnSteps: simpleSteps(guide, d.goal) }; });
 
 // The rectangle and the six shapes' Teach Me steps start by naming the whole and the goal, and end with the reason.
 function teachSteps(task, goal) {
@@ -694,7 +701,7 @@ export function onSameEdge(task, a, b) {
 }
 /** A short, shape-specific tip after unequal parts. */
 export function unequalTip(task) {
-  if (task.shape === 'circle') return 'Your lines go through the center. Now make the slices open by the same amount, like a plus sign.';
+  if (task.shape === 'circle') return `Your lines go through the center. Now make the slices open by the same amount${task.count === 4 ? ', like a plus sign' : ': space the lines evenly, like spokes'}.`;
   if (task.points.some((p) => /^t\d/.test(p.id))) return 'Tip: use marks that are the same distance apart, so the parts get the same width or height.';
   return 'Tip: lines that cross in the very middle of the shape make matching parts.';
 }

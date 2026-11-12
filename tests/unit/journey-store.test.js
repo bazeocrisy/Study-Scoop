@@ -23,7 +23,7 @@ test('save and load round-trip: section, card, drawings, answers, writing, help,
   finishBefore('explore', 'a-flags'); act('explore', 'choice', { values: ['1', '2'] });          // answer chosen, not checked
   finishBefore('shapes', 'd-diamond-guide'); draw('shapes', [['v0', 'v2'], ['v1', 'v3']]); act('shapes', 'check'); // We Do: first try
   finishBefore('shapes', 'd-square-guide'); act('shapes', 'help'); act('shapes', 'hint');                         // We Do with a hint
-  draw('shapes', [['t2-6', 'b2-6'], ['t4-6', 'b4-6'], ['l1-2', 'r1-2']]); act('shapes', 'check');
+  draw('shapes', [['l2-6', 'r2-6'], ['l4-6', 'r4-6'], ['t1-2', 'b1-2']]); act('shapes', 'check');
   finishBefore('shapes', 'd-square-myturn'); draw('shapes', [['t1-3', 'b1-3']]); act('shapes', 'check'); draw('shapes', [['t2-3', 'b2-3']]); act('shapes', 'check'); // You Do: 2 misses → re-learn
   finishBefore('sizes', 'e-write'); act('sizes', 'text', { text: 'More parts make each part smaller.' }); act('sizes', 'compare');
   journeyState.stage = 'shapes';

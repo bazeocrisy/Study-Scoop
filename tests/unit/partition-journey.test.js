@@ -458,3 +458,23 @@ test('originality guard: journey sources contain no images, scans or publisher m
     assert.doesNotMatch(text, /McGraw|Copyright|Reveal Math|<img|url\(|base64/i, f);
   }
 });
+
+test('review round 6: confirm resets on a new answer, turned labels, even re-teach lines, circle tips, eighths help order', async () => {
+  const { unequalTip, cardById, RECT_EIGHTHS } = await import('../../js/lib/partition-journey.js');
+  // Final Check: changing the answer after "check" asks again before the one try is used.
+  resetJourney(); for (const c of ALL_CARDS) if (c.id !== 'q10') journeyState.records[c.id] = Object.assign(newRecord(c), { viewed: true, written: true, attempts: 1, first: 'correct', correct: true });
+  const q10 = CARDS.check.findIndex((c) => c.id === 'q10'); journeyState.at.check = q10;
+  act('check', 'choice', { values: ['0'] }); act('check', 'check'); assert.equal(journeyState.ui.q10.confirm, true);
+  act('check', 'choice', { values: ['1'] }); assert.equal(journeyState.ui.q10.confirm, false);
+  assert.equal(journeyState.records.q10?.attempts || 0, 0, 'no try used');
+  // Turned We Do shapes: every position word matches where the dot now is.
+  for (const sh of SHAPES) { const t = sh.wedo, cx = t.points.reduce((a, p) => a + p.x, 0) / t.points.length, cy = t.points.reduce((a, p) => a + p.y, 0) / t.points.length;
+    for (const p of t.points) { if (/right$/.test(p.label)) assert.ok(p.x > cx - 1, `${t.id} ${p.label}`); if (/left$/.test(p.label)) assert.ok(p.x < cx + 1, `${t.id} ${p.label}`); if (/^.*(top)$/.test(p.label)) assert.ok(p.y < cy + 1, `${t.id} ${p.label}`); } }
+  assert.notEqual(cardById('d-square-guide').task.id, cardById('d-square-myturn').task.id, 'square We Do is its own figure');
+  // Re-teach steps: "an edge point", and the 2nd circle line makes a plus sign (lines evenly spaced).
+  const circ = cardById('d-circle-myturn').relearnSteps; assert.match(circ[1].text, /an edge point/);
+  const oct8 = SHAPES.find((s) => s.skill === 'octagon8').relearnSteps; const two = oct8.find((s) => s.lines?.length === 2);
+  assert.equal(checkBuild(SHAPES.find((s) => s.skill === 'octagon8').guide, two.lines).count, 4, 'two re-teach lines already make 4 equal parts');
+  assert.match(unequalTip({ shape: 'circle', count: 4 }), /plus sign/); assert.doesNotMatch(unequalTip({ shape: 'circle', count: 8 }), /plus sign/);
+  assert.match(RECT_EIGHTHS.hint || '', /4|four/i); assert.equal(RECT_EIGHTHS.solutions[0].length, 4, 'help steps start with the 4-by-2 way the hint describes');
+});

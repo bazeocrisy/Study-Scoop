@@ -224,7 +224,8 @@ export function helpAnswer(card, ui = {}) {
   if (card.type === 'write') return { text: `Example: ${card.sample}` };
   if (card.type === 'area') return { text: card.options.find((o) => o.correct).why, svg: gridSvg(card.grid, { show: [...card.grid.pieces.keys()] }) };
   const right = card.options.filter((o) => o.correct);
-  return { text: `${right.map((o) => o.text).join(' and ')} ${right[0].why}`, svg: picture(card.help?.answerPicture || card.picture) };
+  const why = right[0].why.replace(/^(Yes|Right|Exactly)[.!]\s*/, '');
+  return { text: `The answer: ${right.map((o) => o.text.replace(/\.$/, '')).join(' and ')}. ${why}`, svg: picture(card.help?.answerPicture || card.picture) };
 }
 const hintFor = (card) => card.hintOverride || card.help?.hint || card.hint || card.task?.hint || 'Compare how much space each part covers.';
 
@@ -345,7 +346,7 @@ export function journeyStepper(ctx, current, records = {}) {
   const L = (id) => ctx.lessonLink('7-1', id);
   return html`<div class="lesson-steps j-steps"><nav class="stepper j-stepper" aria-label="Lesson 7-1 steps"><ol>
     ${JOURNEY.map((s, i) => { const open = stageUnlocked(s.id, records), done = ctx.journeyDone?.has(s.id) && s.id !== current, label = html`<span class="n">${String.fromCharCode(65 + i)}</span> <span class="name">${s.label}</span>`;
-      return html`<li class="${done ? 'done' : ''}${open ? '' : ' locked'}">${open ? html`<a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}>${label}</a>` : html`<span class="j-locked"><span class="n" aria-hidden="true">🔒</span> <span class="name">${s.label}</span><span class="sr-only"> (locked: finish the earlier parts first)</span></span>`}</li>`; })}
+      return html`<li class="${done ? 'done' : ''}${open ? '' : ' locked'}">${open ? html`<a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}>${label}</a>` : html`<span class="j-locked"><span class="n">${String.fromCharCode(65 + i)}</span> <span class="name"><span aria-hidden="true">🔒 </span>${s.label}</span><span class="sr-only"> (locked: finish the earlier parts first)</span></span>`}</li>`; })}
     <li><a href="${L('parent')}"${current === 'parent' ? html` aria-current="step"` : ''}><span class="n">★</span> <span class="name">Grown-up Report</span></a></li>
   </ol></nav></div>`;
 }
