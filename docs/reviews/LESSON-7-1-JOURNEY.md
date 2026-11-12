@@ -175,3 +175,36 @@ Evidence for this round: final run on **`be200ee`**, with every suite run separa
 | Lesson 7-1 journey (now including touch targets, keyboard, saved progress, reset and two tabs) | 1191 | 1191 |
 
 The re-checks by both independent reviewers at `be200ee` passed every item.
+
+
+## 10. Round 4 (owner brief of 2026-11-12): I Do → We Do → You Do teaching
+
+**Plan.** Keep the geometry engine, every validated drawing and figure, help, saved progress and reset, and the report page. Restructure the content into 13 skills, each taught with I Do, then We Do, then You Do. Add plain-JavaScript teaching rules and lock the order. Replace Check & Reflect with a 10-question Final Check, and the summary with a readiness report. (DECISIONS D30.)
+
+**Reused.** `partition-geometry.js` for every check, the existing construction tasks and figures, the We Do help panel (hint → steps → answer), saved progress (store version 2), the grown-up reset, the original extra-practice stages and the Parent Guide.
+
+| Skill | I Do (worked example) | We Do (guided) | You Do (new, no hints) |
+|---|---|---|---|
+| 1 Equal parts | a-words, a-area, a-show (sandwiches, steps) | a-notfourths | a-flags |
+| 2 Rectangles | b-fourths, b-sixths, b-eighths | b-fourths-make, b-triangles, b-sixths-make | b-eighths-you (new rectangle) |
+| 3 Plus sign | c-way1, c-way2 | c-make1, c-why | c-make2 on a new plus sign, a different way |
+| 4–9 Six shapes | d-*-teach | d-*-guide | d-*-myturn (corners only) |
+| 10 Part sizes | e-explore, e-show | e-what, e-why | e-you, then e-write |
+| 11 Not always fourths | f-show (cookie: heights, flip, fix) | f-agree, f-fix | f-oval, then f-write |
+| 12 Count and name | g-show (count tiles step by step) | g-slant, g-triangle, g-triangle-make | g-you |
+| 13 Equal area | h-show (half of a half) | h-grid | h-you, then h-write |
+| Final Check | — | — | q1–q10: tall rectangle 4ths, square 8ths, circle 6ths, wide diamond 4ths, tilted hexagon 6ths, part sizes, a pizza cut at a slant, star 8ths, slanted shape 4ths, half of a half |
+
+**Teaching rules.**
+- *Wrong number of regions:* the parts are numbered and region counting is explained.
+- *Right number, unequal areas:* the bigger and smaller parts are marked, area is explained, and a shape-specific tip is given.
+- *A line that misses a circle's center:* gets its own message.
+- *We Do:* the second miss opens a hint, the third the visual steps.
+- *You Do:* the second miss shows *Let's learn it again* (the skill's worked example, step by step), then the child retries. *Show me the answer* appears only after four misses, and the report records it.
+- *Right on the first try in You Do:* "You did it on your own!", and Next opens.
+
+**Cannot skip.** Next is disabled until the card is done: watched, right, written, or answered in the Final Check. Later sections are not links. A typed address for a locked section shows where to go. A saved position past unfinished work is pulled back.
+
+**Final Check and report.** Ten fresh questions, one try each, no hints. The answer locks after checking. The report shows a verdict (ready, almost ready, or in progress), the score and missed skills, the You Do result for each of the 13 skills, and the question-by-question details.
+
+Not covered by the Final Check (checked in their You Do instead): the plus sign, the octagons, the triangle midpoints and the square into sixths.
