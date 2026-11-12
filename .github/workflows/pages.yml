@@ -55,6 +55,7 @@ jobs:
         run: node tests/chapter7-teaching-all.browser.js --site _site
       - name: Lesson 7-1 learning journey (built site)
         run: node tests/partition-journey.browser.js --site _site
+        timeout-minutes: 10
       - name: November homework journeys (built site)
         run: node tests/homework-nov02.browser.js --site _site
 
@@ -130,18 +131,22 @@ jobs:
         if: ${{ hashFiles('main/tests/partition-journey.browser.js') != '' }}
         working-directory: main
         run: node tests/partition-journey.browser.js --site "$GITHUB_WORKSPACE/_site"
+        timeout-minutes: 10
       - name: Lesson 7-1 partition lab (production build, before the journey)
         if: ${{ hashFiles('main/tests/partition-lab.browser.js') != '' }}
         working-directory: main
         run: node tests/partition-lab.browser.js --site "$GITHUB_WORKSPACE/_site"
+        timeout-minutes: 10
       - name: Lesson 7-1 learning journey (preview build)
         if: ${{ hashFiles('develop/tests/partition-journey.browser.js') != '' }}
         working-directory: develop
         run: node tests/partition-journey.browser.js --site "$GITHUB_WORKSPACE/_preview"
+        timeout-minutes: 10
       - name: Lesson 7-1 partition lab (preview build, before the journey)
         if: ${{ hashFiles('develop/tests/partition-lab.browser.js') != '' }}
         working-directory: develop
         run: node tests/partition-lab.browser.js --site "$GITHUB_WORKSPACE/_preview"
+        timeout-minutes: 10
       - name: Put the preview under /preview/
         run: |
           mv "$GITHUB_WORKSPACE/_preview" "$GITHUB_WORKSPACE/_site/preview"

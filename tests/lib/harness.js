@@ -76,10 +76,14 @@ export async function startBrowser() {
     if (msg.method === 'Network.responseReceived' && p.response.status >= 400) failures.push(`${p.response.status} ${p.response.url}`);
     if (msg.method === 'Network.loadingFailed' && !p.canceled) failures.push(`failed ${urlById.get(p.requestId)} ${p.errorText}`);
   });
+  // A browser command that never answers fails after 60 s with its name, instead of stalling a CI job silently.
   const send = (method, params = {}) => {
     const id = ++nextId;
     ws.send(JSON.stringify({ id, method, params }));
-    return new Promise((r) => pending.set(id, r));
+    return new Promise((r, reject) => {
+      const timer = setTimeout(() => { pending.delete(id); reject(new Error(`browser command timed out after 60 s: ${method} ${JSON.stringify(params).slice(0, 200)}`)); }, 60000);
+      pending.set(id, (msg) => { clearTimeout(timer); r(msg); });
+    });
   };
   await send('Page.enable');
   await send('Runtime.enable');

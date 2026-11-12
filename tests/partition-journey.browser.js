@@ -109,8 +109,11 @@ async function solve(c, { wrongFirst = false, solution = 0 } = {}) {
   ok(await isOk(), `${c.id}: correct answer accepted`);
 }
 
+const step = (name) => console.log(`[${new Date().toISOString().slice(11, 19)}] ${name} (${checks} checks so far)`);
+if (process.env.CPU_THROTTLE) await b.send('Emulation.setCPUThrottlingRate', { rate: Number(process.env.CPU_THROTTLE) });
 try {
   await b.viewport(1366, 768, false);
+  step('entry and full walk-through');
   // Entry: Lesson 7-1 opens on the journey, not a collapsed panel or a dropdown.
   await b.load(url());
   await b.js(`localStorage.removeItem('${KEY}')`); await b.load(url());
@@ -146,6 +149,7 @@ try {
   await b.waitFor(`!!document.querySelector(".j-summary")`);
   ok(await b.js('return /Finish|results/i.test(document.title + document.querySelector(".j-summary h2").textContent)'), 'the last card leads to the results summary');
 
+  step('alternative constructions');
   // Every alternative construction listed for a shape is accepted through the real controls (not only the first).
   await fresh('shapes');
   for (const c of meta.cards.shapes.filter((x) => x.type === 'build')) {
@@ -159,6 +163,7 @@ try {
     }
   }
 
+  step('unequal parts and circle chords');
   // Unequal parts: the right number of parts with unequal areas is rejected and the pieces are marked.
   await openCard('method', 1);
   await draw([['t2-4', 'b2-4'], ['l2-4', 'b2-4'], ['t2-4', 'r2-4']]); // 4 parts: two triangles (1/8 each) and two pentagons (3/8 each)
@@ -172,6 +177,7 @@ try {
   await draw([['e0', 'e2'], ['e4', 'e6']]); await tap(J('check'));
   ok(!(await isOk()) && /center/.test(await feedback()), 'unsupported circle chord gets an honest message, not success');
 
+  step('help levels');
   // Progressive help on a construction: hint, then changing steps, then answer. The child's lines stay.
   await openCard('shapes', 1);
   await draw([['v0', 'v2']]);
@@ -205,6 +211,7 @@ try {
   s = await state();
   ok(s.records['d-diamond-myturn'].first === 'correct', 'My Turn without help is independent');
 
+  step('keyboard');
   // Keyboard: a line can be drawn with Tab and Enter/Space alone.
   await openCard('method', 1);
   await b.js('document.querySelector(\'[data-point="t2-4"]\').focus()');
@@ -216,6 +223,7 @@ try {
   await tap(J('undo'));
   ok(await b.js('return document.querySelectorAll(".j-stage-pic .j-cut").length === 0'), 'Undo removes the last line');
 
+  step('grown-up summary');
   // Grown-up summary separates independent, wrong-first and assisted work.
   await openCard('shapes', 0);
   await tap(J('next')); await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check')); // guide: independent first try
@@ -230,12 +238,14 @@ try {
   ok(/Skills to practice more/.test(sum) && /Diamond into fourths/.test(sum), 'summary lists skills needing practice');
   ok(await b.js('return !!document.querySelector(".parent-guide") && !!document.querySelector(".j-extra a[href*=\\"stage=try\\"]")'), 'parent page keeps the Parent Guide and links the original extra practice');
 
+  step('original stages');
   // The original stages still work as optional extra practice.
   await b.load(url('learn'));
   ok(await b.js('return /Extra practice/.test(document.querySelector(".eyebrow").textContent) && !!document.querySelector("nav.stepper[aria-label=\\"Extra practice steps\\"] a[aria-current=step]") && !!document.querySelector(".bar-btns a[href*=\\"stage=explore\\"]")'), 'original Learn It opens as labelled extra practice with a way back to the main lesson');
   await b.load(url('test'));
   ok(await b.js('return !document.querySelector("[data-j=help]") && !document.querySelector("[data-act=help]")'), 'original scored test still has no hints');
 
+  step('layouts');
   // Layout: no sideways scrolling; touch targets; light/dark contrast is handled by tokens (checked in the accessibility suite).
   for (const [w, h] of [[360, 740], [390, 844], [768, 1024], [1024, 768], [1280, 800], [1366, 768], [1920, 1080]]) {
     await b.viewport(w, h);
@@ -255,6 +265,7 @@ try {
     }
     if (shots && [390, 1366].includes(w)) await b.shot(path.join(ROOT, 'docs/reviews/images', `lesson-7-1-journey-guide-${w}.png`));
   }
+  step('original-stage help');
   // Carried over from the retired Partition Lab suite: the original stages keep their own question help and scored-test rules.
   await b.viewport(1366, 768, false);
   await b.load(url('together'));
@@ -281,6 +292,7 @@ try {
   ok(await b.js('return !document.querySelector("[data-written-complete]")'), 'revealing a writing sample does not grade or complete the child response');
   await b.hash('#math?lesson=7-1&stage=test');
   ok(await b.js('return !document.querySelector("[data-act=help],[data-act=writing-help]")'), 'shared scored test still withholds hints and writing solutions');
+  step('every card fits');
   // Every card (not only the first of each section) fits the screen at phone, tablet and Chromebook widths.
   for (const [w, h] of [[320, 640], [360, 740], [390, 844], [768, 1024], [1366, 768]]) {
     await b.viewport(w, h);
@@ -295,6 +307,7 @@ try {
     }
   }
   await b.viewport(1366, 768, false);
+  step('dot targets');
   // ---- Choosing dots (touch targets). The usable target of a dot is its "nearest dot" area: every press on the
   // drawing goes to the closest dot (no gaps, no overlaps), with a ring preview and slide-to-adjust before lifting.
   const dense = ['method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-make')], sparse = ['shapes', 1];
@@ -361,6 +374,7 @@ try {
     }
   }
   console.log('Dot targets: ' + targetReport.join('; '));
+  step('arrow keys');
   // Keyboard: one Tab stop for the drawing, arrow keys move between dots, Enter chooses.
   await b.viewport(1366, 768, false);
   await openCard('method', 1);
@@ -372,6 +386,7 @@ try {
   ok(second && second !== first && (await b.js('return document.activeElement.getAttribute("tabindex")')) === '0', `ArrowRight moves from ${first} to ${second} and keeps one Tab stop`);
   await b.key('Enter'); ok((await selected()) === second, 'Enter chooses the focused dot');
 
+  step('saved progress');
   // ---- Saved progress (D29): refresh, reopen, resume, and the grown-up reset.
   await openCard('shapes', 1);
   await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check'));                      // Guide Me diamond: independent
@@ -402,6 +417,7 @@ try {
   ok(/0 right on the first try/.test(await b.js('return document.querySelector(".j-summary").textContent.replace(/\\s+/g," ")')), 'the summary shows a fresh start right away');
   await b.load(url());
   ok(await b.js('return location.hash.includes("stage=explore")') && Object.keys((await state()).records).length === 0, 'after Reset, Lesson 7-1 starts again at section A');
+  step('two tabs');
   // Two copies of the lesson at once (a second tab, here a same-origin frame): neither overwrites the other,
   // and a Reset in one is not undone by the other.
   await openCard('explore', 0);
@@ -432,6 +448,7 @@ try {
   await b.key('Escape');
   ok(await b.js('return document.querySelector("[data-j-reset-confirm]").hidden'), 'Escape closes the Reset confirmation');
   await b.js(`localStorage.removeItem('${KEY}')`);
+  step('other pages');
   // Other Study Scoop pages still store nothing.
   await b.load(`${server.origin}${BASE}#math?lesson=7-2&stage=try`); await b.load(`${server.origin}${BASE}#spelling`);
   ok(JSON.stringify(Object.keys(await b.js('return {...localStorage}'))).replace(KEY, '') === '[""]' || (await b.js('return localStorage.length')) <= 1, 'no other page adds anything to storage');
