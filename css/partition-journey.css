@@ -229,3 +229,4 @@
 .j-quick h3 { margin: 0; }
 .j-quick p { margin: 0; }
 @media print { .j-map, .j-drawhelp { display: none; } }
+.j-stepper-open { grid-column: 1 / -1; }

@@ -40,7 +40,8 @@
           "parts": 1,
           "wholes": 1,
           "selected": []
-        }
+        },
+        "teacher": true
       },
       {
         "title": "One whole has one whole-size part",
@@ -1232,7 +1233,7 @@
       {
         "id": "g1",
         "type": "number",
-        "prompt": "Each separate shape is one whole. What denominator describes a complete whole-size piece?",
+        "prompt": "Each separate shape is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -2133,7 +2134,7 @@
       {
         "id": "t1",
         "type": "number",
-        "prompt": "Each separate shape is one whole. What denominator describes a complete whole-size piece?",
+        "prompt": "Each separate shape is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "circle",
@@ -2437,7 +2438,7 @@
       {
         "id": "t3",
         "type": "number",
-        "prompt": "Each 0-to-1 length is one whole. What denominator describes a complete whole-size piece?",
+        "prompt": "Each 0-to-1 length is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -2693,7 +2694,7 @@
       {
         "id": "t5",
         "type": "number",
-        "prompt": "Each 0-to-1 length is one whole. What denominator describes a complete whole-size piece?",
+        "prompt": "Each 0-to-1 length is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -5913,21 +5914,13 @@
       {
         "id": "x2",
         "type": "fraction",
-        "prompt": "Each separate shape is one whole. Write the selected whole shapes as a fraction with denominator one.",
+        "prompt": "Each 0-to-1 length is one whole unit. Name the marked point with denominator one.",
         "model": {
           "type": "fraction",
-          "kind": "circle",
+          "kind": "line",
           "parts": 1,
-          "wholes": 6,
-          "selected": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5
-          ],
-          "wholeLayout": "grid"
+          "max": 7,
+          "point": 6
         },
         "asks": "fraction",
         "answer": {
@@ -5936,53 +5929,45 @@
         },
         "answerPolicy": "partition",
         "show": [
-          "Each separate outside outline is one whole; it is not divided into smaller parts.",
-          "The highlighted piece fills one complete outline, so one whole has one part.",
-          "6 complete disks are counted. Write 6 above 1: 6/1 means 6 wholes."
+          "The distance from 0 to 1 is one whole unit; it is not split into smaller jumps.",
+          "The first jump reaches 1; each next jump has that same length.",
+          "6 complete one-unit jumps from zero are counted. Write 6 above 1: 6/1 means 6 wholes."
         ],
-        "yes": "The bottom 1 says each counted piece is a whole, and the top 6 counts 6 complete disks. So 6/1 is 6.",
+        "yes": "The bottom 1 says each counted piece is a whole, and the top 6 counts 6 complete one-unit jumps from zero. So 6/1 is 6.",
         "teaching": {
           "steps": [
             {
-              "text": "Each separate outside outline is one whole; it is not divided into smaller parts.",
+              "text": "The distance from 0 to 1 is one whole unit; it is not split into smaller jumps.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [],
-                "wholeLayout": "grid"
+                "max": 7,
+                "point": 0,
+                "counted": []
               }
             },
             {
-              "text": "The highlighted piece fills one complete outline, so one whole has one part.",
+              "text": "The first jump reaches 1; each next jump has that same length.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
+                "max": 7,
+                "point": 1,
+                "counted": [
                   0
-                ],
-                "wholeLayout": "grid"
+                ]
               }
             },
             {
-              "text": "6 complete disks are counted. Write 6 above 1: 6/1 means 6 wholes.",
+              "text": "6 complete one-unit jumps from zero are counted. Write 6 above 1: 6/1 means 6 wholes.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
-                ],
-                "wholeLayout": "grid",
+                "max": 7,
+                "point": 6,
                 "counted": [
                   0,
                   1,
@@ -5996,21 +5981,13 @@
             }
           ],
           "correct": {
-            "text": "The bottom 1 says each counted piece is a whole, and the top 6 counts 6 complete disks. So 6/1 is 6.",
+            "text": "The bottom 1 says each counted piece is a whole, and the top 6 counts 6 complete one-unit jumps from zero. So 6/1 is 6.",
             "model": {
               "type": "fraction",
-              "kind": "circle",
+              "kind": "line",
               "parts": 1,
-              "wholes": 6,
-              "selected": [
-                0,
-                1,
-                2,
-                3,
-                4,
-                5
-              ],
-              "wholeLayout": "grid",
+              "max": 7,
+              "point": 6,
               "counted": [
                 0,
                 1,
@@ -6026,18 +6003,18 @@
               "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
+                "max": 7,
+                "point": 6,
+                "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
                   5
-                ],
-                "wholeLayout": "grid"
+                ]
               },
               "when": "zeroDenominator"
             },
@@ -6045,51 +6022,43 @@
               "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
+                "max": 7,
+                "point": 6,
+                "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
                   5
-                ],
-                "wholeLayout": "grid"
+                ]
               },
               "when": "equivalentPartition"
             },
             {
-              "text": "The bottom describes pieces inside ONE outline, not the number of outlines. This highlighted piece already fills a whole.",
+              "text": "The bottom describes gaps inside 0 to 1, not all jumps to the point. The first whole-unit jump fills that entire 0-to-1 length.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
+                "max": 7,
+                "point": 1,
+                "counted": [
                   0
-                ],
-                "wholeLayout": "grid"
+                ]
               },
               "when": "reversed"
             },
             {
-              "text": "Your bottom 1 fits a complete whole. For the top, include every selected whole, not just the first marked one.",
+              "text": "Your bottom 1 fits a complete whole. For the top, include every whole-unit jump to the point, not just the first marked one.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
-                ],
-                "wholeLayout": "grid",
+                "max": 7,
+                "point": 6,
                 "counted": [
                   0
                 ]
@@ -6097,35 +6066,27 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+              "text": "Your top counts whole-unit jumps. For the bottom, inspect just 0 to 1: one complete jump fills it.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
+                "max": 7,
+                "point": 1,
+                "counted": [
                   0
-                ],
-                "wholeLayout": "grid"
+                ]
               },
               "when": "denominatorOnly"
             },
             {
-              "text": "First decide what one whole is. The first numbered piece is a complete whole; the bottom counts parts in that one whole and the top counts all selected wholes.",
+              "text": "First decide what one whole is. The first numbered jump is a complete whole; the bottom counts parts in that one whole and the top counts all whole-unit jumps from zero.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 6,
-                "selected": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
-                ],
-                "wholeLayout": "grid",
+                "max": 7,
+                "point": 6,
                 "counted": [
                   0
                 ]
@@ -6134,7 +6095,7 @@
             }
           ]
         },
-        "explain": "The bottom 1 says each counted piece is a whole, and the top 6 counts 6 complete disks. So 6/1 is 6."
+        "explain": "The bottom 1 says each counted piece is a whole, and the top 6 counts 6 complete one-unit jumps from zero. So 6/1 is 6."
       },
       {
         "id": "x3",
@@ -6638,7 +6599,7 @@
       {
         "id": "x5",
         "type": "number",
-        "prompt": "Each separate shape is one whole. What denominator describes a complete whole-size piece?",
+        "prompt": "Each separate shape is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -6782,19 +6743,13 @@
       {
         "id": "x6",
         "type": "choice",
-        "prompt": "Each separate outline is one whole. What does the denominator 1 tell us?",
+        "prompt": "Each 0-to-1 length is one whole. What does the denominator 1 tell us?",
         "model": {
           "type": "fraction",
-          "kind": "circle",
+          "kind": "line",
           "parts": 1,
-          "wholes": 4,
-          "selected": [
-            0,
-            1,
-            2,
-            3
-          ],
-          "wholeLayout": "grid"
+          "max": 4,
+          "point": 3
         },
         "options": [
           {
@@ -6806,80 +6761,72 @@
             "why": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces."
           },
           {
-            "text": "All the shapes together must be a single whole.",
-            "why": "Each separate outline defines one whole; all the shapes together contain several such wholes."
+            "text": "The entire drawn line must be a single whole.",
+            "why": "Only the 0-to-1 length defines a unit; the entire drawn line contains several such units."
           }
         ],
         "show": [
-          "Each separate outline encloses one complete whole.",
+          "Find 0 to 1: this is one complete unit length.",
           "The highlighted piece takes one whole part, with no smaller divisions.",
-          "The bottom is 1 even though the display counts 4 wholes."
+          "The bottom is 1 even though the display counts 3 wholes."
         ],
-        "yes": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 4 wholes.",
+        "yes": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 3 wholes.",
         "teaching": {
           "steps": [
             {
-              "text": "Each separate outline encloses one complete whole.",
+              "text": "Find 0 to 1: this is one complete unit length.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [],
-                "wholeLayout": "grid"
+                "max": 4,
+                "point": 0,
+                "counted": []
               }
             },
             {
               "text": "The highlighted piece takes one whole part, with no smaller divisions.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [
+                "max": 4,
+                "point": 1,
+                "counted": [
                   0
-                ],
-                "wholeLayout": "grid"
+                ]
               }
             },
             {
-              "text": "The bottom is 1 even though the display counts 4 wholes.",
+              "text": "The bottom is 1 even though the display counts 3 wholes.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [
-                  0,
-                  1,
-                  2,
-                  3
-                ],
-                "wholeLayout": "grid",
+                "max": 4,
+                "point": 3,
                 "counted": [
                   0,
                   1,
-                  2,
-                  3
+                  2
                 ]
               },
               "revealsAnswer": true
             }
           ],
           "correct": {
-            "text": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 4 wholes.",
+            "text": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 3 wholes.",
             "model": {
               "type": "fraction",
-              "kind": "circle",
+              "kind": "line",
               "parts": 1,
-              "wholes": 4,
-              "selected": [
+              "max": 4,
+              "point": 3,
+              "counted": [
                 0,
                 1,
-                2,
-                3
-              ],
-              "wholeLayout": "grid"
+                2
+              ]
             }
           },
           "wrong": [
@@ -6888,32 +6835,32 @@
               "text": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [
+                "max": 4,
+                "point": 1,
+                "counted": [
                   0
-                ],
-                "wholeLayout": "grid"
+                ]
               }
             },
             {
-              "option": "All the shapes together must be a single whole.",
-              "text": "Each separate outline defines one whole; all the shapes together contain several such wholes.",
+              "option": "The entire drawn line must be a single whole.",
+              "text": "Only the 0-to-1 length defines a unit; the entire drawn line contains several such units.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [
+                "max": 4,
+                "point": 1,
+                "counted": [
                   0
-                ],
-                "wholeLayout": "grid"
+                ]
               }
             }
           ]
         },
-        "explain": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 4 wholes."
+        "explain": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 3 wholes."
       },
       {
         "id": "x7",
@@ -7112,18 +7059,20 @@
       {
         "id": "x8",
         "type": "choice",
-        "prompt": "Each complete shape is one whole. A student writes 1/5 for 5 wholes. What repairs the mistake?",
+        "prompt": "Each complete shape is one whole. A student writes 1/7 for 7 wholes. What repairs the mistake?",
         "model": {
           "type": "fraction",
-          "kind": "circle",
+          "kind": "bar",
           "parts": 1,
-          "wholes": 5,
+          "wholes": 7,
           "selected": [
             0,
             1,
             2,
             3,
-            4
+            4,
+            5,
+            6
           ],
           "wholeLayout": "grid"
         },
@@ -7133,29 +7082,29 @@
             "why": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1."
           },
           {
-            "text": "Write 5/1: count 5 complete wholes.",
+            "text": "Write 7/1: count 7 complete wholes.",
             "correct": true
           },
           {
-            "text": "Keep 1/5: the entire display is one whole.",
+            "text": "Keep 1/7: the entire display is one whole.",
             "why": "One whole is one separate outline, not the entire display. Count complete whole shapes."
           }
         ],
         "show": [
           "Find the separate whole outlines before counting the display.",
           "That whole contains one complete part; the bottom is 1.",
-          "Count the complete wholes for the top: 5/1."
+          "Count the complete wholes for the top: 7/1."
         ],
-        "yes": "Each counted piece fills a whole, so the bottom is 1. There are 5 such wholes, so the top is 5.",
+        "yes": "Each counted piece fills a whole, so the bottom is 1. There are 7 such wholes, so the top is 7.",
         "teaching": {
           "steps": [
             {
               "text": "Find the separate whole outlines before counting the display.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 1,
-                "wholes": 5,
+                "wholes": 7,
                 "selected": [],
                 "wholeLayout": "grid"
               }
@@ -7164,9 +7113,9 @@
               "text": "That whole contains one complete part; the bottom is 1.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 1,
-                "wholes": 5,
+                "wholes": 7,
                 "selected": [
                   0
                 ],
@@ -7174,18 +7123,20 @@
               }
             },
             {
-              "text": "Count the complete wholes for the top: 5/1.",
+              "text": "Count the complete wholes for the top: 7/1.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 1,
-                "wholes": 5,
+                "wholes": 7,
                 "selected": [
                   0,
                   1,
                   2,
                   3,
-                  4
+                  4,
+                  5,
+                  6
                 ],
                 "wholeLayout": "grid"
               },
@@ -7193,31 +7144,33 @@
             }
           ],
           "correct": {
-            "text": "Each counted piece fills a whole, so the bottom is 1. There are 5 such wholes, so the top is 5.",
+            "text": "Each counted piece fills a whole, so the bottom is 1. There are 7 such wholes, so the top is 7.",
             "model": {
               "type": "fraction",
-              "kind": "circle",
+              "kind": "bar",
               "parts": 1,
-              "wholes": 5,
+              "wholes": 7,
               "selected": [
                 0,
                 1,
                 2,
                 3,
-                4
+                4,
+                5,
+                6
               ],
               "wholeLayout": "grid"
             }
           },
           "wrong": [
             {
-              "option": "Keep 1/5: the entire display is one whole.",
+              "option": "Keep 1/7: the entire display is one whole.",
               "text": "One whole is one separate outline, not the entire display. Count complete whole shapes.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 1,
-                "wholes": 5,
+                "wholes": 7,
                 "selected": [
                   0
                 ],
@@ -7229,9 +7182,9 @@
               "text": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1.",
               "model": {
                 "type": "fraction",
-                "kind": "circle",
+                "kind": "bar",
                 "parts": 1,
-                "wholes": 5,
+                "wholes": 7,
                 "selected": [
                   0
                 ],
@@ -7240,7 +7193,7 @@
             }
           ]
         },
-        "explain": "Each counted piece fills a whole, so the bottom is 1. There are 5 such wholes, so the top is 5."
+        "explain": "Each counted piece fills a whole, so the bottom is 1. There are 7 such wholes, so the top is 7."
       },
       {
         "id": "x9",
@@ -7639,65 +7592,50 @@
       },
       {
         "id": "x10",
-        "type": "choice",
-        "prompt": "Each separate outline is one whole. What does the denominator 1 tell us?",
+        "type": "number",
+        "prompt": "Each separate shape is one whole. What numerator counts the selected whole pieces?",
         "model": {
           "type": "fraction",
-          "kind": "bar",
+          "kind": "circle",
           "parts": 1,
-          "wholes": 8,
+          "wholes": 6,
           "selected": [
             0,
             1,
             2,
             3,
             4,
-            5,
-            6,
-            7
+            5
           ],
           "wholeLayout": "grid"
         },
-        "options": [
-          {
-            "text": "There is only one whole in the display.",
-            "why": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces."
-          },
-          {
-            "text": "All the shapes together must be a single whole.",
-            "why": "Each separate outline defines one whole; all the shapes together contain several such wholes."
-          },
-          {
-            "text": "Each counted piece is a complete whole.",
-            "correct": true
-          }
-        ],
+        "answer": "6",
         "show": [
-          "Each separate outline encloses one complete whole.",
-          "The highlighted piece takes one whole part, with no smaller divisions.",
-          "The bottom is 1 even though the display counts 8 wholes."
+          "Find each complete outline before counting any pieces.",
+          "Begin with the highlighted first whole, then include each complete whole to the endpoint.",
+          "6 complete wholes are counted, so the numerator is 6."
         ],
-        "yes": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 8 wholes.",
+        "yes": "The 6 complete whole pieces are the numerator; each one is a whole-size piece.",
         "teaching": {
           "steps": [
             {
-              "text": "Each separate outline encloses one complete whole.",
+              "text": "Find each complete outline before counting any pieces.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 1,
-                "wholes": 8,
+                "wholes": 6,
                 "selected": [],
                 "wholeLayout": "grid"
               }
             },
             {
-              "text": "The highlighted piece takes one whole part, with no smaller divisions.",
+              "text": "Begin with the highlighted first whole, then include each complete whole to the endpoint.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 1,
-                "wholes": 8,
+                "wholes": 6,
                 "selected": [
                   0
                 ],
@@ -7705,21 +7643,19 @@
               }
             },
             {
-              "text": "The bottom is 1 even though the display counts 8 wholes.",
+              "text": "6 complete wholes are counted, so the numerator is 6.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 1,
-                "wholes": 8,
+                "wholes": 6,
                 "selected": [
                   0,
                   1,
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7
+                  5
                 ],
                 "wholeLayout": "grid",
                 "counted": [
@@ -7728,66 +7664,105 @@
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7
+                  5
                 ]
               },
               "revealsAnswer": true
             }
           ],
           "correct": {
-            "text": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 8 wholes.",
+            "text": "The 6 complete whole pieces are the numerator; each one is a whole-size piece.",
             "model": {
               "type": "fraction",
-              "kind": "bar",
+              "kind": "circle",
               "parts": 1,
-              "wholes": 8,
+              "wholes": 6,
               "selected": [
                 0,
                 1,
                 2,
                 3,
                 4,
-                5,
-                6,
-                7
+                5
               ],
-              "wholeLayout": "grid"
+              "wholeLayout": "grid",
+              "counted": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
             }
           },
           "wrong": [
             {
-              "option": "There is only one whole in the display.",
-              "text": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces.",
+              "text": "That count leaves out a complete selected shape. Include every selected outline once.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 1,
-                "wholes": 8,
+                "wholes": 6,
                 "selected": [
-                  0
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ],
-                "wholeLayout": "grid"
-              }
+                "wholeLayout": "grid",
+                "counted": [
+                  0
+                ]
+              },
+              "when": "tooLow"
             },
             {
-              "option": "All the shapes together must be a single whole.",
-              "text": "Each separate outline defines one whole; all the shapes together contain several such wholes.",
+              "text": "That count adds pieces beyond the selected wholes or counts boundaries as if they were whole jumps.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "circle",
                 "parts": 1,
-                "wholes": 8,
+                "wholes": 6,
                 "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "wholeLayout": "grid",
+                "counted": [
                   0
+                ]
+              },
+              "when": "tooHigh"
+            },
+            {
+              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 1,
+                "wholes": 6,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ],
                 "wholeLayout": "grid"
-              }
+              },
+              "when": "default"
             }
           ]
         },
-        "explain": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 8 wholes."
+        "explain": "The 6 complete whole pieces are the numerator; each one is a whole-size piece."
       }
     ]
   },

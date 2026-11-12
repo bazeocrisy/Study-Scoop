@@ -40,7 +40,8 @@
           "parts": 2,
           "max": 3,
           "point": 0
-        }
+        },
+        "teacher": true
       },
       {
         "title": "Split every unit equally",
@@ -205,7 +206,7 @@
         "item": {
           "id": "r1",
           "type": "fraction",
-          "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+          "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
           "model": {
             "type": "fraction",
             "kind": "line",
@@ -220,21 +221,21 @@
           },
           "answerPolicy": "partition",
           "hints": [
-            "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+            "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
             "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-            "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1."
+            "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
           ],
           "show": [
-            "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+            "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
             "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-            "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+            "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
             "From zero to the marked point there are 6 gaps of size 1/4, so the point is 6/4."
           ],
           "yes": "One whole contains 4 equal gaps, and 6 of those same-size gaps reach the point. The count does not restart at a whole-number label: 6/4.",
           "teaching": {
             "steps": [
               {
-                "text": "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+                "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -258,7 +259,7 @@
                 }
               },
               {
-                "text": "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+                "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -508,11 +509,11 @@
           "options": [
             {
               "text": "Greater than 1.",
-              "why": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 wholes."
+              "why": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 whole."
             },
             {
               "text": "Less than 1.",
-              "why": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 wholes."
+              "why": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 whole."
             },
             {
               "text": "Equal to 1.",
@@ -708,7 +709,7 @@
             "wrong": [
               {
                 "option": "Less than 1.",
-                "text": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 wholes.",
+                "text": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -753,7 +754,7 @@
               },
               {
                 "option": "Greater than 1.",
-                "text": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 wholes.",
+                "text": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 3 gaps needed for 1 whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -843,7 +844,7 @@
         },
         "steps": [
           {
-            "say": "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+            "say": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -867,7 +868,7 @@
             }
           },
           {
-            "say": "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1.",
+            "say": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -901,7 +902,7 @@
         "why": {
           "id": "w1check",
           "type": "fraction",
-          "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+          "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
           "model": {
             "type": "fraction",
             "kind": "line",
@@ -916,21 +917,21 @@
           },
           "answerPolicy": "partition",
           "hints": [
-            "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+            "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
             "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-            "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1."
+            "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
           ],
           "show": [
-            "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+            "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
             "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-            "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1.",
+            "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
             "From zero to the marked point there are 4 gaps of size 1/3, so the point is 4/3."
           ],
           "yes": "One whole contains 3 equal gaps, and 4 of those same-size gaps reach the point. The count does not restart at a whole-number label: 4/3.",
           "teaching": {
             "steps": [
               {
-                "text": "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+                "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -954,7 +955,7 @@
                 }
               },
               {
-                "text": "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1.",
+                "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -1186,7 +1187,7 @@
         ],
         "steps": [
           {
-            "say": "The first whole has 4 equal gaps; that unit length stays fixed.",
+            "say": "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -1364,7 +1365,7 @@
               "why": "A 1/4 gap after 1 must match a 1/4 gap before 1; larger gaps would change the unit being counted."
             },
             {
-              "text": "Keep the same gap size and continue the count from zero.",
+              "text": "Keep the same gap size and keep counting past 1.",
               "correct": true
             },
             {
@@ -1373,11 +1374,11 @@
             }
           ],
           "hints": [
-            "The first whole has 4 equal gaps; that unit length stays fixed.",
+            "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
             "Move one more equal gap beyond 1; its size matches a gap before 1."
           ],
           "show": [
-            "The first whole has 4 equal gaps; that unit length stays fixed.",
+            "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
             "Move one more equal gap beyond 1; its size matches a gap before 1.",
             "Keep counting all the way from zero; 9 same-size gaps locate this point."
           ],
@@ -1385,7 +1386,7 @@
           "teaching": {
             "steps": [
               {
-                "text": "The first whole has 4 equal gaps; that unit length stays fixed.",
+                "text": "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -2412,11 +2413,11 @@
         "answer": "2",
         "hints": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 2 equal gaps."
+          "Use only 0 to 1 for the denominator: count its equal gaps."
         ],
         "show": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 2 equal gaps.",
+          "Use only 0 to 1 for the denominator: count its equal gaps.",
           "2 gaps make one whole, so the denominator is 2."
         ],
         "yes": "2 equal gaps fit in 0 to 1; drawing more whole units does not change that denominator.",
@@ -2436,7 +2437,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: it contains 2 equal gaps.",
+              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2543,11 +2544,11 @@
         "answer": "3",
         "hints": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 2 equal gaps."
+          "Use only 0 to 1 for the denominator: count its equal gaps."
         ],
         "show": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 2 equal gaps.",
+          "Use only 0 to 1 for the denominator: count its equal gaps.",
           "Continue without restarting: 3 same-size gaps reach the point."
         ],
         "yes": "There are 3 equal gaps from zero, including the gaps before and after each whole label.",
@@ -2567,7 +2568,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: it contains 2 equal gaps.",
+              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2664,7 +2665,7 @@
       {
         "id": "g3",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -2679,21 +2680,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 3 gaps of size 1/2, so the point is 3/2."
         ],
         "yes": "One whole contains 2 equal gaps, and 3 of those same-size gaps reach the point. The count does not restart at a whole-number label: 3/2.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2717,7 +2718,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2912,7 +2913,7 @@
       {
         "id": "g4",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -2927,21 +2928,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 5 gaps of size 1/4, so the point is 5/4."
         ],
         "yes": "One whole contains 4 equal gaps, and 5 of those same-size gaps reach the point. The count does not restart at a whole-number label: 5/4.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2965,7 +2966,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3208,7 +3209,7 @@
         "options": [
           {
             "text": "Greater than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 1 wholes."
+            "why": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 1 whole."
           },
           {
             "text": "Less than 1.",
@@ -3491,7 +3492,7 @@
             },
             {
               "option": "Greater than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 1 wholes.",
+              "text": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3576,7 +3577,7 @@
         ],
         "options": [
           {
-            "text": "Keep the same gap size and continue the count from zero.",
+            "text": "Keep the same gap size and keep counting past 1.",
             "correct": true
           },
           {
@@ -3589,11 +3590,11 @@
           }
         ],
         "hints": [
-          "The first whole has 3 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1."
         ],
         "show": [
-          "The first whole has 3 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1.",
           "Keep counting all the way from zero; 5 same-size gaps locate this point."
         ],
@@ -3601,7 +3602,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "The first whole has 3 equal gaps; that unit length stays fixed.",
+              "text": "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3899,11 +3900,11 @@
         "answer": "6",
         "hints": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 6 equal gaps."
+          "Use only 0 to 1 for the denominator: count its equal gaps."
         ],
         "show": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 6 equal gaps.",
+          "Use only 0 to 1 for the denominator: count its equal gaps.",
           "6 gaps make one whole, so the denominator is 6."
         ],
         "yes": "6 equal gaps fit in 0 to 1; drawing more whole units does not change that denominator.",
@@ -3923,7 +3924,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: it contains 6 equal gaps.",
+              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4050,11 +4051,11 @@
         "answer": "7",
         "hints": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 6 equal gaps."
+          "Use only 0 to 1 for the denominator: count its equal gaps."
         ],
         "show": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 6 equal gaps.",
+          "Use only 0 to 1 for the denominator: count its equal gaps.",
           "Continue without restarting: 7 same-size gaps reach the point."
         ],
         "yes": "There are 7 equal gaps from zero, including the gaps before and after each whole label.",
@@ -4074,7 +4075,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: it contains 6 equal gaps.",
+              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4191,7 +4192,7 @@
       {
         "id": "t3",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -4206,21 +4207,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 7 gaps of size 1/6, so the point is 7/6."
         ],
         "yes": "One whole contains 6 equal gaps, and 7 of those same-size gaps reach the point. The count does not restart at a whole-number label: 7/6.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4244,7 +4245,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4475,7 +4476,7 @@
       {
         "id": "t4",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -4490,21 +4491,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 7 gaps of size 1/4, so the point is 7/4."
         ],
         "yes": "One whole contains 4 equal gaps, and 7 of those same-size gaps reach the point. The count does not restart at a whole-number label: 7/4.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4528,7 +4529,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4749,7 +4750,7 @@
       {
         "id": "t5",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -4764,21 +4765,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 9 gaps of size 1/6, so the point is 9/6."
         ],
         "yes": "One whole contains 6 equal gaps, and 9 of those same-size gaps reach the point. The count does not restart at a whole-number label: 9/6.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4802,7 +4803,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5041,7 +5042,7 @@
       {
         "id": "t6",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -5056,21 +5057,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 3 gaps of size 1/2, so the point is 3/2."
         ],
         "yes": "One whole contains 2 equal gaps, and 3 of those same-size gaps reach the point. The count does not restart at a whole-number label: 3/2.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5094,7 +5095,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5289,7 +5290,7 @@
       {
         "id": "t7",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -5304,21 +5305,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 13 gaps of size 1/8, so the point is 13/8."
         ],
         "yes": "One whole contains 8 equal gaps, and 13 of those same-size gaps reach the point. The count does not restart at a whole-number label: 13/8.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5342,7 +5343,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5607,7 +5608,7 @@
       {
         "id": "t8",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -5622,21 +5623,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 10 gaps of size 1/6, so the point is 10/6."
         ],
         "yes": "One whole contains 6 equal gaps, and 10 of those same-size gaps reach the point. The count does not restart at a whole-number label: 10/6.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5660,7 +5661,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5903,7 +5904,7 @@
       {
         "id": "t9",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -5918,21 +5919,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 5 gaps of size 1/3, so the point is 5/3."
         ],
         "yes": "One whole contains 3 equal gaps, and 5 of those same-size gaps reach the point. The count does not restart at a whole-number label: 5/3.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5956,7 +5957,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6164,7 +6165,7 @@
       {
         "id": "t10",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -6179,21 +6180,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 6 gaps of size 1/4, so the point is 6/4."
         ],
         "yes": "One whole contains 4 equal gaps, and 6 of those same-size gaps reach the point. The count does not restart at a whole-number label: 6/4.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 4 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6217,7 +6218,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 4 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6434,7 +6435,7 @@
       {
         "id": "t11",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -6449,21 +6450,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 14 gaps of size 1/8, so the point is 14/8."
         ],
         "yes": "One whole contains 8 equal gaps, and 14 of those same-size gaps reach the point. The count does not restart at a whole-number label: 14/8.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6487,7 +6488,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6756,7 +6757,7 @@
       {
         "id": "t12",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -6771,21 +6772,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 15 gaps of size 1/8, so the point is 15/8."
         ],
         "yes": "One whole contains 8 equal gaps, and 15 of those same-size gaps reach the point. The count does not restart at a whole-number label: 15/8.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6809,7 +6810,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7082,7 +7083,7 @@
       {
         "id": "t13",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -7097,21 +7098,21 @@
         },
         "answerPolicy": "partition",
         "hints": [
-          "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1."
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1."
         ],
         "show": [
-          "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 4 gaps of size 1/2, so the point is 4/2."
         ],
         "yes": "One whole contains 2 equal gaps, and 4 of those same-size gaps reach the point. The count does not restart at a whole-number label: 4/2.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 2 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7135,7 +7136,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 2 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7364,7 +7365,7 @@
         "options": [
           {
             "text": "Greater than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 1 wholes."
+            "why": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 1 whole."
           },
           {
             "text": "Less than 1.",
@@ -7675,7 +7676,7 @@
             },
             {
               "option": "Greater than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 1 wholes.",
+              "text": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7738,79 +7739,83 @@
       {
         "id": "t15",
         "type": "choice",
-        "prompt": "Is the marked point less than, equal to, or greater than 1 whole unit?",
+        "prompt": "Is the marked point less than, equal to, or greater than 2 whole units?",
         "model": {
           "type": "fraction",
           "kind": "line",
-          "parts": 2,
-          "max": 2,
-          "point": 3,
+          "parts": 3,
+          "max": 3,
+          "point": 5,
           "caption": "Point to compare"
         },
         "models": [
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 2,
-            "max": 2,
-            "point": 3,
+            "parts": 3,
+            "max": 3,
+            "point": 5,
             "caption": "Point to compare"
           },
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 2,
-            "max": 2,
-            "point": 2,
-            "caption": "1 whole unit"
+            "parts": 3,
+            "max": 3,
+            "point": 6,
+            "caption": "2 whole units"
           }
         ],
         "options": [
           {
-            "text": "Less than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 2 gaps needed for 1 wholes."
+            "text": "Less than 2.",
+            "correct": true
           },
           {
-            "text": "Equal to 1.",
+            "text": "Equal to 2.",
             "why": "Equal would put both points at the very same position. Compare the point to the whole-number reference."
           },
           {
-            "text": "Greater than 1.",
-            "correct": true
+            "text": "Greater than 2.",
+            "why": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 2 wholes."
           }
         ],
         "hints": [
-          "Both lines use the same unit and 2 equal gaps in each whole.",
-          "Use the whole-number label 1 as a reference; compare where the two points lie."
+          "Both lines use the same unit and 3 equal gaps in each whole.",
+          "Use the whole-number label 2 as a reference; compare where the two points lie."
         ],
         "show": [
-          "Both lines use the same unit and 2 equal gaps in each whole.",
-          "Use the whole-number label 1 as a reference; compare where the two points lie.",
-          "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1."
+          "Both lines use the same unit and 3 equal gaps in each whole.",
+          "Use the whole-number label 2 as a reference; compare where the two points lie.",
+          "2 whole units need 6 gaps of size 1/3. The point uses 5, so it is less than 2."
         ],
-        "yes": "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1.",
+        "yes": "2 whole units need 6 gaps of size 1/3. The point uses 5, so it is less than 2.",
         "teaching": {
           "steps": [
             {
-              "text": "Both lines use the same unit and 2 equal gaps in each whole.",
+              "text": "Both lines use the same unit and 3 equal gaps in each whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 2,
-                "max": 2,
-                "point": 2,
-                "caption": "1 whole unit",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
-                  1
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
+                  "parts": 3,
+                  "max": 3,
                   "point": 0,
                   "caption": "Point to compare",
                   "counted": []
@@ -7818,97 +7823,121 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 2,
-                  "caption": "1 whole unit",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
-                    1
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
                   ]
                 }
               ]
             },
             {
-              "text": "Use the whole-number label 1 as a reference; compare where the two points lie.",
+              "text": "Use the whole-number label 2 as a reference; compare where the two points lie.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 2,
-                "max": 2,
-                "point": 2,
-                "caption": "1 whole unit",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
-                  1
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 3,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 5,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2
+                    2,
+                    3,
+                    4
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 2,
-                  "caption": "1 whole unit",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
-                    1
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
                   ]
                 }
               ]
             },
             {
-              "text": "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1.",
+              "text": "2 whole units need 6 gaps of size 1/3. The point uses 5, so it is less than 2.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 2,
-                "max": 2,
-                "point": 2,
-                "caption": "1 whole unit",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
-                  1
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 3,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 5,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2
+                    2,
+                    3,
+                    4
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 2,
-                  "caption": "1 whole unit",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
-                    1
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
                   ]
                 }
               ],
@@ -7916,130 +7945,160 @@
             }
           ],
           "correct": {
-            "text": "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1.",
+            "text": "2 whole units need 6 gaps of size 1/3. The point uses 5, so it is less than 2.",
             "model": {
               "type": "fraction",
               "kind": "line",
-              "parts": 2,
-              "max": 2,
-              "point": 2,
-              "caption": "1 whole unit",
+              "parts": 3,
+              "max": 3,
+              "point": 6,
+              "caption": "2 whole units",
               "counted": [
                 0,
-                1
+                1,
+                2,
+                3,
+                4,
+                5
               ]
             },
             "models": [
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 2,
-                "max": 2,
-                "point": 3,
+                "parts": 3,
+                "max": 3,
+                "point": 5,
                 "caption": "Point to compare",
                 "counted": [
                   0,
                   1,
-                  2
+                  2,
+                  3,
+                  4
                 ]
               },
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 2,
-                "max": 2,
-                "point": 2,
-                "caption": "1 whole unit",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
-                  1
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ]
               }
             ]
           },
           "wrong": [
             {
-              "option": "Less than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 2 gaps needed for 1 wholes.",
+              "option": "Equal to 2.",
+              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 2,
-                "max": 2,
-                "point": 2,
-                "caption": "1 whole unit",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
-                  1
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 3,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 5,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2
+                    2,
+                    3,
+                    4
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 2,
-                  "caption": "1 whole unit",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
-                    1
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
                   ]
                 }
               ]
             },
             {
-              "option": "Equal to 1.",
-              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
+              "option": "Greater than 2.",
+              "text": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 2 wholes.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 2,
-                "max": 2,
-                "point": 2,
-                "caption": "1 whole unit",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
-                  1
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 3,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 5,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2
+                    2,
+                    3,
+                    4
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 2,
-                  "max": 2,
-                  "point": 2,
-                  "caption": "1 whole unit",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
-                    1
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
                   ]
                 }
               ]
@@ -8086,16 +8145,16 @@
             "why": "A 1/2 gap after 1 must match a 1/2 gap before 1; larger gaps would change the unit being counted."
           },
           {
-            "text": "Keep the same gap size and continue the count from zero.",
+            "text": "Keep the same gap size and keep counting past 1.",
             "correct": true
           }
         ],
         "hints": [
-          "The first whole has 2 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1."
         ],
         "show": [
-          "The first whole has 2 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1.",
           "Keep counting all the way from zero; 3 same-size gaps locate this point."
         ],
@@ -8103,7 +8162,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "The first whole has 2 equal gaps; that unit length stays fixed.",
+              "text": "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -8395,7 +8454,7 @@
             "why": "A 1/3 gap after 1 must match a 1/3 gap before 1; larger gaps would change the unit being counted."
           },
           {
-            "text": "Keep the same gap size and continue the count from zero.",
+            "text": "Keep the same gap size and keep counting past 1.",
             "correct": true
           },
           {
@@ -8404,11 +8463,11 @@
           }
         ],
         "hints": [
-          "The first whole has 3 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1."
         ],
         "show": [
-          "The first whole has 3 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1.",
           "Keep counting all the way from zero; 8 same-size gaps locate this point."
         ],
@@ -8416,7 +8475,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "The first whole has 3 equal gaps; that unit length stays fixed.",
+              "text": "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -8744,7 +8803,7 @@
         ],
         "options": [
           {
-            "text": "Keep the same gap size and continue the count from zero.",
+            "text": "Keep the same gap size and keep counting past 1.",
             "correct": true
           },
           {
@@ -8757,11 +8816,11 @@
           }
         ],
         "hints": [
-          "The first whole has 4 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1."
         ],
         "show": [
-          "The first whole has 4 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1.",
           "Keep counting all the way from zero; 5 same-size gaps locate this point."
         ],
@@ -8769,7 +8828,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "The first whole has 4 equal gaps; that unit length stays fixed.",
+              "text": "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -9072,11 +9131,11 @@
         "answer": "10",
         "hints": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 4 equal gaps."
+          "Use only 0 to 1 for the denominator: count its equal gaps."
         ],
         "show": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 4 equal gaps.",
+          "Use only 0 to 1 for the denominator: count its equal gaps.",
           "Continue without restarting: 10 same-size gaps reach the point."
         ],
         "yes": "There are 10 equal gaps from zero, including the gaps before and after each whole label.",
@@ -9096,7 +9155,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: it contains 4 equal gaps.",
+              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -9787,7 +9846,7 @@
       {
         "id": "x1",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -9802,16 +9861,16 @@
         },
         "answerPolicy": "partition",
         "show": [
-          "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 11 gaps of size 1/8, so the point is 11/8."
         ],
         "yes": "One whole contains 8 equal gaps, and 11 of those same-size gaps reach the point. The count does not restart at a whole-number label: 11/8.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 8 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -9835,7 +9894,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 8 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10093,7 +10152,7 @@
       {
         "id": "x2",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -10108,16 +10167,16 @@
         },
         "answerPolicy": "partition",
         "show": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 13 gaps of size 1/6, so the point is 13/6."
         ],
         "yes": "One whole contains 6 equal gaps, and 13 of those same-size gaps reach the point. The count does not restart at a whole-number label: 13/6.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10141,7 +10200,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10397,7 +10456,7 @@
       {
         "id": "x3",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -10412,16 +10471,16 @@
         },
         "answerPolicy": "partition",
         "show": [
-          "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 11 gaps of size 1/6, so the point is 11/6."
         ],
         "yes": "One whole contains 6 equal gaps, and 11 of those same-size gaps reach the point. The count does not restart at a whole-number label: 11/6.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 6 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10445,7 +10504,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 6 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10704,7 +10763,7 @@
         "answer": "6",
         "show": [
           "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: it contains 3 equal gaps.",
+          "Use only 0 to 1 for the denominator: count its equal gaps.",
           "Continue without restarting: 6 same-size gaps reach the point."
         ],
         "yes": "There are 6 equal gaps from zero, including the gaps before and after each whole label.",
@@ -10724,7 +10783,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: it contains 3 equal gaps.",
+              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -11272,7 +11331,7 @@
           },
           {
             "text": "Greater than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 4 gaps with the 6 gaps needed for 1 wholes."
+            "why": "A numerator counts small gaps, not whole units. Compare 4 gaps with the 6 gaps needed for 1 whole."
           }
         ],
         "show": [
@@ -11539,7 +11598,7 @@
             },
             {
               "option": "Greater than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 4 gaps with the 6 gaps needed for 1 wholes.",
+              "text": "A numerator counts small gaps, not whole units. Compare 4 gaps with the 6 gaps needed for 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -11630,11 +11689,11 @@
           },
           {
             "text": "Greater than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 wholes."
+            "why": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 whole."
           },
           {
             "text": "Less than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 wholes."
+            "why": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 whole."
           }
         ],
         "show": [
@@ -11877,7 +11936,7 @@
           "wrong": [
             {
               "option": "Less than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 wholes.",
+              "text": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -11937,7 +11996,7 @@
             },
             {
               "option": "Greater than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 wholes.",
+              "text": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 8 gaps needed for 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -12034,7 +12093,7 @@
             "why": "A 1/8 gap after 1 must match a 1/8 gap before 1; larger gaps would change the unit being counted."
           },
           {
-            "text": "Keep the same gap size and continue the count from zero.",
+            "text": "Keep the same gap size and keep counting past 1.",
             "correct": true
           },
           {
@@ -12043,7 +12102,7 @@
           }
         ],
         "show": [
-          "The first whole has 8 equal gaps; that unit length stays fixed.",
+          "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
           "Move one more equal gap beyond 1; its size matches a gap before 1.",
           "Keep counting all the way from zero; 9 same-size gaps locate this point."
         ],
@@ -12051,7 +12110,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "The first whole has 8 equal gaps; that unit length stays fixed.",
+              "text": "Count the equal gaps in the first whole. That unit length stays the same all along the line.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -12408,7 +12467,7 @@
       {
         "id": "x9",
         "type": "fraction",
-        "prompt": "Each 0-to-1 length is one whole. Name the marked point using the displayed number of intervals per whole as the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -12423,16 +12482,16 @@
         },
         "answerPolicy": "partition",
         "show": [
-          "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+          "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
           "Start at zero. The first gap ends at the highlighted point; zero itself is not a jump.",
-          "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1.",
+          "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
           "From zero to the marked point there are 10 gaps of size 1/3, so the point is 10/3."
         ],
         "yes": "One whole contains 3 equal gaps, and 10 of those same-size gaps reach the point. The count does not restart at a whole-number label: 10/3.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the 0-to-1 whole unit. It has 3 equal gaps; the point starts at zero.",
+              "text": "Find the 0-to-1 whole unit and count its equal gaps. Zero is the start, not a gap.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -12456,7 +12515,7 @@
               }
             },
             {
-              "text": "At 1 you have counted 3 gaps. Keep the same gap size and continue the count after 1.",
+              "text": "At 1 you have counted every gap in one whole. Keep the same gap size and keep counting past 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",

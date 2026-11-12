@@ -128,6 +128,8 @@ export function mountLesson(app, ctx, signal) {
   if (ctx.lesson.id === '7-1' && ctx.stage === 'parent') mountJourneyReset(app, ctx, signal);
   const { lesson } = ctx;
   const stage = stageOf(ctx.stage);
+  // A stage that is not open yet (teach first, Lessons 7-2 to 7-7) has nothing to control.
+  if (app.querySelector('#lesson-stage[data-locked]')) { mountReadButtons(app, signal); return; }
   const state = stateFor(lesson.id, stage);
   const items = itemsById(lesson, stage);
   const live = document.getElementById('live');
@@ -305,9 +307,10 @@ export function mountLesson(app, ctx, signal) {
       // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = items.get(form.dataset.item);
       const st = itemState(item.id);
-      if ((!st.tries && lesson.id !== '7-1') || st.status === 'correct' || st.shown || (stage === 'test' && !state.misses)) return;
+      if ((!st.tries && lesson.id !== '7-1' && !(stage === 'together' && /^7-[2-7]$/.test(lesson.id))) || st.status === 'correct' || st.shown || (stage === 'test' && !state.misses)) return;
       saveForm(form);
-      if (lesson.id === '7-1') st.scaffoldAssisted = true;
+      // Help opened before the first check makes a right answer assisted, not independent.
+      if (lesson.id === '7-1' || !st.tries) st.scaffoldAssisted = true;
       const steps = lessonHelpSteps(lesson, item);
       if (isChapter7(lesson.id) && item.teaching) st.coachView = 'help';
       const historical = historyItem(item.id); if (historical) historical.help += 1;
@@ -374,6 +377,12 @@ export function mountLesson(app, ctx, signal) {
       const to = act === 'goto' ? Number(btn.dataset.to) : state.i + (act === 'next' ? 1 : -1);
       state.i = Math.max(0, Math.min(stage === 'try' ? cards.length : cards.length - 1, to));
       state.warned = false;
+      // The first finished round of Try It Yourself is the one the readiness report uses (later rounds are practice).
+      if (stage === 'try' && state.i >= cards.length && state.history && !state.history.firstTry) {
+        const rec = (it) => state.items[it.id] || {};
+        state.history.firstTry = { total: cards.length, own: cards.filter((it) => rec(it).first === 'correct' && !rec(it).scaffoldAssisted).length,
+          helped: cards.filter((it) => rec(it).status === 'correct' && (rec(it).first !== 'correct' || rec(it).scaffoldAssisted)).length, pass: lesson.try.pass };
+      }
       rerender('#stage-h');
       window.scrollTo({ top: Math.max(0, area().getBoundingClientRect().top + window.scrollY - 12) });
       return;
@@ -395,6 +404,8 @@ export function mountLesson(app, ctx, signal) {
       }
       state.submitted = true;
       const right = cards.filter((it) => state.items[it.id].status === 'correct').length;
+      // Only the first test counts: after it, every answer is shown, so a retake is practice.
+      if (state.history && !state.history.firstTest) state.history.firstTest = { right, total: cards.length, pass: lesson.test.pass, missed: cards.filter((it) => state.items[it.id].status !== 'correct').map((it) => it.id) };
       announce(`You got ${right} out of ${cards.length}.`);
       rerender('#stage-h');
       return;
@@ -402,6 +413,7 @@ export function mountLesson(app, ctx, signal) {
     if (act === 'restart') {
       if (state.history) state.history.restarts += 1;
       Object.assign(state, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false, misses: null, completed: false, seen: {} });
+      if (stage === 'test' && state.history?.firstTest) state.retake = true;
       rerender('#stage-h');
     }
   }, { signal });

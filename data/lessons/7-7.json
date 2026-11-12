@@ -41,7 +41,8 @@
           "parts": 6,
           "wholes": 1,
           "selected": []
-        }
+        },
+        "teacher": true
       },
       {
         "title": "Count the whole set",
@@ -404,12 +405,12 @@
           "answerPolicy": "partition",
           "hints": [
             "The whole is the collection of every object, including plain objects.",
-            "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+            "Count each object once, selected and plain. That count goes on the bottom.",
             "Now use only the selected objects for the top; start with this marked selected object."
           ],
           "show": [
             "The whole is the collection of every object, including plain objects.",
-            "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+            "Count each object once, selected and plain. That count goes on the bottom.",
             "Now use only the selected objects for the top; start with this marked selected object.",
             "5 selected objects out of 8 objects in the whole set gives 5/8."
           ],
@@ -427,7 +428,7 @@
                 }
               },
               {
-                "text": "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+                "text": "Count each object once, selected and plain. That count goes on the bottom.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -727,7 +728,7 @@
             }
           },
           {
-            "say": "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+            "say": "Count each object once, selected and plain. That count goes on the bottom.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -762,7 +763,7 @@
             }
           },
           {
-            "say": "1 selected objects out of 6 objects in the whole set gives 1/6.",
+            "say": "1 selected object out of 6 objects in the whole set gives 1/6.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -798,14 +799,14 @@
           "answerPolicy": "partition",
           "hints": [
             "The whole is the collection of every object, including plain objects.",
-            "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+            "Count each object once, selected and plain. That count goes on the bottom.",
             "Now use only the selected objects for the top; start with this marked selected object."
           ],
           "show": [
             "The whole is the collection of every object, including plain objects.",
-            "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+            "Count each object once, selected and plain. That count goes on the bottom.",
             "Now use only the selected objects for the top; start with this marked selected object.",
-            "1 selected objects out of 6 objects in the whole set gives 1/6."
+            "1 selected object out of 6 objects in the whole set gives 1/6."
           ],
           "yes": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
           "teaching": {
@@ -821,7 +822,7 @@
                 }
               },
               {
-                "text": "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+                "text": "Count each object once, selected and plain. That count goes on the bottom.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -856,7 +857,7 @@
                 }
               },
               {
-                "text": "1 selected objects out of 6 objects in the whole set gives 1/6.",
+                "text": "1 selected object out of 6 objects in the whole set gives 1/6.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -1543,7 +1544,7 @@
             }
           },
           {
-            "say": "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+            "say": "Count each object once, selected and plain. That count goes on the bottom.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -1633,12 +1634,12 @@
           "answerPolicy": "partition",
           "hints": [
             "The whole is the collection of every object, including plain objects.",
-            "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+            "Count each object once, selected and plain. That count goes on the bottom.",
             "Now use only the selected objects for the top; start with this marked selected object."
           ],
           "show": [
             "The whole is the collection of every object, including plain objects.",
-            "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+            "Count each object once, selected and plain. That count goes on the bottom.",
             "Now use only the selected objects for the top; start with this marked selected object.",
             "4 selected objects out of 10 objects in the whole set gives 4/10."
           ],
@@ -1656,7 +1657,7 @@
                 }
               },
               {
-                "text": "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+                "text": "Count each object once, selected and plain. That count goes on the bottom.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -2192,14 +2193,14 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 3 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 3 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
-          "1 selected objects out of 3 objects in the whole set gives 1/3."
+          "1 selected object out of 3 objects in the whole set gives 1/3."
         ],
         "yes": "The selected objects are 1 of the 3 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/3.",
         "teaching": {
@@ -2215,7 +2216,7 @@
               }
             },
             {
-              "text": "Count each object once: 3 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2247,7 +2248,7 @@
               }
             },
             {
-              "text": "1 selected objects out of 3 objects in the whole set gives 1/3.",
+              "text": "1 selected object out of 3 objects in the whole set gives 1/3.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2415,12 +2416,12 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "2 selected objects out of 6 objects in the whole set gives 2/6."
         ],
@@ -2438,7 +2439,7 @@
               }
             },
             {
-              "text": "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3152,14 +3153,14 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
-          "1 selected objects out of 10 objects in the whole set gives 1/10."
+          "1 selected object out of 10 objects in the whole set gives 1/10."
         ],
         "yes": "The selected objects are 1 of the 10 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/10.",
         "teaching": {
@@ -3175,7 +3176,7 @@
               }
             },
             {
-              "text": "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3214,7 +3215,7 @@
               }
             },
             {
-              "text": "1 selected objects out of 10 objects in the whole set gives 1/10.",
+              "text": "1 selected object out of 10 objects in the whole set gives 1/10.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3388,14 +3389,14 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 4 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 4 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
-          "1 selected objects out of 4 objects in the whole set gives 1/4."
+          "1 selected object out of 4 objects in the whole set gives 1/4."
         ],
         "yes": "The selected objects are 1 of the 4 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/4.",
         "teaching": {
@@ -3411,7 +3412,7 @@
               }
             },
             {
-              "text": "Count each object once: 4 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3444,7 +3445,7 @@
               }
             },
             {
-              "text": "1 selected objects out of 4 objects in the whole set gives 1/4.",
+              "text": "1 selected object out of 4 objects in the whole set gives 1/4.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3612,14 +3613,14 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
-          "1 selected objects out of 6 objects in the whole set gives 1/6."
+          "1 selected object out of 6 objects in the whole set gives 1/6."
         ],
         "yes": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
         "teaching": {
@@ -3635,7 +3636,7 @@
               }
             },
             {
-              "text": "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3670,7 +3671,7 @@
               }
             },
             {
-              "text": "1 selected objects out of 6 objects in the whole set gives 1/6.",
+              "text": "1 selected object out of 6 objects in the whole set gives 1/6.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3840,14 +3841,14 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
-          "1 selected objects out of 12 objects in the whole set gives 1/12."
+          "1 selected object out of 12 objects in the whole set gives 1/12."
         ],
         "yes": "The selected objects are 1 of the 12 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/12.",
         "teaching": {
@@ -3863,7 +3864,7 @@
               }
             },
             {
-              "text": "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3904,7 +3905,7 @@
               }
             },
             {
-              "text": "1 selected objects out of 12 objects in the whole set gives 1/12.",
+              "text": "1 selected object out of 12 objects in the whole set gives 1/12.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4080,14 +4081,14 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 2 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 2 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
-          "1 selected objects out of 2 objects in the whole set gives 1/2."
+          "1 selected object out of 2 objects in the whole set gives 1/2."
         ],
         "yes": "The selected objects are 1 of the 2 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/2.",
         "teaching": {
@@ -4103,7 +4104,7 @@
               }
             },
             {
-              "text": "Count each object once: 2 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4134,7 +4135,7 @@
               }
             },
             {
-              "text": "1 selected objects out of 2 objects in the whole set gives 1/2.",
+              "text": "1 selected object out of 2 objects in the whole set gives 1/2.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4281,14 +4282,14 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
-          "1 selected objects out of 8 objects in the whole set gives 1/8."
+          "1 selected object out of 8 objects in the whole set gives 1/8."
         ],
         "yes": "The selected objects are 1 of the 8 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/8.",
         "teaching": {
@@ -4304,7 +4305,7 @@
               }
             },
             {
-              "text": "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4341,7 +4342,7 @@
               }
             },
             {
-              "text": "1 selected objects out of 8 objects in the whole set gives 1/8.",
+              "text": "1 selected object out of 8 objects in the whole set gives 1/8.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4515,12 +4516,12 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "3 selected objects out of 12 objects in the whole set gives 3/12."
         ],
@@ -4538,7 +4539,7 @@
               }
             },
             {
-              "text": "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4782,12 +4783,12 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "2 selected objects out of 6 objects in the whole set gives 2/6."
         ],
@@ -4805,7 +4806,7 @@
               }
             },
             {
-              "text": "Count each object once: 6 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5024,12 +5025,12 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 3 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 3 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "2 selected objects out of 3 objects in the whole set gives 2/3."
         ],
@@ -5047,7 +5048,7 @@
               }
             },
             {
-              "text": "Count each object once: 3 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5262,12 +5263,12 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 5 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 5 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "4 selected objects out of 5 objects in the whole set gives 4/5."
         ],
@@ -5285,7 +5286,7 @@
               }
             },
             {
-              "text": "Count each object once: 5 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5534,12 +5535,12 @@
         "answerPolicy": "partition",
         "hints": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object."
         ],
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "8 selected objects out of 10 objects in the whole set gives 8/10."
         ],
@@ -5557,7 +5558,7 @@
               }
             },
             {
-              "text": "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5843,132 +5844,132 @@
       {
         "id": "t12",
         "type": "choice",
-        "prompt": "The entire collection is one whole set. Which objects count for the denominator?",
+        "prompt": "Is the selected fraction a unit fraction?",
         "model": {
           "type": "fraction",
           "kind": "set",
-          "parts": 2,
+          "parts": 4,
           "wholes": 1,
           "selected": [
-            1
+            2
           ]
         },
         "options": [
           {
-            "text": "Every object, both selected and plain.",
+            "text": "Yes; exactly one object is selected, so the top number is 1.",
             "correct": true
           },
           {
-            "text": "Only the selected objects.",
-            "why": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom."
+            "text": "No; a fraction of a set is never a unit fraction.",
+            "why": "A set can have a unit fraction too: one object out of the whole set."
           },
           {
-            "text": "Only the plain objects.",
-            "why": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom."
+            "text": "No; the whole set has more than one object.",
+            "why": "The bottom counts the whole set. A unit fraction is about the top: exactly one selected object."
           }
         ],
         "hints": [
-          "Find the whole set: no object shown is outside this collection.",
-          "Selected objects are still members of the whole set."
+          "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+          "Count the selected objects. That count goes on top."
         ],
         "show": [
-          "Find the whole set: no object shown is outside this collection.",
-          "Selected objects are still members of the whole set.",
-          "Count all 2 objects for the bottom, including both kinds."
+          "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+          "Count the selected objects. That count goes on top.",
+          "One object is selected out of 4, so the fraction is 1/4. Its top number is 1, so it is a unit fraction."
         ],
-        "yes": "The denominator describes the whole collection of 2 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+        "yes": "One selected object out of 4 is 1/4. The top number is 1, so it is a unit fraction.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the whole set: no object shown is outside this collection.",
+              "text": "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 2,
+                "parts": 4,
                 "wholes": 1,
-                "selected": []
+                "selected": [
+                  2
+                ],
+                "counted": []
               }
             },
             {
-              "text": "Selected objects are still members of the whole set.",
+              "text": "Count the selected objects. That count goes on top.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 2,
+                "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1
+                  2
                 ],
                 "counted": [
-                  1
+                  2
                 ]
               }
             },
             {
-              "text": "Count all 2 objects for the bottom, including both kinds.",
+              "text": "One object is selected out of 4, so the fraction is 1/4. Its top number is 1, so it is a unit fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 2,
+                "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1
+                  2
                 ],
                 "counted": [
-                  0,
-                  1
+                  2
                 ]
               },
               "revealsAnswer": true
             }
           ],
           "correct": {
-            "text": "The denominator describes the whole collection of 2 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+            "text": "One selected object out of 4 is 1/4. The top number is 1, so it is a unit fraction.",
             "model": {
               "type": "fraction",
               "kind": "set",
-              "parts": 2,
+              "parts": 4,
               "wholes": 1,
               "selected": [
-                1
+                2
               ],
               "counted": [
-                0,
-                1
+                2
               ]
             }
           },
           "wrong": [
             {
-              "option": "Only the selected objects.",
-              "text": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom.",
+              "option": "No; a fraction of a set is never a unit fraction.",
+              "text": "A set can have a unit fraction too: one object out of the whole set.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 2,
+                "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1
+                  2
                 ],
                 "counted": [
-                  1
+                  2
                 ]
               }
             },
             {
-              "option": "Only the plain objects.",
-              "text": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom.",
+              "option": "No; the whole set has more than one object.",
+              "text": "The bottom counts the whole set. A unit fraction is about the top: exactly one selected object.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 2,
+                "parts": 4,
                 "wholes": 1,
                 "selected": [
-                  1
+                  2
                 ],
                 "counted": [
-                  0,
-                  1
+                  2
                 ]
               }
             }
@@ -6163,138 +6164,142 @@
       {
         "id": "t14",
         "type": "choice",
-        "prompt": "The entire collection is one whole set. Which objects count for the denominator?",
+        "prompt": "Is the selected fraction a unit fraction?",
         "model": {
           "type": "fraction",
           "kind": "set",
-          "parts": 4,
+          "parts": 6,
           "wholes": 1,
           "selected": [
-            0
+            1,
+            4
           ]
         },
         "options": [
           {
-            "text": "Only the plain objects.",
-            "why": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom."
+            "text": "Yes; one whole set is shown.",
+            "why": "One whole set names the entire collection, not the number selected. A unit fraction needs exactly one selected object."
           },
           {
-            "text": "Every object, both selected and plain.",
+            "text": "No; more than one object is selected.",
             "correct": true
           },
           {
-            "text": "Only the selected objects.",
-            "why": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom."
+            "text": "Yes; every fraction of a set is a unit fraction.",
+            "why": "Being a set does not decide whether a fraction is a unit fraction. Inspect how many objects are selected on top."
           }
         ],
         "hints": [
-          "Find the whole set: no object shown is outside this collection.",
-          "Selected objects are still members of the whole set."
+          "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+          "This set selects more than that first object."
         ],
         "show": [
-          "Find the whole set: no object shown is outside this collection.",
-          "Selected objects are still members of the whole set.",
-          "Count all 4 objects for the bottom, including both kinds."
+          "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+          "This set selects more than that first object.",
+          "There are 2 selected objects, so the numerator is 2, not 1. It is not a unit fraction."
         ],
-        "yes": "The denominator describes the whole collection of 4 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+        "yes": "A unit fraction selects one counting part. This picture selects 2 objects out of 6, so the top is 2; it is not a unit fraction.",
         "teaching": {
           "steps": [
             {
-              "text": "Find the whole set: no object shown is outside this collection.",
+              "text": "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 4,
-                "wholes": 1,
-                "selected": []
-              }
-            },
-            {
-              "text": "Selected objects are still members of the whole set.",
-              "model": {
-                "type": "fraction",
-                "kind": "set",
-                "parts": 4,
+                "parts": 6,
                 "wholes": 1,
                 "selected": [
-                  0
-                ],
-                "counted": [
-                  0
+                  1
                 ]
               }
             },
             {
-              "text": "Count all 4 objects for the bottom, including both kinds.",
+              "text": "This set selects more than that first object.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 4,
+                "parts": 6,
                 "wholes": 1,
                 "selected": [
-                  0
+                  1,
+                  4
                 ],
                 "counted": [
-                  0,
                   1,
-                  2,
-                  3
+                  4
+                ]
+              }
+            },
+            {
+              "text": "There are 2 selected objects, so the numerator is 2, not 1. It is not a unit fraction.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  1,
+                  4
+                ],
+                "counted": [
+                  1,
+                  4
                 ]
               },
               "revealsAnswer": true
             }
           ],
           "correct": {
-            "text": "The denominator describes the whole collection of 4 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+            "text": "A unit fraction selects one counting part. This picture selects 2 objects out of 6, so the top is 2; it is not a unit fraction.",
             "model": {
               "type": "fraction",
               "kind": "set",
-              "parts": 4,
+              "parts": 6,
               "wholes": 1,
               "selected": [
-                0
+                1,
+                4
               ],
               "counted": [
-                0,
                 1,
-                2,
-                3
+                4
               ]
             }
           },
           "wrong": [
             {
-              "option": "Only the selected objects.",
-              "text": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom.",
+              "option": "Yes; every fraction of a set is a unit fraction.",
+              "text": "Being a set does not decide whether a fraction is a unit fraction. Inspect how many objects are selected on top.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 4,
+                "parts": 6,
                 "wholes": 1,
                 "selected": [
-                  0
+                  1,
+                  4
                 ],
                 "counted": [
-                  0
+                  1,
+                  4
                 ]
               }
             },
             {
-              "option": "Only the plain objects.",
-              "text": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom.",
+              "option": "Yes; one whole set is shown.",
+              "text": "One whole set names the entire collection, not the number selected. A unit fraction needs exactly one selected object.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
-                "parts": 4,
+                "parts": 6,
                 "wholes": 1,
                 "selected": [
-                  0
+                  1,
+                  4
                 ],
                 "counted": [
-                  0,
                   1,
-                  2,
-                  3
+                  4
                 ]
               }
             }
@@ -6581,7 +6586,7 @@
           "The selected objects have new positions, but the same number are selected.",
           "Both pictures show 1 selected out of 3; the fraction stays 1/3."
         ],
-        "yes": "Moving changes positions, not membership: there are still 3 objects in the whole and 1 selected objects. So both fractions are 1/3.",
+        "yes": "Moving changes positions, not membership: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
         "teaching": {
           "steps": [
             {
@@ -6695,7 +6700,7 @@
             }
           ],
           "correct": {
-            "text": "Moving changes positions, not membership: there are still 3 objects in the whole and 1 selected objects. So both fractions are 1/3.",
+            "text": "Moving changes positions, not membership: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -7919,7 +7924,7 @@
         "answerPolicy": "partition",
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "9 selected objects out of 12 objects in the whole set gives 9/12."
         ],
@@ -7937,7 +7942,7 @@
               }
             },
             {
-              "text": "Count each object once: 12 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8263,7 +8268,7 @@
         "answerPolicy": "partition",
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "5 selected objects out of 10 objects in the whole set gives 5/10."
         ],
@@ -8281,7 +8286,7 @@
               }
             },
             {
-              "text": "Count each object once: 10 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -9448,7 +9453,7 @@
         "answerPolicy": "partition",
         "show": [
           "The whole is the collection of every object, including plain objects.",
-          "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+          "Count each object once, selected and plain. That count goes on the bottom.",
           "Now use only the selected objects for the top; start with this marked selected object.",
           "4 selected objects out of 8 objects in the whole set gives 4/8."
         ],
@@ -9466,7 +9471,7 @@
               }
             },
             {
-              "text": "Count each object once: 8 objects make the whole set. That count goes on the bottom.",
+              "text": "Count each object once, selected and plain. That count goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "set",

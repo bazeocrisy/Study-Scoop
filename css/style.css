@@ -343,6 +343,8 @@ ul.plain, ul.dates, ul.archive, ul.words, ul.checklist { list-style: none; margi
   .box { width: 58px; height: 52px; font-size: 1.3rem; }
   .stepper a { font-size: 0; gap: 0; min-height: 44px; }
   .stepper a .n { font-size: .95rem; }
+  .stepper li.locked .stage-locked { font-size: 0; gap: 0; min-height: 44px; }
+  .stepper li.locked .stage-locked .n { font-size: .95rem; }
 }
 
 /* Print: black and white, outlines instead of colour fills, no navigation */
@@ -1333,3 +1335,17 @@ ol.rd-key { list-style: decimal; padding-left: 1.4em; }
 .rd-apanel { padding: 10px 14px; border: 2px solid var(--teal); border-top: 0; border-radius: 0 0 var(--r) var(--r); background: var(--well); display: grid; gap: 4px; }
 .rd-apanel ol { margin: 0; padding-left: 1.4em; }
 .rd-key { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+
+/* Chapter 7 teaching release (Lessons 7-2 to 7-7): phase tags, locked practice, readiness report. */
+.stepper .phase-tag { font-size: .72rem; font-weight: 700; color: var(--muted); }
+.stepper li.locked .stage-locked { display: grid; justify-items: center; gap: 4px; min-height: 64px; padding: 4px 2px; color: var(--muted); cursor: not-allowed; }
+.stepper li.locked .n { border-style: dashed; }
+.phase-badge { display: inline-block; vertical-align: middle; margin-right: 6px; padding: 2px 10px; border-radius: 999px; font-size: .85rem; border: 2px solid var(--honey); background: var(--honey-tint); color: var(--ink); }
+.phase-badge.phase-together { border-color: var(--teal); background: var(--teal-tint); }
+.phase-badge.phase-try { border-color: var(--berry); background: var(--berry-tint); }
+.locked-stage, .readiness { display: grid; gap: 8px; }
+.locked-stage p, .readiness p { margin: 0; }
+.readiness .verdict { padding: 10px 12px; border-radius: var(--r-sm); border-left: 6px solid var(--line-strong); background: var(--sunk); }
+.readiness .verdict.ready { border-left-color: var(--teal); }
+.readiness .verdict.review { border-left-color: var(--honey); }
+.readiness .verdict.notyet { border-left-color: var(--berry); }

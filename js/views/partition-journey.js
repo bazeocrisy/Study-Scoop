@@ -352,18 +352,18 @@ function unitLine(card) {
  * one line ("Part A of I: Explore equal parts"), a thin bar, and the full list of parts behind "See all parts".
  * Sections that are not open yet are not links.
  */
-export function journeyStepper(ctx, current, records = {}, { card } = {}) {
+export function journeyStepper(ctx, current, records = {}, { card, open = false } = {}) {
   const L = (id) => ctx.lessonLink('7-1', id), si = JOURNEY.findIndex((s) => s.id === current), here = JOURNEY[si];
   const where = here ? html`<strong>Part ${String.fromCharCode(65 + si)} of I:</strong> ${here.title}` : html`<strong>Grown-up report</strong>`;
   return html`<div class="j-map">
     <p class="j-where">${where}${card ? html` <span class="j-cardnum">${card}</span>` : ''}</p>
     <span class="j-mapbar" aria-hidden="true">${JOURNEY.map((s) => html`<span class="${s.id === current ? 'now' : stageComplete(s.id, records) ? 'past' : ''}"></span>`)}</span>
-    <details class="j-map-all"><summary>See all parts</summary>
-    <nav class="stepper j-stepper" aria-label="Lesson 7-1 parts"><ol>
+    ${open ? '' : html`<details class="j-map-all"><summary>See all parts</summary>`}
+    <nav class="stepper j-stepper${open ? ' j-stepper-open' : ''}" aria-label="Lesson 7-1 parts"><ol>
     ${JOURNEY.map((s, i) => { const open = stageUnlocked(s.id, records), done = stageComplete(s.id, records) && s.id !== current, label = html`<span class="n">${String.fromCharCode(65 + i)}</span> <span class="name">${s.label}</span>`;
       return html`<li class="${done ? 'done' : ''}${open ? '' : ' locked'}">${open ? html`<a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}>${label}</a>` : html`<span class="j-locked"><span class="n">${String.fromCharCode(65 + i)}</span> <span class="name"><span aria-hidden="true">🔒 </span>${s.label}</span><span class="sr-only"> (locked: finish the earlier parts first)</span></span>`}</li>`; })}
     <li><a href="${L('parent')}"${current === 'parent' ? html` aria-current="step"` : ''}><span class="n">★</span> <span class="name">Grown-up Report</span></a></li>
-    </ol></nav></details>
+    </ol></nav>${open ? '' : html`</details>`}
   </div>`;
 }
 

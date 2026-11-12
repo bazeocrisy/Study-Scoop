@@ -221,7 +221,12 @@ test('Tests: the Test Center has four practice tests, and the Math Vocabulary ca
 test('every lesson stage and every results screen renders, with Practice My Misses, Back to Lessons and Home', async () => {
   const { lessonView } = await import('../../js/views/lesson.js');
   for (const lesson of LESSONS) {
-    const view = (stage, lessonState) => lessonView(ctxFor({ lesson, stage, lessonState, lessonVisited: new Set() })).s;
+    // The child has finished the teaching stages (Lessons 7-2 to 7-7 open practice and the test only after them).
+    const view = (stage, lessonState) => lessonView(ctxFor({ lesson, stage, lessonState, lessonVisited: new Set(['learn', 'watch', 'together', 'try']) })).s;
+    if (/^7-[2-7]$/.test(lesson.id)) for (const stage of ['try', 'test']) {
+      const locked = lessonView(ctxFor({ lesson, stage, lessonState: { i: 0, items: {}, steps: {} }, lessonVisited: new Set() })).s;
+      assert.match(locked, /data-locked="true"/, `${lesson.id} ${stage} is locked before the teaching`); assert.doesNotMatch(locked, /data-item=/, `${lesson.id} ${stage}: no questions while locked`);
+    }
     for (const stage of ['learn', 'watch', 'together', 'try', 'test', 'parent']) clean(view(stage, { i: 0, items: {}, steps: {} }), `${lesson.id} ${stage}`);
     // Try It Yourself results: 18 right on the first try, 2 missed.
     const items = {};
