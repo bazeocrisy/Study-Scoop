@@ -61,6 +61,7 @@ test('progress rules: cards in order, parts in order, honest outcomes', () => {
   assert.equal(youDoOutcome({ tries: 2, first: 'notyet', status: 'correct' }), 'retry');
   assert.equal(youDoOutcome({ tries: 2, first: 'notyet', status: 'correct', help: 1 }), 'help');
   assert.equal(youDoOutcome({ tries: 4, first: 'notyet', status: 'shown', shown: true }), 'answer');
+  assert.equal(youDoOutcome({ tries: 2, first: 'notyet', status: 'correct', feedbackRevealed: true }), 'help', 'feedback that showed the answer is help');
   const r = skillReadiness(L, () => null, { firstTest: { right: 9, total: 10, pass: 8, missed: [] } });
   assert.equal(r.level, 'notyet' === r.level ? 'notyet' : r.level);
   assert.notEqual(r.level, 'ready', 'not ready while the skills are not done');

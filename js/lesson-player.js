@@ -84,8 +84,18 @@ export function restoreLesson(lesson) {
   const saved = loadLessonProgress(lesson, savedStages(lesson));
   if (!saved) return;
   histories.set(lesson.id, { ...saved.history });
+  const byStage = savedStages(lesson);
   for (const [stage, st] of Object.entries(saved.stages)) {
     const state = { ...st }; const sec = sectionOf(lesson, stage);
+    // Never trust a saved "right": the saved answer must still check as right (written answers need their review).
+    const items = sec ? new Map(sec.cards.map(cardItem).filter(Boolean).map((it) => [it.id, it])) : new Map(lesson.test.items.map((it) => [it.id, it]));
+    for (const [id, s] of Object.entries(state.items)) {
+      const it = items.get(id); if (!it || !byStage[stage]) continue;
+      const ok = it.type === 'sentence' ? s.reviewedRevision !== undefined && s.reviewedRevision === (s.revision || 0) && String(s.resp?.text || '').trim().length > 0
+        : s.shown || check(it, s.resp || {}, lesson).status === 'correct';
+      if (s.status === 'correct' && !ok) { delete s.status; delete s.first; }
+      if (s.first === 'correct' && !(s.tries >= 1)) delete s.first;
+    }
     if (sec) { state.i = Math.min(state.i, frontierOf(sec, state)); state.completed = sectionDone(sec, state); }
     else state.completed = Boolean(state.submitted);
     progress.set(`${lesson.id}:${stage}`, state);
@@ -94,6 +104,8 @@ export function restoreLesson(lesson) {
   let ok = true;
   for (const s of sectionsOf(lesson)) { const st = progress.get(`${lesson.id}:${s.id}`); if (!ok && st) st.completed = false; ok = ok && Boolean(st?.completed); }
   if (!ok && progress.get(`${lesson.id}:test`)) progress.get(`${lesson.id}:test`).completed = false;
+  // A saved first Final Check result only counts when every skill is finished and the Final Check was taken here.
+  if (!ok || !progress.get(`${lesson.id}:test`)) delete histories.get(lesson.id).firstTest;
 }
 export function saveLesson(lesson) {
   if (!skillJourney(lesson)) return false;
@@ -315,8 +327,8 @@ export function mountLesson(app, ctx, signal) {
   }, { signal });
 
   // Remember typed answers as the child types (so Back and Next keep them).
-  app.addEventListener('input', (e) => saveForm(e.target.closest('form[data-item]')), { signal });
-  app.addEventListener('change', (e) => saveForm(e.target.closest('form[data-item]')), { signal });
+  app.addEventListener('input', (e) => { saveForm(e.target.closest('form[data-item]')); saveLesson(lesson); }, { signal });
+  app.addEventListener('change', (e) => { saveForm(e.target.closest('form[data-item]')); saveLesson(lesson); }, { signal });
 
   app.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-act]');

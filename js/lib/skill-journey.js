@@ -55,7 +55,7 @@ export function youDoOutcome(st) {
   if (!st || (!st.tries && !st.shown)) return 'not-tried';
   if (st.shown) return 'answer';
   if (st.status !== 'correct') return 'not-yet';
-  if (st.scaffoldAssisted || st.help > 0) return 'help';
+  if (st.scaffoldAssisted || st.help > 0 || st.feedbackRevealed) return 'help';
   return st.first === 'correct' ? 'independent' : 'retry';
 }
 export const OUTCOME_TEXT = { independent: 'On own, first try', retry: 'On own, after another try', help: 'After help steps', answer: 'After seeing the answer', 'not-yet': 'Not finished', 'not-tried': 'Not started' };

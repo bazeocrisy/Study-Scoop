@@ -652,7 +652,7 @@ const countLabel = (label, n) => html`${label} <span aria-hidden="true">(${n})</
 function testNext(ctx, lesson, passed) {
   const next = nextLesson(ctx, lesson);
   if (!passed) return { text: 'Then take the test again.', main: html`<button type="button" class="btn btn-primary" data-act="restart">Take the test again</button>`, retakeSecondary: false };
-  if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
+  if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, /^7-[1-7]$/.test(next.id) ? undefined : 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
   // The last lesson of a chapter: that chapter's Study Guide and Chapter Test (D26).
   const ch = chapterOf(lesson.id);
   const guide = ch === 7 ? 'ch7guide' : ch === 6 ? 'ch6guide' : 'guide';
@@ -692,7 +692,7 @@ function trySummary(ctx, lesson, state) {
         <button type="button" class="btn" data-act="restart">Try again</button>
         ${lessonExits(ctx)}
       </span>
-      <a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>
+      ${skillJourney(lesson) ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, undefined)}">Back to the lesson ›</a>` : html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>`}
     </div>`;
 }
 
@@ -786,7 +786,7 @@ function missesSummary(ctx, lesson, stage, state, items) {
         <button type="button" class="btn" data-act="misses-exit">‹ My results</button>
         ${lessonExits(ctx)}
       </span>
-      ${stage === 'try' ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>`
+      ${stage === 'try' ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, skillJourney(lesson) ? undefined : 'test')}">${skillJourney(lesson) ? 'Back to the lesson ›' : 'Next: Test Your Knowledge ›'}</a>`
         : html`<span class="btn-row">${what.main}</span>`}
     </div>`;
 }
@@ -826,5 +826,5 @@ export function parentGuide(ctx, lesson) {
         ${s.list ? html`<ul>${s.list.map((x) => html`<li>${keepFacts(x)}</li>`)}</ul>` : ''}</section>`)}
       <section><h3>About "Read to me"</h3><p>Read to me uses your device's own voice when it has one. Some browsers use an online voice instead; nothing else is sent by Study Scoop.</p></section>
     </div>
-    <div class="stage-nav"><a class="btn" href="${ctx.lessonLink(lesson.id, lesson.id === JOURNEY_LESSON ? 'explore' : 'learn')}">‹ Back to the lesson</a><span></span></div>`;
+    <div class="stage-nav"><a class="btn" href="${ctx.lessonLink(lesson.id, lesson.id === JOURNEY_LESSON ? 'explore' : skillJourney(lesson) ? undefined : 'learn')}">‹ Back to the lesson</a><span></span></div>`;
 }

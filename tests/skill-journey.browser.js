@@ -115,6 +115,26 @@ try {
     ok(await js(`return !localStorage.getItem("studyScoop.lesson${id}.progress")`), `${id}: Reset erases the lesson's progress`);
   }
 
+  step('saved progress is never trusted');
+  {
+    const id = '7-5', L = read(id), A = L.journey.sections[0];
+    await b.load(url(id)); await js('localStorage.clear()');
+    // Forged: every Part A question "right" with no answer, and a 10/10 Final Check.
+    const items = Object.fromEntries(A.cards.map((c) => (c.kind === 'example' ? c.why : c.item)).filter(Boolean).map((it) => [it.id, { status: 'correct', first: 'correct', tries: 1, resp: {} }]));
+    await js(`localStorage.setItem('studyScoop.lesson${id}.progress', JSON.stringify({v:1,stages:{${JSON.stringify(A.id)}:{i:${A.cards.length - 1},completed:true,seen:Object.fromEntries([...Array(${A.cards.length}).keys()].map(k=>[k,true])),steps:{},items:${JSON.stringify(items)}}},history:{firstTest:{right:10,total:10,pass:8,missed:[]}}}))`);
+    await b.load(url(id));
+    ok(await js(`return location.hash.includes("stage=${A.id}") && !/Card ${A.cards.length} of/.test(document.querySelector(".j-cardnum").textContent)`), 'forged "right" answers with no answer are not trusted: Part A is not finished');
+    await b.load(url(id, 'parent'));
+    ok(await js('return /Final Check \\(first try\\): not taken yet/.test(document.querySelector(".j-summary").textContent)'), 'a forged Final Check result is not shown');
+    // A typed answer that was not checked yet survives a refresh.
+    await b.load(url(id)); await js('localStorage.clear()'); await b.load(url(id));
+    while (!(await has('form[data-item] input.box'))) await click('.j-nav [data-act="next"]');
+    await js(`const e=document.querySelector('form[data-item] input.box');e.value='7';e.dispatchEvent(new Event('input',{bubbles:true}));`);
+    await b.load(url(id));
+    ok(await js('return document.querySelector("form[data-item] input.box")?.value === "7"'), 'a typed answer survives a refresh before Check');
+    await js('localStorage.clear()');
+  }
+
   step('7-1 and 7-2 side by side');
   // The same instructional pattern: one progress line, one card with a phase badge, gated Next, parts that open in order.
   const shape = async (u) => { await b.load(u); return js(`return {map:!!document.querySelector(".j-map .j-where .j-cardnum"),all:!!document.querySelector(".j-map-all summary"),badge:document.querySelector(".j-badge")?.textContent.trim(),cards:document.querySelectorAll("[data-card]").length,nav:!!document.querySelector(".j-nav"),locked:document.querySelectorAll(".j-stepper li.locked").length>0}`); };
