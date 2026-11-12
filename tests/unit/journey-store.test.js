@@ -8,7 +8,7 @@ import { CARDS, JOURNEY, newRecord, outcome } from '../../js/lib/partition-journ
 const fake = () => { const m = new Map(); return { m, getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) }; };
 const draw = (stage, lines) => { for (const [a, b] of lines) { act(stage, 'point', { id: a }); act(stage, 'point', { id: b }); } };
 const idx = (stage, id) => CARDS[stage].findIndex((c) => c.id === id);
-function doneRecord(c) { const r = newRecord(c); if (c.type === 'demo') r.viewed = true; else if (c.type === 'write') r.written = true; else { r.attempts = 1; r.first = 'correct'; r.correct = true; } return r; }
+function doneRecord(c) { const r = newRecord(c); r.viewed = true; if (c.type === 'write') r.written = true; else if (c.type !== 'demo') { r.attempts = 1; r.first = 'correct'; r.correct = true; } return r; }
 /** Finish everything before a card (earlier sections and earlier cards), as a child would, without resetting. */
 function finishBefore(stage, id) {
   for (const s of JOURNEY) { if (s.id === stage) break; for (const c of CARDS[s.id]) journeyState.records[c.id] ||= doneRecord(c); }
@@ -25,7 +25,7 @@ test('save and load round-trip: section, card, drawings, answers, writing, help,
   finishBefore('shapes', 'd-square-guide'); act('shapes', 'help'); act('shapes', 'hint');                         // We Do with a hint
   draw('shapes', [['t2-6', 'b2-6'], ['t4-6', 'b4-6'], ['l1-2', 'r1-2']]); act('shapes', 'check');
   finishBefore('shapes', 'd-square-myturn'); draw('shapes', [['t1-3', 'b1-3']]); act('shapes', 'check'); draw('shapes', [['t2-3', 'b2-3']]); act('shapes', 'check'); // You Do: 2 misses → re-learn
-  finishBefore('sizes', 'e-write'); act('sizes', 'text', { text: 'More parts, smaller parts.' }); act('sizes', 'compare');
+  finishBefore('sizes', 'e-write'); act('sizes', 'text', { text: 'More parts make each part smaller.' }); act('sizes', 'compare');
   journeyState.stage = 'shapes';
   assert.equal(saveProgress(journeyState, s), true);
   assert.deepEqual([...s.m.keys()], [STORE_KEY], 'exactly one key');
@@ -36,7 +36,7 @@ test('save and load round-trip: section, card, drawings, answers, writing, help,
   assert.equal(back.stage, 'shapes'); assert.equal(back.at.shapes, idx('shapes', 'd-square-myturn'));
   assert.deepEqual(back.ui['d-diamond-guide'].lines, [['v0', 'v2'], ['v1', 'v3']]);
   assert.deepEqual(back.ui['a-flags'].choice, ['1', '2']);
-  assert.equal(back.ui['e-write'].text, 'More parts, smaller parts.'); assert.equal(back.ui['e-write'].compared, true);
+  assert.equal(back.ui['e-write'].text, 'More parts make each part smaller.'); assert.equal(back.ui['e-write'].compared, true);
   assert.equal(outcome(back.records['d-diamond-guide']), 'independent');
   assert.equal(outcome(back.records['d-square-guide']), 'after-hint');
   assert.equal(back.records['d-square-myturn'].relearn, true); assert.equal(back.records['d-square-myturn'].wrongStreak, 2);

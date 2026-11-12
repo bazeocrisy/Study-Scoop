@@ -31,7 +31,7 @@ const KEY = 'studyScoop.lesson7-1.progress';
 async function openCard(stage, index, { all = false, save = false } = {}) {
   await b.load(url(stage));
   await b.js(`localStorage.removeItem('${KEY}');const m=await import('./js/partition-journey.js'),L=await import('./js/lib/partition-journey.js');m.resetJourney();
-    const done=(c)=>{const r=L.newRecord(c);if(c.type==='demo')r.viewed=true;else if(c.type==='write')r.written=true;else{r.attempts=1;r.first='correct';r.correct=true;}return r;};
+    const done=(c)=>{const r=L.newRecord(c);r.viewed=true;if(c.type==='write')r.written=true;else if(c.type!=='demo'){r.attempts=1;r.first='correct';r.correct=true;}return r;};
     for(const s of L.JOURNEY){const before=s.id!=='${stage}'&&L.JOURNEY.findIndex(x=>x.id===s.id)<L.JOURNEY.findIndex(x=>x.id==='${stage}');for(const [k,c] of L.CARDS[s.id].entries())if(${all}||before||(s.id==='${stage}'&&k<${index}))m.journeyState.records[c.id]=done(c);}
     m.journeyState.at['${stage}']=${index};m.journeyState.stage='${stage}';if(${save})m.saveJourney();`);
   const away = stage === 'parent' ? 'explore' : 'parent';
@@ -84,6 +84,7 @@ async function solve(c, { wrongFirst = false, solution = 0 } = {}) {
     const lines = c.solutions[solution];
     await draw(lines);
     await tap(J('check'));
+    if (c.phase === 'assess') { ok(await b.js('return /one try/.test(document.querySelector("[data-j=check]").textContent)'), `${c.id}: asks before using its one try`); await tap(J('check')); }
     ok(await isOk(), `${c.id}: correct construction accepted by geometry (${await feedback()})`);
     return;
   }
@@ -92,7 +93,7 @@ async function solve(c, { wrongFirst = false, solution = 0 } = {}) {
     ok(await b.js(`return document.querySelectorAll('.j-stage-pic .j-tile.counted').length === ${c.regions}`), `${c.id}: every tapped region is counted and numbered`);
     if (wrongFirst) { await tap(`input[data-j-num][value="${c.answer === '4' ? '6' : '4'}"]`); await tap(`input[data-j-name][value="${c.name}"]`); await tap(J('check')); ok(!(await isOk()), `${c.id}: wrong count rejected`); }
     await tap(`input[data-j-num][value="${c.answer}"]`); await tap(`input[data-j-name][value="${c.name}"]`);
-    await tap(J('check'));
+    await tap(J('check')); if (c.phase === 'assess') await tap(J('check'));
     ok(await isOk(), `${c.id}: correct sentence accepted`);
     return;
   }
@@ -109,7 +110,7 @@ async function solve(c, { wrongFirst = false, solution = 0 } = {}) {
     const checked = await b.js(`return document.querySelector('${sel(i).replace(/'/g, "\\'")}').checked`);
     if (!checked) await tap(sel(i));
   }
-  await tap(J('check'));
+  await tap(J('check')); if (c.phase === 'assess') await tap(J('check'));
   ok(await isOk(), `${c.id}: correct answer accepted`);
 }
 
@@ -316,7 +317,7 @@ try {
   step('dot targets');
   // ---- Choosing dots (touch targets). The usable target of a dot is its "nearest dot" area: every press on the
   // drawing goes to the closest dot (no gaps, no overlaps), with a ring preview and slide-to-adjust before lifting.
-  const dense = ['method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-you')], sparse = ['shapes', 1];
+  const dense = ['method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-make')], sparse = ['shapes', 1];
   const targetReport = [];
   const press = async (x, y, type = 'mouse', moveTo = null) => {
     if (type === 'touch') {
@@ -458,15 +459,15 @@ try {
   step('teaching rules');
   // Locked sections: a fresh start cannot jump ahead by link or by typing the address.
   await b.load(url()); await b.js(`localStorage.removeItem('${KEY}')`); await b.load(url('method'));
-  ok(await b.js('return /opens soon/.test(document.querySelector("#lesson-stage").textContent) && !document.querySelector("[data-card]")'), 'a later section opened by its address says it opens soon');
+  ok(await b.js('return /is locked/.test(document.querySelector("#lesson-stage").textContent) && !document.querySelector("[data-card]")'), 'a later section opened by its address says it is locked and where to go');
   ok(await b.js('return !document.querySelector(".j-stepper li.locked a") && document.querySelectorAll(".j-stepper li.locked").length === 8'), 'later sections in the stepper are not links');
   // You Do: two misses bring back the worked example; after it, the child tries again and the result says so.
   await openCard('method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-you'));
-  await draw([['t4-8', 'b4-8']]); await tap(J('check'));
+  await draw([['t2-4', 'b2-4']]); await tap(J('check'));
   ok(await b.js('return !document.querySelector(".j-relearn")'), 'one miss: targeted feedback only');
   ok(/Let's count the parts/.test(await feedback()) && await b.js('return document.querySelectorAll(".j-tag").length >= 2'), 'wrong number of parts: the parts are numbered and region counting is explained');
   await tap(J('clear'));
-  await draw([['t2-8', 'b2-8'], ['t6-8', 'b6-8']]); await tap(J('check'));
+  await draw([['t1-4', 'b1-4'], ['t3-4', 'b3-4']]); await tap(J('check'));
   ok(await b.js('return !!document.querySelector(".j-relearn") && document.activeElement?.matches("[data-relearn-heading]")'), 'second miss: "Let\'s learn it again" opens with focus on it');
   const pic0 = await b.js('return document.querySelector(".j-relearn svg").outerHTML');
   while (await b.js(`return !!document.querySelector('${J('relearn-next')}')`)) await tap(J('relearn-next'));
@@ -477,7 +478,8 @@ try {
   ok(await isOk() && (await state()).records['b-eighths-you'].relearn === true, 'right after re-learning, recorded as re-learned (not on own)');
   // Final Check: one try, then locked; a wrong answer still lets the child go on.
   await openCard('check', 0);
-  await draw([['t1-4', 'b1-4']]); await tap(J('check'));
+  await draw([['t1-4', 'b1-4']]); await tap(J('check')); await tap(J('check'));
+  ok(await b.js('return !document.querySelector(".j-stage-pic [data-point]")'), 'a locked Final Check drawing is a picture, not buttons');
   ok(await b.js('return !!document.querySelector("fieldset.j-locked-answer[disabled]") && !document.querySelector(".j-nav [data-j=next][disabled]")'), 'a Final Check answer is locked after one try and Next opens');
   await tap(J('next')); ok((await card()) === 'q2', 'the Final Check moves to the next question');
 

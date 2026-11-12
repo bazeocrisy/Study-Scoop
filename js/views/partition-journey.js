@@ -152,7 +152,7 @@ function cookie({ flip = false, heights = false } = {}) {
 }
 function oval({ mark = false } = {}) {
   const cx = 160, cy = 130, rx = 135, ry = 95, ys = [-ry / 2, 0, ry / 2];
-  return html`<svg class="j-svg" viewBox="0 0 320 260" role="img" aria-label="An oval rug cut by 3 evenly spaced side-to-side lines into 4 strips. The middle strips are wide; the top and bottom strips are narrow and curved.">
+  return html`<svg class="j-svg" viewBox="0 0 320 260" role="img" aria-label="An oval rug cut by 3 evenly spaced side-to-side lines into 4 strips.">
     <ellipse class="j-whole" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"/>
     ${ys.map((d) => { const w = rx * Math.sqrt(1 - (d / ry) ** 2); return html`<line class="j-cut" x1="${n2(cx - w)}" x2="${n2(cx + w)}" y1="${n2(cy + d)}" y2="${n2(cy + d)}"/>`; })}
     ${mark ? html`<text class="j-tag" x="${cx}" y="${cy - 20}">wide</text><text class="j-tag" x="${cx}" y="${cy - 62}">narrow</text>` : ''}</svg>`;
@@ -162,16 +162,16 @@ export const FLAGS = { x: [22, 125, 228], y: 40, w: 76, h: 64, stripes: [0, 16, 
 function flags() {
   const { x: xs, y, w, h, stripes } = FLAGS;
   const cuts = [(x) => stripes.slice(1, -1).map((k) => [x, y + k, x + w, y + k]), (x) => [[x, y, x + w, y + h], [x + w, y, x, y + h]], (x) => [1, 2, 3].map((k) => [x + k * w / 4, y, x + k * w / 4, y + h])];
-  return html`<svg class="j-svg wide" viewBox="0 0 320 150" role="img" aria-label="Three same-size flags. Flag 1 has 4 stripes across with different heights. Flag 2 is cut corner to corner both ways into 4 triangles. Flag 3 has 4 stripes up and down with the same width.">
+  return html`<svg class="j-svg wide" viewBox="0 0 320 150" role="img" aria-label="Three same-size flags, each cut into 4 parts. Flag 1 has 3 lines across. Flag 2 is cut corner to corner both ways. Flag 3 has 3 lines up and down.">
     ${xs.map((x, i) => html`<g><line class="j-pole" x1="${x}" y1="${y - 8}" x2="${x}" y2="${y + h + 30}"/><rect class="j-whole" x="${x}" y="${y}" width="${w}" height="${h}"/>${cuts[i](x).map(([a, b, c, d]) => html`<line class="j-cut" x1="${n2(a)}" y1="${n2(b)}" x2="${n2(c)}" y2="${n2(d)}"/>`)}<text class="j-caption" x="${x + w / 2}" y="${y + h + 24}">Flag ${i + 1}</text></g>`)}</svg>`;
 }
 /** A circle cut by 2 lines through the center that cross at 60 degrees, not like a plus sign. */
 export const XCIRCLE = { c: [160, 140], r: 110, angle: 60 };
-function xcircle() {
-  const [cx, cy] = XCIRCLE.c, r = XCIRCLE.r, t = (XCIRCLE.angle * Math.PI) / 180;
+function xcircle({ angle = XCIRCLE.angle } = {}) {
+  const [cx, cy] = XCIRCLE.c, r = XCIRCLE.r, t = (angle * Math.PI) / 180;
   const end = (a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
   const l1 = [end(0), end(Math.PI)], l2 = [end(t), end(t + Math.PI)];
-  return html`<svg class="j-svg" viewBox="0 0 320 280" role="img" aria-label="A round pizza cut by two lines through the center. The lines cross at a slant, not like a plus sign, making 2 wide slices and 2 narrow slices.">
+  return html`<svg class="j-svg" viewBox="0 0 320 280" role="img" aria-label="A round pizza cut by two lines through the center. The lines cross at a slant, not like a plus sign.">
     <circle class="j-whole pie" cx="${cx}" cy="${cy}" r="${r}"/>${[l1, l2].map(([a, b]) => html`<line class="j-cut" x1="${n2(a[0])}" y1="${n2(a[1])}" x2="${n2(b[0])}" y2="${n2(b[1])}"/>`)}</svg>`;
 }
 const linesFigure = () => { const f = FIGURES.tiles, [a, b] = [f.regions[1][0], f.regions[1][3]]; return html`<line class="j-hiline" x1="${n2(a[0])}" y1="${n2(a[1])}" x2="${n2(b[0])}" y2="${n2(b[1])}"/><text class="j-tag" x="${n2(a[0] + 4)}" y="${n2(f.viewBox[1] - 18)}">a line is an edge</text>`; };
@@ -260,34 +260,36 @@ function buildCard(card, ui) {
   const result = ui.result || null;
   const sel = card.task.points.find((p) => p.id === ui.selected);
   return html`
-    <div class="j-stage-pic">${taskSvg(card.task, { lines: ui.lines || [], result, active: true, selected: ui.selected, cursor: ui.cursor })}</div>
+    <div class="j-stage-pic">${taskSvg(card.task, { lines: ui.lines || [], result, active: !ui.locked, selected: ui.selected, cursor: ui.cursor, small: ui.locked })}</div>
     <p class="sr-only" aria-live="off">${(ui.lines || []).length ? `Lines drawn: ${(ui.lines || []).map(([a, b]) => `${card.task.points.find((p) => p.id === a)?.label} to ${card.task.points.find((p) => p.id === b)?.label}`).join('; ')}.` : 'No lines drawn yet.'}</p>
     <p class="j-preview" data-j-preview aria-hidden="true">&nbsp;</p>
     <p class="j-legend"><span class="key corner"></span> corner${card.task.points.some((p) => !/^[vkce]\d|^c$/.test(p.id)) ? html` <span class="key mark"></span> mark on an edge` : ''}${card.task.points.some((p) => /^e\d/.test(p.id)) ? html` <span class="key mark"></span> point on the edge` : ''}${card.task.points.some((p) => p.id === 'c') ? html` <span class="key center"></span> center` : ''}</p>
     <p class="j-howto">${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap where the line should end.` : 'Tap a dot, then tap another dot to draw a line between them. Not sure you hit the right dot? Hold your finger still for a moment, then slide: the circled dot is the one you will get when you lift. Tap the same two dots again to erase a line.'}</p>
     <div class="j-row j-tools">
-      <button type="button" class="btn btn-primary" data-j="check">Check my parts</button>
+      <button type="button" class="btn btn-primary" data-j="check">${checkLabel(card, ui, 'Check my parts')}</button>
       <button type="button" class="btn" data-j="undo" ${(ui.lines || []).length ? '' : html`disabled`}>Undo last line</button>
       <button type="button" class="btn" data-j="clear" ${(ui.lines || []).length ? '' : html`disabled`}>Start over</button>
     </div>`;
 }
+/** The Final Check asks once before using its one try. */
+const checkLabel = (card, ui, text) => (card.phase === 'assess' && ui.confirm && !ui.locked ? 'Yes, check it (one try)' : text);
 function choiceCard(card, ui) {
   const picked = ui.choice || [];
   const type = card.multi ? 'checkbox' : 'radio';
   return html`${card.picture ? html`<div class="j-stage-pic">${picture(card.picture)}</div>` : ''}
     <fieldset class="j-options"><legend class="sr-only">${card.prompt}</legend>
-    ${(card.options).map((o, i) => html`<label class="j-option${ui.checked && picked.includes(String(i)) ? (o.correct ? ' right' : ' wrong') : ''}"><input type="${type}" name="j-${card.id}" value="${i}" data-j-choice ${picked.includes(String(i)) ? html`checked` : ''}><span>${o.text}</span></label>`)}
-    </fieldset><div class="j-row"><button type="button" class="btn btn-primary" data-j="check">Check my answer</button></div>`;
+    ${(card.options).map((o, i) => { const mark = ui.checked && picked.includes(String(i)) ? (o.correct ? 'right' : 'wrong') : ''; return html`<label class="j-option${mark ? ` ${mark}` : ''}"><input type="${type}" name="j-${card.id}" value="${i}" data-j-choice ${picked.includes(String(i)) ? html`checked` : ''}><span>${o.text}</span>${mark ? html`<span class="j-mark-sym">${mark === 'right' ? '✓ right' : '✗ not right'}</span>` : ''}</label>`; })}
+    </fieldset><div class="j-row"><button type="button" class="btn btn-primary" data-j="check">${checkLabel(card, ui, 'Check my answer')}</button></div>`;
 }
 function countCard(card, ui) {
   const counted = ui.counted || [];
   const chip = (group, value, text) => html`<label class="j-chip"><input type="radio" name="j-${card.id}-${group}" value="${value}" data-j-${group} ${ui[group] === value ? html`checked` : ''}><span>${text}</span></label>`;
-  return html`<div class="j-stage-pic">${figureSvg(card.figure, { counted, tappable: true })}</div>
+  return html`<div class="j-stage-pic">${figureSvg(card.figure, { counted, tappable: !ui.locked })}</div>
     <p class="j-howto" aria-live="polite">Parts counted: <strong>${counted.length}</strong>. ${counted.length ? 'Tap a counted part again to un-count it.' : 'Tap each part once.'}</p>
     <div class="j-row"><button type="button" class="btn" data-j="recount" ${counted.length ? '' : html`disabled`}>Count again from 0</button></div>
     <div class="j-sentence"><fieldset><legend>The shape is partitioned into</legend><div class="j-chips">${card.nums.map((v) => chip('num', v, v))}</div></fieldset>
     <fieldset><legend>equal parts, or</legend><div class="j-chips">${card.names.map(([, name]) => chip('name', name, name))}</div></fieldset></div>
-    <div class="j-row"><button type="button" class="btn btn-primary" data-j="check">Check my answer</button></div>`;
+    <div class="j-row"><button type="button" class="btn btn-primary" data-j="check">${checkLabel(card, ui, 'Check my answer')}</button></div>`;
 }
 function areaCard(card, ui) {
   const show = ui.shown || [];
@@ -314,7 +316,7 @@ export function demoPicture(card, s, i) {
 function demoCard(card, ui) {
   const i = Math.min(ui.step || 0, card.steps.length - 1), s = card.steps[i], last = i === card.steps.length - 1;
   return html`<div class="j-stage-pic">${demoPicture(card, s, i)}</div>
-    <p class="j-demo-text" aria-live="polite"><span class="j-help-label">Step ${i + 1} of ${card.steps.length}</span> ${s.text}</p>
+    <p class="j-demo-text"><span class="j-help-label">Step ${i + 1} of ${card.steps.length}</span> <span data-step-text>${s.text}</span></p>
     <div class="j-row"><button type="button" class="btn" data-j="demo-back" ${i === 0 ? html`disabled` : ''}>‹ Previous step</button>
     <button type="button" class="btn${last ? '' : ' btn-primary'}" data-j="demo-next" ${last ? html`disabled` : ''}>Next step ›</button>
     ${i > 0 ? html`<button type="button" class="btn" data-j="demo-restart">Watch again</button>` : ''}</div>`;
@@ -343,7 +345,7 @@ export function journeyStepper(ctx, current, records = {}) {
   const L = (id) => ctx.lessonLink('7-1', id);
   return html`<div class="lesson-steps j-steps"><nav class="stepper j-stepper" aria-label="Lesson 7-1 steps"><ol>
     ${JOURNEY.map((s, i) => { const open = stageUnlocked(s.id, records), done = ctx.journeyDone?.has(s.id) && s.id !== current, label = html`<span class="n">${String.fromCharCode(65 + i)}</span> <span class="name">${s.label}</span>`;
-      return html`<li class="${done ? 'done' : ''}${open ? '' : ' locked'}">${open ? html`<a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}>${label}</a>` : html`<span class="j-locked" aria-disabled="true">${label}<span class="sr-only"> (opens after the earlier parts)</span></span>`}</li>`; })}
+      return html`<li class="${done ? 'done' : ''}${open ? '' : ' locked'}">${open ? html`<a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}>${label}</a>` : html`<span class="j-locked"><span class="n" aria-hidden="true">🔒</span> <span class="name">${s.label}</span><span class="sr-only"> (locked: finish the earlier parts first)</span></span>`}</li>`; })}
     <li><a href="${L('parent')}"${current === 'parent' ? html` aria-current="step"` : ''}><span class="n">★</span> <span class="name">Grown-up Report</span></a></li>
   </ol></nav></div>`;
 }
@@ -352,14 +354,13 @@ export function journeyStepper(ctx, current, records = {}) {
 function relearnPanel(card, ui, rec) {
   const wrong = rec?.attempts && !rec.correct ? (rec.wrongStreak || 0) : 0, misses = rec?.correct ? 0 : rec?.attempts || 0;
   if (rec?.correct || wrong < 2) return '';
-  const demo = cardById(card.relearn) || unitOf(card)?.cards.find((c) => c.type === 'demo');
+  const demo = card.relearnSteps ? { type: 'demo', task: card.relearnTask, steps: card.relearnSteps } : cardById(card.relearn) || unitOf(card)?.cards.find((c) => c.type === 'demo');
   const k = Math.min(ui.relearnStep || 0, (demo?.steps.length || 1) - 1), st = demo?.steps[k];
   return html`<section class="j-relearn" aria-labelledby="relearn-h-${card.id}">
     <h3 id="relearn-h-${card.id}" tabindex="-1" data-relearn-heading>Let's learn it again</h3>
     <p>That was tricky. Watch the example one step at a time, then try again. Your ${card.type === 'build' ? 'drawing' : 'answer'} stays where it is.</p>
-    ${demo ? html`<div class="j-help-block"><p class="j-help-label">Step ${k + 1} of ${demo.steps.length}</p><p aria-live="polite">${st.text}</p>${demoPicture(demo, st, k)}</div>
+    ${demo ? html`<div class="j-help-block"><p class="j-help-label">Step ${k + 1} of ${demo.steps.length}</p><p data-step-text>${st.text}</p>${demoPicture(demo, st, k)}</div>
     <div class="j-row">${k > 0 ? html`<button type="button" class="btn" data-j="relearn-back">‹ Previous step</button>` : ''}${k < demo.steps.length - 1 ? html`<button type="button" class="btn btn-primary" data-j="relearn-next">Next step ›</button>` : html`<button type="button" class="btn btn-primary" data-j="relearn-done">I'm ready to try again</button>`}</div>` : ''}
-    ${misses >= 4 ? html`<div class="j-row"><button type="button" class="btn" data-j="answer">Show me the answer</button></div><p class="j-note">Seeing the answer is fine. Your grown-up's report will show it.</p>` : ''}
   </section>`;
 }
 
@@ -367,11 +368,12 @@ export function journeyCard(ctx, stageId, state) {
   const stage = JOURNEY.find((s) => s.id === stageId), cards = CARDS[stageId], si = JOURNEY.indexOf(stage);
   if (!stageUnlocked(stageId, state.records)) {
     const go = nextStage(state.records), goStage = JOURNEY.find((s) => s.id === go);
-    return html`<article class="card j-card"><h2 id="stage-h" tabindex="-1">${stage.title} opens soon</h2><p>Each part of the lesson opens after the part before it, so nothing important is skipped.</p>
-      <p><a class="btn btn-primary" href="${ctx.lessonLink('7-1', go)}">Go to ${goStage ? goStage.label : 'the Grown-up Report'} ›</a></p></article>`;
+    const gi = JOURNEY.findIndex((x) => x.id === go);
+    return html`<article class="card j-card"><h2 id="stage-h" tabindex="-1">🔒 Part ${String.fromCharCode(65 + si)} is locked</h2><p>Finish ${gi >= 0 ? `Part ${String.fromCharCode(65 + gi)}` : 'the lesson'} first. Then this part opens.</p>
+      <p><a class="btn btn-primary" href="${ctx.lessonLink('7-1', go)}">Go to ${goStage ? `Part ${String.fromCharCode(65 + gi)}: ${goStage.label}` : 'the Grown-up Report'} ›</a></p></article>`;
   }
   const i = Math.min(state.at[stageId] || 0, cards.length - 1, frontier(stageId, state.records)), card = cards[i], rec = state.records[card.id];
-  const ui = { ...(state.ui[card.id] || {}), avoidKey: card.different ? differentAvoidKey(card, state.ui[card.different]?.solvedKey) : undefined };
+  const ui = { ...(state.ui[card.id] || {}), avoidKey: card.different ? differentAvoidKey(card, state.ui[card.different]) : undefined, locked: card.phase === 'assess' && (state.records[card.id]?.attempts || 0) > 0 };
   const nextSection = JOURNEY[si + 1], prevStage = JOURNEY[si - 1];
   const asks = card.type !== 'concept' && card.type !== 'demo' && card.type !== 'sizes';
   const helps = asks && (card.phase === 'wedo' || card.phase === 'say');
@@ -397,6 +399,7 @@ export function journeyCard(ctx, stageId, state) {
       ${asks ? feedback(ui, card) : ''}
       ${helps ? helpPanel(card, ui) : ''}
       ${card.phase === 'youdo' ? relearnPanel(card, ui, rec) : ''}
+      ${card.phase === 'youdo' && !rec?.correct && (rec?.attempts || 0) >= 4 && (ui.help?.level || 0) < 3 ? html`<div class="j-row j-answer-offer"><button type="button" class="btn" data-j="answer">Show me the answer</button><p class="j-note">Seeing the answer is fine. Your grown-up's report will show it.</p></div>` : ''}
       ${card.phase === 'youdo' && (ui.help?.level || 0) >= 3 && !rec?.correct ? (() => { const a = helpAnswer(card, ui); return html`<div class="j-help-block answer"><p class="j-help-label">Answer</p>${a.svg || ''}<p>${a.text}</p><p class="j-note">Now make it yourself.</p></div>`; })() : ''}
     </article>
     <div class="stage-nav j-nav">
@@ -413,13 +416,14 @@ export function journeySummary(ctx, state) {
   const wrote = s.written.filter((w) => w.rec?.written);
   return html`<section class="card j-summary" aria-labelledby="j-sum-h">
     <h2 id="j-sum-h" tabindex="-1">Lesson 7-1 readiness report</h2>
-    <p class="j-verdict ${r.verdict.level}"><strong>${r.verdict.level === 'ready' ? 'Ready.' : r.verdict.level === 'review' ? 'Almost ready.' : 'In progress.'}</strong> ${r.verdict.text}</p>
+    <p class="j-verdict ${r.verdict.level}"><strong>${{ ready: 'Ready.', review: 'Almost ready.', notyet: 'Not ready yet.', unfinished: 'In progress.' }[r.verdict.level]}</strong> ${r.verdict.text}</p>
     <p>Final Check: <strong>${r.score} of ${r.total}</strong> right${r.answered < r.total ? ` (${r.answered} of ${r.total} answered)` : ''}.${r.missedSkills.length ? ` Missed: ${r.missedSkills.join('; ')}.` : ''}</p>
     <h3>Each skill: the "You Do" problem</h3>
     <table class="j-table j-ready"><thead><tr><th scope="col">Skill</th><th scope="col">On their own</th></tr></thead><tbody>
       ${r.skills.map((k) => html`<tr class="${k.solid ? 'solid' : ''}"><th scope="row">${k.unit.title}</th><td>${k.text}</td></tr>`)}
     </tbody></table>
     ${r.shaky.length ? html`<p><strong>Practice more:</strong> ${r.shaky.join('; ')}.</p>` : ''}
+    <p class="j-note">Not part of the Final Check (only the "You Do" above shows these): ${r.notChecked.join('; ')}.</p>
     <details class="j-detail"><summary>Every question in detail</summary>
       <ul class="j-totals">
         <li><strong>${t.independent}</strong> right on the first try with no help</li>

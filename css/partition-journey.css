@@ -185,7 +185,7 @@
 .j-badge.phase-assess { background: var(--ok-tint); border-color: var(--ok); }
 .j-badge.phase-say { background: var(--sunk); border-color: var(--line-strong); }
 .j-phases .j-phase-list span.now { font-weight: 700; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.j-stepper li.locked .j-locked { display: grid; justify-items: center; gap: 4px; min-height: 64px; padding: 4px 2px; color: var(--muted); opacity: .7; cursor: not-allowed; }
+.j-stepper li.locked .j-locked { display: grid; justify-items: center; gap: 4px; min-height: 64px; padding: 4px 2px; color: var(--muted); cursor: not-allowed; }
 .j-stepper li.locked .n { border-style: dashed; }
 .j-locknote { text-align: center; color: var(--muted); margin: 6px 0 0; }
 .j-nav .btn[disabled] { opacity: .55; }
@@ -197,3 +197,8 @@
 .j-verdict.review { border-color: var(--notyet); background: var(--notyet-tint); }
 .j-ready tr.solid td { color: var(--ok); font-weight: 700; }
 .j-pole { stroke: var(--ink); stroke-width: 3; }
+.j-mark-sym { margin-left: auto; font-weight: 700; white-space: nowrap; }
+.j-option.right .j-mark-sym { color: var(--ok); } .j-option.wrong .j-mark-sym { color: var(--notyet); }
+.j-verdict.notyet { border-color: var(--notyet); background: var(--notyet-tint); }
+.j-answer-offer { align-items: center; }
+.j-stepper li.locked { font-style: normal; }

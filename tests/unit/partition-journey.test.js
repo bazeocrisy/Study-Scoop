@@ -3,7 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { ALL_CARDS, CARDS, JOURNEY, UNITS, ASSESSMENT, FIGURES, GRID, SHAPES, CROSS, HALVES, HALVES2, HALVES3, checkBuild, checkCount, partitionKey, onSameEdge, newRecord, noteHelp, noteCheck, outcome, summarize, readiness, cardDone, stageUnlocked, frontier, nextStage, diagnose } from '../../js/lib/partition-journey.js';
+import { ALL_CARDS, CARDS, JOURNEY, UNITS, ASSESSMENT, FIGURES, GRID, SHAPES, CROSS, CROSS_WEDO, CROSS_YOU, differentAvoidKey, HALVES, HALVES2, HALVES3, checkBuild, checkCount, partitionKey, onSameEdge, newRecord, noteHelp, noteCheck, outcome, summarize, readiness, cardDone, stageUnlocked, frontier, nextStage, diagnose } from '../../js/lib/partition-journey.js';
 import { picture, helpSteps, helpAnswer, journeyCard, journeyStepper, FLAGS, XCIRCLE } from '../../js/views/partition-journey.js';
 import { act, resetJourney, journeyState, stageDone } from '../../js/partition-journey.js';
 import { partitionPolygon, validatePartition } from '../../js/lib/partition-geometry.js';
@@ -18,7 +18,7 @@ const ctx = { lessonLink: (id, st) => `#math?lesson=${id}&stage=${st}` };
 const byId = (id) => ALL_CARDS.find((c) => c.id === id);
 const idx = (stage, id) => CARDS[stage].findIndex((c) => c.id === id);
 /** A record that counts as done for a card (watched, written, answered right). */
-function doneRecord(c) { const r = newRecord(c); if (c.type === 'demo') r.viewed = true; else if (c.type === 'write') r.written = true; else { r.attempts = 1; r.first = 'correct'; r.correct = true; } return r; }
+function doneRecord(c) { const r = newRecord(c); r.viewed = true; if (c.type === 'write') r.written = true; else if (c.type !== 'demo') { r.attempts = 1; r.first = 'correct'; r.correct = true; } return r; }
 /** Finish every card before this one in its section (and every earlier section), the way a child would. */
 function reach(stage, index) {
   resetJourney();
@@ -110,10 +110,11 @@ test('count figures: the rendered regions are equal, fill the outline without ov
     }
   }
   const card = byId('g-you');
-  assert.equal(checkCount(card, '6', 'sixths').valid, true);
+  assert.equal(checkCount(card, '8', 'eighths').valid, true);
   assert.equal(checkCount(card, '8', 'sixths').valid, false);
   assert.equal(checkCount(card, '6', 'eighths').valid, false);
-  assert.equal(checkCount(card, '', 'sixths').incomplete, true);
+  assert.equal(checkCount(card, '', 'eighths').incomplete, true);
+  assert.notEqual(card.answer, byId('g-show').steps.at(-1).text.match(/(\d+) equal parts/)[1], 'the You Do answer differs from the worked example');
 });
 
 test('every figure and construction fits inside its own picture frame', () => {
@@ -281,7 +282,7 @@ test('controller: checking the same unchanged answer twice is one attempt; help 
 test('written answers are compared and reviewed by a person, never computer-graded', () => {
   reach('sizes', CARDS.sizes.findIndex((c) => c.type === 'write'));
   act('sizes', 'compare'); assert.equal(journeyState.ui['e-write'].compared, undefined, 'empty writing is not compared');
-  act('sizes', 'text', { text: 'It gets smaller.' }); act('sizes', 'compare');
+  act('sizes', 'text', { text: 'Each part gets smaller with more parts.' }); act('sizes', 'compare');
   for (const k of [0, 1, 2]) act('sizes', 'review', { index: k, checked: true });
   const r = journeyState.records['e-write'];
   assert.ok(r.written && r.reviewed && !r.correct);
@@ -311,12 +312,15 @@ test('readiness report: You Do result per skill, Final Check score, and an hones
 
 test('every skill teaches I Do, then We Do, then exactly one You Do on a new problem', () => {
   assert.equal(UNITS.length, 13);
-  const order = { ido: 0, wedo: 1, youdo: 2, say: 3 };
   for (const u of UNITS) {
     const ph = u.cards.map((c) => c.phase);
     assert.ok(ph.includes('ido') && ph.includes('wedo'), `${u.id} has I Do and We Do`);
     assert.equal(ph.filter((p) => p === 'youdo').length, 1, `${u.id} has one You Do`);
-    assert.deepEqual([...ph].sort((a, b) => order[a] - order[b]), ph, `${u.id} is in I Do → We Do → You Do order`);
+    // Each fraction may be taught then practised in turn (I Do, We Do, I Do, We Do…), but every We Do follows an I Do,
+    // the single You Do comes after all of them, and only "Say it" cards follow the You Do.
+    assert.equal(ph[0], 'ido', `${u.id} starts with I Do`);
+    const y = ph.indexOf('youdo');
+    assert.ok(ph.slice(0, y).every((p) => p === 'ido' || p === 'wedo') && ph.slice(y + 1).every((p) => p === 'say'), `${u.id} order around You Do`);
     assert.ok(u.cards.some((c) => c.phase === 'ido' && c.type === 'demo'), `${u.id} has a step-by-step worked example`);
     const you = u.cards.find((c) => c.phase === 'youdo');
     assert.ok(!you.help, `${u.id} You Do has no hints`);
@@ -341,7 +345,7 @@ test('teaching cannot be skipped: Next waits for each card, and later sections s
   act('explore', 'next'); assert.equal(journeyState.at.explore, 3);
   assert.equal(frontier('explore', journeyState.records), 3);
   const html2 = journeyCard(ctx, 'method', journeyState).s;
-  assert.match(html2, /opens soon/); assert.doesNotMatch(html2, /data-card=/);
+  assert.match(html2, /is locked/); assert.doesNotMatch(html2, /data-card=/);
   assert.match(journeyStepper(ctx, 'explore', journeyState.records).s, /class="locked"|locked/);
   const all = allDoneRecords(); assert.ok(JOURNEY.every((s) => stageUnlocked(s.id, all))); assert.equal(nextStage(all), 'parent');
 });
@@ -382,7 +386,10 @@ test('teaching rules: specific feedback, We Do help after repeated errors, You D
 test('Final Check: one try per question, no hints, then locked', () => {
   reach('check', 0);
   assert.deepEqual(act('check', 'help'), { quiet: true });
-  act('check', 'point', { id: 't1-4' }); act('check', 'point', { id: 'b1-4' }); act('check', 'check');
+  act('check', 'point', { id: 't1-4' }); act('check', 'point', { id: 'b1-4' });
+  const ask = act('check', 'check'); assert.equal(journeyState.records.q1.attempts, 0, 'the first press only asks to confirm'); assert.match(ask.say, /one try/);
+  assert.match(journeyCard(ctx, 'check', journeyState).s, /Yes, check it/);
+  act('check', 'check');
   const r = journeyState.records.q1; assert.equal(r.attempts, 1); assert.equal(r.correct, false);
   assert.deepEqual(act('check', 'point', { id: 't2-4' }), { quiet: true }, 'cannot change an answered question');
   assert.deepEqual(act('check', 'check'), { quiet: true });
@@ -405,6 +412,44 @@ test('views: one card at a time, help only in We Do, and the stepper lists A–I
     assert.doesNotMatch(out, /<img|\.png|\.jpe?g/i, `${c.id} uses only drawn diagrams`);
   }
   assert.equal(stageDone('explore', { records: {} }), false);
+});
+
+test('review round 5: We Do has its own figure, honest verdicts, simpler re-teach, and fixed feedback', () => {
+  // We Do never repeats the figure the worked example just solved.
+  for (const u of UNITS) {
+    const shownTasks = new Set(u.cards.filter((c) => c.type === 'demo' && c.task).map((c) => c.task));
+    for (const w of u.cards.filter((c) => c.phase === 'wedo' && c.type === 'build')) if (u.id !== 'rectangles' && u.id !== 'mistake' && u.id !== 'count') assert.ok(!shownTasks.has(w.task), `${w.id} uses a new figure, not the worked example's`);
+  }
+  // "A different way": an untaught way drawn in We Do cannot be redrawn on the new plus sign as "different".
+  const untaught = [['v0', 'v6'], ['v3', 'v9']];
+  assert.equal(checkBuild(CROSS_WEDO, untaught).valid, true); assert.equal(checkBuild(CROSS_YOU, untaught).valid, true);
+  const avoid = differentAvoidKey(byId('c-make2'), { solvedLines: untaught });
+  assert.equal(avoid, partitionKey(CROSS_YOU, untaught), 'the child\'s own lines are the way to avoid');
+  assert.equal(differentAvoidKey(byId('c-make2'), {}), partitionKey(CROSS_YOU, CROSS_YOU.solutions[0]), 'no saved lines: Way 1 is avoided');
+  // Circle feedback: no "numbers" when nothing is numbered; the unequal-slices tip does not say the lines miss the center.
+  const fix = byId('f-fix');
+  assert.doesNotMatch(diagnose(fix, checkBuild(fix.task, [['c', 'e0']])).message, /numbers show/);
+  assert.match(diagnose(fix, checkBuild(fix.task, [['e0', 'e4'], ['e1', 'e5']])).message, /Your lines go through the center/);
+  // Verdicts: 3 of 10 is "not ready yet"; 7 of 10 is "almost"; a wrong drawing blocks "ready".
+  const all = allDoneRecords();
+  const miss = (recs, ids) => { const r = { ...recs }; for (const id of ids) { r[id] = newRecord({ id }); noteCheck(r[id], false); } return r; };
+  assert.equal(readiness(miss(all, ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'])).verdict.level, 'notyet');
+  assert.equal(readiness(miss(all, ['q6', 'q7', 'q8'])).verdict.level, 'review');
+  assert.equal(readiness(miss(all, ['q1'])).verdict.level, 'review', '9 of 10 but a drawing was wrong');
+  assert.equal(readiness(all).verdict.level, 'ready');
+  assert.deepEqual(readiness(miss(all, ['q2'])).missedSkills, ['Square into eighths'], 'each question names its own skill');
+  assert.ok(readiness(all).notChecked.length > 0 && readiness(all).notChecked.every((t) => UNITS.some((u) => u.title === t)));
+  assert.ok(ASSESSMENT.every((q) => q.reportLabel));
+  // Simpler re-teach for corners-only shapes: corner (or edge-point) lines only, ending in a valid partition of the taught shape.
+  for (const sh of SHAPES.filter((x) => x.myTurn.bare)) {
+    const you = byId(`d-${sh.skill}-myturn`), st = you.relearnSteps;
+    assert.ok(st && st.length >= 3, `${sh.skill} has simple re-teach steps`);
+    assert.ok(st.every((x) => x.lines.every((l) => l.every((id) => /^[ve]\d/.test(id)))), `${sh.skill} re-teach uses only corners`);
+    assert.equal(checkBuild(you.relearnTask, st.at(-1).lines).valid, true);
+  }
+  // Rectangles: each fraction is shown then practised; eighths has a We Do.
+  assert.ok(byId('b-eighths-make').phase === 'wedo');
+  assert.equal(byId('d-paper').phase, 'say');
 });
 
 test('originality guard: journey sources contain no images, scans or publisher marks', () => {

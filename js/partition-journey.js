@@ -52,7 +52,7 @@ export function act(stageId, action, data = {}, state = journeyState) {
   switch (action) {
     case 'next': if (!cardDone(card, r)) return { focus: '[data-j="check"], [data-j="demo-next"], #stage-h', say: 'Finish this card first.' }; state.at[stageId] = Math.min(cards.length - 1, at + 1); return { focus: '#stage-h' };
     case 'prev': state.at[stageId] = Math.max(0, at - 1); return { focus: '#stage-h' };
-    case 'relearn-next': case 'relearn-back': ui.relearnStep = Math.max(0, (ui.relearnStep || 0) + (action === 'relearn-next' ? 1 : -1)); r.relearn = true; return { focus: '[data-relearn-heading]' };
+    case 'relearn-next': case 'relearn-back': ui.relearnStep = Math.max(0, (ui.relearnStep || 0) + (action === 'relearn-next' ? 1 : -1)); r.relearn = true; return { focus: `[data-j="${action}"], [data-j="relearn-done"], [data-j="relearn-next"]`, readStep: '.j-relearn [data-step-text]' };
     case 'relearn-done': r.relearn = true; r.wrongStreak = 0; ui.relearnStep = 0; reset(); return { focus: '[data-j="check"]', say: 'Your turn again. You can do it!' };
     case 'point': {
       const id = data.id; ui.cursor = id;
@@ -79,10 +79,10 @@ export function act(stageId, action, data = {}, state = journeyState) {
     case 'demo-next': case 'demo-back': case 'demo-restart': {
       ui.step = action === 'demo-restart' ? 0 : Math.max(0, Math.min(card.steps.length - 1, (ui.step || 0) + (action === 'demo-next' ? 1 : -1)));
       if (ui.step === card.steps.length - 1) r.viewed = true;
-      return { focus: ui.step === card.steps.length - 1 ? '[data-j="demo-back"]' : `[data-j="${action === 'demo-restart' ? 'demo-next' : action}"]` };
+      return { readStep: '[data-step-text]', done: ui.step === card.steps.length - 1, focus: ui.step === card.steps.length - 1 ? '[data-j="demo-back"]' : `[data-j="${action === 'demo-restart' ? 'demo-next' : action}"]` };
     }
     case 'text': ui.text = data.text; if (ui.compared) { ui.review = {}; r.reviewed = false; } return { quiet: true };
-    case 'compare': if (!String(ui.text || '').trim()) { ui.say = 'Write your own answer first.'; return { focus: '[data-j-text]', say: ui.say }; } ui.compared = true; r.written = true; return { focus: '.j-compare', say: 'Here is an example answer. Compare it with yours.' };
+    case 'compare': if (String(ui.text || '').trim().split(/\s+/).filter(Boolean).length < 5) { ui.say = String(ui.text || '').trim() ? 'Write a little more: at least 5 words.' : 'Write your own answer first.'; return { focus: '[data-j-text]', say: ui.say }; } ui.compared = true; r.written = true; return { focus: '.j-compare', say: 'Here is an example answer. Compare it with yours.' };
     case 'review': ui.review ||= {}; ui.review[data.index] = data.checked; r.reviewed = card.checks.every((_, i) => ui.review[i]); return { quiet: true };
     case 'help': ui.help ||= { open: false, level: 0, step: 0 }; ui.help.open = !ui.help.open; return { focus: ui.help.open ? '[data-help-heading]' : '[data-j="help"]' };
     case 'hint': ui.help = { open: true, level: Math.max(1, ui.help?.level || 0), step: ui.help?.step || 0 }; noteHelp(r, 1); return { focus: '[data-help-heading]', say: 'Hint shown.' };
@@ -96,6 +96,7 @@ export function act(stageId, action, data = {}, state = journeyState) {
 }
 
 function check(card, ui, r, state) {
+  if (card.phase === 'assess' && !ui.confirm) { ui.confirm = true; ui.say = ''; return { focus: '[data-j="check"]', say: 'This is your one try. Press "Yes, check it" to be sure.' }; }
   const done = (ok, say, key) => {
     // Checking the same unchanged answer again is not a new try.
     if (key !== undefined && key === ui.lastKey && ui.checked) return { focus: '[data-j="check"]', say: ui.say };
@@ -108,7 +109,7 @@ function check(card, ui, r, state) {
       ui.help = { open: true, level, step: 0 }; noteHelp(r, level);
       return { focus: '[data-help-heading]', say: `Not yet. ${say} Let's use the help together.` };
     }
-    if (!ok && card.phase === 'youdo' && r.wrongStreak >= 2) { r.relearn = true; ui.relearnStep = 0; return { focus: '[data-relearn-heading]', say: `Not yet. ${say} Let's learn it again.` }; }
+    if (!ok && card.phase === 'youdo' && r.wrongStreak >= 2) { r.relearn = true; ui.relearnStep = 0; return { focus: '[data-relearn-heading]', scroll: '.j-relearn', say: `Not yet. ${say} Let's learn it again.` }; }
     if (ok && card.phase === 'youdo' && ui.solo) return { focus: '[data-j="next"], [data-j-next-stage], [data-j="check"]', say: `You did it on your own! ${say}` };
     return { focus: card.phase === 'assess' ? '[data-j="next"], [data-j-next-stage], #stage-h' : '[data-j="check"]', say: `${ok ? 'Yes!' : 'Not yet.'} ${say}` };
   };
@@ -119,10 +120,10 @@ function check(card, ui, r, state) {
     const key = JSON.stringify(lines.map((l) => [...l].sort()).sort());
     if (result.valid && card.different) {
       // Compare with the child's first answer, or with the taught Way 1 if the first card was skipped.
-      const first = differentAvoidKey(card, state.ui[card.different]?.solvedKey);
+      const first = differentAvoidKey(card, state.ui[card.different]);
       if (first && partitionKey(card.task, lines) === first) { ui.result = { ...result, valid: false }; return done(false, 'These are equal parts, but it is the same way you drew before. Find a different way to make fourths.', key); }
     }
-    if (result.valid) { if (card.task.shape === 'polygon') ui.solvedKey = partitionKey(card.task, lines); return done(true, card.task.why, key); }
+    if (result.valid) { if (card.task.shape === 'polygon') { ui.solvedKey = partitionKey(card.task, lines); ui.solvedLines = lines.map((l) => [...l]); } return done(true, card.task.why, key); }
     return done(false, diagnose(card, result).message, key);
   }
   if (card.type === 'count') {
@@ -155,8 +156,9 @@ export function mountJourney(app, ctx, signal) {
     root.innerHTML = journeyCard(ctx, stageId, journeyState).s;
     if (!window.speechSynthesis) root.querySelectorAll('.read').forEach((b) => b.remove());
     if (!focus) return;
-    const el = root.querySelector(focus);
-    if (el) el.focus({ preventScroll: !focus.startsWith('#stage-h') && !focus.includes('help') && focus !== '.j-compare' });
+    // A list of places: the first one that exists, in the order given.
+    const el = focus.split(/,\s*/).map((f) => root.querySelector(f)).find(Boolean);
+    if (el) el.focus({ preventScroll: !focus.startsWith('#stage-h') && !/help|relearn/.test(focus) && focus !== '.j-compare' });
     if (focus === '#stage-h') root.querySelector('.j-head')?.scrollIntoView({ block: 'start' });
   };
   journeyState.stage = stageId; saveJourney();
@@ -168,12 +170,14 @@ export function mountJourney(app, ctx, signal) {
     journeyState.stage = stageId; saveJourney();
     if (out.quiet) return;
     render(out.focus);
+    if (out.scroll) root.querySelector(out.scroll)?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    if (out.readStep) { const t = root.querySelector(out.readStep)?.textContent.replace(/\s+/g, ' ').trim(); announce(out.done ? `${t} Done! Press Next to go on.` : t); return; }
     // After Check, make sure the result is on screen (short Chromebook screens).
     if (action === 'check') root.querySelector('.j-feedback')?.scrollIntoView({ block: 'nearest' });
     // Help: read out the newest help text itself, and put focus on it.
     if (['hint', 'steps', 'next-help', 'answer'].includes(action)) {
       const block = [...root.querySelectorAll('.j-help-block')].pop();
-      if (block) { block.setAttribute('tabindex', '-1'); block.focus({ preventScroll: false }); announce([...block.children].map((c) => c.textContent.trim()).filter(Boolean).join('. ')); return; }
+      if (block) { block.setAttribute('tabindex', '-1'); block.focus({ preventScroll: false }); announce([...block.querySelectorAll(':scope > p, :scope > ul')].map((c) => c.textContent.trim()).filter(Boolean).join('. ')); return; }
     }
     announce(out.say);
   };
