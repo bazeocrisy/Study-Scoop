@@ -1,0 +1,79 @@
+// Study Scoop proofreading gate (text audit, 2026-11-12). Run: npm run proofread
+// Checks every child- and parent-facing string in data/ (weeks, lessons, practice, chapters, tests, homework,
+// reading, pictures) for slips that the 2026-11-12 audit found: number agreement after "1", doubled words,
+// British spellings, sentences that start in lower case, double spaces, unbalanced brackets, and adult jargon
+// in Chapter 7 feedback. It is a safety net, not a replacement for reading the text and the images (see
+// docs/PROOFREADING.md). Exit code 1 when anything is found.
+import fs from 'node:fs';
+import path from 'node:path';
+
+const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const FILES = [
+  ...fs.readdirSync(path.join(ROOT, 'data')).filter((f) => /^\d{4}-\d\d-\d\d\.json$/.test(f)).map((f) => `data/${f}`),
+  ...['lessons', 'practice', 'chapters', 'tests', 'homework', 'reading'].flatMap((d) => fs.readdirSync(path.join(ROOT, 'data', d)).filter((f) => f.endsWith('.json')).map((f) => `data/${d}/${f}`)),
+  'data/pictures.json', 'data/weeks.json',
+];
+// Keys that are not prose (ids, file names, answers, enum values).
+const SKIP_KEYS = new Set(['id', 'src', 'file', 'kind', 'type', 'skill', 'role', 'stage', 'week', 'date', 'answerPolicy', 'asks', 'when', 'option', 'layout', 'framing', 'icon', 'href', 'url', 'labs', 'blank', 'accept', 'answer', 'unit', 'group', 'intent', 'words', 'syllables', 'pattern', 'patterns']);
+
+export const RULES = [
+  { id: 'one-plural', re: /(?<![\d./,]|and |, )\b1 (?:(?:equal|colored|selected|plain|complete|whole|whole-size|marked|crossed|small|more|unit|half-unit) )?(parts|pieces|spaces|intervals|gaps|jumps|steps|objects|wholes|rows|squares|groups|sticks|tiles|units|strips|disks|circles|tasks|counters)\b(?! (?:of|in|to|per)\b)/, why: 'number agreement: "1" before a plural noun' },
+  { id: 'one-verb', re: /\b1 (?:equal |selected |colored )?(?:part|piece|object|gap|space|interval) are\b/, why: 'verb agreement: "1 ... are"' },
+  { id: 'doubled', re: /\b(the|a|an|and|to|of|is|in|it|on|for|that)\s+\1\b/i, why: 'doubled word' },
+  { id: 'british', re: /\b(colour|favourite|labelled|labelling|centre|metre|practise[sd]?|organise|recognise|realise|behaviour|grey)\b/i, why: 'British spelling (use American English)' },
+  { id: 'lower-start', re: /(?:^|[.!]\s+)(?!e\.g|i\.e)[a-z][a-z]+\b(?=[^.]*\s)/, why: 'sentence starts with a lower-case letter', prose: true },
+  { id: 'double-space', re: /\S {2,}\S/, why: 'double space' },
+  { id: 'jargon', re: /\b(positive (?:bottom )?number|positive number of|repartition|membership|inspect|displayed partition|shown partition)\b/i, why: 'adult wording in child-facing text' },
+  { id: 'misspelled', re: /\b(vocapulary|recieve|seperate|definately|occured|untill|arguement|beleive|wierd|thier|alot)\b/i, why: 'common misspelling' },
+];
+const ALLOW_LOWER_START = /^(?:\d|[a-z]+[/=]|[a-z]\b|tract|form|ct|ed|ing|er|or|un|mis|re|dis|ex|at|in)/; // word parts, fragments
+function balanced(s) { let n = 0; for (const c of s) { if (c === '(') n++; if (c === ')') n--; if (n < 0) return false; } return n === 0; }
+
+export function proofreadText(text) {
+  const out = [];
+  for (const r of RULES) {
+    const m = text.match(r.re);
+    if (!m) continue;
+    // A word quoted on purpose (e.g. a note that records a corrected typo) is not a slip.
+    if (r.id === 'misspelled' && new RegExp(`["“\\\\]${m[0]}["”\\\\]`).test(text)) continue;
+    if (r.prose) {
+      // Only flag full sentences (a capital-free label like "fresh fruits and vegetables" is the teacher's style).
+      const start = text.trim();
+      if (ALLOW_LOWER_START.test(start) || !/[.!?]$/.test(start) || start.split(/\s+/).length < 5) continue;
+    }
+    out.push({ rule: r.id, why: r.why, match: m[0] });
+  }
+  if (!balanced(text)) out.push({ rule: 'brackets', why: 'unbalanced parentheses', match: text.slice(0, 40) });
+  return out;
+}
+
+// Teacher-source text is reported separately and never auto-fixed (CLAUDE.md: do not silently change originals).
+const TEACHER = (file, p) => /^data\/\d{4}-/.test(file) && /(vocab\.words\.\d+\.def|spelling\.words|mathUpcoming\.words\.\d+\.def|announcements)/.test(p);
+
+export function proofreadFiles(files = FILES) {
+  const findings = [];
+  for (const file of files) {
+    const data = JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
+    const walk = (x, p) => {
+      if (typeof x === 'string') {
+        if (x.length < 3 || /^(images|data|labs|https?):/.test(x) || /^[\w./-]+\.(webp|png|svg|pdf|html)$/.test(x)) return;
+        for (const f of proofreadText(x)) findings.push({ file, path: p, ...f, text: x.slice(0, 160), source: TEACHER(file, p) ? 'teacher' : 'study-scoop' });
+        return;
+      }
+      if (Array.isArray(x)) return x.forEach((v, i) => walk(v, `${p}.${i}`));
+      if (x && typeof x === 'object') for (const [k, v] of Object.entries(x)) if (!SKIP_KEYS.has(k)) walk(v, p ? `${p}.${k}` : k);
+    };
+    walk(data, '');
+  }
+  return findings;
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const f = proofreadFiles();
+  const ours = f.filter((x) => x.source === 'study-scoop'), teacher = f.filter((x) => x.source === 'teacher');
+  for (const x of ours) console.log(`${x.file} ${x.path}: [${x.rule}] ${x.why}: "${x.match}" in "${x.text}"`);
+  if (teacher.length) console.log(`\nTeacher-source text (report to the owner; never change silently): ${teacher.length} note(s).`);
+  for (const x of teacher) console.log(`  ${x.file} ${x.path}: [${x.rule}] "${x.text}"`);
+  console.log(`\nProofreading gate: ${FILES.length} files, ${ours.length} Study Scoop finding(s).`);
+  process.exit(ours.length ? 1 : 0);
+}

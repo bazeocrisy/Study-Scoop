@@ -10,6 +10,7 @@
     "homework-pdf": "node scripts/make-homework-pdf.mjs",
     "test:site": "node scripts/build-site.js && node tests/browser.test.js --site _site && node tests/homework-nov02.browser.js --site _site && node tests/homework-nov09.browser.js --site _site && node tests/weekly-labs.browser.js --site _site && node tests/layout.browser.js --site _site && node tests/chapter7.browser.js --site _site && node tests/chapter7-assessment.browser.js --site _site && node tests/chapter7-teaching.browser.js --site _site && node tests/chapter7-teaching-access.browser.js --site _site && node tests/chapter7-teaching-all.browser.js --site _site && node tests/partition-journey.browser.js --site _site && node tests/chapter7-teacher.browser.js --site _site",
     "test:all": "npm test && npm run test:browser && npm run test:site",
-    "serve": "node tests/serve.js"
+    "serve": "node tests/serve.js",
+    "proofread": "node scripts/proofread.mjs"
   }
 }
