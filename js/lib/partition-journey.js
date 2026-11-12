@@ -13,7 +13,7 @@ export const JOURNEY = [
   { id: 'mistake', label: 'Find the Mistake', title: 'Find the mistake', skill: 'mistake' },
   { id: 'count', label: 'Count the Parts', title: 'Count equal parts', skill: 'count' },
   { id: 'area', label: 'Explain Equal Area', title: 'Explain equal area', skill: 'area' },
-  { id: 'check', label: 'Check & Reflect', title: 'Check and reflect', skill: 'check' },
+  { id: 'check', label: 'Final Check', title: 'Final check: 10 questions', skill: 'check' },
 ];
 export const JOURNEY_IDS = JOURNEY.map((s) => s.id);
 export const isJourneyStage = (lessonId, stage) => lessonId === JOURNEY_LESSON && JOURNEY_IDS.includes(stage);
@@ -134,6 +134,25 @@ export const CROSS = {
   why: 'Each part fits exactly on the next part after a quarter turn. Four matching parts fill the shape, so each part is one fourth.',
 };
 CROSS.solution = CROSS.solutions[0];
+/** A new plus sign for You Do: a bigger middle square and shorter arms. Corner numbering matches CROSS. */
+const crossYouPolygon = [[100, 20], [200, 20], [200, 100], [280, 100], [280, 200], [200, 200], [200, 280], [100, 280], [100, 200], [20, 200], [20, 100], [100, 100]];
+export const CROSS_YOU = {
+  id: 'cross-you', label: 'Plus sign: fourths', count: 4, shape: 'polygon', polygon: crossYouPolygon, viewBox: [300, 300],
+  points: [...crossYouPolygon.map((p, i) => point(`v${i}`, p, `Corner ${i + 1}`)), point('top', [150, 20], 'Top midpoint'), point('bottom', [150, 280], 'Bottom midpoint'), point('left', [20, 150], 'Left midpoint'), point('right', [280, 150], 'Right midpoint'), point('c', [150, 150], 'Center')],
+  solutions: [[['top', 'bottom'], ['left', 'right']], [['v2', 'v8'], ['v5', 'v11']]], why: CROSS.why, hint: CROSS.hint,
+};
+CROSS_YOU.solution = CROSS_YOU.solutions[0];
+/**
+ * "A different way" on the new plus sign: the way to avoid is the one the child drew in We Do (matched by which
+ * taught way it was on the first plus sign), or Way 1 if that is unknown.
+ */
+export function differentAvoidKey(card, solvedKey) {
+  const first = cardById(card.different);
+  if (!first) return null;
+  if (first.task === card.task) return solvedKey || partitionKey(card.task, card.task.solutions[0]);
+  const k = solvedKey ? first.task.solutions.findIndex((sol) => partitionKey(first.task, sol) === solvedKey) : -1;
+  return k < 0 ? (solvedKey ? null : partitionKey(card.task, card.task.solutions[0])) : partitionKey(card.task, card.task.solutions[k]);
+}
 CROSS.teach = [
   { text: 'This plus-sign shape is one whole. It has a middle square and four matching arms.', lines: [] },
   { text: 'Way 1, step 1: join the middle of the top edge to the middle of the bottom edge.', lines: [['top', 'bottom']] },
@@ -283,7 +302,8 @@ const count = (id, figure, o) => ({ id, type: 'count', graded: true, figure, ...
 const NAMES = [['3', 'thirds'], ['4', 'fourths'], ['6', 'sixths'], ['8', 'eighths']];
 const NUMS = ['3', '4', '6', '8'];
 
-export const CARDS = {
+const OLD = (() => {
+  const CARDS = {
   explore: [
     choice('a-same', { skill: 'whole', title: 'Three sandwiches', picture: { kind: 'sandwiches' },
       prompt: 'Three sandwiches are the same size. Each one has been cut. How are all three sandwiches alike?',
@@ -445,7 +465,7 @@ export const CARDS = {
       options: [{ text: 'The strip with 8 parts', why: 'More parts share the same whole, so each of the 8 parts is the smallest.' }, { text: 'The strip with 2 parts', correct: true, why: 'Yes. Fewer parts sharing the same whole means bigger parts.' }, { text: 'They are all the same size', why: 'Compare the shaded parts. One half is much longer than one eighth.' }],
       help: { hint: 'Fewer parts sharing the same whole means each part is...?', steps: [{ text: 'Compare the shaded parts.', picture: { kind: 'strips', parts: [2, 4, 8], shade: true, guide: true } }] } }),
     choice('i-oval', { skill: 'mistake', independent: true, title: 'Check 5: an oval', picture: { kind: 'oval' },
-      prompt: 'Lee cut an oval rug into 4 strips with 3 evenly spaced cuts that go side to side. Lee says the strips are fourths. Do you agree?',
+      prompt: 'Noor cut an oval rug into 4 strips with 3 evenly spaced cuts that go side to side. Noor says the strips are fourths. Do you agree?',
       options: [
         { text: 'Yes. The cuts are evenly spaced, so the strips are equal.', why: 'Evenly spaced cuts do not make equal parts in a round or oval shape. The top and bottom strips are short and curved.' },
         { text: 'Yes. There are 4 strips.', why: 'Counting 4 parts is not enough. Fourths need equal areas.' },
@@ -470,11 +490,146 @@ export const CARDS = {
       help: { hint: 'Think about the steps you used today: draw, check the areas, count and name.' } }),
   ],
 };
+  return Object.fromEntries(Object.values(CARDS).flat().map((c) => [c.id, c]));
+})();
+
+// ------------------------------------------------------------------ the teaching sequence: I Do → We Do → You Do for every skill
+// I Do: a worked example, step by step, with the reason. We Do: a new problem with help and step guidance.
+// You Do: another new problem with no hints; mistakes get targeted feedback, then a re-teach and a retry.
+const ido = (c) => ({ ...c, phase: 'ido' });
+const wedo = (c) => ({ ...c, phase: 'wedo' });
+const youdo = (c) => ({ ...c, help: undefined, hintOverride: undefined, phase: 'youdo', independent: true });
+const say = (c) => ({ ...c, phase: 'say' });
+const picDemo = (id, o) => ({ id, type: 'demo', pictures: true, ...o });
+export const RECT_EIGHTHS_YOU = rectTask({ id: 'rect-eighths-you', label: 'Rectangle: eighths', count: 8, x: 20, y: 30, w: 280, h: 220, across: E8, down: Q, viewBox: [320, 280],
+  solutions: [[...cols(8, [2, 4, 6]), ['l2-4', 'r2-4']], [['t4-8', 'b4-8'], ...rows(4)], cols(8)],
+  why: 'Eight parts with the same size cover the whole rectangle. Eight equal parts are eighths.', hint: 'Make 4 equal columns, then cut every column in half.' });
+export const HALVES3 = rectTask({ id: 'halves3', label: 'Rectangle: four parts', count: 4, x: 40, y: 40, w: 240, h: 180, across: [[1, 2]], down: [[1, 2]],
+  solutions: [[['l1-2', 'r1-2'], ['k0', 'r1-2'], ['c', 'b1-2']]], why: 'Each half is split into 2 equal parts, so all 4 parts are fourths.' });
+HALVES3.points.push(point('c', [160, 130], 'Center'));
+
+export const UNITS = [
+  { id: 'whole', section: 'explore', title: 'Equal parts', cards: [
+    ido(OLD['a-words']), ido(OLD['a-area']),
+    ido(picDemo('a-show', { skill: 'whole', title: 'Watch: are these fourths?', steps: [
+      { text: 'Here are three sandwiches. They are the same size. Each sandwich is one whole.', picture: { kind: 'sandwiches' } },
+      { text: 'Count the pieces. Each sandwich is cut into 4 pieces.', picture: { kind: 'sandwiches' } },
+      { text: 'Are they fourths? Check the area. The faint grid splits each sandwich into 16 tiny squares.', picture: { kind: 'sandwiches', grid: true } },
+      { text: 'Sandwich 3: each piece covers 4 tiny squares. Sandwich 1: the 4 triangles match, so each covers the same space as 4 tiny squares. Equal parts!', picture: { kind: 'sandwiches', grid: true, mark: 2 } },
+      { text: 'Sandwich 2: one strip covers 6 tiny squares, but another covers only 2. Not equal, so these are not fourths.', picture: { kind: 'sandwiches', grid: true, mark: 1 } },
+      { text: 'Why: fourths are 4 parts with the same area. Counting 4 pieces is not enough. We compare how much space each part covers.', picture: { kind: 'sandwiches', grid: true } },
+    ] })),
+    wedo(OLD['a-notfourths']),
+    youdo({ id: 'a-flags', type: 'choice', graded: true, multi: true, skill: 'whole', title: 'Three flags', picture: { kind: 'flags' },
+      prompt: 'These three flags are the same size. Which flags are cut into fourths? Choose all that are right.',
+      options: [
+        { text: 'Flag 1 (stripes across)', why: 'Flag 1: the stripes are not all the same height. A thick stripe covers more space than a thin one.' },
+        { text: 'Flag 2 (corner to corner)', correct: true, why: 'Flag 2: the two lines cross in the middle, so all 4 triangles have the same area. Fourths.' },
+        { text: 'Flag 3 (stripes up and down)', correct: true, why: 'Flag 3: 4 stripes with the same width and the same height. Fourths.' },
+      ] }),
+  ] },
+  { id: 'rectangles', section: 'method', title: 'Rectangles', cards: [
+    ido(OLD['b-fourths']), ido(OLD['b-sixths']), ido(OLD['b-eighths']),
+    wedo(OLD['b-fourths-make']), wedo(OLD['b-triangles']), wedo(OLD['b-sixths-make']),
+    youdo({ id: 'b-eighths-you', type: 'build', graded: true, task: RECT_EIGHTHS_YOU, skill: 'rectangles', title: 'A new rectangle: eighths', prompt: 'Partition this rectangle into 8 equal parts, or eighths.', relearn: 'b-eighths' }),
+  ] },
+  { id: 'cross', section: 'cross', title: 'Plus sign', cards: [
+    ido(OLD['c-way1']), ido(OLD['c-way2']),
+    wedo(OLD['c-make1']), wedo(OLD['c-why']),
+    youdo({ ...OLD['c-make2'], task: CROSS_YOU, relearn: 'c-way2', title: 'On your own: a new plus sign', prompt: 'Here is a new plus sign. Partition it into fourths a different way from the way you drew before.' }),
+  ] },
+  ...SHAPES.map((sh) => ({ id: sh.skill, section: 'shapes', title: `${sh.name} into ${sh.goal}`, cards: [
+    ido({ ...OLD[`d-${sh.skill}-teach`], title: `Watch: ${sh.name.toLowerCase()} into ${sh.goal}` }),
+    wedo({ ...OLD[`d-${sh.skill}-guide`], title: `Together: ${sh.name.toLowerCase()} into ${sh.goal}` }),
+    youdo({ ...OLD[`d-${sh.skill}-myturn`], title: `On your own: a new ${sh.name.toLowerCase()}`, relearn: `d-${sh.skill}-teach` }),
+  ] })),
+  { id: 'sizes', section: 'sizes', title: 'Compare part sizes', cards: [
+    ido(OLD['e-explore']),
+    ido(picDemo('e-show', { skill: 'sizes', title: 'Watch: more parts, smaller parts', steps: [
+      { text: 'Three strips are the same size. One is cut into 4 equal parts, one into 6 and one into 8.', picture: { kind: 'strips', parts: [4, 6, 8] } },
+      { text: 'Shade one part of each strip.', picture: { kind: 'strips', parts: [4, 6, 8], shade: true } },
+      { text: 'Line them up. One fourth reaches farthest. One eighth is the shortest.', picture: { kind: 'strips', parts: [4, 6, 8], shade: true, guide: true } },
+      { text: 'Why: the whole stays the same size. When more parts share it, each part gets smaller.', picture: { kind: 'strips', parts: [4, 6, 8], shade: true, guide: true } },
+    ] })),
+    wedo(OLD['e-what']), wedo(OLD['e-why']),
+    youdo({ id: 'e-you', type: 'choice', graded: true, skill: 'sizes', title: 'On your own: smallest parts', picture: { kind: 'strips', parts: [3, 4, 6], shade: true },
+      prompt: 'Three same-size strips are cut into 3, 4 and 6 equal parts. Which strip has the smallest parts?',
+      options: [
+        { text: 'The strip with 3 parts', why: 'Only 3 parts share that strip, so each part is the biggest, not the smallest.' },
+        { text: 'The strip with 4 parts', why: 'The strip with 6 parts has even more parts sharing the same whole, so its parts are smaller.' },
+        { text: 'The strip with 6 parts', correct: true, why: 'Yes. The most parts share the same whole, so each part is the smallest.' },
+      ], relearn: 'e-show' }),
+    say(OLD['e-write']),
+  ] },
+  { id: 'mistake', section: 'mistake', title: 'Four parts are not always fourths', cards: [
+    ido(picDemo('f-show', { skill: 'mistake', title: 'Watch: check a cookie', steps: [
+      { text: 'Jun cut a round cookie with 3 straight cuts that are evenly spaced. Jun says the cookie shows fourths. Let\'s check.', picture: { kind: 'cookie' } },
+      { text: 'There are 4 pieces. But fourths must have equal areas, so we compare the pieces.', picture: { kind: 'cookie' } },
+      { text: 'Look at the heights. The middle pieces are tall. The end pieces are short, because a circle is narrow near its edge.', picture: { kind: 'cookie', heights: true } },
+      { text: 'Flip an end piece onto a middle piece. It does not fill it: space is left over. The end piece is smaller.', picture: { kind: 'cookie', flip: true } },
+      { text: 'So these are not fourths. To make fourths of a circle, draw 2 lines through the center that cross like a plus sign.', picture: { kind: 'pie', fair: true } },
+    ] })),
+    wedo(OLD['f-agree']), wedo(OLD['f-fix']),
+    youdo({ ...OLD['i-oval'], id: 'f-oval', title: 'On your own: an oval rug', relearn: 'f-show' }),
+    say(OLD['f-write']),
+  ] },
+  { id: 'count', section: 'count', title: 'Count and name equal parts', cards: [
+    ido(picDemo('g-show', { skill: 'count', title: 'Watch: count the parts', steps: [
+      { text: 'A part is a space inside the outline. A line is just the edge between parts. We count spaces, not lines.', picture: { kind: 'figure', figure: 'tiles', lines: true } },
+      { text: 'All the tiles match. Count each space once: 1, 2, 3...', picture: { kind: 'figure', figure: 'tiles', counted: [0, 1, 2] } },
+      { text: '...4, 5, 6. There are 6 equal tiles.', picture: { kind: 'figure', figure: 'tiles', counted: [0, 1, 2, 3, 4, 5] } },
+      { text: '6 equal parts are called sixths. So: the shape is partitioned into 6 equal parts, or sixths.', picture: { kind: 'figure', figure: 'tiles', counted: [0, 1, 2, 3, 4, 5] } },
+    ] })),
+    wedo(OLD['g-slant']), wedo(OLD['g-triangle']), wedo(OLD['g-triangle-make']),
+    youdo({ ...OLD['i-tiles'], id: 'g-you', title: 'On your own: a tile pattern', relearn: 'g-show' }),
+  ] },
+  { id: 'area', section: 'area', title: 'Equal area, different shapes', cards: [
+    ido(picDemo('h-show', { skill: 'area', title: 'Watch: half of a half', steps: [
+      { text: 'Mia cut this rectangle into 4 parts: 2 boxes and 2 long strips. They look different. Are they equal?', picture: { kind: 'task', task: 'halves', lines: HALVES.solution } },
+      { text: 'First, the line across the middle makes 2 equal halves.', picture: { kind: 'task', task: 'halves', lines: [['l1-2', 'r1-2']], shade: true } },
+      { text: 'The top half is cut into 2 matching boxes. Each box is half of the top half.', picture: { kind: 'task', task: 'halves', lines: [['l1-2', 'r1-2'], ['t1-2', 'c']] } },
+      { text: 'The bottom half is cut into 2 matching strips. Each strip is half of the bottom half.', picture: { kind: 'task', task: 'halves', lines: HALVES.solution } },
+      { text: 'Half of a half is one fourth. All 4 parts are fourths, even though boxes and strips look different.', picture: { kind: 'task', task: 'halves', lines: HALVES.solution, shade: true } },
+    ] })),
+    wedo(OLD['h-grid']),
+    youdo({ ...OLD['i-halves'], id: 'h-you', title: 'On your own: a new rectangle', relearn: 'h-show' }),
+    say(OLD['h-write']),
+  ] },
+];
+const bareShape = (t) => bare(t);
+const assess = (c) => ({ ...c, help: undefined, relearn: undefined, phase: 'assess', independent: true });
+export const ASSESSMENT = [
+  assess({ ...OLD['i-rect'], id: 'q1', title: 'Question 1', skill: 'rectangles' }),
+  assess({ ...OLD['i-square'], id: 'q2', title: 'Question 2', skill: 'rectangles' }),
+  assess({ ...OLD['i-circle'], id: 'q3', title: 'Question 3', skill: 'circle', prompt: 'Partition this circle into sixths.' }),
+  assess({ id: 'q4', type: 'build', graded: true, skill: 'diamond', title: 'Question 4', prompt: 'Partition this diamond into fourths.',
+    task: bareShape(polygonTask({ id: 'q4-diamond', label: 'Diamond: fourths', count: 4, polygon: rh(160, 150, 140, 75), solutions: [[['v0', 'v2'], ['v1', 'v3']]], why: DIAMOND_WHY })) }),
+  assess({ id: 'q5', type: 'build', graded: true, skill: 'hexagon', title: 'Question 5', prompt: 'Partition this hexagon into sixths.',
+    task: bareShape(polygonTask({ id: 'q5-hexagon', label: 'Hexagon: sixths', count: 6, polygon: regular(6, 160, 150, 115, -Math.PI / 2 + Math.PI / 12), solutions: [[['v0', 'v3'], ['v1', 'v4'], ['v2', 'v5']]], why: 'Six matching triangles meet in the middle. Each is a sixth.' })) }),
+  assess({ ...OLD['i-sizes'], id: 'q6', title: 'Question 6', prompt: 'Three same-size strips are cut into 2, 4 and 8 equal parts. Which strip has the biggest parts?' }),
+  assess({ id: 'q7', type: 'choice', graded: true, skill: 'mistake', title: 'Question 7', picture: { kind: 'xcircle' },
+    prompt: 'Kai cut a round pizza with 2 lines through the center. The lines do not cross like a plus sign. Are the 4 pieces fourths?',
+    options: [
+      { text: 'Yes. Both lines go through the center.', why: 'Going through the center is not enough. The lines must cross like a plus sign so all 4 slices open by the same amount.' },
+      { text: 'Yes. There are 4 pieces.', why: 'Counting 4 pieces is not enough. Fourths need equal areas.' },
+      { text: 'No. Two slices are wide and two are narrow, so the areas are not equal.', correct: true, why: 'Right. The wide slices cover more space than the narrow ones. They are not fourths.' },
+    ] }),
+  assess({ ...OLD['i-star'], id: 'q8', title: 'Question 8', prompt: 'Tap each tile to count it. Then complete the sentence.' }),
+  assess({ ...OLD['i-kite'], id: 'q9', title: 'Question 9' }),
+  assess({ id: 'q10', type: 'choice', graded: true, skill: 'area', title: 'Question 10', picture: { kind: 'task', task: 'halves3', lines: HALVES3.solution, shade: true, label: 'A rectangle cut in half top and bottom. The top half is cut corner to corner into 2 triangles. The bottom half is cut into 2 boxes side by side.' },
+    prompt: 'This rectangle is cut in half, top and bottom. The top half is cut corner to corner. The bottom half is cut into 2 boxes. Are the 4 parts fourths?',
+    options: [
+      { text: 'No. Triangles and boxes are different shapes.', why: 'Different shapes can have the same area. Each half was cut into 2 equal parts.' },
+      { text: 'Yes. Each half is cut into 2 equal parts, so each part is one fourth.', correct: true, why: 'Yes. Half of a half is one fourth, for the triangles and for the boxes.' },
+    ] }),
+];
+export const CARDS = Object.fromEntries(JOURNEY.map((s) => [s.id, s.id === 'check' ? ASSESSMENT : UNITS.filter((u) => u.section === s.id).flatMap((u) => u.cards.map((c) => ({ ...c, unit: u.id })))]));
 // Count questions share their two-part sentence.
 for (const list of Object.values(CARDS)) for (const c of list) if (c.type === 'count') { c.nums = NUMS; c.names = NAMES; }
 export const ALL_CARDS = JOURNEY.flatMap((s) => CARDS[s.id].map((c) => ({ ...c, stage: s.id })));
+export const unitOf = (card) => UNITS.find((u) => u.id === card.unit);
 export const cardById = (id) => ALL_CARDS.find((c) => c.id === id);
-export const TASK_INDEX = Object.fromEntries([RECT_FOURTHS, RECT_SIXTHS, RECT_EIGHTHS, CROSS, HALVES, HALVES2, ...SHAPES.flatMap((s) => [s.guide, s.myTurn])].map((t) => [t.id, t]));
+export const TASK_INDEX = Object.fromEntries([RECT_FOURTHS, RECT_SIXTHS, RECT_EIGHTHS, RECT_EIGHTHS_YOU, CROSS, CROSS_YOU, HALVES, HALVES2, HALVES3, ...SHAPES.flatMap((s) => [s.guide, s.myTurn])].map((t) => [t.id, t]));
 
 // ------------------------------------------------------------------ checking
 /** Validates a construction and adds the regions to draw (polygon faces or circle sectors). */
@@ -527,18 +682,54 @@ export function checkCount(card, number, name) {
   return { valid, message: `${number} is right. Now the name: ${card.answer} equal parts are called ${NAMES.find(([n]) => n === card.answer)[1]}.` };
 }
 
+// ------------------------------------------------------------------ teaching rules (plain JavaScript; no AI service)
+/** A card is done when it was watched (I Do), answered correctly (We Do, You Do), checked once (Final Check) or written and compared. */
+export function cardDone(card, rec) {
+  if (card.type === 'concept' || card.type === 'sizes') return true;
+  if (card.type === 'demo') return Boolean(rec?.viewed);
+  if (card.type === 'write') return Boolean(rec?.written);
+  if (card.phase === 'assess') return (rec?.attempts || 0) > 0;
+  return Boolean(rec?.correct);
+}
+const allDone = (cards, records) => cards.every((c) => cardDone(c, records[c.id]));
+/** The first card in a section that is not done yet (the farthest a child may go), or the last card. */
+export function frontier(stageId, records) { const cards = CARDS[stageId], k = cards.findIndex((c) => !cardDone(c, records[c.id])); return k < 0 ? cards.length - 1 : k; }
+/** A section opens when every earlier section is done, so required teaching cannot be skipped. */
+export function stageUnlocked(stageId, records) { const i = JOURNEY.findIndex((s) => s.id === stageId); return JOURNEY.slice(0, Math.max(0, i)).every((s) => allDone(CARDS[s.id], records)); }
+export const stageComplete = (stageId, records) => allDone(CARDS[stageId], records);
+export const lessonComplete = (records) => JOURNEY.every((s) => allDone(CARDS[s.id], records));
+/** Where the child should be: the first section that is not finished, or the report. */
+export const nextStage = (records) => JOURNEY.find((s) => !allDone(CARDS[s.id], records))?.id || 'parent';
+
+/**
+ * Targeted feedback for a wrong answer. Kinds: 'regions' (wrong number of parts), 'area' (right number, unequal
+ * areas), 'center' (a circle line that misses the center), 'choice' / 'count' (that answer's own reason).
+ */
+export function diagnose(card, result) {
+  if (card.type !== 'build') return { kind: card.type === 'count' ? 'count' : 'choice' };
+  const t = card.task, n = result.count, want = t.count;
+  if (t.shape === 'circle' && !result.areas.length) return { kind: 'center', message: `That line does not go through the center. Every line in a circle has to go through the center, or the slices cannot be equal.` };
+  if (n !== want) return { kind: 'regions', message: `Let's count the parts. A part is a space closed in by the outline and the lines. The numbers show your ${n} part${n === 1 ? '' : 's'}. We need ${want}. ${n < want ? 'A line must go all the way across, from edge to edge (or to another line), to make a new part.' : 'You have too many parts. Use Undo to take a line away.'}` };
+  return { kind: 'area', message: `You made ${n} parts. Good counting! But equal parts must cover the same amount of space. The part marked "bigger" covers more than the part marked "smaller". ${unequalTip(t)}` };
+}
+
 // ------------------------------------------------------------------ progress records (saved in this browser only, D29)
 /** Help levels: 1 hint, 2 visual steps, 3 answer shown. */
 export const HELP_LABELS = ['', 'hint', 'visual steps', 'answer shown'];
-export function newRecord(card) { return { id: card.id, attempts: 0, first: null, correct: false, help: 0, helpBeforeCorrect: 0, viewed: false, written: false, reviewed: false }; }
+export function newRecord(card) { return { id: card.id, attempts: 0, first: null, correct: false, help: 0, helpBeforeCorrect: 0, viewed: false, written: false, reviewed: false, relearn: false, wrongStreak: 0 }; }
 export function noteHelp(rec, level) { rec.help = Math.max(rec.help, level); if (!rec.correct) rec.helpBeforeCorrect = Math.max(rec.helpBeforeCorrect, level); }
-export function noteCheck(rec, valid) { rec.attempts++; if (rec.first === null) rec.first = valid && rec.helpBeforeCorrect === 0 ? 'correct' : valid ? 'helped' : 'wrong'; if (valid) rec.correct = true; }
-/** How a graded question finished, for the parent summary. */
+export function noteCheck(rec, valid) {
+  rec.attempts++;
+  if (rec.first === null) rec.first = valid && rec.helpBeforeCorrect === 0 && !rec.relearn ? 'correct' : valid ? 'helped' : 'wrong';
+  if (valid) { rec.correct = true; rec.wrongStreak = 0; } else rec.wrongStreak = (rec.wrongStreak || 0) + 1;
+}
+/** How a graded question finished, for the grown-up report. */
 export function outcome(rec) {
-  if (!rec || (!rec.attempts && !rec.correct)) return rec?.help ? 'help-only' : 'not-tried';
+  if (!rec || (!rec.attempts && !rec.correct)) return rec?.help || rec?.relearn ? 'help-only' : 'not-tried';
   if (!rec.correct) return 'not-yet';
   if (rec.first === 'correct') return 'independent';
   if (rec.helpBeforeCorrect === 3) return 'after-answer';
+  if (rec.relearn) return 'after-relearn';
   if (rec.helpBeforeCorrect === 2) return 'after-steps';
   if (rec.helpBeforeCorrect === 1) return 'after-hint';
   return 'after-retry';
@@ -548,11 +739,31 @@ export const OUTCOME_TEXT = {
   'after-retry': 'Right after another try, no help',
   'after-hint': 'Finished after a hint',
   'after-steps': 'Finished after seeing visual steps',
+  'after-relearn': 'Finished after watching the example again',
   'after-answer': 'Finished after the answer was shown',
   'not-yet': 'Tried, not finished yet',
   'help-only': 'Opened help, not checked yet',
   'not-tried': 'Not tried yet',
 };
+const YOU_DO_TEXT = { independent: 'On own, first try', 'after-retry': 'On own, after another try', 'after-relearn': 'After watching the example again', 'after-answer': 'After seeing the answer', 'not-yet': 'Not finished', 'help-only': 'Not finished', 'not-tried': 'Not started' };
+/** The grown-up readiness report: You Do result per skill, the Final Check score and a short verdict. */
+export function readiness(records) {
+  const skills = UNITS.map((u) => {
+    const you = u.cards.find((c) => c.phase === 'youdo'), res = outcome(records[you.id]);
+    const finals = ASSESSMENT.filter((q) => q.skill === u.id || (u.id === 'rectangles' && q.skill === 'rectangles'));
+    return { unit: u, card: you, result: res, text: YOU_DO_TEXT[res], solid: res === 'independent' || res === 'after-retry', finals };
+  });
+  const answered = ASSESSMENT.filter((q) => records[q.id]?.attempts > 0);
+  const right = ASSESSMENT.filter((q) => records[q.id]?.first === 'correct');
+  const missed = answered.filter((q) => records[q.id]?.first !== 'correct');
+  const missedSkills = [...new Set(missed.map((q) => SKILLS[q.skill]))];
+  const shaky = skills.filter((s) => !s.solid && s.result !== 'not-tried').map((s) => s.unit.title);
+  let verdict;
+  if (answered.length < ASSESSMENT.length) verdict = { level: 'unfinished', text: 'Not finished yet. The report is complete after the 10-question Final Check.' };
+  else if (right.length >= 8 && !skills.some((s) => s.result === 'after-answer' || s.result === 'not-yet')) verdict = { level: 'ready', text: `Ready for the workbook: ${right.length} of 10 on the Final Check, and every skill was finished without being shown the answer.` };
+  else verdict = { level: 'review', text: `Almost ready: ${right.length} of 10 on the Final Check. Review the skills listed below before the workbook.` };
+  return { skills, score: right.length, answered: answered.length, total: ASSESSMENT.length, missed, missedSkills, shaky, verdict };
+}
 export function summarize(records) {
   const graded = ALL_CARDS.filter((c) => c.graded);
   const rows = graded.map((c) => ({ card: c, rec: records[c.id], result: outcome(records[c.id]) }));
@@ -562,15 +773,12 @@ export function summarize(records) {
     firstWrong: n((r) => r.rec?.first === 'wrong'),
     afterHint: n((r) => r.result === 'after-hint'),
     afterSteps: n((r) => r.result === 'after-steps'),
+    afterRelearn: n((r) => r.result === 'after-relearn'),
     afterAnswer: n((r) => r.result === 'after-answer'),
     notTried: n((r) => r.result === 'not-tried' || r.result === 'help-only'),
-    independentOpportunities: rows.filter((r) => r.card.independent).length,
-    independentDone: n((r) => r.card.independent && r.result === 'independent'),
+    independentOpportunities: rows.filter((r) => r.card.phase === 'youdo').length,
+    independentDone: n((r) => r.card.phase === 'youdo' && r.result === 'independent'),
   };
-  // Needs practice: a wrong first try, help before success, or not finished. Untried skills are listed apart.
-  const needs = [...new Set(rows.filter((r) => r.rec?.first === 'wrong' || ['after-hint', 'after-steps', 'after-answer', 'not-yet', 'help-only'].includes(r.result)).map((r) => r.card.skill))].map((s) => SKILLS[s]);
-  const tried = new Set(rows.filter((r) => !['not-tried'].includes(r.result)).map((r) => r.card.skill));
-  const untried = [...new Set(rows.map((r) => r.card.skill))].filter((s) => !tried.has(s)).map((s) => SKILLS[s]);
   const written = ALL_CARDS.filter((c) => c.type === 'write').map((c) => ({ card: c, rec: records[c.id] }));
-  return { rows, totals, needs, untried, written, viewed: ALL_CARDS.filter((c) => c.type === 'demo' && records[c.id]?.viewed).length, demos: ALL_CARDS.filter((c) => c.type === 'demo').length };
+  return { rows, totals, written, ready: readiness(records) };
 }

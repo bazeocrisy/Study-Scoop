@@ -3,8 +3,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { ALL_CARDS, CARDS, JOURNEY, FIGURES, GRID, SHAPES, CROSS, HALVES, HALVES2, checkBuild, checkCount, partitionKey, onSameEdge, newRecord, noteHelp, noteCheck, outcome, summarize } from '../../js/lib/partition-journey.js';
-import { picture, helpSteps, helpAnswer, journeyCard, journeyStepper } from '../../js/views/partition-journey.js';
+import { ALL_CARDS, CARDS, JOURNEY, UNITS, ASSESSMENT, FIGURES, GRID, SHAPES, CROSS, HALVES, HALVES2, HALVES3, checkBuild, checkCount, partitionKey, onSameEdge, newRecord, noteHelp, noteCheck, outcome, summarize, readiness, cardDone, stageUnlocked, frontier, nextStage, diagnose } from '../../js/lib/partition-journey.js';
+import { picture, helpSteps, helpAnswer, journeyCard, journeyStepper, FLAGS, XCIRCLE } from '../../js/views/partition-journey.js';
 import { act, resetJourney, journeyState, stageDone } from '../../js/partition-journey.js';
 import { partitionPolygon, validatePartition } from '../../js/lib/partition-geometry.js';
 
@@ -15,6 +15,18 @@ const area = (p) => Math.abs(p.reduce((n, a, i) => { const b = p[(i + 1) % p.len
 const near = (a, b, tol = 1e-6) => Math.abs(a - b) <= tol * Math.max(1, Math.abs(b));
 const builds = ALL_CARDS.filter((c) => c.type === 'build');
 const ctx = { lessonLink: (id, st) => `#math?lesson=${id}&stage=${st}` };
+const byId = (id) => ALL_CARDS.find((c) => c.id === id);
+const idx = (stage, id) => CARDS[stage].findIndex((c) => c.id === id);
+/** A record that counts as done for a card (watched, written, answered right). */
+function doneRecord(c) { const r = newRecord(c); if (c.type === 'demo') r.viewed = true; else if (c.type === 'write') r.written = true; else { r.attempts = 1; r.first = 'correct'; r.correct = true; } return r; }
+/** Finish every card before this one in its section (and every earlier section), the way a child would. */
+function reach(stage, index) {
+  resetJourney();
+  for (const s of JOURNEY) { if (s.id === stage) break; for (const c of CARDS[s.id]) journeyState.records[c.id] = doneRecord(c); }
+  for (const c of CARDS[stage].slice(0, index)) journeyState.records[c.id] = doneRecord(c);
+  journeyState.at[stage] = index;
+}
+const allDoneRecords = () => Object.fromEntries(ALL_CARDS.map((c) => [c.id, doneRecord(c)]));
 
 test('the journey has sections A–I in the lesson order, each with at least one card', () => {
   assert.deepEqual(JOURNEY.map((s) => s.id), ['explore', 'method', 'cross', 'shapes', 'sizes', 'mistake', 'count', 'area', 'check']);
@@ -47,7 +59,7 @@ test('alternative constructions are found by geometry, not by matching the answe
   // Hexagon: center to every other corner gives thirds, not sixths.
   assert.equal(checkBuild(SHAPES[4].guide, [['c', 'v0'], ['c', 'v2'], ['c', 'v4']]).valid, false);
   // Unequal: 4 parts with unequal areas are rejected and the biggest and smallest are identified.
-  const rect = CARDS.method[1].task, bad = checkBuild(rect, [['t2-4', 'b2-4'], ['l2-4', 'b2-4'], ['t2-4', 'r2-4']]);
+  const rect = byId('b-fourths-make').task, bad = checkBuild(rect, [['t2-4', 'b2-4'], ['l2-4', 'b2-4'], ['t2-4', 'r2-4']]);
   assert.equal(bad.valid, false); assert.equal(bad.count, 4); assert.ok(bad.big >= 0 && bad.small >= 0 && bad.big !== bad.small);
   assert.ok(near(bad.areas[bad.big] / bad.areas[bad.small], 3), '3/8 vs 1/8 of the rectangle');
   // Circle: a chord that misses the center is reported as unsupported, never as success.
@@ -63,18 +75,19 @@ test('My Turn and Check problems are fresh: different geometry from the taught e
     assert.equal(a.count, b.count, `${s.skill} My Turn keeps the same skill`);
   }
   const taught = new Set(builds.filter((c) => !c.independent).map((c) => JSON.stringify(c.task.polygon || [c.task.center, c.task.radius, c.task.count])));
-  for (const c of CARDS.check.filter((x) => x.type === 'build')) assert.ok(!taught.has(JSON.stringify(c.task.polygon || [c.task.center, c.task.radius, c.task.count])), `${c.id} is new`);
-  assert.ok(CARDS.check.every((c) => c.independent), 'every Check & Reflect card is independent');
+  for (const c of ALL_CARDS.filter((x) => x.type === 'build' && (x.phase === 'assess' || x.phase === 'youdo'))) assert.ok(!taught.has(JSON.stringify(c.task.polygon || [c.task.center, c.task.radius, c.task.count])), `${c.id} is new`);
+  assert.ok(CARDS.check.every((c) => c.independent && c.phase === 'assess'), 'every Final Check question is independent');
 });
 
 test('plus-sign shape: both taught ways are fourths and count as different ways; redrawing Way 1 does not', () => {
   const [w1, w2] = CROSS.solutions;
   assert.notEqual(partitionKey(CROSS, w1), partitionKey(CROSS, w2));
   assert.equal(partitionKey(CROSS, [['top', 'c'], ['c', 'bottom'], ['right', 'left']]), partitionKey(CROSS, w1), 'same partition drawn with split lines');
-  resetJourney();
-  journeyState.at.cross = 1; for (const [a, b] of w1) { act('cross', 'point', { id: a }); act('cross', 'point', { id: b }); }
+  reach('cross', idx('cross', 'c-make1')); for (const [a, b] of w1) { act('cross', 'point', { id: a }); act('cross', 'point', { id: b }); }
   act('cross', 'check'); assert.equal(journeyState.records['c-make1'].correct, true);
-  journeyState.at.cross = 3; for (const [a, b] of [['top', 'c'], ['c', 'bottom'], ['left', 'right']]) { act('cross', 'point', { id: a }); act('cross', 'point', { id: b }); }
+  journeyState.records['c-why'] = doneRecord(byId('c-why')); journeyState.at.cross = idx('cross', 'c-make2');
+  assert.equal(byId('c-make2').task.id, 'cross-you', 'You Do uses a new plus sign');
+  for (const [a, b] of [['top', 'c'], ['c', 'bottom'], ['left', 'right']]) { act('cross', 'point', { id: a }); act('cross', 'point', { id: b }); }
   act('cross', 'check'); assert.equal(journeyState.records['c-make2'].correct, false, 'same way again is not a second way');
   assert.match(journeyState.ui['c-make2'].say, /same way/);
   journeyState.ui['c-make2'].lines = []; for (const [a, b] of w2) { act('cross', 'point', { id: a }); act('cross', 'point', { id: b }); }
@@ -96,7 +109,7 @@ test('count figures: the rendered regions are equal, fill the outline without ov
       for (let i = 1; i < spans.length; i++) assert.ok(spans[i - 1][1] <= spans[i][0] + 1e-6, `${c.id} overlap at y=${y}`);
     }
   }
-  const card = CARDS.count[1];
+  const card = byId('g-you');
   assert.equal(checkCount(card, '6', 'sixths').valid, true);
   assert.equal(checkCount(card, '8', 'sixths').valid, false);
   assert.equal(checkCount(card, '6', 'eighths').valid, false);
@@ -132,7 +145,7 @@ test('unit-square rectangle: the pieces tile the grid exactly, 6 squares each, i
 });
 
 test('half of a half, with no grid: both rectangles really are fourths, with two different part shapes each', () => {
-  for (const t of [HALVES, HALVES2]) {
+  for (const t of [HALVES, HALVES2, HALVES3]) {
     const r = checkBuild(t, t.solution); assert.equal(r.valid, true, t.id);
     const svg = picture({ kind: 'task', task: t.id, lines: t.solution, shade: true }).s;
     const polys = tags(svg, 'polygon').filter((p) => /j-region/.test(p.class)).map((p) => pts(p.points));
@@ -140,7 +153,7 @@ test('half of a half, with no grid: both rectangles really are fourths, with two
     assert.equal(new Set(polys.map((p) => p.length)).size >= 1 && new Set(polys.map((p) => { const xs = p.map((q) => q[0]), ys = p.map((q) => q[1]); return `${Math.round(Math.max(...xs) - Math.min(...xs))}x${Math.round(Math.max(...ys) - Math.min(...ys))}`; })).size, 2, `${t.id} two different-looking kinds of part`);
     assert.doesNotMatch(svg, /j-unit/, 'no unit squares to count');
   }
-  for (const id of ['h-halves', 'i-halves']) assert.match(ALL_CARDS.find((c) => c.id === id).options.find((o) => o.correct).text, /^Yes/);
+  for (const id of ['h-you', 'q10']) assert.match(ALL_CARDS.find((c) => c.id === id).options.find((o) => o.correct).text, /^Yes/);
 });
 
 test('evenly spaced parallel cuts in a circle and an oval: the middle pieces are bigger (the classic not-fourths)', () => {
@@ -154,25 +167,26 @@ test('evenly spaced parallel cuts in a circle and an oval: the middle pieces are
   assert.ok(parts[1] > parts[0] * 1.5 && near(parts[0], parts[3]) && near(parts[1], parts[2]), parts.map(Math.round).join(','));
   const o = tags(picture({ kind: 'oval' }).s, 'ellipse')[0], ys = tags(picture({ kind: 'oval' }).s, 'line').map((l) => +l.y1 - +o.cy).sort((a, b) => a - b);
   assert.deepEqual(ys, [-o.ry / 2, 0, o.ry / 2].map(Number));
-  assert.equal(ALL_CARDS.find((x) => x.id === 'f-cookie').options.findIndex((x) => x.correct), 1);
-  assert.match(ALL_CARDS.find((x) => x.id === 'i-oval').options.find((x) => x.correct).text, /^No/);
+  assert.ok(byId('f-show').steps.some((st) => st.picture?.flip) && byId('f-show').steps.some((st) => st.picture?.heights), 'the worked example shows heights and the flip');
+  assert.match(byId('f-oval').options.find((x) => x.correct).text, /^No/);
 });
 
 test('review fixes: corners-only My Turn, no lines along an edge, and a "different way" answer that really differs', () => {
   for (const s2 of SHAPES) if (s2.skill !== 'square') assert.ok(s2.myTurn.points.every((p) => /^[ve]\d/.test(p.id)) && s2.myTurn.solutions.length >= 1, `${s2.skill} My Turn has only corners or edge points`);
-  const rect = CARDS.method[1].task;
+  const rect = byId('b-fourths-make').task;
   assert.equal(onSameEdge(rect, 'k0', 't1-4'), true); assert.equal(onSameEdge(rect, 't1-4', 'b1-4'), false);
-  resetJourney(); journeyState.at.method = 1; act('method', 'point', { id: 'k0' }); act('method', 'point', { id: 't2-4' });
+  reach('method', idx('method', 'b-fourths-make')); act('method', 'point', { id: 'k0' }); act('method', 'point', { id: 't2-4' });
   assert.equal((journeyState.ui['b-fourths-make'].lines || []).length, 0, 'edge line refused');
   assert.match(journeyState.ui['b-fourths-make'].say, /edge/);
   const card = CARDS.cross.find((c) => c.id === 'c-make2');
-  for (const first of CROSS.solutions) {
-    const ans = helpAnswer(card, { avoidKey: partitionKey(CROSS, first) });
+  const T = card.task;
+  for (const first of T.solutions) {
+    const ans = helpAnswer(card, { avoidKey: partitionKey(T, first) });
     const drawn = tags(ans.svg.s, 'line').map((l) => [[+l.x1, +l.y1], [+l.x2, +l.y2]]);
-    assert.notEqual(partitionKey({ ...CROSS, points: drawn.flat().map((p, i) => ({ id: String(i), x: p[0], y: p[1] })) }, drawn.map((_, i) => [String(2 * i), String(2 * i + 1)])), partitionKey(CROSS, first), 'shown answer differs from the first way');
+    assert.notEqual(partitionKey({ ...T, points: drawn.flat().map((p, i) => ({ id: String(i), x: p[0], y: p[1] })) }, drawn.map((_, i) => [String(2 * i), String(2 * i + 1)])), partitionKey(T, first), 'shown answer differs from the first way');
   }
   // One part: correct grammar and a short message.
-  resetJourney(); journeyState.at.shapes = 1; act('shapes', 'point', { id: 'v0' }); act('shapes', 'point', { id: 'm0' }); act('shapes', 'check');
+  reach('shapes', 1); act('shapes', 'point', { id: 'v0' }); act('shapes', 'point', { id: 'm0' }); act('shapes', 'check');
   assert.doesNotMatch(journeyState.ui['d-diamond-guide'].say, /1 parts/);
 });
 
@@ -198,7 +212,13 @@ test('sandwiches, garden and strips: the pictures match what the questions say',
   assert.ok(parts[0].every((a) => near(a, 1600)) && parts[2].every((a) => near(a, 1600)), 'sandwiches 1 and 3 are fourths');
   assert.ok(!parts[1].every((a) => near(a, 1600)), 'sandwich 2 is not');
   assert.deepEqual(parts[1].map((a) => a / 400).sort((a, b) => a - b), [2, 4, 4, 6], 'tiny squares in sandwich 2 strips');
-  assert.deepEqual(CARDS.explore[1].options.map((o) => Boolean(o.correct)), [true, false, true]);
+  assert.deepEqual(byId('a-flags').options.map((o) => Boolean(o.correct)), [false, true, true]);
+  const { x: fx, y: fy, w: fw, h: fh, stripes } = FLAGS, flag = (x) => [[x, fy], [x + fw, fy], [x + fw, fy + fh], [x, fy + fh]];
+  const fcuts = tags(picture({ kind: 'flags' }).s, 'line').filter((l) => /j-cut/.test(l.class)).map((l) => [[+l.x1, +l.y1], [+l.x2, +l.y2]]);
+  const fparts = fx.map((x) => partitionPolygon(flag(x), fcuts.filter(([a]) => a[0] >= x - 1 && a[0] <= x + fw + 1)).map(area));
+  assert.ok(fparts.every((p) => p.length === 4), 'each flag has 4 parts');
+  assert.ok(!fparts[0].every((a) => near(a, fw * fh / 4)) && fparts[1].every((a) => near(a, fw * fh / 4)) && fparts[2].every((a) => near(a, fw * fh / 4)), 'flag 1 unequal; flags 2 and 3 fourths');
+  assert.deepEqual(stripes, [0, 16, 32, 56, 64]);
   const garden = tags(picture({ kind: 'garden' }).s, 'rect').filter((r) => /j-bed/.test(r.class)).map((r) => (+r.width * +r.height) / 45 ** 2);
   assert.deepEqual(garden, [8, 2, 2, 4]);
   const strips = tags(picture({ kind: 'strips', parts: [4, 6, 8], shade: true }).s, 'rect').filter((r) => /j-region/.test(r.class)).map((r) => +r.width);
@@ -210,7 +230,7 @@ test('every multiple-choice question has exactly its intended right answers and 
     const right = c.options.filter((o) => o.correct).length;
     assert.ok(c.multi ? right >= 1 : right === 1, c.id);
     assert.ok(c.options.every((o) => o.why && o.why.length > 15), `${c.id} reasons`);
-    assert.ok(c.help?.hint, `${c.id} hint`);
+    if (c.phase === 'wedo') assert.ok(c.help?.hint, `${c.id} hint`);
   }
 });
 
@@ -244,8 +264,7 @@ test('records: independent means right on the first check with no help; later he
 });
 
 test('controller: checking the same unchanged answer twice is one attempt; help keeps the child\'s lines', () => {
-  resetJourney();
-  journeyState.at.shapes = 1;
+  reach('shapes', 1);
   act('shapes', 'point', { id: 'v0' }); act('shapes', 'point', { id: 'v2' });
   act('shapes', 'check'); act('shapes', 'check');
   assert.equal(journeyState.records['d-diamond-guide'].attempts, 1);
@@ -260,8 +279,7 @@ test('controller: checking the same unchanged answer twice is one attempt; help 
 });
 
 test('written answers are compared and reviewed by a person, never computer-graded', () => {
-  resetJourney();
-  const i = CARDS.sizes.findIndex((c) => c.type === 'write'); journeyState.at.sizes = i;
+  reach('sizes', CARDS.sizes.findIndex((c) => c.type === 'write'));
   act('sizes', 'compare'); assert.equal(journeyState.ui['e-write'].compared, undefined, 'empty writing is not compared');
   act('sizes', 'text', { text: 'It gets smaller.' }); act('sizes', 'compare');
   for (const k of [0, 1, 2]) act('sizes', 'review', { index: k, checked: true });
@@ -271,27 +289,118 @@ test('written answers are compared and reviewed by a person, never computer-grad
   assert.ok(!summarize(journeyState.records).rows.some((row) => row.card.type === 'write'), 'writing is not in the scored rows');
 });
 
-test('summary separates independent, wrong-first and assisted work and lists skills to practise', () => {
+test('readiness report: You Do result per skill, Final Check score, and an honest verdict', () => {
   const recs = {};
   const set = (id, fn) => { recs[id] = newRecord({ id }); fn(recs[id]); };
   set('d-diamond-myturn', (r) => noteCheck(r, true));
   set('d-square-myturn', (r) => { noteCheck(r, false); noteCheck(r, true); });
-  set('d-circle-myturn', (r) => { noteHelp(r, 2); noteCheck(r, true); });
-  const s = summarize(recs);
-  assert.equal(s.totals.independent, 1); assert.equal(s.totals.firstWrong, 1); assert.equal(s.totals.afterSteps, 1);
-  assert.equal(s.totals.independentDone, 1);
-  assert.ok(s.needs.includes('Square into sixths') && s.needs.includes('Circle into eighths') && !s.needs.includes('Diamond into fourths'));
+  set('d-circle-myturn', (r) => { r.relearn = true; noteCheck(r, false); noteCheck(r, true); });
+  set('d-hexagon-myturn', (r) => { noteHelp(r, 3); noteCheck(r, true); });
+  let rd = readiness(recs);
+  const by = (u) => rd.skills.find((k) => k.unit.id === u);
+  assert.equal(by('diamond').text, 'On own, first try'); assert.equal(by('square').text, 'On own, after another try');
+  assert.equal(by('circle').text, 'After watching the example again'); assert.equal(by('hexagon').text, 'After seeing the answer');
+  assert.equal(rd.verdict.level, 'unfinished');
+  for (const q of ASSESSMENT) set(q.id, (r) => noteCheck(r, true));
+  rd = readiness(recs); assert.equal(rd.score, 10); assert.equal(rd.verdict.level, 'review', 'an answer was shown for a skill, so not "ready"');
+  const clean = allDoneRecords(); assert.equal(readiness(clean).verdict.level, 'ready');
+  for (const id of ['q1', 'q2', 'q3']) { clean[id] = newRecord({ id }); noteCheck(clean[id], false); }
+  rd = readiness(clean); assert.equal(rd.score, 7); assert.equal(rd.verdict.level, 'review'); assert.ok(rd.missedSkills.length >= 1);
+  const s2 = summarize(recs); assert.equal(s2.totals.afterRelearn, 1); assert.equal(s2.totals.afterAnswer, 1);
 });
 
-test('views: one card at a time, help on every question, and the stepper lists A–I plus the grown-up summary', () => {
+test('every skill teaches I Do, then We Do, then exactly one You Do on a new problem', () => {
+  assert.equal(UNITS.length, 13);
+  const order = { ido: 0, wedo: 1, youdo: 2, say: 3 };
+  for (const u of UNITS) {
+    const ph = u.cards.map((c) => c.phase);
+    assert.ok(ph.includes('ido') && ph.includes('wedo'), `${u.id} has I Do and We Do`);
+    assert.equal(ph.filter((p) => p === 'youdo').length, 1, `${u.id} has one You Do`);
+    assert.deepEqual([...ph].sort((a, b) => order[a] - order[b]), ph, `${u.id} is in I Do → We Do → You Do order`);
+    assert.ok(u.cards.some((c) => c.phase === 'ido' && c.type === 'demo'), `${u.id} has a step-by-step worked example`);
+    const you = u.cards.find((c) => c.phase === 'youdo');
+    assert.ok(!you.help, `${u.id} You Do has no hints`);
+    const geo = (c) => JSON.stringify(c.task ? (c.task.polygon || [c.task.center, c.task.radius, c.task.points.length]) : c.figure ? c.figure.id : c.grid ? 'grid' : c.picture);
+    for (const c of u.cards.filter((x) => x.phase !== 'youdo' && x.type !== 'demo')) assert.notEqual(geo(c), geo(you), `${u.id}: You Do differs from ${c.id}`);
+    for (const d of u.cards.filter((x) => x.type === 'demo' && x.task)) if (you.task) assert.notEqual(JSON.stringify(d.task.polygon || d.task.center), JSON.stringify(you.task.polygon || you.task.center) + (you.task === d.task ? '' : 'x'), `${u.id}: You Do is not the worked example`);
+  }
+  assert.equal(ASSESSMENT.length, 10);
+  assert.ok(ASSESSMENT.every((q) => q.graded && !q.help), 'Final Check has no hints');
+  const used = new Set(UNITS.flatMap((u) => u.cards).filter((c) => c.picture || c.figure).map((c) => JSON.stringify(c.picture || c.figure.id)));
+  for (const q of ASSESSMENT.filter((x) => x.picture || x.figure)) assert.ok(!used.has(JSON.stringify(q.picture || q.figure.id)), `${q.id} is a fresh picture`);
+});
+
+test('teaching cannot be skipped: Next waits for each card, and later sections stay locked', () => {
   resetJourney();
-  const stepper = journeyStepper(ctx, 'explore').s;
+  assert.equal(stageUnlocked('explore', {}), true); assert.equal(stageUnlocked('method', {}), false); assert.equal(nextStage({}), 'explore');
+  journeyState.at.explore = 4; act('explore', 'next');
+  assert.equal(journeyState.at.explore, 2, 'a stored position past unfinished cards is pulled back to the worked example');
+  // a-words and a-area are reading cards; the worked example must be watched to the end.
+  const out = act('explore', 'next'); assert.equal(journeyState.at.explore, 2, 'cannot leave the worked example early'); assert.match(out.say, /Finish/);
+  for (let k = 0; k < 6; k++) act('explore', 'demo-next');
+  act('explore', 'next'); assert.equal(journeyState.at.explore, 3);
+  assert.equal(frontier('explore', journeyState.records), 3);
+  const html2 = journeyCard(ctx, 'method', journeyState).s;
+  assert.match(html2, /opens soon/); assert.doesNotMatch(html2, /data-card=/);
+  assert.match(journeyStepper(ctx, 'explore', journeyState.records).s, /class="locked"|locked/);
+  const all = allDoneRecords(); assert.ok(JOURNEY.every((s) => stageUnlocked(s.id, all))); assert.equal(nextStage(all), 'parent');
+});
+
+test('teaching rules: specific feedback, We Do help after repeated errors, You Do re-learn, then the answer', () => {
+  const card = byId('b-fourths-make');
+  assert.equal(diagnose(card, checkBuild(card.task, [['t2-4', 'b2-4']])).kind, 'regions');
+  assert.match(diagnose(card, checkBuild(card.task, [['t2-4', 'b2-4']])).message, /count the parts/i);
+  assert.equal(diagnose(card, checkBuild(card.task, [['t2-4', 'b2-4'], ['l2-4', 'b2-4'], ['t2-4', 'r2-4']])).kind, 'area');
+  assert.equal(diagnose(byId('f-fix'), checkBuild(byId('f-fix').task, [['e0', 'e2']])).kind, 'center');
+  // We Do: the second wrong check opens a hint, the third the visual steps.
+  reach('method', idx('method', 'b-fourths-make'));
+  const wrong = (stage, lines) => { (journeyState.ui[CARDS[stage][journeyState.at[stage]].id] ||= {}).lines = []; for (const [a, b] of lines) { act(stage, 'point', { id: a }); act(stage, 'point', { id: b }); } return act(stage, 'check'); };
+  wrong('method', [['t2-4', 'b2-4']]); assert.equal(journeyState.ui['b-fourths-make'].help?.open, undefined);
+  wrong('method', [['t1-4', 'b1-4']]); assert.equal(journeyState.ui['b-fourths-make'].help.level, 1);
+  wrong('method', [['t3-4', 'b3-4']]); assert.equal(journeyState.ui['b-fourths-make'].help.level, 2);
+  assert.equal(outcome(journeyState.records['b-fourths-make']), 'not-yet'); assert.ok(journeyState.records['b-fourths-make'].helpBeforeCorrect >= 2, 'the help it opened is recorded');
+  // You Do: no hints; the second wrong check replays the worked example; the answer is offered after 4 misses.
+  reach('method', idx('method', 'b-eighths-you'));
+  assert.deepEqual(act('method', 'hint'), { quiet: true }, 'no hints in You Do');
+  wrong('method', [['t4-8', 'b4-8']]); assert.equal(journeyState.records['b-eighths-you'].relearn, false);
+  wrong('method', [['t2-8', 'b2-8']]); assert.equal(journeyState.records['b-eighths-you'].relearn, true, 'second miss: learn it again');
+  assert.match(journeyCard(ctx, 'method', journeyState).s, /Let.s learn it again/);
+  assert.doesNotMatch(journeyCard(ctx, 'method', journeyState).s, /Show me the answer/);
+  act('method', 'relearn-next'); act('method', 'relearn-done');
+  assert.doesNotMatch(journeyCard(ctx, 'method', journeyState).s, /Let.s learn it again/, 'retry after re-learning');
+  wrong('method', [['t1-8', 'b1-8']]); wrong('method', [['t3-8', 'b3-8']]);
+  assert.match(journeyCard(ctx, 'method', journeyState).s, /Show me the answer/);
+  journeyState.ui['b-eighths-you'].lines = []; for (const [a, b] of byId('b-eighths-you').task.solution) { act('method', 'point', { id: a }); act('method', 'point', { id: b }); } act('method', 'check');
+  assert.equal(outcome(journeyState.records['b-eighths-you']), 'after-relearn');
+  // You Do right on the first try: independent, and Next opens.
+  reach('shapes', 2);
+  for (const [a, b] of byId('d-diamond-myturn').task.solution) { act('shapes', 'point', { id: a }); act('shapes', 'point', { id: b }); }
+  const res = act('shapes', 'check'); assert.match(res.say, /on your own/i); assert.equal(outcome(journeyState.records['d-diamond-myturn']), 'independent');
+  act('shapes', 'next'); assert.equal(journeyState.at.shapes, 3);
+});
+
+test('Final Check: one try per question, no hints, then locked', () => {
+  reach('check', 0);
+  assert.deepEqual(act('check', 'help'), { quiet: true });
+  act('check', 'point', { id: 't1-4' }); act('check', 'point', { id: 'b1-4' }); act('check', 'check');
+  const r = journeyState.records.q1; assert.equal(r.attempts, 1); assert.equal(r.correct, false);
+  assert.deepEqual(act('check', 'point', { id: 't2-4' }), { quiet: true }, 'cannot change an answered question');
+  assert.deepEqual(act('check', 'check'), { quiet: true });
+  assert.match(journeyCard(ctx, 'check', journeyState).s, /<fieldset class="j-locked-answer" disabled>/);
+  act('check', 'next'); assert.equal(journeyState.at.check, 1, 'a wrong answer still moves on');
+  const q7 = XCIRCLE; assert.notEqual(q7.angle, 90, 'the pizza lines do not cross like a plus sign');
+  assert.match(byId('q7').options.find((o) => o.correct).text, /^No/);
+});
+
+test('views: one card at a time, help only in We Do, and the stepper lists A–I plus the grown-up report', () => {
+  resetJourney(); journeyState.records = allDoneRecords();
+  const stepper = journeyStepper(ctx, 'explore', journeyState.records).s;
   assert.equal((stepper.match(/<li/g) || []).length, 10);
   for (const s of JOURNEY) for (let i = 0; i < CARDS[s.id].length; i++) {
     journeyState.at[s.id] = i;
     const out = journeyCard(ctx, s.id, journeyState).s, c = CARDS[s.id][i];
     assert.equal((out.match(/data-card=/g) || []).length, 1, `${c.id} one card`);
-    assert.equal(out.includes('data-j="help"'), !['demo', 'concept', 'sizes'].includes(c.type), `${c.id} help button`);
+    assert.equal(out.includes('data-j="help"'), ['wedo', 'say'].includes(c.phase) && !['demo', 'concept', 'sizes'].includes(c.type), `${c.id} help button only in We Do`);
     assert.doesNotMatch(out, /<select|<details/, `${c.id} no dropdown or hidden section`);
     assert.doesNotMatch(out, /<img|\.png|\.jpe?g/i, `${c.id} uses only drawn diagrams`);
   }

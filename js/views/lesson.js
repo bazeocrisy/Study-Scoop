@@ -56,9 +56,9 @@ function journeyLessonView(ctx) {
     trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Chapter 7', href: ctx.chapterLink(7) }, { label: 'Chapter 7 Lessons', href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
     back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.chapterLink(7), label: 'Back to Chapter 7' }],
   });
-  if (journey) return html`${top}${journeyStepper(jctx, stage)}<div class="stage j-stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${journeyCard(jctx, stage, journeyState)}</div>`;
+  if (journey) return html`${top}${journeyStepper(jctx, stage, journeyState.records)}<div class="stage j-stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${journeyCard(jctx, stage, journeyState)}</div>`;
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
-  if (stage === 'parent') return html`${top}${journeyStepper(jctx, 'parent')}
+  if (stage === 'parent') return html`${top}${journeyStepper(jctx, 'parent', journeyState.records)}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="parent">${journeySummary(jctx, journeyState)}${extraPractice(ctx, lesson)}${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;
   // The original stages keep their own layout, labelled as optional extra practice, with a way back to the journey.
   return html`${subBar(ctx, {

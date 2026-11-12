@@ -1,6 +1,6 @@
 // Lesson 7-1 learning journey controller: taps, keys, focus and the record of independent and assisted work.
 // Progress is saved in this browser only (DECISIONS D29, js/lib/journey-store.js) and never sent anywhere.
-import { CARDS, JOURNEY, ALL_CARDS, checkBuild, checkCount, partitionKey, onSameEdge, unequalTip, newRecord, noteHelp, noteCheck } from './lib/partition-journey.js';
+import { CARDS, JOURNEY, ALL_CARDS, checkBuild, checkCount, partitionKey, onSameEdge, newRecord, noteHelp, noteCheck, cardDone, frontier, nextStage, diagnose, stageComplete, differentAvoidKey } from './lib/partition-journey.js';
 import { STORE_KEY, loadProgress, saveProgress, clearProgress } from './lib/journey-store.js';
 import { journeyCard, journeySummary } from './views/partition-journey.js';
 
@@ -21,7 +21,7 @@ export const saveJourney = () => saveProgress(journeyState);
 /** Grown-up reset: erases this browser's saved Lesson 7-1 progress and the progress on screen. */
 export function eraseJourney() { clearProgress(); resetJourney(); }
 /** Where "Lesson 7-1" should open: the section the child was last in, or section A. */
-export const resumeStage = () => (journeyState.stage && journeyState.stage !== 'parent' && CARDS[journeyState.stage] ? journeyState.stage : JOURNEY[0].id);
+export const resumeStage = () => { const go = nextStage(journeyState.records); return go === 'parent' ? 'parent' : go; };
 restoreJourney();
 // Another open tab saved or erased Lesson 7-1 progress: adopt it, so tabs never overwrite each other
 // and a grown-up's Reset cannot be undone by a tab left open.
@@ -31,21 +31,29 @@ globalThis.addEventListener?.('storage', (e) => { if (e.key === null || e.key ==
 const rec = (card) => (journeyState.records[card.id] ||= newRecord(card));
 const uiFor = (card) => (journeyState.ui[card.id] ||= {});
 
-/** A section is done when its examples were watched, its questions answered correctly and its writing finished. */
-export function stageDone(id, state = journeyState) {
-  return CARDS[id].every((c) => (c.type === 'demo' ? state.records[c.id]?.viewed : c.graded ? state.records[c.id]?.correct : c.type === 'write' ? state.records[c.id]?.written : true));
-}
+/** A section is done when every card in it is done (watched, answered correctly, checked or written). */
+export function stageDone(id, state = journeyState) { return stageComplete(id, state.records); }
 export const doneStages = (state = journeyState) => new Set(JOURNEY.map((s) => s.id).filter((id) => stageDone(id, state)));
 
 /** Applies one action to the journey state. Separate from the DOM so it can be tested directly. */
 export function act(stageId, action, data = {}, state = journeyState) {
-  const cards = CARDS[stageId], at = Math.min(state.at[stageId] || 0, cards.length - 1), card = cards[at];
+  // The child can never be past the first unfinished card (saved data or a typed address cannot skip teaching).
+  const cards = CARDS[stageId], at = Math.min(state.at[stageId] || 0, cards.length - 1, frontier(stageId, state.records)), card = cards[at];
+  state.at[stageId] = at;
   const ui = (state.ui[card.id] ||= {}), r = (state.records[card.id] ||= newRecord(card));
   const reset = () => { ui.result = null; ui.say = ''; ui.ok = false; ui.checked = false; };
+  // A Final Check question is answered once; after that it cannot be changed.
+  const locked = card.phase === 'assess' && r.attempts > 0;
+  if (locked && ['point', 'undo', 'clear', 'choice', 'num', 'name', 'region', 'recount', 'piece', 'check'].includes(action)) return { quiet: true };
+  // Hints and steps are part of We Do (and writing). You Do and the Final Check have none.
+  if (['help', 'hint', 'steps', 'next-help'].includes(action) && !['wedo', 'say'].includes(card.phase)) return { quiet: true };
+  if (action === 'answer' && card.phase === 'youdo' && (r.attempts || 0) < 4) return { quiet: true };
+  if (action === 'answer' && card.phase === 'assess') return { quiet: true };
   switch (action) {
-    case 'next': state.at[stageId] = Math.min(cards.length - 1, at + 1); return { focus: '#stage-h' };
+    case 'next': if (!cardDone(card, r)) return { focus: '[data-j="check"], [data-j="demo-next"], #stage-h', say: 'Finish this card first.' }; state.at[stageId] = Math.min(cards.length - 1, at + 1); return { focus: '#stage-h' };
     case 'prev': state.at[stageId] = Math.max(0, at - 1); return { focus: '#stage-h' };
-    case 'goto': state.at[stageId] = Math.max(0, Math.min(cards.length - 1, Number(data.index) || 0)); return { focus: '#stage-h' };
+    case 'relearn-next': case 'relearn-back': ui.relearnStep = Math.max(0, (ui.relearnStep || 0) + (action === 'relearn-next' ? 1 : -1)); r.relearn = true; return { focus: '[data-relearn-heading]' };
+    case 'relearn-done': r.relearn = true; r.wrongStreak = 0; ui.relearnStep = 0; reset(); return { focus: '[data-j="check"]', say: 'Your turn again. You can do it!' };
     case 'point': {
       const id = data.id; ui.cursor = id;
       if (ui.selected && ui.selected !== id) {
@@ -80,7 +88,7 @@ export function act(stageId, action, data = {}, state = journeyState) {
     case 'hint': ui.help = { open: true, level: Math.max(1, ui.help?.level || 0), step: ui.help?.step || 0 }; noteHelp(r, 1); return { focus: '[data-help-heading]', say: 'Hint shown.' };
     case 'steps': ui.help = { open: true, level: Math.max(2, ui.help.level), step: 0 }; noteHelp(r, 2); return { focus: '[data-help-heading]', say: 'Step 1 shown.' };
     case 'next-help': ui.help.step = (ui.help.step || 0) + 1; return { focus: '[data-j="next-help"], [data-j="answer"]', say: `Step ${ui.help.step + 1} shown.` };
-    case 'answer': ui.help = { ...ui.help, open: true, level: 3 }; noteHelp(r, 3); return { focus: '[data-help-heading]', say: 'Answer shown. Your own work is still there.' };
+    case 'answer': ui.help = { ...ui.help, open: card.phase !== 'youdo', level: 3 }; noteHelp(r, 3); return { focus: card.phase === 'youdo' ? '.j-help-block.answer' : '[data-help-heading]', say: 'Answer shown. Your own work is still there.' };
     case 'close-help': if (ui.help) ui.help.open = false; return { focus: '[data-j="help"]' };
     case 'check': return check(card, ui, r, state);
     default: return { quiet: true };
@@ -92,7 +100,17 @@ function check(card, ui, r, state) {
     // Checking the same unchanged answer again is not a new try.
     if (key !== undefined && key === ui.lastKey && ui.checked) return { focus: '[data-j="check"]', say: ui.say };
     ui.lastKey = key; ui.ok = ok; ui.say = say; ui.checked = true; noteCheck(r, ok);
-    return { focus: '[data-j="check"]', say: `${ok ? 'Yes!' : 'Not yet.'} ${say}` };
+    ui.solo = ok && r.first === 'correct';
+    // Teaching rules after a wrong answer: in We Do, a second miss opens a hint and a third the steps;
+    // in You Do, a second miss replays the worked example (re-learn), then the child tries again.
+    if (!ok && card.phase === 'wedo' && r.wrongStreak >= 2) {
+      const level = Math.min(2, Math.max(ui.help?.level || 0, r.wrongStreak - 1));
+      ui.help = { open: true, level, step: 0 }; noteHelp(r, level);
+      return { focus: '[data-help-heading]', say: `Not yet. ${say} Let's use the help together.` };
+    }
+    if (!ok && card.phase === 'youdo' && r.wrongStreak >= 2) { r.relearn = true; ui.relearnStep = 0; return { focus: '[data-relearn-heading]', say: `Not yet. ${say} Let's learn it again.` }; }
+    if (ok && card.phase === 'youdo' && ui.solo) return { focus: '[data-j="next"], [data-j-next-stage], [data-j="check"]', say: `You did it on your own! ${say}` };
+    return { focus: card.phase === 'assess' ? '[data-j="next"], [data-j-next-stage], #stage-h' : '[data-j="check"]', say: `${ok ? 'Yes!' : 'Not yet.'} ${say}` };
   };
   if (card.type === 'build') {
     const lines = ui.lines || [];
@@ -101,15 +119,11 @@ function check(card, ui, r, state) {
     const key = JSON.stringify(lines.map((l) => [...l].sort()).sort());
     if (result.valid && card.different) {
       // Compare with the child's first answer, or with the taught Way 1 if the first card was skipped.
-      const first = state.ui[card.different]?.solvedKey || partitionKey(card.task, card.task.solutions[0]);
-      if (first && partitionKey(card.task, lines) === first) { ui.result = { ...result, valid: false }; return done(false, 'These are equal parts, but it is the same way as your first answer. Find a different way to make fourths.', key); }
+      const first = differentAvoidKey(card, state.ui[card.different]?.solvedKey);
+      if (first && partitionKey(card.task, lines) === first) { ui.result = { ...result, valid: false }; return done(false, 'These are equal parts, but it is the same way you drew before. Find a different way to make fourths.', key); }
     }
     if (result.valid) { if (card.task.shape === 'polygon') ui.solvedKey = partitionKey(card.task, lines); return done(true, card.task.why, key); }
-    const n = result.count, want = card.task.count;
-    if (n === want && result.areas.length) return done(false, `You made ${n} parts, but they are not all the same size. Compare the parts marked “bigger” and “smaller”. ${unequalTip(card.task)}`, key);
-    if (card.task.shape === 'circle' && !result.areas.length) return done(false, `That line does not go through the center. ${unequalTip(card.task)}`, key);
-    if (n < want) return done(false, `You made ${n} part${n === 1 ? '' : 's'}. We need ${want} equal parts. A line must go all the way across the shape, or to another line, to split it.`, key);
-    return done(false, `You made ${n} parts. We need ${want} equal parts. Use Undo to take a line away.`, key);
+    return done(false, diagnose(card, result).message, key);
   }
   if (card.type === 'count') {
     const res = checkCount(card, ui.num, ui.name);

@@ -114,7 +114,7 @@ What the new suites cover:
 - **The collapsed Partition Lab is replaced, not duplicated.** The assignment ruled out collapsed sections and dropdowns. The UI (`js/partition-lab.js`, `css/partition-lab.css`) and its browser suite were removed. That suite's checks of the original stages were moved into the new suite. `js/lib/partition-reasoning.js` and its audit test are kept, because deleting a test needs the owner's approval. They are listed in `RETIRED` in `scripts/build-site.js` and are not published; the owner may delete both later.
 - **Help on solo questions.** Help is available everywhere, as the assignment requires. Using it is recorded, and that question then cannot count as independent. Lesson 7-1's original scored test still has no hints.
 - **Saved progress (D29, owner-approved 2026-11-11).** Lesson 7-1 progress is saved in the child's own browser under one key. It is never sent, holds no name, and is validated when read back. A grown-up can erase it with Reset (with confirmation). Every other page still stores nothing (D4). (Before D29: results lasted only while the tab was open.) The summary says so.
-- **Invented names:** Rio, Jun, Lee, Mia and Leo. The owner should confirm none matches a classmate.
+- **Invented names:** Rio, Jun, Noor, Kai, Mia and Leo. The owner should confirm none matches a classmate.
 - **Not verified:** a real child using it, physical Chromebook or touch hardware, a real screen reader, audible speech, and printing. Technical checks cannot show that a child has learned the skill. The grown-up summary asks for a paper check, then the printed workbook with no help.
 
 ## 7. Originality

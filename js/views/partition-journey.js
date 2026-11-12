@@ -2,7 +2,7 @@
 // js/partition-journey.js handles taps, keys and focus.
 import { html, raw } from '../lib/html.js';
 import { speak } from '../lib/arith.js';
-import { JOURNEY, CARDS, FIGURES, GRID, TASK_INDEX, RECT_FOURTHS, CROSS, checkBuild, centroid, summarize, partitionKey, OUTCOME_TEXT, HELP_LABELS, SKILLS, SHAPES } from '../lib/partition-journey.js';
+import { JOURNEY, CARDS, UNITS, FIGURES, GRID, TASK_INDEX, RECT_FOURTHS, CROSS, checkBuild, centroid, summarize, partitionKey, cardDone, stageUnlocked, frontier, nextStage, unitOf, cardById, differentAvoidKey, OUTCOME_TEXT, HELP_LABELS, SKILLS, SHAPES } from '../lib/partition-journey.js';
 import { TASKS, validatePartition } from '../lib/partition-geometry.js';
 
 const n2 = (v) => Math.round(v * 100) / 100;
@@ -28,7 +28,9 @@ export function taskSvg(task, { lines = [], result = null, active = false, selec
   const [w, h] = task.viewBox || [300, 300];
   const at = new Map(task.points.map((p) => [p.id, p]));
   const shapes = result?.shapes || [];
-  const tag = (i) => (i === result?.big ? 'bigger' : i === result?.small ? 'smaller' : '');
+  // Wrong number of parts: number each part, so the child can count the spaces. Unequal parts: mark bigger/smaller.
+  const numbered = result && !result.valid && result.count !== task.count && shapes.length > 0;
+  const tag = (i) => (numbered ? String(i + 1) : i === result?.big ? 'bigger' : i === result?.small ? 'smaller' : '');
   const regions = shapes.map((s, i) => {
     const cls = `j-region r${i % 4}${result?.valid ? ' ok' : ''}${tag(i) ? ' marked' : ''}`;
     if (s.sector) { const [x, y] = sectorMid(task.center, task.radius, s.sector); return html`<path class="${cls}" d="${sectorPath(task.center, task.radius, ...s.sector)}"/>${tag(i) ? html`<text class="j-tag" x="${n2(x)}" y="${n2(y)}">${tag(i)}</text>` : ''}`; }
@@ -155,6 +157,23 @@ function oval({ mark = false } = {}) {
     ${ys.map((d) => { const w = rx * Math.sqrt(1 - (d / ry) ** 2); return html`<line class="j-cut" x1="${n2(cx - w)}" x2="${n2(cx + w)}" y1="${n2(cy + d)}" y2="${n2(cy + d)}"/>`; })}
     ${mark ? html`<text class="j-tag" x="${cx}" y="${cy - 20}">wide</text><text class="j-tag" x="${cx}" y="${cy - 62}">narrow</text>` : ''}</svg>`;
 }
+/** Three same-size flags: unequal stripes across, corner-to-corner, and equal stripes up and down. */
+export const FLAGS = { x: [22, 125, 228], y: 40, w: 76, h: 64, stripes: [0, 16, 32, 56, 64] };
+function flags() {
+  const { x: xs, y, w, h, stripes } = FLAGS;
+  const cuts = [(x) => stripes.slice(1, -1).map((k) => [x, y + k, x + w, y + k]), (x) => [[x, y, x + w, y + h], [x + w, y, x, y + h]], (x) => [1, 2, 3].map((k) => [x + k * w / 4, y, x + k * w / 4, y + h])];
+  return html`<svg class="j-svg wide" viewBox="0 0 320 150" role="img" aria-label="Three same-size flags. Flag 1 has 4 stripes across with different heights. Flag 2 is cut corner to corner both ways into 4 triangles. Flag 3 has 4 stripes up and down with the same width.">
+    ${xs.map((x, i) => html`<g><line class="j-pole" x1="${x}" y1="${y - 8}" x2="${x}" y2="${y + h + 30}"/><rect class="j-whole" x="${x}" y="${y}" width="${w}" height="${h}"/>${cuts[i](x).map(([a, b, c, d]) => html`<line class="j-cut" x1="${n2(a)}" y1="${n2(b)}" x2="${n2(c)}" y2="${n2(d)}"/>`)}<text class="j-caption" x="${x + w / 2}" y="${y + h + 24}">Flag ${i + 1}</text></g>`)}</svg>`;
+}
+/** A circle cut by 2 lines through the center that cross at 60 degrees, not like a plus sign. */
+export const XCIRCLE = { c: [160, 140], r: 110, angle: 60 };
+function xcircle() {
+  const [cx, cy] = XCIRCLE.c, r = XCIRCLE.r, t = (XCIRCLE.angle * Math.PI) / 180;
+  const end = (a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  const l1 = [end(0), end(Math.PI)], l2 = [end(t), end(t + Math.PI)];
+  return html`<svg class="j-svg" viewBox="0 0 320 280" role="img" aria-label="A round pizza cut by two lines through the center. The lines cross at a slant, not like a plus sign, making 2 wide slices and 2 narrow slices.">
+    <circle class="j-whole pie" cx="${cx}" cy="${cy}" r="${r}"/>${[l1, l2].map(([a, b]) => html`<line class="j-cut" x1="${n2(a[0])}" y1="${n2(a[1])}" x2="${n2(b[0])}" y2="${n2(b[1])}"/>`)}</svg>`;
+}
 const linesFigure = () => { const f = FIGURES.tiles, [a, b] = [f.regions[1][0], f.regions[1][3]]; return html`<line class="j-hiline" x1="${n2(a[0])}" y1="${n2(a[1])}" x2="${n2(b[0])}" y2="${n2(b[1])}"/><text class="j-tag" x="${n2(a[0] + 4)}" y="${n2(f.viewBox[1] - 18)}">a line is an edge</text>`; };
 
 /** Any card picture by description. */
@@ -172,6 +191,8 @@ export function picture(p) {
   if (p.kind === 'figure') return figureSvg(FIGURES[p.figure], { counted: p.counted || (p.lines ? [0] : []), extra: p.lines ? linesFigure() : '', label: p.lines ? `${FIGURES[p.figure].alt} One tile is shaded as one part; one edge between tiles is highlighted as a line.` : '' });
   if (p.kind === 'task') { const t = taskById(p.task), lines = p.lines || []; return taskSvg(t, { dots: false, lines, label: p.label || '', result: p.shade ? checkBuild(t, lines) : null }); }
   if (p.kind === 'cookie') return cookie(p);
+  if (p.kind === 'flags') return flags(p);
+  if (p.kind === 'xcircle') return xcircle(p);
   if (p.kind === 'oval') return oval(p);
   return '';
 }
@@ -230,9 +251,10 @@ function helpPanel(card, ui) {
 const helpButton = (card, ui) => html`<button type="button" class="j-help-btn" data-j="help" aria-expanded="${Boolean(ui.help?.open)}" aria-controls="help-${card.id}"><span aria-hidden="true">?</span> Help</button>`;
 
 // ------------------------------------------------------------------ cards
-function feedback(ui) {
+function feedback(ui, card) {
   if (!ui.say) return html`<p class="j-feedback"></p>`;
-  return html`<p class="j-feedback ${ui.ok ? 'ok' : 'notyet'}" tabindex="-1">${ui.ok ? html`<strong>Yes!</strong> ` : html`<strong>Not yet.</strong> `}${ui.say}</p>`;
+  const lead = ui.ok ? (card?.phase === 'youdo' && ui.solo ? 'You did it on your own!' : 'Yes!') : card?.phase === 'assess' ? 'Not quite.' : 'Not yet.';
+  return html`<p class="j-feedback ${ui.ok ? 'ok' : 'notyet'}" tabindex="-1"><strong>${lead}</strong> ${ui.say}</p>`;
 }
 function buildCard(card, ui) {
   const result = ui.result || null;
@@ -283,10 +305,15 @@ function writeCard(card, ui) {
       <fieldset><legend>Check your answer with a grown-up (or by yourself):</legend>${card.checks.map((c, i) => html`<label class="j-check"><input type="checkbox" data-j-review="${i}" ${ui.review?.[i] ? html`checked` : ''}><span>${c}</span></label>`)}</fieldset>
       <p class="j-note">The computer does not grade the meaning of your writing. A person checks it.</p></div>` : ''}`;
 }
+/** One step of a worked example: its own picture, or the construction drawn so far. */
+export function demoPicture(card, s, i) {
+  if (s.picture) return picture(s.picture);
+  const result = s.lines.length && validatePartition(card.task, s.lines).valid ? checkBuild(card.task, s.lines) : null;
+  return taskSvg(card.task, { lines: s.lines, result, label: `${card.task.label}. Step ${i + 1}: ${s.text}` });
+}
 function demoCard(card, ui) {
   const i = Math.min(ui.step || 0, card.steps.length - 1), s = card.steps[i], last = i === card.steps.length - 1;
-  const result = s.lines.length && validatePartition(card.task, s.lines).valid ? checkBuild(card.task, s.lines) : null;
-  return html`<div class="j-stage-pic">${taskSvg(card.task, { lines: s.lines, result, label: `${card.task.label}. Step ${i + 1}: ${s.text}` })}</div>
+  return html`<div class="j-stage-pic">${demoPicture(card, s, i)}</div>
     <p class="j-demo-text" aria-live="polite"><span class="j-help-label">Step ${i + 1} of ${card.steps.length}</span> ${s.text}</p>
     <div class="j-row"><button type="button" class="btn" data-j="demo-back" ${i === 0 ? html`disabled` : ''}>‹ Previous step</button>
     <button type="button" class="btn${last ? '' : ' btn-primary'}" data-j="demo-next" ${last ? html`disabled` : ''}>Next step ›</button>
@@ -302,80 +329,105 @@ function conceptCard(card) {
   return html`<div class="j-stage-pic">${picture(card.picture)}</div><div class="j-text">${card.text.map((t) => html`<p>${rich(t)}</p>`)}</div>`;
 }
 
-const PHASE = { teach: 'Teach Me', guide: 'Guide Me', myturn: 'My Turn' };
-function shapeTracker(card, state) {
-  if (card.shape === undefined) return '';
-  const cards = CARDS.shapes;
-  return html`<nav class="j-shapes" aria-label="Shape Builder progress"><ol>${SHAPES.map((s, i) => {
-    const mine = cards.filter((c) => c.shape === i), here = i === card.shape;
-    const done = mine.filter((c) => (c.type === 'demo' ? state.records[c.id]?.viewed : state.records[c.id]?.correct)).length;
-    return html`<li><button type="button" class="j-shape-btn${here ? ' here' : ''}" data-j="goto" data-index="${cards.indexOf(mine[0])}"${here ? html` aria-current="true"` : ''}><span class="j-shape-n">${i + 1}</span> ${s.name} <span class="j-shape-goal">${s.goal}</span><span class="sr-only">, ${done} of 3 steps done</span><span class="j-dots" aria-hidden="true">${mine.map((c) => html`<span class="${(c.type === 'demo' ? state.records[c.id]?.viewed : state.records[c.id]?.correct) ? 'on' : ''}"></span>`)}</span></button></li>`;
-  })}</ol></nav>
-  <p class="j-phases">Step ${['teach', 'guide', 'myturn'].indexOf(card.phase) + 1} of 3 for this shape: <strong>${PHASE[card.phase]}</strong> <span class="j-phase-list" aria-hidden="true">(${['teach', 'guide', 'myturn'].map((p) => PHASE[p]).join(' → ')})</span></p>`;
+export const PHASES = { ido: 'I Do: watch and learn', wedo: 'We Do: try it together', youdo: 'You Do: on your own', say: 'Say it in your own words', assess: 'Final Check' };
+const PHASE_SHORT = { ido: 'I Do', wedo: 'We Do', youdo: 'You Do', say: 'Say it' };
+function unitLine(card) {
+  const u = unitOf(card);
+  if (!u) return '';
+  const k = UNITS.indexOf(u), phases = [...new Set(u.cards.map((c) => c.phase))];
+  return html`<p class="j-phases">Skill ${k + 1} of ${UNITS.length}: <strong>${u.title}</strong> <span class="j-phase-list">${phases.map((p, i) => html`${i ? ' → ' : ''}<span class="${p === card.phase ? 'now' : ''}"${p === card.phase ? html` aria-current="step"` : ''}>${PHASE_SHORT[p]}</span>`)}</span></p>`;
 }
 
-/** The journey stepper shown at the top of every Lesson 7-1 page (sections A to I, then the parent summary). */
-export function journeyStepper(ctx, current) {
+/** The lesson stepper: sections A to I, then the grown-up report. Sections that are not open yet are not links. */
+export function journeyStepper(ctx, current, records = {}) {
   const L = (id) => ctx.lessonLink('7-1', id);
   return html`<div class="lesson-steps j-steps"><nav class="stepper j-stepper" aria-label="Lesson 7-1 steps"><ol>
-    ${JOURNEY.map((s, i) => html`<li class="${ctx.journeyDone?.has(s.id) && s.id !== current ? 'done' : ''}"><a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}><span class="n">${String.fromCharCode(65 + i)}</span> <span class="name">${s.label}</span></a></li>`)}
-    <li><a href="${L('parent')}"${current === 'parent' ? html` aria-current="step"` : ''}><span class="n">★</span> <span class="name">Grown-up Summary</span></a></li>
+    ${JOURNEY.map((s, i) => { const open = stageUnlocked(s.id, records), done = ctx.journeyDone?.has(s.id) && s.id !== current, label = html`<span class="n">${String.fromCharCode(65 + i)}</span> <span class="name">${s.label}</span>`;
+      return html`<li class="${done ? 'done' : ''}${open ? '' : ' locked'}">${open ? html`<a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}>${label}</a>` : html`<span class="j-locked" aria-disabled="true">${label}<span class="sr-only"> (opens after the earlier parts)</span></span>`}</li>`; })}
+    <li><a href="${L('parent')}"${current === 'parent' ? html` aria-current="step"` : ''}><span class="n">★</span> <span class="name">Grown-up Report</span></a></li>
   </ol></nav></div>`;
+}
+
+/** You Do after a second wrong try: watch the worked example again, then try again. After 4 wrong tries the answer can be shown. */
+function relearnPanel(card, ui, rec) {
+  const wrong = rec?.attempts && !rec.correct ? (rec.wrongStreak || 0) : 0, misses = rec?.correct ? 0 : rec?.attempts || 0;
+  if (rec?.correct || wrong < 2) return '';
+  const demo = cardById(card.relearn) || unitOf(card)?.cards.find((c) => c.type === 'demo');
+  const k = Math.min(ui.relearnStep || 0, (demo?.steps.length || 1) - 1), st = demo?.steps[k];
+  return html`<section class="j-relearn" aria-labelledby="relearn-h-${card.id}">
+    <h3 id="relearn-h-${card.id}" tabindex="-1" data-relearn-heading>Let's learn it again</h3>
+    <p>That was tricky. Watch the example one step at a time, then try again. Your ${card.type === 'build' ? 'drawing' : 'answer'} stays where it is.</p>
+    ${demo ? html`<div class="j-help-block"><p class="j-help-label">Step ${k + 1} of ${demo.steps.length}</p><p aria-live="polite">${st.text}</p>${demoPicture(demo, st, k)}</div>
+    <div class="j-row">${k > 0 ? html`<button type="button" class="btn" data-j="relearn-back">‹ Previous step</button>` : ''}${k < demo.steps.length - 1 ? html`<button type="button" class="btn btn-primary" data-j="relearn-next">Next step ›</button>` : html`<button type="button" class="btn btn-primary" data-j="relearn-done">I'm ready to try again</button>`}</div>` : ''}
+    ${misses >= 4 ? html`<div class="j-row"><button type="button" class="btn" data-j="answer">Show me the answer</button></div><p class="j-note">Seeing the answer is fine. Your grown-up's report will show it.</p>` : ''}
+  </section>`;
 }
 
 export function journeyCard(ctx, stageId, state) {
   const stage = JOURNEY.find((s) => s.id === stageId), cards = CARDS[stageId], si = JOURNEY.indexOf(stage);
-  const i = Math.min(state.at[stageId] || 0, cards.length - 1), card = cards[i];
-  const ui = { ...(state.ui[card.id] || {}), avoidKey: card.different ? state.ui[card.different]?.solvedKey : undefined };
-  const nextStage = JOURNEY[si + 1], prevStage = JOURNEY[si - 1];
+  if (!stageUnlocked(stageId, state.records)) {
+    const go = nextStage(state.records), goStage = JOURNEY.find((s) => s.id === go);
+    return html`<article class="card j-card"><h2 id="stage-h" tabindex="-1">${stage.title} opens soon</h2><p>Each part of the lesson opens after the part before it, so nothing important is skipped.</p>
+      <p><a class="btn btn-primary" href="${ctx.lessonLink('7-1', go)}">Go to ${goStage ? goStage.label : 'the Grown-up Report'} ›</a></p></article>`;
+  }
+  const i = Math.min(state.at[stageId] || 0, cards.length - 1, frontier(stageId, state.records)), card = cards[i], rec = state.records[card.id];
+  const ui = { ...(state.ui[card.id] || {}), avoidKey: card.different ? differentAvoidKey(card, state.ui[card.different]?.solvedKey) : undefined };
+  const nextSection = JOURNEY[si + 1], prevStage = JOURNEY[si - 1];
   const asks = card.type !== 'concept' && card.type !== 'demo' && card.type !== 'sizes';
+  const helps = asks && (card.phase === 'wedo' || card.phase === 'say');
+  const answered = card.phase === 'assess' && (rec?.attempts || 0) > 0;
   const body = { build: buildCard, choice: choiceCard, count: countCard, area: areaCard, write: writeCard, demo: demoCard, sizes: sizesCard, concept: conceptCard }[card.type](card, ui, state);
   const prompt = card.prompt || '';
-  const settled = !asks || ui.ok || ui.compared || (ui.help?.level || 0) >= 3;
-  const nextCls = settled ? 'btn btn-primary' : 'btn';
+  const done = cardDone(card, rec);
+  const nextCls = done ? 'btn btn-primary' : 'btn';
+  const why = html`<p class="j-locknote" id="next-why">${card.type === 'demo' ? 'Watch every step to go on.' : card.phase === 'assess' ? 'Check your answer to go on.' : card.type === 'write' ? 'Write your answer and compare it to go on.' : 'Get this one right to go on. You can try as many times as you need.'}</p>`;
+  const nextBtn = i < cards.length - 1
+    ? html`<button type="button" class="${nextCls}" data-j="next" ${done ? '' : html`disabled aria-describedby="next-why"`}>Next ›</button>`
+    : done ? html`<a class="${nextCls}" data-j-next-stage href="${ctx.lessonLink('7-1', nextSection ? nextSection.id : 'parent')}">${nextSection ? `Next: ${nextSection.label} ›` : 'Finish: see the report ›'}</a>`
+      : html`<button type="button" class="btn" disabled aria-describedby="next-why">${nextSection ? `Next: ${nextSection.label} ›` : 'Finish ›'}</button>`;
   return html`<div class="j-head"><p class="j-eyebrow">Part ${String.fromCharCode(65 + si)} of I · ${stage.title}</p>
-      <p class="progress j-progress"><span class="j-cardnum">Card ${i + 1} of ${cards.length}</span>${cards.length > 10 ? '' : html`<span class="j-bar" aria-hidden="true">${cards.map((c, k) => html`<span class="${k === i ? 'now' : k < i ? 'past' : ''}"></span>`)}</span>`}</p></div>
-    ${shapeTracker(card, state)}
-    <article class="card j-card j-${card.type}" data-card="${card.id}">
-      <div class="j-title-row"><h2 id="stage-h" tabindex="-1">${card.title}</h2><div class="j-title-btns">${readButton([card.title, prompt, ...(card.text || [])])}${asks ? helpButton(card, ui) : ''}</div></div>
-      ${card.independent ? html`<p class="j-badge">Solo try</p>` : card.phase === 'guide' ? html`<p class="j-badge guided">Help is ready if you need it</p>` : ''}
+      <p class="progress j-progress"><span class="j-cardnum">${card.phase === 'assess' ? `Question ${i + 1} of ${cards.length}` : `Card ${i + 1} of ${cards.length}`}</span>${cards.length > 10 ? '' : html`<span class="j-bar" aria-hidden="true">${cards.map((c, k) => html`<span class="${k === i ? 'now' : k < i ? 'past' : ''}"></span>`)}</span>`}</p></div>
+    ${unitLine(card)}
+    <article class="card j-card j-${card.type} j-phase-${card.phase}" data-card="${card.id}" data-phase="${card.phase}">
+      <p class="j-badge phase-${card.phase}">${PHASES[card.phase]}</p>
+      <div class="j-title-row"><h2 id="stage-h" tabindex="-1">${card.title}</h2><div class="j-title-btns">${readButton([card.title, prompt, ...(card.text || [])])}${helps ? helpButton(card, ui) : ''}</div></div>
+      ${card.phase === 'youdo' ? html`<p class="j-note">No hints this time. Show what you learned! If you get stuck, the lesson will help you learn it again.</p>` : card.phase === 'assess' ? html`<p class="j-note">One try for each question, no hints. Do your best.</p>` : ''}
       ${prompt ? html`<p class="j-prompt">${prompt}</p>` : ''}
-      ${body}
-      ${asks ? feedback(ui) : ''}
-      ${asks ? helpPanel(card, ui) : ''}
+      ${answered ? html`<fieldset class="j-locked-answer" disabled>${body}</fieldset>` : body}
+      ${asks ? feedback(ui, card) : ''}
+      ${helps ? helpPanel(card, ui) : ''}
+      ${card.phase === 'youdo' ? relearnPanel(card, ui, rec) : ''}
+      ${card.phase === 'youdo' && (ui.help?.level || 0) >= 3 && !rec?.correct ? (() => { const a = helpAnswer(card, ui); return html`<div class="j-help-block answer"><p class="j-help-label">Answer</p>${a.svg || ''}<p>${a.text}</p><p class="j-note">Now make it yourself.</p></div>`; })() : ''}
     </article>
     <div class="stage-nav j-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-j="prev">‹ Back</button>` : prevStage ? html`<a class="btn" href="${ctx.lessonLink('7-1', prevStage.id)}">‹ ${prevStage.label}</a>` : html`<span></span>`}
-      ${i < cards.length - 1 ? html`<button type="button" class="${nextCls}" data-j="next">Next ›</button>`
-        : nextStage ? html`<a class="${nextCls}" data-j-next-stage href="${ctx.lessonLink('7-1', nextStage.id)}">Next: ${nextStage.label} ›</a>`
-        : html`<a class="${nextCls}" data-j-next-stage href="${ctx.lessonLink('7-1', 'parent')}">Finish: see my results ›</a>`}
+      ${nextBtn}
     </div>
+    ${done ? '' : why}
     <p class="hint">Your work is saved on this device, so you can come back later. Nothing is sent anywhere.</p>`;
 }
 
 // ------------------------------------------------------------------ parent summary
 export function journeySummary(ctx, state) {
-  const s = summarize(state.records), t = s.totals;
+  const s = summarize(state.records), t = s.totals, r = s.ready;
   const wrote = s.written.filter((w) => w.rec?.written);
   return html`<section class="card j-summary" aria-labelledby="j-sum-h">
-    <h2 id="j-sum-h" tabindex="-1">Lesson 7-1 results</h2>
-    <p>Solo tries (My Turn and Check & Reflect): <strong>${t.independentDone} of ${t.independentOpportunities}</strong> right on the first try with no help.</p>
-    <ul class="j-totals">
-      <li><strong>${t.independent}</strong> right on the first try with no help (all checked questions)</li>
-      <li><strong>${t.firstWrong}</strong> wrong on the first try</li>
-      <li><strong>${t.afterHint}</strong> finished after a hint</li>
-      <li><strong>${t.afterSteps}</strong> finished after seeing visual steps</li>
-      <li><strong>${t.afterAnswer}</strong> finished after the answer was shown</li>
-      <li><strong>${t.notTried}</strong> not checked yet</li>
-      <li><strong>${s.viewed} of ${s.demos}</strong> worked examples watched to the end</li>
-    </ul>
-    <h3>Skills to practice more</h3>
-    <p class="j-note">A skill is listed when a question was wrong on the first try, needed help, or is unfinished.</p>
-    ${s.needs.length ? html`<ul>${s.needs.map((n) => html`<li>${n}</li>`)}</ul>` : html`<p>None flagged in this visit.</p>`}
-    ${s.untried.length ? html`<h3>Not tried yet</h3><ul>${s.untried.map((n) => html`<li>${n}</li>`)}</ul>` : ''}
-    <details class="j-detail"><summary>Question-by-question report</summary>
-      <table class="j-table"><thead><tr><th scope="col">Question</th><th scope="col">Kind</th><th scope="col">Result</th><th scope="col">Checks</th><th scope="col">Help used</th></tr></thead><tbody>
-      ${s.rows.map((r) => html`<tr><th scope="row">${r.card.title}</th><td>${r.card.independent ? 'Solo try' : 'Practice'}</td><td>${OUTCOME_TEXT[r.result]}</td><td>${r.rec?.attempts || 0}</td><td>${r.rec?.help ? HELP_LABELS[r.rec.help] : 'none'}</td></tr>`)}
+    <h2 id="j-sum-h" tabindex="-1">Lesson 7-1 readiness report</h2>
+    <p class="j-verdict ${r.verdict.level}"><strong>${r.verdict.level === 'ready' ? 'Ready.' : r.verdict.level === 'review' ? 'Almost ready.' : 'In progress.'}</strong> ${r.verdict.text}</p>
+    <p>Final Check: <strong>${r.score} of ${r.total}</strong> right${r.answered < r.total ? ` (${r.answered} of ${r.total} answered)` : ''}.${r.missedSkills.length ? ` Missed: ${r.missedSkills.join('; ')}.` : ''}</p>
+    <h3>Each skill: the "You Do" problem</h3>
+    <table class="j-table j-ready"><thead><tr><th scope="col">Skill</th><th scope="col">On their own</th></tr></thead><tbody>
+      ${r.skills.map((k) => html`<tr class="${k.solid ? 'solid' : ''}"><th scope="row">${k.unit.title}</th><td>${k.text}</td></tr>`)}
+    </tbody></table>
+    ${r.shaky.length ? html`<p><strong>Practice more:</strong> ${r.shaky.join('; ')}.</p>` : ''}
+    <details class="j-detail"><summary>Every question in detail</summary>
+      <ul class="j-totals">
+        <li><strong>${t.independent}</strong> right on the first try with no help</li>
+        <li><strong>${t.firstWrong}</strong> wrong on the first try</li>
+        <li><strong>${t.afterHint}</strong> after a hint; <strong>${t.afterSteps}</strong> after visual steps; <strong>${t.afterRelearn}</strong> after watching the example again; <strong>${t.afterAnswer}</strong> after seeing the answer</li>
+      </ul>
+      <table class="j-table"><thead><tr><th scope="col">Question</th><th scope="col">Step</th><th scope="col">Result</th><th scope="col">Checks</th><th scope="col">Help used</th></tr></thead><tbody>
+      ${s.rows.map((row) => html`<tr><th scope="row">${row.card.title}</th><td>${PHASES[row.card.phase] || ''}</td><td>${OUTCOME_TEXT[row.result]}</td><td>${row.rec?.attempts || 0}</td><td>${[row.rec?.help ? HELP_LABELS[row.rec.help] : '', row.rec?.relearn ? 'watched the example again' : ''].filter(Boolean).join(', ') || 'none'}</td></tr>`)}
       </tbody></table></details>
     <h3>Written answers</h3>
     ${wrote.length ? html`<ul>${wrote.map((w) => html`<li><strong>${w.card.title}:</strong> “${state.ui[w.card.id]?.text || ''}” ${w.rec.reviewed ? '(checklist ticked; a grown-up should still read it)' : '(needs a grown-up to read it)'}</li>`)}</ul>` : html`<p>No written answers yet.</p>`}

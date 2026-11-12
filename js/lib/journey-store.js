@@ -4,7 +4,8 @@
 import { CARDS, JOURNEY_IDS, ALL_CARDS } from './partition-journey.js';
 
 export const STORE_KEY = 'studyScoop.lesson7-1.progress';
-export const STORE_VERSION = 1;
+// Version 2: the I Do / We Do / You Do lesson (2026-11-12). Older saved progress is ignored and the lesson starts fresh.
+export const STORE_VERSION = 2;
 const MAX_TEXT = 600;
 
 /** The browser's localStorage, or null when it is unavailable or blocked (private windows, settings). */
@@ -31,7 +32,7 @@ function cleanUi(ui, card) {
   const lines = cleanLines(ui.lines, card); if (lines) out.lines = lines;
   if (Array.isArray(ui.choice) && card?.options) { const ok = new Set(card.options.map((o, i) => (card.type === 'area' ? o.value : String(i)))); out.choice = [...new Set(ui.choice.filter((v) => ok.has(v)))]; }
   for (const k of ['num', 'name', 'say', 'lastKey', 'solvedKey']) { const v = str(ui[k], k === 'say' ? 500 : 4000); if (v !== undefined) out[k] = v; }
-  for (const k of ['ok', 'checked', 'compared', 'units']) { const v = bool(ui[k]); if (v !== undefined) out[k] = v; }
+  for (const k of ['ok', 'checked', 'compared', 'units', 'solo']) { const v = bool(ui[k]); if (v !== undefined) out[k] = v; }
   const counted = cleanIndexes(ui.counted, (card?.figure?.regions.length || 0) - 1); if (counted) out.counted = counted;
   const shown = cleanIndexes(ui.shown, (card?.grid?.pieces.length || 0) - 1); if (shown) out.shown = shown;
   if (isInt(ui.parts, 2, 8)) out.parts = ui.parts;
@@ -45,7 +46,7 @@ function cleanRecord(r, id) {
   if (!r || typeof r !== 'object') return null;
   const n = (v, hi) => (isInt(v, 0, hi) ? v : 0);
   return { id, attempts: n(r.attempts, 10000), first: ['correct', 'helped', 'wrong'].includes(r.first) ? r.first : null, correct: r.correct === true,
-    help: n(r.help, 3), helpBeforeCorrect: n(r.helpBeforeCorrect, 3), viewed: r.viewed === true, written: r.written === true, reviewed: r.reviewed === true };
+    help: n(r.help, 3), helpBeforeCorrect: n(r.helpBeforeCorrect, 3), viewed: r.viewed === true, written: r.written === true, reviewed: r.reviewed === true, relearn: r.relearn === true, wrongStreak: n(r.wrongStreak, 10000) };
 }
 
 /** Returns saved progress ({ stage, at, ui, records }) or null. Never throws. */

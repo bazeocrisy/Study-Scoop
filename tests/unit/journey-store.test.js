@@ -1,39 +1,51 @@
 // Lesson 7-1 saved progress (DECISIONS D29): one key, local only, validated on the way back in, erasable.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { STORE_KEY, loadProgress, saveProgress, clearProgress } from '../../js/lib/journey-store.js';
+import { STORE_KEY, STORE_VERSION, loadProgress, saveProgress, clearProgress } from '../../js/lib/journey-store.js';
 import { act, journeyState, resetJourney, restoreJourney, saveJourney, eraseJourney, resumeStage } from '../../js/partition-journey.js';
-import { CARDS, outcome } from '../../js/lib/partition-journey.js';
+import { CARDS, JOURNEY, newRecord, outcome } from '../../js/lib/partition-journey.js';
 
 const fake = () => { const m = new Map(); return { m, getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) }; };
 const draw = (stage, lines) => { for (const [a, b] of lines) { act(stage, 'point', { id: a }); act(stage, 'point', { id: b }); } };
+const idx = (stage, id) => CARDS[stage].findIndex((c) => c.id === id);
+function doneRecord(c) { const r = newRecord(c); if (c.type === 'demo') r.viewed = true; else if (c.type === 'write') r.written = true; else { r.attempts = 1; r.first = 'correct'; r.correct = true; } return r; }
+/** Finish everything before a card (earlier sections and earlier cards), as a child would, without resetting. */
+function finishBefore(stage, id) {
+  for (const s of JOURNEY) { if (s.id === stage) break; for (const c of CARDS[s.id]) journeyState.records[c.id] ||= doneRecord(c); }
+  const k = idx(stage, id); for (const c of CARDS[stage].slice(0, k)) journeyState.records[c.id] ||= doneRecord(c);
+  journeyState.at[stage] = k;
+}
 
-test('save and load round-trip: section, card, drawings, answers, writing, help and independent vs assisted records', () => {
+test('save and load round-trip: section, card, drawings, answers, writing, help, re-learning and independent vs assisted records', () => {
   const s = fake();
   resetJourney();
-  journeyState.stage = 'shapes'; journeyState.at.shapes = 1;
-  draw('shapes', [['v0', 'v2'], ['v1', 'v3']]); act('shapes', 'check');            // Guide Me: right first try, no help
-  journeyState.at.shapes = 4; act('shapes', 'help'); act('shapes', 'hint');         // square Guide Me: hint, then
+  journeyState.stage = 'shapes';
+  finishBefore('explore', 'a-flags'); act('explore', 'choice', { values: ['1', '2'] });          // answer chosen, not checked
+  finishBefore('shapes', 'd-diamond-guide'); draw('shapes', [['v0', 'v2'], ['v1', 'v3']]); act('shapes', 'check'); // We Do: first try
+  finishBefore('shapes', 'd-square-guide'); act('shapes', 'help'); act('shapes', 'hint');                         // We Do with a hint
   draw('shapes', [['t2-6', 'b2-6'], ['t4-6', 'b4-6'], ['l1-2', 'r1-2']]); act('shapes', 'check');
-  journeyState.at.sizes = 3; act('sizes', 'text', { text: 'More parts, smaller parts.' }); act('sizes', 'compare');
-  journeyState.at.explore = 1; act('explore', 'choice', { values: ['0', '2'] });
+  finishBefore('shapes', 'd-square-myturn'); draw('shapes', [['t1-3', 'b1-3']]); act('shapes', 'check'); draw('shapes', [['t2-3', 'b2-3']]); act('shapes', 'check'); // You Do: 2 misses → re-learn
+  finishBefore('sizes', 'e-write'); act('sizes', 'text', { text: 'More parts, smaller parts.' }); act('sizes', 'compare');
+  journeyState.stage = 'shapes';
   assert.equal(saveProgress(journeyState, s), true);
   assert.deepEqual([...s.m.keys()], [STORE_KEY], 'exactly one key');
   const raw = s.m.get(STORE_KEY);
+  assert.equal(JSON.parse(raw).v, STORE_VERSION);
   assert.doesNotMatch(raw, /"name":"(?!fourths|sixths|eighths|thirds)/, 'no personal fields');
   const back = loadProgress(s);
-  assert.equal(back.stage, 'shapes'); assert.equal(back.at.shapes, 4); assert.equal(back.at.sizes, 3);
+  assert.equal(back.stage, 'shapes'); assert.equal(back.at.shapes, idx('shapes', 'd-square-myturn'));
   assert.deepEqual(back.ui['d-diamond-guide'].lines, [['v0', 'v2'], ['v1', 'v3']]);
-  assert.deepEqual(back.ui['a-equal'].choice, ['0', '2']);
+  assert.deepEqual(back.ui['a-flags'].choice, ['1', '2']);
   assert.equal(back.ui['e-write'].text, 'More parts, smaller parts.'); assert.equal(back.ui['e-write'].compared, true);
   assert.equal(outcome(back.records['d-diamond-guide']), 'independent');
   assert.equal(outcome(back.records['d-square-guide']), 'after-hint');
+  assert.equal(back.records['d-square-myturn'].relearn, true); assert.equal(back.records['d-square-myturn'].wrongStreak, 2);
   assert.equal(back.ui['d-square-guide'].help.level, 1); assert.equal(back.ui['d-square-guide'].help.open, false, 'help panel reopens closed');
 });
 
-test('restoring recomputes the picture of a checked construction, and a re-saved state is identical', () => {
+test('restoring recomputes the picture of a checked construction, a re-saved state is identical, and Lesson 7-1 resumes', () => {
   const s = fake();
-  resetJourney(); journeyState.at.method = 1; journeyState.stage = 'method';
+  resetJourney(); finishBefore('method', 'b-fourths-make'); journeyState.stage = 'method';
   draw('method', [['t2-4', 'b2-4'], ['l2-4', 'b2-4'], ['t2-4', 'r2-4']]); act('method', 'check');   // unequal, marked
   const before = journeyState.ui['b-fourths-make'].result;
   saveProgress(journeyState, s);
@@ -41,24 +53,25 @@ test('restoring recomputes the picture of a checked construction, and a re-saved
   const after = journeyState.ui['b-fourths-make'].result;
   assert.equal(after.valid, false); assert.equal(after.count, 4); assert.equal(after.big, before.big); assert.equal(after.small, before.small);
   const s2 = fake(); saveProgress(journeyState, s2); assert.equal(s2.m.get(STORE_KEY), s.m.get(STORE_KEY));
-  assert.equal(resumeStage(), 'method');
+  assert.equal(resumeStage(), 'method', 'opening Lesson 7-1 goes to the first unfinished section');
 });
 
-test('damaged, foreign or hostile saved data is ignored or cleaned, never trusted', () => {
+test('damaged, foreign, old-version or hostile saved data is ignored or cleaned, never trusted', () => {
   const s = fake();
-  for (const bad of ['', 'not json', '{"v":99}', 'null', '[]', JSON.stringify({ v: 1, at: { shapes: 999, nope: 1 } })]) {
+  for (const bad of ['', 'not json', '{"v":99}', 'null', '[]', JSON.stringify({ v: 1, stage: 'shapes', at: { shapes: 3 }, ui: {}, records: {} }), JSON.stringify({ v: 2, at: { shapes: 999, nope: 1 } })]) {
     s.setItem(STORE_KEY, bad); const r = loadProgress(s);
     if (r) { assert.equal(r.at.shapes, undefined); assert.equal(r.at.nope, undefined); }
   }
-  s.setItem(STORE_KEY, JSON.stringify({ v: 1, stage: '<script>', at: { method: 1 },
+  assert.equal(loadProgress(Object.assign(fake(), { getItem: () => JSON.stringify({ v: 1, stage: 'shapes', at: {}, ui: {}, records: {} }) })), null, 'progress saved by the earlier lesson version is not reused');
+  s.setItem(STORE_KEY, JSON.stringify({ v: 2, stage: '<script>', at: { method: 1 },
     ui: { 'b-fourths-make': { lines: [['k0', 'k2'], ['k0', 'missing'], ['k1', 'k1'], 'x'], text: 'x'.repeat(5000), evil: 1, help: { open: true, level: 9 } }, 'no-such-card': { text: 'hi' } },
-    records: { 'b-fourths-make': { attempts: -3, first: 'hacked', correct: 'yes', help: 7 }, 'no-such-card': {} } }));
+    records: { 'b-fourths-make': { attempts: -3, first: 'hacked', correct: 'yes', help: 7, relearn: 'yes' }, 'no-such-card': {} } }));
   const r = loadProgress(s);
   assert.equal(r.stage, null);
   assert.deepEqual(r.ui['b-fourths-make'].lines, [['k0', 'k2']], 'only lines between real points survive');
   assert.equal(r.ui['b-fourths-make'].text.length, 600); assert.equal(r.ui['b-fourths-make'].evil, undefined); assert.equal(r.ui['b-fourths-make'].help, undefined);
   assert.equal(r.ui['no-such-card'], undefined); assert.equal(r.records['no-such-card'], undefined);
-  assert.deepEqual(r.records['b-fourths-make'], { id: 'b-fourths-make', attempts: 0, first: null, correct: false, help: 0, helpBeforeCorrect: 0, viewed: false, written: false, reviewed: false });
+  assert.deepEqual(r.records['b-fourths-make'], { id: 'b-fourths-make', attempts: 0, first: null, correct: false, help: 0, helpBeforeCorrect: 0, viewed: false, written: false, reviewed: false, relearn: false, wrongStreak: 0 });
 });
 
 test('no storage, blocked storage or a full disk: the lesson still works and nothing throws', () => {
@@ -69,21 +82,21 @@ test('no storage, blocked storage or a full disk: the lesson still works and not
   assert.equal(saveJourney(), false); eraseJourney(); assert.deepEqual(journeyState.records, {});
 });
 
-test('reset erases only the Lesson 7-1 key and starts the lesson again at section A', () => {
+test('reset (restart the lesson) erases only the Lesson 7-1 key and starts again at section A', () => {
   const s = fake(); s.setItem('other.site.key', 'keep');
-  resetJourney(); journeyState.stage = 'count'; journeyState.at.count = 2; saveProgress(journeyState, s);
+  resetJourney(); finishBefore('count', 'g-slant'); journeyState.stage = 'count'; saveProgress(journeyState, s);
+  restoreJourney(loadProgress(s)); assert.equal(resumeStage(), 'count');
   assert.equal(clearProgress(s), true);
   assert.equal(s.getItem(STORE_KEY), null); assert.equal(s.getItem('other.site.key'), 'keep');
   restoreJourney(loadProgress(s)); assert.equal(resumeStage(), 'explore'); assert.deepEqual(journeyState.at, {});
-  assert.ok(CARDS.explore.length > 0);
 });
 
 test('saved answer choices must be real options of that card; a stale choice can never break Check', () => {
   const s = fake();
-  s.setItem(STORE_KEY, JSON.stringify({ v: 1, stage: 'explore', at: { explore: 0 }, ui: { 'a-same': { choice: ['9', '1', '1'] }, 'h-grid': { choice: ['zzz'] } }, records: {} }));
+  s.setItem(STORE_KEY, JSON.stringify({ v: 2, stage: 'explore', at: { explore: 3 }, ui: { 'a-notfourths': { choice: ['9', '1', '1'] }, 'h-grid': { choice: ['zzz'] } }, records: {} }));
   const r = loadProgress(s);
-  assert.deepEqual(r.ui['a-same'].choice, ['1']); assert.deepEqual(r.ui['h-grid'].choice, []);
-  restoreJourney({ stage: 'explore', at: { explore: 0 }, ui: { 'a-same': { choice: ['9'] } }, records: {} });
+  assert.deepEqual(r.ui['a-notfourths'].choice, ['1']); assert.deepEqual(r.ui['h-grid'].choice, []);
+  resetJourney(); finishBefore('explore', 'a-notfourths'); journeyState.ui['a-notfourths'] = { choice: ['9'] };
   assert.doesNotThrow(() => act('explore', 'check'));
-  assert.match(journeyState.ui['a-same'].say, /Choose an answer first/);
+  assert.match(journeyState.ui['a-notfourths'].say, /Choose an answer first/);
 });

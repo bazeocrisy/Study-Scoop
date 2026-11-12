@@ -21,15 +21,19 @@ const mainSvg = () => b.js('return document.querySelector(".j-stage-pic svg")?.o
 const tap = async (selector) => { await b.clickAt(selector); };
 const draw = async (lines) => { for (const [a, c] of lines) { await tap(`.j-stage-pic [data-point="${a}"]`); await tap(`.j-stage-pic [data-point="${c}"]`); } };
 const meta = await (async () => { await b.load(url('explore')); return b.js(`const m=await import('./js/lib/partition-journey.js');
-  return { journey: m.JOURNEY.map(s=>s.id), cards: Object.fromEntries(Object.entries(m.CARDS).map(([k,v])=>[k,v.map(c=>({id:c.id,type:c.type,multi:!!c.multi,independent:!!c.independent,steps:c.steps?.length||0,
+  return { journey: m.JOURNEY.map(s=>s.id), cards: Object.fromEntries(Object.entries(m.CARDS).map(([k,v])=>[k,v.map(c=>({id:c.id,type:c.type,phase:c.phase,multi:!!c.multi,independent:!!c.independent,steps:c.steps?.length||0,
     solutions:c.task?.solutions||null,options:c.options?.map(o=>({correct:!!o.correct,value:o.value}))||null,answer:c.answer||null,name:c.name||null,regions:c.figure?.regions.length||0,different:c.different||null}))])) };`); })();
 
 const used = {};
 const KEY = 'studyScoop.lesson7-1.progress';
 /** A fresh start at one card: saved progress (D29) is erased first, so earlier checks cannot leak into this one. */
-async function openCard(stage, index) {
+/** Earlier cards are finished first (the lesson cannot skip ahead); `all` finishes every card, for layout checks. */
+async function openCard(stage, index, { all = false, save = false } = {}) {
   await b.load(url(stage));
-  await b.js(`localStorage.removeItem('${KEY}');const m=await import('./js/partition-journey.js');m.resetJourney();m.journeyState.at['${stage}']=${index};`);
+  await b.js(`localStorage.removeItem('${KEY}');const m=await import('./js/partition-journey.js'),L=await import('./js/lib/partition-journey.js');m.resetJourney();
+    const done=(c)=>{const r=L.newRecord(c);if(c.type==='demo')r.viewed=true;else if(c.type==='write')r.written=true;else{r.attempts=1;r.first='correct';r.correct=true;}return r;};
+    for(const s of L.JOURNEY){const before=s.id!=='${stage}'&&L.JOURNEY.findIndex(x=>x.id===s.id)<L.JOURNEY.findIndex(x=>x.id==='${stage}');for(const [k,c] of L.CARDS[s.id].entries())if(${all}||before||(s.id==='${stage}'&&k<${index}))m.journeyState.records[c.id]=done(c);}
+    m.journeyState.at['${stage}']=${index};m.journeyState.stage='${stage}';if(${save})m.saveJourney();`);
   const away = stage === 'parent' ? 'explore' : 'parent';
   await b.hash(`#math?lesson=7-1&stage=${away}`); await b.hash(`#math?lesson=7-1&stage=${stage}`);
   if (stage === 'parent') await b.js(`localStorage.removeItem('${KEY}');const m=await import('./js/partition-journey.js');m.resetJourney();`);
@@ -133,10 +137,13 @@ try {
       const c = list[i];
       ok((await card()) === c.id, `${stage} card ${i + 1} is ${c.id}`);
       ok(await b.js('return document.activeElement?.id === "stage-h" || document.activeElement === document.body || !!document.activeElement?.closest("#lesson-stage")'), `${c.id}: focus lands in the lesson`);
-      const graded = !['demo', 'concept', 'sizes'].includes(c.type);
-      ok(await b.js(`return ${graded} === !!document.querySelector('${J('help')}')`), `${c.id}: ? Help shown on every question (and not on watch-only cards)`);
-      // Independent questions are completed without help so they can earn independent credit.
-      const wrongFirst = !c.independent && !triedWrong.has(c.type);
+      const helps = ['wedo', 'say'].includes(c.phase) && !['demo', 'concept', 'sizes'].includes(c.type);
+      ok(await b.js(`return ${helps} === !!document.querySelector('${J('help')}')`), `${c.id}: ? Help only in We Do (${c.phase})`);
+      ok(await b.js(`return document.querySelector('[data-card]').dataset.phase === '${c.phase}'`) && await b.js('return !!document.querySelector(".j-badge")'), `${c.id}: shows its step (${c.phase})`);
+      if (!['concept', 'sizes'].includes(c.type)) ok(await b.js('return !!document.querySelector(".j-nav [data-j=next][disabled], .j-nav button[disabled]") && !document.querySelector("[data-j-next-stage]")'), `${c.id}: Next waits until this card is done`);
+      if (c.phase === 'youdo' || c.phase === 'assess') ok(await b.js('return !document.querySelector("[data-j=help], [data-j=hint]")'), `${c.id}: no hints on your own`);
+      // Only We Do questions start with a wrong try here (You Do and the Final Check are answered right first).
+      const wrongFirst = c.phase === 'wedo' && !triedWrong.has(c.type);
       triedWrong.add(c.type);
       await solve(c, { wrongFirst, solution: c.solutions && c.solutions.length > 1 && i % 2 ? 1 : 0 });
       if (i < list.length - 1) await tap(J('next'));
@@ -147,14 +154,12 @@ try {
   ok(gradedIds.every((id) => after.records[id]?.correct), `all ${gradedIds.length} graded cards were completed in one visit`);
   await tap('[data-j-next-stage]');
   await b.waitFor(`!!document.querySelector(".j-summary")`);
-  ok(await b.js('return /Finish|results/i.test(document.title + document.querySelector(".j-summary h2").textContent)'), 'the last card leads to the results summary');
+  ok(await b.js('return /report/i.test(document.querySelector(".j-summary h2").textContent) && /Ready/.test(document.querySelector(".j-verdict").textContent) && /10 of 10/.test(document.querySelector(".j-summary").textContent)'), 'the last card leads to the readiness report: 10 of 10, ready');
 
   step('alternative constructions');
   // Every alternative construction listed for a shape is accepted through the real controls (not only the first).
-  await fresh('shapes');
   for (const c of meta.cards.shapes.filter((x) => x.type === 'build')) {
-    await b.js(`const m=await import('./js/partition-journey.js');m.journeyState.at.shapes=${meta.cards.shapes.findIndex((x) => x.id === c.id)};`);
-    await b.hash('#math?lesson=7-1&stage=parent'); await b.hash('#math?lesson=7-1&stage=shapes');
+    await openCard('shapes', meta.cards.shapes.findIndex((x) => x.id === c.id));
     for (let k = 0; k < c.solutions.length; k++) {
       await b.js(`const m=await import('./js/partition-journey.js');(m.journeyState.ui['${c.id}'] ||= {}).lines=[];`);
       await b.hash('#math?lesson=7-1&stage=parent'); await b.hash('#math?lesson=7-1&stage=shapes');
@@ -165,12 +170,12 @@ try {
 
   step('unequal parts and circle chords');
   // Unequal parts: the right number of parts with unequal areas is rejected and the pieces are marked.
-  await openCard('method', 1);
+  await openCard('method', meta.cards.method.findIndex((c) => c.id === 'b-fourths-make'));
   await draw([['t2-4', 'b2-4'], ['l2-4', 'b2-4'], ['t2-4', 'r2-4']]); // 4 parts: two triangles (1/8 each) and two pentagons (3/8 each)
   await tap(J('check'));
   const fb = await feedback();
   ok(!(await isOk()), 'unequal partition rejected');
-  ok(/4 parts/.test(fb) && /bigger/.test(fb) && await b.js('return document.querySelectorAll(".j-tag").length === 2'), `unequal partition explained and the bigger/smaller parts are marked: ${fb}`);
+  ok(/4 parts/.test(fb) && /bigger/.test(fb) && /same amount of space/.test(fb) && await b.js('return document.querySelectorAll(".j-tag").length === 2'), `unequal partition explained and the bigger/smaller parts are marked: ${fb}`);
 
   // Circle chords that miss the center are not accepted as slices.
   await openCard('mistake', meta.cards.mistake.findIndex((c) => c.id === 'f-fix'));
@@ -213,7 +218,7 @@ try {
 
   step('keyboard');
   // Keyboard: a line can be drawn with Tab and Enter/Space alone.
-  await openCard('method', 1);
+  await openCard('method', meta.cards.method.findIndex((c) => c.id === 'b-fourths-make'));
   await b.js('document.querySelector(\'[data-point="t2-4"]\').focus()');
   await b.key('Enter');
   ok(await b.js('return document.activeElement?.dataset.point === "t2-4" && document.activeElement.getAttribute("aria-pressed") === "true"'), 'keyboard selects a point and keeps focus on it');
@@ -225,17 +230,18 @@ try {
 
   step('grown-up summary');
   // Grown-up summary separates independent, wrong-first and assisted work.
-  await openCard('shapes', 0);
-  await tap(J('next')); await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check')); // guide: independent first try
-  await tap(J('next')); await draw([['v0', 'v2']]); await tap(J('check')); await draw([['v1', 'v3']]); await tap(J('check')); // my turn: wrong first
-  await tap(J('next')); await tap(J('next')); await tap(J('help')); await tap(J('hint')); await draw([['t2-6', 'b2-6'], ['t4-6', 'b4-6'], ['l1-2', 'r1-2']]); await tap(J('check'));
+  await openCard('shapes', 1);
+  await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check'));                                       // We Do diamond: first try
+  await tap(J('next')); await draw([['v0', 'v2']]); await tap(J('check'));                                // You Do diamond: wrong first,
+  await tap(J('clear')); await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check'));                 // then right
+  await tap(J('next')); while (!(await b.js(`return document.querySelector('${J('demo-next')}').disabled`))) await tap(J('demo-next'));
+  await tap(J('next')); await tap(J('help')); await tap(J('hint')); await draw([['t2-6', 'b2-6'], ['t4-6', 'b4-6'], ['l1-2', 'r1-2']]); await tap(J('check')); // We Do square: hint
   await b.hash('#math?lesson=7-1&stage=parent');
   const sum = await b.js('return document.querySelector(".j-summary").textContent.replace(/\\s+/g," ")');
-  ok(/1 wrong on the first try/.test(sum), `summary counts wrong first tries: ${sum.slice(0, 300)}`);
-  ok(/1 finished after a hint/.test(sum), 'summary counts hint-assisted completions');
-  ok(/1 right on the first try with no help/.test(sum), 'summary counts independent first-try successes (Guide Me diamond only)');
-  ok(/Solo tries \(My Turn and Check & Reflect\): 0 of 15/.test(sum), 'a My Turn fixed after a wrong first try is not counted as a solo success');
-  ok(/Skills to practice more/.test(sum) && /Diamond into fourths/.test(sum), 'summary lists skills needing practice');
+  ok(/1 wrong on the first try/.test(sum), `report counts wrong first tries: ${sum.slice(0, 300)}`);
+  ok(/1 after a hint/.test(sum), 'report counts hint-assisted completions');
+  ok(/On own, after another try/.test(sum) && /In progress/.test(sum), 'report shows the You Do result per skill and that the lesson is not finished');
+  ok(/Final Check: 0 of 10/.test(sum), 'report shows the Final Check score');
   ok(await b.js('return !!document.querySelector(".parent-guide") && !!document.querySelector(".j-extra a[href*=\\"stage=try\\"]")'), 'parent page keeps the Parent Guide and links the original extra practice');
 
   step('original stages');
@@ -297,12 +303,12 @@ try {
   for (const [w, h] of [[320, 640], [360, 740], [390, 844], [768, 1024], [1366, 768]]) {
     await b.viewport(w, h);
     for (const stage of meta.journey) {
-      await fresh(stage);
+      await openCard(stage, 0, { all: true });
       for (let i = 0; i < meta.cards[stage].length; i++) {
+        if (i) { await b.js(`const m=await import('./js/partition-journey.js');m.journeyState.at['${stage}']=${i};`); await b.hash('#math?lesson=7-1&stage=parent'); await b.hash(`#math?lesson=7-1&stage=${stage}`); }
         const over = await b.js('return document.documentElement.scrollWidth - innerWidth');
         const pic = await b.js('const s=document.querySelector(".j-stage-pic svg");if(!s)return true;const r=s.getBoundingClientRect();return r.left>=-1&&r.right<=innerWidth+1');
         ok(over <= 0 && pic, `${w}px ${meta.cards[stage][i].id}: fits the screen (overflow ${over}px)`);
-        if (i < meta.cards[stage].length - 1) await tap(J('next'));
       }
     }
   }
@@ -310,7 +316,7 @@ try {
   step('dot targets');
   // ---- Choosing dots (touch targets). The usable target of a dot is its "nearest dot" area: every press on the
   // drawing goes to the closest dot (no gaps, no overlaps), with a ring preview and slide-to-adjust before lifting.
-  const dense = ['method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-make')], sparse = ['shapes', 1];
+  const dense = ['method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-you')], sparse = ['shapes', 1];
   const targetReport = [];
   const press = async (x, y, type = 'mouse', moveTo = null) => {
     if (type === 'touch') {
@@ -377,7 +383,7 @@ try {
   step('arrow keys');
   // Keyboard: one Tab stop for the drawing, arrow keys move between dots, Enter chooses.
   await b.viewport(1366, 768, false);
-  await openCard('method', 1);
+  await openCard('method', meta.cards.method.findIndex((c) => c.id === 'b-fourths-make'));
   ok(await b.js('return document.querySelectorAll(".j-stage-pic [data-point][tabindex=\\"0\\"]").length === 1'), 'the drawing is a single Tab stop');
   await b.js('document.querySelector(".j-stage-pic [data-point][tabindex=\\"0\\"]").focus()');
   const first = await b.js('return document.activeElement.dataset.point');
@@ -389,10 +395,11 @@ try {
   step('saved progress');
   // ---- Saved progress (D29): refresh, reopen, resume, and the grown-up reset.
   await openCard('shapes', 1);
-  await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check'));                      // Guide Me diamond: independent
-  await tap(J('next')); await tap(J('help')); await tap(J('hint'));                       // My Turn diamond: hint, then
-  await draw(meta.cards.shapes.find((c) => c.id === 'd-diamond-myturn').solutions[0]); await tap(J('check'));
-  await tap(J('next')); await tap(J('next')); await draw([['t2-6', 'b2-6']]);              // square Guide Me: half-drawn
+  await draw([['v0', 'v2'], ['v1', 'v3']]); await tap(J('check'));                      // We Do diamond: independent
+  await tap(J('next')); await draw([['v0', 'v2']]); await tap(J('check'));               // You Do diamond: wrong, then
+  await tap(J('clear')); await draw(meta.cards.shapes.find((c) => c.id === 'd-diamond-myturn').solutions[0]); await tap(J('check'));
+  await tap(J('next')); while (!(await b.js(`return document.querySelector('${J('demo-next')}').disabled`))) await tap(J('demo-next'));
+  await tap(J('next')); await draw([['t2-6', 'b2-6']]);                                     // We Do square: half-drawn
   const beforeRefresh = await state();
   let data = await saved();
   ok(data && data.stage === 'shapes' && data.at.shapes === 4, 'progress is saved as the child works (section and card)');
@@ -401,11 +408,11 @@ try {
   ok(await b.js('return location.hash.includes("stage=shapes")') && (await card()) === 'd-square-guide', 'reopening Lesson 7-1 resumes at the same section and card');
   ok(await b.js('return document.querySelectorAll(".j-stage-pic .j-cut").length === 1'), 'the half-finished drawing is still there');
   const restored = await state();
-  ok(restored.records['d-diamond-guide'].first === 'correct' && restored.records['d-diamond-myturn'].helpBeforeCorrect === 1 && restored.records['d-diamond-myturn'].correct, 'independent and hint-assisted results survive the refresh');
+  ok(restored.records['d-diamond-guide'].first === 'correct' && restored.records['d-diamond-myturn'].first === 'wrong' && restored.records['d-diamond-myturn'].correct, 'independent and retried results survive the refresh');
   ok(JSON.stringify(restored.records) === JSON.stringify(beforeRefresh.records), 'every record is restored exactly');
   await b.hash('#math?lesson=7-1&stage=parent');
   const sum2 = await b.js('return document.querySelector(".j-summary").textContent.replace(/\\s+/g," ")');
-  ok(/1 right on the first try with no help/.test(sum2) && /1 finished after a hint/.test(sum2), 'the grown-up summary after a refresh still separates independent and assisted work');
+  ok(/1 wrong on the first try/.test(sum2) && /On own, after another try/.test(sum2), 'the grown-up report after a refresh still separates independent and retried work');
   ok(/saved only in this browser on this device/.test(sum2) && /no name/.test(sum2), 'the summary explains what is saved and that nothing is sent');
   // Reset needs a confirmation; Cancel keeps everything.
   await tap('[data-j-reset="ask"]');
@@ -420,25 +427,25 @@ try {
   step('two tabs');
   // Two copies of the lesson at once (a second tab, here a same-origin frame): neither overwrites the other,
   // and a Reset in one is not undone by the other.
-  await openCard('explore', 0);
+  await openCard('explore', meta.cards.explore.findIndex((c) => c.id === 'a-notfourths'), { save: true });
   await b.js(`const f=document.createElement('iframe');f.id='tab2';f.style.cssText='width:1000px;height:700px';f.src=location.pathname+'#math?lesson=7-1&stage=explore';document.body.append(f);`);
   await b.waitFor('!!document.getElementById("tab2").contentDocument?.querySelector("[data-card]")', 10000);
-  await b.js(`const d=document.getElementById('tab2').contentDocument;d.querySelectorAll('input[data-j-choice]')[1].click();d.querySelector('[data-j="check"]').click();`);
-  await b.waitFor(`(JSON.parse(localStorage.getItem('${KEY}')||'{}').records||{})['a-same']?.correct === true`);
-  await b.waitFor(`(await import('./js/partition-journey.js')).journeyState.records['a-same']?.correct === true`);
+  await b.js(`const d=document.getElementById('tab2').contentDocument;d.querySelector('input[data-j-choice][value="1"]').click();d.querySelector('[data-j="check"]').click();`);
+  await b.waitFor(`(JSON.parse(localStorage.getItem('${KEY}')||'{}').records||{})['a-notfourths']?.correct === true`);
+  await b.waitFor(`(await import('./js/partition-journey.js')).journeyState.records['a-notfourths']?.correct === true`);
   ok(true, 'an answer checked in the other tab arrives in this tab');
-  await tap(J('next')); await tap('input[data-j-choice][value="0"]'); await tap('input[data-j-choice][value="2"]'); await tap(J('check'));
+  await tap(J('next')); await tap('input[data-j-choice][value="1"]'); await tap('input[data-j-choice][value="2"]'); await tap(J('check'));
   data = await saved();
-  ok(data.records['a-same']?.correct && data.records['a-equal']?.correct, `work from both tabs is kept (no overwrite): ${JSON.stringify(data.records)} card=${await card()} fb=${await feedback()}`);
+  ok(data.records['a-notfourths']?.correct && data.records['a-flags']?.correct, `work from both tabs is kept (no overwrite): ${JSON.stringify(data.records)} card=${await card()} fb=${await feedback()}`);
   await b.js(`const w=document.getElementById('tab2').contentWindow;w.localStorage.removeItem('${KEY}');`); // a Reset in the other tab
   await b.waitFor(`Object.keys((await import('./js/partition-journey.js')).journeyState.records).length === 0`);
-  ok((await card()) === 'a-same', 'this tab shows the fresh start right away');
+  ok((await card()) === 'a-words', 'this tab shows the fresh start right away');
   await tap(J('next'));
   data = await saved();
-  ok(!data || (!Object.values(data.records || {}).some((r) => r.correct || r.attempts) && !data.ui?.['a-same']?.choice?.length && !data.ui?.['a-equal']), `after a Reset in another tab, this tab does not write the old progress back: ${JSON.stringify(data)}`);
+  ok(!data || (!Object.values(data.records || {}).some((r) => r.correct || r.attempts) && !data.ui?.['a-notfourths']?.choice?.length && !data.ui?.['a-flags']), `after a Reset in another tab, this tab does not write the old progress back: ${JSON.stringify(data)}`);
   await b.js('document.getElementById("tab2").remove()');
   // A stale saved answer (an option that no longer exists) cannot break Check.
-  await b.js(`localStorage.setItem('${KEY}', JSON.stringify({v:1,stage:'explore',at:{explore:0},ui:{'a-same':{choice:['9']}},records:{}}))`);
+  await b.js(`localStorage.setItem('${KEY}', JSON.stringify({v:2,stage:'explore',at:{explore:3},ui:{'a-notfourths':{choice:['9']}},records:{'a-show':{viewed:true}}}))`);
   await b.load(url());
   await tap(J('check'));
   ok(/Choose an answer first/.test(await feedback()), 'a stale saved choice is dropped and Check still works');
@@ -448,6 +455,32 @@ try {
   await b.key('Escape');
   ok(await b.js('return document.querySelector("[data-j-reset-confirm]").hidden'), 'Escape closes the Reset confirmation');
   await b.js(`localStorage.removeItem('${KEY}')`);
+  step('teaching rules');
+  // Locked sections: a fresh start cannot jump ahead by link or by typing the address.
+  await b.load(url()); await b.js(`localStorage.removeItem('${KEY}')`); await b.load(url('method'));
+  ok(await b.js('return /opens soon/.test(document.querySelector("#lesson-stage").textContent) && !document.querySelector("[data-card]")'), 'a later section opened by its address says it opens soon');
+  ok(await b.js('return !document.querySelector(".j-stepper li.locked a") && document.querySelectorAll(".j-stepper li.locked").length === 8'), 'later sections in the stepper are not links');
+  // You Do: two misses bring back the worked example; after it, the child tries again and the result says so.
+  await openCard('method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-you'));
+  await draw([['t4-8', 'b4-8']]); await tap(J('check'));
+  ok(await b.js('return !document.querySelector(".j-relearn")'), 'one miss: targeted feedback only');
+  ok(/Let's count the parts/.test(await feedback()) && await b.js('return document.querySelectorAll(".j-tag").length >= 2'), 'wrong number of parts: the parts are numbered and region counting is explained');
+  await tap(J('clear'));
+  await draw([['t2-8', 'b2-8'], ['t6-8', 'b6-8']]); await tap(J('check'));
+  ok(await b.js('return !!document.querySelector(".j-relearn") && document.activeElement?.matches("[data-relearn-heading]")'), 'second miss: "Let\'s learn it again" opens with focus on it');
+  const pic0 = await b.js('return document.querySelector(".j-relearn svg").outerHTML');
+  while (await b.js(`return !!document.querySelector('${J('relearn-next')}')`)) await tap(J('relearn-next'));
+  ok((await b.js('return document.querySelector(".j-relearn svg").outerHTML')) !== pic0, 'the worked example steps change the picture');
+  await tap(J('relearn-done'));
+  ok(await b.js('return !document.querySelector(".j-relearn")'), 'after re-learning, the child tries again');
+  await tap(J('clear')); await draw(meta.cards.method.find((c) => c.id === 'b-eighths-you').solutions[0]); await tap(J('check'));
+  ok(await isOk() && (await state()).records['b-eighths-you'].relearn === true, 'right after re-learning, recorded as re-learned (not on own)');
+  // Final Check: one try, then locked; a wrong answer still lets the child go on.
+  await openCard('check', 0);
+  await draw([['t1-4', 'b1-4']]); await tap(J('check'));
+  ok(await b.js('return !!document.querySelector("fieldset.j-locked-answer[disabled]") && !document.querySelector(".j-nav [data-j=next][disabled]")'), 'a Final Check answer is locked after one try and Next opens');
+  await tap(J('next')); ok((await card()) === 'q2', 'the Final Check moves to the next question');
+
   step('other pages');
   // Other Study Scoop pages still store nothing.
   await b.load(`${server.origin}${BASE}#math?lesson=7-2&stage=try`); await b.load(`${server.origin}${BASE}#spelling`);
