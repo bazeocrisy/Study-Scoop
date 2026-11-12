@@ -12,7 +12,7 @@ const expect=(value,message)=>{assert.ok(value,message);passed++;};
 // Lessons 7-2 to 7-7 open Try It Yourself and the Test only after the teaching stages (teach first). These checks are
 // about each stage itself, so they mark the earlier stages finished in this visit first (the locks are tested in
 // tests/chapter7-teacher.browser.js).
-const unlock=id=>b.js(`const m=await import('./js/lesson-player.js');for(const s of ['learn','watch','together','try'])m.stateFor(${JSON.stringify(id)},s).completed=true;`);
+const unlock=id=>b.js(`const m=await import('./js/lesson-player.js');for(const s of ['learn','watch','together','try'])m.stateFor(${JSON.stringify(id)},s).completed=true;const L=await(await fetch('data/lessons/'+${JSON.stringify(id)}+'.json')).json();for(const s of L.journey?.sections||[])m.stateFor(${JSON.stringify(id)},s.id).completed=true;`);
 const route=async h=>{const id=(h.match(/lesson=(7-[2-7])/)||[])[1];
  if(id){await b.load(server.origin+BASE+`#math?lesson=${id}&stage=parent`);await unlock(id);await b.hash(h);}else await b.load(server.origin+BASE+h);
  expect(await b.js('return !document.querySelector(".error");'),`${h}: no error screen`);};

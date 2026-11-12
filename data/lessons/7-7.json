@@ -10011,5 +10011,5146 @@
         "text": "Sets use object counts including five, ten and twelve. This lesson does not partition a collection into equal groups. The written explanation is self or parent reviewed."
       }
     ]
+  },
+  "journey": {
+    "sections": [
+      {
+        "id": "set",
+        "label": "The whole set",
+        "title": "The whole is the whole set",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "A new kind of whole",
+            "text": [
+              "Here the WHOLE is the entire collection, not one separate object.",
+              "Every object shown is a member of this one whole set."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": []
+            },
+            "teacher": true
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Count the whole set",
+            "text": [
+              "Count every object once, selected or plain.",
+              "Six objects make this whole collection, so the denominator is 6."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [],
+              "counted": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Plain objects still belong",
+            "text": [
+              "The three plain objects are part of the collection too.",
+              "The denominator counts selected AND plain objects. It is not just the plain count."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                0,
+                2,
+                4
+              ],
+              "counted": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "A row is not a new whole",
+            "text": [
+              "These ten objects are one whole set, even though they fill more than one row.",
+              "The bottom counts all ten objects; the top counts the four selected objects."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 10,
+              "wholes": 1,
+              "selected": [
+                0,
+                2,
+                6,
+                9
+              ],
+              "counted": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          },
+          {
+            "kind": "example",
+            "phase": "ido",
+            "title": "Count the whole before its selected part",
+            "teaching": true,
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                1
+              ]
+            },
+            "steps": [
+              {
+                "say": "The whole is the collection of every object, including plain objects.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": []
+                }
+              },
+              {
+                "say": "Count each object once, selected and plain. That count goes on the bottom.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    1
+                  ],
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                }
+              },
+              {
+                "say": "Now use only the selected objects for the top; start with this marked selected object.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    1
+                  ],
+                  "counted": [
+                    1
+                  ]
+                }
+              },
+              {
+                "say": "1 selected object out of 6 objects in the whole set gives 1/6.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    1
+                  ],
+                  "counted": [
+                    1
+                  ]
+                }
+              }
+            ],
+            "why": {
+              "id": "w1check",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  1
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 1,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "1 selected object out of 6 objects in the whole set gives 1/6."
+              ],
+              "yes": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "text": "1 selected object out of 6 objects in the whole set gives 1/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      1
+                    ],
+                    "counted": [
+                      1
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "response": {
+                      "n": 5,
+                      "d": 6
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g1",
+              "type": "number",
+              "prompt": "The entire collection is one whole set. What denominator includes all its objects?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  1
+                ]
+              },
+              "answer": "4",
+              "hints": [
+                "The outside collection, not a single row or color group, is the whole.",
+                "Include selected and plain objects. Begin at the marked first object."
+              ],
+              "show": [
+                "The outside collection, not a single row or color group, is the whole.",
+                "Include selected and plain objects. Begin at the marked first object.",
+                "All 4 objects belong to the whole, so the bottom is 4."
+              ],
+              "yes": "Both selected and plain objects belong to the collection; together they make the 4 objects counted by the denominator.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The outside collection, not a single row or color group, is the whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Include selected and plain objects. Begin at the marked first object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "All 4 objects belong to the whole, so the bottom is 4.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Both selected and plain objects belong to the collection; together they make the 4 objects counted by the denominator.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      1
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "A whole-set count cannot leave out a color group or the second row. Each object shown is a member.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "Count each object once, not once as selected and again as a member of the whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g5",
+              "type": "choice",
+              "prompt": "The entire collection is one whole set. Which objects count for the denominator?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 10,
+                "wholes": 1,
+                "selected": [
+                  1,
+                  4,
+                  6
+                ]
+              },
+              "options": [
+                {
+                  "text": "Only the plain objects.",
+                  "why": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom."
+                },
+                {
+                  "text": "Every object, both selected and plain.",
+                  "correct": true
+                },
+                {
+                  "text": "Only the selected objects.",
+                  "why": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom."
+                }
+              ],
+              "hints": [
+                "Find the whole set: no object shown is outside this collection.",
+                "Selected objects are still members of the whole set."
+              ],
+              "show": [
+                "Find the whole set: no object shown is outside this collection.",
+                "Selected objects are still members of the whole set.",
+                "Count all 10 objects for the bottom, including both kinds."
+              ],
+              "yes": "The bottom counts all 10 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find the whole set: no object shown is outside this collection.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Selected objects are still members of the whole set.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4,
+                        6
+                      ],
+                      "counted": [
+                        1,
+                        4,
+                        6
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Count all 10 objects for the bottom, including both kinds.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4,
+                        6
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The bottom counts all 10 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 10,
+                    "wholes": 1,
+                    "selected": [
+                      1,
+                      4,
+                      6
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Only the selected objects.",
+                    "text": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4,
+                        6
+                      ],
+                      "counted": [
+                        1,
+                        4,
+                        6
+                      ]
+                    }
+                  },
+                  {
+                    "option": "Only the plain objects.",
+                    "text": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4,
+                        6
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t13",
+              "type": "choice",
+              "prompt": "The entire collection is one whole set. Which objects count for the denominator?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  6,
+                  7
+                ]
+              },
+              "options": [
+                {
+                  "text": "Only the selected objects.",
+                  "why": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom."
+                },
+                {
+                  "text": "Only the plain objects.",
+                  "why": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom."
+                },
+                {
+                  "text": "Every object, both selected and plain.",
+                  "correct": true
+                }
+              ],
+              "hints": [
+                "Find the whole set: no object shown is outside this collection.",
+                "Selected objects are still members of the whole set."
+              ],
+              "show": [
+                "Find the whole set: no object shown is outside this collection.",
+                "Selected objects are still members of the whole set.",
+                "Count all 8 objects for the bottom, including both kinds."
+              ],
+              "yes": "The bottom counts all 8 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find the whole set: no object shown is outside this collection.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Selected objects are still members of the whole set.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        6,
+                        7
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        6,
+                        7
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Count all 8 objects for the bottom, including both kinds.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        6,
+                        7
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The bottom counts all 8 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      6,
+                      7
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6,
+                      7
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Only the selected objects.",
+                    "text": "That is the top-count job. The plain objects still belong to the whole and must be included in the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        6,
+                        7
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        6,
+                        7
+                      ]
+                    }
+                  },
+                  {
+                    "option": "Only the plain objects.",
+                    "text": "The selected objects were not removed from the collection. Include them as well as the plain objects in the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        6,
+                        7
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t19",
+              "type": "number",
+              "prompt": "The entire collection is one whole set. What denominator includes all its objects?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 12,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  3,
+                  8,
+                  11
+                ]
+              },
+              "answer": "12",
+              "hints": [
+                "The outside collection, not a single row or color group, is the whole.",
+                "Include selected and plain objects. Begin at the marked first object."
+              ],
+              "show": [
+                "The outside collection, not a single row or color group, is the whole.",
+                "Include selected and plain objects. Begin at the marked first object.",
+                "All 12 objects belong to the whole, so the bottom is 12."
+              ],
+              "yes": "Both selected and plain objects belong to the collection; together they make the 12 objects counted by the denominator.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The outside collection, not a single row or color group, is the whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 12,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Include selected and plain objects. Begin at the marked first object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 12,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        3,
+                        8,
+                        11
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "All 12 objects belong to the whole, so the bottom is 12.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 12,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        3,
+                        8,
+                        11
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Both selected and plain objects belong to the collection; together they make the 12 objects counted by the denominator.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 12,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      3,
+                      8,
+                      11
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9,
+                      10,
+                      11
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "A whole-set count cannot leave out a color group or the second row. Each object shown is a member.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 12,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        3,
+                        8,
+                        11
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "Count each object once, not once as selected and again as a member of the whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 12,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        3,
+                        8,
+                        11
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 12,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        3,
+                        8,
+                        11
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t20",
+              "type": "choice",
+              "prompt": "A student writes 3/7 because 7 objects are plain. What fixes the denominator?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 10,
+                "wholes": 1,
+                "selected": [
+                  1,
+                  5,
+                  9
+                ]
+              },
+              "options": [
+                {
+                  "text": "Put every object in the numerator instead.",
+                  "why": "The numerator asks for the selected part; every object is the denominator’s job."
+                },
+                {
+                  "text": "Count all 10 objects, including the selected ones.",
+                  "correct": true
+                },
+                {
+                  "text": "Keep 7; the plain objects alone are the whole.",
+                  "why": "That leaves the selected objects outside their own whole. Include each selected object in the bottom count too."
+                }
+              ],
+              "hints": [
+                "Every object shown is part of the whole collection.",
+                "The selected objects still belong to that collection."
+              ],
+              "show": [
+                "Every object shown is part of the whole collection.",
+                "The selected objects still belong to that collection.",
+                "The whole-set count is 10, so the selected fraction is 3/10."
+              ],
+              "yes": "The plain group is only part of the set. The whole includes 3 selected plus 7 plain objects, so its denominator is 10.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Every object shown is part of the whole collection.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "The selected objects still belong to that collection.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        5,
+                        9
+                      ],
+                      "counted": [
+                        1,
+                        5,
+                        9
+                      ]
+                    }
+                  },
+                  {
+                    "text": "The whole-set count is 10, so the selected fraction is 3/10.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        5,
+                        9
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The plain group is only part of the set. The whole includes 3 selected plus 7 plain objects, so its denominator is 10.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 10,
+                    "wholes": 1,
+                    "selected": [
+                      1,
+                      5,
+                      9
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Keep 7; the plain objects alone are the whole.",
+                    "text": "That leaves the selected objects outside their own whole. Include each selected object in the bottom count too.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        5,
+                        9
+                      ],
+                      "counted": [
+                        1,
+                        5,
+                        9
+                      ]
+                    }
+                  },
+                  {
+                    "option": "Put every object in the numerator instead.",
+                    "text": "The numerator asks for the selected part; every object is the denominator’s job.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        5,
+                        9
+                      ],
+                      "counted": [
+                        1,
+                        5,
+                        9
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "one",
+        "label": "One object",
+        "title": "One selected object: a unit fraction",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Select one object",
+            "text": [
+              "One object is selected from the six-object whole.",
+              "The numerator is 1. The fraction is 1/6: one selected object out of six. It is a unit fraction because its numerator is 1."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                4
+              ],
+              "counted": [
+                4
+              ]
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g3",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  1
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 1,
+                "d": 3
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "1 selected object out of 3 objects in the whole set gives 1/3."
+              ],
+              "yes": "The selected objects are 1 of the 3 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/3.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "text": "1 selected object out of 3 objects in the whole set gives 1/3.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 1 of the 3 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/3.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 3,
+                    "wholes": 1,
+                    "selected": [
+                      1
+                    ],
+                    "counted": [
+                      1
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "response": {
+                      "n": 2,
+                      "d": 3
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 3 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t2",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  3
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 1,
+                "d": 4
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "1 selected object out of 4 objects in the whole set gives 1/4."
+              ],
+              "yes": "The selected objects are 1 of the 4 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/4.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        3
+                      ]
+                    }
+                  },
+                  {
+                    "text": "1 selected object out of 4 objects in the whole set gives 1/4.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 1 of the 4 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/4.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      3
+                    ],
+                    "counted": [
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        3
+                      ]
+                    },
+                    "response": {
+                      "n": 3,
+                      "d": 4
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 4 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        3
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        3
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        3
+                      ],
+                      "counted": [
+                        3
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t3",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  1
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 1,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "1 selected object out of 6 objects in the whole set gives 1/6."
+              ],
+              "yes": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "text": "1 selected object out of 6 objects in the whole set gives 1/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 1 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 1/6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      1
+                    ],
+                    "counted": [
+                      1
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "response": {
+                      "n": 5,
+                      "d": 6
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t12",
+              "type": "choice",
+              "prompt": "Is the selected fraction a unit fraction?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  2
+                ]
+              },
+              "options": [
+                {
+                  "text": "Yes; exactly one object is selected, so the top number is 1.",
+                  "correct": true
+                },
+                {
+                  "text": "No; a fraction of a set is never a unit fraction.",
+                  "why": "A set can have a unit fraction too: one object out of the whole set."
+                },
+                {
+                  "text": "No; the whole set has more than one object.",
+                  "why": "The bottom counts the whole set. A unit fraction is about the top: exactly one selected object."
+                }
+              ],
+              "hints": [
+                "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+                "Count the selected objects. That count goes on top."
+              ],
+              "show": [
+                "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+                "Count the selected objects. That count goes on top.",
+                "One object is selected out of 4, so the fraction is 1/4. Its top number is 1, so it is a unit fraction."
+              ],
+              "yes": "One selected object out of 4 is 1/4. The top number is 1, so it is a unit fraction.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "counted": []
+                    }
+                  },
+                  {
+                    "text": "Count the selected objects. That count goes on top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "counted": [
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "text": "One object is selected out of 4, so the fraction is 1/4. Its top number is 1, so it is a unit fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "counted": [
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "One selected object out of 4 is 1/4. The top number is 1, so it is a unit fraction.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      2
+                    ],
+                    "counted": [
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "No; a fraction of a set is never a unit fraction.",
+                    "text": "A set can have a unit fraction too: one object out of the whole set.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "counted": [
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "option": "No; the whole set has more than one object.",
+                    "text": "The bottom counts the whole set. A unit fraction is about the top: exactly one selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "counted": [
+                        2
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "several",
+        "label": "Several",
+        "title": "Several selected objects",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Select several objects",
+            "text": [
+              "Now three objects are selected.",
+              "The bottom stays 6 because the whole set still has six objects. The top becomes 3: the selected fraction is 3/6. It is not a unit fraction because its numerator is 3, not 1."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                0,
+                2,
+                4
+              ],
+              "counted": [
+                0,
+                2,
+                4
+              ]
+            }
+          },
+          {
+            "kind": "example",
+            "phase": "ido",
+            "title": "Several separated objects can be selected",
+            "teaching": true,
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 10,
+              "wholes": 1,
+              "selected": [
+                0,
+                2,
+                5,
+                8
+              ]
+            },
+            "steps": [
+              {
+                "say": "The whole is the collection of every object, including plain objects.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 10,
+                  "wholes": 1,
+                  "selected": []
+                }
+              },
+              {
+                "say": "Count each object once, selected and plain. That count goes on the bottom.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 10,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    2,
+                    5,
+                    8
+                  ],
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                  ]
+                }
+              },
+              {
+                "say": "Now use only the selected objects for the top; start with this marked selected object.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 10,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    2,
+                    5,
+                    8
+                  ],
+                  "counted": [
+                    0
+                  ]
+                }
+              },
+              {
+                "say": "4 selected objects out of 10 objects in the whole set gives 4/10.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 10,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    2,
+                    5,
+                    8
+                  ],
+                  "counted": [
+                    0,
+                    2,
+                    5,
+                    8
+                  ]
+                }
+              }
+            ],
+            "why": {
+              "id": "w3check",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 10,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  2,
+                  5,
+                  8
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 4,
+                "d": 10
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "4 selected objects out of 10 objects in the whole set gives 4/10."
+              ],
+              "yes": "The selected objects are 4 of the 10 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 4/10.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "4 selected objects out of 10 objects in the whole set gives 4/10.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 4 of the 10 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 4/10.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 10,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      2,
+                      5,
+                      8
+                    ],
+                    "counted": [
+                      0,
+                      2,
+                      5,
+                      8
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 6,
+                      "d": 10
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 10 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5,
+                        8
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g2",
+              "type": "number",
+              "prompt": "What numerator counts only the selected objects in this whole set?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  2
+                ]
+              },
+              "answer": "2",
+              "hints": [
+                "The outside collection, not a single row or color group, is the whole.",
+                "Only selected objects belong in the top count. Begin at this marked selected object."
+              ],
+              "show": [
+                "The outside collection, not a single row or color group, is the whole.",
+                "Only selected objects belong in the top count. Begin at this marked selected object.",
+                "There are 2 selected objects, so the top is 2."
+              ],
+              "yes": "The 2 selected objects are the chosen part; plain objects stay in the bottom count but not the top.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The outside collection, not a single row or color group, is the whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Only selected objects belong in the top count. Begin at this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "There are 2 selected objects, so the top is 2.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The 2 selected objects are the chosen part; plain objects stay in the bottom count but not the top.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      2
+                    ],
+                    "counted": [
+                      0,
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "Include every selected object, even when selected objects are separated by plain ones.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "That count includes plain objects or counts selected objects twice. Touch only each selected object once.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g4",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  4
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 2,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "2 selected objects out of 6 objects in the whole set gives 2/6."
+              ],
+              "yes": "The selected objects are 2 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 2/6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "2 selected objects out of 6 objects in the whole set gives 2/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0,
+                        4
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 2 of the 6 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 2/6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      4
+                    ],
+                    "counted": [
+                      0,
+                      4
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 4,
+                      "d": 6
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t9",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  1,
+                  2
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 2,
+                "d": 3
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "2 selected objects out of 3 objects in the whole set gives 2/3."
+              ],
+              "yes": "The selected objects are 2 of the 3 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 2/3.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "text": "2 selected objects out of 3 objects in the whole set gives 2/3.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 2 of the 3 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 2/3.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 3,
+                    "wholes": 1,
+                    "selected": [
+                      1,
+                      2
+                    ],
+                    "counted": [
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "response": {
+                      "n": 1,
+                      "d": 3
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 3 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        1
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t10",
+              "type": "fraction",
+              "prompt": "All the objects shown form one whole set. What fraction is selected? Use the whole set’s object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 5,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 4,
+                "d": 5
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "4 selected objects out of 5 objects in the whole set gives 4/5."
+              ],
+              "yes": "The selected objects are 4 of the 5 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 4/5.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "4 selected objects out of 5 objects in the whole set gives 4/5.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The selected objects are 4 of the 5 objects in the whole set. Plain objects belong in the bottom count too, so the fraction is 4/5.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 5,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      2,
+                      3,
+                      4
+                    ],
+                    "counted": [
+                      0,
+                      2,
+                      3,
+                      4
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 1,
+                      "d": 5
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 5 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 5,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t14",
+              "type": "choice",
+              "prompt": "Is the selected fraction a unit fraction?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  1,
+                  4
+                ]
+              },
+              "options": [
+                {
+                  "text": "Yes; one whole set is shown.",
+                  "why": "One whole set names the entire collection, not the number selected. A unit fraction needs exactly one selected object."
+                },
+                {
+                  "text": "No; more than one object is selected.",
+                  "correct": true
+                },
+                {
+                  "text": "Yes; every fraction of a set is a unit fraction.",
+                  "why": "Count the selected objects. A unit fraction has 1 on top."
+                }
+              ],
+              "hints": [
+                "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+                "Count the selected objects. How many are there?"
+              ],
+              "show": [
+                "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+                "Count the selected objects. How many are there?",
+                "There are 2 selected objects, so the numerator is 2, not 1. It is not a unit fraction."
+              ],
+              "yes": "A unit fraction selects one counting part. This picture selects 2 objects out of 6, so the top is 2; it is not a unit fraction.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Count the selected objects. How many are there?",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "counted": [
+                        1,
+                        4
+                      ]
+                    }
+                  },
+                  {
+                    "text": "There are 2 selected objects, so the numerator is 2, not 1. It is not a unit fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "counted": [
+                        1,
+                        4
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "A unit fraction selects one counting part. This picture selects 2 objects out of 6, so the top is 2; it is not a unit fraction.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      1,
+                      4
+                    ],
+                    "counted": [
+                      1,
+                      4
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Yes; every fraction of a set is a unit fraction.",
+                    "text": "Count the selected objects. A unit fraction has 1 on top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "counted": [
+                        1,
+                        4
+                      ]
+                    }
+                  },
+                  {
+                    "option": "Yes; one whole set is shown.",
+                    "text": "One whole set names the entire collection, not the number selected. A unit fraction needs exactly one selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "counted": [
+                        1,
+                        4
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "move",
+        "label": "Moving",
+        "title": "Moving objects and naming other groups",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Positions can change",
+            "text": [
+              "The selected objects may move without changing how many are selected.",
+              "If the number selected and the number in the whole set stay the same, the fraction stays the same."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                1,
+                3,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Name what is selected",
+            "text": [
+              "A question may ask for unfinished tasks or plain objects instead of colored ones.",
+              "Use the prompt to decide the chosen group. For this picture the four plain objects can be the chosen group: 4/6."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                0,
+                4
+              ],
+              "counted": [
+                1,
+                2,
+                3,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "example",
+            "phase": "ido",
+            "title": "Move objects without changing the counts",
+            "teaching": true,
+            "model": {
+              "type": "fraction",
+              "kind": "set",
+              "parts": 8,
+              "wholes": 1,
+              "selected": [
+                0,
+                2,
+                5
+              ],
+              "caption": "Before moving"
+            },
+            "models": [
+              {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  2,
+                  5
+                ],
+                "caption": "Before moving"
+              },
+              {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  2,
+                  4,
+                  7
+                ],
+                "caption": "After moving"
+              }
+            ],
+            "steps": [
+              {
+                "say": "The whole includes every object in both arrangements.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [],
+                  "caption": "After moving"
+                },
+                "models": [
+                  {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [],
+                    "caption": "Before moving"
+                  },
+                  {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [],
+                    "caption": "After moving"
+                  }
+                ]
+              },
+              {
+                "say": "Count the selected objects in each picture. Then count all the objects.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    2,
+                    4,
+                    7
+                  ],
+                  "caption": "After moving"
+                },
+                "models": [
+                  {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      2,
+                      5
+                    ],
+                    "caption": "Before moving"
+                  },
+                  {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      2,
+                      4,
+                      7
+                    ],
+                    "caption": "After moving"
+                  }
+                ]
+              },
+              {
+                "say": "Both pictures show 3 selected out of 8; the fraction stays 3/8.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    2,
+                    4,
+                    7
+                  ],
+                  "caption": "After moving",
+                  "counted": [
+                    2,
+                    4,
+                    7
+                  ]
+                },
+                "models": [
+                  {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      2,
+                      5
+                    ],
+                    "caption": "Before moving",
+                    "counted": [
+                      0,
+                      2,
+                      5
+                    ]
+                  },
+                  {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      2,
+                      4,
+                      7
+                    ],
+                    "caption": "After moving",
+                    "counted": [
+                      2,
+                      4,
+                      7
+                    ]
+                  }
+                ]
+              }
+            ],
+            "why": {
+              "id": "w2check",
+              "type": "choice",
+              "prompt": "The objects move to the new places shown. Does the selected fraction change?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  2,
+                  5
+                ],
+                "caption": "Before moving"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    2,
+                    5
+                  ],
+                  "caption": "Before moving"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    2,
+                    4,
+                    7
+                  ],
+                  "caption": "After moving"
+                }
+              ],
+              "options": [
+                {
+                  "text": "Yes; only the first row counts as the whole.",
+                  "why": "The question defines ALL the objects as one whole, even when the display wraps to a second row."
+                },
+                {
+                  "text": "No; both the selected count and the whole-set count stay the same.",
+                  "correct": true
+                },
+                {
+                  "text": "Yes; a selected object must stay in its old position.",
+                  "why": "A fraction of a set counts objects, not their places. Match the selected count before and after the move."
+                }
+              ],
+              "hints": [
+                "The whole includes every object in both arrangements.",
+                "Count the selected objects in each picture. Then count all the objects."
+              ],
+              "show": [
+                "The whole includes every object in both arrangements.",
+                "Count the selected objects in each picture. Then count all the objects.",
+                "Both pictures show 3 selected out of 8; the fraction stays 3/8."
+              ],
+              "yes": "Moving objects does not add or take away any objects: there are still 8 objects in the whole and 3 selected objects. So both fractions are 3/8.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole includes every object in both arrangements.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Count the selected objects in each picture. Then count all the objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        2,
+                        4,
+                        7
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          2,
+                          5
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          2,
+                          4,
+                          7
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Both pictures show 3 selected out of 8; the fraction stays 3/8.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        2,
+                        4,
+                        7
+                      ],
+                      "caption": "After moving",
+                      "counted": [
+                        2,
+                        4,
+                        7
+                      ]
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          2,
+                          5
+                        ],
+                        "caption": "Before moving",
+                        "counted": [
+                          0,
+                          2,
+                          5
+                        ]
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          2,
+                          4,
+                          7
+                        ],
+                        "caption": "After moving",
+                        "counted": [
+                          2,
+                          4,
+                          7
+                        ]
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Moving objects does not add or take away any objects: there are still 8 objects in the whole and 3 selected objects. So both fractions are 3/8.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      2,
+                      4,
+                      7
+                    ],
+                    "caption": "After moving",
+                    "counted": [
+                      2,
+                      4,
+                      7
+                    ]
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        2,
+                        5
+                      ],
+                      "caption": "Before moving",
+                      "counted": [
+                        0,
+                        2,
+                        5
+                      ]
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        2,
+                        4,
+                        7
+                      ],
+                      "caption": "After moving",
+                      "counted": [
+                        2,
+                        4,
+                        7
+                      ]
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "Yes; a selected object must stay in its old position.",
+                    "text": "A fraction of a set counts objects, not their places. Match the selected count before and after the move.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        2,
+                        4,
+                        7
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          2,
+                          5
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          2,
+                          4,
+                          7
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Yes; only the first row counts as the whole.",
+                    "text": "The question defines ALL the objects as one whole, even when the display wraps to a second row.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        2,
+                        4,
+                        7
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          2,
+                          5
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          2,
+                          4,
+                          7
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g6",
+              "type": "choice",
+              "prompt": "The objects move to the new places shown. Does the selected fraction change?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  3
+                ],
+                "caption": "Before moving"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    3
+                  ],
+                  "caption": "Before moving"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    1,
+                    4
+                  ],
+                  "caption": "After moving"
+                }
+              ],
+              "options": [
+                {
+                  "text": "No; both the selected count and the whole-set count stay the same.",
+                  "correct": true
+                },
+                {
+                  "text": "Yes; a selected object must stay in its old position.",
+                  "why": "A fraction of a set counts objects, not their places. Match the selected count before and after the move."
+                },
+                {
+                  "text": "Yes; only the first row counts as the whole.",
+                  "why": "The question defines ALL the objects as one whole, even when the display wraps to a second row."
+                }
+              ],
+              "hints": [
+                "The whole includes every object in both arrangements.",
+                "Count the selected objects in each picture. Then count all the objects."
+              ],
+              "show": [
+                "The whole includes every object in both arrangements.",
+                "Count the selected objects in each picture. Then count all the objects.",
+                "Both pictures show 2 selected out of 6; the fraction stays 2/6."
+              ],
+              "yes": "Moving objects does not add or take away any objects: there are still 6 objects in the whole and 2 selected objects. So both fractions are 2/6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole includes every object in both arrangements.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Count the selected objects in each picture. Then count all the objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          3
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          1,
+                          4
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Both pictures show 2 selected out of 6; the fraction stays 2/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "caption": "After moving",
+                      "counted": [
+                        1,
+                        4
+                      ]
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          3
+                        ],
+                        "caption": "Before moving",
+                        "counted": [
+                          0,
+                          3
+                        ]
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          1,
+                          4
+                        ],
+                        "caption": "After moving",
+                        "counted": [
+                          1,
+                          4
+                        ]
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Moving objects does not add or take away any objects: there are still 6 objects in the whole and 2 selected objects. So both fractions are 2/6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      1,
+                      4
+                    ],
+                    "caption": "After moving",
+                    "counted": [
+                      1,
+                      4
+                    ]
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        3
+                      ],
+                      "caption": "Before moving",
+                      "counted": [
+                        0,
+                        3
+                      ]
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "caption": "After moving",
+                      "counted": [
+                        1,
+                        4
+                      ]
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "Yes; a selected object must stay in its old position.",
+                    "text": "A fraction of a set counts objects, not their places. Match the selected count before and after the move.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          3
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          1,
+                          4
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Yes; only the first row counts as the whole.",
+                    "text": "The question defines ALL the objects as one whole, even when the display wraps to a second row.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        1,
+                        4
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          3
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          1,
+                          4
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t16",
+              "type": "choice",
+              "prompt": "The objects move to the new places shown. Does the selected fraction change?",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  1
+                ],
+                "caption": "Before moving"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    1
+                  ],
+                  "caption": "Before moving"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "set",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    2
+                  ],
+                  "caption": "After moving"
+                }
+              ],
+              "options": [
+                {
+                  "text": "Yes; a selected object must stay in its old position.",
+                  "why": "A fraction of a set counts objects, not their places. Match the selected count before and after the move."
+                },
+                {
+                  "text": "Yes; only the first row counts as the whole.",
+                  "why": "The question defines ALL the objects as one whole, even when the display wraps to a second row."
+                },
+                {
+                  "text": "No; both the selected count and the whole-set count stay the same.",
+                  "correct": true
+                }
+              ],
+              "hints": [
+                "The whole includes every object in both arrangements.",
+                "Count the selected objects in each picture. Then count all the objects."
+              ],
+              "show": [
+                "The whole includes every object in both arrangements.",
+                "Count the selected objects in each picture. Then count all the objects.",
+                "Both pictures show 1 selected out of 3; the fraction stays 1/3."
+              ],
+              "yes": "Moving objects does not add or take away any objects: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole includes every object in both arrangements.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Count the selected objects in each picture. Then count all the objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          1
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          2
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Both pictures show 1 selected out of 3; the fraction stays 1/3.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "caption": "After moving",
+                      "counted": [
+                        2
+                      ]
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          1
+                        ],
+                        "caption": "Before moving",
+                        "counted": [
+                          1
+                        ]
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          2
+                        ],
+                        "caption": "After moving",
+                        "counted": [
+                          2
+                        ]
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Moving objects does not add or take away any objects: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 3,
+                    "wholes": 1,
+                    "selected": [
+                      2
+                    ],
+                    "caption": "After moving",
+                    "counted": [
+                      2
+                    ]
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        1
+                      ],
+                      "caption": "Before moving",
+                      "counted": [
+                        1
+                      ]
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "caption": "After moving",
+                      "counted": [
+                        2
+                      ]
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "Yes; a selected object must stay in its old position.",
+                    "text": "A fraction of a set counts objects, not their places. Match the selected count before and after the move.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          1
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          2
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Yes; only the first row counts as the whole.",
+                    "text": "The question defines ALL the objects as one whole, even when the display wraps to a second row.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        2
+                      ],
+                      "caption": "After moving"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          1
+                        ],
+                        "caption": "Before moving"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "set",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          2
+                        ],
+                        "caption": "After moving"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t11",
+              "type": "fraction",
+              "prompt": "All 10 tasks form one whole set. The dotted selected tasks are unfinished. What fraction of all tasks is unfinished? Use the object count as the denominator.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 10,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              },
+              "asks": "fraction",
+              "answer": {
+                "n": 8,
+                "d": 10
+              },
+              "answerPolicy": "partition",
+              "hints": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object."
+              ],
+              "show": [
+                "The whole is the collection of every object, including plain objects.",
+                "Count each object once, selected and plain. That count goes on the bottom.",
+                "Now use only the selected objects for the top; start with this marked selected object.",
+                "8 selected objects out of 10 objects in the whole set gives 8/10."
+              ],
+              "yes": "The 8 dotted tasks are the unfinished group requested. They are 8 out of 10 tasks in the whole set, so 8/10 are unfinished.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The whole is the collection of every object, including plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count each object once, selected and plain. That count goes on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Now use only the selected objects for the top; start with this marked selected object.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "8 selected objects out of 10 objects in the whole set gives 8/10.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The 8 dotted tasks are the unfinished group requested. They are 8 out of 10 tasks in the whole set, so 8/10 are unfinished.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "set",
+                    "parts": 10,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      4,
+                      5,
+                      6,
+                      7,
+                      8,
+                      9
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top counts plain objects, but this question names the selected objects. The selected and plain groups both remain in the whole-set count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 2,
+                      "d": 10
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. Keep 10 on the bottom: that is how many parts are in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    },
+                    "when": "equivalentPartition"
+                  },
+                  {
+                    "text": "The bottom names the WHOLE collection. The top names its selected objects. Switching them would say the whole set is only the selected part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom counts the whole set. For the top, count only selected objects; the first selected object is marked here.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top counts the selected objects. The bottom must also include those selected objects, not only the plain objects.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Keep the two jobs separate: every object belongs to the bottom count; only selected objects belong to the top count.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "set",
+                      "parts": 10,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "say",
+            "title": "Explain a set fraction",
+            "item": {
+              "id": "explain",
+              "type": "sentence",
+              "prompt": "All eight objects form the whole set. Why does the bottom include plain objects too? Explain, then compare with the example.",
+              "model": {
+                "type": "fraction",
+                "kind": "set",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  3,
+                  7
+                ]
+              },
+              "keywords": [
+                "whole"
+              ],
+              "minKeywords": 0,
+              "minWords": 5,
+              "example": "The whole is all eight objects, not only the selected group. Three selected objects are part of that eight-object whole, so the fraction is 3/8. Plain objects belong in the denominator even though they are not counted on top.",
+              "hints": [
+                "Point to the picture and describe what each count means."
+              ],
+              "show": [
+                "Check your answer with the example or a grown-up. The computer does not grade it."
+              ]
+            }
+          }
+        ]
+      }
+    ]
   }
 }

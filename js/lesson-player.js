@@ -5,6 +5,8 @@ import { isJourneyStage } from './lib/partition-journey.js';
 import { check, helpSteps, solution } from './lib/lessons.js';
 import { showNewStep } from './lib/help-scroll.js';
 import { cardsOf, missItems, stageInner, stageOf, unanswered, lessonHelpSteps, countPartsFor, countComplete, teachingFeedbackFor } from './views/lesson.js';
+import { skillJourney, sectionOf, sectionsOf, cardItem, cardDone, sectionDone, phaseOfItem, frontierOf } from './lib/skill-journey.js';
+import { loadLessonProgress, saveLessonProgress, clearLessonProgress } from './lib/lesson-store.js';
 
 const histories = new Map();
 const isChapter7 = (id) => String(id).startsWith('7-');
@@ -42,6 +44,8 @@ export function visitedStages(lessonId) {
 
 export function completedLessonStage(lesson, stage, state) {
   if (stage === 'parent') return false;
+  const section = sectionOf(lesson, stage);
+  if (section) return sectionDone(section, state);
   if (stage === 'test') return Boolean(state.submitted);
   if (stage === 'try') return state.i >= lesson.try.items.length;
   return cardsOf(lesson, stage).every((card, i) => {
@@ -53,21 +57,73 @@ export function completedLessonStage(lesson, stage, state) {
   });
 }
 export function stateFor(lessonId, stage) {
-  const key = `${lessonId}:${stageOf(stage)}`;
+  // Skill-journey sections have their own stage ids (e.g. "denominator").
+  const key = `${lessonId}:${typeof stage === 'string' && /^[a-z][a-z0-9-]{0,30}$/.test(stage) ? stage : stageOf(stage)}`;
   if (!progress.has(key)) progress.set(key, { i: 0, items: {}, steps: {}, streak: 0, submitted: false, warned: false });
   const state = progress.get(key);
   if (isChapter7(lessonId)) {
     if (!histories.has(lessonId)) histories.set(lessonId, { restarts: 0, missRounds: 0, items: {} });
-    state.history = histories.get(lessonId); state.stage = stageOf(stage);
+    state.history = histories.get(lessonId); state.stage = key.slice(lessonId.length + 1);
   }
   return state;
+}
+
+// ------------------------------------------------------------- saved progress for the skill journeys (D29, extended)
+const restored = new Set();
+/** The stages of a skill-journey lesson that keep progress, with their question ids and card counts. */
+function savedStages(lesson) {
+  const out = {};
+  for (const s of sectionsOf(lesson)) out[s.id] = { ids: new Set(s.cards.map(cardItem).filter(Boolean).map((it) => it.id)), cards: s.cards.length };
+  out.test = { ids: new Set(lesson.test.items.map((it) => it.id)), cards: lesson.test.items.length };
+  return out;
+}
+/** Brings back saved progress once per page load. "Finished" is worked out again from the answers, never trusted. */
+export function restoreLesson(lesson) {
+  if (!skillJourney(lesson) || restored.has(lesson.id)) return;
+  restored.add(lesson.id);
+  const saved = loadLessonProgress(lesson, savedStages(lesson));
+  if (!saved) return;
+  histories.set(lesson.id, { ...saved.history });
+  for (const [stage, st] of Object.entries(saved.stages)) {
+    const state = { ...st }; const sec = sectionOf(lesson, stage);
+    if (sec) { state.i = Math.min(state.i, frontierOf(sec, state)); state.completed = sectionDone(sec, state); }
+    else state.completed = Boolean(state.submitted);
+    progress.set(`${lesson.id}:${stage}`, state);
+  }
+  // A section can only count as finished when every earlier one is.
+  let ok = true;
+  for (const s of sectionsOf(lesson)) { const st = progress.get(`${lesson.id}:${s.id}`); if (!ok && st) st.completed = false; ok = ok && Boolean(st?.completed); }
+  if (!ok && progress.get(`${lesson.id}:test`)) progress.get(`${lesson.id}:test`).completed = false;
+}
+export function saveLesson(lesson) {
+  if (!skillJourney(lesson)) return false;
+  const stages = {};
+  for (const id of Object.keys(savedStages(lesson))) { const st = progress.get(`${lesson.id}:${id}`); if (st) stages[id] = st; }
+  return saveLessonProgress(lesson, stages, histories.get(lesson.id));
+}
+export function eraseLesson(lesson) {
+  clearLessonProgress(lesson);
+  for (const k of [...progress.keys()]) if (k.startsWith(`${lesson.id}:`)) progress.delete(k);
+  histories.delete(lesson.id);
+}
+/** Grown-up report: Reset this lesson's progress, with an on-page confirmation step. */
+function mountLessonReset(app, lesson, signal) {
+  app.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !app.querySelector('[data-l-reset-confirm]')?.hidden) app.querySelector('[data-l-reset="no"]')?.click(); }, { signal });
+  app.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-l-reset]'); if (!b) return;
+    const ask = app.querySelector('[data-l-reset-ask]'), confirm = app.querySelector('[data-l-reset-confirm]');
+    if (b.dataset.lReset === 'ask') { ask.hidden = true; confirm.hidden = false; confirm.querySelector('[data-l-reset="no"]').focus(); return; }
+    if (b.dataset.lReset === 'no') { confirm.hidden = true; ask.hidden = false; ask.querySelector('button').focus(); return; }
+    if (b.dataset.lReset === 'yes') { eraseLesson(lesson); location.hash = location.hash.replace(/([?&]stage=)[^&]*/, `$1${sectionsOf(lesson)[0].id}`); }
+  }, { signal });
 }
 
 /** Every question in a stage (including Learn It checks and Watch Me "why" questions), by id. */
 function itemsById(lesson, stage) {
   const out = new Map();
+  const section = sectionOf(lesson, stage);
   for (const c of cardsOf(lesson, stage)) {
-    const item = stage === 'learn' ? c.item : stage === 'watch' ? c.why : c;
+    const item = section ? cardItem(c) : stage === 'learn' ? c.item : stage === 'watch' ? c.why : c;
     if (item?.id) out.set(item.id, item);
   }
   return out;
@@ -127,7 +183,9 @@ export function mountLesson(app, ctx, signal) {
   if (isJourneyStage(ctx.lesson.id, ctx.stage)) { mountReadButtons(app, signal); mountJourney(app, ctx, signal); return; }
   if (ctx.lesson.id === '7-1' && ctx.stage === 'parent') mountJourneyReset(app, ctx, signal);
   const { lesson } = ctx;
-  const stage = stageOf(ctx.stage);
+  const section = sectionOf(lesson, ctx.stage);
+  const stage = section ? ctx.stage : stageOf(ctx.stage);
+  if (skillJourney(lesson) && stage === 'parent') mountLessonReset(app, lesson, signal);
   // A stage that is not open yet (teach first, Lessons 7-2 to 7-7) has nothing to control.
   if (app.querySelector('#lesson-stage[data-locked]')) { mountReadButtons(app, signal); return; }
   const state = stateFor(lesson.id, stage);
@@ -152,10 +210,12 @@ export function mountLesson(app, ctx, signal) {
   };
   if (isChapter7(lesson.id)) { state.seen ||= {}; state.seen[state.i] = true; }
   const rerender = (focus) => {
+    if (section) state.i = Math.min(state.i, frontierOf(section, { ...state, seen: { ...state.seen, [state.i]: true } }));
     if (isChapter7(lesson.id)) { state.seen ||= {}; state.seen[state.i] = true; state.completed = completedLessonStage(lesson, stage, state);
       if (stage !== 'parent') { state.history.currentRounds ||= {}; state.history.currentRounds[stage] = { right: Object.values(state.items).filter(v => v.first === 'correct' && !v.scaffoldAssisted).length, retry: Object.values(state.items).filter(v => v.first && v.first !== 'correct').length }; }
     }
     stopReading();
+    saveLesson(lesson);
     area().innerHTML = stageInner({ ...ctx, lessonState: state }).s;
     hideReadIfUnavailable();
     app.dataset.rendered = String(Number(app.dataset.rendered || 0) + 1);
@@ -166,7 +226,7 @@ export function mountLesson(app, ctx, signal) {
   // In Practice My Misses the answers are kept apart, so the results of the first round stay as they were.
   const itemState = (id) => ((state.misses ? state.misses.items : state.items)[id] ||= { resp: {}, tries: 0, hints: 0 });
   const written = (item) => isChapter7(lesson.id) && item?.type === 'sentence';
-  const historyItem = (id) => (state.history ? (state.history.items[`${stage}:${id}`] ||= { label: `${stage === 'try' ? 'Try It Yourself' : stage === 'together' ? 'Practice Together' : stage === 'watch' ? 'Watch Me' : stage === 'test' ? 'Test Your Knowledge' : 'Learn It'}, question ${[...items.keys()].indexOf(id) + 1}`, attempts: 0, help: 0, reveals: 0 }) : null);
+  const historyItem = (id) => (state.history ? (state.history.items[`${stage}:${id}`] ||= { label: section ? `${section.title}, question ${[...items.keys()].indexOf(id) + 1}` : `${stage === 'try' ? 'Try It Yourself' : stage === 'together' ? 'Practice Together' : stage === 'watch' ? 'Watch Me' : stage === 'test' ? 'Test Your Knowledge' : 'Learn It'}, question ${[...items.keys()].indexOf(id) + 1}`, attempts: 0, help: 0, reveals: 0 }) : null);
   const saveForm = (form) => {
     if (!form?.dataset.item) return;
     const st = itemState(form.dataset.item), item = items.get(form.dataset.item), resp = readForm(form);
@@ -307,7 +367,8 @@ export function mountLesson(app, ctx, signal) {
       // Help opens one step at a time; the last step fills in the answer (the question then counts as missed).
       const item = items.get(form.dataset.item);
       const st = itemState(item.id);
-      if ((!st.tries && lesson.id !== '7-1' && !(stage === 'together' && /^7-[2-7]$/.test(lesson.id))) || st.status === 'correct' || st.shown || (stage === 'test' && !state.misses)) return;
+      const guided = (stage === 'together' && /^7-[2-7]$/.test(lesson.id)) || (section && ['wedo', 'say'].includes(phaseOfItem(section, item.id)));
+      if ((!st.tries && lesson.id !== '7-1' && !guided) || st.status === 'correct' || st.shown || (stage === 'test' && !state.misses)) return;
       saveForm(form);
       // Help opened before the first check makes a right answer assisted, not independent.
       if (lesson.id === '7-1' || !st.tries) st.scaffoldAssisted = true;
@@ -375,6 +436,8 @@ export function mountLesson(app, ctx, signal) {
     if (act === 'next' || act === 'back' || act === 'goto') {
       saveForm(form);
       const to = act === 'goto' ? Number(btn.dataset.to) : state.i + (act === 'next' ? 1 : -1);
+      // Skill sections: forward only from a finished card (no skipping the teaching); going back is always fine.
+      if (section && to > state.i && !cardDone(cards[state.i], state.i, state)) return;
       state.i = Math.max(0, Math.min(stage === 'try' ? cards.length : cards.length - 1, to));
       state.warned = false;
       // The first finished round of Try It Yourself is the one the readiness report uses (later rounds are practice).

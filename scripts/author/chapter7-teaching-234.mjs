@@ -143,7 +143,7 @@ function reflection(k){const examples={2:'Eight equal pieces fill the whole stri
 const screen=(title,text,model)=>({title,text:[].concat(text),model:clone(model)});
 const worked=(title,steps)=>{const last=steps[steps.length-1];if(last.model.kind!=='line'&&last.model.selected?.length)last.model={...last.model,counted:[...last.model.selected]};return ({title,teaching:true,model:clone(steps[0].model),steps:steps.map(s=>({say:s.text,...(s.model?{model:s.model}:{}),...(s.models?{models:s.models}:{})}))});};
 // Release review: is it a fraction at all? Equal parts first (a strip with one wider piece is not fourths).
-function equalParts(id,d,uneven){
+export function equalParts(id,d,uneven){
  const names={2:'halves',3:'thirds',4:'fourths',6:'sixths',8:'eighths'},m=uneven?{...area('bar',d,0),weights:range(d).map(i=>i===1?2:1)}:area('bar',d,0);
  const right=uneven?1:0,text=uneven?`No. One piece is wider than the others, so these are not ${names[d]}.`:`Yes. All ${d} pieces have the same width, so each piece is one of ${d} equal parts: ${names[d]}.`;
  return choice(id,`Are these ${d} pieces equal parts of the strip?`,m,['Yes; all the pieces are the same size.','No; the pieces are not all the same size.'],right,[node('Look at the whole strip.',m),node('Compare the pieces. Is every piece the same width?',{...m,counted:range(d)}),{...node(text,uneven?{...m,counted:[1]}:{...m,selected:range(d)}),revealsAnswer:true}],node(text,uneven?{...m,counted:[1]}:{...m,selected:range(d)}),{[1-right]:node(uneven?'Look again: one piece is wider. Fraction pieces must all be the same size.':'Look again: every piece has the same width. These are equal parts.',m)});

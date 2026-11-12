@@ -9,6 +9,8 @@ import { modelFigure } from '../lib/models.js';
 import { PLACE } from '../lib/rounding.js';
 import { STAGES, STAGE_IDS, answerText, boxes, helpSteps, score, stageLabel, chapterOf } from '../lib/lessons.js';
 import { ICONS, facts, scoreLine, subBar } from './common.js';
+import { skillJourney, sectionOf, sectionNeeds } from '../lib/skill-journey.js';
+import { skillLessonView, sectionInner, finalInner } from './skill-journey.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
 const ICON_NOT = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>`;
@@ -27,6 +29,8 @@ export const PHASE = { learn: 'I Do', watch: 'I Do', together: 'We Do', try: 'Yo
 const NEEDS = { try: ['learn', 'watch', 'together'], test: ['learn', 'watch', 'together', 'try'] };
 /** The earlier stages still to finish before a stage opens ([] when it is open). */
 export function stageNeeds(lesson, stage, visited) {
+  // Skill journeys: the Final Check opens after every skill section; the original stages are optional extra practice.
+  if (skillJourney(lesson)) return stage === 'test' ? sectionNeeds(lesson, 'test', visited) : [];
   if (!teachFirst(lesson)) return [];
   return (NEEDS[stage] || []).filter((s) => !visited?.has(s));
 }
@@ -42,6 +46,8 @@ export const readButton = (parts, what = 'this') => html`<button type="button" c
 
 /** The cards (screens) a stage steps through. */
 export function cardsOf(lesson, stage) {
+  const section = sectionOf(lesson, stage);
+  if (section) return section.cards;
   if (stage === 'learn') return lesson.learn.screens;
   if (stage === 'watch') return lesson.watch.examples;
   if (stage === 'parent') return [lesson.parent];
@@ -52,6 +58,7 @@ export function lessonView(ctx) {
   const { lesson } = ctx;
   const stage = stageOf(ctx.stage);
   if (lesson.id === JOURNEY_LESSON) return journeyLessonView(ctx);
+  if (skillJourney(lesson)) return skillLessonView(ctx, { stateOf: ctx.skillStateOf || (() => null), history: ctx.skillHistory || null });
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   const needs = stageNeeds(lesson, stage, ctx.lessonVisited);
   if (needs.length) return html`${lessonBar(ctx, lesson, stage)}<div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}" data-locked="true">${lockedStage(ctx, lesson, stage, needs)}</div>`;
@@ -96,6 +103,8 @@ function extraPractice(ctx, lesson) {
 
 /** Just the stage area (re-rendered in place after each answer, so the page does not jump). */
 export function stageInner(ctx) {
+  if (skillJourney(ctx.lesson) && sectionOf(ctx.lesson, ctx.stage)) return sectionInner(ctx);
+  if (skillJourney(ctx.lesson) && ctx.stage === 'test') return finalInner(ctx);
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   return html`${stageBody(ctx, ctx.lesson, stageOf(ctx.stage), state)}${lessonHistoryPanel(ctx.lesson, state)}`;
 }
@@ -123,11 +132,11 @@ function lessonBar(ctx, lesson, stage) {
     ${stageStepper(ctx, lesson, stage)}`;
 }
 
-function stageStepper(ctx, lesson, stage, label = 'Lesson steps') {
+export function stageStepper(ctx, lesson, stage, label = 'Lesson steps', list = STAGES) {
   return html`
     <div class="lesson-steps">
       <nav class="stepper" aria-label="${label}">
-        <ol>${STAGES.map((s, i) => {
+        <ol>${list.map((s, i) => {
           const tag = teachFirst(lesson) ? html`<span class="phase-tag">${PHASE[s.id]}</span>` : '';
           if (stageNeeds(lesson, s.id, ctx.lessonVisited).length && s.id !== stage) return html`<li class="locked"><span class="stage-locked"><span class="n">${i + 1}</span> <span class="name"><span aria-hidden="true">🔒 </span>${s.label}</span>${tag}<span class="sr-only"> (opens after the earlier steps)</span></span></li>`;
           return html`<li class="${s.id !== stage && ctx.lessonVisited?.has(s.id) ? 'done' : ''}"><a href="${ctx.lessonLink(lesson.id, s.id)}"${s.id === stage ? html` aria-current="step"` : ''}><span class="n">${i + 1}</span> <span class="name">${s.label}</span>${tag}</a></li>`;
@@ -139,11 +148,11 @@ function stageStepper(ctx, lesson, stage, label = 'Lesson steps') {
 /** The questions of a Practice My Misses round (the questions missed in Try It Yourself or in the test). */
 export const missItems = (lesson, stage, state) => (state?.misses ? lesson[stage].items.filter((it) => state.misses.ids.includes(it.id)) : []);
 
-function stageBody(ctx, lesson, stage, state) {
+export function stageBody(ctx, lesson, stage, state) {
   if (stage === 'parent') return parentGuide(ctx, lesson);
   if (state.misses && (stage === 'try' || stage === 'test')) return missesBody(ctx, lesson, stage, state);
   const cards = cardsOf(lesson, stage);
-  const label = stageLabel(stage);
+  const label = skillJourney(lesson) && stage === 'test' ? 'Final Check' : stageLabel(stage);
   if (stage === 'test' && state.submitted) return testResults(ctx, lesson, state);
   if (stage === 'try' && state.i >= cards.length) return trySummary(ctx, lesson, state);
   const i = Math.min(state.i || 0, cards.length - 1);
@@ -163,7 +172,7 @@ function stageBody(ctx, lesson, stage, state) {
 
 // ---------------------------------------------------------------- Learn It
 
-function learnCard(lesson, s, state) {
+export function learnCard(lesson, s, state) {
   if (s.item) return html`<h3 class="card-title">${s.title}</h3>${itemCard(lesson, s.item, 'learn', state)}`;
   const pictures = hasChapter7Teaching(lesson) && s.models?.length ? s.models : s.model ? [{ ...s.model, caption: s.caption ?? s.model.caption }] : [];
   const teacher = s.teacher ? (lesson.teacher || []) : [];
@@ -183,7 +192,7 @@ function learnCard(lesson, s, state) {
 
 // ---------------------------------------------------------------- Watch Me
 
-function exampleCard(lesson, ex, idx, state) {
+export function exampleCard(lesson, ex, idx, state) {
   const shown = Math.min(state.steps?.[idx] ?? 1, ex.steps.length);
   const step = ex.steps[shown - 1];
   // The picture for the current step: the step's own picture (e.g. the cut before its facts are found),
@@ -622,7 +631,7 @@ function lessonExits(ctx) {
 }
 
 /** A lesson's own chapter lesson list (Math > Chapter N > Chapter N Lessons). */
-const chapterLink = (ctx, lesson) => ctx.actLink('math', `ch${chapterOf(lesson?.id) || 5}`);
+export const chapterLink = (ctx, lesson) => ctx.actLink('math', `ch${chapterOf(lesson?.id) || 5}`);
 
 /** The lesson after this one in its chapter (for "what next?"), or null for the last lesson. */
 function nextLesson(ctx, lesson) {
@@ -803,10 +812,10 @@ export function readinessReport(lesson, history, visited) {
   </section>`;
 }
 
-function parentGuide(ctx, lesson) {
+export function parentGuide(ctx, lesson) {
   return html`
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Parent Guide</h2></div>
-    ${teachFirst(lesson) ? readinessReport(lesson, ctx.lessonState?.history, ctx.lessonVisited) : ''}
+    ${teachFirst(lesson) && !skillJourney(lesson) ? readinessReport(lesson, ctx.lessonState?.history, ctx.lessonVisited) : ''}
     <div class="card parent-guide">
       ${lesson.parent.sections.map((s) => html`<section><h3>${s.heading}</h3>
         ${s.text ? html`<p>${keepFacts(s.text)}</p>` : ''}

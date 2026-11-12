@@ -100,3 +100,39 @@ Five separate reviewers examined commit 0bcc26b: curriculum, instruction, mathem
 - **Some test pictures match taught pictures with small denominators** (2–4 parts). Exact copies and same-prompt copies were removed (checked by script).
 - **Close dots on small phones.** At 320 px, dot centres on the densest 7-1 shapes are 27–31 px apart. Nearest-dot selection with a press-and-slide preview makes each tap unambiguous, but the spacing is below the 44 px project bar.
 - **No readiness report after a refresh in 7-2 to 7-7.** These lessons are not saved, so a refresh re-locks practice and clears the report (Decision 1 below).
+
+## 6. Correction (owner, 2026-11-12): Lessons 7-2 to 7-7 follow Lesson 7-1's model
+
+The first release kept the five-stage layout for 7-2 to 7-7: Learn It, Watch Me, Practice Together, Try It Yourself and Test. That met part of the request, but not the requirement: **every skill must have its own complete I Do → We Do → You Do cycle**, in the same student experience as Lesson 7-1. This section records the correction (DECISIONS D31).
+
+| Lesson | Skill sections (each I Do → We Do → You Do) | Then |
+|---|---|---|
+| 7-2 | A One whole and equal parts · B The bottom number · C The top number · D Unit fractions · E Name the fraction · F Fix a fraction mistake | Final Check, report |
+| 7-3 | A One whole is a distance · B One equal step · C Count spaces, not ticks · D Name a point · E Fix mistakes and move the point | Final Check, report |
+| 7-4 | A Every part makes one whole · B Is it one whole? · C The missing top number · D One whole on a number line · E Different names for one whole | Final Check, report |
+| 7-5 | A Each whole is one part · B Count the wholes · C Write n/1 · D Whole numbers on a number line · E From n/1 back to a whole number | Final Check, report |
+| 7-6 | A One whole unit and its gaps · B Keep counting past 1 · C Name a point greater than 1 · D Compare with whole numbers | Final Check, report |
+| 7-7 | A The whole is the whole set · B One selected object · C Several selected objects · D Moving objects, naming other groups | Final Check, report |
+
+**Built from existing parts.**
+- The cards reuse the lessons' own reviewed explanation screens, worked examples and questions. That keeps the verified answer keys and the misconception feedback with pictures.
+- Three new explanation screens were written where a skill had no explanation of its own: 7-2 F, 7-3 E and 7-4 C. One new We Do question was added (7-2 A, equal parts).
+- The student experience reuses Lesson 7-1's patterns:
+  - the slim header and one progress line ("Part B (2 of 6): …"), with "See all parts"
+  - the I Do / We Do / You Do badges
+  - Next only when the card is done
+  - parts that open in order
+  - saved progress with a grown-up reset
+  - a readiness report for each skill
+- The Final Check is the lesson's 10-question test. Its honest-results rules stay: the first try counts, and a retake is practice.
+
+**Verified by walking the lessons** (`tests/skill-journey.browser.js`). Every card of every section in all six lessons was opened in order:
+- worked examples stepped through to the end
+- every question answered through the real inputs
+- a wrong answer on the first You Do question of each section, then the right one
+- the written answer compared and checked
+- skipping blocked: Part B and the Final Check by address, a forced jump to a later card, and Next before a card is done
+- a refresh resuming at the next part, with one storage key
+- the Final Check scored, then the report, then the reset
+
+The rendered Lesson 7-1 and Lesson 7-2 were compared side by side: same map line, "See all parts", phase badge, one card, gated Next and locked parts.

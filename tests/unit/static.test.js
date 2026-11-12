@@ -27,11 +27,17 @@ function walk(dir) {
 const APP_FILES = ['index.html', 'css/style.css', ...walk('js')];
 const PUBLISHED = ['index.html', ...walk('js'), ...walk('css'), ...walk('data'), ...walk('images'), ...walk('reference'), ...walk('docs')];
 
-// D29: the only storage is Lesson 7-1 progress, in js/lib/journey-store.js, under one localStorage key.
-const STORE_FILE = 'js/lib/journey-store.js';
-test('the app never stores anything or tracks anyone (except Lesson 7-1 progress, D29)', () => {
+// D29: the only storage is Chapter 7 lesson progress: Lesson 7-1 in js/lib/journey-store.js (one key) and, extended
+// by the owner on 2026-11-12, Lessons 7-2 to 7-7 in js/lib/lesson-store.js (one key per lesson, same pattern).
+const STORE_FILE = 'js/lib/journey-store.js', LESSON_STORE = 'js/lib/lesson-store.js';
+test('the app never stores anything or tracks anyone (except Chapter 7 lesson progress, D29)', () => {
   for (const f of APP_FILES) {
     const src = code(f);
+    if (f === LESSON_STORE) {
+      refute(/sessionStorage|indexedDB|document\.cookie|serviceWorker|sendBeacon|fetch\(|XMLHttpRequest/, src, f);
+      assert.deepEqual([...new Set(src.match(/[`']studyScoop\.[^`']*[`']/g))], ['`studyScoop.lesson${id}.progress`', "'studyScoop.probe'"], 'one key per lesson (and a probe that is removed at once)');
+      continue;
+    }
     if (f === STORE_FILE) {
       refute(/sessionStorage|indexedDB|document\.cookie|serviceWorker|sendBeacon|fetch\(|XMLHttpRequest/, src, f);
       assert.deepEqual([...new Set(src.match(/'studyScoop\.[^']*'/g))], ["'studyScoop.lesson7-1.progress'"], 'one storage key');

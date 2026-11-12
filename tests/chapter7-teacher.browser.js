@@ -18,38 +18,33 @@ try {
   await b.viewport(1366, 768, false);
   for (const id of ['7-2', '7-3', '7-4', '7-5', '7-6', '7-7']) {
     const L = JSON.parse(fs.readFileSync(path.join(root, `data/lessons/${id}.json`)));
-    // I Do: the lesson's math words are on the first Learn It screen.
+    // Lessons 7-2 to 7-7 are skill journeys (tests/skill-journey.browser.js walks them). The original five stages stay
+    // as optional extra practice: open, labelled, without locks; the Final Check (test) opens after every skill.
+    const sections = L.journey.sections.map((x) => x.id);
     await b.load(url(id, 'learn'));
-    ok(await js('return document.querySelectorAll("#lesson-stage .teacher-words").length') === L.teacher.length && L.teacher.length > 0, `${id}: the math words are shown on the first Learn It screen`);
-    ok(await js('return /I Do/.test(document.querySelector("#stage-h").textContent)'), `${id}: Learn It is marked I Do`);
-    // Teach first: practice and the test are not links until the teaching is done, and a typed address shows what to finish.
-    ok(await js('return [...document.querySelectorAll(".stepper li.locked")].length === 2 && !document.querySelector(".stepper li.locked a")'), `${id}: Try It Yourself and the Test are locked, not links`);
-    ok(await js('return [...document.querySelectorAll(".stepper .phase-tag")].map(e=>e.textContent).join() === "I Do,I Do,We Do,You Do,Check"'), `${id}: each step shows its phase`);
-    for (const stage of ['try', 'test']) {
-      await b.load(url(id, stage));
-      ok(await js('return document.querySelector("#lesson-stage").dataset.locked === "true" && !document.querySelector("form[data-item]")'), `${id} ${stage}: opened by its address before the teaching, it shows no questions`);
-      ok(/Still to finish: Learn It, Watch Me, Practice Together/.test(await text()), `${id} ${stage}: it says what to finish first`);
-    }
-    // We Do: help can be opened before the first try, and using it marks the answer as assisted.
+    ok(/Extra practice \(optional\)/.test(await js('return document.querySelector(".lesson-bar").textContent')), `${id}: the original stages are labelled extra practice`);
+    ok(await js('return document.querySelectorAll(".stepper li").length === 4 && !document.querySelector(".stepper li.locked")'), `${id}: extra practice has four open steps (the test is the Final Check)`);
+    ok(await js('return document.querySelectorAll("#lesson-stage .teacher-words").length') === L.teacher.length && L.teacher.length > 0, `${id}: the math words are on the first Learn It screen`);
+    await b.load(url(id, 'test'));
+    ok(await js('return document.querySelector("#lesson-stage").dataset.locked === "true" && !document.querySelector("form[data-item]")'), `${id}: the Final Check by its address shows no questions before the skills`);
+    // Practice Together (extra): help can be opened before the first try, and using it marks the answer as assisted.
     await b.load(url(id, 'together'));
-    ok(/We Do: work through these with the help/.test(await text()), `${id}: Practice Together says it is guided`);
-    ok(await js('return !!document.querySelector("[data-act=help]")'), `${id}: We Do offers Help before the first try`);
+    ok(await js('return !!document.querySelector("[data-act=help]")'), `${id}: Practice Together offers Help before the first try`);
     await b.clickAt('[data-act=help]');
     ok(await js(`const m=await import('./js/lesson-player.js');const st=m.stateFor(${JSON.stringify(id)},'together').items[${JSON.stringify(L.together.items[0].id)}];return st.help===1&&st.scaffoldAssisted===true;`), `${id}: help before a try is recorded as assisted`);
-    // You Do opens after the teaching; help waits for a first try.
-    await finish(id, ['learn', 'watch', 'together']);
-    await b.hash(`#math?lesson=${id}&stage=try`);
-    ok(await js('return !document.querySelector("#lesson-stage").dataset.locked && !!document.querySelector("form[data-item]")'), `${id}: Try It Yourself opens after Learn It, Watch Me and Practice Together`);
-    ok(/You Do: work on your own/.test(await text()) && await js('return !document.querySelector("[data-act=help]")'), `${id}: You Do has no help before the first try`);
+    await b.load(url(id, 'try'));
+    ok(await js('return !document.querySelector("[data-act=help]")'), `${id}: Try It Yourself has no help before the first try`);
+    await finish(id, sections);
     await b.hash(`#math?lesson=${id}&stage=test`);
-    ok(await js('return document.querySelector("#lesson-stage").dataset.locked === "true"'), `${id}: the Test waits for Try It Yourself`);
+    ok(await js('return !document.querySelector("#lesson-stage").dataset.locked && /Final Check/.test(document.querySelector("#stage-h").textContent)'), `${id}: the Final Check opens after every skill`);
+    await js('localStorage.clear()');
   }
 
   // Honest results (7-3): the first test counts; a retake after the answers were shown is practice, never "You passed!".
   const id = '7-3', L = JSON.parse(fs.readFileSync(path.join(root, `data/lessons/${id}.json`)));
   await b.load(url(id, 'parent'));
   ok(/In progress\./.test(await text()), 'readiness report: in progress before the test');
-  await finish(id, ['learn', 'watch', 'together', 'try']);
+  await finish(id, L.journey.sections.map((x) => x.id));
   await b.hash(`#math?lesson=${id}&stage=test`);
   const answerAll = async (right) => {
     for (let i = 0; i < L.test.items.length; i++) {
@@ -70,8 +65,8 @@ try {
   ok(!(await js('return [...document.querySelectorAll(".end-nav a.btn-primary")].some(a=>/Next: Lesson/.test(a.textContent))')), 'a failed first test does not send the child on to the next lesson');
   await b.hash(`#math?lesson=${id}&stage=parent`);
   const report = await text();
-  ok(/Not ready yet\./.test(report) && /First test: 0 of 10/.test(report), 'readiness report: the verdict comes from the first test');
-  ok(/Missed on the first test/.test(report) && /workbook page done without help is the real check/.test(report), 'readiness report lists what to practice and the workbook step');
+  ok(/Not ready yet\./.test(report) && /Final Check \(first try\): 0 of 10/.test(report), 'readiness report: the verdict comes from the first test');
+  ok(/Questions missed on the Final Check/.test(report) && /workbook page done without help is the real check/.test(report), 'readiness report lists what to practice and the workbook step');
 
   // Phone width: the locked stepper fits (no sideways scrolling).
   for (const w of [320, 360, 390]) {

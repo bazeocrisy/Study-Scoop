@@ -59,6 +59,9 @@ jobs:
       - name: Chapter 7 teacher, Lessons 7-2 to 7-7 (built site)
         run: node tests/chapter7-teacher.browser.js --site _site
         timeout-minutes: 10
+      - name: Chapter 7 skill journeys (built site)
+        run: node tests/skill-journey.browser.js --site _site
+        timeout-minutes: 15
       - name: November homework journeys (built site)
         run: node tests/homework-nov02.browser.js --site _site
 
@@ -155,6 +158,16 @@ jobs:
         working-directory: develop
         run: node tests/chapter7-teacher.browser.js --site "$GITHUB_WORKSPACE/_preview"
         timeout-minutes: 10
+      - name: Chapter 7 skill journeys (preview build)
+        if: ${{ hashFiles('develop/tests/skill-journey.browser.js') != '' }}
+        working-directory: develop
+        run: node tests/skill-journey.browser.js --site "$GITHUB_WORKSPACE/_preview"
+        timeout-minutes: 15
+      - name: Chapter 7 skill journeys (production build, once released)
+        if: ${{ hashFiles('main/tests/skill-journey.browser.js') != '' }}
+        working-directory: main
+        run: node tests/skill-journey.browser.js --site "$GITHUB_WORKSPACE/_site"
+        timeout-minutes: 15
       - name: Lesson 7-1 partition lab (preview build, before the journey)
         if: ${{ hashFiles('develop/tests/partition-lab.browser.js') != '' }}
         working-directory: develop

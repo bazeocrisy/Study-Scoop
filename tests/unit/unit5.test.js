@@ -222,10 +222,12 @@ test('every lesson stage and every results screen renders, with Practice My Miss
   const { lessonView } = await import('../../js/views/lesson.js');
   for (const lesson of LESSONS) {
     // The child has finished the teaching stages (Lessons 7-2 to 7-7 open practice and the test only after them).
-    const view = (stage, lessonState) => lessonView(ctxFor({ lesson, stage, lessonState, lessonVisited: new Set(['learn', 'watch', 'together', 'try']) })).s;
-    if (/^7-[2-7]$/.test(lesson.id)) for (const stage of ['try', 'test']) {
-      const locked = lessonView(ctxFor({ lesson, stage, lessonState: { i: 0, items: {}, steps: {} }, lessonVisited: new Set() })).s;
-      assert.match(locked, /data-locked="true"/, `${lesson.id} ${stage} is locked before the teaching`); assert.doesNotMatch(locked, /data-item=/, `${lesson.id} ${stage}: no questions while locked`);
+    // Lessons 7-2 to 7-7 are skill journeys: the Final Check (test) opens after every skill section.
+    const finished = new Set(['learn', 'watch', 'together', 'try', ...(lesson.journey?.sections || []).map((x) => x.id)]);
+    const view = (stage, lessonState) => lessonView(ctxFor({ lesson, stage, lessonState, lessonVisited: finished })).s;
+    if (/^7-[2-7]$/.test(lesson.id)) {
+      const locked = lessonView(ctxFor({ lesson, stage: 'test', lessonState: { i: 0, items: {}, steps: {} }, lessonVisited: new Set() })).s;
+      assert.match(locked, /data-locked="true"/, `${lesson.id} Final Check is locked before the skills`); assert.doesNotMatch(locked, /data-item=/, `${lesson.id}: no questions while locked`);
     }
     for (const stage of ['learn', 'watch', 'together', 'try', 'test', 'parent']) clean(view(stage, { i: 0, items: {}, steps: {} }), `${lesson.id} ${stage}`);
     // Try It Yourself results: 18 right on the first try, 2 missed.

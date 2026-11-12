@@ -9,6 +9,8 @@ import {buildLessonOneTeaching} from './chapter7-lesson1-teaching.mjs';
 import {applyChapter7Teaching234} from './chapter7-teaching-234.mjs';
 import {applyChapter7Teaching567} from './chapter7-teaching-567.mjs';
 import {applyChapter7Release} from './chapter7-release.mjs';
+import {applyChapter7Journey} from './chapter7-journeys.mjs';
+import {equalParts} from './chapter7-teaching-234.mjs';
 const OUT=path.resolve('data/lessons');
 const DEN=[2,3,4,6,8];
 const contexts=['art ribbon','garden marker','window panel','trail sign','paper mat','festival flag','reading card','game board','fabric strip','picnic cloth','club badge','seed tray','recipe card','display panel','bookmark','mural strip','gift tag','craft sheet','stage banner','photo frame','class pennant','paint sample','library sign','quilt panel','paper lantern','desk label','team emblem','kite panel','floor mat','party streamer','tote design','cardboard tile','door decoration','table runner','book cover','poster panel','paper fan','display card','wall hanging','puzzle mat','music card','museum label'];
@@ -266,6 +268,8 @@ const targets=process.argv.slice(2).map(Number);for(let k=1;k<=7;k++){
  if(k===1)lesson=buildLessonOneTeaching(lesson);
  if(k>=2&&k<=4)lesson=applyChapter7Teaching234(lesson);
  if(k>=5)lesson=applyChapter7Teaching567(lesson);
+ // Skill journeys (Lessons 7-2 to 7-7 follow Lesson 7-1's model); the release pass then reviews their text too.
+ if(k>=2)lesson=applyChapter7Journey(lesson,k===2?{ja1:equalParts('ja1',4,true)}:{});
  lesson=applyChapter7Release(lesson);
  fs.mkdirSync(OUT,{recursive:true});fs.writeFileSync(path.join(OUT,`7-${k}.json`),JSON.stringify(lesson,null,2)+'\n');console.log(`Authored ${lesson.id}: 3 worked examples, 6 guided, 20 Try, 10 test, 1 ungraded written explanation.`);
 }

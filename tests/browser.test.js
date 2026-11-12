@@ -2159,9 +2159,9 @@ async function main() {
     });
 
     console.log('Privacy and security');
-    await check('nothing is stored: no sessionStorage, cookies or IndexedDB; localStorage holds at most the Lesson 7-1 progress key (D29)', async () => {
+    await check('nothing is stored: no sessionStorage, cookies or IndexedDB; localStorage holds at most the Chapter 7 lesson progress keys (D29, D31)', async () => {
       await b.load(url('#homework'));
-      const r = await b.js(`return { local: Object.keys(localStorage).filter((k) => k !== 'studyScoop.lesson7-1.progress'), session: sessionStorage.length, cookie: document.cookie,
+      const r = await b.js(`return { local: Object.keys(localStorage).filter((k) => !/^studyScoop\.lesson7-[1-7]\.progress$/.test(k)), session: sessionStorage.length, cookie: document.cookie,
         idb: (await indexedDB.databases()).length };`);
       eq(r, { local: [], session: 0, cookie: '', idb: 0 }, 'storage');
     });

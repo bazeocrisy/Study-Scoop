@@ -102,11 +102,13 @@ export function applyChapter7Release(lesson) {
   if (!/^7-[2-7]$/.test(lesson.id)) return lesson;
   const l = JSON.parse(JSON.stringify(lesson));
   // Questions children answer in the teaching and practice stages; the test keeps its own review text.
-  for (const part of [l.learn, l.watch, l.together, l.try]) walk(part, false);
+  for (const part of [l.learn, l.watch, l.together, l.try, l.journey]) if (part) walk(part, false);
   walk(l.test, false);
   for (const k of ['goal', 'catchAll']) if (typeof l[k] === 'string') l[k] = fixText(l[k], { help: false });
   walk(l.parent, false);
   // Math words on the first Learn It screen (the lesson's vocabulary was in the data but never shown).
   if (l.learn?.screens?.[0] && !l.learn.screens[0].item) l.learn.screens[0].teacher = true;
+  const first = l.journey?.sections?.[0]?.cards?.[0];
+  if (first?.kind === 'screen' && !first.item) first.teacher = true;
   return l;
 }

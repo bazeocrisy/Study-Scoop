@@ -9652,5 +9652,5100 @@
         "text": "These original practice questions are not the teacher’s actual test. The lesson test keeps Help hidden until submission. The written explanation is a self-review with an example or a grown-up, not a computer judgment of mathematical meaning."
       }
     ]
+  },
+  "journey": {
+    "sections": [
+      {
+        "id": "all",
+        "label": "All the parts",
+        "title": "Every part makes one whole",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Start with the complete whole",
+            "text": [
+              "One complete disk is one whole."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "circle",
+              "parts": 1,
+              "wholes": 1,
+              "selected": [
+                0
+              ],
+              "framing": "close"
+            },
+            "teacher": true
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Parts still belong to the same whole",
+            "text": [
+              "Four equal pieces fill the same whole disk."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "circle",
+              "parts": 4,
+              "wholes": 1,
+              "selected": [],
+              "framing": "close"
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "One piece is not the whole",
+            "text": [
+              "One of four equal pieces is 1/4. Three pieces are not selected."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "circle",
+              "parts": 4,
+              "wholes": 1,
+              "selected": [
+                0
+              ],
+              "framing": "close"
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Select every piece",
+            "text": [
+              "Now all four equal pieces are selected.",
+              "Write 4/4. Nothing is missing, so 4/4 equals 1."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "circle",
+              "parts": 4,
+              "wholes": 1,
+              "selected": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "framing": "close"
+            }
+          },
+          {
+            "kind": "example",
+            "phase": "ido",
+            "title": "Build four fourths",
+            "teaching": true,
+            "model": {
+              "type": "fraction",
+              "kind": "bar",
+              "parts": 1,
+              "wholes": 1,
+              "selected": [
+                0
+              ]
+            },
+            "steps": [
+              {
+                "say": "The outside rectangle names one whole.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 1,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ]
+                }
+              },
+              {
+                "say": "Divide the whole into four equal pieces.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": []
+                }
+              },
+              {
+                "say": "Select one piece: 1/4, less than the whole.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ]
+                }
+              },
+              {
+                "say": "Select the other three pieces as well.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              },
+              {
+                "say": "All four of four equal pieces are selected: 4/4 equals 1.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g1",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 2,
+                "d": 2
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 2,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1
+                ]
+              },
+              "prompt": "What fraction of this one strip is colored? Use all the equal pieces shown for the denominator.",
+              "hints": [
+                "Trace the outside of the complete strip; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole."
+              ],
+              "show": [
+                "Trace the outside of the complete strip; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole.",
+                "All 2 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 2 equal pieces are colored. Write 2 above 2: 2/2."
+              ],
+              "yes": "All 2 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 2 equal pieces are colored. Write 2 above 2: 2/2.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the outside of the complete strip; this is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "All 2 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 2 equal pieces are colored. Write 2 above 2: 2/2.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "All 2 equal pieces, colored and plain, fill this one strip. Exactly 2 of those 2 equal pieces are colored. Write 2 above 2: 2/2.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 2,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1
+                    ],
+                    "counted": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top number counts the 0 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ]
+                    },
+                    "response": {
+                      "n": 0,
+                      "d": 2
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 2 equal parts, so keep 2 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g2",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 3,
+                "d": 3
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2
+                ],
+                "framing": "close"
+              },
+              "prompt": "What fraction of this one disk is colored? Use all the equal pieces shown for the denominator.",
+              "hints": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole."
+              ],
+              "show": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole.",
+                "All 3 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3."
+              ],
+              "yes": "All 3 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the outside of the complete disk; this is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "All 3 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "All 3 equal pieces, colored and plain, fill this one disk. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 3,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2
+                    ],
+                    "framing": "close",
+                    "counted": [
+                      0,
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top number counts the 0 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close"
+                    },
+                    "response": {
+                      "n": 0,
+                      "d": 3
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t1",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 3,
+                "d": 3
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2
+                ]
+              },
+              "prompt": "What fraction of this one strip is colored? Use all the equal pieces shown for the denominator.",
+              "hints": [
+                "Trace the outside of the complete strip; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole."
+              ],
+              "show": [
+                "Trace the outside of the complete strip; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole.",
+                "All 3 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3."
+              ],
+              "yes": "All 3 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the outside of the complete strip; this is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "All 3 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "All 3 equal pieces, colored and plain, fill this one strip. Exactly 3 of those 3 equal pieces are colored. Write 3 above 3: 3/3.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 3,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top number counts the 0 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "response": {
+                      "n": 0,
+                      "d": 3
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t2",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 4,
+                "d": 4
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "framing": "close"
+              },
+              "prompt": "What fraction of this one disk is colored? Use all the equal pieces shown for the denominator.",
+              "hints": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole."
+              ],
+              "show": [
+                "Trace the outside of the complete disk; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole.",
+                "All 4 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 4 equal pieces are colored. Write 4 above 4: 4/4."
+              ],
+              "yes": "All 4 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 4 equal pieces are colored. Write 4 above 4: 4/4.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the outside of the complete disk; this is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "All 4 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 4 equal pieces are colored. Write 4 above 4: 4/4.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "All 4 equal pieces, colored and plain, fill this one disk. Exactly 4 of those 4 equal pieces are colored. Write 4 above 4: 4/4.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ],
+                    "framing": "close",
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top number counts the 0 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close"
+                    },
+                    "response": {
+                      "n": 0,
+                      "d": 4
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t3",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 6,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "prompt": "What fraction of this one strip is colored? Use all the equal pieces shown for the denominator.",
+              "hints": [
+                "Trace the outside of the complete strip; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole."
+              ],
+              "show": [
+                "Trace the outside of the complete strip; this is one whole.",
+                "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                "One highlighted piece is one unit fraction of this whole.",
+                "All 6 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 6 equal pieces are colored. Write 6 above 6: 6/6."
+              ],
+              "yes": "All 6 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 6 equal pieces are colored. Write 6 above 6: 6/6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the outside of the complete strip; this is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces, colored and plain. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One highlighted piece is one unit fraction of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ]
+                    }
+                  },
+                  {
+                    "text": "All 6 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 6 equal pieces are colored. Write 6 above 6: 6/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "All 6 equal pieces, colored and plain, fill this one strip. Exactly 6 of those 6 equal pieces are colored. Write 6 above 6: 6/6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "That top number counts the 0 plain pieces. This question names colored pieces; count the dotted, colored pieces instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "response": {
+                      "n": 0,
+                      "d": 6
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts all pieces in the whole; the top counts colored pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount only the colored pieces, touching each once for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the colored pieces. For the bottom, count colored AND plain pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count all equal pieces for the bottom; then count colored pieces for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "check",
+        "label": "Is it whole?",
+        "title": "Is it one whole? Check both numbers",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Check both counts, not just the bottom",
+            "text": [
+              "A denominator of 8 does not by itself tell whether a fraction equals 1.",
+              "This picture has all eight pieces selected: 8/8 equals 1."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "bar",
+              "parts": 8,
+              "wholes": 1,
+              "selected": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g3",
+              "type": "choice",
+              "prompt": "Does the selected amount equal one whole?",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2
+                ]
+              },
+              "options": [
+                {
+                  "text": "Yes; the selected amount is one whole.",
+                  "why": "A plain piece still belongs to the whole; a missing colored piece means the whole is not selected."
+                },
+                {
+                  "text": "No; the selected amount is less than one whole.",
+                  "correct": true
+                },
+                {
+                  "text": "A denominator greater than 1 always means less than one whole.",
+                  "why": "The denominator describes the part size; check whether the top count includes all 4 equal parts."
+                }
+              ],
+              "hints": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces."
+              ],
+              "show": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces.",
+                "Only 3 of 4 equal pieces are colored; the missing part means less than 1."
+              ],
+              "yes": "Only 3 of 4 equal pieces are colored; the missing part means less than 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The complete outside shape is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Compare the selected part with all the pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Only 3 of 4 equal pieces are colored; the missing part means less than 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Only 3 of 4 equal pieces are colored; the missing part means less than 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Yes; the selected amount is one whole.",
+                    "text": "A plain piece still belongs to the whole; a missing colored piece means the whole is not selected.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ]
+                    }
+                  },
+                  {
+                    "option": "A denominator greater than 1 always means less than one whole.",
+                    "text": "The denominator describes the part size; check whether the top count includes all 4 equal parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t5",
+              "type": "choice",
+              "prompt": "Does the selected amount equal one whole?",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1
+                ],
+                "framing": "close"
+              },
+              "options": [
+                {
+                  "text": "A denominator greater than 1 always means less than one whole.",
+                  "why": "The denominator describes the part size; check whether the top count includes all 3 equal parts."
+                },
+                {
+                  "text": "Yes; the selected amount is one whole.",
+                  "why": "A plain piece still belongs to the whole; a missing colored piece means the whole is not selected."
+                },
+                {
+                  "text": "No; the selected amount is less than one whole.",
+                  "correct": true
+                }
+              ],
+              "hints": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces."
+              ],
+              "show": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces.",
+                "Only 2 of 3 equal pieces are colored; the missing part means less than 1."
+              ],
+              "yes": "Only 2 of 3 equal pieces are colored; the missing part means less than 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The complete outside shape is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Compare the selected part with all the pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Only 2 of 3 equal pieces are colored; the missing part means less than 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "framing": "close"
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Only 2 of 3 equal pieces are colored; the missing part means less than 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 3,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1
+                    ],
+                    "framing": "close"
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Yes; the selected amount is one whole.",
+                    "text": "A plain piece still belongs to the whole; a missing colored piece means the whole is not selected.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "option": "A denominator greater than 1 always means less than one whole.",
+                    "text": "The denominator describes the part size; check whether the top count includes all 3 equal parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "framing": "close"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t6",
+              "type": "choice",
+              "prompt": "Does the selected amount equal one whole?",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "options": [
+                {
+                  "text": "Yes; the selected amount is one whole.",
+                  "correct": true
+                },
+                {
+                  "text": "No; the selected amount is less than one whole.",
+                  "why": "Every part is included; trace the complete colored whole."
+                },
+                {
+                  "text": "A denominator greater than 1 always means less than one whole.",
+                  "why": "The denominator describes the part size; check whether the top count includes all 6 equal parts."
+                }
+              ],
+              "hints": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces."
+              ],
+              "show": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces.",
+                "6/6 counts every equal piece inside the whole; nothing is missing, so it equals 1."
+              ],
+              "yes": "6/6 counts every equal piece inside the whole; nothing is missing, so it equals 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The complete outside shape is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Compare the selected part with all the pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    }
+                  },
+                  {
+                    "text": "6/6 counts every equal piece inside the whole; nothing is missing, so it equals 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "6/6 counts every equal piece inside the whole; nothing is missing, so it equals 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "No; the selected amount is less than one whole.",
+                    "text": "Every part is included; trace the complete colored whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    }
+                  },
+                  {
+                    "option": "A denominator greater than 1 always means less than one whole.",
+                    "text": "The denominator describes the part size; check whether the top count includes all 6 equal parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t7",
+              "type": "choice",
+              "prompt": "Does the selected amount equal one whole?",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 8,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ],
+                "framing": "close"
+              },
+              "options": [
+                {
+                  "text": "No; the selected amount is less than one whole.",
+                  "correct": true
+                },
+                {
+                  "text": "A denominator greater than 1 always means less than one whole.",
+                  "why": "The denominator describes the part size; check whether the top count includes all 8 equal parts."
+                },
+                {
+                  "text": "Yes; the selected amount is one whole.",
+                  "why": "A plain piece still belongs to the whole; a missing colored piece means the whole is not selected."
+                }
+              ],
+              "hints": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces."
+              ],
+              "show": [
+                "The complete outside shape is one whole.",
+                "Compare the selected part with all the pieces.",
+                "Only 7 of 8 equal pieces are colored; the missing part means less than 1."
+              ],
+              "yes": "Only 7 of 8 equal pieces are colored; the missing part means less than 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "The complete outside shape is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Compare the selected part with all the pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Only 7 of 8 equal pieces are colored; the missing part means less than 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close"
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Only 7 of 8 equal pieces are colored; the missing part means less than 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ],
+                    "framing": "close"
+                  }
+                },
+                "wrong": [
+                  {
+                    "option": "Yes; the selected amount is one whole.",
+                    "text": "A plain piece still belongs to the whole; a missing colored piece means the whole is not selected.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "option": "A denominator greater than 1 always means less than one whole.",
+                    "text": "The denominator describes the part size; check whether the top count includes all 8 equal parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6
+                      ],
+                      "framing": "close"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "top",
+        "label": "Missing top",
+        "title": "Find the missing top number",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "Find the missing top number",
+            "text": [
+              "This disk has 6 equal parts. ?/6 equals 1 means: how many parts make the whole?",
+              "Every part is needed, so the top is 6 too: 6/6 is one whole."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "circle",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "framing": "close",
+              "counted": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g4",
+              "type": "number",
+              "prompt": "Fill the top number: ?/6 equals 1. Use this disk to explain your count.",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 6,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "framing": "close"
+              },
+              "answer": "6",
+              "hints": [
+                "One whole includes every equal part.",
+                "Count all the equal pieces inside the outside edge."
+              ],
+              "show": [
+                "One whole includes every equal part.",
+                "Count all the equal pieces inside the outside edge.",
+                "The bottom 6 counts all equal pieces in the whole. To name 1, the top must count all 6 too: 6/6 equals 1."
+              ],
+              "yes": "The bottom 6 counts all equal pieces in the whole. To name 1, the top must count all 6 too: 6/6 equals 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "One whole includes every equal part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom 6 counts all equal pieces in the whole. To name 1, the top must count all 6 too: 6/6 equals 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The bottom 6 counts all equal pieces in the whole. To name 1, the top must count all 6 too: 6/6 equals 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ],
+                    "framing": "close",
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "A top count of 1 selects just one of 6 parts. The equation asks for the complete whole, not a unit fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "framing": "close"
+                    },
+                    "answer": 1
+                  },
+                  {
+                    "text": "That top count omits some parts. Include every equal part to name one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "That top count would need parts beyond this one whole. Count only the parts of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Match the top count to the complete whole shown; every part must be included.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t9",
+              "type": "number",
+              "prompt": "Fill the top number: ?/2 equals 1. Use this strip to explain your count.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 2,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1
+                ]
+              },
+              "answer": "2",
+              "hints": [
+                "One whole includes every equal part.",
+                "Count all the equal pieces inside the outside edge."
+              ],
+              "show": [
+                "One whole includes every equal part.",
+                "Count all the equal pieces inside the outside edge.",
+                "The bottom 2 counts all equal pieces in the whole. To name 1, the top must count all 2 too: 2/2 equals 1."
+              ],
+              "yes": "The bottom 2 counts all equal pieces in the whole. To name 1, the top must count all 2 too: 2/2 equals 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "One whole includes every equal part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": []
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom 2 counts all equal pieces in the whole. To name 1, the top must count all 2 too: 2/2 equals 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "counted": [
+                        0,
+                        1
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The bottom 2 counts all equal pieces in the whole. To name 1, the top must count all 2 too: 2/2 equals 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 2,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1
+                    ],
+                    "counted": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "A top count of 1 selects just one of 2 parts. The equation asks for the complete whole, not a unit fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ]
+                    },
+                    "answer": 1
+                  },
+                  {
+                    "text": "That top count omits some parts. Include every equal part to name one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ]
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "That top count would need parts beyond this one whole. Count only the parts of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ]
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Match the top count to the complete whole shown; every part must be included.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t10",
+              "type": "number",
+              "prompt": "Fill the top number: ?/4 equals 1. Use this disk to explain your count.",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "framing": "close"
+              },
+              "answer": "4",
+              "hints": [
+                "One whole includes every equal part.",
+                "Count all the equal pieces inside the outside edge."
+              ],
+              "show": [
+                "One whole includes every equal part.",
+                "Count all the equal pieces inside the outside edge.",
+                "The bottom 4 counts all equal pieces in the whole. To name 1, the top must count all 4 too: 4/4 equals 1."
+              ],
+              "yes": "The bottom 4 counts all equal pieces in the whole. To name 1, the top must count all 4 too: 4/4 equals 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "One whole includes every equal part.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close"
+                    }
+                  },
+                  {
+                    "text": "Count all the equal pieces inside the outside edge.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The bottom 4 counts all equal pieces in the whole. To name 1, the top must count all 4 too: 4/4 equals 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The bottom 4 counts all equal pieces in the whole. To name 1, the top must count all 4 too: 4/4 equals 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ],
+                    "framing": "close",
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "A top count of 1 selects just one of 4 parts. The equation asks for the complete whole, not a unit fraction.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0
+                      ],
+                      "framing": "close"
+                    },
+                    "answer": 1
+                  },
+                  {
+                    "text": "That top count omits some parts. Include every equal part to name one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "tooLow"
+                  },
+                  {
+                    "text": "That top count would need parts beyond this one whole. Count only the parts of this whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "tooHigh"
+                  },
+                  {
+                    "text": "Match the top count to the complete whole shown; every part must be included.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close"
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "line",
+        "label": "On a line",
+        "title": "One whole on a number line",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "The endpoint 1 can have a fraction name",
+            "text": [
+              "The unit distance has three equal intervals.",
+              "The point at 1 is three intervals from 0, so 3/3 equals 1."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "line",
+              "parts": 3,
+              "max": 1,
+              "point": 3
+            }
+          },
+          {
+            "kind": "example",
+            "phase": "ido",
+            "title": "Reach one whole on a line",
+            "teaching": true,
+            "model": {
+              "type": "fraction",
+              "kind": "line",
+              "parts": 1,
+              "max": 1,
+              "point": 0
+            },
+            "steps": [
+              {
+                "say": "One whole is the distance from 0 to 1.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 1,
+                  "max": 1,
+                  "point": 0
+                }
+              },
+              {
+                "say": "Make six equal spaces in that unit.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 1,
+                  "point": 0
+                }
+              },
+              {
+                "say": "After three spaces, the point is only partway: 3/6.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 1,
+                  "point": 3,
+                  "counted": [
+                    0,
+                    1,
+                    2
+                  ]
+                }
+              },
+              {
+                "say": "Cross the remaining three spaces to reach 1.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 1,
+                  "point": 6,
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                }
+              },
+              {
+                "say": "Six of six intervals reach one whole: 6/6 equals 1.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 1,
+                  "point": 6,
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g5",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 4,
+                "d": 4
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 4,
+                "max": 1,
+                "point": 4
+              },
+              "prompt": "What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.",
+              "hints": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0."
+              ],
+              "show": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0.",
+                "The space from 0 to 1 has 4 equal intervals. The point is 4 intervals to the right of 0. Write 4 above 4: 4/4."
+              ],
+              "yes": "The space from 0 to 1 has 4 equal intervals. The point is 4 intervals to the right of 0. Write 4 above 4: 4/4.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find 0 and 1; their distance is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 0
+                    }
+                  },
+                  {
+                    "text": "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One jump covers one interval; start counting jumps after 0.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 1
+                    }
+                  },
+                  {
+                    "text": "The space from 0 to 1 has 4 equal intervals. The point is 4 intervals to the right of 0. Write 4 above 4: 4/4.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The space from 0 to 1 has 4 equal intervals. The point is 4 intervals to the right of 0. Write 4 above 4: 4/4.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 4,
+                    "max": 1,
+                    "point": 4,
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "You counted the tick marks. Count the spaces between the ticks instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 5,
+                      "d": 5
+                    }
+                  },
+                  {
+                    "text": "That top number matches the tick count including 0. Zero marks the start; count the spaces crossed to reach the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 5,
+                      "d": 4
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts intervals from 0 to 1; the top counts intervals from 0 to the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount spaces from 0 to the point, starting after 0 for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the point’s distance. For the bottom, count all equal spaces from 0 to 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count its equal spaces for the bottom; then count spaces from 0 to the point for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 4,
+                      "max": 1,
+                      "point": 4,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t12",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 3,
+                "d": 3
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 3,
+                "max": 1,
+                "point": 3
+              },
+              "prompt": "What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.",
+              "hints": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0."
+              ],
+              "show": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0.",
+                "The space from 0 to 1 has 3 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 3: 3/3."
+              ],
+              "yes": "The space from 0 to 1 has 3 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 3: 3/3.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find 0 and 1; their distance is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 0
+                    }
+                  },
+                  {
+                    "text": "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One jump covers one interval; start counting jumps after 0.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 1
+                    }
+                  },
+                  {
+                    "text": "The space from 0 to 1 has 3 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 3: 3/3.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The space from 0 to 1 has 3 equal intervals. The point is 3 intervals to the right of 0. Write 3 above 3: 3/3.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 3,
+                    "max": 1,
+                    "point": 3,
+                    "counted": [
+                      0,
+                      1,
+                      2
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "You counted the tick marks. Count the spaces between the ticks instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 4,
+                      "d": 4
+                    }
+                  },
+                  {
+                    "text": "That top number matches the tick count including 0. Zero marks the start; count the spaces crossed to reach the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 4,
+                      "d": 3
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts intervals from 0 to 1; the top counts intervals from 0 to the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount spaces from 0 to the point, starting after 0 for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the point’s distance. For the bottom, count all equal spaces from 0 to 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0,
+                        1,
+                        2
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count its equal spaces for the bottom; then count spaces from 0 to the point for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 3,
+                      "max": 1,
+                      "point": 3,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t13",
+              "type": "fraction",
+              "asks": "fraction",
+              "answer": {
+                "n": 6,
+                "d": 6
+              },
+              "answerPolicy": "partition",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 6,
+                "max": 1,
+                "point": 6
+              },
+              "prompt": "What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.",
+              "hints": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0."
+              ],
+              "show": [
+                "Find 0 and 1; their distance is one whole.",
+                "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                "One jump covers one interval; start counting jumps after 0.",
+                "The space from 0 to 1 has 6 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 6: 6/6."
+              ],
+              "yes": "The space from 0 to 1 has 6 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 6: 6/6.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Find 0 and 1; their distance is one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 0
+                    }
+                  },
+                  {
+                    "text": "Count the spaces from 0 to 1. That number goes in the bottom box.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "One jump covers one interval; start counting jumps after 0.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 1
+                    }
+                  },
+                  {
+                    "text": "The space from 0 to 1 has 6 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 6: 6/6.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "The space from 0 to 1 has 6 equal intervals. The point is 6 intervals to the right of 0. Write 6 above 6: 6/6.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "line",
+                    "parts": 6,
+                    "max": 1,
+                    "point": 6,
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "You counted the tick marks. Count the spaces between the ticks instead.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 7,
+                      "d": 7
+                    }
+                  },
+                  {
+                    "text": "That top number matches the tick count including 0. Zero marks the start; count the spaces crossed to reach the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "response": {
+                      "n": 7,
+                      "d": 6
+                    }
+                  },
+                  {
+                    "text": "The bottom number can't be 0. Count the equal parts in one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "equivalentPartition",
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "The two counts have different jobs. The bottom box counts intervals from 0 to 1; the top counts intervals from 0 to the point.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "reversed"
+                  },
+                  {
+                    "text": "Your bottom count matches the whole. Recount spaces from 0 to the point, starting after 0 for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "Your top count matches the point’s distance. For the bottom, count all equal spaces from 0 to 1.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "Find the whole first. Count its equal spaces for the bottom; then count spaces from 0 to the point for the top.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "line",
+                      "parts": 6,
+                      "max": 1,
+                      "point": 6,
+                      "counted": [
+                        0
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "names",
+        "label": "Many names",
+        "title": "Different names for one whole",
+        "cards": [
+          {
+            "kind": "screen",
+            "phase": "ido",
+            "title": "A different part size still makes one whole",
+            "text": [
+              "Six equal pieces fill this strip.",
+              "All six are selected: 6/6 equals 1."
+            ],
+            "model": {
+              "type": "fraction",
+              "kind": "bar",
+              "parts": 6,
+              "wholes": 1,
+              "selected": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "kind": "example",
+            "phase": "ido",
+            "title": "Different names for a complete whole",
+            "teaching": true,
+            "model": {
+              "type": "fraction",
+              "kind": "circle",
+              "parts": 1,
+              "wholes": 1,
+              "selected": [
+                0
+              ],
+              "framing": "close"
+            },
+            "steps": [
+              {
+                "say": "Start with one whole disk.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "circle",
+                  "parts": 1,
+                  "wholes": 1,
+                  "selected": [
+                    0
+                  ],
+                  "framing": "close"
+                }
+              },
+              {
+                "say": "Two equal pieces cover it: 2/2 equals 1.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "circle",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "framing": "close"
+                }
+              },
+              {
+                "say": "Divide each half in two; four fourths cover the same whole.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "circle",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "framing": "close"
+                }
+              },
+              {
+                "say": "Divide each fourth in two; eight eighths still cover the same whole.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "circle",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                  ],
+                  "framing": "close"
+                }
+              },
+              {
+                "say": "No piece is missing in 2/2, 4/4 or 8/8; all equal 1.",
+                "model": {
+                  "type": "fraction",
+                  "kind": "circle",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                  ],
+                  "framing": "close",
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "kind": "item",
+            "phase": "wedo",
+            "item": {
+              "id": "g6",
+              "type": "choice",
+              "prompt": "Both outside shapes are the same size. Which statement is true?",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 2,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1
+                ],
+                "caption": "First whole"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 2,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1
+                  ],
+                  "caption": "First whole"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "caption": "Second whole"
+                }
+              ],
+              "options": [
+                {
+                  "text": "Both show one whole.",
+                  "correct": true
+                },
+                {
+                  "text": "Only 2/2 shows one whole.",
+                  "why": "The second whole also includes all 4 of its equal pieces; a different denominator does not remove area."
+                },
+                {
+                  "text": "Only 4/4 shows one whole.",
+                  "why": "The first whole also includes all 2 of its equal pieces; count selected pieces against all pieces."
+                }
+              ],
+              "hints": [
+                "Compare the two complete outside shapes.",
+                "Check the first shape: is every equal piece selected?",
+                "Now check the second shape the same way."
+              ],
+              "show": [
+                "Compare the two complete outside shapes.",
+                "Check the first shape: is every equal piece selected?",
+                "Now check the second shape the same way.",
+                "2/2 equals 1 and 4/4 equals 1; different part sizes can still cover one complete whole."
+              ],
+              "yes": "Neither shape has a missing piece; 2/2 and 4/4 both equal 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Compare the two complete outside shapes.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 2,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Check the first shape: is every equal piece selected?",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 2,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Now check the second shape the same way.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 2,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ],
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "2/2 equals 1 and 4/4 equals 1; different part sizes can still cover one complete whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 2,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Neither shape has a missing piece; 2/2 and 4/4 both equal 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ],
+                    "caption": "Second whole"
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 2,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1
+                      ],
+                      "caption": "First whole"
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "caption": "Second whole"
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "Only 2/2 shows one whole.",
+                    "text": "The second whole also includes all 4 of its equal pieces; a different denominator does not remove area.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 2,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Only 4/4 shows one whole.",
+                    "text": "The first whole also includes all 2 of its equal pieces; count selected pieces against all pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 2,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t15",
+              "type": "choice",
+              "prompt": "Both outside shapes are the same size. Which statement is true?",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 3,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2
+                ],
+                "caption": "First whole"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 3,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "caption": "First whole"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "bar",
+                  "parts": 6,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ],
+                  "caption": "Second whole"
+                }
+              ],
+              "options": [
+                {
+                  "text": "Both show one whole.",
+                  "correct": true
+                },
+                {
+                  "text": "Only 3/3 shows one whole.",
+                  "why": "The second whole also includes all 6 of its equal pieces; a different denominator does not remove area."
+                },
+                {
+                  "text": "Only 6/6 shows one whole.",
+                  "why": "The first whole also includes all 3 of its equal pieces; count selected pieces against all pieces."
+                }
+              ],
+              "hints": [
+                "Compare the two complete outside shapes.",
+                "Check the first shape: is every equal piece selected?",
+                "Now check the second shape the same way."
+              ],
+              "show": [
+                "Compare the two complete outside shapes.",
+                "Check the first shape: is every equal piece selected?",
+                "Now check the second shape the same way.",
+                "3/3 equals 1 and 6/6 equals 1; different part sizes can still cover one complete whole."
+              ],
+              "yes": "Neither shape has a missing piece; 3/3 and 6/6 both equal 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Compare the two complete outside shapes.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Check the first shape: is every equal piece selected?",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Now check the second shape the same way.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ],
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "3/3 equals 1 and 6/6 equals 1; different part sizes can still cover one complete whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Neither shape has a missing piece; 3/3 and 6/6 both equal 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 6,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5
+                    ],
+                    "caption": "Second whole"
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 3,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2
+                      ],
+                      "caption": "First whole"
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "caption": "Second whole"
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "Only 3/3 shows one whole.",
+                    "text": "The second whole also includes all 6 of its equal pieces; a different denominator does not remove area.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Only 6/6 shows one whole.",
+                    "text": "The first whole also includes all 3 of its equal pieces; count selected pieces against all pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 6,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 3,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2
+                        ],
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 6,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5
+                        ],
+                        "caption": "Second whole"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t16",
+              "type": "choice",
+              "prompt": "Both outside shapes are the same size. Which statement is true?",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "framing": "close",
+                "caption": "First whole"
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "circle",
+                  "parts": 4,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "framing": "close",
+                  "caption": "First whole"
+                },
+                {
+                  "type": "fraction",
+                  "kind": "circle",
+                  "parts": 8,
+                  "wholes": 1,
+                  "selected": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                  ],
+                  "framing": "close",
+                  "caption": "Second whole"
+                }
+              ],
+              "options": [
+                {
+                  "text": "Only 4/4 shows one whole.",
+                  "why": "The second whole also includes all 8 of its equal pieces; a different denominator does not remove area."
+                },
+                {
+                  "text": "Only 8/8 shows one whole.",
+                  "why": "The first whole also includes all 4 of its equal pieces; count selected pieces against all pieces."
+                },
+                {
+                  "text": "Both show one whole.",
+                  "correct": true
+                }
+              ],
+              "hints": [
+                "Compare the two complete outside shapes.",
+                "Check the first shape: is every equal piece selected?",
+                "Now check the second shape the same way."
+              ],
+              "show": [
+                "Compare the two complete outside shapes.",
+                "Check the first shape: is every equal piece selected?",
+                "Now check the second shape the same way.",
+                "4/4 equals 1 and 8/8 equals 1; different part sizes can still cover one complete whole."
+              ],
+              "yes": "Neither shape has a missing piece; 4/4 and 8/8 both equal 1.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Compare the two complete outside shapes.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close",
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [],
+                        "framing": "close",
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [],
+                        "framing": "close",
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Check the first shape: is every equal piece selected?",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [],
+                      "framing": "close",
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "framing": "close",
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [],
+                        "framing": "close",
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Now check the second shape the same way.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ],
+                      "framing": "close",
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "framing": "close",
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6,
+                          7
+                        ],
+                        "framing": "close",
+                        "caption": "Second whole"
+                      }
+                    ],
+                    "revealsAnswer": true
+                  },
+                  {
+                    "text": "4/4 equals 1 and 8/8 equals 1; different part sizes can still cover one complete whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ],
+                      "framing": "close",
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "framing": "close",
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6,
+                          7
+                        ],
+                        "framing": "close",
+                        "caption": "Second whole"
+                      }
+                    ],
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "Neither shape has a missing piece; 4/4 and 8/8 both equal 1.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "circle",
+                    "parts": 8,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6,
+                      7
+                    ],
+                    "framing": "close",
+                    "caption": "Second whole"
+                  },
+                  "models": [
+                    {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "framing": "close",
+                      "caption": "First whole"
+                    },
+                    {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ],
+                      "framing": "close",
+                      "caption": "Second whole"
+                    }
+                  ]
+                },
+                "wrong": [
+                  {
+                    "option": "Only 4/4 shows one whole.",
+                    "text": "The second whole also includes all 8 of its equal pieces; a different denominator does not remove area.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ],
+                      "framing": "close",
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "framing": "close",
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6,
+                          7
+                        ],
+                        "framing": "close",
+                        "caption": "Second whole"
+                      }
+                    ]
+                  },
+                  {
+                    "option": "Only 8/8 shows one whole.",
+                    "text": "The first whole also includes all 4 of its equal pieces; count selected pieces against all pieces.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "circle",
+                      "parts": 8,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                      ],
+                      "framing": "close",
+                      "caption": "Second whole"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "framing": "close",
+                        "caption": "First whole"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "circle",
+                        "parts": 8,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6,
+                          7
+                        ],
+                        "framing": "close",
+                        "caption": "Second whole"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "item",
+            "phase": "youdo",
+            "item": {
+              "id": "t8",
+              "type": "fraction",
+              "asks": "fraction",
+              "prompt": "All of this whole strip is selected. Write any fraction that equals one whole. Your bottom number does not have to match the picture.",
+              "model": {
+                "type": "fraction",
+                "kind": "bar",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "answer": {
+                "n": 4,
+                "d": 4
+              },
+              "answerPolicy": "value",
+              "hints": [
+                "Trace the complete selected strip; no part of the whole is missing.",
+                "Count the selected pieces. Then count all the pieces in the whole."
+              ],
+              "show": [
+                "Trace the complete selected strip; no part of the whole is missing.",
+                "Count the selected pieces. Then count all the pieces in the whole.",
+                "One valid answer is 4/4 because all four of four parts are selected. Other fractions with the same top and bottom, such as 2/2, also name one whole."
+              ],
+              "yes": "A whole includes every equal part. Any positive matching top and bottom counts name all the parts, so the fraction equals 1; all four pictured parts also fill one whole.",
+              "teaching": {
+                "steps": [
+                  {
+                    "text": "Trace the complete selected strip; no part of the whole is missing.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    }
+                  },
+                  {
+                    "text": "Count the selected pieces. Then count all the pieces in the whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    }
+                  },
+                  {
+                    "text": "One valid answer is 4/4 because all four of four parts are selected. Other fractions with the same top and bottom, such as 2/2, also name one whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "counted": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "revealsAnswer": true
+                  }
+                ],
+                "correct": {
+                  "text": "A whole includes every equal part. Any positive matching top and bottom counts name all the parts, so the fraction equals 1; all four pictured parts also fill one whole.",
+                  "model": {
+                    "type": "fraction",
+                    "kind": "bar",
+                    "parts": 4,
+                    "wholes": 1,
+                    "selected": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ],
+                    "counted": [
+                      0,
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "wrong": [
+                  {
+                    "text": "A denominator of zero cannot describe parts of a whole. Use a positive whole-count on the bottom.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "zeroDenominator"
+                  },
+                  {
+                    "text": "Zero on top selects no parts. This question asks for the complete selected whole, not an empty selection.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "caption": "One whole selected"
+                    },
+                    "models": [
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [],
+                        "caption": "No selected parts"
+                      },
+                      {
+                        "type": "fraction",
+                        "kind": "bar",
+                        "parts": 4,
+                        "wholes": 1,
+                        "selected": [
+                          0,
+                          1,
+                          2,
+                          3
+                        ],
+                        "caption": "One whole selected"
+                      }
+                    ],
+                    "when": "zeroNumerator"
+                  },
+                  {
+                    "text": "Your bottom counts a whole partition. To name exactly one whole, the top must include every one of those parts, not fewer or more.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "numeratorOnly"
+                  },
+                  {
+                    "text": "The top count needs a matching positive bottom count to name one complete whole. Changing only one count no longer includes exactly all parts.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "denominatorOnly"
+                  },
+                  {
+                    "text": "To equal one whole, the top and bottom numbers must be the same (and not 0). They then count every equal part of the same whole.",
+                    "model": {
+                      "type": "fraction",
+                      "kind": "bar",
+                      "parts": 4,
+                      "wholes": 1,
+                      "selected": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ]
+                    },
+                    "when": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "kind": "screen",
+            "phase": "say",
+            "title": "Explain after checking",
+            "item": {
+              "id": "explain",
+              "type": "sentence",
+              "model": {
+                "type": "fraction",
+                "kind": "circle",
+                "parts": 4,
+                "wholes": 1,
+                "selected": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "framing": "close"
+              },
+              "prompt": "Why does selecting every equal part name one whole? Explain in your own words, then compare with the example.",
+              "keywords": [
+                "whole"
+              ],
+              "minKeywords": 0,
+              "minWords": 5,
+              "example": "All four equal pieces of the whole disk are selected. Both counts are 4, so 4/4 equals one whole.",
+              "hints": [
+                "Describe what you counted in the picture."
+              ],
+              "show": [
+                "Check your answer with the example or a grown-up. The computer does not grade it."
+              ]
+            }
+          }
+        ]
+      }
+    ]
   }
 }

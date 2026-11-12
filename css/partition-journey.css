@@ -230,3 +230,31 @@
 .j-quick p { margin: 0; }
 @media print { .j-map, .j-drawhelp { display: none; } }
 .j-stepper-open { grid-column: 1 / -1; }
+
+/* Skill journeys, Lessons 7-2 to 7-7 (same pattern as Lesson 7-1): the part count varies by lesson. */
+.j-map.j-bar-3 .j-mapbar { grid-template-columns: repeat(3, 1fr); }
+.j-stepper.j-cols-3 ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.j-map.j-bar-4 .j-mapbar { grid-template-columns: repeat(4, 1fr); }
+.j-stepper.j-cols-4 ol { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.j-map.j-bar-5 .j-mapbar { grid-template-columns: repeat(5, 1fr); }
+.j-stepper.j-cols-5 ol { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.j-map.j-bar-6 .j-mapbar { grid-template-columns: repeat(6, 1fr); }
+.j-stepper.j-cols-6 ol { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.j-map.j-bar-7 .j-mapbar { grid-template-columns: repeat(7, 1fr); }
+.j-stepper.j-cols-7 ol { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.j-map.j-bar-8 .j-mapbar { grid-template-columns: repeat(8, 1fr); }
+.j-stepper.j-cols-8 ol { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+.j-map.j-bar-9 .j-mapbar { grid-template-columns: repeat(9, 1fr); }
+.j-stepper.j-cols-9 ol { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+.j-map.j-bar-10 .j-mapbar { grid-template-columns: repeat(10, 1fr); }
+.j-stepper.j-cols-10 ol { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.j-map.j-bar-11 .j-mapbar { grid-template-columns: repeat(11, 1fr); }
+.j-stepper.j-cols-11 ol { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+@media (max-width: 900px) { .j-stepper[data-n] ol { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.skill-card { display: grid; gap: 10px; }
+.skill-card .skill-title { margin: 0; font-size: 1.3rem; }
+.skill-card .j-note { margin: 0; }
+.j-stage .j-quick { margin-top: 12px; }
+/* A skill-journey card is one card, as in Lesson 7-1: the screens, examples and questions inside it lose their own frames. */
+.skill-card .card { border: 0; box-shadow: none; background: transparent; padding: 0; }
+.skill-card .work { gap: 16px; }
