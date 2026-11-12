@@ -748,7 +748,7 @@ export function diagnose(card, result) {
   if (card.type !== 'build') return { kind: card.type === 'count' ? 'count' : 'choice' };
   const t = card.task, n = result.count, want = t.count;
   if (t.shape === 'circle' && !result.areas.length) return { kind: 'center', message: `That line does not go through the center. Every line in a circle has to go through the center, or the slices cannot be equal.` };
-  if (n !== want) return { kind: 'regions', message: `Let's count the parts. A part is a space closed in by the outline and the lines. ${result.shapes?.length ? `The numbers show your ${n} part${n === 1 ? '' : 's'}.` : `You have ${n} part${n === 1 ? '' : 's'}.`} We need ${want}. ${n < want ? 'A line must go all the way across, from edge to edge (or to another line), to make a new part.' : 'You have too many parts. Use Undo to take a line away.'}` };
+  if (n !== want) return { kind: 'regions', message: `Let's count the parts. ${result.shapes?.length ? `The numbers show your ${n} part${n === 1 ? '' : 's'}.` : `You have ${n} part${n === 1 ? '' : 's'}.`} We need ${want}. ${n < want ? 'Add another line. It must go all the way across, from edge to edge.' : 'That is too many parts. Use Undo to take a line away.'}` };
   return { kind: 'area', message: `You made ${n} parts. Good counting! But equal parts must cover the same amount of space. The part marked "bigger" covers more than the part marked "smaller". ${unequalTip(t)}` };
 }
 
@@ -832,4 +832,5 @@ const QUICK = {
   'f-oval': { text: 'Compare the top strip with a middle strip. The oval is widest in the middle. Do they cover the same amount of space?', picture: { kind: 'oval' } },
   'h-you': { text: 'Look at one half at a time. A line from corner to corner cuts the left half into 2 matching triangles. Each one is half of a half.', picture: cardById('h-you').picture },
 };
-for (const [id, q] of Object.entries(QUICK)) cardById(id).quick = q;
+// Set on every copy of the card (the screen draws from CARDS, the report from ALL_CARDS).
+for (const c of [...ALL_CARDS, ...Object.values(CARDS).flat()]) if (QUICK[c.id]) c.quick = QUICK[c.id];

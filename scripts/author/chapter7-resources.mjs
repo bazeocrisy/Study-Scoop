@@ -66,7 +66,7 @@ add(frac('p701','l77','The entire collection is one whole set. Write the fractio
 add(frac('p702','l77','All ten objects make one whole set. Write the fraction selected.',set(10,1)));
 add(frac('p703','l77','All twelve objects make one whole set. Write the selected fraction.',set(12,5)));
 add(number('p704','l77','These six objects form one whole set. What denominator describes one object?',6,'The whole set has 6 objects, so one object is 1/6 of the set.',set(6,1)));
-add(choice('p705','l77','A whole set contains eight equally counted objects. One object is selected. Which statement is true?','The selected object is 1/8 of the set.',[['The selected object is 1/1 of the set.','The whole is the entire set of eight objects.'],['The selected object is 8/1 of the set.','Only one of eight objects is selected.']],'The whole set has eight objects; one is selected, so its fraction is 1/8.'));
+add(choice('p705','l77','A whole set contains eight objects. One object is selected. Which statement is true?','The selected object is 1/8 of the set.',[['The selected object is 1/1 of the set.','The whole is the entire set of eight objects.'],['The selected object is 8/1 of the set.','Only one of eight objects is selected.']],'The whole set has eight objects; one is selected, so its fraction is 1/8.'));
 add(frac('p706','l77','The entire set is the whole. The selected objects are unfinished tasks. What fraction of the set is unfinished?',set(12,7)));
 // Explicit true/false reasoning, separate from the multiple-choice and typed banks.
 const tfRows=[

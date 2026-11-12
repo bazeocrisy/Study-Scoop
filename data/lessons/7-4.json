@@ -1893,7 +1893,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2074,13 +2074,13 @@
         ],
         "hints": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected."
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way."
         ],
         "show": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected.",
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way.",
           "2/2 equals 1 and 4/4 equals 1; different part sizes can still cover one complete whole."
         ],
         "yes": "Neither shape has a missing piece; 2/2 and 4/4 both equal 1.",
@@ -2116,7 +2116,7 @@
               ]
             },
             {
-              "text": "The first shape has every equal piece selected.",
+              "text": "Check the first shape: is every equal piece selected?",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2148,7 +2148,7 @@
               ]
             },
             {
-              "text": "The second also has every equal piece selected.",
+              "text": "Now check the second shape the same way.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4002,11 +4002,11 @@
         "answerPolicy": "value",
         "hints": [
           "Trace the complete selected strip; no part of the whole is missing.",
-          "Count all four selected pieces and all four pieces in the whole."
+          "Count the selected pieces. Then count all the pieces in the whole."
         ],
         "show": [
           "Trace the complete selected strip; no part of the whole is missing.",
-          "Count all four selected pieces and all four pieces in the whole.",
+          "Count the selected pieces. Then count all the pieces in the whole.",
           "One valid answer is 4/4 because all four of four parts are selected. Other positive matching counts, such as 2/2, also name a complete whole."
         ],
         "yes": "A whole includes every equal part. Any positive matching top and bottom counts name all the parts, so the fraction equals 1; all four pictured parts also fill one whole.",
@@ -4028,7 +4028,7 @@
               }
             },
             {
-              "text": "Count all four selected pieces and all four pieces in the whole.",
+              "text": "Count the selected pieces. Then count all the pieces in the whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4840,7 +4840,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5072,7 +5072,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5409,13 +5409,13 @@
         ],
         "hints": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected."
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way."
         ],
         "show": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected.",
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way.",
           "3/3 equals 1 and 6/6 equals 1; different part sizes can still cover one complete whole."
         ],
         "yes": "Neither shape has a missing piece; 3/3 and 6/6 both equal 1.",
@@ -5451,7 +5451,7 @@
               ]
             },
             {
-              "text": "The first shape has every equal piece selected.",
+              "text": "Check the first shape: is every equal piece selected?",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -5484,7 +5484,7 @@
               ]
             },
             {
-              "text": "The second also has every equal piece selected.",
+              "text": "Now check the second shape the same way.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -5795,13 +5795,13 @@
         ],
         "hints": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected."
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way."
         ],
         "show": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected.",
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way.",
           "4/4 equals 1 and 8/8 equals 1; different part sizes can still cover one complete whole."
         ],
         "yes": "Neither shape has a missing piece; 4/4 and 8/8 both equal 1.",
@@ -5840,7 +5840,7 @@
               ]
             },
             {
-              "text": "The first shape has every equal piece selected.",
+              "text": "Check the first shape: is every equal piece selected?",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -5877,7 +5877,7 @@
               ]
             },
             {
-              "text": "The second also has every equal piece selected.",
+              "text": "Now check the second shape the same way.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6694,13 +6694,13 @@
         ],
         "hints": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected."
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way."
         ],
         "show": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected.",
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way.",
           "2/2 equals 1 and 8/8 equals 1; different part sizes can still cover one complete whole."
         ],
         "yes": "Neither shape has a missing piece; 2/2 and 8/8 both equal 1.",
@@ -6739,7 +6739,7 @@
               ]
             },
             {
-              "text": "The first shape has every equal piece selected.",
+              "text": "Check the first shape: is every equal piece selected?",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6774,7 +6774,7 @@
               ]
             },
             {
-              "text": "The second also has every equal piece selected.",
+              "text": "Now check the second shape the same way.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -8021,7 +8021,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -8501,8 +8501,8 @@
         ],
         "show": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected.",
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way.",
           "6/6 equals 1 and 8/8 equals 1; different part sizes can still cover one complete whole."
         ],
         "yes": "Neither shape has a missing piece; 6/6 and 8/8 both equal 1.",
@@ -8538,7 +8538,7 @@
               ]
             },
             {
-              "text": "The first shape has every equal piece selected.",
+              "text": "Check the first shape: is every equal piece selected?",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -8574,7 +8574,7 @@
               ]
             },
             {
-              "text": "The second also has every equal piece selected.",
+              "text": "Now check the second shape the same way.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -8964,7 +8964,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -9164,8 +9164,8 @@
         ],
         "show": [
           "Compare the two complete outside shapes.",
-          "The first shape has every equal piece selected.",
-          "The second also has every equal piece selected.",
+          "Check the first shape: is every equal piece selected?",
+          "Now check the second shape the same way.",
           "6/6 equals 1 and 3/3 equals 1; different part sizes can still cover one complete whole."
         ],
         "yes": "Neither shape has a missing piece; 6/6 and 3/3 both equal 1.",
@@ -9204,7 +9204,7 @@
               ]
             },
             {
-              "text": "The first shape has every equal piece selected.",
+              "text": "Check the first shape: is every equal piece selected?",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -9243,7 +9243,7 @@
               ]
             },
             {
-              "text": "The second also has every equal piece selected.",
+              "text": "Now check the second shape the same way.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",

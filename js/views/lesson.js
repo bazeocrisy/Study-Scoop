@@ -316,7 +316,7 @@ export function itemCard(lesson, item, stage, state) {
             ${done ? '' : html`<button type="submit" class="btn btn-primary"${countReady ? '' : ' disabled'}>Check Answer</button>`}
             ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${questionHelp ? `${helpLabel.replace('? ', '')} for this question, step ${opened + 1} of ${steps.length}` : opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${helpLabel}</button>` : ''}
           </div>`}
-        ${!test && !writtenReview && opened && !feedbackMode && st.coachView !== 'answer' ? helpPanel(item, steps, opened, st.shown, done, coached) : ''}
+        ${!test && !writtenReview && opened && !feedbackMode && st.coachView !== 'answer' ? helpPanel(item, steps, opened, st.shown, done, coached, (st.tries || 0) > 0) : ''}
         ${!test && !writtenReview && st.say && (!coached || feedbackMode || !opened) ? feedbackPanel(item, st, opened, coached) : ''}
       </form>
     </div>`;
@@ -401,14 +401,14 @@ function feedbackPanel(item, st, opened = 0, coached = false) {
 }
 
 /** The Help steps opened so far; when the last one is open the answer is filled in. */
-function helpPanel(item, steps, opened, finished, done, coached = false) {
+function helpPanel(item, steps, opened, finished, done, coached = false, tried = true) {
   if (coached) {
     const step = steps[Math.min(opened, steps.length) - 1];
     return html`<section class="feedback info help-panel visual-coach" id="help-${item.id}" data-coach="help" aria-label="Visual help">
       <h3 tabindex="-1" data-coach-heading class="coach-progress">Step ${opened} of ${steps.length}${finished ? ': put it together' : ''}</h3>
       <div class="coach-model">${coachModels(step)}</div><p class="coach-instruction">${step.text}</p>${readButton(step.text, 'this teaching step')}
       ${opened > 1 ? html`<details><summary>Review earlier steps</summary><ol>${steps.slice(0, opened - 1).map((s) => html`<li>${s.text}</li>`)}</ol></details>` : ''}
-      ${done ? '' : html`<p>Try your answer now, or go to the next teaching step.</p><button type="button" class="btn btn-primary" data-act="coach-retry">Try again</button>`}
+      ${done ? '' : html`<p>Try your answer now, or go to the next teaching step.</p><button type="button" class="btn btn-primary" data-act="coach-retry">${tried ? 'Try again' : 'Try it'}</button>`}
     </section>`;
   }
   const shownSteps = steps.slice(0, opened);
@@ -797,7 +797,7 @@ export function readinessReport(lesson, history, visited) {
   return html`<section class="card readiness" aria-labelledby="ready-h">
     <h3 id="ready-h">Readiness report (this visit)</h3>
     <p class="verdict ${level}"><strong>${verdict[0]}</strong> ${verdict[1]}</p>
-    ${y ? html`<p>Try It Yourself (You Do), first round: <strong>${y.own} of ${y.total}</strong> right on the first try with no help${y.helped ? `; ${y.helped} more right after another try or with help` : ''}.</p>` : html`<p>Try It Yourself (You Do): not finished yet.</p>`}
+    ${y ? html`<p>Try It Yourself (You Do), first round: <strong>${y.own} of ${y.total}</strong> right on the first try with no help${y.helped ? `; ${y.helped} more right after another try or with help` : ''}.</p>` : ''}
     ${missed.length ? html`<p>Missed on the first test:</p><ul>${missed.map((it) => html`<li>${it.prompt}</li>`)}</ul>` : ''}
     <p class="hint">Answers shown by Help, and retakes after the answers were shown, never count as "on own". This report covers this visit only (Lessons 7-2 to 7-7 are not saved), and on-screen results are not proof of mastery: the workbook page done without help is the real check.</p>
   </section>`;

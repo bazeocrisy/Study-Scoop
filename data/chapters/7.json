@@ -7206,7 +7206,7 @@
         "id": "p705",
         "skill": "l77",
         "type": "choice",
-        "prompt": "A whole set contains eight equally counted objects. One object is selected. Which statement is true?",
+        "prompt": "A whole set contains eight objects. One object is selected. Which statement is true?",
         "options": [
           {
             "text": "The selected object is 1/8 of the set.",

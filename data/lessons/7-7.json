@@ -169,7 +169,7 @@
         "title": "Positions can change",
         "text": [
           "The selected objects may move without changing how many are selected.",
-          "Compare the before-and-after pictures in Watch Me; the fraction stays the same when both counts stay the same."
+          "If the number selected and the number in the whole set stay the same, the fraction stays the same."
         ],
         "model": {
           "type": "fraction",
@@ -1079,7 +1079,7 @@
             ]
           },
           {
-            "say": "The selected objects have new positions, but the same number are selected.",
+            "say": "Count the selected objects in each picture. Then count all the objects.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -1179,7 +1179,7 @@
         "why": {
           "id": "w2check",
           "type": "choice",
-          "prompt": "The selected objects move to the new positions shown. None are added, removed, or changed from selected to plain. Does the selected fraction change?",
+          "prompt": "The objects move to the new places shown. Does the selected fraction change?",
           "model": {
             "type": "fraction",
             "kind": "set",
@@ -1234,11 +1234,11 @@
           ],
           "hints": [
             "The whole includes every object in both arrangements.",
-            "The selected objects have new positions, but the same number are selected."
+            "Count the selected objects in each picture. Then count all the objects."
           ],
           "show": [
             "The whole includes every object in both arrangements.",
-            "The selected objects have new positions, but the same number are selected.",
+            "Count the selected objects in each picture. Then count all the objects.",
             "Both pictures show 3 selected out of 8; the fraction stays 3/8."
           ],
           "yes": "Moving changes positions, not membership: there are still 8 objects in the whole and 3 selected objects. So both fractions are 3/8.",
@@ -1274,7 +1274,7 @@
                 ]
               },
               {
-                "text": "The selected objects have new positions, but the same number are selected.",
+                "text": "Count the selected objects in each picture. Then count all the objects.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -2814,7 +2814,7 @@
       {
         "id": "g6",
         "type": "choice",
-        "prompt": "The selected objects move to the new positions shown. None are added, removed, or changed from selected to plain. Does the selected fraction change?",
+        "prompt": "The objects move to the new places shown. Does the selected fraction change?",
         "model": {
           "type": "fraction",
           "kind": "set",
@@ -2866,11 +2866,11 @@
         ],
         "hints": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected."
+          "Count the selected objects in each picture. Then count all the objects."
         ],
         "show": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected.",
+          "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 2 selected out of 6; the fraction stays 2/6."
         ],
         "yes": "Moving changes positions, not membership: there are still 6 objects in the whole and 2 selected objects. So both fractions are 2/6.",
@@ -2906,7 +2906,7 @@
               ]
             },
             {
-              "text": "The selected objects have new positions, but the same number are selected.",
+              "text": "Count the selected objects in each picture. Then count all the objects.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -6191,11 +6191,11 @@
         ],
         "hints": [
           "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
-          "This set selects more than that first object."
+          "Count the selected objects. How many are there?"
         ],
         "show": [
           "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
-          "This set selects more than that first object.",
+          "Count the selected objects. How many are there?",
           "There are 2 selected objects, so the numerator is 2, not 1. It is not a unit fraction."
         ],
         "yes": "A unit fraction selects one counting part. This picture selects 2 objects out of 6, so the top is 2; it is not a unit fraction.",
@@ -6214,7 +6214,7 @@
               }
             },
             {
-              "text": "This set selects more than that first object.",
+              "text": "Count the selected objects. How many are there?",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -6530,7 +6530,7 @@
       {
         "id": "t16",
         "type": "choice",
-        "prompt": "The selected objects move to the new positions shown. None are added, removed, or changed from selected to plain. Does the selected fraction change?",
+        "prompt": "The objects move to the new places shown. Does the selected fraction change?",
         "model": {
           "type": "fraction",
           "kind": "set",
@@ -6579,11 +6579,11 @@
         ],
         "hints": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected."
+          "Count the selected objects in each picture. Then count all the objects."
         ],
         "show": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected.",
+          "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 1 selected out of 3; the fraction stays 1/3."
         ],
         "yes": "Moving changes positions, not membership: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
@@ -6619,7 +6619,7 @@
               ]
             },
             {
-              "text": "The selected objects have new positions, but the same number are selected.",
+              "text": "Count the selected objects in each picture. Then count all the objects.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -6822,7 +6822,7 @@
       {
         "id": "t17",
         "type": "choice",
-        "prompt": "The selected objects move to the new positions shown. None are added, removed, or changed from selected to plain. Does the selected fraction change?",
+        "prompt": "The objects move to the new places shown. Does the selected fraction change?",
         "model": {
           "type": "fraction",
           "kind": "set",
@@ -6883,11 +6883,11 @@
         ],
         "hints": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected."
+          "Count the selected objects in each picture. Then count all the objects."
         ],
         "show": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected.",
+          "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 5 selected out of 10; the fraction stays 5/10."
         ],
         "yes": "Moving changes positions, not membership: there are still 10 objects in the whole and 5 selected objects. So both fractions are 5/10.",
@@ -6923,7 +6923,7 @@
               ]
             },
             {
-              "text": "The selected objects have new positions, but the same number are selected.",
+              "text": "Count the selected objects in each picture. Then count all the objects.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -7210,7 +7210,7 @@
       {
         "id": "t18",
         "type": "choice",
-        "prompt": "The selected objects move to the new positions shown. None are added, removed, or changed from selected to plain. Does the selected fraction change?",
+        "prompt": "The objects move to the new places shown. Does the selected fraction change?",
         "model": {
           "type": "fraction",
           "kind": "set",
@@ -7265,11 +7265,11 @@
         ],
         "hints": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected."
+          "Count the selected objects in each picture. Then count all the objects."
         ],
         "show": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected.",
+          "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 3 selected out of 5; the fraction stays 3/5."
         ],
         "yes": "Moving changes positions, not membership: there are still 5 objects in the whole and 3 selected objects. So both fractions are 3/5.",
@@ -7305,7 +7305,7 @@
               ]
             },
             {
-              "text": "The selected objects have new positions, but the same number are selected.",
+              "text": "Count the selected objects in each picture. Then count all the objects.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8538,7 +8538,7 @@
         ],
         "show": [
           "A unit fraction has 1 on top: it counts exactly one part of a defined whole.",
-          "This set selects more than that first object.",
+          "Count the selected objects. How many are there?",
           "There are 2 selected objects, so the numerator is 2, not 1. It is not a unit fraction."
         ],
         "yes": "A unit fraction selects one counting part. This picture selects 2 objects out of 5, so the top is 2; it is not a unit fraction.",
@@ -8557,7 +8557,7 @@
               }
             },
             {
-              "text": "This set selects more than that first object.",
+              "text": "Count the selected objects. How many are there?",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -9680,7 +9680,7 @@
       {
         "id": "x10",
         "type": "choice",
-        "prompt": "The selected objects move to the new positions shown. None are added, removed, or changed from selected to plain. Does the selected fraction change?",
+        "prompt": "The objects move to the new places shown. Does the selected fraction change?",
         "model": {
           "type": "fraction",
           "kind": "set",
@@ -9732,7 +9732,7 @@
         ],
         "show": [
           "The whole includes every object in both arrangements.",
-          "The selected objects have new positions, but the same number are selected.",
+          "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 2 selected out of 5; the fraction stays 2/5."
         ],
         "yes": "Moving changes positions, not membership: there are still 5 objects in the whole and 2 selected objects. So both fractions are 2/5.",
@@ -9768,7 +9768,7 @@
               ]
             },
             {
-              "text": "The selected objects have new positions, but the same number are selected.",
+              "text": "Count the selected objects in each picture. Then count all the objects.",
               "model": {
                 "type": "fraction",
                 "kind": "set",

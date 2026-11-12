@@ -2,7 +2,7 @@
 import { fractionModelProblems } from './fractions.js';
 export function describeFraction(m) {
   if (fractionModelProblems(m).length) return 'Invalid fraction diagram.';
-  if (m.kind === 'line') return `Number line from zero to ${m.max ?? 1}. Each unit has ${m.parts} equal intervals. A point is on tick ${m.point}, counting from zero. Whole-number ticks are labelled. A reference bracket from zero to one marks one whole.${m.counted?.length ? ' ' + m.counted.map((index, ordinal) => `Interval from tick ${index} to tick ${index + 1} has a bold stroke and count marker ${ordinal + 1}.`).join(' ') : ''}`;
+  if (m.kind === 'line') return `Number line from zero to ${m.max ?? 1}. Each unit has ${m.parts} equal ${m.parts === 1 ? 'interval' : 'intervals'}. A point is on tick ${m.point}, counting from zero. Whole-number ticks are labeled. A reference bracket from zero to one marks one whole.${m.counted?.length ? ' ' + m.counted.map((index, ordinal) => `Interval from tick ${index} to tick ${index + 1} has a bold stroke and count marker ${ordinal + 1}.`).join(' ') : ''}`;
   const count = (m.wholes ?? 1) * m.parts;
   const structure = m.kind === 'set' ? 'One whole collection of objects' : `${m.wholes ?? 1} same-sized whole ${m.kind === 'circle' ? 'circles' : 'bars'}, divided into parts`;
   return structure + (m.wholeLayout === 'grid' ? ', arranged in two columns and read left to right across each row' : '') + '. ' + Array.from({ length: count }, (_, i) => {
@@ -26,6 +26,8 @@ export function fractionSvg(m) {
       out.push(`<g data-count-interval="${index}" data-count-marker="${ordinal + 1}"><line x1="${start + 2}" y1="${y}" x2="${end - 2}" y2="${y}" stroke="#583084" stroke-width="7"/><line x1="${center}" y1="${markerY + 16}" x2="${center}" y2="${y - 5}" stroke="#555" stroke-width="1"/><circle cx="${center}" cy="${markerY}" r="16" fill="#fff" stroke="#222" stroke-width="2"/><text x="${center}" y="${markerY}" text-anchor="middle" dominant-baseline="central" font-size="22" font-weight="700" fill="#111">${ordinal + 1}</text></g>`);
     }
     out.push(`<circle cx="${left + span * m.point / (m.parts * max)}" cy="${y}" r="7" fill="#583084" stroke="currentColor" stroke-width="2"/>`);
+    // The tick under the point stays visible above and below the dot, so every tick can be counted.
+    if (m.point > 0) { const px = left + span * m.point / (m.parts * max); out.push(`<path d="M${px} ${y - 15}V${y - 8}M${px} ${y + 8}V${y + 15}" stroke="currentColor" stroke-width="2"/>`); }
     const unitEnd = left + span / max;
     out.push(`<path d="M${left} ${y + 42} v5 H${unitEnd} v-5" fill="none" stroke="currentColor" stroke-width="1.5"/><text x="${(left + unitEnd) / 2}" y="${y + 67}" text-anchor="middle" font-size="14">one whole</text>`);
     return `<svg aria-hidden="true" focusable="false" viewBox="0 0 ${width} ${y + 76}" width="${width}" height="${y + 76}">${out.join('')}</svg>`;

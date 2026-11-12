@@ -201,7 +201,10 @@ export function picture(p) {
 /** The steps shown by "Show Steps": partial constructions only; the finished answer is a separate choice. */
 export function helpSteps(card, ui = {}) {
   if (card.type === 'build') {
-    const t = card.task, src = card.different ? CROSS.teach2.slice(1) : t.teach || t.solution.map((_, i) => ({ text: i === 0 ? 'Start with this line.' : 'Add this line next.', lines: t.solution.slice(0, i + 1) }));
+    const t = card.task, avoid = card.different ? ui.avoidKey || partitionKey(t, t.solutions[0]) : null;
+    // A different way: show the way the child has NOT drawn yet.
+    const way2 = avoid && partitionKey(t, CROSS.teach2[CROSS.teach2.length - 1].lines) === avoid;
+    const src = card.different ? (way2 ? CROSS.teach : CROSS.teach2).slice(1) : t.teach || t.solution.map((_, i) => ({ text: i === 0 ? 'Start with this line.' : 'Add this line next.', lines: t.solution.slice(0, i + 1) }));
     const partial = (list) => list.filter((s) => s.lines?.length && !validatePartition(t, s.lines).valid);
     const steps = partial(src).length ? partial(src) : partial(t.solution.map((_, i) => ({ text: i === 0 ? 'Start with this line.' : 'Add this line next.', lines: t.solution.slice(0, i + 1) })));
     return steps.map((s) => ({ text: s.text, svg: taskSvg(t, { lines: s.lines, small: true, label: `Help picture: ${s.text}` }) }));
@@ -266,17 +269,17 @@ function buildCard(card, ui) {
     <p class="j-preview" data-j-preview aria-hidden="true">&nbsp;</p>
     <p class="j-legend"><span class="key corner"></span> corner${card.task.points.some((p) => !/^[vkce]\d|^c$/.test(p.id)) ? html` <span class="key mark"></span> mark on an edge` : ''}${card.task.points.some((p) => /^e\d/.test(p.id)) ? html` <span class="key mark"></span> point on the edge` : ''}${card.task.points.some((p) => p.id === 'c') ? html` <span class="key center"></span> center` : ''}</p>
     <p class="j-howto" data-j-status>${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap or click the dot where the line should end.` : (ui.lines || []).length ? `${(ui.lines || []).length} line${(ui.lines || []).length === 1 ? '' : 's'} drawn. Add another line, or press Check my parts.` : 'No lines yet. Tap or click a dot to start a line.'}</p>
+    <div class="j-row j-tools">
+      <button type="button" class="btn btn-primary" data-j="check">${checkLabel(card, ui, 'Check my parts')}</button>
+      <button type="button" class="btn" data-j="undo" ${(ui.lines || []).length ? '' : html`disabled`}>Undo last line</button>
+      <button type="button" class="btn" data-j="clear" ${(ui.lines || []).length ? '' : html`disabled`}>Start over</button>
+    </div>
     ${ui.locked ? '' : html`<details class="j-drawhelp"${ui.drawHelpOpen ? html` open` : ''}><summary>How to draw lines</summary><ol>
       <li><strong>Pick a dot:</strong> tap it or click it. It gets a circle.</li>
       <li><strong>Pick a second dot:</strong> a straight line joins the two dots.</li>
       <li><strong>Fix a mistake:</strong> press <em>Undo last line</em>, or pick the same two dots again to erase that line. <em>Start over</em> erases every line.</li>
       <li><strong>Finished?</strong> Press <em>Check my parts</em>.</li>
-    </ol><p class="j-note">On a touch screen, hold your finger still for a moment and slide: the dot with the circle is the one you get when you lift. With a keyboard, press Tab to reach the shape, use the arrow keys to move between dots, and press Enter or Space to pick one.</p></details>`}
-    <div class="j-row j-tools">
-      <button type="button" class="btn btn-primary" data-j="check">${checkLabel(card, ui, 'Check my parts')}</button>
-      <button type="button" class="btn" data-j="undo" ${(ui.lines || []).length ? '' : html`disabled`}>Undo last line</button>
-      <button type="button" class="btn" data-j="clear" ${(ui.lines || []).length ? '' : html`disabled`}>Start over</button>
-    </div>`;
+    </ol><p class="j-note">On a touch screen, hold your finger still for a moment and slide: the dot with the circle is the one you get when you lift. With a keyboard, press Tab to reach the shape, use the arrow keys to move between dots, and press Enter or Space to pick one. If the shape has a center dot, press Home to jump to it.</p></details>`}`;
 }
 /** The Final Check asks once before using its one try. */
 const checkLabel = (card, ui, text) => (card.phase === 'assess' && ui.confirm && !ui.locked ? 'Yes, check it (one try)' : text);
@@ -344,7 +347,7 @@ function unitLine(card) {
   const u = unitOf(card);
   if (!u) return '';
   const k = UNITS.indexOf(u), phases = [...new Set(u.cards.map((c) => c.phase))];
-  return html`<span class="j-skill">Skill ${k + 1} of ${UNITS.length}: ${u.title}<span class="sr-only"> (${phases.map((p) => PHASE_SHORT[p]).join(', then ')})</span></span>`;
+  return html`<span class="j-skill">Skill: ${u.title}<span class="sr-only"> (skill ${k + 1} of ${UNITS.length}; ${phases.map((p) => PHASE_SHORT[p]).join(', then ')})</span></span>`;
 }
 
 /**
@@ -354,7 +357,7 @@ function unitLine(card) {
  */
 export function journeyStepper(ctx, current, records = {}, { card, open = false } = {}) {
   const L = (id) => ctx.lessonLink('7-1', id), si = JOURNEY.findIndex((s) => s.id === current), here = JOURNEY[si];
-  const where = here ? html`<strong>Part ${String.fromCharCode(65 + si)} of I:</strong> ${here.title}` : html`<strong>Grown-up report</strong>`;
+  const where = here ? html`<strong>Part ${String.fromCharCode(65 + si)}</strong> <span class="j-of">(${si + 1} of ${JOURNEY.length}):</span> ${here.title}` : html`<strong>Grown-up report</strong>`;
   return html`<div class="j-map">
     <p class="j-where">${where}${card ? html` <span class="j-cardnum">${card}</span>` : ''}</p>
     <span class="j-mapbar" aria-hidden="true">${JOURNEY.map((s) => html`<span class="${s.id === current ? 'now' : stageComplete(s.id, records) ? 'past' : ''}"></span>`)}</span>

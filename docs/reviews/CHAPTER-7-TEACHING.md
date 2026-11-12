@@ -59,7 +59,7 @@ Across all six lessons, from the code:
 |---|---|
 | C1 | Hints and help steps no longer state the number to type ("Count the spaces from 0 to 1. That number goes in the bottom box.") |
 | C2 | Grammar ("1 equal pieces", "1 wholes", "1 selected objects", "1 spaces") |
-| C3 | Tests: replace near-copies of taught items; more "name the point" items in 7-3; no printed answers in 7-4; varied 7-5 test with 6/1 = 6; 7-6 x5 practised; 7-7 sets of 2, 3, 4, 6 or 8 and a practised unit-fraction question |
+| C3 | Tests: replace near-copies of taught items; more "name the point" items in 7-3; no printed answers in 7-4; varied 7-5 test with 6/1 = 6; 7-6 x5 practised; a practised unit-fraction question in 7-7. (7-7 keeps its sets of 5, 10 and 12: the source lesson uses them, so the workbook will too.) |
 | C4 | Plainer wording for the prompts quoted above; 7-6 "keep counting past 1" |
 | C5 | 7-2: one practice and one test item on equal versus unequal parts |
 
@@ -71,3 +71,32 @@ You Do and Check stages.
 
 1. **Saved progress for 7-2 to 7-7.** DECISIONS D29 allows saved progress for Lesson 7-1 only, so 7-2 to 7-7 still forget progress on refresh. With E1, a refresh means the child repeats the teaching stages before the practice opens again. Extending D29 (one local key per lesson, no names, a grown-up reset) is recommended, but it is not built without approval.
 2. **"All learning activities are unlocked"** (CLAUDE.md, Product). E1 locks practice behind teaching in Chapter 7, as the owner asked for 7-1. Please confirm this applies to all of Chapter 7.
+
+## 5. Independent reviews (Phase 4) and what changed
+
+Five separate reviewers examined commit 0bcc26b: curriculum, instruction, mathematics, UX/accessibility and QA. Each used their own scripts or browser runs. Fixes are in the next commit.
+
+| Finding | Reviewer(s) | Severity | Resolution |
+|---|---|---|---|
+| 7-1 You Do choice cards never showed the Quick fix, but the report said "after a quick fix" | QA | Blocking | Fixed: the quick fix is set on every copy of the card; regression test |
+| 7-6 "Greater than" was never the right answer, so always picking "Less than" passed | Curriculum, Maths | Blocking | Fixed: 4 "greater", 2 "less" and 2 "equal" answers across practice and test |
+| 7-6 We Do g1 (denominator) opened with a numerator hint | Instruction | Blocking | Fixed: the denominator and numerator questions have their own steps |
+| Prompts stating their own answer (7-2 t20/x9, 7-5 "each whole is one piece", 7-7 "none are added") | All three content reviewers | Important | Reworded |
+| Hints stating the value or the right option (7-4 t8, sameWhole, 7-7 rearrange, setUnit) | Curriculum, Maths | Important | Reworded to "count ..." prompts |
+| 7-1 "a different way" help could teach the way already drawn | Maths | Important | Fixed: help shows the other way |
+| 7-1 "A line must go all the way across" after a full line | Instruction | Important | "Add another line. It must go all the way across." |
+| 7-5 never converted n/1 back to a whole number; 7-2 never asked "are these equal parts?" | Curriculum | Important | Added 1 You Do and 1 test item each |
+| 7-1 center dot not reachable by arrow keys (octagons) | UX/a11y | Important | Home jumps to the center (and the guide says so) |
+| Focus left off screen after "ready to try again" or a Final Check answer; We Do hint not read out | UX/a11y | Important | Focus is always scrolled into view; the hint text is announced |
+| "How to draw lines" pushed Check far down the first drawing card | UX/a11y | Important | The guide is now under the Check button row |
+| A tick under the number-line point was hidden by the dot | UX/a11y | Important | The tick shows above and below the dot |
+| Three counters in the 7-1 header; "Part A of I" | Instruction, UX | Minor | "Part A (1 of 9)"; skill shown by name only |
+| Grammar ("1 equal piece are", "Those 1 gap are", "labelled"), "Try again" before any try, Final Check "Not quite"/"Not yet", locked step font, phone stepper labels, duplicate report line, 7-7 screen pointing ahead to Watch Me, abstract 7-3 tick feedback | Several | Minor | Fixed |
+
+**Not fixed in this release** (listed for the owner):
+- **Repeated right-answer wording.** Several choice templates keep the same right-answer wording across practice and the test, so a child could match words (Curriculum 2). This needs new item designs per template.
+- **No "given fraction → picture" items** in 7-2, 7-3 or 7-6. The workbook may ask, for example, "Which line shows 3/4?" (Curriculum 7). This needs a picture-option question type.
+- **Screen readers hear the answer.** A number-line description tells a screen-reader user where the point is (for example "on tick 1"), which gives the answer (a11y I1). A fair alternative needs a step-through control.
+- **Some test pictures match taught pictures with small denominators** (2–4 parts). Exact copies and same-prompt copies were removed (checked by script).
+- **Close dots on small phones.** At 320 px, dot centres on the densest 7-1 shapes are 27–31 px apart. Nearest-dot selection with a press-and-slide preview makes each tap unambiguous, but the spacing is below the 44 px project bar.
+- **No readiness report after a refresh in 7-2 to 7-7.** These lessons are not saved, so a refresh re-locks practice and clears the report (Decision 1 below).

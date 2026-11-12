@@ -24,16 +24,31 @@ const WORDING = [
   ['Keep the same gap size and continue the count from zero.', 'Keep the same gap size and keep counting past 1.'],
   ['Name the marked point. Use the equal intervals from 0 to 1 as the denominator.', 'What fraction is at the point? Count the equal spaces from 0 to 1 for the bottom number.'],
   ['Name the marked point using the displayed number of intervals per whole as the denominator.', 'What fraction is at the point? The bottom number is the gaps in one whole; the top is every gap from 0 to the point.'],
-  ['What denominator describes a complete whole-size piece?', 'Each whole is one piece. How many parts is each whole? That number is the denominator.'],
+  ['What denominator describes a complete whole-size piece?', 'How many equal parts is each whole cut into? That number is the denominator.'],
+  // Release review round 2: prompts must not state their own answer; hints must not state the value or the right option.
+  ['Both equal-part wholes match. Different positions are colored, but the same number of pieces is colored. Which counts change?', 'Both wholes have the same equal pieces. Different pieces are colored. Which counts change?'],
+  ['The selected objects move to the new positions shown. None are added, removed, or changed from selected to plain. Does the selected fraction change?', 'The objects move to the new places shown. Does the selected fraction change?'],
+  ['Count all four selected pieces and all four pieces in the whole.', 'Count the selected pieces. Then count all the pieces in the whole.'],
+  ['The first shape has every equal piece selected.', 'Check the first shape: is every equal piece selected?'],
+  ['The second also has every equal piece selected.', 'Now check the second shape the same way.'],
+  ['The selected objects have new positions, but the same number are selected.', 'Count the selected objects in each picture. Then count all the objects.'],
+  ['This set selects more than that first object.', 'Count the selected objects. How many are there?'],
+  ['Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.', 'You counted the tick marks. Count the spaces between the ticks instead.'],
+  ['Partition the unit into three equal spaces.', 'Split 0 to 1 into three equal spaces.'],
+  ['Match the numbered colored-piece counts in the two pictures.', 'Count the colored pieces in each picture.'],
+  ['Compare the before-and-after pictures in Watch Me; the fraction stays the same when both counts stay the same.', 'If the number selected and the number in the whole set stay the same, the fraction stays the same.'],
 ];
 // "1 wholes" → "1 whole" (the number 1 directly before a plural counting word).
-const SINGULAR = /\b1 ((?:equal |colored |selected |plain |complete |whole-size |whole-unit |half-unit |unit )?)(piece|part|space|whole|object|interval|gap|jump|strip|disk|task|tile)s\b/g;
+const SINGULAR = /\b1 ((?:equal |colored |selected |plain |complete |whole-size |whole-unit |half-unit |unit |crossed )?)(piece|part|space|whole|object|interval|gap|jump|strip|disk|task|tile)s\b/g;
 
 function fixText(s, { help }) {
   let out = s;
   if (help) for (const [re, to] of COUNT_REWRITES) out = out.replace(re, to);
   for (const [a, b] of WORDING) out = out.split(a).join(b);
-  return out.replace(SINGULAR, '1 $1$2');
+  out = out.replace(SINGULAR, '1 $1$2');
+  // Verb agreement after the singular fix ("1 equal piece are" → "1 equal piece is").
+  for (const [a, b] of [['Those 1 gap are', 'That 1 gap is'], ['1 equal interval lead ', '1 equal interval leads '], ['1 equal piece are ', '1 equal piece is '], ['1 interval lead ', '1 interval leads ']]) out = out.split(a).join(b);
+  return out;
 }
 function walk(x, help) {
   if (Array.isArray(x)) return x.map((v) => (typeof v === 'string' ? fixText(v, { help }) : walk(v, help)));

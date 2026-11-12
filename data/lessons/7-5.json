@@ -1233,7 +1233,7 @@
       {
         "id": "g1",
         "type": "number",
-        "prompt": "Each separate shape is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
+        "prompt": "Each separate shape is one whole. How many equal parts is each whole cut into? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -2134,7 +2134,7 @@
       {
         "id": "t1",
         "type": "number",
-        "prompt": "Each separate shape is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
+        "prompt": "Each separate shape is one whole. How many equal parts is each whole cut into? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "circle",
@@ -2438,7 +2438,7 @@
       {
         "id": "t3",
         "type": "number",
-        "prompt": "Each 0-to-1 length is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. How many equal parts is each whole cut into? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -2694,7 +2694,7 @@
       {
         "id": "t5",
         "type": "number",
-        "prompt": "Each 0-to-1 length is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
+        "prompt": "Each 0-to-1 length is one whole. How many equal parts is each whole cut into? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "line",
@@ -4340,85 +4340,62 @@
       },
       {
         "id": "t14",
-        "type": "choice",
-        "prompt": "Each separate outline is one whole. What does the denominator 1 tell us?",
+        "type": "number",
+        "prompt": "What whole number is the same as 4/1?",
         "model": {
           "type": "fraction",
-          "kind": "bar",
+          "kind": "line",
           "parts": 1,
-          "wholes": 4,
-          "selected": [
-            0,
-            1,
-            2,
-            3
-          ],
-          "wholeLayout": "grid"
+          "max": 5,
+          "point": 4
         },
-        "options": [
-          {
-            "text": "All the shapes together must be a single whole.",
-            "why": "Each separate outline defines one whole; all the shapes together contain several such wholes."
-          },
-          {
-            "text": "Each counted piece is a complete whole.",
-            "correct": true
-          },
-          {
-            "text": "There is only one whole in the display.",
-            "why": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces."
-          }
-        ],
+        "answer": "4",
         "hints": [
-          "Each separate outline encloses one complete whole.",
-          "The highlighted piece takes one whole part, with no smaller divisions."
+          "The bottom 1 says each part is one whole.",
+          "The top says how many wholes. Count whole jumps from 0."
         ],
         "show": [
-          "Each separate outline encloses one complete whole.",
-          "The highlighted piece takes one whole part, with no smaller divisions.",
-          "The bottom is 1 even though the display counts 4 wholes."
+          "The bottom 1 says each part is one whole.",
+          "The top says how many wholes. Count whole jumps from 0.",
+          "4 whole jumps reach 4. So 4/1 is the same as 4."
         ],
-        "yes": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 4 wholes.",
+        "yes": "4/1 means 4 wholes, so it is the same as 4.",
         "teaching": {
           "steps": [
             {
-              "text": "Each separate outline encloses one complete whole.",
+              "text": "The bottom 1 says each part is one whole.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [],
-                "wholeLayout": "grid"
-              }
-            },
-            {
-              "text": "The highlighted piece takes one whole part, with no smaller divisions.",
-              "model": {
-                "type": "fraction",
-                "kind": "bar",
-                "parts": 1,
-                "wholes": 4,
-                "selected": [
+                "max": 5,
+                "point": 1,
+                "counted": [
                   0
-                ],
-                "wholeLayout": "grid"
+                ]
               }
             },
             {
-              "text": "The bottom is 1 even though the display counts 4 wholes.",
+              "text": "The top says how many wholes. Count whole jumps from 0.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [
-                  0,
-                  1,
-                  2,
-                  3
-                ],
-                "wholeLayout": "grid",
+                "max": 5,
+                "point": 4,
+                "counted": [
+                  0
+                ]
+              }
+            },
+            {
+              "text": "4 whole jumps reach 4. So 4/1 is the same as 4.",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 1,
+                "max": 5,
+                "point": 4,
                 "counted": [
                   0,
                   1,
@@ -4430,49 +4407,72 @@
             }
           ],
           "correct": {
-            "text": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 4 wholes.",
+            "text": "4/1 means 4 wholes, so it is the same as 4.",
             "model": {
               "type": "fraction",
-              "kind": "bar",
+              "kind": "line",
               "parts": 1,
-              "wholes": 4,
-              "selected": [
+              "max": 5,
+              "point": 4,
+              "counted": [
                 0,
                 1,
                 2,
                 3
-              ],
-              "wholeLayout": "grid"
+              ]
             }
           },
           "wrong": [
             {
-              "option": "There is only one whole in the display.",
-              "text": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces.",
+              "text": "Count every whole jump from 0. 4/1 has 4 of them.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [
-                  0
-                ],
-                "wholeLayout": "grid"
-              }
+                "max": 5,
+                "point": 4,
+                "counted": [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "when": "tooLow"
             },
             {
-              "option": "All the shapes together must be a single whole.",
-              "text": "Each separate outline defines one whole; all the shapes together contain several such wholes.",
+              "text": "4/1 has only 4 wholes. Count the whole jumps from 0 to the point.",
               "model": {
                 "type": "fraction",
-                "kind": "bar",
+                "kind": "line",
                 "parts": 1,
-                "wholes": 4,
-                "selected": [
-                  0
-                ],
-                "wholeLayout": "grid"
-              }
+                "max": 5,
+                "point": 4,
+                "counted": [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "when": "tooHigh"
+            },
+            {
+              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 1,
+                "max": 5,
+                "point": 4,
+                "counted": [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "when": "default"
             }
           ]
         }
@@ -6599,7 +6599,7 @@
       {
         "id": "x5",
         "type": "number",
-        "prompt": "Each separate shape is one whole. Each whole is one piece. How many parts is each whole? That number is the denominator.",
+        "prompt": "Each separate shape is one whole. How many equal parts is each whole cut into? That number is the denominator.",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -6742,55 +6742,31 @@
       },
       {
         "id": "x6",
-        "type": "choice",
-        "prompt": "Each 0-to-1 length is one whole. What does the denominator 1 tell us?",
+        "type": "number",
+        "prompt": "The point is at 5/1. Which whole number names the same point?",
         "model": {
           "type": "fraction",
           "kind": "line",
           "parts": 1,
-          "max": 4,
-          "point": 3
+          "max": 6,
+          "point": 5
         },
-        "options": [
-          {
-            "text": "Each counted piece is a complete whole.",
-            "correct": true
-          },
-          {
-            "text": "There is only one whole in the display.",
-            "why": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces."
-          },
-          {
-            "text": "The entire drawn line must be a single whole.",
-            "why": "Only the 0-to-1 length defines a unit; the entire drawn line contains several such units."
-          }
-        ],
+        "answer": "5",
         "show": [
-          "Find 0 to 1: this is one complete unit length.",
-          "The highlighted piece takes one whole part, with no smaller divisions.",
-          "The bottom is 1 even though the display counts 3 wholes."
+          "The bottom 1 says each part is one whole.",
+          "The top says how many wholes. Count whole jumps from 0.",
+          "5 whole jumps reach 5. So 5/1 is the same as 5."
         ],
-        "yes": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 3 wholes.",
+        "yes": "5/1 means 5 wholes, so it is the same as 5.",
         "teaching": {
           "steps": [
             {
-              "text": "Find 0 to 1: this is one complete unit length.",
+              "text": "The bottom 1 says each part is one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
                 "parts": 1,
-                "max": 4,
-                "point": 0,
-                "counted": []
-              }
-            },
-            {
-              "text": "The highlighted piece takes one whole part, with no smaller divisions.",
-              "model": {
-                "type": "fraction",
-                "kind": "line",
-                "parts": 1,
-                "max": 4,
+                "max": 6,
                 "point": 1,
                 "counted": [
                   0
@@ -6798,69 +6774,112 @@
               }
             },
             {
-              "text": "The bottom is 1 even though the display counts 3 wholes.",
+              "text": "The top says how many wholes. Count whole jumps from 0.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
                 "parts": 1,
-                "max": 4,
-                "point": 3,
+                "max": 6,
+                "point": 5,
+                "counted": [
+                  0
+                ]
+              }
+            },
+            {
+              "text": "5 whole jumps reach 5. So 5/1 is the same as 5.",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 1,
+                "max": 6,
+                "point": 5,
                 "counted": [
                   0,
                   1,
-                  2
+                  2,
+                  3,
+                  4
                 ]
               },
               "revealsAnswer": true
             }
           ],
           "correct": {
-            "text": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 3 wholes.",
+            "text": "5/1 means 5 wholes, so it is the same as 5.",
             "model": {
               "type": "fraction",
               "kind": "line",
               "parts": 1,
-              "max": 4,
-              "point": 3,
+              "max": 6,
+              "point": 5,
               "counted": [
                 0,
                 1,
-                2
+                2,
+                3,
+                4
               ]
             }
           },
           "wrong": [
             {
-              "option": "There is only one whole in the display.",
-              "text": "One part in each whole does not mean only one whole exists. Look beyond the highlighted first whole to the other whole pieces.",
+              "text": "Count every whole jump from 0. 5/1 has 5 of them.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
                 "parts": 1,
-                "max": 4,
-                "point": 1,
+                "max": 6,
+                "point": 5,
                 "counted": [
-                  0
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
                 ]
-              }
+              },
+              "when": "tooLow"
             },
             {
-              "option": "The entire drawn line must be a single whole.",
-              "text": "Only the 0-to-1 length defines a unit; the entire drawn line contains several such units.",
+              "text": "5/1 has only 5 wholes. Count the whole jumps from 0 to the point.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
                 "parts": 1,
-                "max": 4,
-                "point": 1,
+                "max": 6,
+                "point": 5,
                 "counted": [
-                  0
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
                 ]
-              }
+              },
+              "when": "tooHigh"
+            },
+            {
+              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 1,
+                "max": 6,
+                "point": 5,
+                "counted": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              "when": "default"
             }
           ]
         },
-        "explain": "Denominator 1 describes the size of each counted piece: one complete whole. The numerator, not the denominator, records 3 wholes."
+        "explain": "5/1 means 5 wholes, so it is the same as 5."
       },
       {
         "id": "x7",

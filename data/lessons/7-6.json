@@ -2412,32 +2412,30 @@
         },
         "answer": "2",
         "hints": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps."
+          "Find 0 and 1. The space between them is one whole unit.",
+          "Count only the gaps between 0 and 1. That number goes on the bottom."
         ],
         "show": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps.",
+          "Find 0 and 1. The space between them is one whole unit.",
+          "Count only the gaps between 0 and 1. That number goes on the bottom.",
           "2 gaps make one whole, so the denominator is 2."
         ],
         "yes": "2 equal gaps fit in 0 to 1; drawing more whole units does not change that denominator.",
         "teaching": {
           "steps": [
             {
-              "text": "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
+              "text": "Find 0 and 1. The space between them is one whole unit.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
                 "parts": 2,
                 "max": 3,
                 "point": 3,
-                "counted": [
-                  0
-                ]
+                "counted": []
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
+              "text": "Count only the gaps between 0 and 1. That number goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2543,19 +2541,19 @@
         },
         "answer": "3",
         "hints": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps."
+          "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
+          "At 1, do not start again. Keep counting the same gaps all the way to the marked point."
         ],
         "show": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps.",
+          "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
+          "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
           "Continue without restarting: 3 same-size gaps reach the point."
         ],
         "yes": "There are 3 equal gaps from zero, including the gaps before and after each whole label.",
         "teaching": {
           "steps": [
             {
-              "text": "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
+              "text": "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2568,7 +2566,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
+              "text": "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3183,37 +3181,37 @@
         "model": {
           "type": "fraction",
           "kind": "line",
-          "parts": 6,
+          "parts": 2,
           "max": 2,
-          "point": 5,
+          "point": 3,
           "caption": "Point to compare"
         },
         "models": [
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 6,
+            "parts": 2,
             "max": 2,
-            "point": 5,
+            "point": 3,
             "caption": "Point to compare"
           },
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 6,
+            "parts": 2,
             "max": 2,
-            "point": 6,
+            "point": 2,
             "caption": "1 whole unit"
           }
         ],
         "options": [
           {
             "text": "Greater than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 1 whole."
+            "correct": true
           },
           {
             "text": "Less than 1.",
-            "correct": true
+            "why": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 2 gaps needed for 1 whole."
           },
           {
             "text": "Equal to 1.",
@@ -3221,40 +3219,36 @@
           }
         ],
         "hints": [
-          "Both lines use the same unit and 6 equal gaps in each whole.",
+          "Both lines use the same unit and 2 equal gaps in each whole.",
           "Use the whole-number label 1 as a reference; compare where the two points lie."
         ],
         "show": [
-          "Both lines use the same unit and 6 equal gaps in each whole.",
+          "Both lines use the same unit and 2 equal gaps in each whole.",
           "Use the whole-number label 1 as a reference; compare where the two points lie.",
-          "1 whole unit needs 6 gaps of size 1/6. The point uses 5, so it is less than 1."
+          "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1."
         ],
-        "yes": "1 whole unit needs 6 gaps of size 1/6. The point uses 5, so it is less than 1.",
+        "yes": "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1.",
         "teaching": {
           "steps": [
             {
-              "text": "Both lines use the same unit and 6 equal gaps in each whole.",
+              "text": "Both lines use the same unit and 2 equal gaps in each whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
+                "parts": 2,
                 "max": 2,
-                "point": 6,
+                "point": 2,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
+                  1
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
                   "point": 0,
                   "caption": "Point to compare",
@@ -3263,17 +3257,13 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 6,
+                  "point": 2,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
+                    1
                   ]
                 }
               ]
@@ -3283,101 +3273,81 @@
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
+                "parts": 2,
                 "max": 2,
-                "point": 6,
+                "point": 2,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
+                  1
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 5,
+                  "point": 3,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2,
-                    3,
-                    4
+                    2
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 6,
+                  "point": 2,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
+                    1
                   ]
                 }
               ]
             },
             {
-              "text": "1 whole unit needs 6 gaps of size 1/6. The point uses 5, so it is less than 1.",
+              "text": "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
+                "parts": 2,
                 "max": 2,
-                "point": 6,
+                "point": 2,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
+                  1
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 5,
+                  "point": 3,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2,
-                    3,
-                    4
+                    2
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 6,
+                  "point": 2,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
+                    1
                   ]
                 }
               ],
@@ -3385,160 +3355,130 @@
             }
           ],
           "correct": {
-            "text": "1 whole unit needs 6 gaps of size 1/6. The point uses 5, so it is less than 1.",
+            "text": "1 whole unit needs 2 gaps of size 1/2. The point uses 3, so it is greater than 1.",
             "model": {
               "type": "fraction",
               "kind": "line",
-              "parts": 6,
+              "parts": 2,
               "max": 2,
-              "point": 6,
+              "point": 2,
               "caption": "1 whole unit",
               "counted": [
                 0,
-                1,
-                2,
-                3,
-                4,
-                5
+                1
               ]
             },
             "models": [
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
+                "parts": 2,
                 "max": 2,
-                "point": 5,
+                "point": 3,
                 "caption": "Point to compare",
                 "counted": [
                   0,
                   1,
-                  2,
-                  3,
-                  4
+                  2
                 ]
               },
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
+                "parts": 2,
                 "max": 2,
-                "point": 6,
+                "point": 2,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
+                  1
                 ]
               }
             ]
           },
           "wrong": [
             {
-              "option": "Equal to 1.",
-              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
+              "option": "Less than 1.",
+              "text": "A numerator counts small gaps, not whole units. Compare 3 gaps with the 2 gaps needed for 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
+                "parts": 2,
                 "max": 2,
-                "point": 6,
+                "point": 2,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
+                  1
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 5,
+                  "point": 3,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2,
-                    3,
-                    4
+                    2
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 6,
+                  "point": 2,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
+                    1
                   ]
                 }
               ]
             },
             {
-              "option": "Greater than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 5 gaps with the 6 gaps needed for 1 whole.",
+              "option": "Equal to 1.",
+              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
+                "parts": 2,
                 "max": 2,
-                "point": 6,
+                "point": 2,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
+                  1
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 5,
+                  "point": 3,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
-                    2,
-                    3,
-                    4
+                    2
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
+                  "parts": 2,
                   "max": 2,
-                  "point": 6,
+                  "point": 2,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
+                    1
                   ]
                 }
               ]
@@ -3899,32 +3839,30 @@
         },
         "answer": "6",
         "hints": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps."
+          "Find 0 and 1. The space between them is one whole unit.",
+          "Count only the gaps between 0 and 1. That number goes on the bottom."
         ],
         "show": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps.",
+          "Find 0 and 1. The space between them is one whole unit.",
+          "Count only the gaps between 0 and 1. That number goes on the bottom.",
           "6 gaps make one whole, so the denominator is 6."
         ],
         "yes": "6 equal gaps fit in 0 to 1; drawing more whole units does not change that denominator.",
         "teaching": {
           "steps": [
             {
-              "text": "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
+              "text": "Find 0 and 1. The space between them is one whole unit.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
                 "parts": 6,
                 "max": 2,
                 "point": 7,
-                "counted": [
-                  0
-                ]
+                "counted": []
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
+              "text": "Count only the gaps between 0 and 1. That number goes on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4050,19 +3988,19 @@
         },
         "answer": "7",
         "hints": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps."
+          "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
+          "At 1, do not start again. Keep counting the same gaps all the way to the marked point."
         ],
         "show": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps.",
+          "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
+          "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
           "Continue without restarting: 7 same-size gaps reach the point."
         ],
         "yes": "There are 7 equal gaps from zero, including the gaps before and after each whole label.",
         "teaching": {
           "steps": [
             {
-              "text": "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
+              "text": "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4075,7 +4013,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
+              "text": "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7339,7 +7277,7 @@
         "model": {
           "type": "fraction",
           "kind": "line",
-          "parts": 8,
+          "parts": 4,
           "max": 2,
           "point": 7,
           "caption": "Point to compare"
@@ -7348,7 +7286,7 @@
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 8,
+            "parts": 4,
             "max": 2,
             "point": 7,
             "caption": "Point to compare"
@@ -7356,20 +7294,20 @@
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 8,
+            "parts": 4,
             "max": 2,
-            "point": 8,
+            "point": 4,
             "caption": "1 whole unit"
           }
         ],
         "options": [
           {
             "text": "Greater than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 1 whole."
+            "correct": true
           },
           {
             "text": "Less than 1.",
-            "correct": true
+            "why": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 4 gaps needed for 1 whole."
           },
           {
             "text": "Equal to 1.",
@@ -7377,42 +7315,38 @@
           }
         ],
         "hints": [
-          "Both lines use the same unit and 8 equal gaps in each whole.",
+          "Both lines use the same unit and 4 equal gaps in each whole.",
           "Use the whole-number label 1 as a reference; compare where the two points lie."
         ],
         "show": [
-          "Both lines use the same unit and 8 equal gaps in each whole.",
+          "Both lines use the same unit and 4 equal gaps in each whole.",
           "Use the whole-number label 1 as a reference; compare where the two points lie.",
-          "1 whole unit needs 8 gaps of size 1/8. The point uses 7, so it is less than 1."
+          "1 whole unit needs 4 gaps of size 1/4. The point uses 7, so it is greater than 1."
         ],
-        "yes": "1 whole unit needs 8 gaps of size 1/8. The point uses 7, so it is less than 1.",
+        "yes": "1 whole unit needs 4 gaps of size 1/4. The point uses 7, so it is greater than 1.",
         "teaching": {
           "steps": [
             {
-              "text": "Both lines use the same unit and 8 equal gaps in each whole.",
+              "text": "Both lines use the same unit and 4 equal gaps in each whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 8,
+                "parts": 4,
                 "max": 2,
-                "point": 8,
+                "point": 4,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
                   1,
                   2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7
+                  3
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
                   "point": 0,
                   "caption": "Point to compare",
@@ -7421,19 +7355,15 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
-                  "point": 8,
+                  "point": 4,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
                     1,
                     2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7
+                    3
                   ]
                 }
               ]
@@ -7443,26 +7373,22 @@
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 8,
+                "parts": 4,
                 "max": 2,
-                "point": 8,
+                "point": 4,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
                   1,
                   2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7
+                  3
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
                   "point": 7,
                   "caption": "Point to compare",
@@ -7479,48 +7405,40 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
-                  "point": 8,
+                  "point": 4,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
                     1,
                     2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7
+                    3
                   ]
                 }
               ]
             },
             {
-              "text": "1 whole unit needs 8 gaps of size 1/8. The point uses 7, so it is less than 1.",
+              "text": "1 whole unit needs 4 gaps of size 1/4. The point uses 7, so it is greater than 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 8,
+                "parts": 4,
                 "max": 2,
-                "point": 8,
+                "point": 4,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
                   1,
                   2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7
+                  3
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
                   "point": 7,
                   "caption": "Point to compare",
@@ -7537,19 +7455,15 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
-                  "point": 8,
+                  "point": 4,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
                     1,
                     2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7
+                    3
                   ]
                 }
               ],
@@ -7557,30 +7471,26 @@
             }
           ],
           "correct": {
-            "text": "1 whole unit needs 8 gaps of size 1/8. The point uses 7, so it is less than 1.",
+            "text": "1 whole unit needs 4 gaps of size 1/4. The point uses 7, so it is greater than 1.",
             "model": {
               "type": "fraction",
               "kind": "line",
-              "parts": 8,
+              "parts": 4,
               "max": 2,
-              "point": 8,
+              "point": 4,
               "caption": "1 whole unit",
               "counted": [
                 0,
                 1,
                 2,
-                3,
-                4,
-                5,
-                6,
-                7
+                3
               ]
             },
             "models": [
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 8,
+                "parts": 4,
                 "max": 2,
                 "point": 7,
                 "caption": "Point to compare",
@@ -7597,50 +7507,42 @@
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 8,
+                "parts": 4,
                 "max": 2,
-                "point": 8,
+                "point": 4,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
                   1,
                   2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7
+                  3
                 ]
               }
             ]
           },
           "wrong": [
             {
-              "option": "Equal to 1.",
-              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
+              "option": "Less than 1.",
+              "text": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 4 gaps needed for 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 8,
+                "parts": 4,
                 "max": 2,
-                "point": 8,
+                "point": 4,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
                   1,
                   2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7
+                  3
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
                   "point": 7,
                   "caption": "Point to compare",
@@ -7657,49 +7559,41 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
-                  "point": 8,
+                  "point": 4,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
                     1,
                     2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7
+                    3
                   ]
                 }
               ]
             },
             {
-              "option": "Greater than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 1 whole.",
+              "option": "Equal to 1.",
+              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 8,
+                "parts": 4,
                 "max": 2,
-                "point": 8,
+                "point": 4,
                 "caption": "1 whole unit",
                 "counted": [
                   0,
                   1,
                   2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7
+                  3
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
                   "point": 7,
                   "caption": "Point to compare",
@@ -7716,19 +7610,15 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 8,
+                  "parts": 4,
                   "max": 2,
-                  "point": 8,
+                  "point": 4,
                   "caption": "1 whole unit",
                   "counted": [
                     0,
                     1,
                     2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7
+                    3
                   ]
                 }
               ]
@@ -9130,19 +9020,19 @@
         },
         "answer": "10",
         "hints": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps."
+          "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
+          "At 1, do not start again. Keep counting the same gaps all the way to the marked point."
         ],
         "show": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps.",
+          "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
+          "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
           "Continue without restarting: 10 same-size gaps reach the point."
         ],
         "yes": "There are 10 equal gaps from zero, including the gaps before and after each whole label.",
         "teaching": {
           "steps": [
             {
-              "text": "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
+              "text": "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -9155,7 +9045,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
+              "text": "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -9277,95 +9167,83 @@
       {
         "id": "t20",
         "type": "choice",
-        "prompt": "Is the marked point less than, equal to, or greater than 3 whole units?",
+        "prompt": "Is the marked point less than, equal to, or greater than 2 whole units?",
         "model": {
           "type": "fraction",
           "kind": "line",
-          "parts": 6,
-          "max": 4,
-          "point": 15,
+          "parts": 3,
+          "max": 3,
+          "point": 8,
           "caption": "Point to compare"
         },
         "models": [
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 6,
-            "max": 4,
-            "point": 15,
+            "parts": 3,
+            "max": 3,
+            "point": 8,
             "caption": "Point to compare"
           },
           {
             "type": "fraction",
             "kind": "line",
-            "parts": 6,
-            "max": 4,
-            "point": 18,
-            "caption": "3 whole units"
+            "parts": 3,
+            "max": 3,
+            "point": 6,
+            "caption": "2 whole units"
           }
         ],
         "options": [
           {
-            "text": "Greater than 3.",
-            "why": "A numerator counts small gaps, not whole units. Compare 15 gaps with the 18 gaps needed for 3 wholes."
-          },
-          {
-            "text": "Less than 3.",
+            "text": "Greater than 2.",
             "correct": true
           },
           {
-            "text": "Equal to 3.",
+            "text": "Less than 2.",
+            "why": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 6 gaps needed for 2 wholes."
+          },
+          {
+            "text": "Equal to 2.",
             "why": "Equal would put both points at the very same position. Compare the point to the whole-number reference."
           }
         ],
         "hints": [
-          "Both lines use the same unit and 6 equal gaps in each whole.",
-          "Use the whole-number label 3 as a reference; compare where the two points lie."
+          "Both lines use the same unit and 3 equal gaps in each whole.",
+          "Use the whole-number label 2 as a reference; compare where the two points lie."
         ],
         "show": [
-          "Both lines use the same unit and 6 equal gaps in each whole.",
-          "Use the whole-number label 3 as a reference; compare where the two points lie.",
-          "3 whole units need 18 gaps of size 1/6. The point uses 15, so it is less than 3."
+          "Both lines use the same unit and 3 equal gaps in each whole.",
+          "Use the whole-number label 2 as a reference; compare where the two points lie.",
+          "2 whole units need 6 gaps of size 1/3. The point uses 8, so it is greater than 2."
         ],
-        "yes": "3 whole units need 18 gaps of size 1/6. The point uses 15, so it is less than 3.",
+        "yes": "2 whole units need 6 gaps of size 1/3. The point uses 8, so it is greater than 2.",
         "teaching": {
           "steps": [
             {
-              "text": "Both lines use the same unit and 6 equal gaps in each whole.",
+              "text": "Both lines use the same unit and 3 equal gaps in each whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
-                "max": 4,
-                "point": 18,
-                "caption": "3 whole units",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7,
-                  8,
-                  9,
-                  10,
-                  11,
-                  12,
-                  13,
-                  14,
-                  15,
-                  16,
-                  17
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
+                  "parts": 3,
+                  "max": 3,
                   "point": 0,
                   "caption": "Point to compare",
                   "counted": []
@@ -9373,70 +9251,46 @@
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 18,
-                  "caption": "3 whole units",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
                     1,
                     2,
                     3,
                     4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17
+                    5
                   ]
                 }
               ]
             },
             {
-              "text": "Use the whole-number label 3 as a reference; compare where the two points lie.",
+              "text": "Use the whole-number label 2 as a reference; compare where the two points lie.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
-                "max": 4,
-                "point": 18,
-                "caption": "3 whole units",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7,
-                  8,
-                  9,
-                  10,
-                  11,
-                  12,
-                  13,
-                  14,
-                  15,
-                  16,
-                  17
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 15,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 8,
                   "caption": "Point to compare",
                   "counted": [
                     0,
@@ -9446,83 +9300,52 @@
                     4,
                     5,
                     6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14
+                    7
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 18,
-                  "caption": "3 whole units",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
                     1,
                     2,
                     3,
                     4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17
+                    5
                   ]
                 }
               ]
             },
             {
-              "text": "3 whole units need 18 gaps of size 1/6. The point uses 15, so it is less than 3.",
+              "text": "2 whole units need 6 gaps of size 1/3. The point uses 8, so it is greater than 2.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
-                "max": 4,
-                "point": 18,
-                "caption": "3 whole units",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7,
-                  8,
-                  9,
-                  10,
-                  11,
-                  12,
-                  13,
-                  14,
-                  15,
-                  16,
-                  17
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 15,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 8,
                   "caption": "Point to compare",
                   "counted": [
                     0,
@@ -9532,42 +9355,23 @@
                     4,
                     5,
                     6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14
+                    7
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 18,
-                  "caption": "3 whole units",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
                     1,
                     2,
                     3,
                     4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17
+                    5
                   ]
                 }
               ],
@@ -9575,42 +9379,30 @@
             }
           ],
           "correct": {
-            "text": "3 whole units need 18 gaps of size 1/6. The point uses 15, so it is less than 3.",
+            "text": "2 whole units need 6 gaps of size 1/3. The point uses 8, so it is greater than 2.",
             "model": {
               "type": "fraction",
               "kind": "line",
-              "parts": 6,
-              "max": 4,
-              "point": 18,
-              "caption": "3 whole units",
+              "parts": 3,
+              "max": 3,
+              "point": 6,
+              "caption": "2 whole units",
               "counted": [
                 0,
                 1,
                 2,
                 3,
                 4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13,
-                14,
-                15,
-                16,
-                17
+                5
               ]
             },
             "models": [
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
-                "max": 4,
-                "point": 15,
+                "parts": 3,
+                "max": 3,
+                "point": 8,
                 "caption": "Point to compare",
                 "counted": [
                   0,
@@ -9620,85 +9412,54 @@
                   4,
                   5,
                   6,
-                  7,
-                  8,
-                  9,
-                  10,
-                  11,
-                  12,
-                  13,
-                  14
+                  7
                 ]
               },
               {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
-                "max": 4,
-                "point": 18,
-                "caption": "3 whole units",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7,
-                  8,
-                  9,
-                  10,
-                  11,
-                  12,
-                  13,
-                  14,
-                  15,
-                  16,
-                  17
+                  5
                 ]
               }
             ]
           },
           "wrong": [
             {
-              "option": "Equal to 3.",
-              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
+              "option": "Less than 2.",
+              "text": "A numerator counts small gaps, not whole units. Compare 8 gaps with the 6 gaps needed for 2 wholes.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
-                "max": 4,
-                "point": 18,
-                "caption": "3 whole units",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7,
-                  8,
-                  9,
-                  10,
-                  11,
-                  12,
-                  13,
-                  14,
-                  15,
-                  16,
-                  17
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 15,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 8,
                   "caption": "Point to compare",
                   "counted": [
                     0,
@@ -9708,84 +9469,53 @@
                     4,
                     5,
                     6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14
+                    7
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 18,
-                  "caption": "3 whole units",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
                     1,
                     2,
                     3,
                     4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17
+                    5
                   ]
                 }
               ]
             },
             {
-              "option": "Greater than 3.",
-              "text": "A numerator counts small gaps, not whole units. Compare 15 gaps with the 18 gaps needed for 3 wholes.",
+              "option": "Equal to 2.",
+              "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
-                "parts": 6,
-                "max": 4,
-                "point": 18,
-                "caption": "3 whole units",
+                "parts": 3,
+                "max": 3,
+                "point": 6,
+                "caption": "2 whole units",
                 "counted": [
                   0,
                   1,
                   2,
                   3,
                   4,
-                  5,
-                  6,
-                  7,
-                  8,
-                  9,
-                  10,
-                  11,
-                  12,
-                  13,
-                  14,
-                  15,
-                  16,
-                  17
+                  5
                 ]
               },
               "models": [
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 15,
+                  "parts": 3,
+                  "max": 3,
+                  "point": 8,
                   "caption": "Point to compare",
                   "counted": [
                     0,
@@ -9795,42 +9525,23 @@
                     4,
                     5,
                     6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14
+                    7
                   ]
                 },
                 {
                   "type": "fraction",
                   "kind": "line",
-                  "parts": 6,
-                  "max": 4,
-                  "point": 18,
-                  "caption": "3 whole units",
+                  "parts": 3,
+                  "max": 3,
+                  "point": 6,
+                  "caption": "2 whole units",
                   "counted": [
                     0,
                     1,
                     2,
                     3,
                     4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17
+                    5
                   ]
                 }
               ]
@@ -10762,15 +10473,15 @@
         },
         "answer": "6",
         "show": [
-          "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
-          "Use only 0 to 1 for the denominator: count its equal gaps.",
+          "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
+          "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
           "Continue without restarting: 6 same-size gaps reach the point."
         ],
         "yes": "There are 6 equal gaps from zero, including the gaps before and after each whole label.",
         "teaching": {
           "steps": [
             {
-              "text": "Zero is the starting point, not a jump. Count the highlighted first gap, then keep going to the marked point.",
+              "text": "Zero is the start, not a jump. Count the highlighted first gap, then keep going.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10783,7 +10494,7 @@
               }
             },
             {
-              "text": "Use only 0 to 1 for the denominator: count its equal gaps.",
+              "text": "At 1, do not start again. Keep counting the same gaps all the way to the marked point.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10898,7 +10609,7 @@
           "kind": "line",
           "parts": 4,
           "max": 3,
-          "point": 7,
+          "point": 9,
           "caption": "Point to compare"
         },
         "models": [
@@ -10907,7 +10618,7 @@
             "kind": "line",
             "parts": 4,
             "max": 3,
-            "point": 7,
+            "point": 9,
             "caption": "Point to compare"
           },
           {
@@ -10922,11 +10633,11 @@
         "options": [
           {
             "text": "Greater than 2.",
-            "why": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 2 wholes."
+            "correct": true
           },
           {
             "text": "Less than 2.",
-            "correct": true
+            "why": "A numerator counts small gaps, not whole units. Compare 9 gaps with the 8 gaps needed for 2 wholes."
           },
           {
             "text": "Equal to 2.",
@@ -10936,9 +10647,9 @@
         "show": [
           "Both lines use the same unit and 4 equal gaps in each whole.",
           "Use the whole-number label 2 as a reference; compare where the two points lie.",
-          "2 whole units need 8 gaps of size 1/4. The point uses 7, so it is less than 2."
+          "2 whole units need 8 gaps of size 1/4. The point uses 9, so it is greater than 2."
         ],
-        "yes": "2 whole units need 8 gaps of size 1/4. The point uses 7, so it is less than 2.",
+        "yes": "2 whole units need 8 gaps of size 1/4. The point uses 9, so it is greater than 2.",
         "teaching": {
           "steps": [
             {
@@ -11017,7 +10728,7 @@
                   "kind": "line",
                   "parts": 4,
                   "max": 3,
-                  "point": 7,
+                  "point": 9,
                   "caption": "Point to compare",
                   "counted": [
                     0,
@@ -11026,7 +10737,9 @@
                     3,
                     4,
                     5,
-                    6
+                    6,
+                    7,
+                    8
                   ]
                 },
                 {
@@ -11050,7 +10763,7 @@
               ]
             },
             {
-              "text": "2 whole units need 8 gaps of size 1/4. The point uses 7, so it is less than 2.",
+              "text": "2 whole units need 8 gaps of size 1/4. The point uses 9, so it is greater than 2.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -11075,7 +10788,7 @@
                   "kind": "line",
                   "parts": 4,
                   "max": 3,
-                  "point": 7,
+                  "point": 9,
                   "caption": "Point to compare",
                   "counted": [
                     0,
@@ -11084,7 +10797,9 @@
                     3,
                     4,
                     5,
-                    6
+                    6,
+                    7,
+                    8
                   ]
                 },
                 {
@@ -11110,7 +10825,7 @@
             }
           ],
           "correct": {
-            "text": "2 whole units need 8 gaps of size 1/4. The point uses 7, so it is less than 2.",
+            "text": "2 whole units need 8 gaps of size 1/4. The point uses 9, so it is greater than 2.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -11135,7 +10850,7 @@
                 "kind": "line",
                 "parts": 4,
                 "max": 3,
-                "point": 7,
+                "point": 9,
                 "caption": "Point to compare",
                 "counted": [
                   0,
@@ -11144,7 +10859,9 @@
                   3,
                   4,
                   5,
-                  6
+                  6,
+                  7,
+                  8
                 ]
               },
               {
@@ -11168,6 +10885,67 @@
             ]
           },
           "wrong": [
+            {
+              "option": "Less than 2.",
+              "text": "A numerator counts small gaps, not whole units. Compare 9 gaps with the 8 gaps needed for 2 wholes.",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 4,
+                "max": 3,
+                "point": 8,
+                "caption": "2 whole units",
+                "counted": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 4,
+                  "max": 3,
+                  "point": 9,
+                  "caption": "Point to compare",
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                  ]
+                },
+                {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 4,
+                  "max": 3,
+                  "point": 8,
+                  "caption": "2 whole units",
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7
+                  ]
+                }
+              ]
+            },
             {
               "option": "Equal to 2.",
               "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
@@ -11195,25 +10973,8 @@
                   "kind": "line",
                   "parts": 4,
                   "max": 3,
-                  "point": 7,
+                  "point": 9,
                   "caption": "Point to compare",
-                  "counted": [
-                    0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6
-                  ]
-                },
-                {
-                  "type": "fraction",
-                  "kind": "line",
-                  "parts": 4,
-                  "max": 3,
-                  "point": 8,
-                  "caption": "2 whole units",
                   "counted": [
                     0,
                     1,
@@ -11222,48 +10983,8 @@
                     4,
                     5,
                     6,
-                    7
-                  ]
-                }
-              ]
-            },
-            {
-              "option": "Greater than 2.",
-              "text": "A numerator counts small gaps, not whole units. Compare 7 gaps with the 8 gaps needed for 2 wholes.",
-              "model": {
-                "type": "fraction",
-                "kind": "line",
-                "parts": 4,
-                "max": 3,
-                "point": 8,
-                "caption": "2 whole units",
-                "counted": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5,
-                  6,
-                  7
-                ]
-              },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "line",
-                  "parts": 4,
-                  "max": 3,
-                  "point": 7,
-                  "caption": "Point to compare",
-                  "counted": [
-                    0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6
+                    7,
+                    8
                   ]
                 },
                 {
@@ -11288,7 +11009,7 @@
             }
           ]
         },
-        "explain": "2 whole units need 8 gaps of size 1/4. The point uses 7, so it is less than 2."
+        "explain": "2 whole units need 8 gaps of size 1/4. The point uses 9, so it is greater than 2."
       },
       {
         "id": "x6",
@@ -11299,7 +11020,7 @@
           "kind": "line",
           "parts": 6,
           "max": 2,
-          "point": 4,
+          "point": 9,
           "caption": "Point to compare"
         },
         "models": [
@@ -11308,7 +11029,7 @@
             "kind": "line",
             "parts": 6,
             "max": 2,
-            "point": 4,
+            "point": 9,
             "caption": "Point to compare"
           },
           {
@@ -11323,7 +11044,7 @@
         "options": [
           {
             "text": "Less than 1.",
-            "correct": true
+            "why": "A numerator counts small gaps, not whole units. Compare 9 gaps with the 6 gaps needed for 1 whole."
           },
           {
             "text": "Equal to 1.",
@@ -11331,15 +11052,15 @@
           },
           {
             "text": "Greater than 1.",
-            "why": "A numerator counts small gaps, not whole units. Compare 4 gaps with the 6 gaps needed for 1 whole."
+            "correct": true
           }
         ],
         "show": [
           "Both lines use the same unit and 6 equal gaps in each whole.",
           "Use the whole-number label 1 as a reference; compare where the two points lie.",
-          "1 whole unit needs 6 gaps of size 1/6. The point uses 4, so it is less than 1."
+          "1 whole unit needs 6 gaps of size 1/6. The point uses 9, so it is greater than 1."
         ],
-        "yes": "1 whole unit needs 6 gaps of size 1/6. The point uses 4, so it is less than 1.",
+        "yes": "1 whole unit needs 6 gaps of size 1/6. The point uses 9, so it is greater than 1.",
         "teaching": {
           "steps": [
             {
@@ -11412,13 +11133,18 @@
                   "kind": "line",
                   "parts": 6,
                   "max": 2,
-                  "point": 4,
+                  "point": 9,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
                     2,
-                    3
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
                   ]
                 },
                 {
@@ -11440,7 +11166,7 @@
               ]
             },
             {
-              "text": "1 whole unit needs 6 gaps of size 1/6. The point uses 4, so it is less than 1.",
+              "text": "1 whole unit needs 6 gaps of size 1/6. The point uses 9, so it is greater than 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -11463,13 +11189,18 @@
                   "kind": "line",
                   "parts": 6,
                   "max": 2,
-                  "point": 4,
+                  "point": 9,
                   "caption": "Point to compare",
                   "counted": [
                     0,
                     1,
                     2,
-                    3
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
                   ]
                 },
                 {
@@ -11493,7 +11224,7 @@
             }
           ],
           "correct": {
-            "text": "1 whole unit needs 6 gaps of size 1/6. The point uses 4, so it is less than 1.",
+            "text": "1 whole unit needs 6 gaps of size 1/6. The point uses 9, so it is greater than 1.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -11516,13 +11247,18 @@
                 "kind": "line",
                 "parts": 6,
                 "max": 2,
-                "point": 4,
+                "point": 9,
                 "caption": "Point to compare",
                 "counted": [
                   0,
                   1,
                   2,
-                  3
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
                 ]
               },
               {
@@ -11544,6 +11280,63 @@
             ]
           },
           "wrong": [
+            {
+              "option": "Less than 1.",
+              "text": "A numerator counts small gaps, not whole units. Compare 9 gaps with the 6 gaps needed for 1 whole.",
+              "model": {
+                "type": "fraction",
+                "kind": "line",
+                "parts": 6,
+                "max": 2,
+                "point": 6,
+                "caption": "1 whole unit",
+                "counted": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              },
+              "models": [
+                {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 2,
+                  "point": 9,
+                  "caption": "Point to compare",
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                  ]
+                },
+                {
+                  "type": "fraction",
+                  "kind": "line",
+                  "parts": 6,
+                  "max": 2,
+                  "point": 6,
+                  "caption": "1 whole unit",
+                  "counted": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                }
+              ]
+            },
             {
               "option": "Equal to 1.",
               "text": "Equal would put both points at the very same position. Compare the point to the whole-number reference.",
@@ -11569,65 +11362,18 @@
                   "kind": "line",
                   "parts": 6,
                   "max": 2,
-                  "point": 4,
+                  "point": 9,
                   "caption": "Point to compare",
-                  "counted": [
-                    0,
-                    1,
-                    2,
-                    3
-                  ]
-                },
-                {
-                  "type": "fraction",
-                  "kind": "line",
-                  "parts": 6,
-                  "max": 2,
-                  "point": 6,
-                  "caption": "1 whole unit",
                   "counted": [
                     0,
                     1,
                     2,
                     3,
                     4,
-                    5
-                  ]
-                }
-              ]
-            },
-            {
-              "option": "Greater than 1.",
-              "text": "A numerator counts small gaps, not whole units. Compare 4 gaps with the 6 gaps needed for 1 whole.",
-              "model": {
-                "type": "fraction",
-                "kind": "line",
-                "parts": 6,
-                "max": 2,
-                "point": 6,
-                "caption": "1 whole unit",
-                "counted": [
-                  0,
-                  1,
-                  2,
-                  3,
-                  4,
-                  5
-                ]
-              },
-              "models": [
-                {
-                  "type": "fraction",
-                  "kind": "line",
-                  "parts": 6,
-                  "max": 2,
-                  "point": 4,
-                  "caption": "Point to compare",
-                  "counted": [
-                    0,
-                    1,
-                    2,
-                    3
+                    5,
+                    6,
+                    7,
+                    8
                   ]
                 },
                 {
@@ -11650,7 +11396,7 @@
             }
           ]
         },
-        "explain": "1 whole unit needs 6 gaps of size 1/6. The point uses 4, so it is less than 1."
+        "explain": "1 whole unit needs 6 gaps of size 1/6. The point uses 9, so it is greater than 1."
       },
       {
         "id": "x7",

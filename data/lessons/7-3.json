@@ -241,7 +241,7 @@
             },
             "wrong": [
               {
-                "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+                "text": "You counted the tick marks. Count the spaces between the ticks instead.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -563,7 +563,7 @@
             }
           },
           {
-            "say": "Partition the unit into three equal spaces.",
+            "say": "Split 0 to 1 into three equal spaces.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -871,7 +871,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1353,7 +1353,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1632,9 +1632,9 @@
         "show": [
           "The point names a distance traveled from 0.",
           "The numbered gap is one step; the starting tick itself is not a step.",
-          "Only the 1 crossed spaces count on top; the whole-unit count belongs on the bottom."
+          "Only the 1 crossed space count on top; the whole-unit count belongs on the bottom."
         ],
-        "yes": "The numerator measures how many equal intervals lead from 0 to the point. Those 1 gap are numbered; boundary ticks mark their edges.",
+        "yes": "The numerator measures how many equal intervals lead from 0 to the point. That 1 gap is numbered; boundary ticks mark their edges.",
         "teaching": {
           "steps": [
             {
@@ -1661,7 +1661,7 @@
               }
             },
             {
-              "text": "Only the 1 crossed spaces count on top; the whole-unit count belongs on the bottom.",
+              "text": "Only the 1 crossed space count on top; the whole-unit count belongs on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1676,7 +1676,7 @@
             }
           ],
           "correct": {
-            "text": "The numerator measures how many equal intervals lead from 0 to the point. Those 1 gap are numbered; boundary ticks mark their edges.",
+            "text": "The numerator measures how many equal intervals lead from 0 to the point. That 1 gap is numbered; boundary ticks mark their edges.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -1857,7 +1857,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2079,7 +2079,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2303,7 +2303,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2537,7 +2537,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2779,7 +2779,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3329,9 +3329,9 @@
         "show": [
           "Locate 0 and 1 before counting any spaces.",
           "Count spaces crossed after leaving 0.",
-          "1 equal interval lead from 0 to the point, so the numerator is 1."
+          "1 equal interval leads from 0 to the point, so the numerator is 1."
         ],
-        "yes": "1 equal interval lead from 0 to the point, so the numerator is 1.",
+        "yes": "1 equal interval leads from 0 to the point, so the numerator is 1.",
         "teaching": {
           "steps": [
             {
@@ -3355,7 +3355,7 @@
               }
             },
             {
-              "text": "1 equal interval lead from 0 to the point, so the numerator is 1.",
+              "text": "1 equal interval leads from 0 to the point, so the numerator is 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3370,7 +3370,7 @@
             }
           ],
           "correct": {
-            "text": "1 equal interval lead from 0 to the point, so the numerator is 1.",
+            "text": "1 equal interval leads from 0 to the point, so the numerator is 1.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -4588,7 +4588,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5199,7 +5199,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5437,7 +5437,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5671,7 +5671,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5899,7 +5899,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6126,7 +6126,7 @@
           },
           "wrong": [
             {
-              "text": "Those numbers match tick counts, including the starting tick at 0. The numbered space shows what to count: gaps, not marks.",
+              "text": "You counted the tick marks. Count the spaces between the ticks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",

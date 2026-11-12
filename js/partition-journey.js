@@ -109,7 +109,7 @@ function check(card, ui, r, state) {
       // The hint opens by itself; the longer step-by-step help is offered (a button), not forced.
       const level = Math.max(ui.help?.level || 0, 1);
       ui.help = { open: true, level, step: ui.help?.step || 0 }; noteHelp(r, level);
-      return { focus: '[data-help-heading]', say: `Not yet. ${say} ${level === 1 && r.wrongStreak >= 3 ? 'Still tricky? Press Show steps to see it one step at a time.' : 'Here is a hint.'}` };
+      return { focus: '[data-help-heading]', scroll: '.j-help', readHelp: true, say: `Not yet. ${say} ${level === 1 && r.wrongStreak >= 3 ? 'Still tricky? Press Show steps to see it one step at a time.' : 'Here is a hint.'}` };
     }
     // You Do: the first miss gets the targeted explanation (and the marked picture); a second miss adds a short
     // visual quick fix. The whole worked example is offered, never forced.
@@ -118,7 +118,7 @@ function check(card, ui, r, state) {
       return { focus: '[data-quick-heading]', scroll: '.j-quick', say: `Not yet. ${say} ${first ? 'Here is a quick fix.' : 'Look at the quick fix again, or watch the whole example.'}` };
     }
     if (ok && card.phase === 'youdo' && ui.solo) return { focus: '[data-j="next"], [data-j-next-stage], [data-j="check"]', say: `You did it on your own! ${say}` };
-    return { focus: card.phase === 'assess' ? '[data-j="next"], [data-j-next-stage], #stage-h' : '[data-j="check"]', say: `${ok ? 'Yes!' : 'Not yet.'} ${say}` };
+    return { focus: card.phase === 'assess' ? '[data-j="next"], [data-j-next-stage], #stage-h' : '[data-j="check"]', say: `${ok ? 'Yes!' : card.phase === 'assess' ? 'Not quite.' : 'Not yet.'} ${say}` };
   };
   if (card.type === 'build') {
     const lines = ui.lines || [];
@@ -165,7 +165,9 @@ export function mountJourney(app, ctx, signal) {
     if (!focus) return;
     // A list of places: the first one that exists, in the order given.
     const el = focus.split(/,\s*/).map((f) => root.querySelector(f)).find(Boolean);
-    if (el) el.focus({ preventScroll: !focus.startsWith('#stage-h') && !/help|relearn/.test(focus) && focus !== '.j-compare' });
+    if (el) { el.focus({ preventScroll: !focus.startsWith('#stage-h') && !/help|relearn/.test(focus) && focus !== '.j-compare' });
+      // Never leave focus on a control that is off the screen (short phone and Chromebook screens).
+      const r = el.getBoundingClientRect?.(); if (r && (r.top < 0 || r.bottom > innerHeight)) el.scrollIntoView({ block: 'nearest' }); }
     if (focus === '#stage-h') root.querySelector('.j-map')?.scrollIntoView({ block: 'start' });
   };
   journeyState.stage = stageId; saveJourney();
@@ -180,6 +182,7 @@ export function mountJourney(app, ctx, signal) {
     if (out.quiet) return;
     render(out.focus);
     if (out.scroll) root.querySelector(out.scroll)?.scrollIntoView({ block: 'start', behavior: 'instant' });
+    if (out.readHelp) { const h = root.querySelector('.j-help .j-help-block'); announce(`${out.say} ${h ? h.textContent.replace(/\s+/g, ' ').trim() : ''}`); return; }
     if (out.readStep) { const t = root.querySelector(out.readStep)?.textContent.replace(/\s+/g, ' ').trim(); announce(out.done ? `${t} Done! Press Next to go on.` : t); return; }
     // After Check, make sure the result is on screen (short Chromebook screens).
     if (action === 'check') root.querySelector('.j-feedback')?.scrollIntoView({ block: 'nearest' });
@@ -202,6 +205,8 @@ export function mountJourney(app, ctx, signal) {
   }, { signal });
   root.addEventListener('keydown', (e) => {
     if (e.target.matches?.('[data-point]') && e.key.startsWith('Arrow')) { e.preventDefault(); moveFocus(e.target, e.key); return; }
+    // Home jumps to the center dot (arrow keys can pass it by on turned shapes).
+    if (e.target.matches?.('[data-point]') && e.key === 'Home') { const c = e.target.ownerSVGElement.querySelector('[data-point="c"]'); if (c) { e.preventDefault(); moveFocus(e.target, null, c); } return; }
     if (e.key === 'Escape' && root.querySelector('.j-help')) { e.preventDefault(); run('close-help'); return; }
     if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('[data-point], [data-region], [data-piece]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
   }, { signal });
@@ -248,11 +253,11 @@ export function mountJourney(app, ctx, signal) {
   // If the page scrolls during a press, it was a scroll, not a choice (some browsers report the cancel late).
   window.addEventListener('scroll', () => { if (pending) { show(pending.svg, null, 'preview'); pending = null; } }, { signal, passive: true });
   // Arrow keys move between dots: to the closest dot in that direction.
-  const moveFocus = (from, key) => {
+  const moveFocus = (from, key, to = null) => {
     const svg = from.ownerSVGElement, dot = (g) => { const c = g.querySelector('.dot'); return [c.cx.baseVal.value, c.cy.baseVal.value]; };
-    const [x, y] = dot(from), dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] }[key];
-    let best = null, score = Infinity;
-    for (const g of svg.querySelectorAll('[data-point]')) {
+    const [x, y] = dot(from), dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] }[key] || [0, 0];
+    let best = to, score = Infinity;
+    if (!to) for (const g of svg.querySelectorAll('[data-point]')) {
       if (g === from) continue;
       const [gx, gy] = dot(g), dx = gx - x, dy = gy - y, along = dx * dir[0] + dy * dir[1], across = Math.abs(dx * dir[1] - dy * dir[0]);
       if (along <= 0.5) continue;
