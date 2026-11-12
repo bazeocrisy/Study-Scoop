@@ -258,7 +258,9 @@ export function vocabItems(week, kind, rand = Math.random) {
   }
   if (kind === 'fill') {
     // A short word bank (the answer and three other words of the week) keeps the choice manageable.
-    const bankFor = (w, form) => [form, ...others(w).slice(0, 3).map((x) => x.word.toLowerCase())].sort();
+    // Words that would also make this word's sentences true (w.alsoFits, e.g. "peculiar" in a melancholy sentence)
+    // never join its bank, so every fill-in has exactly one right answer.
+    const bankFor = (w, form) => [form, ...others(w).filter((x) => !(w.alsoFits || []).includes(x.word)).slice(0, 3).map((x) => x.word.toLowerCase())].sort();
     // Choosing another word from the bank says what that word means, so the child sees why it does not fit.
     const whyNot = (bank, w) => Object.fromEntries(bank.filter((b) => b !== w.word.toLowerCase()).map((b) => {
       const x = words.find((o) => o.word.toLowerCase() === b);

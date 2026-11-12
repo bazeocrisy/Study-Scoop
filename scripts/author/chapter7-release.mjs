@@ -70,6 +70,8 @@ const AUDIT = [
   [/To equal one whole, the top and bottom must be equal positive counts\./g, 'To equal one whole, the top and bottom numbers must be the same (and not 0).'],
   [/The new point crosses one more gap; the whole unit is not repartitioned\./g, 'The new point crosses one more gap. The gaps in one whole stay the same.'],
   [/A denominator change would need a new partition of the unit\. The gaps here keep the same size; only the point moves\./g, 'The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves.'],
+  [/Each neighboring pair of these (\d+) equal pieces is joined\. What happens\?/g, 'These $1 equal pieces are joined in pairs, side by side. What happens?'],
+  [/The first two highlighted pieces become one larger piece with the same covered area\./g, 'The first two pieces join into one bigger piece. It covers the same space as both pieces together.'],
   [/Both unit lengths have the same number of gaps\. Count that fixed unit separately from the longer trip\./g, 'Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top.'],
 ];
 // "1 wholes" → "1 whole" (the number 1 directly before a plural counting word).

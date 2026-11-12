@@ -4923,7 +4923,7 @@
       {
         "id": "t20",
         "type": "choice",
-        "prompt": "Each neighboring pair of these 6 equal pieces is joined. What happens?",
+        "prompt": "These 6 equal pieces are joined in pairs, side by side. What happens?",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -4951,11 +4951,11 @@
         ],
         "hints": [
           "Both outside edges match; joining pieces does not make the whole strip longer.",
-          "The first two highlighted pieces become one larger piece with the same covered area."
+          "The first two pieces join into one bigger piece. It covers the same space as both pieces together."
         ],
         "show": [
           "Both outside edges match; joining pieces does not make the whole strip longer.",
-          "The first two highlighted pieces become one larger piece with the same covered area.",
+          "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
           "Join every pair: the strip now has 3 larger equal pieces."
         ],
         "yes": "Each new piece joins two equal old pieces, so 3 equal pieces still cover the same whole.",
@@ -4991,7 +4991,7 @@
               ]
             },
             {
-              "text": "The first two highlighted pieces become one larger piece with the same covered area.",
+              "text": "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6570,7 +6570,7 @@
       {
         "id": "x10",
         "type": "choice",
-        "prompt": "Each neighboring pair of these 8 equal pieces is joined. What happens?",
+        "prompt": "These 8 equal pieces are joined in pairs, side by side. What happens?",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -6598,7 +6598,7 @@
         ],
         "show": [
           "Both outside edges match; joining pieces does not make the whole strip longer.",
-          "The first two highlighted pieces become one larger piece with the same covered area.",
+          "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
           "Join every pair: the strip now has 4 larger equal pieces."
         ],
         "yes": "Each new piece joins two equal old pieces, so 4 equal pieces still cover the same whole.",
@@ -6634,7 +6634,7 @@
               ]
             },
             {
-              "text": "The first two highlighted pieces become one larger piece with the same covered area.",
+              "text": "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",

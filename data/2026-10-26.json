@@ -264,7 +264,8 @@
         "word": "Peculiar",
         "def": "Strange or unusual",
         "sentence": "The peculiar bird had bright purple feathers.",
-        "fill": "The oddly shaped cloud looked ___."
+        "fill": "The oddly shaped cloud looked ___.",
+        "alsoFits": ["Melancholy", "Irritating"]
       },
       {
         "word": "Employee",
@@ -288,7 +289,8 @@
         "word": "Melancholy",
         "def": "A sad or gloomy condition",
         "sentence": "The quiet music gave the scene a melancholy feeling.",
-        "fill": "The rainy ending gave the story a ___ mood."
+        "fill": "The rainy ending gave the story a ___ mood.",
+        "alsoFits": ["Peculiar"]
       },
       {
         "word": "Trustworthy",
@@ -311,7 +313,8 @@
         "group": "green",
         "sentence": "The irritating buzzing noise made it hard to concentrate.",
         "fill": "The constant tapping was ___ while I was reading.",
-        "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you."
+        "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you.",
+        "alsoFits": ["Peculiar"]
       },
       {
         "word": "Distracted",
