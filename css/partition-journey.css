@@ -1,0 +1,264 @@
+/* Lesson 7-1 learning journey. Uses the site's tokens (css/style.css) so light, dark and print themes follow. */
+.j-stepper ol { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.j-stepper .name { font-size: .78rem; line-height: 1.15; text-align: center; }
+@media (max-width: 900px) { .j-stepper ol { grid-template-columns: repeat(5, minmax(0, 1fr)); row-gap: 6px; } }
+.j-stage { max-width: 860px; margin-inline: auto; }
+.j-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 14px 0 8px; }
+.j-eyebrow { margin: 0; font-weight: 700; color: var(--berry); }
+.j-progress { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--muted); }
+.j-cardnum { white-space: nowrap; }
+.j-bar { display: inline-flex; gap: 4px; }
+.j-bar span { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--paper); }
+.j-bar span.past { background: var(--line-strong); }
+.j-bar span.now { background: var(--berry); border-color: var(--berry); }
+.j-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.j-title-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.j-title-row h2 { margin: 0; }
+.j-title-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.j-help-btn { min-height: 48px; min-width: 96px; padding: 8px 18px; border-radius: 999px; border: 3px solid var(--teal); background: var(--teal-tint); color: var(--ink);
+  font: inherit; font-weight: 700; font-size: 1.05rem; cursor: pointer; }
+.j-help-btn span { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--teal); color: var(--paper); margin-right: 4px; }
+.j-help-btn[aria-expanded="true"] { background: var(--teal); color: var(--paper); }
+.j-help-btn[aria-expanded="true"] span { background: var(--paper); color: var(--teal); }
+.j-help-btn:focus-visible, .j-chipbtn:focus-visible, .j-shape-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.j-prompt { font-size: 1.15rem; margin: 0; }
+.j-badge { justify-self: start; margin: 0; padding: 4px 12px; border-radius: 999px; background: var(--honey-tint); color: var(--ink); border: 2px solid var(--honey); font-weight: 700; font-size: .9rem; }
+.j-badge.guided { background: var(--teal-tint); border-color: var(--teal); }
+.j-stage-pic { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+.j-svg { display: block; width: min(100%, 520px); height: auto; overflow: visible; touch-action: manipulation; }
+.j-svg.wide { width: min(100%, 640px); }
+.j-svg.small { width: min(100%, 300px); }
+.j-whole { fill: var(--honey-tint); stroke: var(--ink); stroke-width: 2.5; }
+.j-whole.pie { fill: var(--peach-tint); }
+.j-outline-top polygon, .j-outline-top circle, .j-outline { fill: none; stroke: var(--ink); stroke-width: 3; pointer-events: none; }
+.j-region { stroke: var(--ink); stroke-width: .8; fill-opacity: .9; }
+.j-region.plain { fill: var(--honey-tint); stroke-width: 2; }
+.j-region.garden { fill: var(--ok-tint); stroke: var(--ink); stroke-width: 2; }
+.j-region.r0 { fill: var(--tile-a); } .j-region.r1 { fill: var(--tile-b); } .j-region.r2 { fill: var(--peach-tint); } .j-region.r3 { fill: var(--honey-tint); }
+.j-region.ok.r0 { fill: var(--tile-a); }
+.j-region.marked { stroke: var(--notyet); stroke-width: 3; }
+.j-cut { stroke: var(--berry); stroke-width: 4; stroke-linecap: round; pointer-events: none; }
+.j-cut.thin { stroke-width: 2.5; }
+.j-unit { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 4; pointer-events: none; }
+.j-guide { stroke: var(--ink); stroke-width: 2; stroke-dasharray: 6 5; }
+.j-hiline { stroke: var(--notyet); stroke-width: 7; stroke-linecap: round; }
+.j-ghost { fill: none; stroke: var(--notyet); stroke-width: 3; stroke-dasharray: 7 5; }
+.j-bread { fill: var(--honey); opacity: .35; }
+.j-bed { fill: none; stroke: var(--ink); stroke-width: 3; }
+.j-mark { stroke: var(--notyet); stroke-width: 4; }
+.j-centerdot { fill: var(--berry); }
+.j-tag, .j-caption, .j-label, .j-num, .j-piece-name, .j-piece-count, .j-arrow { fill: var(--ink); font-family: var(--body); pointer-events: none; }
+.j-tag { font-size: 14px; font-weight: 700; text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 4px; }
+.j-caption { font-size: 14px; text-anchor: middle; }
+.j-label { font-size: 13px; font-weight: 700; }
+.j-arrow { font-size: 34px; text-anchor: middle; }
+.j-num { font-size: 18px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+.j-piece-name { font-size: 18px; font-weight: 700; text-anchor: middle; dominant-baseline: central; paint-order: stroke; stroke: var(--paper); stroke-width: 5px; }
+.j-piece-count { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; }
+.j-piece-count { font-size: 13px; text-anchor: middle; }
+.j-piece-edge { fill: none; stroke: var(--ink); stroke-width: 1; }
+.j-piece-edge.strong { stroke-width: 3.5; pointer-events: none; }
+.j-piece, .j-tile { cursor: pointer; }
+.j-piece:focus, .j-tile:focus, .j-point:focus { outline: none; }
+.j-piece:focus-visible .j-piece-edge, .j-tile:focus-visible polygon { stroke: var(--focus); stroke-width: 5; }
+/* Construction points: a big invisible touch target around a small visible dot. */
+.j-point { cursor: pointer; }
+.j-point .hit { fill: transparent; }
+.j-point .dot { fill: var(--teal); stroke: var(--paper); stroke-width: 2.5; }
+.j-point.corner .dot { fill: var(--ink); }
+.j-point.center .dot { fill: var(--berry); }
+.j-point:hover .dot { stroke: var(--focus); stroke-width: 3; }
+.j-point.selected .dot { fill: var(--notyet); stroke: var(--ink); stroke-width: 3; r: 10px; }
+.j-point:focus-visible .hit { stroke: var(--teal); stroke-width: 4; stroke-dasharray: 5 3; }
+.j-legend { margin: 0; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: .95rem; }
+.j-legend .key { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--teal); }
+.j-legend .key.corner { background: var(--ink); } .j-legend .key.center { background: var(--berry); }
+.j-howto { margin: 0; text-align: center; }
+.j-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.j-tools { justify-content: center; }
+.j-row .btn { min-height: 48px; }
+.j-options { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; }
+.j-option { display: flex; align-items: flex-start; gap: 12px; min-height: 52px; padding: 12px 14px; border: 2px solid var(--line); border-radius: var(--r); background: var(--well); cursor: pointer; }
+.j-option:has(input:checked) { border-color: var(--berry); background: var(--berry-tint); }
+.j-option.right { border-color: var(--ok); background: var(--ok-tint); }
+.j-option.wrong { border-color: var(--notyet); background: var(--notyet-tint); }
+.j-option input, .j-check input { width: 24px; height: 24px; flex: none; margin-top: 2px; accent-color: var(--berry); }
+.j-feedback { margin: 0; padding: 12px 14px; border-radius: var(--r); border-left: 6px solid var(--line-strong); background: var(--sunk); }
+.j-feedback:empty { display: none; }
+.j-feedback.ok { border-color: var(--ok); background: var(--ok-tint); }
+.j-feedback.notyet { border-color: var(--notyet); background: var(--notyet-tint); }
+.j-help { border: 3px solid var(--teal); border-radius: var(--r-lg); background: var(--teal-tint); padding: 14px 16px; display: grid; gap: 10px; }
+.j-help h3 { margin: 0; }
+.j-help-block { background: var(--paper); border-radius: var(--r); padding: 10px 12px; }
+.j-help-block p { margin: 4px 0; }
+.j-help-block.answer { border: 2px solid var(--ok); }
+.j-help-label { font-weight: 700; color: var(--teal); margin: 0; }
+.j-note { color: var(--muted); font-size: .95rem; margin: 0; }
+.j-demo-text { margin: 0; font-size: 1.12rem; padding: 12px 14px; border-radius: var(--r); background: var(--teal-tint); }
+.j-demo-text .j-help-label { display: block; }
+.j-text p { font-size: 1.12rem; }
+.j-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.j-chip { position: relative; }
+.j-chip input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.j-chip span, .j-chipbtn { display: inline-grid; place-items: center; min-width: 56px; min-height: 48px; padding: 6px 14px; border: 2px solid var(--line-strong); border-radius: 999px; background: var(--well); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+.j-chip input:checked + span, .j-chipbtn[aria-pressed="true"] { background: var(--berry); border-color: var(--berry); color: var(--on-berry); }
+.j-chip input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 3px; }
+.j-chips.big { justify-content: center; }
+.j-sentence { display: grid; gap: 8px; }
+.j-sentence fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.j-sentence legend { float: left; font-weight: 700; font-size: 1.1rem; margin-right: 6px; }
+.j-write { display: grid; gap: 6px; font-weight: 700; }
+.j-write textarea { font: inherit; font-weight: 400; font-size: 1.1rem; padding: 10px; min-height: 7rem; border: 2px solid var(--line-strong); border-radius: var(--r); background: var(--well); color: var(--ink); }
+.j-compare { padding: 12px 14px; border-radius: var(--r); background: var(--sunk); display: grid; gap: 8px; }
+.j-compare fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 6px; }
+.j-check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; }
+.j-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: 100%; }
+.j-pair.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.j-pair figure { margin: 0; text-align: center; }
+.j-pair .j-svg { width: 100%; }
+.j-shapes ol { list-style: none; margin: 0 0 6px; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.j-shape-btn { width: 100%; min-height: 64px; display: grid; justify-items: center; gap: 2px; padding: 6px 4px; border: 2px solid var(--line); border-radius: var(--r); background: var(--paper); color: var(--ink); font: inherit; font-size: .9rem; cursor: pointer; }
+.j-shape-btn.here { border-color: var(--berry); background: var(--berry-tint); font-weight: 700; }
+.j-shape-n { font-weight: 700; }
+.j-shape-goal { color: var(--muted); font-size: .8rem; }
+.j-dots { display: inline-flex; gap: 3px; }
+.j-dots span { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--line-strong); }
+.j-dots span.on { background: var(--ok); border-color: var(--ok); }
+.j-phases { text-align: center; margin: 0 0 10px; }
+.j-phase-list { color: var(--muted); }
+.j-nav { max-width: 860px; margin-inline: auto; }
+.j-summary { display: grid; gap: 8px; }
+.j-summary h2, .j-summary h3 { margin: 6px 0 0; }
+.j-totals { margin: 0; }
+.j-table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+.j-table th, .j-table td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+.j-detail summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+.j-detail { overflow-x: auto; }
+.j-extra, .j-extra-note { margin: 12px 0; }
+@media (max-width: 600px) {
+  .j-shapes ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .j-pair.three { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .j-row .btn { flex: 1 1 auto; }
+  .j-stepper .name { font-size: .7rem; }
+}
+@media print {
+  .j-help-btn, .j-tools, .j-nav, .read { display: none !important; }
+}
+
+/* Review fixes: short Chromebook screens keep the shape and its buttons together; phones get bigger dots. */
+@media (min-width: 901px) {
+  .j-shape-btn { min-height: 48px; grid-template-columns: auto auto; grid-auto-flow: column; justify-content: center; align-items: center; gap: 2px 6px; }
+  .j-shape-btn .j-dots { grid-column: 1 / -1; }
+}
+@media (min-width: 901px) and (max-height: 860px) { .j-stage-pic .j-svg { max-height: 56vh; } }
+@media (max-width: 600px) {
+  .j-card { padding: 14px 10px; }
+  .j-stage-pic .j-svg { width: min(100%, 520px); }
+  .j-point.mark .dot { r: 7px; }
+  .j-point.corner .dot, .j-point.center .dot { r: 8.5px; }
+  .j-phase-list { display: none; }
+  .j-table thead { display: none; }
+  .j-table, .j-table tbody, .j-table tr, .j-table th, .j-table td { display: block; width: auto; }
+  .j-table tr { border: 1px solid var(--line); border-radius: var(--r-sm); margin-bottom: 8px; padding: 4px; }
+  .j-table th, .j-table td { border: 0; padding: 2px 6px; }
+}
+
+/* Dot choosing: a press shows a big ring on the dot that will be chosen; slide to change it, lift to choose. */
+.j-build { touch-action: pan-y pinch-zoom; -webkit-user-select: none; user-select: none; }
+.j-point .ring { fill: none; stroke: transparent; stroke-width: 4; pointer-events: none; }
+.j-point.near .ring { stroke: var(--focus); stroke-dasharray: 4 3; }
+.j-point.preview .ring { stroke: var(--berry); stroke-width: 6; stroke-dasharray: none; }
+.j-point.preview .dot { stroke: var(--berry); stroke-width: 3; }
+.j-preview { margin: 0; min-height: 2.6em; text-align: center; font-weight: 700; color: var(--notyet); }
+.j-row[hidden], [data-j-reset-confirm][hidden] { display: none; }
+.j-reset { margin-top: 8px; padding: 12px 14px; border: 2px solid var(--line); border-radius: var(--r); background: var(--sunk); display: grid; gap: 8px; }
+.j-reset h3 { margin: 0; }
+.j-confirm { display: grid; gap: 8px; padding: 10px 12px; border: 2px solid var(--notyet); border-radius: var(--r); background: var(--notyet-tint); }
+.j-confirm p { margin: 0; }
+.j-danger { border-color: var(--notyet); color: var(--ink); }
+.j-preview { color: var(--berry); }
+
+/* I Do / We Do / You Do (2026-11-12) */
+.j-badge.phase-ido { background: var(--teal-tint); border-color: var(--teal); }
+.j-badge.phase-wedo { background: var(--berry-tint); border-color: var(--berry); }
+.j-badge.phase-youdo { background: var(--honey-tint); border-color: var(--honey); }
+.j-badge.phase-assess { background: var(--ok-tint); border-color: var(--ok); }
+.j-badge.phase-say { background: var(--sunk); border-color: var(--line-strong); }
+.j-phases .j-phase-list span.now { font-weight: 700; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.j-stepper li.locked .j-locked { display: grid; justify-items: center; gap: 4px; min-height: 64px; padding: 4px 2px; color: var(--muted); cursor: not-allowed; }
+.j-stepper li.locked .n { border-style: dashed; }
+.j-locknote { text-align: center; color: var(--muted); margin: 6px 0 0; }
+.j-nav .btn[disabled] { opacity: .55; }
+.j-relearn { border: 3px solid var(--honey); border-radius: var(--r-lg); background: var(--honey-tint); padding: 14px 16px; display: grid; gap: 10px; }
+.j-relearn h3 { margin: 0; }
+.j-locked-answer { border: 0; margin: 0; padding: 0; min-width: 0; display: grid; gap: 12px; }
+.j-verdict { padding: 12px 14px; border-radius: var(--r); border-left: 6px solid var(--line-strong); background: var(--sunk); margin: 0; }
+.j-verdict.ready { border-color: var(--ok); background: var(--ok-tint); }
+.j-verdict.review { border-color: var(--notyet); background: var(--notyet-tint); }
+.j-ready tr.solid td { color: var(--ok); font-weight: 700; }
+.j-pole { stroke: var(--ink); stroke-width: 3; }
+.j-mark-sym { margin-left: auto; font-weight: 700; white-space: nowrap; }
+.j-option.right .j-mark-sym { color: var(--ok); } .j-option.wrong .j-mark-sym { color: var(--notyet); }
+.j-verdict.notyet { border-color: var(--notyet); background: var(--notyet-tint); }
+.j-answer-offer { align-items: center; }
+.j-stepper li.locked { font-style: normal; }
+
+/* Round 5 (owner brief: one primary task). A slim header and one progress line, so the activity is the main thing. */
+.lesson-bar.compact { padding: 8px 16px; gap: 4px 16px; border-left-width: 6px; align-items: center; }
+.lesson-bar.compact h1 { font-size: 1.25rem; }
+.lesson-bar.compact .goal { font-size: .95rem; margin: 0; }
+.lesson-bar.compact .crumbs { font-size: .9rem; }
+@media (min-width: 700px) { .lesson-bar.compact { grid-template-columns: 1fr auto; } }
+.j-map { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px; margin: 10px 0 8px; }
+.j-where { margin: 0; color: var(--berry); }
+.j-where .j-cardnum { color: var(--muted); font-weight: 600; margin-left: 6px; white-space: nowrap; }
+.j-mapbar { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; }
+.j-mapbar span { height: 6px; border-radius: 3px; background: var(--line); }
+.j-mapbar span.past { background: var(--teal); }
+.j-mapbar span.now { background: var(--berry); }
+.j-map-all { grid-column: 2; grid-row: 1; justify-self: end; }
+.j-map-all > summary { cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; border: 2px solid var(--line-strong); font-weight: 700; font-size: .9rem; color: var(--ink); background: var(--paper); }
+.j-map-all[open] { grid-column: 1 / -1; grid-row: 3; justify-self: stretch; }
+.j-map-all[open] > summary { margin-bottom: 8px; }
+.j-badge-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0; }
+.j-skill { color: var(--muted); font-weight: 600; font-size: .95rem; }
+.j-drawhelp { border: 2px solid var(--line-strong); border-radius: var(--r-md, 12px); padding: 4px 12px; background: var(--paper); }
+.j-drawhelp > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; }
+.j-drawhelp ol { margin: 4px 0 8px; padding-left: 1.4em; display: grid; gap: 4px; }
+.j-quick { border: 3px solid var(--teal); border-radius: var(--r-lg); background: var(--teal-tint); padding: 14px 16px; display: grid; gap: 10px; }
+.j-quick h3 { margin: 0; }
+.j-quick p { margin: 0; }
+@media print { .j-map, .j-drawhelp { display: none; } }
+.j-stepper-open { grid-column: 1 / -1; }
+
+/* Skill journeys, Lessons 7-2 to 7-7 (same pattern as Lesson 7-1): the part count varies by lesson. */
+.j-map.j-bar-3 .j-mapbar { grid-template-columns: repeat(3, 1fr); }
+.j-stepper.j-cols-3 ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.j-map.j-bar-4 .j-mapbar { grid-template-columns: repeat(4, 1fr); }
+.j-stepper.j-cols-4 ol { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.j-map.j-bar-5 .j-mapbar { grid-template-columns: repeat(5, 1fr); }
+.j-stepper.j-cols-5 ol { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.j-map.j-bar-6 .j-mapbar { grid-template-columns: repeat(6, 1fr); }
+.j-stepper.j-cols-6 ol { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.j-map.j-bar-7 .j-mapbar { grid-template-columns: repeat(7, 1fr); }
+.j-stepper.j-cols-7 ol { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.j-map.j-bar-8 .j-mapbar { grid-template-columns: repeat(8, 1fr); }
+.j-stepper.j-cols-8 ol { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+.j-map.j-bar-9 .j-mapbar { grid-template-columns: repeat(9, 1fr); }
+.j-stepper.j-cols-9 ol { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+.j-map.j-bar-10 .j-mapbar { grid-template-columns: repeat(10, 1fr); }
+.j-stepper.j-cols-10 ol { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.j-map.j-bar-11 .j-mapbar { grid-template-columns: repeat(11, 1fr); }
+.j-stepper.j-cols-11 ol { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+@media (max-width: 900px) { .j-stepper[data-n] ol { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.skill-card { display: grid; gap: 10px; }
+.skill-card .skill-title { margin: 0; font-size: 1.3rem; }
+.skill-card .j-note { margin: 0; }
+.j-stage .j-quick { margin-top: 12px; }
+/* A skill-journey card is one card, as in Lesson 7-1: the screens, examples and questions inside it lose their own frames. */
+.skill-card .card { border: 0; box-shadow: none; background: transparent; padding: 0; }
+.skill-card .work { gap: 16px; }
+/* The card's own title is the heading (as in Lesson 7-1); the screen's inner title would repeat it. */
+.skill-card .instruct-head h3 { display: none; }
+.skill-card .instruct-head { justify-content: flex-end; }
+.read { min-width: 44px; }

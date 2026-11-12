@@ -1406,7 +1406,13 @@
     "show": [
      "24 + 6 = 30 square meters."
     ],
-    "yes": "Yes!"
+    "yes": "Yes!",
+    "accept": [
+     {
+      "a2": 6,
+      "b2": 24
+     }
+    ]
    },
    {
     "id": "t18",

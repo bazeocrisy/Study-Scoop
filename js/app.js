@@ -1,5 +1,6 @@
 // Study Scoop: one-page app. Reads data/weeks.json and data/<week>.json and shows one of eight sections.
-// Nothing is stored: no localStorage, cookies, accounts or analytics. The chosen week lives in the address.
+// Nothing is stored: no cookies, accounts or analytics. The chosen week lives in the address.
+// The one exception is Lesson 7-1 progress, kept in this browser only (DECISIONS D29, js/lib/journey-store.js).
 
 import { html } from './lib/html.js';
 import { loadIndex, loadJSON, loadWeek } from './lib/data.js';
@@ -9,7 +10,10 @@ import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './li
 import { hasPropertyWords } from './lib/mathlearn.js';
 import { validateArea } from './lib/area.js';
 import { validateFractionChapter } from './lib/chapter7.js';
-import { mountLesson, mountReadButtons, stateFor, visitedStages } from './lesson-player.js';
+import { mountLesson, mountReadButtons, stateFor, visitedStages, restoreLesson } from './lesson-player.js';
+import { skillJourney, sectionOf, resumeSkill } from './lib/skill-journey.js';
+import { JOURNEY_LESSON, isJourneyStage, journeyLabel } from './lib/partition-journey.js';
+import { resumeStage } from './partition-journey.js';
 import { TEST_KINDS, activityInfo, validateMathPractice, validateMathWords, validateTests } from './lib/activities.js';
 import { chapterFor, validateChapters } from './lib/chapters.js';
 import { missCounts, mountActivity, mountTimesApp, runFor } from './activity-player.js';
@@ -178,7 +182,11 @@ async function render() {
     } catch { testsProblem = true; }
   }
   if (n !== renderCount) return; // a newer navigation started while lessons were loading (keep its address)
-  const stage = lesson ? (STAGE_IDS.includes(route.stage) ? route.stage : 'learn') : null;
+  // Lesson 7-1 opens on its learning journey; its original stages remain as extra practice.
+  // Lessons 7-2 to 7-7 open on their skill journey (saved progress first), like Lesson 7-1.
+  if (lesson) restoreLesson(lesson);
+  const stage = lesson ? (STAGE_IDS.includes(route.stage) || isJourneyStage(lesson.id, route.stage) || sectionOf(lesson, route.stage) ? route.stage
+    : lesson.id === JOURNEY_LESSON ? resumeStage() : skillJourney(lesson) ? resumeSkill(lesson, visitedStages(lesson.id), stateFor(lesson.id, 'test').submitted) : 'learn') : null;
   // An activity named in the address: a page to read (Learn My Words, a menu) or questions to answer (a run).
   // An earlier address (alias) opens the page that replaced it: "area" is the Chapter 6 menu, "lessons" the chapter list.
   let info = route.act && route.section !== 'reading' ? activityInfo(route.section, route.act) : null;
@@ -238,8 +246,10 @@ async function render() {
     chapter, chapterMenu: chMenu, chapterLink: (id) => buildHash('math', weekId, index.current, { ch: id }),
     link: (section, id = weekId) => buildHash(section, id, index.current),
     lessonLink: (id, st) => buildHash('math', weekId, index.current, { lesson: id, stage: st }),
-    pictures, lessons, lesson, stage, lessonState: lesson ? stateFor(lesson.id, stage) : null,
+    pictures, lessons, lesson, stage, lessonState: lesson && !isJourneyStage(lesson.id, stage) ? stateFor(lesson.id, stage) : null,
     lessonVisited: lesson ? visitedStages(lesson.id) : null,
+    skillStateOf: lesson && skillJourney(lesson) ? (s) => stateFor(lesson.id, s) : null,
+    skillHistory: lesson && skillJourney(lesson) ? stateFor(lesson.id, 'parent').history : null,
     actLink: (subject, a) => buildHash(subject, weekId, index.current, { act: a }),
     testLink: (kind) => buildHash('tests', weekId, index.current, { test: kind }),
     reading, tests, testsProblem, misses: missCounts(contentId), practice, mathWords, area, fractions, packet, page: info?.page ? act : null,
@@ -257,7 +267,7 @@ async function render() {
   document.body.classList.toggle('in-activity', Boolean(ctx.run));
   app.innerHTML = VIEWS[route.section](ctx).s;
   document.title = reading?.story ? `${reading.story.title} · Reading · Study Scoop` : lesson
-    ? `${stageLabel(stage)} · Lesson ${lesson.id}: ${lesson.title} · Study Scoop`
+    ? `${journeyLabel(stage) || sectionOf(lesson, stage)?.title || (skillJourney(lesson) && stage === 'test' ? 'Final Check' : skillJourney(lesson) && stage === 'parent' ? 'Grown-up report' : stageLabel(stage))} · Lesson ${lesson.id}: ${lesson.title} · Study Scoop`
     : ctx.run ? `${ctx.run.title} · ${sectionLabel(route.section)} · Study Scoop`
       : ctx.page ? `${info.label} · ${sectionLabel(route.section)} · Study Scoop` : `${sectionLabel(route.section)} · Study Scoop`;
   if (reading?.story) {

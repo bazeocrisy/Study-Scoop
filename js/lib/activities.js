@@ -258,7 +258,9 @@ export function vocabItems(week, kind, rand = Math.random) {
   }
   if (kind === 'fill') {
     // A short word bank (the answer and three other words of the week) keeps the choice manageable.
-    const bankFor = (w, form) => [form, ...others(w).slice(0, 3).map((x) => x.word.toLowerCase())].sort();
+    // Words that would also make this word's sentences true (w.alsoFits, e.g. "peculiar" in a melancholy sentence)
+    // never join its bank, so every fill-in has exactly one right answer.
+    const bankFor = (w, form) => [form, ...others(w).filter((x) => !(w.alsoFits || []).includes(x.word)).slice(0, 3).map((x) => x.word.toLowerCase())].sort();
     // Choosing another word from the bank says what that word means, so the child sees why it does not fit.
     const whyNot = (bank, w) => Object.fromEntries(bank.filter((b) => b !== w.word.toLowerCase()).map((b) => {
       const x = words.find((o) => o.word.toLowerCase() === b);
@@ -425,7 +427,7 @@ export function spellingTest(week, rand = Math.random) {
  *  (from data/practice/math-words.json). Null when there is none. */
 export function testFor(kind, week, tests, rand, mathWords = null, area = null) {
   if (kind === 'spelling') return week.spelling?.words?.length ? spellingTest(week, rand) : null;
-  // In the Area week the Math Vocabulary test is the Nov 3 vocabulary test (Area, Square Unit, Multiply).
+  // In the Area week the Math Vocabulary test covers the teacher's study words for the Nov 3 Area Test (Area, Square Unit, Multiply).
   if (kind === 'mathwords' && isAreaWeek(week)) return area?.vocab ? areaVocabTest(area, rand) : null;
   if (kind === 'mathwords') return mathWords ? mathWordsTest(mathWords, rand) : null;
   const t = tests?.[kind];
@@ -452,8 +454,8 @@ export function testCatalog(week, tests, mathWords = null, area = null) {
     return {
       kind, subject: SUBJECT[kind], title: t?.title || `${SUBJECT[kind]} Practice Test`,
       topic: t?.topic || sched?.detail || '', date: sched?.date || null, classTest: sched?.title || null,
-      // Area week: the Math Vocabulary test is for the Nov 3 class vocabulary test, and the Math test is a chapter review.
-      dateLabel: related ? (areaWeek ? 'Class test' : hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : chapterReview ? 'Review of' : 'Class test',
+      // Area week: the Math Vocabulary test helps with the Nov 3 Topic 6 Area Test (the teacher's study words), and the Math test is a chapter review.
+      dateLabel: related ? (areaWeek ? 'Helps with class test' : hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : chapterReview ? 'Review of' : 'Class test',
       review: chapterReview ? 'Chapter 6 (all lessons)' : related && !hasPropertyWords(week) && !areaWeek ? 'Unit 5 (properties)' : '',
       count: t ? t.items.length : 0, coverage: t?.coverage || '', note: t?.note || '', available: Boolean(t), reason,
     };

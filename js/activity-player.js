@@ -5,7 +5,7 @@ import { check, helpSteps, solution } from './lib/lessons.js';
 import { showNewStep } from './lib/help-scroll.js';
 import { WORD_MODES, activityInfo, isMissesAct, mathItems, mathWordItems, missGroup, rng, shuffle, shuffleRounds, spellItem, spellingItems, testFor, vocabItems, vocabPractice } from './lib/activities.js';
 import { PROPERTIES } from './lib/mathlearn.js';
-import { SKILL_SETS, timesFamilyFlash, timesFamilyPractice, timesFamilyFind } from './lib/skills.js';
+import { SKILL_SETS, timesFamilyFlash, timesFamilyPractice, timesFamilyFind, findItCorrect } from './lib/skills.js';
 import { AREA_CARDS, AREA_SETS, areaItems, areaVocabWords } from './lib/area.js';
 import { packetItems } from './lib/homework.js';
 import { FRACTION_VOCAB_MODES, FRACTION_PRACTICE_ACTS, fractionVocabItems, fractionPracticeItems } from './lib/chapter7.js';
@@ -680,10 +680,10 @@ export function mountTimesApp(app, ctx, signal) {
       const va = Number(app.querySelector('[data-find="a"]')?.value || '');
       const vb = Number(app.querySelector('[data-find="b"]')?.value || '');
       st.va = va; st.vb = vb;
-      const corr = (item.answer.a === va && item.answer.b === vb) || (item.answer.a === vb && item.answer.b === va);
+      const corr = findItCorrect(item, va, vb);
       if (corr) {
         st.correct = true; st.wrong = false; st.wrongFamily = null;
-        announce(`Yes! ${item.answer.a} × ${item.answer.b} = ${item.answer.a * item.answer.b}.`);
+        announce(`Yes! ${va} × ${vb} = ${va * vb}.`);
       } else {
         // Check for wrong-family nudge
         const nudge = item.mistakes?.find((m) => m.when.a === va && m.when.b === vb);

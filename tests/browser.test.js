@@ -141,7 +141,7 @@ async function main() {
         eq(await b.js('return document.getElementById("weekSelect").value;'), OCT26, 'Oct 26 opens by default');
         const cards = await b.js('return [...document.querySelectorAll(".test")].map((c) => c.querySelector(".count").textContent + " | " + c.querySelector("h3").textContent + " | " + c.querySelector(".date").textContent);');
         eq(cards, ['In 4 days | Academic Vocabulary Quiz | Friday, October 30', 'In 4 days | Spelling Test | Friday, October 30',
-          'In 8 days | Math Topic 6 Vocabulary Test | Tuesday, November 3'], 'test cards');
+          'In 8 days | Math Topic 6 Area Test | Tuesday, November 3'], 'test cards');
         eq(await b.js('return [...document.querySelectorAll(".test .action")].map((a) => a.getAttribute("href"));'),
           ['#vocab', '#tests', '#spelling', '#tests', '#math?ch=6', '#tests'], 'study links (the Nov 3 test opens Chapter 6) and practice-test links');
         expect((await b.js('return document.querySelector(".test-vocab").textContent;')).includes('Trustworthy, Constellations, Irritating, Distracted'), 'the quiz names the four green words');
@@ -308,7 +308,7 @@ async function main() {
           const noAlt = [...document.querySelectorAll('img')].filter((i) => !i.hasAttribute('alt')).length;
           const emptyLinks = [...document.querySelectorAll('a')].filter((a) => !a.textContent.trim() && !a.getAttribute('aria-label')).length;
           const small = [...document.querySelectorAll('nav.tabs a, #weekSelect, .brand, .action, .btn, .read, .choice, .box, .stepper a, .archive a, .checklist label, .bank-word, .hw-check')]
-            .map((el) => [el, el.getBoundingClientRect()]).filter(([, rect]) => (rect.width || rect.height) && (rect.width < 44 || rect.height < 44))
+            .filter((el) => !el.checkVisibility || el.checkVisibility()).map((el) => [el, el.getBoundingClientRect()]).filter(([, rect]) => (rect.width || rect.height) && (rect.width < 44 || rect.height < 44))
             .map(([el, rect]) => (el.id || el.textContent.trim().slice(0, 20)) + ' ' + Math.round(rect.width) + 'x' + Math.round(rect.height));
           return { h1: levels.filter((l) => l === 1).length, skips, unlabelled, noAlt, emptyLinks, small, lang: document.documentElement.lang };`);
         eq(r, { h1: 1, skips: 0, unlabelled: [], noAlt: 0, emptyLinks: 0, small: [], lang: 'en' }, 'structure');
@@ -346,7 +346,7 @@ async function main() {
           await b.load(url(route));
           const r = await b.js(`return { sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
             nav: [...document.querySelectorAll('nav.tabs a')].filter((a) => { const r = a.getBoundingClientRect(); return r.left < 0 || r.right > innerWidth; }).length,
-            past: [...document.querySelectorAll('#app *')].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && (r.right > innerWidth + 1 || r.left < -1); }).length };`);
+            past: [...document.querySelectorAll('#app *')].filter((e) => { if (e.checkVisibility && !e.checkVisibility()) return false; const r = e.getBoundingClientRect(); return r.width > 0 && (r.right > innerWidth + 1 || r.left < -1); }).length };`);
           if (r.sw > r.cw) problems.push(`${route} page is ${r.sw}px wide in a ${r.cw}px window`);
           if (r.nav) problems.push(`${route} ${r.nav} section links off screen`);
           if (r.past) problems.push(`${route} ${r.past} elements past the edge`);
@@ -697,9 +697,16 @@ async function main() {
         await go(`.menu-card[href="#math?act=ch${ch}"]`);
         const list = LESSON_INDEX.filter((l) => l.chapter === ch);
         eq(await b.js('return [...document.querySelectorAll(".lesson-card .lesson-num")].map((n) => n.textContent);'), list.map((l) => l.id), `Chapter ${ch}: its lessons in order`);
-        if (ch === 7) eq(await b.js('return [...document.querySelectorAll(".lesson-card p")].map(n => n.textContent.trim());'), list.map(l => l.summary || l.strategy), 'fraction lesson goals');
+        if (ch === 7) eq(await b.js('return [...document.querySelectorAll(".lesson-card h2 + p")].map(n => n.textContent.trim());'), list.map(l => l.summary || l.strategy), 'fraction lesson goals');
         else eq(await b.js('return [...document.querySelectorAll(".lesson-card .strategy")].map((n) => n.textContent.replace("Strategy", "").trim());'), list.map((l) => l.strategy), 'strategies');
         eq(await b.js('return document.querySelectorAll(".lesson-card [disabled], .lesson-card .locked").length;'), 0, 'nothing is locked');
+        if (ch === 7) {
+          // Lessons 7-2 to 7-7 are skill journeys (D31): Start resumes the lesson, at Part A for a new learner.
+          await go(`.lesson-card a.btn-primary[href="#math?lesson=${start}"]`);
+          const first = readJSON(`data/lessons/${start}.json`).journey.sections[0].id;
+          eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [`#math?lesson=${start}&stage=${first}`, `Lesson ${start}: ${LESSON_INDEX.find((l) => l.id === start).title}`], `Lesson ${start} opens at Part A`);
+          continue;
+        }
         await go(`.lesson-card a.btn-primary[href="#math?lesson=${start}&stage=learn"]`);
         eq(await b.js('return [location.hash, document.querySelector("#app h1").textContent];'), [`#math?lesson=${start}&stage=learn`, LESSON_INDEX.find((l) => l.id === start).title], `Lesson ${start} opens`);
       }
@@ -799,7 +806,13 @@ async function main() {
         await press('[data-act="misses-exit"]');
         eq(await stageTitle(), 'Try It Yourself: your results', 'back to results');
         // Test Your Knowledge: no hints, every answer right, then the next lesson.
-        await go('.stage-nav a.btn-primary[href$="stage=test"]');
+        if (L.journey) {
+          // Skill journeys (D31): extra practice leads back to the lesson; the Final Check opens after every skill
+          // (tests/skill-journey.browser.js walks the skills; here they are marked finished to reach the Final Check).
+          eq(await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");'), `#math?lesson=${meta.id}`, 'extra practice leads back to the lesson');
+          await b.js(`const m=await import('./js/lesson-player.js');for(const s of ${JSON.stringify(L.journey.sections.map((s) => s.id))})m.stateFor('${meta.id}',s).completed=true;`);
+          await b.hash(lessonHash(meta.id, 'test'));
+        } else await go('.stage-nav a.btn-primary[href$="stage=test"]');
         eq(await b.js('return document.querySelectorAll("[data-act=help], [data-act=hint], [data-act=show]").length;'), 0, 'no hints in the test');
         for (const [k, item] of L.test.items.entries()) {
           await answer(item, solution(item));
@@ -810,7 +823,7 @@ async function main() {
         const chapter = LESSON_INDEX.filter((l) => l.chapter === meta.chapter);
         const k = chapter.findIndex((l) => l.id === meta.id);
         const primary = await b.js('return document.querySelector(".stage-nav a.btn-primary").getAttribute("href");');
-        eq(primary, k < chapter.length - 1 ? lessonHash(chapter[k + 1].id, 'learn') : meta.chapter === 5 ? '#math?act=guide' : `#math?act=ch${meta.chapter}guide`, 'what next: the next lesson, or the chapter\'s Study Guide');
+        eq(primary, k < chapter.length - 1 ? (meta.chapter === 7 ? `#math?lesson=${chapter[k + 1].id}` : lessonHash(chapter[k + 1].id, 'learn')) : meta.chapter === 5 ? '#math?act=guide' : `#math?act=ch${meta.chapter}guide`, 'what next: the next lesson, or the chapter\'s Study Guide');
         await go(`.stage-nav a.btn[href="#math?act=ch${meta.chapter}"]`);
         eq(await b.js('return document.querySelector("#app h1").textContent;'), `Chapter ${meta.chapter} Lessons`, 'Back to Lessons (the chapter\'s own list)');
       });
@@ -1672,7 +1685,7 @@ async function main() {
         [['Chapter 6 Practice Test', 'Chapter 6: Connect Area and Multiplication', 'Review of', 'Chapter 6 (all lessons)', '27', true],
           ['Spelling Practice Test', '-er / -or words', 'Class test', 'Friday, October 30', '15', true],
           ['Vocabulary Practice Test', 'Because of Winn-Dixie — Four Green Words', 'Class test', 'Friday, October 30', '16', true],
-          ['Math Vocabulary Practice Test', 'Nov 3 words: Area, Square Unit, Multiply', 'Class test', 'Tuesday, November 3', '12', true]], 'cards');
+          ['Math Vocabulary Practice Test', 'Nov 3 words: Area, Square Unit, Multiply', 'Helps with class test', 'Tuesday, November 3', '12', true]], 'cards');
     });
     const AV = AREA.vocab;
     const avAll = [...AV.choice, ...AV.truefalse, ...AV.fill];
@@ -2159,11 +2172,11 @@ async function main() {
     });
 
     console.log('Privacy and security');
-    await check('nothing is stored: no localStorage, sessionStorage, cookies or IndexedDB', async () => {
+    await check('nothing is stored: no sessionStorage, cookies or IndexedDB; localStorage holds at most the Chapter 7 lesson progress keys (D29, D31)', async () => {
       await b.load(url('#homework'));
-      const r = await b.js(`return { local: localStorage.length, session: sessionStorage.length, cookie: document.cookie,
+      const r = await b.js(`return { local: Object.keys(localStorage).filter((k) => !/^studyScoop\.lesson7-[1-7]\.progress$/.test(k)), session: sessionStorage.length, cookie: document.cookie,
         idb: (await indexedDB.databases()).length };`);
-      eq(r, { local: 0, session: 0, cookie: '', idb: 0 }, 'storage');
+      eq(r, { local: [], session: 0, cookie: '', idb: 0 }, 'storage');
     });
     await check('every request stayed on this site, none failed, no newsletter photos requested', async () => {
       const external = b.requests.filter((u) => !u.startsWith(server.origin) && !u.startsWith('data:'));

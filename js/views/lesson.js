@@ -1,12 +1,16 @@
 // One view for every lesson and stage (Learn It, Watch Me, Practice Together, Try It Yourself, Test, Parent Guide).
 // Pure: it renders the lesson data plus the in-memory progress (state). js/lesson-player.js handles clicks and typing.
 import { html } from '../lib/html.js';
-import { partitionLabShell } from '../partition-lab.js';
+import { journeyStepper, journeyCard, journeySummary } from './partition-journey.js';
+import { journeyState, doneStages } from '../partition-journey.js';
+import { JOURNEY_LESSON, isJourneyStage } from '../lib/partition-journey.js';
 import { speak } from '../lib/arith.js';
 import { modelFigure } from '../lib/models.js';
 import { PLACE } from '../lib/rounding.js';
 import { STAGES, STAGE_IDS, answerText, boxes, helpSteps, score, stageLabel, chapterOf } from '../lib/lessons.js';
 import { ICONS, facts, scoreLine, subBar } from './common.js';
+import { skillJourney, sectionOf, sectionNeeds, sectionsOf } from '../lib/skill-journey.js';
+import { skillLessonView, sectionInner, finalInner } from './skill-journey.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
 const ICON_NOT = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>`;
@@ -18,11 +22,32 @@ const hasChapter7Teaching = (lesson) => lesson.chapter === 7 || /^7-[1-7]$/.test
 
 export const stageOf = (stage) => (STAGE_IDS.includes(stage) ? stage : 'learn');
 
+// Chapter 7 teaching release (Lessons 7-2 to 7-7): teach first. Learn It and Watch Me (I Do) and Practice Together (We Do)
+// are always open; Try It Yourself (You Do) opens after them, and the Test after Try It Yourself.
+export const teachFirst = (lesson) => /^7-[2-7]$/.test(String(lesson?.id));
+export const PHASE = { learn: 'I Do', watch: 'I Do', together: 'We Do', try: 'You Do', test: 'Check' };
+const NEEDS = { try: ['learn', 'watch', 'together'], test: ['learn', 'watch', 'together', 'try'] };
+/** The earlier stages still to finish before a stage opens ([] when it is open). */
+export function stageNeeds(lesson, stage, visited) {
+  // Skill journeys: the Final Check opens after every skill section; the original stages are optional extra practice.
+  if (skillJourney(lesson)) return stage === 'test' ? sectionNeeds(lesson, 'test', visited) : [];
+  if (!teachFirst(lesson)) return [];
+  return (NEEDS[stage] || []).filter((s) => !visited?.has(s));
+}
+function lockedStage(ctx, lesson, stage, needs) {
+  return html`<div class="stage-title"><h2 id="stage-h" tabindex="-1"><span aria-hidden="true">🔒 </span>${stageLabel(stage)} is not open yet</h2></div>
+    <div class="card locked-stage"><p>${stage === 'test' ? 'The Test opens after Try It Yourself.' : 'Try It Yourself opens after the teaching parts. Learning the steps first makes the practice work.'}</p>
+      <p>Still to finish: ${needs.map((s) => stageLabel(s)).join(', ')}.</p>
+      <p><a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, needs[0])}">Go to ${stageLabel(needs[0])} ›</a></p></div>`;
+}
+
 /** "Read to me": reads the text aloud with the device's own voice (the player hides it where speech is unavailable). */
 export const readButton = (parts, what = 'this') => html`<button type="button" class="read" data-act="read" data-say="${speak([].concat(parts).filter(Boolean).join('. '))}" data-label="Read to me" aria-label="Read to me: ${what}">${ICON_SPEAK}<span class="read-label">Read to me</span></button>`;
 
 /** The cards (screens) a stage steps through. */
 export function cardsOf(lesson, stage) {
+  const section = sectionOf(lesson, stage);
+  if (section) return section.cards;
   if (stage === 'learn') return lesson.learn.screens;
   if (stage === 'watch') return lesson.watch.examples;
   if (stage === 'parent') return [lesson.parent];
@@ -32,17 +57,54 @@ export function cardsOf(lesson, stage) {
 export function lessonView(ctx) {
   const { lesson } = ctx;
   const stage = stageOf(ctx.stage);
+  if (lesson.id === JOURNEY_LESSON) return journeyLessonView(ctx);
+  if (skillJourney(lesson)) return skillLessonView(ctx, { stateOf: ctx.skillStateOf || (() => null), history: ctx.skillHistory || null });
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
+  const needs = stageNeeds(lesson, stage, ctx.lessonVisited);
+  if (needs.length) return html`${lessonBar(ctx, lesson, stage)}<div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}" data-locked="true">${lockedStage(ctx, lesson, stage, needs)}</div>`;
   return html`
     ${lessonBar(ctx, lesson, stage)}
-    ${lesson.id === '7-1' && ['learn', 'parent'].includes(stage) ? partitionLabShell() : ''}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">
       ${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}
     </div>`;
 }
 
+/**
+ * Lesson 7-1: one guided journey (sections A to I and a grown-up summary). Its original five stages stay
+ * available as optional extra practice, reached from the Check & Reflect section and the summary.
+ */
+function journeyLessonView(ctx) {
+  const { lesson } = ctx;
+  const journey = isJourneyStage(lesson.id, ctx.stage), stage = journey ? ctx.stage : stageOf(ctx.stage);
+  const jctx = { ...ctx, journeyDone: doneStages(journeyState) };
+  // A slim header: the lesson name and one way back, so the activity is the main thing on the screen.
+  const top = subBar(ctx, {
+    tone: 'math', compact: true, title: `Lesson ${lesson.id}: ${lesson.title}`, goal: stage === 'explore' && !(journeyState.at.explore > 0) ? lesson.goal : '',
+    trail: [{ label: 'Chapter 7 Lessons', href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
+    back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }],
+  });
+  if (journey) return html`${top}<div class="stage j-stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${journeyCard(jctx, stage, journeyState)}</div>`;
+  const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
+  if (stage === 'parent') return html`${top}${journeyStepper(jctx, 'parent', journeyState.records, { open: true })}
+    <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="parent">${journeySummary(jctx, journeyState)}${extraPractice(ctx, lesson)}${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;
+  // The original stages keep their own layout, labelled as optional extra practice, with a way back to the journey.
+  return html`${subBar(ctx, {
+    tone: 'math', eyebrow: `Lesson ${lesson.id} · Extra practice (optional)`, title: lesson.title, goal: '',
+    trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Chapter 7', href: ctx.chapterLink(7) }, { label: 'Chapter 7 Lessons', href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
+    back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.lessonLink(lesson.id, 'explore'), label: '‹ Main lesson' }],
+  })}${stageStepper(ctx, lesson, stage, 'Extra practice steps')}
+    <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;
+}
+function extraPractice(ctx, lesson) {
+  return html`<section class="card j-extra" aria-labelledby="j-extra-h"><h2 id="j-extra-h" class="h3">Extra practice (optional)</h2>
+    <p>More questions about counting and naming equal parts in strips and circles.</p>
+    <p class="btn-row">${STAGES.map((s) => html`<a class="btn" href="${ctx.lessonLink(lesson.id, s.id)}">${s.label}</a>`)}</p></section>`;
+}
+
 /** Just the stage area (re-rendered in place after each answer, so the page does not jump). */
 export function stageInner(ctx) {
+  if (skillJourney(ctx.lesson) && sectionOf(ctx.lesson, ctx.stage)) return sectionInner(ctx);
+  if (skillJourney(ctx.lesson) && ctx.stage === 'test') return finalInner(ctx);
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   return html`${stageBody(ctx, ctx.lesson, stageOf(ctx.stage), state)}${lessonHistoryPanel(ctx.lesson, state)}`;
 }
@@ -67,9 +129,18 @@ function lessonBar(ctx, lesson, stage) {
       trail: [{ label: 'Math', href: ctx.link('math') }, { label: `Chapter ${chapterOf(lesson.id)}`, href: ctx.chapterLink(chapterOf(lesson.id)) }, { label: `Chapter ${chapterOf(lesson.id)} Lessons`, href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
       back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.chapterLink(chapterOf(lesson.id)), label: `Back to Chapter ${chapterOf(lesson.id)}` }],
     })}
+    ${stageStepper(ctx, lesson, stage)}`;
+}
+
+export function stageStepper(ctx, lesson, stage, label = 'Lesson steps', list = STAGES) {
+  return html`
     <div class="lesson-steps">
-      <nav class="stepper" aria-label="Lesson steps">
-        <ol>${STAGES.map((s, i) => html`<li class="${s.id !== stage && ctx.lessonVisited?.has(s.id) ? 'done' : ''}"><a href="${ctx.lessonLink(lesson.id, s.id)}"${s.id === stage ? html` aria-current="step"` : ''}><span class="n">${i + 1}</span> <span class="name">${s.label}</span></a></li>`)}</ol>
+      <nav class="stepper" aria-label="${label}">
+        <ol>${list.map((s, i) => {
+          const tag = teachFirst(lesson) ? html`<span class="phase-tag">${PHASE[s.id]}</span>` : '';
+          if (stageNeeds(lesson, s.id, ctx.lessonVisited).length && s.id !== stage) return html`<li class="locked"><span class="stage-locked"><span class="n">${i + 1}</span> <span class="name"><span aria-hidden="true">🔒 </span>${s.label}</span>${tag}<span class="sr-only"> (opens after the earlier steps)</span></span></li>`;
+          return html`<li class="${s.id !== stage && ctx.lessonVisited?.has(s.id) ? 'done' : ''}"><a href="${ctx.lessonLink(lesson.id, s.id)}"${s.id === stage ? html` aria-current="step"` : ''}><span class="n">${i + 1}</span> <span class="name">${s.label}</span>${tag}</a></li>`;
+        })}</ol>
       </nav>
     </div>`;
 }
@@ -77,11 +148,11 @@ function lessonBar(ctx, lesson, stage) {
 /** The questions of a Practice My Misses round (the questions missed in Try It Yourself or in the test). */
 export const missItems = (lesson, stage, state) => (state?.misses ? lesson[stage].items.filter((it) => state.misses.ids.includes(it.id)) : []);
 
-function stageBody(ctx, lesson, stage, state) {
+export function stageBody(ctx, lesson, stage, state) {
   if (stage === 'parent') return parentGuide(ctx, lesson);
   if (state.misses && (stage === 'try' || stage === 'test')) return missesBody(ctx, lesson, stage, state);
   const cards = cardsOf(lesson, stage);
-  const label = stageLabel(stage);
+  const label = skillJourney(lesson) && stage === 'test' ? 'Final Check' : stageLabel(stage);
   if (stage === 'test' && state.submitted) return testResults(ctx, lesson, state);
   if (stage === 'try' && state.i >= cards.length) return trySummary(ctx, lesson, state);
   const i = Math.min(state.i || 0, cards.length - 1);
@@ -89,17 +160,19 @@ function stageBody(ctx, lesson, stage, state) {
   const what = stage === 'watch' ? 'Example' : stage === 'learn' ? 'Screen' : 'Question';
   return html`
     <div class="stage-title">
-      <h2 id="stage-h" tabindex="-1">${label}</h2>
+      <h2 id="stage-h" tabindex="-1">${teachFirst(lesson) && !(skillJourney(lesson) && stage === 'test') ? html`<span class="phase-badge phase-${stage}" aria-hidden="true">${PHASE[stage]}</span> ` : ''}${label}</h2>
       <p class="progress">${what} ${i + 1} of ${cards.length}</p>
     </div>
     ${stage === 'test' && i === 0 ? html`<p class="notice">No hints during the test. Answer every question, then press Finish to see your score.</p>` : ''}
+    ${teachFirst(lesson) && stage === 'together' && i === 0 ? html`<p class="notice">We Do: work through these with the help. Press Help any time to see one step at a time.</p>` : ''}
+    ${teachFirst(lesson) && stage === 'try' && i === 0 ? html`<p class="notice">You Do: work on your own. Help opens after your first try, and the Parent Guide shows when help was used.</p>` : ''}
     ${stage === 'learn' ? learnCard(lesson, card, state) : stage === 'watch' ? exampleCard(lesson, card, i, state) : itemCard(lesson, card, stage, state)}
     ${stageNav(ctx, lesson, stage, state, i, cards)}`;
 }
 
 // ---------------------------------------------------------------- Learn It
 
-function learnCard(lesson, s, state) {
+export function learnCard(lesson, s, state) {
   if (s.item) return html`<h3 class="card-title">${s.title}</h3>${itemCard(lesson, s.item, 'learn', state)}`;
   const pictures = hasChapter7Teaching(lesson) && s.models?.length ? s.models : s.model ? [{ ...s.model, caption: s.caption ?? s.model.caption }] : [];
   const teacher = s.teacher ? (lesson.teacher || []) : [];
@@ -119,7 +192,7 @@ function learnCard(lesson, s, state) {
 
 // ---------------------------------------------------------------- Watch Me
 
-function exampleCard(lesson, ex, idx, state) {
+export function exampleCard(lesson, ex, idx, state) {
   const shown = Math.min(state.steps?.[idx] ?? 1, ex.steps.length);
   const step = ex.steps[shown - 1];
   // The picture for the current step: the step's own picture (e.g. the cut before its facts are found),
@@ -232,7 +305,9 @@ export function itemCard(lesson, item, stage, state) {
   const steps = test ? [] : lessonHelpSteps(lesson, item);
   const opened = st.shown ? steps.length : Math.min(st.help || 0, steps.length);
   const questionHelp = lesson.id === '7-1';
-  const helpAllowed = !test && !done && (questionHelp || (st.tries || 0) >= 1) && opened < steps.length;
+  // You Do (Lessons 7-2 to 7-7), as in Lesson 7-1: the step that shows the answer waits until 4 tries.
+  const answerWaits = stage === 'try' && teachFirst(lesson) && (st.tries || 0) < 4 && opened >= steps.length - 1;
+  const helpAllowed = !test && !done && (questionHelp || (st.tries || 0) >= 1 || (stage === 'together' && teachFirst(lesson))) && opened < steps.length && !answerWaits;
   const helpLabel = questionHelp ? (opened === 0 ? '? Hint' : opened === steps.length - 1 ? '? Show Answer' : '? Show Steps') : (opened ? 'Next step' : 'Help');
   const coached = hasChapter7Teaching(lesson) && item.teaching && !test;
   const countReady = test || countComplete(lesson, item, st);
@@ -252,7 +327,8 @@ export function itemCard(lesson, item, stage, state) {
             ${done ? '' : html`<button type="submit" class="btn btn-primary"${countReady ? '' : ' disabled'}>Check Answer</button>`}
             ${helpAllowed ? html`<button type="button" class="btn btn-help" data-act="help" aria-label="${questionHelp ? `${helpLabel.replace('? ', '')} for this question, step ${opened + 1} of ${steps.length}` : opened ? `Next step, step ${opened + 1} of ${steps.length}` : `Help, step 1 of ${steps.length}`}">${helpLabel}</button>` : ''}
           </div>`}
-        ${!test && !writtenReview && opened && !feedbackMode && st.coachView !== 'answer' ? helpPanel(item, steps, opened, st.shown, done, coached) : ''}
+        ${answerWaits && !done && opened ? html`<p class="hint">Try again with the steps above. The answer can be shown after 4 tries.</p>` : ''}
+        ${!test && !writtenReview && opened && !feedbackMode && st.coachView !== 'answer' ? helpPanel(item, steps, opened, st.shown, done, coached, (st.tries || 0) > 0) : ''}
         ${!test && !writtenReview && st.say && (!coached || feedbackMode || !opened) ? feedbackPanel(item, st, opened, coached) : ''}
       </form>
     </div>`;
@@ -337,14 +413,14 @@ function feedbackPanel(item, st, opened = 0, coached = false) {
 }
 
 /** The Help steps opened so far; when the last one is open the answer is filled in. */
-function helpPanel(item, steps, opened, finished, done, coached = false) {
+function helpPanel(item, steps, opened, finished, done, coached = false, tried = true) {
   if (coached) {
     const step = steps[Math.min(opened, steps.length) - 1];
     return html`<section class="feedback info help-panel visual-coach" id="help-${item.id}" data-coach="help" aria-label="Visual help">
       <h3 tabindex="-1" data-coach-heading class="coach-progress">Step ${opened} of ${steps.length}${finished ? ': put it together' : ''}</h3>
       <div class="coach-model">${coachModels(step)}</div><p class="coach-instruction">${step.text}</p>${readButton(step.text, 'this teaching step')}
       ${opened > 1 ? html`<details><summary>Review earlier steps</summary><ol>${steps.slice(0, opened - 1).map((s) => html`<li>${s.text}</li>`)}</ol></details>` : ''}
-      ${done ? '' : html`<p>Try your answer now, or go to the next teaching step.</p><button type="button" class="btn btn-primary" data-act="coach-retry">Try again</button>`}
+      ${done ? '' : html`<p>Try your answer now, or go to the next teaching step.</p><button type="button" class="btn btn-primary" data-act="coach-retry">${tried ? 'Try again' : 'Try it'}</button>`}
     </section>`;
   }
   const shownSteps = steps.slice(0, opened);
@@ -519,7 +595,7 @@ function stageNav(ctx, lesson, stage, state, i, cards) {
   const fbRef = okFor && state.items?.[okFor.id]?.status === 'correct' ? html` aria-describedby="fb-${okFor.id}"` : '';
   let next;
   if (stage === 'test') {
-    next = last ? html`<button type="button" class="btn btn-primary" data-act="submit">${state.warned ? 'Finish anyway' : 'Finish the test'}</button>`
+    next = last ? html`<button type="button" class="btn btn-primary" data-act="submit">${state.warned ? 'Finish anyway' : skillJourney(lesson) ? 'Finish the Final Check' : 'Finish the test'}</button>`
       : html`<button type="button" class="btn btn-primary" data-act="next">Next question ›</button>`;
   } else if (!last) {
     next = html`<button type="button" class="btn btn-primary" data-act="next"${ready ? fbRef : html` disabled${descr}`}>${stage === 'watch' ? 'Next example ›' : 'Next ›'}</button>`;
@@ -529,7 +605,7 @@ function stageNav(ctx, lesson, stage, state, i, cards) {
     next = ready ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, nextStage.id)}"${fbRef}>Next: ${nextStage.label} ›</a>`
       : html`<button type="button" class="btn btn-primary" disabled${descr}>Next: ${nextStage.label} ›</button>`;
   }
-  const streak = stage === 'together' && state.streak >= 3 && !last
+  const streak = stage === 'together' && state.streak >= 3 && !last && !teachFirst(lesson)
     ? html`<p class="feedback ok">${ICON_OK}<span class="fb-title">3 in a row! You can keep practicing, or go on to <a href="${ctx.lessonLink(lesson.id, 'try')}">Try It Yourself</a>.</span></p>` : '';
   const blanks = stage === 'test' && state.warned ? unanswered(cards, state) : [];
   return html`${streak}
@@ -537,10 +613,11 @@ function stageNav(ctx, lesson, stage, state, i, cards) {
       <p class="btn-row">${blanks.map((k) => html`<button type="button" class="btn" data-act="goto" data-to="${k}">Go to question ${k + 1}</button>`)}</p></div>` : ''}
     <div class="stage-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>`
+        : skillJourney(lesson) && stage === 'test' ? html`<a class="btn" href="${ctx.lessonLink(lesson.id, sectionsOf(lesson).at(-1).id)}">‹ Part ${String.fromCharCode(64 + sectionsOf(lesson).length)}</a>`
         : idx > 0 ? html`<a class="btn" href="${ctx.lessonLink(lesson.id, STAGES[idx - 1].id)}">‹ ${STAGES[idx - 1].label}</a>` : html`<span></span>`}
       <span class="next-wrap">${wait}${next}</span>
     </div>
-    <p class="hint">${NOT_SAVED} <a href="${ctx.lessonLink(lesson.id, 'parent')}">Parent Guide</a></p>`;
+    <p class="hint">${skillJourney(lesson) && stage === 'test' ? 'Your work is saved on this device, so you can come back later. Nothing is sent anywhere.' : html`${NOT_SAVED} <a href="${ctx.lessonLink(lesson.id, 'parent')}">Parent Guide</a>`}</p>`;
 }
 
 /** Positions (0-based) of test questions with no answer yet. */
@@ -558,7 +635,7 @@ function lessonExits(ctx) {
 }
 
 /** A lesson's own chapter lesson list (Math > Chapter N > Chapter N Lessons). */
-const chapterLink = (ctx, lesson) => ctx.actLink('math', `ch${chapterOf(lesson?.id) || 5}`);
+export const chapterLink = (ctx, lesson) => ctx.actLink('math', `ch${chapterOf(lesson?.id) || 5}`);
 
 /** The lesson after this one in its chapter (for "what next?"), or null for the last lesson. */
 function nextLesson(ctx, lesson) {
@@ -575,7 +652,7 @@ const countLabel = (label, n) => html`${label} <span aria-hidden="true">(${n})</
 function testNext(ctx, lesson, passed) {
   const next = nextLesson(ctx, lesson);
   if (!passed) return { text: 'Then take the test again.', main: html`<button type="button" class="btn btn-primary" data-act="restart">Take the test again</button>`, retakeSecondary: false };
-  if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
+  if (next) return { text: `When you are ready, go on to Lesson ${next.id}: ${next.title}.`, main: html`<a class="btn btn-primary" href="${ctx.lessonLink(next.id, /^7-[1-7]$/.test(next.id) ? undefined : 'learn')}">Next: Lesson ${next.id} ›</a>`, retakeSecondary: true };
   // The last lesson of a chapter: that chapter's Study Guide and Chapter Test (D26).
   const ch = chapterOf(lesson.id);
   const guide = ch === 7 ? 'ch7guide' : ch === 6 ? 'ch6guide' : 'guide';
@@ -615,7 +692,7 @@ function trySummary(ctx, lesson, state) {
         <button type="button" class="btn" data-act="restart">Try again</button>
         ${lessonExits(ctx)}
       </span>
-      <a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>
+      ${skillJourney(lesson) ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, undefined)}">Back to the lesson ›</a>` : html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>`}
     </div>`;
 }
 
@@ -630,12 +707,14 @@ function testResults(ctx, lesson, state) {
     return vals.length ? vals.join(', ') : 'No answer';
   };
   const answered = items.length - unanswered(items, state).length;
-  const what = testNext(ctx, lesson, s.passed);
+  // Lessons 7-2 to 7-7: a retake after the answers were shown is practice. The first test decides what is next.
+  const first = teachFirst(lesson) ? state.history?.firstTest : null, retake = Boolean(first && state.retake);
+  const what = testNext(ctx, lesson, retake ? first.right >= first.pass : s.passed);
   return html`
-    <div class="stage-title"><h2 id="stage-h" tabindex="-1">Test Your Knowledge: your score</h2></div>
+    <div class="stage-title"><h2 id="stage-h" tabindex="-1">${skillJourney(lesson) ? 'Final Check: your score' : 'Test Your Knowledge: your score'}</h2></div>
     <div class="card results">
       ${scoreLine(s.right, s.total, answered, false)}
-      <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${lesson.test.pass} or more right means you passed. Look at the answers below, then try again.`}</p>
+      <p>${retake ? `This was a practice retake. The answers were shown after your first test, so your grown-up's report uses the first test: ${first.right} of ${first.total}.` : s.passed ? 'You passed! Great work.' : `Not yet. ${lesson.test.pass} or more right means you passed. Look at the answers below, then ${teachFirst(lesson) ? 'practice the ones you missed' : 'try again'}.`}</p>
       <p class="next-step"><strong>What next?</strong> ${s.missed.length ? 'Press Practice My Misses to learn from the questions you missed. ' : ''}${what.text}</p>
       ${s.missed.length ? html`<h3>Questions to look at again</h3>
         <ul class="review">${s.missed.map((it) => reviewItem(it, shown(it)))}</ul>` : html`<p>You got every question right!</p>`}
@@ -707,7 +786,7 @@ function missesSummary(ctx, lesson, stage, state, items) {
         <button type="button" class="btn" data-act="misses-exit">‹ My results</button>
         ${lessonExits(ctx)}
       </span>
-      ${stage === 'try' ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, 'test')}">Next: Test Your Knowledge ›</a>`
+      ${stage === 'try' ? html`<a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, skillJourney(lesson) ? undefined : 'test')}">${skillJourney(lesson) ? 'Back to the lesson ›' : 'Next: Test Your Knowledge ›'}</a>`
         : html`<span class="btn-row">${what.main}</span>`}
     </div>`;
 }
@@ -717,14 +796,35 @@ function keepFacts(text) {
   return String(text).split(/(\d+(?:\s*[×+=−-]\s*\d+)+)/).map((p, k) => (k % 2 ? html`<span class="term">${p}</span>` : p));
 }
 
-function parentGuide(ctx, lesson) {
+/** Lessons 7-2 to 7-7: a short readiness report from this visit (first Try It Yourself round and first test). */
+export function readinessReport(lesson, history, visited) {
+  const t = history?.firstTest, y = history?.firstTry;
+  const level = !t ? 'unfinished' : t.right >= t.pass ? 'ready' : t.right >= t.pass - 2 ? 'review' : 'notyet';
+  const verdict = {
+    unfinished: ['In progress.', `The report is complete after the Test. ${STAGES.filter((s) => s.id !== 'test').map((s) => `${s.label}: ${visited?.has(s.id) ? 'done' : 'not finished'}`).join('; ')}.`],
+    ready: ['Ready for the workbook.', `First test: ${t?.right} of ${t?.total}. Next, ask your child to do the school workbook page without help.`],
+    review: ['Almost ready.', `First test: ${t?.right} of ${t?.total}. Practice the questions below (Practice My Misses), then try the workbook page.`],
+    notyet: ['Not ready yet.', `First test: ${t?.right} of ${t?.total}. Go back to Watch Me and Practice Together with your child before the workbook page.`],
+  }[level];
+  const missed = (t?.missed || []).map((id) => lesson.test.items.find((it) => it.id === id)).filter(Boolean);
+  return html`<section class="card readiness" aria-labelledby="ready-h">
+    <h3 id="ready-h">Readiness report (this visit)</h3>
+    <p class="verdict ${level}"><strong>${verdict[0]}</strong> ${verdict[1]}</p>
+    ${y ? html`<p>Try It Yourself (You Do), first round: <strong>${y.own} of ${y.total}</strong> right on the first try with no help${y.helped ? `; ${y.helped} more right after another try or with help` : ''}.</p>` : ''}
+    ${missed.length ? html`<p>Missed on the first test:</p><ul>${missed.map((it) => html`<li>${it.prompt}</li>`)}</ul>` : ''}
+    <p class="hint">Answers shown by Help, and retakes after the answers were shown, never count as "on own". This report covers this visit only (Lessons 7-2 to 7-7 are not saved), and on-screen results are not proof of mastery: the workbook page done without help is the real check.</p>
+  </section>`;
+}
+
+export function parentGuide(ctx, lesson) {
   return html`
-    <div class="stage-title"><h2 id="stage-h" tabindex="-1">Parent Guide</h2></div>
+    <div class="stage-title"><h2 id="${skillJourney(lesson) ? 'parent-guide-h' : 'stage-h'}" tabindex="-1">Parent Guide</h2></div>
+    ${teachFirst(lesson) && !skillJourney(lesson) ? readinessReport(lesson, ctx.lessonState?.history, ctx.lessonVisited) : ''}
     <div class="card parent-guide">
       ${lesson.parent.sections.map((s) => html`<section><h3>${s.heading}</h3>
         ${s.text ? html`<p>${keepFacts(s.text)}</p>` : ''}
         ${s.list ? html`<ul>${s.list.map((x) => html`<li>${keepFacts(x)}</li>`)}</ul>` : ''}</section>`)}
       <section><h3>About "Read to me"</h3><p>Read to me uses your device's own voice when it has one. Some browsers use an online voice instead; nothing else is sent by Study Scoop.</p></section>
     </div>
-    <div class="stage-nav"><a class="btn" href="${ctx.lessonLink(lesson.id, 'learn')}">‹ Back to the lesson</a><span></span></div>`;
+    <div class="stage-nav"><a class="btn" href="${ctx.lessonLink(lesson.id, lesson.id === JOURNEY_LESSON ? 'explore' : skillJourney(lesson) ? undefined : 'learn')}">‹ Back to the lesson</a><span></span></div>`;
 }

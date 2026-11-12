@@ -563,7 +563,7 @@
         "title": "Explain after you have looked and counted",
         "text": [
           "Use the pictures to explain your thinking.",
-          "You or a grown-up will compare your response; this is not a computer grade for mathematical meaning."
+          "Check your answer with the example or a grown-up. The computer does not grade it."
         ],
         "item": {
           "id": "explain",
@@ -579,7 +579,7 @@
             "Describe the whole strip and compare the sizes of its pieces."
           ],
           "show": [
-            "Ask a grown-up to compare your reason with the example; the computer does not judge your mathematical explanation."
+            "Check your reason with the example or a grown-up. The computer does not grade it."
           ]
         }
       }
@@ -4923,7 +4923,7 @@
       {
         "id": "t20",
         "type": "choice",
-        "prompt": "Each neighboring pair of these 6 equal pieces is joined. What happens?",
+        "prompt": "These 6 equal pieces are joined in pairs, side by side. What happens?",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -4951,11 +4951,11 @@
         ],
         "hints": [
           "Both outside edges match; joining pieces does not make the whole strip longer.",
-          "The first two highlighted pieces become one larger piece with the same covered area."
+          "The first two pieces join into one bigger piece. It covers the same space as both pieces together."
         ],
         "show": [
           "Both outside edges match; joining pieces does not make the whole strip longer.",
-          "The first two highlighted pieces become one larger piece with the same covered area.",
+          "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
           "Join every pair: the strip now has 3 larger equal pieces."
         ],
         "yes": "Each new piece joins two equal old pieces, so 3 equal pieces still cover the same whole.",
@@ -4991,7 +4991,7 @@
               ]
             },
             {
-              "text": "The first two highlighted pieces become one larger piece with the same covered area.",
+              "text": "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6570,7 +6570,7 @@
       {
         "id": "x10",
         "type": "choice",
-        "prompt": "Each neighboring pair of these 8 equal pieces is joined. What happens?",
+        "prompt": "These 8 equal pieces are joined in pairs, side by side. What happens?",
         "model": {
           "type": "fraction",
           "kind": "bar",
@@ -6598,7 +6598,7 @@
         ],
         "show": [
           "Both outside edges match; joining pieces does not make the whole strip longer.",
-          "The first two highlighted pieces become one larger piece with the same covered area.",
+          "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
           "Join every pair: the strip now has 4 larger equal pieces."
         ],
         "yes": "Each new piece joins two equal old pieces, so 4 equal pieces still cover the same whole.",
@@ -6634,7 +6634,7 @@
               ]
             },
             {
-              "text": "The first two highlighted pieces become one larger piece with the same covered area.",
+              "text": "The first two pieces join into one bigger piece. It covers the same space as both pieces together.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6868,8 +6868,8 @@
         "text": "The strip examples compare pieces with equal heights, so matching widths establish matching areas. The circle examples use equal-angle wedges of the same circle. Color highlights a piece for comparison; it does not define the whole or make a piece larger."
       },
       {
-        "heading": "Extend with the Partition Lab",
-        "text": "Open the Partition Lab from Lesson 7-1. Build partitions by joining marked points, watch each construction step, and compare different-shaped pieces by counting equal-area units. Learn It and Practice It provide help; Test Me records fresh constructions separately. The lab parent summary keeps assisted completion, solution reveals and independent first checks separate for this open tab. A correct construction is evidence about that task, not proof of overall understanding."
+        "heading": "The Lesson 7-1 learning journey",
+        "text": "Lesson 7-1 teaches each skill in three steps. I Do: a worked example, one step at a time, with the reason. We Do: a similar problem with a ? Help button and step-by-step guidance. You Do: a new problem with no hints; after two misses the lesson shows the worked example again, then your child tries again. The lesson opens one part at a time, so no teaching is skipped. It ends with a 10-question Final Check and a readiness report that keeps independent work apart from work done with help. Written answers need a grown-up to read them. The Learn It to Test steps here remain as optional extra practice."
       },
       {
         "heading": "Common mistakes to discuss",

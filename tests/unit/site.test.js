@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { FORBIDDEN, REPO, REQUIRED, buildSite, verifySite } from '../../scripts/build-site.js';
+import { FORBIDDEN, REPO, REQUIRED, buildSite, verifySite , RETIRED } from '../../scripts/build-site.js';
 
 const made = [];
 const tmp = (name) => { const d = fs.mkdtempSync(path.join(os.tmpdir(), `ss-${name}-`)); made.push(d); return d; };
@@ -37,15 +37,16 @@ test('the built site passes verification', () => {
   assert.deepEqual(verifySite(SITE), []);
   // Only the full-size study-card originals (PNG; the site uses small WebP copies, DECISIONS D13, D14, D16)
   // and the font licence note are left out.
+  // Retired source kept only for its tests (Lesson 7-1 journey) is also left out.
   assert.deepEqual(skipped.sort(), [...repoFiles('images/words').filter((f) => f.endsWith('.png')), 'fonts/README.md']
-    .map((f) => `${f} (not on the allowlist)`).sort());
+    .map((f) => `${f} (not on the allowlist)`).concat(RETIRED.map((f) => `${f} (retired: kept in the repository for its tests, not used by the site)`)).sort());
   assert.deepEqual([...copied].sort(), PUBLISHED);
 });
 
 test('the built site is exactly the page, styles, modules, fonts, listed weeks, lessons, practice tests and pictures', () => {
   const weeks = JSON.parse(fs.readFileSync(path.join(REPO, 'data/weeks.json'), 'utf8')).weeks.map((w) => `data/${w.id}.json`);
   const lessons = JSON.parse(fs.readFileSync(path.join(REPO, 'data/lessons/index.json'), 'utf8')).lessons.map((l) => `data/lessons/${l.id}.json`);
-  const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js'), 'data/weeks.json', 'data/pictures.json', ...weeks,
+  const expected = ['index.html', ...repoFiles('css'), ...repoFiles('js').filter((f) => !RETIRED.includes(f)), 'data/weeks.json', 'data/pictures.json', ...weeks,
     'data/lessons/index.json', ...lessons, 'data/chapters/7.json', 'images/cone.svg',
     // Reading Coach (D27): the library index and every story it lists.
     'data/reading/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/reading/index.json'), 'utf8')).stories.map((r) => `data/reading/${r.id}.json`),

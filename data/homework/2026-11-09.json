@@ -396,11 +396,11 @@
                 "Start at 0 and count the spaces up to the marked tick for the numerator."
               ],
               "show": [
-                "Each whole has 2 equal parts, and the marked tick is 1 steps from zero.",
+                "Each whole has 2 equal parts, and the marked tick is 1 step from zero.",
                 "Write 1/2."
               ],
               "yes": "Yes! The marked fraction is 1/2.",
-              "explain": "There are 2 equal steps per whole and 1 steps from 0 to the marked tick.",
+              "explain": "There are 2 equal steps per whole and 1 step from 0 to the marked tick.",
               "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
             }
           ]
@@ -466,11 +466,11 @@
                 "Start at 0 and count the spaces up to the marked tick for the numerator."
               ],
               "show": [
-                "Each whole has 4 equal parts, and the marked tick is 1 steps from zero.",
+                "Each whole has 4 equal parts, and the marked tick is 1 step from zero.",
                 "Write 1/4."
               ],
               "yes": "Yes! The marked fraction is 1/4.",
-              "explain": "There are 4 equal steps per whole and 1 steps from 0 to the marked tick.",
+              "explain": "There are 4 equal steps per whole and 1 step from 0 to the marked tick.",
               "retry": "Count spaces between tick marks. Count only the spaces from 0 to 1 for the denominator."
             }
           ]

@@ -5,8 +5,8 @@
 const clone=x=>JSON.parse(JSON.stringify(x));
 const range=n=>Array.from({length:n},(_,i)=>i);
 const marked=(m,count)=>({...clone(m),counted:range(count)});
-const area=(kind,d,n=0,offset=0,rows=false)=>({type:'fraction',kind,parts:d,wholes:1,selected:range(n).map(i=>(i+offset)%d),...(kind==='circle'?{framing:'close'}:{}),...(rows?{layout:'rows'}:{})});
-const line=(d,n)=>({type:'fraction',kind:'line',parts:d,max:1,point:n});
+export const area=(kind,d,n=0,offset=0,rows=false)=>({type:'fraction',kind,parts:d,wholes:1,selected:range(n).map(i=>(i+offset)%d),...(kind==='circle'?{framing:'close'}:{}),...(rows?{layout:'rows'}:{})});
+export const line=(d,n)=>({type:'fraction',kind:'line',parts:d,max:1,point:n});
 const node=(text,model)=>({text,model:clone(model)});
 const pair=(text,a,b)=>({...node(text,b),models:[clone(a),clone(b)]});
 const caption=(m,text)=>({...clone(m),caption:text});
@@ -20,7 +20,7 @@ function choice(id,prompt,m,choices,right,steps,correct,wrongs,models){
  const shift=Number(id.replace(/\D/g,''))%opts.length;
  return coached({id,type:'choice',prompt,model:clone(m),...(models?{models:clone(models)}:{}),options:opts.slice(shift).concat(opts.slice(0,shift))},steps,correct,choices.flatMap((option,i)=>i===right?[]:[{option,...clone(wrongs[i])}]));
 }
-function fraction(id,m){
+export function fraction(id,m){
  const d=m.parts,n=m.kind==='line'?m.point:m.selected.length,isLine=m.kind==='line';
  const whole=all(m),first=one(m),selected=clone(m);
  const countedWhole={...clone(m),counted:range(d)};
@@ -28,7 +28,7 @@ function fraction(id,m){
  const denominator=isLine?`The space from 0 to 1 has ${d} equal intervals.`:`All ${d} equal pieces, colored and plain, fill this one ${noun(m)}.`;
  const numerator=isLine?`The point is ${n} ${n===1?'interval':'intervals'} to the right of 0.`:`Exactly ${n} of those ${d} equal pieces ${n===1?'is':'are'} colored.`;
  const reason=`${denominator} ${numerator} Write ${n} above ${d}: ${n}/${d}.`;
- const steps=[node(isLine?'Find 0 and 1; their distance is one whole.':`Trace the outside of the complete ${noun(m)}; this is one whole.`,blank(m)),{...node(isLine?`Count ${d} spaces from 0 to 1; put ${d} in the bottom box.`:`Count all ${d} equal pieces; put ${d} in the bottom box.`,countedWhole),revealsAnswer:true},node(isLine?'One jump covers one interval; start counting jumps after 0.':'One highlighted piece is one unit fraction of this whole.',first),{...node(reason,countedSelected),revealsAnswer:true}];
+ const steps=[node(isLine?'Find 0 and 1; their distance is one whole.':`Trace the outside of the complete ${noun(m)}; this is one whole.`,blank(m)),{...node(isLine?`Count ${d} spaces from 0 to 1; put ${d} in the bottom box.`:`Count all ${d} equal pieces; put ${d} in the bottom box.`,countedWhole),revealsAnswer:true},node(isLine?'One jump covers one interval; start counting jumps after 0.':'Count the colored pieces one at a time. That number goes in the top box.',first),{...node(reason,countedSelected),revealsAnswer:true}];
  const firstCount={...clone(selected),counted:[isLine?0:selected.selected[0]]};
  const base=[{...node('A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.',whole),when:'zeroDenominator'},
  {...node(`That fraction names the same amount, but this question asks for the shown partition. The picture has ${d} equal parts in one whole; keep that count on the bottom.`,countedWhole),when:'equivalentPartition',revealsAnswer:true},
@@ -44,7 +44,7 @@ function fraction(id,m){
  );
  return coached({id,type:'fraction',asks:'fraction',answer:{n,d},answerPolicy:'partition',model:clone(m),prompt:isLine?'Name the marked point. Use the equal intervals from 0 to 1 as the denominator.':`What fraction of this one ${noun(m)} is colored? Use all the equal pieces shown for the denominator.`},steps,node(reason,countedSelected),base);
 }
-function component(id,m,which){
+export function component(id,m,which){
  const d=m.parts,n=m.kind==='line'?m.point:m.selected.length,isLine=m.kind==='line',answer=which==='denominator'?d:n;
  const prompt=which==='denominator'?`What denominator fits this ${noun(m)}? Count ${isLine?'equal spaces from 0 to 1':'all equal pieces in the whole'}.`:`What numerator fits this ${noun(m)}? Count ${isLine?'equal spaces from 0 to the point':'colored pieces'}.`;
  const target=which==='denominator'?all(m):m;
@@ -76,7 +76,7 @@ function topReason(id,d,n){
  const c=[`Count the ${n} equal spaces crossed from 0 to the point.`,`Count ${n+1} tick marks, including the starting tick.`,`Use ${d} on top because the unit has ${d} spaces.`];
  return choice(id,'Which method finds the numerator, and why?',m,c,0,[node('The point names a distance traveled from 0.',line(d,0)),node('The numbered gap is one step; the starting tick itself is not a step.',first),{...node(`Only the ${n} crossed spaces count on top; the whole-unit count belongs on the bottom.`,counted),revealsAnswer:true}],node(`The numerator measures how many equal intervals lead from 0 to the point. Those ${n} gaps are numbered; boundary ticks mark their edges.`,counted),{1:node('The first gap needs two boundary ticks, but crossing it is only one step. Start with this numbered gap, not the tick at 0.',first),2:pair('The top measures only the trip to the point. The full 0-to-1 unit is the bottom-count job.',caption(counted,'Trip to the point'),caption(marked(line(d,d),d),'One whole unit'))});
 }
-function moveOne(id,d,n){
+export function moveOne(id,d,n){
  const a=caption(line(d,n),'Before one more step'),b=caption(line(d,n+1),'After one more step');
  const c=[`The top count increases by 1; the bottom stays ${d}.`,`The bottom increases by 1; the top stays ${n}.`,'Both counts increase by 1.'];
  return choice(id,'The point moves one equal interval to the right. What happens to the two fraction counts?',a,c,0,[pair('Both lines keep the same whole unit and the same equal gap size.',a,{...b,point:n,caption:'Same starting position'}),pair('The new point crosses one more gap; the whole unit is not repartitioned.',marked(a,n),{...b,counted:[n]}),{...pair(`The trip uses one more gap, so the top increases by 1. One whole still has ${d} gaps, so the bottom stays ${d}.`,marked(a,n),marked(b,n+1)),revealsAnswer:true}],pair(`Only the traveled distance changes: one gap is added. The unit still contains ${d} equal intervals, so its denominator is unchanged.`,marked(a,n),marked(b,n+1)),{1:pair('A denominator change would need a new partition of the unit. The gaps here keep the same size; only the point moves.',a,b),2:pair('Both unit lengths have the same number of gaps. Count that fixed unit separately from the longer trip.',a,b)},[a,b]);
@@ -106,7 +106,7 @@ function missingBottom(id,m){
  {...node('For this equation to equal one, the selected count and whole count must match. Count every part of this whole.',counted),when:'default',revealsAnswer:true}
  ]);
 }
-function wholeCheck(id,m){
+export function wholeCheck(id,m){
  const d=m.parts,n=m.kind==='line'?m.point:m.selected.length,yes=n===d;
  const shown=m.kind==='line'?marked(m,n):m;
  const c=['Yes; the selected amount is one whole.','No; the selected amount is less than one whole.','A denominator greater than 1 always means less than one whole.'];
@@ -133,8 +133,8 @@ function wholeValue(id){
  {...node('The top count needs a matching positive bottom count to name one complete whole. Changing only one count no longer includes exactly all parts.',m),when:'denominatorOnly'},
  {...node('To equal one whole, the top and bottom must be equal positive counts. They then count every equal part of the same whole.',m),when:'default'}]);
 }
-function wholeName(id,m){return fraction(id,all(m));}
-function sameWhole(id,d,e,kind='bar'){
+export function wholeName(id,m){return fraction(id,all(m));}
+export function sameWhole(id,d,e,kind='bar'){
  const a=caption(area(kind,d,d),'First whole'),b=caption(area(kind,e,e),'Second whole');
  const c=['Both show one whole.',`Only ${d}/${d} shows one whole.`,`Only ${e}/${e} shows one whole.`];
  return choice(id,'Both outside shapes are the same size. Which statement is true?',a,c,0,[pair('Compare the two complete outside shapes.',blank(a),blank(b)),pair('The first shape has every equal piece selected.',a,blank(b)),{...pair('The second also has every equal piece selected.',a,b),revealsAnswer:true},{...pair(`${d}/${d} equals 1 and ${e}/${e} equals 1; different part sizes can still cover one complete whole.`,a,b),revealsAnswer:true}],pair(`Neither shape has a missing piece; ${d}/${d} and ${e}/${e} both equal 1.`,a,b),{1:pair(`The second whole also includes all ${e} of its equal pieces; a different denominator does not remove area.`,a,b),2:pair(`The first whole also includes all ${d} of its equal pieces; count selected pieces against all pieces.`,a,b)},[a,b]);
@@ -142,21 +142,29 @@ function sameWhole(id,d,e,kind='bar'){
 function reflection(k){const examples={2:'Eight equal pieces fill the whole strip and four are colored. The denominator is 8 and the numerator is 4, so the fraction is 4/8.',3:'Four equal spaces fill the whole distance from 0 to 1. Three spaces lead from 0 to the point, so it is 3/4. A tick marks an edge, not a space.',4:'All four equal pieces of the whole disk are selected. Both counts are 4, so 4/4 equals one whole.'};return {id:'explain',type:'sentence',model:({2:area('bar',8,4),3:line(4,3),4:area('circle',4,4)})[k],prompt:{2:'How do the top and bottom counts connect to a fraction picture?',3:'Why do you count spaces instead of ticks to name a point?',4:'Why does selecting every equal part name one whole?'}[k]+' Explain in your own words, then compare with the example.',keywords:['whole'],minKeywords:0,minWords:5,example:examples[k],hints:['Describe what you counted in the picture.'],show:['Compare your explanation with the example or a grown-up; the computer does not judge its mathematical meaning.']};}
 const screen=(title,text,model)=>({title,text:[].concat(text),model:clone(model)});
 const worked=(title,steps)=>{const last=steps[steps.length-1];if(last.model.kind!=='line'&&last.model.selected?.length)last.model={...last.model,counted:[...last.model.selected]};return ({title,teaching:true,model:clone(steps[0].model),steps:steps.map(s=>({say:s.text,...(s.model?{model:s.model}:{}),...(s.models?{models:s.models}:{})}))});};
+// Release review: is it a fraction at all? Equal parts first (a strip with one wider piece is not fourths).
+export function equalParts(id,d,uneven){
+ const names={2:'halves',3:'thirds',4:'fourths',6:'sixths',8:'eighths'},m=uneven?{...area('bar',d,0),weights:range(d).map(i=>i===1?2:1)}:area('bar',d,0);
+ const right=uneven?1:0,text=uneven?`No. One piece is wider than the others, so these are not ${names[d]}.`:`Yes. All ${d} pieces have the same width, so each piece is one of ${d} equal parts: ${names[d]}.`;
+ return choice(id,`Are these ${d} pieces equal parts of the strip?`,m,['Yes; all the pieces are the same size.','No; the pieces are not all the same size.'],right,[node('Look at the whole strip.',m),node('Compare the pieces. Is every piece the same width?',{...m,counted:range(d)}),{...node(text,uneven?{...m,counted:[1]}:{...m,selected:range(d)}),revealsAnswer:true}],node(text,uneven?{...m,counted:[1]}:{...m,selected:range(d)}),{[1-right]:node(uneven?'Look again: one piece is wider. Fraction pieces must all be the same size.':'Look again: every piece has the same width. These are equal parts.',m)});
+}
 function test(q){const r=clone(q);delete r.hints;r.explain=r.yes;return r;}
 function inventory2(){
  const a=area;return {
  guided:[fraction('g1',a('bar',3,1)),component('g2',a('circle',4,2),'denominator'),component('g3',a('bar',6,4),'numerator'),fraction('g4',a('circle',8,3)),unit('g5',a('bar',4,1)),error('g6',a('bar',8,3))],
- practice:[fraction('t1',a('bar',2,1)),fraction('t2',a('circle',3,1)),fraction('t3',a('bar',4,3)),fraction('t4',a('circle',6,1)),fraction('t5',a('bar',8,5)),component('t6',a('bar',3,2),'denominator'),component('t7',a('circle',6,2),'denominator'),component('t8',a('bar',8,6),'numerator'),component('t9',a('circle',4,1),'numerator'),unit('t10',a('circle',8,1)),unit('t11',a('bar',6,1)),fraction('t12',a('bar',6,5)),fraction('t13',a('circle',8,7)),fraction('t14',a('bar',4,2)),fraction('t15',a('circle',6,4)),error('t16',a('circle',6,2)),error('t17',a('bar',4,1)),fraction('t18',a('bar',8,3,2,true)),fraction('t19',a('circle',8,5,2)),reposition('t20',6,2)],
- tests:[fraction('x1',a('circle',2,1)),fraction('x2',a('bar',3,2)),fraction('x3',a('circle',4,3)),fraction('x4',a('bar',6,2)),fraction('x5',a('bar',8,7)),component('x6',a('circle',8,4),'numerator'),component('x7',a('circle',3,2),'denominator'),unit('x8',a('circle',4,1)),reposition('x9',8,3),fraction('x10',a('bar',6,4,1,true))]};
+ practice:[fraction('t1',a('bar',2,1)),fraction('t2',a('circle',3,1)),fraction('t3',a('bar',4,3)),fraction('t4',a('circle',6,1)),fraction('t5',a('bar',8,5)),component('t6',a('bar',3,2),'denominator'),component('t7',a('circle',6,2),'denominator'),component('t8',a('bar',8,6),'numerator'),component('t9',a('circle',4,1),'numerator'),unit('t10',a('circle',8,1)),unit('t11',a('bar',6,1)),fraction('t12',a('bar',6,5)),fraction('t13',a('circle',8,7)),fraction('t14',a('bar',4,2)),fraction('t15',a('circle',6,4)),error('t16',a('circle',6,2)),error('t17',a('bar',4,1)),fraction('t18',a('bar',8,3,2,true)),fraction('t19',a('circle',8,5,2)),equalParts('t20',3,false)],
+ tests:[fraction('x1',a('circle',2,1)),fraction('x2',a('bar',3,2)),fraction('x3',a('circle',4,3)),fraction('x4',a('bar',6,2)),fraction('x5',a('bar',8,7)),component('x6',a('circle',8,4),'numerator'),component('x7',a('circle',3,2),'denominator'),equalParts('x8',6,true),fraction('x9',a('bar',4,1,2)),fraction('x10',a('circle',8,6,1))]};
 }
 function inventory3(){const l=line;return {
  guided:[fraction('g1',l(2,1)),component('g2',l(3,2),'denominator'),component('g3',l(4,3),'numerator'),fraction('g4',l(6,5)),unit('g5',l(8,1)),topReason('g6',6,1)],
  practice:[fraction('t1',l(3,1)),fraction('t2',l(4,2)),fraction('t3',l(6,1)),fraction('t4',l(8,3)),fraction('t5',l(8,5)),component('t6',l(4,1),'denominator'),component('t7',l(6,5),'denominator'),component('t8',l(8,5),'denominator'),component('t9',l(3,1),'numerator'),component('t10',l(6,3),'numerator'),component('t11',l(8,4),'numerator'),unit('t12',l(3,1)),unit('t13',l(6,1)),error('t14',l(4,1)),topReason('t15',8,5),error('t16',l(8,5)),intervalReason('t17',6,5),fraction('t18',l(8,6)),moveOne('t19',4,1),error('t20',l(6,1))],
- tests:[intervalReason('x1',3,2),intervalReason('x2',4,3),fraction('x3',l(6,2)),fraction('x4',l(8,7)),intervalReason('x5',8,1),topReason('x6',6,5),zeroReason('x7',4),topReason('x8',8,3),fraction('x9',l(6,4)),fraction('x10',l(8,2))]};}
+ // Release review: five point-naming items, and no picture taken from the I Do screens or Practice Together.
+ tests:[fraction('x1',l(6,2)),fraction('x2',l(8,7)),fraction('x3',l(6,4)),fraction('x4',l(8,2)),fraction('x5',l(3,2)),intervalReason('x6',8,1),zeroReason('x7',4),topReason('x8',8,3),moveOne('x9',3,1),error('x10',l(4,2))]};}
 function inventory4(){const a=area,l=line;return {
  guided:[wholeName('g1',a('bar',2,2)),wholeName('g2',a('circle',3,3)),wholeCheck('g3',a('bar',4,3)),missing('g4',a('circle',6,6)),wholeName('g5',l(4,4)),sameWhole('g6',2,4)],
  practice:[wholeName('t1',a('bar',3,3)),wholeName('t2',a('circle',4,4)),wholeName('t3',a('bar',6,6)),wholeName('t4',a('circle',8,8)),wholeCheck('t5',a('circle',3,2)),wholeCheck('t6',a('bar',6,6)),wholeCheck('t7',a('circle',8,7)),wholeValue('t8'),missing('t9',a('bar',2,2)),missing('t10',a('circle',4,4)),missing('t11',a('bar',8,8)),wholeName('t12',l(3,3)),wholeName('t13',l(6,6)),wholeCheck('t14',l(8,8)),sameWhole('t15',3,6),sameWhole('t16',4,8,'circle'),wholeCheck('t17',a('bar',8,5)),wholeCheck('t18',a('circle',6,6)),missingBottom('t19',l(6,6)),sameWhole('t20',2,8,'circle')],
- tests:[missingBottom('x1',a('circle',2,2)),missingBottom('x2',a('bar',4,4)),wholeName('x3',a('circle',6,6)),missingBottom('x4',l(8,8)),wholeCheck('x5',a('bar',3,2)),wholeCheck('x6',a('circle',4,4)),missing('x7',a('bar',6,6)),missing('x8',l(3,3)),sameWhole('x9',3,8,'circle'),wholeCheck('x10',l(6,5))]};}
+ // Release review: no test question prints the number it asks for; the child counts from the picture.
+ tests:[wholeName('x1',a('circle',2,2)),wholeName('x2',a('bar',8,8)),wholeName('x3',a('circle',6,6)),wholeCheck('x4',l(2,1)),wholeCheck('x5',a('circle',8,6)),wholeCheck('x6',a('circle',4,4)),sameWhole('x7',6,8),wholeName('x8',l(8,8)),sameWhole('x9',6,3,'circle'),wholeCheck('x10',l(8,6))]};}
 function teach2(l){
  l.goal='I can count all equal pieces for the denominator and colored pieces for the numerator.';
  l.catchAll='Find one whole. Count all equal pieces for the bottom number; count colored pieces for the top.';

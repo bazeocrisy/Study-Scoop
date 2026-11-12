@@ -35,5 +35,8 @@ Use the models in js/lib/models.js and js/lib/shapes.js (arrays, grids, shapes).
 - Add unit tests like tests/unit/chapter6.test.js and chapter isolation markers in tests/unit/chapters.test.js; add browser checks.
 - Run the specialist agents (see study-scoop-lead). Fix and re-run.
 
-## 7. Release
+## 7. Proofreading gate (required)
+Follow `docs/PROOFREADING.md`: `npm run proofread` (0 Study Scoop findings), read every generated template once for grammar, reading level and meaning, verify every hint and feedback sentence against its own picture, and visually proofread every diagram or image with text. Fix the generator, regenerate, reread.
+
+## 8. Release
 Feature branch → PR to develop → confirmed preview deployment. Complete the reviewable preview before requesting the owner’s production approval. Only after explicit approval, release through a PR to main and confirm its Pages deployment.

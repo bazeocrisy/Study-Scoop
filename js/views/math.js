@@ -108,7 +108,7 @@ function chapterPage(ctx, id) {
       </ul>
     </section>
     ${misses ? html`<p class="hint menu-foot">You have ${misses} question${misses === 1 ? '' : 's'} to practice again: open Vocabulary Practice or Practice Problems, then Practice My Misses.</p>` : ''}
-    ${id === 6 ? html`<p class="hint menu-foot">For the class test on Tuesday, Nov 3 (Area, Square Unit and Multiply), take the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a> in Tests.</p>` : ''}
+    ${id === 6 ? html`<p class="hint menu-foot">For the Topic 6 Area Test on Tuesday, Nov 3, study the teacher's words (Area, Square Unit and Multiply) with the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a> in Tests, and review the chapter.</p>` : ''}
     <div class="stage-nav"><a class="btn" href="${ctx.link('math')}">‹ Back to Math</a>${first ? html`<a class="btn btn-primary" href="${ctx.actLink('math', first.act.id)}">Start: ${first.label} ›</a>` : html`<span></span>`}</div>`;
 }
 
@@ -300,11 +300,11 @@ function studyGuide(ctx) {
 /** Chapter 6 > Vocabulary Practice: Review My Words, Flashcards, three quizzes and Practice My Misses. */
 function areaWordsMenu(ctx) {
   return html`
-    ${chapterBar(ctx, { title: 'Area Words', goal: `The Nov 3 vocabulary test words (${AREA_WORDS.join(', ')}) and the Chapter 6 review words.` })}
+    ${chapterBar(ctx, { title: 'Area Words', goal: `The teacher's study words for the Nov 3 Area Test (${AREA_WORDS.join(', ')}) and the Chapter 6 review words.` })}
     ${ctx.area ? html`<section class="menu" aria-labelledby="h-menu"><h2 id="h-menu" class="ask">What would you like to do?</h2>
       ${subjectMenu(ctx, 'math', menuItems('math', 'areawords'), { misses: ctx.misses?.areavocab })}</section>`
       : html`<p class="card">The Area Words could not be loaded. Please try again later.</p>`}
-    <p class="hint menu-foot">On the Nov 3 test: Area, Square Unit and Multiply (teacher's words). The other words are Chapter 6 review words. When you are ready, take the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a>.</p>
+    <p class="hint menu-foot">For the Nov 3 Area Test, study Area, Square Unit and Multiply (teacher's words). The other words are Chapter 6 review words. When you are ready, take the <a href="${ctx.testLink('mathwords')}">Math Vocabulary Practice Test</a>.</p>
     <div class="stage-nav">${backToChapter(ctx)}<span></span></div>`;
 }
 

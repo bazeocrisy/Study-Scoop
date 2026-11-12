@@ -192,7 +192,7 @@ export function timesFindView(ctx) {
         <span class="times-find-eq" aria-hidden="true">= ${item.answer.a * item.answer.b}</span>
       </div>
       ${!st.correct ? html`<button type="button" class="btn btn-primary" data-act="find-check" data-id="${item.id}">Check</button>` : ''}
-      ${st.correct ? html`<p class="fb-yes" role="alert">${item.yes}</p>` : ''}
+      ${st.correct ? html`<p class="fb-yes" role="alert">Yes! ${st.va} × ${st.vb} = ${st.va * st.vb}.</p>` : ''}
       ${wrongFamily ? html`<p class="fb-nudge" role="alert">${wrongFamily}</p>` : ''}
       ${st.wrong ? html`<p class="fb-no" role="alert">Try again! Think about the facts you picked.</p>` : ''}
     </div>

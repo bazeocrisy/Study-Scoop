@@ -64,8 +64,8 @@
     {
       "date": "2026-11-03",
       "kind": "math",
-      "title": "Math Topic 6 Vocabulary Test",
-      "detail": "Area, Square Unit, Multiply (announced for Nov 3)"
+      "title": "Math Topic 6 Area Test",
+      "detail": "study the vocabulary: Area, Square Unit, Multiply"
     }
   ],
   "events": [
@@ -264,7 +264,8 @@
         "word": "Peculiar",
         "def": "Strange or unusual",
         "sentence": "The peculiar bird had bright purple feathers.",
-        "fill": "The oddly shaped cloud looked ___."
+        "fill": "The oddly shaped cloud looked ___.",
+        "alsoFits": ["Melancholy", "Irritating"]
       },
       {
         "word": "Employee",
@@ -288,14 +289,16 @@
         "word": "Melancholy",
         "def": "A sad or gloomy condition",
         "sentence": "The quiet music gave the scene a melancholy feeling.",
-        "fill": "The rainy ending gave the story a ___ mood."
+        "fill": "The rainy ending gave the story a ___ mood.",
+        "alsoFits": ["Peculiar"]
       },
       {
         "word": "Trustworthy",
         "def": "The ability to keep promises",
         "group": "green",
         "sentence": "My trustworthy friend returned the book she borrowed.",
-        "fill": "He always keeps his promises, so I know he is ___."
+        "fill": "He always keeps his promises, so I know he is ___.",
+        "note": "The teacher's definition describes the ability. In everyday words, a trustworthy person is someone you can trust, because they keep their promises."
       },
       {
         "word": "Constellations",
@@ -309,14 +312,17 @@
         "def": "To anger or bother",
         "group": "green",
         "sentence": "The irritating buzzing noise made it hard to concentrate.",
-        "fill": "The constant tapping was ___ while I was reading."
+        "fill": "The constant tapping was ___ while I was reading.",
+        "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you.",
+        "alsoFits": ["Peculiar"]
       },
       {
         "word": "Distracted",
         "def": "To prevent something from continuing as usual",
         "group": "green",
         "sentence": "I was distracted by the loud noise during class.",
-        "fill": "The sudden bell ___ me from finishing my sentence."
+        "fill": "The sudden bell ___ me from finishing my sentence.",
+        "note": "The printed definition appears mismatched. In ordinary use, distracted means having your attention pulled away. Confirm the class-sheet definition with the teacher."
       }
     ],
     "quizWords": [
@@ -328,7 +334,7 @@
   },
   "math": {
     "title": "Topic 6: Area",
-    "test": "Tuesday, Nov 3 (vocabulary test)",
+    "test": "Tuesday, Nov 3 — Topic 6 Area Test (study the vocabulary words)",
     "words": [
       {
         "word": "Area",

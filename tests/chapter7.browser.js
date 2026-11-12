@@ -9,7 +9,13 @@ const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
 const lessons=Array.from({length:7},(_,i)=>read(`data/lessons/7-${i+1}.json`));
 const server=await startServer({root});const b=await startBrowser();let passed=0;
 const expect=(value,message)=>{assert.ok(value,message);passed++;};
-const route=async h=>{await b.load(server.origin+BASE+h);expect(await b.js('return !document.querySelector(".error");'),`${h}: no error screen`);};
+// Lessons 7-2 to 7-7 open Try It Yourself and the Test only after the teaching stages (teach first). These checks are
+// about each stage itself, so they mark the earlier stages finished in this visit first (the locks are tested in
+// tests/chapter7-teacher.browser.js).
+const unlock=id=>b.js(`const m=await import('./js/lesson-player.js');for(const s of ['learn','watch','together','try'])m.stateFor(${JSON.stringify(id)},s).completed=true;const L=await(await fetch('data/lessons/'+${JSON.stringify(id)}+'.json')).json();for(const s of L.journey?.sections||[])m.stateFor(${JSON.stringify(id)},s.id).completed=true;`);
+const route=async h=>{const id=(h.match(/lesson=(7-[2-7])/)||[])[1];
+ if(id){await b.load(server.origin+BASE+`#math?lesson=${id}&stage=parent`);await unlock(id);await b.hash(h);}else await b.load(server.origin+BASE+h);
+ expect(await b.js('return !document.querySelector(".error");'),`${h}: no error screen`);};
 const text=()=>b.js('return document.querySelector("#app").innerText;');
 const visible=s=>b.js(`return [...document.querySelectorAll(${JSON.stringify(s)})].filter(e=>e.getClientRects().length).length;`);
 const click=async s=>{const old=await b.js('return document.querySelector("#app").dataset.rendered;');await b.clickAt(s);await b.waitFor(`document.querySelector('#app').dataset.rendered !== ${JSON.stringify(old)}`);};
