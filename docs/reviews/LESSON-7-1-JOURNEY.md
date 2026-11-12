@@ -186,14 +186,14 @@ The re-checks by both independent reviewers at `be200ee` passed every item.
 | Skill | I Do (worked example) | We Do (guided) | You Do (new, no hints) |
 |---|---|---|---|
 | 1 Equal parts | a-words, a-area, a-show (sandwiches, steps) | a-notfourths | a-flags |
-| 2 Rectangles | b-fourths, b-sixths, b-eighths | b-fourths-make, b-triangles, b-sixths-make | b-eighths-you (new rectangle) |
+| 2 Rectangles | b-fourths, b-sixths, b-eighths | b-fourths-make, b-triangles, b-sixths-make, b-eighths-make | b-eighths-you (new rectangle) |
 | 3 Plus sign | c-way1, c-way2 | c-make1, c-why | c-make2 on a new plus sign, a different way |
-| 4–9 Six shapes | d-*-teach | d-*-guide | d-*-myturn (corners only) |
+| 4–9 Six shapes | d-*-teach | d-*-guide (a turned or stretched copy; the square has its own sixths figure) | d-*-myturn (corners only); then d-paper (try it on paper) |
 | 10 Part sizes | e-explore, e-show | e-what, e-why | e-you, then e-write |
 | 11 Not always fourths | f-show (cookie: heights, flip, fix) | f-agree, f-fix | f-oval, then f-write |
-| 12 Count and name | g-show (count tiles step by step) | g-slant, g-triangle, g-triangle-make | g-you |
+| 12 Count and name | g-show (count tiles step by step) | g-slant, g-triangle, g-triangle-make | g-you (a square cut into 8 triangles) |
 | 13 Equal area | h-show (half of a half) | h-grid | h-you, then h-write |
-| Final Check | — | — | q1–q10: tall rectangle 4ths, square 8ths, circle 6ths, wide diamond 4ths, tilted hexagon 6ths, part sizes, a pizza cut at a slant, star 8ths, slanted shape 4ths, half of a half |
+| Final Check | — | — | q1–q10: rectangle 4ths, square 8ths, circle 8ths, turned octagon 4ths, hexagon 6ths, part sizes, a circle cut at a slant (not fourths), count and name a star's 8ths, a new plus sign into 4ths, equal area with different shapes |
 
 **Teaching rules.**
 - *Wrong number of regions:* the parts are numbered and region counting is explained.
@@ -207,4 +207,12 @@ The re-checks by both independent reviewers at `be200ee` passed every item.
 
 **Final Check and report.** Ten fresh questions, one try each, no hints. The answer locks after checking. The report shows a verdict (ready, almost ready, or in progress), the score and missed skills, the You Do result for each of the 13 skills, and the question-by-question details.
 
-Not covered by the Final Check (checked in their You Do instead): the plus sign, the octagons, the triangle midpoints and the square into sixths.
+Not covered by the Final Check (checked in their You Do instead, and listed as such in the report): the diamond, the 8-part octagon, the triangle midpoints and the square into sixths.
+
+**Review rounds (Round 4).** Three independent reviews (instruction, math, accessibility/interaction) ran on each candidate; every blocking item was fixed and re-checked.
+- *Instruction:* We Do figures differ from I Do and You Do; the readiness verdict needs every drawing right and no answer-shown or not-yet skill; the rectangles are taught with a We Do for each part count; a "try it on paper" card bridges to the workbook.
+- *Math:* a "different way" must really differ (lines are compared after redrawing on the new figure); help steps follow the hint's method (sixths and eighths start with columns-and-rows); re-teach lines are spaced evenly; tips say "plus sign" only for fourths; position words on turned shapes are recomputed.
+- *Accessibility:* focus order after every action, re-teach and demo steps announced, locked drawings shown as pictures, locked stepper items show letter + lock, the Final Check asks again if the answer changes before its one try.
+
+**Evidence (final commit d8047fc).** Unit tests 367/367. Lesson 7-1 browser suite 1415 checks on the repository and on the built site (every card fits at 320–1366 px, dot spacing at every width, keyboard, touch, saved progress, two tabs, teaching rules, reset). Every other site suite re-run separately: see the run log below.
+
