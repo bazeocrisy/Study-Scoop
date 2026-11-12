@@ -9,7 +9,7 @@ import { modelFigure } from '../lib/models.js';
 import { PLACE } from '../lib/rounding.js';
 import { STAGES, STAGE_IDS, answerText, boxes, helpSteps, score, stageLabel, chapterOf } from '../lib/lessons.js';
 import { ICONS, facts, scoreLine, subBar } from './common.js';
-import { skillJourney, sectionOf, sectionNeeds } from '../lib/skill-journey.js';
+import { skillJourney, sectionOf, sectionNeeds, sectionsOf } from '../lib/skill-journey.js';
 import { skillLessonView, sectionInner, finalInner } from './skill-journey.js';
 
 const ICON_OK = html`<svg class="fb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>`;
@@ -160,7 +160,7 @@ export function stageBody(ctx, lesson, stage, state) {
   const what = stage === 'watch' ? 'Example' : stage === 'learn' ? 'Screen' : 'Question';
   return html`
     <div class="stage-title">
-      <h2 id="stage-h" tabindex="-1">${teachFirst(lesson) ? html`<span class="phase-badge phase-${stage}">${PHASE[stage]}</span> ` : ''}${label}</h2>
+      <h2 id="stage-h" tabindex="-1">${teachFirst(lesson) && !(skillJourney(lesson) && stage === 'test') ? html`<span class="phase-badge phase-${stage}" aria-hidden="true">${PHASE[stage]}</span> ` : ''}${label}</h2>
       <p class="progress">${what} ${i + 1} of ${cards.length}</p>
     </div>
     ${stage === 'test' && i === 0 ? html`<p class="notice">No hints during the test. Answer every question, then press Finish to see your score.</p>` : ''}
@@ -595,7 +595,7 @@ function stageNav(ctx, lesson, stage, state, i, cards) {
   const fbRef = okFor && state.items?.[okFor.id]?.status === 'correct' ? html` aria-describedby="fb-${okFor.id}"` : '';
   let next;
   if (stage === 'test') {
-    next = last ? html`<button type="button" class="btn btn-primary" data-act="submit">${state.warned ? 'Finish anyway' : 'Finish the test'}</button>`
+    next = last ? html`<button type="button" class="btn btn-primary" data-act="submit">${state.warned ? 'Finish anyway' : skillJourney(lesson) ? 'Finish the Final Check' : 'Finish the test'}</button>`
       : html`<button type="button" class="btn btn-primary" data-act="next">Next question ›</button>`;
   } else if (!last) {
     next = html`<button type="button" class="btn btn-primary" data-act="next"${ready ? fbRef : html` disabled${descr}`}>${stage === 'watch' ? 'Next example ›' : 'Next ›'}</button>`;
@@ -613,10 +613,11 @@ function stageNav(ctx, lesson, stage, state, i, cards) {
       <p class="btn-row">${blanks.map((k) => html`<button type="button" class="btn" data-act="goto" data-to="${k}">Go to question ${k + 1}</button>`)}</p></div>` : ''}
     <div class="stage-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>`
+        : skillJourney(lesson) && stage === 'test' ? html`<a class="btn" href="${ctx.lessonLink(lesson.id, sectionsOf(lesson).at(-1).id)}">‹ Part ${String.fromCharCode(64 + sectionsOf(lesson).length)}</a>`
         : idx > 0 ? html`<a class="btn" href="${ctx.lessonLink(lesson.id, STAGES[idx - 1].id)}">‹ ${STAGES[idx - 1].label}</a>` : html`<span></span>`}
       <span class="next-wrap">${wait}${next}</span>
     </div>
-    <p class="hint">${NOT_SAVED} <a href="${ctx.lessonLink(lesson.id, 'parent')}">Parent Guide</a></p>`;
+    <p class="hint">${skillJourney(lesson) && stage === 'test' ? 'Your work is saved on this device, so you can come back later. Nothing is sent anywhere.' : html`${NOT_SAVED} <a href="${ctx.lessonLink(lesson.id, 'parent')}">Parent Guide</a>`}</p>`;
 }
 
 /** Positions (0-based) of test questions with no answer yet. */
@@ -710,7 +711,7 @@ function testResults(ctx, lesson, state) {
   const first = teachFirst(lesson) ? state.history?.firstTest : null, retake = Boolean(first && state.retake);
   const what = testNext(ctx, lesson, retake ? first.right >= first.pass : s.passed);
   return html`
-    <div class="stage-title"><h2 id="stage-h" tabindex="-1">Test Your Knowledge: your score</h2></div>
+    <div class="stage-title"><h2 id="stage-h" tabindex="-1">${skillJourney(lesson) ? 'Final Check: your score' : 'Test Your Knowledge: your score'}</h2></div>
     <div class="card results">
       ${scoreLine(s.right, s.total, answered, false)}
       <p>${retake ? `This was a practice retake. The answers were shown after your first test, so your grown-up's report uses the first test: ${first.right} of ${first.total}.` : s.passed ? 'You passed! Great work.' : `Not yet. ${lesson.test.pass} or more right means you passed. Look at the answers below, then ${teachFirst(lesson) ? 'practice the ones you missed' : 'try again'}.`}</p>
@@ -817,7 +818,7 @@ export function readinessReport(lesson, history, visited) {
 
 export function parentGuide(ctx, lesson) {
   return html`
-    <div class="stage-title"><h2 id="stage-h" tabindex="-1">Parent Guide</h2></div>
+    <div class="stage-title"><h2 id="${skillJourney(lesson) ? 'parent-guide-h' : 'stage-h'}" tabindex="-1">Parent Guide</h2></div>
     ${teachFirst(lesson) && !skillJourney(lesson) ? readinessReport(lesson, ctx.lessonState?.history, ctx.lessonVisited) : ''}
     <div class="card parent-guide">
       ${lesson.parent.sections.map((s) => html`<section><h3>${s.heading}</h3>

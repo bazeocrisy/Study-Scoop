@@ -258,3 +258,7 @@
 /* A skill-journey card is one card, as in Lesson 7-1: the screens, examples and questions inside it lose their own frames. */
 .skill-card .card { border: 0; box-shadow: none; background: transparent; padding: 0; }
 .skill-card .work { gap: 16px; }
+/* The card's own title is the heading (as in Lesson 7-1); the screen's inner title would repeat it. */
+.skill-card .instruct-head h3 { display: none; }
+.skill-card .instruct-head { justify-content: flex-end; }
+.read { min-width: 44px; }

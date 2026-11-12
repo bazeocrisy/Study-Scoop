@@ -1909,11 +1909,11 @@
           }
         ],
         "hints": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count the colored pieces, not the plain pieces."
         ],
         "show": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count the colored pieces, not the plain pieces.",
           "There are 8 equal parts in one whole and 3 selected; use 3/8."
         ],
@@ -1921,7 +1921,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "Identify one whole before checking the two counts.",
+              "text": "Find one whole first. Then check both numbers.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -5375,11 +5375,11 @@
           }
         ],
         "hints": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count the colored pieces, not the plain pieces."
         ],
         "show": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count the colored pieces, not the plain pieces.",
           "There are 6 equal parts in one whole and 2 selected; use 2/6."
         ],
@@ -5387,7 +5387,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "Identify one whole before checking the two counts.",
+              "text": "Find one whole first. Then check both numbers.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -5510,11 +5510,11 @@
           }
         ],
         "hints": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count the colored pieces, not the plain pieces."
         ],
         "show": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count the colored pieces, not the plain pieces.",
           "There are 4 equal parts in one whole and 1 selected; use 1/4."
         ],
@@ -5522,7 +5522,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "Identify one whole before checking the two counts.",
+              "text": "Find one whole first. Then check both numbers.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -12291,11 +12291,11 @@
                 }
               ],
               "hints": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count the colored pieces, not the plain pieces."
               ],
               "show": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count the colored pieces, not the plain pieces.",
                 "There are 8 equal parts in one whole and 3 selected; use 3/8."
               ],
@@ -12303,7 +12303,7 @@
               "teaching": {
                 "steps": [
                   {
-                    "text": "Identify one whole before checking the two counts.",
+                    "text": "Find one whole first. Then check both numbers.",
                     "model": {
                       "type": "fraction",
                       "kind": "bar",
@@ -12433,11 +12433,11 @@
                 }
               ],
               "hints": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count the colored pieces, not the plain pieces."
               ],
               "show": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count the colored pieces, not the plain pieces.",
                 "There are 6 equal parts in one whole and 2 selected; use 2/6."
               ],
@@ -12445,7 +12445,7 @@
               "teaching": {
                 "steps": [
                   {
-                    "text": "Identify one whole before checking the two counts.",
+                    "text": "Find one whole first. Then check both numbers.",
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
@@ -12572,11 +12572,11 @@
                 }
               ],
               "hints": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count the colored pieces, not the plain pieces."
               ],
               "show": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count the colored pieces, not the plain pieces.",
                 "There are 4 equal parts in one whole and 1 selected; use 1/4."
               ],
@@ -12584,7 +12584,7 @@
               "teaching": {
                 "steps": [
                   {
-                    "text": "Identify one whole before checking the two counts.",
+                    "text": "Find one whole first. Then check both numbers.",
                     "model": {
                       "type": "fraction",
                       "kind": "bar",

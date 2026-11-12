@@ -3946,11 +3946,11 @@
           }
         ],
         "hints": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count spaces after 0; do not count the 0 tick as a jump."
         ],
         "show": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count spaces after 0; do not count the 0 tick as a jump.",
           "There are 4 equal parts in one whole and 1 selected; use 1/4."
         ],
@@ -3958,7 +3958,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "Identify one whole before checking the two counts.",
+              "text": "Find one whole first. Then check both numbers.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4225,11 +4225,11 @@
           }
         ],
         "hints": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count spaces after 0; do not count the 0 tick as a jump."
         ],
         "show": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count spaces after 0; do not count the 0 tick as a jump.",
           "There are 8 equal parts in one whole and 5 selected; use 5/8."
         ],
@@ -4237,7 +4237,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "Identify one whole before checking the two counts.",
+              "text": "Find one whole first. Then check both numbers.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5015,11 +5015,11 @@
           }
         ],
         "hints": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count spaces after 0; do not count the 0 tick as a jump."
         ],
         "show": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count spaces after 0; do not count the 0 tick as a jump.",
           "There are 6 equal parts in one whole and 1 selected; use 1/6."
         ],
@@ -5027,7 +5027,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "Identify one whole before checking the two counts.",
+              "text": "Find one whole first. Then check both numbers.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6993,7 +6993,7 @@
           }
         ],
         "show": [
-          "Identify one whole before checking the two counts.",
+          "Find one whole first. Then check both numbers.",
           "Count spaces after 0; do not count the 0 tick as a jump.",
           "There are 4 equal parts in one whole and 2 selected; use 2/4."
         ],
@@ -7001,7 +7001,7 @@
         "teaching": {
           "steps": [
             {
-              "text": "Identify one whole before checking the two counts.",
+              "text": "Find one whole first. Then check both numbers.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10204,11 +10204,11 @@
                 }
               ],
               "hints": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count spaces after 0; do not count the 0 tick as a jump."
               ],
               "show": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count spaces after 0; do not count the 0 tick as a jump.",
                 "There are 4 equal parts in one whole and 1 selected; use 1/4."
               ],
@@ -10216,7 +10216,7 @@
               "teaching": {
                 "steps": [
                   {
-                    "text": "Identify one whole before checking the two counts.",
+                    "text": "Find one whole first. Then check both numbers.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
@@ -10316,11 +10316,11 @@
                 }
               ],
               "hints": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count spaces after 0; do not count the 0 tick as a jump."
               ],
               "show": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count spaces after 0; do not count the 0 tick as a jump.",
                 "There are 8 equal parts in one whole and 5 selected; use 5/8."
               ],
@@ -10328,7 +10328,7 @@
               "teaching": {
                 "steps": [
                   {
-                    "text": "Identify one whole before checking the two counts.",
+                    "text": "Find one whole first. Then check both numbers.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
@@ -10428,11 +10428,11 @@
                 }
               ],
               "hints": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count spaces after 0; do not count the 0 tick as a jump."
               ],
               "show": [
-                "Identify one whole before checking the two counts.",
+                "Find one whole first. Then check both numbers.",
                 "Count spaces after 0; do not count the 0 tick as a jump.",
                 "There are 6 equal parts in one whole and 1 selected; use 1/6."
               ],
@@ -10440,7 +10440,7 @@
               "teaching": {
                 "steps": [
                   {
-                    "text": "Identify one whole before checking the two counts.",
+                    "text": "Find one whole first. Then check both numbers.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",

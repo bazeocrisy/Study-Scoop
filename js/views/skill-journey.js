@@ -35,7 +35,7 @@ export function skillMap(ctx, lesson, current, { card, open = false } = {}) {
 function lockedPart(ctx, lesson, stage, needs) {
   const go = needs[0], gi = sectionsOf(lesson).findIndex((s) => s.id === go);
   const what = stage === 'test' ? 'The Final Check' : `Part ${letter(sectionsOf(lesson).findIndex((s) => s.id === stage))}`;
-  return html`<article class="card j-card"><h2 id="stage-h" tabindex="-1">🔒 ${what} is locked</h2>
+  return html`<article class="card j-card"><h2 id="stage-h" tabindex="-1"><span aria-hidden="true">🔒 </span>${what} is locked</h2>
     <p>Finish Part ${letter(gi)} first. Then this part opens.</p>
     <p><a class="btn btn-primary" href="${ctx.lessonLink(lesson.id, go)}">Go to Part ${letter(gi)}: ${label(lesson, go)} ›</a></p></article>`;
 }
@@ -59,8 +59,8 @@ export function sectionInner(ctx) {
       : html`<button type="button" class="btn" disabled aria-describedby="next-why">${next ? `Next: Part ${letter(si + 1)} ›` : 'Next: Final Check ›'}</button>`;
   return html`${skillMap(ctx, lesson, section.id, { card: `Card ${i + 1} of ${cards.length}` })}
     <article class="card j-card skill-card j-phase-${card.phase}" data-card="${it?.id || `${section.id}-${i}`}" data-phase="${card.phase}" data-kind="${card.kind}">
-      <p class="j-badge-row"><span class="j-badge phase-${card.phase}">${PHASES[card.phase]}</span><span class="j-skill">Part ${letter(si)}: ${section.label}</span></p>
-      <h2 id="stage-h" tabindex="-1" class="skill-title">${section.title}</h2>
+      <p class="j-badge-row"><span class="j-badge phase-${card.phase}">${PHASES[card.phase]}</span><span class="j-skill">Skill: ${section.title}</span></p>
+      <h2 id="stage-h" tabindex="-1" class="skill-title">${card.title || (card.phase === 'youdo' ? 'Your turn' : card.phase === 'say' ? 'Say it in your own words' : 'Try it together')}<span class="sr-only">. Card ${i + 1} of ${cards.length}</span></h2>
       ${card.phase === 'youdo' && !(st.tries) ? html`<p class="j-note">On your own. Help opens after your first try, and your grown-up's report shows when help was used.</p>` : ''}
       ${card.phase === 'wedo' && !(st.tries) ? html`<p class="j-note">Let's do it together. Press Help any time to see one step at a time.</p>` : ''}
       ${body}
@@ -89,8 +89,8 @@ export function skillReport(ctx, lesson, stateOf, history) {
   }[r.level];
   const missed = (r.test?.missed || []).map((id) => lesson.test.items.find((x) => x.id === id)).filter(Boolean);
   const say = sectionsOf(lesson).flatMap((s) => s.cards.filter((c) => c.phase === 'say').map((c) => ({ s, it: cardItem(c) }))).map(({ s, it }) => ({ it, st: stateOf(s.id)?.items?.[it.id] }));
-  return html`<section class="card j-summary readiness" aria-labelledby="j-sum-h">
-    <h2 id="j-sum-h" tabindex="-1">Lesson ${lesson.id} readiness report</h2>
+  return html`<section class="card j-summary readiness" aria-labelledby="stage-h">
+    <h2 id="stage-h" tabindex="-1">Lesson ${lesson.id} readiness report</h2>
     <p class="j-verdict ${r.level}"><strong>${verdict[0]}</strong> ${verdict[1]}</p>
     <p>Final Check (first try): ${r.test ? html`<strong>${r.test.right} of ${r.test.total}</strong> right` : 'not taken yet'}.${missed.length ? ` Missed: ${missed.length} question${missed.length === 1 ? '' : 's'}.` : ''}</p>
     <h3>Each skill: the "You Do" questions</h3>

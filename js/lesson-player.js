@@ -21,7 +21,7 @@ export function compareWrittenResponse(st, item) {
   if (!text || (item.starter && text === item.starter.trim())) { st.status = 'empty'; st.say = 'Write your own response before comparing.'; st.wrong = ['text']; return false; }
   delete st.reviewedRevision;
   st.comparedRevision = st.revision || 0; st.reviewChecks = {}; st.status = 'compared'; st.wrong = undefined;
-  st.say = 'Compare your reasoning with the example. The computer does not judge your mathematical explanation.';
+  st.say = 'Compare your answer with the example. A grown-up will read it; the computer does not grade it.';
   return true;
 }
 export function updateWrittenChecks(st, checks) {
@@ -32,7 +32,7 @@ export function updateWrittenChecks(st, checks) {
 }
 export function reviewWrittenResponse(st) {
   if (st.comparedRevision !== (st.revision || 0) || !String(st.resp?.text || '').trim() || !st.reviewChecks?.whole || !st.reviewChecks?.reason || !st.reviewChecks?.compare) return false;
-  st.reviewedRevision = st.revision || 0; st.status = 'correct'; st.say = 'Review completed by you or a grown-up. This is not a computer grade for mathematical meaning.';
+  st.reviewedRevision = st.revision || 0; st.status = 'correct'; st.say = 'Checklist done. A grown-up will read your answer; the computer does not grade it.';
   return true;
 }
 const progress = new Map(); // "5-1:try" -> { i, items: { id: { resp, status, say, tries, first, hints, shown } }, steps, streak, submitted }
@@ -114,7 +114,7 @@ function mountLessonReset(app, lesson, signal) {
     const ask = app.querySelector('[data-l-reset-ask]'), confirm = app.querySelector('[data-l-reset-confirm]');
     if (b.dataset.lReset === 'ask') { ask.hidden = true; confirm.hidden = false; confirm.querySelector('[data-l-reset="no"]').focus(); return; }
     if (b.dataset.lReset === 'no') { confirm.hidden = true; ask.hidden = false; ask.querySelector('button').focus(); return; }
-    if (b.dataset.lReset === 'yes') { eraseLesson(lesson); location.hash = location.hash.replace(/([?&]stage=)[^&]*/, `$1${sectionsOf(lesson)[0].id}`); }
+    if (b.dataset.lReset === 'yes') { const live = document.getElementById('live'); if (live) live.textContent = `Lesson ${lesson.id} progress erased. Starting again at Part A.`; eraseLesson(lesson); location.hash = location.hash.replace(/([?&]stage=)[^&]*/, `$1${sectionsOf(lesson)[0].id}`); }
   }, { signal });
 }
 
@@ -285,7 +285,7 @@ export function mountLesson(app, ctx, signal) {
       if (stage === 'together') state.streak = r.status === 'correct' && !st.scaffoldAssisted ? state.streak + 1 : 0;
     }
     if (r.status !== 'correct' && st.tries === 1 && (stage !== 'test' || state.misses) && !(st.help > 0)) st.say += ' Press Help to see one step at a time.';
-    announce(r.status === 'correct' ? st.say : `Not yet. ${st.say}`);
+    announce(r.status === 'correct' ? (/^(Yes|Right|Great|Correct)\b/.test(st.say) ? st.say : `Yes! ${st.say}`) : `Not yet. ${st.say}`);
     const visualFeedback = isChapter7(lesson.id) && st.teachingFeedback;
     rerender(visualFeedback ? '[data-coach-heading]' : r.status === 'correct'
       ? ['[data-act="next"]:not([disabled])', '.stage-nav a.btn-primary[href]', 'form[data-item] .choices input:not([disabled])']
@@ -402,7 +402,7 @@ export function mountLesson(app, ctx, signal) {
       const n = state.steps[state.i] ?? 1;
       const steps = cards[state.i].steps.length;
       state.steps[state.i] = Math.max(1, Math.min(steps, n + (act === 'step-next' ? 1 : -1)));
-      rerender(state.steps[state.i] >= steps ? ['.choices input', '[data-act="step-back"]'] : [`[data-act="${act}"]:not([disabled])`, '[data-act="step-back"]']);
+      rerender(state.steps[state.i] >= steps ? (section ? ['form[data-item] input:not([disabled])', '.j-nav [data-act="next"]:not([disabled])', '.j-nav a.btn-primary', '[data-act="step-back"]'] : ['.choices input', '[data-act="step-back"]']) : [`[data-act="${act}"]:not([disabled])`, '[data-act="step-back"]']);
       // A11Y-21: say the step that is now showing (the list itself is rebuilt, so it cannot be a live region).
       const s = cards[state.i].steps[state.steps[state.i] - 1];
       announce(`Step ${state.steps[state.i]} of ${steps}. ${s.say}${s.eq ? ` ${s.eq}` : ''}`);
