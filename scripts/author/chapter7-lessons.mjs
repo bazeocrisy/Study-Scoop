@@ -266,6 +266,6 @@ const targets=process.argv.slice(2).map(Number);for(let k=1;k<=7;k++){
  if(k===1)lesson=buildLessonOneTeaching(lesson);
  if(k>=2&&k<=4)lesson=applyChapter7Teaching234(lesson);
  if(k>=5)lesson=applyChapter7Teaching567(lesson);
- if(k>=2)lesson=applyChapter7Release(lesson);
+ lesson=applyChapter7Release(lesson);
  fs.mkdirSync(OUT,{recursive:true});fs.writeFileSync(path.join(OUT,`7-${k}.json`),JSON.stringify(lesson,null,2)+'\n');console.log(`Authored ${lesson.id}: 3 worked examples, 6 guided, 20 Try, 10 test, 1 ungraded written explanation.`);
 }

@@ -265,7 +265,7 @@ function renderQuestion(){var s=data.active;if(!s)return nav('home');var i=s.ans
 function validPair(x,y,p){return x!==null&&y!==null&&x*y===p&&((x<=8&&y<=12)||(y<=8&&x<=12))}
 function submitAnswer(e){e.preventDefault();var s=data.active;if(!s)return;var f=s.questions[s.answers.length],value,correct;
   if(s.type==='answer'&&s.style==='both'){var x=readNum($('#factorA')),y=readNum($('#factorB'));if(x===null||y===null){showHint('Fill in both boxes first 🙂');setActive(x===null?$('#factorA'):$('#factorB'));return}value=[x,y];correct=validPair(x,y,f.p)}
-  else{value=readNum($('#response'));if(value===null){showHint('Type your answer first 🙂');return}correct=s.type==='facts'?value===f.p:value===(f.a===0?f.a:f.b)}
+  else{value=readNum($('#response'));if(value===null){showHint('Type your answer first 🙂');return}correct=s.type==='facts'?value===f.p:((f.a===0?f.b:f.a)===0?value>=0:value===(f.a===0?f.a:f.b))}
   s.answers.push({id:f.id,a:f.a,b:f.b,p:f.p,given:value,correct:correct,at:new Date().toISOString()});save();
   if(s.answers.length===s.questions.length)finishTest();else renderQuestion()}
 function earlyFinish(){if(!data.active)return;if(!data.active.answers.length){if(confirm('Stop this quiz?')){data.active=null;save();nav('home')}return}
@@ -299,9 +299,9 @@ function advanceFlash(step){flashIndex=(flashIndex+step+flashList.length)%flashL
 /* ---------- picture practice ---------- */
 function showVisual(mode){currentMode=mode;var f=practiceFact,visual='';
   if(mode==='area'){var cells='';for(var i=0;i<f.a*f.b;i++)cells+='<span class="cell"></span>';
-    visual='<p class="tip">'+f.a+' rows. '+f.b+' squares in each row.</p><div class="gridarea" style="--cols:'+Math.max(1,f.b)+'">'+(cells||'<span class="zero">0 squares</span>')+'</div>'}
+    visual='<p class="tip">'+f.a+(f.a===1?' row. ':' rows. ')+f.b+(f.b===1?' square':' squares')+' in each row.</p><div class="gridarea" style="--cols:'+Math.max(1,f.b)+'">'+(cells||'<span class="zero">0 squares</span>')+'</div>'}
   else{var g='';for(var j=0;j<f.a;j++){var t='';for(var k=0;k<f.b;k++)t+='<span class="tick"></span>';g+='<div class="bundle" aria-label="Group of '+f.b+'">'+(t||'<span class="zero">empty</span>')+'</div>'}
-    visual='<p class="tip">'+f.a+' groups. '+f.b+' sticks in each group.</p><div class="ticks">'+(g||'<p class="zero dark">0 groups means 0 sticks.</p>')+'</div>'}
+    visual='<p class="tip">'+f.a+(f.a===1?' group. ':' groups. ')+f.b+(f.b===1?' stick':' sticks')+' in each group.</p><div class="ticks">'+(g||'<p class="zero dark">0 groups means 0 sticks.</p>')+'</div>'}
   var fb=practiceState==='good'?'<div class="feedback good">⚾ Home run! '+f.a+' × '+f.b+' = '+f.p+'</div>':practiceState==='bad'?'<div class="feedback bad">Not quite. Count again! You can do it.</div>':'';
   html('<h2 class="page-title">'+(mode==='area'?'🟩 Build Boxes':'🥢 Count Sticks')+'</h2><form id="visForm" autocomplete="off"><div class="questioncard"><div class="factline">'+f.a+' × '+f.b+' = ?</div>'+visual+
   (practiceState==='good'?fb+'<div class="actions center">'+button('Next problem →','newVisual','primary huge')+'</div>':

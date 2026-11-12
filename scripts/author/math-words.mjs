@@ -69,7 +69,7 @@ KEYS.forEach((k, n) => {
   const others = KEYS.filter((x) => x !== k);
   choice.push({
     id: `wc${n + 11}`, type: 'choice', kind: 'name', prop: k,
-    prompt: `Which property says: ${q(DEF(k))}`,
+    prompt: `Which property says this? ${q(DEF(k))}`,
     options: four({ text: NAME(k), correct: true }, rot(others, n + 2).map((o) => ({ text: NAME(o), why: `${NAME(o)}: ${DEF(o)}` })), n + 2),
     hints: [`Which property matches an example like ${BY[k].eq}?`], show: [`${DEF(k)}`, `That is the ${NAME(k)}. Example: ${BY[k].eq}.`],
     yes: `Yes! That is the ${NAME(k)}.`, explain: `${NAME(k)}: ${DEF(k)}`,

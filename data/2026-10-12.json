@@ -279,7 +279,8 @@
         "word": "Trustworthy",
         "def": "The ability to keep promises",
         "sentence": "My best friend is trustworthy because he always keeps his promises.",
-        "fill": "My neighbor always does what he says he will do. He is very ___."
+        "fill": "My neighbor always does what he says he will do. He is very ___.",
+        "note": "The teacher's definition describes the ability. In everyday words, a trustworthy person is someone you can trust, because they keep their promises."
       },
       {
         "word": "Constellations",
@@ -291,13 +292,15 @@
         "word": "Irritating",
         "def": "To anger or bother",
         "sentence": "My little cousin kept tapping the table, and the noise was irritating.",
-        "fill": "My little brother kept poking my arm. It was so ___ that I asked him to stop."
+        "fill": "My little brother kept poking my arm. It was so ___ that I asked him to stop.",
+        "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you."
       },
       {
         "word": "Distracted",
         "def": "To prevent something from continuing as usual",
         "sentence": "The fire drill distracted our class from the spelling lesson.",
-        "fill": "The loud music ___ me, and I could not finish my homework."
+        "fill": "The loud music ___ me, and I could not finish my homework.",
+        "note": "The printed definition appears mismatched. In ordinary use, distracted means having your attention pulled away. Confirm the class-sheet definition with the teacher."
       }
     ]
   }

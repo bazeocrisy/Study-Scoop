@@ -275,7 +275,7 @@
                 }
               },
               {
-                "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+                "text": "The bottom number can't be 0. Count the equal parts in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -286,7 +286,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+                "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -533,7 +533,7 @@
             "Describe what you counted in the picture."
           ],
           "show": [
-            "Compare your explanation with the example or a grown-up; the computer does not judge its mathematical meaning."
+            "Check your answer with the example or a grown-up. The computer does not grade it."
           ]
         }
       }
@@ -905,7 +905,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -916,7 +916,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 2 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 2 equal parts, so keep 2 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1387,7 +1387,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1398,7 +1398,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1632,9 +1632,9 @@
         "show": [
           "The point names a distance traveled from 0.",
           "The numbered gap is one step; the starting tick itself is not a step.",
-          "Only the 1 crossed space count on top; the whole-unit count belongs on the bottom."
+          "Only the 1 space crossed counts on top. The spaces from 0 to 1 go on the bottom."
         ],
-        "yes": "The numerator measures how many equal intervals lead from 0 to the point. That 1 gap is numbered; boundary ticks mark their edges.",
+        "yes": "The top number counts the equal gaps from 0 to the point. That 1 gap is numbered. The ticks mark where each gap starts and ends.",
         "teaching": {
           "steps": [
             {
@@ -1661,7 +1661,7 @@
               }
             },
             {
-              "text": "Only the 1 crossed space count on top; the whole-unit count belongs on the bottom.",
+              "text": "Only the 1 space crossed counts on top. The spaces from 0 to 1 go on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1676,7 +1676,7 @@
             }
           ],
           "correct": {
-            "text": "The numerator measures how many equal intervals lead from 0 to the point. That 1 gap is numbered; boundary ticks mark their edges.",
+            "text": "The top number counts the equal gaps from 0 to the point. That 1 gap is numbered. The ticks mark where each gap starts and ends.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -1891,7 +1891,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1902,7 +1902,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 3 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2113,7 +2113,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2124,7 +2124,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 4 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2337,7 +2337,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2348,7 +2348,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2571,7 +2571,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2582,7 +2582,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2813,7 +2813,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2824,7 +2824,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4060,9 +4060,9 @@
         "show": [
           "The point names a distance traveled from 0.",
           "The numbered gap is one step; the starting tick itself is not a step.",
-          "Only the 5 crossed spaces count on top; the whole-unit count belongs on the bottom."
+          "Only the 5 spaces crossed count on top. The spaces from 0 to 1 go on the bottom."
         ],
-        "yes": "The numerator measures how many equal intervals lead from 0 to the point. Those 5 gaps are numbered; boundary ticks mark their edges.",
+        "yes": "The top number counts the equal gaps from 0 to the point. Those 5 gaps are numbered. The ticks mark where each gap starts and ends.",
         "teaching": {
           "steps": [
             {
@@ -4089,7 +4089,7 @@
               }
             },
             {
-              "text": "Only the 5 crossed spaces count on top; the whole-unit count belongs on the bottom.",
+              "text": "Only the 5 spaces crossed count on top. The spaces from 0 to 1 go on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4108,7 +4108,7 @@
             }
           ],
           "correct": {
-            "text": "The numerator measures how many equal intervals lead from 0 to the point. Those 5 gaps are numbered; boundary ticks mark their edges.",
+            "text": "The top number counts the equal gaps from 0 to the point. Those 5 gaps are numbered. The ticks mark where each gap starts and ends.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -4622,7 +4622,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4633,7 +4633,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4753,11 +4753,11 @@
         "options": [
           {
             "text": "The bottom increases by 1; the top stays 1.",
-            "why": "A denominator change would need a new partition of the unit. The gaps here keep the same size; only the point moves."
+            "why": "The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves."
           },
           {
             "text": "Both counts increase by 1.",
-            "why": "Both unit lengths have the same number of gaps. Count that fixed unit separately from the longer trip."
+            "why": "Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top."
           },
           {
             "text": "The top count increases by 1; the bottom stays 4.",
@@ -4766,11 +4766,11 @@
         ],
         "hints": [
           "Both lines keep the same whole unit and the same equal gap size.",
-          "The new point crosses one more gap; the whole unit is not repartitioned."
+          "The new point crosses one more gap. The gaps in one whole stay the same."
         ],
         "show": [
           "Both lines keep the same whole unit and the same equal gap size.",
-          "The new point crosses one more gap; the whole unit is not repartitioned.",
+          "The new point crosses one more gap. The gaps in one whole stay the same.",
           "The trip uses one more gap, so the top increases by 1. One whole still has 4 gaps, so the bottom stays 4."
         ],
         "yes": "Only the traveled distance changes: one gap is added. The unit still contains 4 equal intervals, so its denominator is unchanged.",
@@ -4806,7 +4806,7 @@
               ]
             },
             {
-              "text": "The new point crosses one more gap; the whole unit is not repartitioned.",
+              "text": "The new point crosses one more gap. The gaps in one whole stay the same.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4928,7 +4928,7 @@
           "wrong": [
             {
               "option": "The bottom increases by 1; the top stays 1.",
-              "text": "A denominator change would need a new partition of the unit. The gaps here keep the same size; only the point moves.",
+              "text": "The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4958,7 +4958,7 @@
             },
             {
               "option": "Both counts increase by 1.",
-              "text": "Both unit lengths have the same number of gaps. Count that fixed unit separately from the longer trip.",
+              "text": "Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5233,7 +5233,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5244,7 +5244,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5471,7 +5471,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5482,7 +5482,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5705,7 +5705,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5716,7 +5716,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5933,7 +5933,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5944,7 +5944,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6160,7 +6160,7 @@
               }
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6171,7 +6171,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 3 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6567,9 +6567,9 @@
         "show": [
           "The point names a distance traveled from 0.",
           "The numbered gap is one step; the starting tick itself is not a step.",
-          "Only the 3 crossed spaces count on top; the whole-unit count belongs on the bottom."
+          "Only the 3 spaces crossed count on top. The spaces from 0 to 1 go on the bottom."
         ],
-        "yes": "The numerator measures how many equal intervals lead from 0 to the point. Those 3 gaps are numbered; boundary ticks mark their edges.",
+        "yes": "The top number counts the equal gaps from 0 to the point. Those 3 gaps are numbered. The ticks mark where each gap starts and ends.",
         "teaching": {
           "steps": [
             {
@@ -6596,7 +6596,7 @@
               }
             },
             {
-              "text": "Only the 3 crossed spaces count on top; the whole-unit count belongs on the bottom.",
+              "text": "Only the 3 spaces crossed count on top. The spaces from 0 to 1 go on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6613,7 +6613,7 @@
             }
           ],
           "correct": {
-            "text": "The numerator measures how many equal intervals lead from 0 to the point. Those 3 gaps are numbered; boundary ticks mark their edges.",
+            "text": "The top number counts the equal gaps from 0 to the point. Those 3 gaps are numbered. The ticks mark where each gap starts and ends.",
             "model": {
               "type": "fraction",
               "kind": "line",
@@ -6699,7 +6699,7 @@
             }
           ]
         },
-        "explain": "The numerator measures how many equal intervals lead from 0 to the point. Those 3 gaps are numbered; boundary ticks mark their edges."
+        "explain": "The top number counts the equal gaps from 0 to the point. Those 3 gaps are numbered. The ticks mark where each gap starts and ends."
       },
       {
         "id": "x9",
@@ -6738,16 +6738,16 @@
           },
           {
             "text": "The bottom increases by 1; the top stays 1.",
-            "why": "A denominator change would need a new partition of the unit. The gaps here keep the same size; only the point moves."
+            "why": "The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves."
           },
           {
             "text": "Both counts increase by 1.",
-            "why": "Both unit lengths have the same number of gaps. Count that fixed unit separately from the longer trip."
+            "why": "Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top."
           }
         ],
         "show": [
           "Both lines keep the same whole unit and the same equal gap size.",
-          "The new point crosses one more gap; the whole unit is not repartitioned.",
+          "The new point crosses one more gap. The gaps in one whole stay the same.",
           "The trip uses one more gap, so the top increases by 1. One whole still has 3 gaps, so the bottom stays 3."
         ],
         "yes": "Only the traveled distance changes: one gap is added. The unit still contains 3 equal intervals, so its denominator is unchanged.",
@@ -6783,7 +6783,7 @@
               ]
             },
             {
-              "text": "The new point crosses one more gap; the whole unit is not repartitioned.",
+              "text": "The new point crosses one more gap. The gaps in one whole stay the same.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6905,7 +6905,7 @@
           "wrong": [
             {
               "option": "The bottom increases by 1; the top stays 1.",
-              "text": "A denominator change would need a new partition of the unit. The gaps here keep the same size; only the point moves.",
+              "text": "The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6935,7 +6935,7 @@
             },
             {
               "option": "Both counts increase by 1.",
-              "text": "Both unit lengths have the same number of gaps. Count that fixed unit separately from the longer trip.",
+              "text": "Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top.",
               "model": {
                 "type": "fraction",
                 "kind": "line",

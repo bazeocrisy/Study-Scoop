@@ -270,7 +270,7 @@
             },
             "wrong": [
               {
-                "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+                "text": "The bottom number can't be 0. Count the equal parts in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -288,7 +288,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+                "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -626,7 +626,7 @@
             "Describe what you counted in the picture."
           ],
           "show": [
-            "Compare your explanation with the example or a grown-up; the computer does not judge its mathematical meaning."
+            "Check your answer with the example or a grown-up. The computer does not grade it."
           ]
         }
       }
@@ -1038,7 +1038,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1053,7 +1053,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 3 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1611,7 +1611,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -1632,7 +1632,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2128,7 +2128,7 @@
           },
           "wrong": [
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2142,7 +2142,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 2 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 2 equal parts, so keep 2 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2358,7 +2358,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2374,7 +2374,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 3 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2605,7 +2605,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2621,7 +2621,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 4 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2854,7 +2854,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2873,7 +2873,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -3128,7 +3128,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -3148,7 +3148,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4372,7 +4372,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4390,7 +4390,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4681,7 +4681,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -4702,7 +4702,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -4948,7 +4948,7 @@
           },
           "wrong": [
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4964,7 +4964,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 4 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -5213,7 +5213,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -5232,7 +5232,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -5754,7 +5754,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -5775,7 +5775,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6051,7 +6051,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6072,7 +6072,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6409,7 +6409,7 @@
           },
           "wrong": [
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6424,7 +6424,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 2 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 2 equal parts, so keep 2 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6641,7 +6641,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6656,7 +6656,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 3 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 3 equal parts, so keep 3 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6890,7 +6890,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6907,7 +6907,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 4 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 4 equal parts, so keep 4 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -7141,7 +7141,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -7159,7 +7159,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 6 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 6 equal parts, so keep 6 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -7424,7 +7424,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -7444,7 +7444,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -8593,7 +8593,7 @@
               "revealsAnswer": true
             },
             {
-              "text": "A zero denominator cannot name the equal parts in this whole. Count the visible equal parts for a positive bottom number.",
+              "text": "The bottom number can't be 0. Count the equal parts in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -8614,7 +8614,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction names the same amount, but this question asks for the shown partition. The picture has 8 equal parts in one whole; keep that count on the bottom.",
+              "text": "That fraction is the same amount, but use the parts in the picture. One whole has 8 equal parts, so keep 8 on the bottom.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",

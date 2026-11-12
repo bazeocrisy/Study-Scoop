@@ -648,7 +648,13 @@
      "8 + 6 = 14.",
      "The area is 14 square feet."
     ],
-    "yes": "Yes! The area is 14 square feet."
+    "yes": "Yes! The area is 14 square feet.",
+    "accept": [
+     {
+      "p1": 6,
+      "p2": 8
+     }
+    ]
    },
    {
     "id": "g2",
@@ -705,7 +711,13 @@
      "15 + 12 = 27.",
      "The area is 27 square meters."
     ],
-    "yes": "Yes! The area is 27 square meters."
+    "yes": "Yes! The area is 27 square meters.",
+    "accept": [
+     {
+      "p1": 12,
+      "p2": 15
+     }
+    ]
    },
    {
     "areaOptions": true,
@@ -905,7 +917,13 @@
      "10 + 4 = 14.",
      "The area is 14 square feet."
     ],
-    "yes": "Yes! The area is 14 square feet."
+    "yes": "Yes! The area is 14 square feet.",
+    "accept": [
+     {
+      "p1": 4,
+      "p2": 10
+     }
+    ]
    },
    {
     "id": "t2",
@@ -1019,7 +1037,13 @@
      "12 + 8 = 20.",
      "The area is 20 square meters."
     ],
-    "yes": "Yes! The area is 20 square meters."
+    "yes": "Yes! The area is 20 square meters.",
+    "accept": [
+     {
+      "p1": 8,
+      "p2": 12
+     }
+    ]
    },
    {
     "id": "t4",
@@ -1700,7 +1724,7 @@
      },
      {
       "text": "She found a partial area wrong.",
-      "why": "2 × 5 = 10 is right for each tall rectangle. The mistake is a part that has no area in her work."
+      "why": "2 × 5 = 10 is right for each tall rectangle. The mistake is that one part is missing from her work."
      },
      {
       "text": "She added the parts wrong.",
@@ -1820,7 +1844,13 @@
      "12 + 9 = 21.",
      "The area is 21 square feet."
     ],
-    "yes": "Yes! The area is 21 square feet."
+    "yes": "Yes! The area is 21 square feet.",
+    "accept": [
+     {
+      "p1": 9,
+      "p2": 12
+     }
+    ]
    },
    {
     "id": "x2",

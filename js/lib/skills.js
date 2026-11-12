@@ -369,7 +369,11 @@ export function timesFamilyFind(families, rand) {
         }
       }
     }
-    const accept = a !== b ? [{ a: b, b: a }] : [];
+    // Every true fact from the selected families is right (e.g. 12 = 2 × 6 = 3 × 4), in either order.
+    const accept = [];
+    for (let x = 0; x <= 12; x++) for (let y = 0; y <= 12; y++) {
+      if (x * y === P && (families.includes(x) || families.includes(y)) && !(x === a && y === b)) accept.push({ a: x, b: y });
+    }
     return {
       id: `timesfind-${a}x${b}`,
       type: 'blanks',

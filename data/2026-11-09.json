@@ -272,7 +272,8 @@
         "word": "Trustworthy",
         "def": "The ability to keep promises",
         "sentence": "My trustworthy teammate kept his promise to return the ball.",
-        "fill": "Because she always keeps her promises, she is ___."
+        "fill": "Because she always keeps her promises, she is ___.",
+        "note": "The teacher's definition describes the ability. In everyday words, a trustworthy person is someone you can trust, because they keep their promises."
       },
       {
         "word": "Constellations",
@@ -284,7 +285,8 @@
         "word": "Irritating",
         "def": "To anger or bother",
         "sentence": "The irritating tapping made it hard to enjoy the story.",
-        "fill": "The repeated squeak was ___ because it kept bothering us."
+        "fill": "The repeated squeak was ___ because it kept bothering us.",
+        "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you."
       },
       {
         "word": "Distracted",
@@ -333,7 +335,7 @@
   },
   "flyer": {
     "reviewed": "2026-11-06",
-    "note": "Owner supplied clean, page-only front and back images in Newsletter_Back.zip and explicitly requested website hosting. Both reviewed: no student names, grades, teacher or school identifiers, contact details or home background visible. Text and page content preserved; resized and compressed for web delivery.",
+    "note": "Owner supplied clean, page-only front and back images in Newsletter_Back.zip and explicitly requested website hosting. Both reviewed: no student names, grades, teacher or school identifiers, contact details or home background visible. Text and page content preserved; resized and compressed for web delivery. Text audit 2026-11-12: the back-page heading in the supplied clean image read \"VOCAPULARY\"; the one letter was repaired to \"VOCABULARY\" (the teacher's template spells it correctly on earlier weeks). Nothing else on the page was changed.",
     "pages": [
       {
         "src": "images/flyers/2026-11-09-front.webp",

@@ -390,7 +390,7 @@
             },
             "wrong": [
               {
-                "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+                "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -407,7 +407,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+                "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -458,7 +458,7 @@
                 "when": "numeratorOnly"
               },
               {
-                "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+                "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -523,7 +523,7 @@
             "Point to the picture and describe what each count means."
           ],
           "show": [
-            "Compare your explanation with the example, with a grown-up if helpful. The computer does not judge the mathematical meaning of your writing."
+            "Check your answer with the example or a grown-up. The computer does not grade it."
           ]
         }
       }
@@ -694,7 +694,7 @@
             },
             "wrong": [
               {
-                "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+                "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -710,7 +710,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+                "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -759,7 +759,7 @@
                 "when": "numeratorOnly"
               },
               {
-                "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+                "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
                 "model": {
                   "type": "fraction",
                   "kind": "bar",
@@ -873,7 +873,7 @@
           "options": [
             {
               "text": "Whole numbers cannot be fractions.",
-              "why": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1."
+              "why": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1."
             },
             {
               "text": "Write 4/1: count 4 complete wholes.",
@@ -971,7 +971,7 @@
               },
               {
                 "option": "Whole numbers cannot be fractions.",
-                "text": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1.",
+                "text": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1.",
                 "model": {
                   "type": "fraction",
                   "kind": "circle",
@@ -1131,7 +1131,7 @@
             },
             "wrong": [
               {
-                "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+                "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -1149,7 +1149,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+                "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -1195,7 +1195,7 @@
                 "when": "numeratorOnly"
               },
               {
-                "text": "Your top counts whole-unit jumps. For the bottom, inspect just 0 to 1: one complete jump fills it.",
+                "text": "Your top counts whole-unit jumps. For the bottom, look at just 0 to 1: one complete jump fills it.",
                 "model": {
                   "type": "fraction",
                   "kind": "line",
@@ -1315,7 +1315,7 @@
           },
           "wrong": [
             {
-              "text": "A whole must contain a positive number of parts. This complete whole contains one part.",
+              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1341,7 +1341,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1485,7 +1485,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -1594,7 +1594,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1608,7 +1608,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1652,7 +1652,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+              "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -1906,7 +1906,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1922,7 +1922,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -1966,7 +1966,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts whole-unit jumps. For the bottom, inspect just 0 to 1: one complete jump fills it.",
+              "text": "Your top counts whole-unit jumps. For the bottom, look at just 0 to 1: one complete jump fills it.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2023,7 +2023,7 @@
           },
           {
             "text": "Whole numbers cannot be fractions.",
-            "why": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1."
+            "why": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1."
           }
         ],
         "hints": [
@@ -2111,7 +2111,7 @@
             },
             {
               "option": "Whole numbers cannot be fractions.",
-              "text": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1.",
+              "text": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2227,7 +2227,7 @@
           },
           "wrong": [
             {
-              "text": "A whole must contain a positive number of parts. This complete whole contains one part.",
+              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2255,7 +2255,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2416,7 +2416,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2513,7 +2513,7 @@
           },
           "wrong": [
             {
-              "text": "A whole must contain a positive number of parts. This complete whole contains one part.",
+              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2541,7 +2541,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2672,7 +2672,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2769,7 +2769,7 @@
           },
           "wrong": [
             {
-              "text": "A whole must contain a positive number of parts. This complete whole contains one part.",
+              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2797,7 +2797,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2934,7 +2934,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3057,7 +3057,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -3073,7 +3073,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -3122,7 +3122,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+              "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -3264,7 +3264,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -3281,7 +3281,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -3332,7 +3332,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+              "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -3457,7 +3457,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3474,7 +3474,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3519,7 +3519,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts whole-unit jumps. For the bottom, inspect just 0 to 1: one complete jump fills it.",
+              "text": "Your top counts whole-unit jumps. For the bottom, look at just 0 to 1: one complete jump fills it.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3661,7 +3661,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -3679,7 +3679,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -3732,7 +3732,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+              "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -3886,7 +3886,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -3905,7 +3905,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -3960,7 +3960,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+              "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4093,7 +4093,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4113,7 +4113,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4161,7 +4161,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts whole-unit jumps. For the bottom, inspect just 0 to 1: one complete jump fills it.",
+              "text": "Your top counts whole-unit jumps. For the bottom, look at just 0 to 1: one complete jump fills it.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4458,7 +4458,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4631,7 +4631,7 @@
           },
           {
             "text": "Whole numbers cannot be fractions.",
-            "why": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1."
+            "why": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1."
           },
           {
             "text": "Write 5/1: count 5 complete wholes.",
@@ -4727,7 +4727,7 @@
             },
             {
               "option": "Whole numbers cannot be fractions.",
-              "text": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1.",
+              "text": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -4756,7 +4756,7 @@
         "options": [
           {
             "text": "Whole numbers cannot be fractions.",
-            "why": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1."
+            "why": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1."
           },
           {
             "text": "Write 6/1: count 6 complete wholes.",
@@ -4858,7 +4858,7 @@
             },
             {
               "option": "Whole numbers cannot be fractions.",
-              "text": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1.",
+              "text": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5292,7 +5292,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -5790,7 +5790,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -5811,7 +5811,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -5870,7 +5870,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts the wholes. For the bottom, inspect one outline: it contains one complete part.",
+              "text": "Your top counts the wholes. For the bottom, look at one outline: it is one whole part.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6000,7 +6000,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6019,7 +6019,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6066,7 +6066,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts whole-unit jumps. For the bottom, inspect just 0 to 1: one complete jump fills it.",
+              "text": "Your top counts whole-unit jumps. For the bottom, look at just 0 to 1: one complete jump fills it.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6573,7 +6573,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -6691,7 +6691,7 @@
           },
           "wrong": [
             {
-              "text": "A whole must contain a positive number of parts. This complete whole contains one part.",
+              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6719,7 +6719,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6860,7 +6860,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6974,7 +6974,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6995,7 +6995,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 1 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 1 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7044,7 +7044,7 @@
               "when": "numeratorOnly"
             },
             {
-              "text": "Your top counts whole-unit jumps. For the bottom, inspect just 0 to 1: one complete jump fills it.",
+              "text": "Your top counts whole-unit jumps. For the bottom, look at just 0 to 1: one complete jump fills it.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7098,7 +7098,7 @@
         "options": [
           {
             "text": "Whole numbers cannot be fractions.",
-            "why": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1."
+            "why": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1."
           },
           {
             "text": "Write 7/1: count 7 complete wholes.",
@@ -7198,7 +7198,7 @@
             },
             {
               "option": "Whole numbers cannot be fractions.",
-              "text": "A fraction can count whole-size pieces too. The highlighted whole is one part of itself, so its denominator can be 1.",
+              "text": "A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -7761,7 +7761,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",

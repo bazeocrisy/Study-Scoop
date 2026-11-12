@@ -20,7 +20,7 @@ export function skillsView(ctx) {
   if (LEARN[ctx.page]) return learnPage(ctx, activityInfo('skills', LEARN[ctx.page]), ctx.page);
   return menuPage(ctx, 'skills', {
     title: 'Skill Builders', items: menuItems('skills'),
-    context: 'Short skills to practise any week. Each one has Learn It, practice with Help, and a test.',
+    context: 'Short skills to practice any week. Each one has Learn It, practice with Help, and a test.',
   });
 }
 

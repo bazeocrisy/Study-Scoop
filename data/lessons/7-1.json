@@ -563,7 +563,7 @@
         "title": "Explain after you have looked and counted",
         "text": [
           "Use the pictures to explain your thinking.",
-          "You or a grown-up will compare your response; this is not a computer grade for mathematical meaning."
+          "Check your answer with the example or a grown-up. The computer does not grade it."
         ],
         "item": {
           "id": "explain",
@@ -579,7 +579,7 @@
             "Describe the whole strip and compare the sizes of its pieces."
           ],
           "show": [
-            "Ask a grown-up to compare your reason with the example; the computer does not judge your mathematical explanation."
+            "Check your reason with the example or a grown-up. The computer does not grade it."
           ]
         }
       }

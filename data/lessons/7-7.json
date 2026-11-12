@@ -246,7 +246,7 @@
             "Selected objects are still members of the whole set.",
             "Count all 8 objects for the bottom, including both kinds."
           ],
-          "yes": "The denominator describes the whole collection of 8 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+          "yes": "The bottom counts all 8 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
           "teaching": {
             "steps": [
               {
@@ -305,7 +305,7 @@
               }
             ],
             "correct": {
-              "text": "The denominator describes the whole collection of 8 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+              "text": "The bottom counts all 8 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -545,7 +545,7 @@
                 }
               },
               {
-                "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+                "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -562,7 +562,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 8 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+                "text": "That fraction is the same amount, but use the parts in the picture. Keep 8 on the bottom: that is how many parts are in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -696,7 +696,7 @@
             "Point to the picture and describe what each count means."
           ],
           "show": [
-            "Compare your explanation with the example, with a grown-up if helpful. The computer does not judge the mathematical meaning of your writing."
+            "Check your answer with the example or a grown-up. The computer does not grade it."
           ]
         }
       }
@@ -909,7 +909,7 @@
                 }
               },
               {
-                "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+                "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -922,7 +922,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 6 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+                "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -1241,7 +1241,7 @@
             "Count the selected objects in each picture. Then count all the objects.",
             "Both pictures show 3 selected out of 8; the fraction stays 3/8."
           ],
-          "yes": "Moving changes positions, not membership: there are still 8 objects in the whole and 3 selected objects. So both fractions are 3/8.",
+          "yes": "Moving objects does not add or take away any objects: there are still 8 objects in the whole and 3 selected objects. So both fractions are 3/8.",
           "teaching": {
             "steps": [
               {
@@ -1373,7 +1373,7 @@
               }
             ],
             "correct": {
-              "text": "Moving changes positions, not membership: there are still 8 objects in the whole and 3 selected objects. So both fractions are 3/8.",
+              "text": "Moving objects does not add or take away any objects: there are still 8 objects in the whole and 3 selected objects. So both fractions are 3/8.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -1769,7 +1769,7 @@
                 }
               },
               {
-                "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+                "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -1785,7 +1785,7 @@
                 "when": "zeroDenominator"
               },
               {
-                "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 10 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+                "text": "That fraction is the same amount, but use the parts in the picture. Keep 10 on the bottom: that is how many parts are in one whole.",
                 "model": {
                   "type": "fraction",
                   "kind": "set",
@@ -2016,7 +2016,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2156,7 +2156,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2300,7 +2300,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2313,7 +2313,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 3 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 3 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2533,7 +2533,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2547,7 +2547,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 6 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -2674,7 +2674,7 @@
           "Selected objects are still members of the whole set.",
           "Count all 10 objects for the bottom, including both kinds."
         ],
-        "yes": "The denominator describes the whole collection of 10 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+        "yes": "The bottom counts all 10 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
         "teaching": {
           "steps": [
             {
@@ -2735,7 +2735,7 @@
             }
           ],
           "correct": {
-            "text": "The denominator describes the whole collection of 10 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+            "text": "The bottom counts all 10 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -2873,7 +2873,7 @@
           "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 2 selected out of 6; the fraction stays 2/6."
         ],
-        "yes": "Moving changes positions, not membership: there are still 6 objects in the whole and 2 selected objects. So both fractions are 2/6.",
+        "yes": "Moving objects does not add or take away any objects: there are still 6 objects in the whole and 2 selected objects. So both fractions are 2/6.",
         "teaching": {
           "steps": [
             {
@@ -2996,7 +2996,7 @@
             }
           ],
           "correct": {
-            "text": "Moving changes positions, not membership: there are still 6 objects in the whole and 2 selected objects. So both fractions are 2/6.",
+            "text": "Moving objects does not add or take away any objects: there are still 6 objects in the whole and 2 selected objects. So both fractions are 2/6.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -3267,7 +3267,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3280,7 +3280,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 10 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 10 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3497,7 +3497,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3510,7 +3510,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 4 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 4 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3723,7 +3723,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3736,7 +3736,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 6 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3957,7 +3957,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -3970,7 +3970,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 12 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 12 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4168,7 +4168,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4181,7 +4181,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 2 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 2 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4394,7 +4394,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4407,7 +4407,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 8 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 8 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4646,7 +4646,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4661,7 +4661,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 12 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 12 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4900,7 +4900,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -4914,7 +4914,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 6 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 6 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5139,7 +5139,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5153,7 +5153,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 3 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 3 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5393,7 +5393,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5409,7 +5409,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 5 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 5 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5698,7 +5698,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -5718,7 +5718,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 10 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 10 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -6016,7 +6016,7 @@
           "Selected objects are still members of the whole set.",
           "Count all 8 objects for the bottom, including both kinds."
         ],
-        "yes": "The denominator describes the whole collection of 8 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+        "yes": "The bottom counts all 8 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
         "teaching": {
           "steps": [
             {
@@ -6081,7 +6081,7 @@
             }
           ],
           "correct": {
-            "text": "The denominator describes the whole collection of 8 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+            "text": "The bottom counts all 8 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -6186,7 +6186,7 @@
           },
           {
             "text": "Yes; every fraction of a set is a unit fraction.",
-            "why": "Being a set does not decide whether a fraction is a unit fraction. Inspect how many objects are selected on top."
+            "why": "Count the selected objects. A unit fraction has 1 on top."
           }
         ],
         "hints": [
@@ -6269,7 +6269,7 @@
           "wrong": [
             {
               "option": "Yes; every fraction of a set is a unit fraction.",
-              "text": "Being a set does not decide whether a fraction is a unit fraction. Inspect how many objects are selected on top.",
+              "text": "Count the selected objects. A unit fraction has 1 on top.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -6349,7 +6349,7 @@
           "Selected objects are still members of the whole set.",
           "Count all 12 objects for the bottom, including both kinds."
         ],
-        "yes": "The denominator describes the whole collection of 12 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+        "yes": "The bottom counts all 12 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
         "teaching": {
           "steps": [
             {
@@ -6427,7 +6427,7 @@
             }
           ],
           "correct": {
-            "text": "The denominator describes the whole collection of 12 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+            "text": "The bottom counts all 12 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -6586,7 +6586,7 @@
           "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 1 selected out of 3; the fraction stays 1/3."
         ],
-        "yes": "Moving changes positions, not membership: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
+        "yes": "Moving objects does not add or take away any objects: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
         "teaching": {
           "steps": [
             {
@@ -6700,7 +6700,7 @@
             }
           ],
           "correct": {
-            "text": "Moving changes positions, not membership: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
+            "text": "Moving objects does not add or take away any objects: there are still 3 objects in the whole and 1 selected object. So both fractions are 1/3.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -6890,7 +6890,7 @@
           "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 5 selected out of 10; the fraction stays 5/10."
         ],
-        "yes": "Moving changes positions, not membership: there are still 10 objects in the whole and 5 selected objects. So both fractions are 5/10.",
+        "yes": "Moving objects does not add or take away any objects: there are still 10 objects in the whole and 5 selected objects. So both fractions are 5/10.",
         "teaching": {
           "steps": [
             {
@@ -7040,7 +7040,7 @@
             }
           ],
           "correct": {
-            "text": "Moving changes positions, not membership: there are still 10 objects in the whole and 5 selected objects. So both fractions are 5/10.",
+            "text": "Moving objects does not add or take away any objects: there are still 10 objects in the whole and 5 selected objects. So both fractions are 5/10.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -7272,7 +7272,7 @@
           "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 3 selected out of 5; the fraction stays 3/5."
         ],
-        "yes": "Moving changes positions, not membership: there are still 5 objects in the whole and 3 selected objects. So both fractions are 3/5.",
+        "yes": "Moving objects does not add or take away any objects: there are still 5 objects in the whole and 3 selected objects. So both fractions are 3/5.",
         "teaching": {
           "steps": [
             {
@@ -7404,7 +7404,7 @@
             }
           ],
           "correct": {
-            "text": "Moving changes positions, not membership: there are still 5 objects in the whole and 3 selected objects. So both fractions are 3/5.",
+            "text": "Moving objects does not add or take away any objects: there are still 5 objects in the whole and 3 selected objects. So both fractions are 3/5.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -7704,7 +7704,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8091,7 +8091,7 @@
               }
             },
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8112,7 +8112,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 12 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 12 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8382,7 +8382,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8399,7 +8399,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 10 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 10 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8529,7 +8529,7 @@
           },
           {
             "text": "Yes; every fraction of a set is a unit fraction.",
-            "why": "Being a set does not decide whether a fraction is a unit fraction. Inspect how many objects are selected on top."
+            "why": "Count the selected objects. A unit fraction has 1 on top."
           },
           {
             "text": "Yes; one whole set is shown.",
@@ -8612,7 +8612,7 @@
           "wrong": [
             {
               "option": "Yes; every fraction of a set is a unit fraction.",
-              "text": "Being a set does not decide whether a fraction is a unit fraction. Inspect how many objects are selected on top.",
+              "text": "Count the selected objects. A unit fraction has 1 on top.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8783,7 +8783,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8945,7 +8945,7 @@
               "when": "tooHigh"
             },
             {
-              "text": "Use the highlighted reference to decide what the question counts. Write a whole-number count, not a fraction or a list.",
+              "text": "Look at the highlighted part to see what to count. Type one number, not a fraction.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -8997,7 +8997,7 @@
           "Selected objects are still members of the whole set.",
           "Count all 10 objects for the bottom, including both kinds."
         ],
-        "yes": "The denominator describes the whole collection of 10 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+        "yes": "The bottom counts all 10 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
         "teaching": {
           "steps": [
             {
@@ -9052,7 +9052,7 @@
             }
           ],
           "correct": {
-            "text": "The denominator describes the whole collection of 10 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole.",
+            "text": "The bottom counts all 10 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -9119,7 +9119,7 @@
             }
           ]
         },
-        "explain": "The denominator describes the whole collection of 10 objects. Selection divides it into a chosen part and a plain part but removes neither from the whole."
+        "explain": "The bottom counts all 10 objects in the set. Some are selected and some are plain, but all of them are still in the whole set."
       },
       {
         "id": "x7",
@@ -9559,7 +9559,7 @@
           },
           "wrong": [
             {
-              "text": "A denominator of zero cannot describe equal parts of a whole. Find one complete whole in the picture; it contains a positive number of counting parts.",
+              "text": "The bottom number can't be 0. Find one whole in the picture and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -9575,7 +9575,7 @@
               "when": "zeroDenominator"
             },
             {
-              "text": "That fraction has the same value, but this question asks for the displayed partition. Keep 8 on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top.",
+              "text": "That fraction is the same amount, but use the parts in the picture. Keep 8 on the bottom: that is how many parts are in one whole.",
               "model": {
                 "type": "fraction",
                 "kind": "set",
@@ -9735,7 +9735,7 @@
           "Count the selected objects in each picture. Then count all the objects.",
           "Both pictures show 2 selected out of 5; the fraction stays 2/5."
         ],
-        "yes": "Moving changes positions, not membership: there are still 5 objects in the whole and 2 selected objects. So both fractions are 2/5.",
+        "yes": "Moving objects does not add or take away any objects: there are still 5 objects in the whole and 2 selected objects. So both fractions are 2/5.",
         "teaching": {
           "steps": [
             {
@@ -9858,7 +9858,7 @@
             }
           ],
           "correct": {
-            "text": "Moving changes positions, not membership: there are still 5 objects in the whole and 2 selected objects. So both fractions are 2/5.",
+            "text": "Moving objects does not add or take away any objects: there are still 5 objects in the whole and 2 selected objects. So both fractions are 2/5.",
             "model": {
               "type": "fraction",
               "kind": "set",
@@ -9988,7 +9988,7 @@
             }
           ]
         },
-        "explain": "Moving changes positions, not membership: there are still 5 objects in the whole and 2 selected objects. So both fractions are 2/5."
+        "explain": "Moving objects does not add or take away any objects: there are still 5 objects in the whole and 2 selected objects. So both fractions are 2/5."
       }
     ]
   },

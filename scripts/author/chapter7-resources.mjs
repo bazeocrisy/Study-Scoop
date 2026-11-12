@@ -7,9 +7,12 @@ const set=(d,n=1)=>({...bar(d,n),kind:'set'});
 const line=(d,n,max=1)=>({type:'fraction',kind:'line',parts:d,max,point:n});
 const ratio=m=>m.kind==='line'?{n:m.point,d:m.parts}:{n:m.selected.length,d:m.parts};
 const frac=(id,skill,prompt,model,policy='partition')=>{
- if(policy==='partition') prompt += ' Use the number of parts in one whole shown by the model as your denominator.';
+ // Text audit: a short, child-sized reminder (only when the prompt does not already say what goes on the bottom).
+ if(policy==='partition'&&!/denominator|bottom number/i.test(prompt)) prompt += model.kind==='set'?' Count all the objects for the bottom number.':model.kind==='line'?' Use the equal spaces shown for the bottom number.':' Use the equal parts shown for the bottom number.';
  const a=ratio(model), out=`${a.n}/${a.d}`;
- const reason=model.kind==='line'?`Each whole has ${a.d} equal intervals. The point is ${a.n} intervals from zero, so it represents ${out}.`:model.kind==='set'?`The whole set has ${a.d} objects. ${a.n} objects are selected, so the selected fraction is ${out}.`:`Each whole has ${a.d} equal parts. ${a.n} parts are selected, so the fraction is ${out}.`;
+ const pl=(n,one,many)=>`${n} ${n===1?one:many}`;
+ const reason=a.d===1?(model.kind==='line'?`Each jump from one whole number to the next is 1 whole. The point is ${pl(a.n,'whole','wholes')} from zero, so it is ${out}.`:`Each shape is 1 whole. ${pl(a.n,'whole is','wholes are')} selected, so the fraction is ${out}.`)
+  :model.kind==='line'?`Each whole has ${a.d} equal intervals. The point is ${pl(a.n,'interval','intervals')} from zero, so it is ${out}.`:model.kind==='set'?`The whole set has ${a.d} objects. ${pl(a.n,'object is','objects are')} selected, so the fraction is ${out}.`:`Each whole has ${a.d} equal parts. ${pl(a.n,'part is','parts are')} selected, so the fraction is ${out}.`;
  return {id,skill,type:'fraction',prompt,model,answer:a,answerPolicy:policy,asks:'fraction',hints:[model.kind==='line'?'Count equal intervals in ONE whole for the denominator. Count intervals from zero to the point for the numerator.':'Count the equal parts in ONE whole for the denominator, then the selected parts for the numerator.'],show:[reason],explain:reason,yes:`Yes! ${out}.`};
 };
 const number=(id,skill,prompt,n,why,model)=>({id,skill,type:'number',prompt,answer:String(n),...(model?{model}:{}),hints:['Identify the whole first. Count carefully; do not count boundary marks as parts.'],show:[why],explain:why,yes:`Yes! ${n}.`});
@@ -37,7 +40,7 @@ add(number('p204','l72','What numerator describes the selected parts of this pra
 add(choice('p205','l72','Which fraction names ONE equal part of a whole?','1/8',[['3/8','The numerator 3 names three parts.'],['8/8','The numerator 8 names eight parts.']],'A unit fraction has numerator 1. One of eight equal parts is 1/8.'));
 add(frac('p206','l72','This entire strip is one whole. Write the fraction not selected.',{...bar(6,2),selected:[2,3,4,5]}));
 // The model above highlights the four parts being asked about, avoiding color inference.
-practice.at(-1).prompt='The four highlighted parts are the pieces left over. Write the fraction of this whole strip that is left over.';
+practice.at(-1).prompt='The four highlighted parts are the pieces left over. Write the fraction of this whole strip that is left over. Use the equal parts shown for the bottom number.';
 add(frac('p301','l73','Write the fraction at the practice point.',line(2,1)));
 add(frac('p302','l73','Write the fraction shown by this practice point.',line(6,5)));
 add(number('p303','l73','How many equal intervals are there from 0 to 1?',4,'There are 4 spaces between consecutive marks from 0 to 1. Count spaces, not marks.',line(4,3)));
@@ -188,7 +191,7 @@ function enrich(item){
  const total=m.parts*(m.wholes||1), selected=m.selected?.length||0;
  const observation=m.kind==='line'?'Find the interval from 0 to 1. That distance is ONE whole.':m.kind==='set'?'The entire collection is ONE whole set. Touch one object to see one part.':'Trace the outside edge. That complete shape is ONE whole.';
  const numericNumerator=item.type==='number'&&/numerator|top number/i.test(item.prompt);
- const counting=item.skill==='l75'?`Each complete shape is 1 whole. Count the ${m.wholes||1} whole-size parts shown.`:item.skill==='l74'?`Count the ${m.parts} parts inside ONE outline. Together they fill one whole, not ${m.parts} wholes.`:m.kind==='line'?`Count the ${m.parts} spaces between 0 and 1. Those spaces give the denominator.`:m.kind==='set'?`Count all ${m.parts} objects in the whole set. That count gives the denominator.`:`Count all ${m.parts} pieces inside ONE outline. Check that their areas match before naming them.`;
+ const counting=item.skill==='l75'?(m.kind==='line'?'The space from 0 to 1 is 1 whole. Count the whole jumps from 0 to the point.':`Each complete shape is 1 whole. Count the ${m.wholes||1} whole shapes shown.`):item.skill==='l74'?`Count the ${m.parts} parts inside ONE outline. Together they fill one whole, not ${m.parts} wholes.`:m.kind==='line'?`Count the ${m.parts} spaces between 0 and 1. Those spaces give the denominator.`:m.kind==='set'?`Count all ${m.parts} objects in the whole set. That count gives the denominator.`:`Count all ${m.parts} pieces inside ONE outline. Check that their areas match before naming them.`;
  partition.counted=seq(item.skill==='l75'&&item.type==='number'?total:m.parts);
  const reason=item.explain||item.show.join(' ');
  item.teaching={steps:[{text:observation,model:start},{text:counting,model:partition,revealsAnswer:true},{text:reason,model:clone(m),revealsAnswer:true}],correct:{text:reason,model:clone(m)},wrong:[]};
@@ -238,7 +241,7 @@ for(const w of vocabulary){
  w.steps=[{text:m.kind==='set'?'First identify all the objects in the whole set.':'First identify the complete whole, before naming its parts.',model:m.kind==='circle'?circle(1):m.kind==='line'?{...clone(m),parts:1,max:m.max||1,point:0}:m.kind==='set'?{...clone(m),selected:[]}:bar(1)}, {text:w.simple+' '+w.example,model:clone(m),revealsAnswer:true}];
  const fractionBridge=['numerator','denominator','unit fraction','fraction'].includes(w.word)?` Here the written fraction is ${m.selected.length}/${m.parts}: top ${m.selected.length} counts selected parts; bottom ${m.parts} counts parts in one whole.`:'';
  w.steps[w.steps.length-1].text+=fractionBridge;
- w.teaching={steps:clone(w.steps),correct:{text:w.simple+' '+w.example+fractionBridge,model:clone(m)},wrong:[{when:'default',text:`For ${w.word}, ${w.simple.charAt(0).toLowerCase()+w.simple.slice(1)} ${w.example}${fractionBridge}`,model:clone(m),revealsAnswer:true}]};
+ w.teaching={steps:clone(w.steps),correct:{text:w.simple+' '+w.example+fractionBridge,model:clone(m)},wrong:[{when:'default',text:`Look again at the word "${w.word}." ${w.simple} ${w.example}${fractionBridge}`,model:clone(m),revealsAnswer:true}]};
 }
 const falseClaims={
  'denominator':[['The denominator counts only the selected parts.','The denominator counts every equal part in ONE whole, including plain parts.'],['The denominator tells how many separate wholes are drawn.','It counts equal parts in ONE whole, not the number of whole shapes.']],

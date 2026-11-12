@@ -123,7 +123,7 @@ test('Oct 26 Test Center: the Chapter 6 Practice Test (27, every lesson), spelli
   assert.deepEqual(cards.map((c) => [c.title, c.count, c.available]), [['Chapter 6 Practice Test', 27, true], ['Spelling Practice Test', 15, true],
     ['Vocabulary Practice Test', 16, true], ['Math Vocabulary Practice Test', 12, true]]);
   const mv = cards.find((c) => c.kind === 'mathwords');
-  assert.deepEqual([mv.dateLabel, mv.date, mv.classTest], ['Class test', '2026-11-03', 'Math Topic 6 Vocabulary Test']);
+  assert.deepEqual([mv.dateLabel, mv.date, mv.classTest], ['Helps with class test', '2026-11-03', 'Math Topic 6 Area Test'], 'the 11-02 flyer names it the Topic 6 Area Test; the vocabulary helps with it (text audit)');
   const ch = cards.find((c) => c.kind === 'math');
   assert.deepEqual([ch.dateLabel, ch.date, ch.review], ['Review of', null, 'Chapter 6 (all lessons)'], 'the chapter test is a review, not a class test');
   // The vocabulary test is only about the four green words.

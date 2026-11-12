@@ -452,8 +452,8 @@ export function testCatalog(week, tests, mathWords = null, area = null) {
     return {
       kind, subject: SUBJECT[kind], title: t?.title || `${SUBJECT[kind]} Practice Test`,
       topic: t?.topic || sched?.detail || '', date: sched?.date || null, classTest: sched?.title || null,
-      // Area week: the Math Vocabulary test is for the Nov 3 class vocabulary test, and the Math test is a chapter review.
-      dateLabel: related ? (areaWeek ? 'Class test' : hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : chapterReview ? 'Review of' : 'Class test',
+      // Area week: the Math Vocabulary test helps with the Nov 3 Topic 6 Area Test (the teacher's study words), and the Math test is a chapter review.
+      dateLabel: related ? (areaWeek ? 'Helps with class test' : hasPropertyWords(week) ? 'Helps with math test' : 'Review of') : chapterReview ? 'Review of' : 'Class test',
       review: chapterReview ? 'Chapter 6 (all lessons)' : related && !hasPropertyWords(week) && !areaWeek ? 'Unit 5 (properties)' : '',
       count: t ? t.items.length : 0, coverage: t?.coverage || '', note: t?.note || '', available: Boolean(t), reason,
     };

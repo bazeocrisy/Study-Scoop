@@ -38,6 +38,40 @@ const WORDING = [
   ['Match the numbered colored-piece counts in the two pictures.', 'Count the colored pieces in each picture.'],
   ['Compare the before-and-after pictures in Watch Me; the fraction stays the same when both counts stay the same.', 'If the number selected and the number in the whole set stay the same, the fraction stays the same.'],
 ];
+// Text audit (2026-11-12): plainer, child-sized wording for templated feedback. Applied to every string.
+const AUDIT = [
+  [/A zero denominator cannot name the equal parts in this whole\. Count the visible equal parts for a positive bottom number\./g, "The bottom number can't be 0. Count the equal parts in one whole."],
+  [/A denominator of zero cannot describe equal parts of a whole\. Find one complete whole in the picture; it contains a positive number of counting parts\./g, "The bottom number can't be 0. Find one whole in the picture and count its parts."],
+  [/A whole must contain a positive number of parts\. This complete whole contains one part\./g, "The bottom number can't be 0. This whole is not cut, so it is 1 part."],
+  [/That fraction names the same amount, but this question asks for the shown partition\. The picture has (\d+) equal parts in one whole; keep that count on the bottom\./g, 'That fraction is the same amount, but use the parts in the picture. One whole has $1 equal parts, so keep $1 on the bottom.'],
+  [/That fraction has the same value, but this question asks for the displayed partition\. Keep (\d+) on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top\./g, 'That fraction is the same amount, but use the parts in the picture. Keep $1 on the bottom: that is how many parts are in one whole.'],
+  [/You or a grown-up will compare your response; this is not a computer grade for mathematical meaning\./g, 'Check your answer with the example or a grown-up. The computer does not grade it.'],
+  [/Ask a grown-up to compare your reason with the example; the computer does not judge your mathematical explanation\./g, 'Check your reason with the example or a grown-up. The computer does not grade it.'],
+  [/Compare your explanation with the example, with a grown-up if helpful\. The computer does not judge the mathematical meaning of your writing\./g, 'Check your answer with the example or a grown-up. The computer does not grade it.'],
+  [/Compare your explanation with the example or a grown-up; the computer does not judge its mathematical meaning\./g, 'Check your answer with the example or a grown-up. The computer does not grade it.'],
+  [/One of four equal pieces is 1\/4\. Three pieces are still missing from the selected part\./g, 'One of four equal pieces is 1/4. Three pieces are not selected.'],
+  [/That bottom count is smaller than the given selected count\. A whole cannot have fewer parts than the full whole shown selected; count every part once\./g, "The bottom can't be smaller than the top here. Every part is selected, so count every part once for the bottom."],
+  [/A fraction can count whole-size pieces too\. The highlighted whole is one part of itself, so its denominator can be 1\./g, 'A fraction can count whole pieces too. Each whole is not cut, so it is 1 part: the bottom is 1.'],
+  [/Use the highlighted reference to decide what the question counts\. Write a whole-number count, not a fraction or a list\./g, 'Look at the highlighted part to see what to count. Type one number, not a fraction.'],
+  [/For the bottom, inspect one outline: it contains one complete part\./g, 'For the bottom, look at one outline: it is one whole part.'],
+  [/Being a set does not decide whether a fraction is a unit fraction\. Inspect how many objects are selected on top\./g, 'Count the selected objects. A unit fraction has 1 on top.'],
+  [/\binspect\b/g, 'look at'], [/\bInspect\b/g, 'Look at'],
+  [/Start at zero\. The first gap ends at the highlighted point; zero itself is not a jump\./g, 'Start at zero. The first gap ends at the first tick after zero. Zero itself is not a jump.'],
+  [/Those counts include boundary ticks\. Count the highlighted gap, not its two endpoints; use gaps both within one unit and along the trip\./g, 'You counted ticks. Count the gaps between the ticks, for both numbers.'],
+  [/The denominator describes the whole collection of (\d+) objects\. Selection divides it into a chosen part and a plain part but removes neither from the whole\./g, 'The bottom counts all $1 objects in the set. Some are selected and some are plain, but all of them are still in the whole set.'],
+  [/Moving changes positions, not membership: /g, 'Moving objects does not add or take away any objects: '],
+  [/Only the 1 crossed spaces? count on top; the whole-unit count belongs on the bottom\./g, 'Only the 1 space crossed counts on top. The spaces from 0 to 1 go on the bottom.'],
+  [/Only the (\d+) crossed spaces count on top; the whole-unit count belongs on the bottom\./g, 'Only the $1 spaces crossed count on top. The spaces from 0 to 1 go on the bottom.'],
+  [/The numerator measures how many equal intervals lead from 0 to the point\. /g, 'The top number counts the equal gaps from 0 to the point. '],
+  [/That 1 gap is numbered; boundary ticks mark their edges\./g, 'That 1 gap is numbered. The ticks mark its two ends.'],
+  [/Those (\d+) gaps are numbered; boundary ticks mark their edges\./g, 'Those $1 gaps are numbered. The ticks mark where each gap starts and ends.'],
+  [/Write any fraction that equals one whole; your denominator may differ from the picture’s partition\./g, 'Write any fraction that equals one whole. Your bottom number does not have to match the picture.'],
+  [/Other positive matching counts, such as 2\/2, also name a complete whole\./g, 'Other fractions with the same top and bottom, such as 2/2, also name one whole.'],
+  [/To equal one whole, the top and bottom must be equal positive counts\./g, 'To equal one whole, the top and bottom numbers must be the same (and not 0).'],
+  [/The new point crosses one more gap; the whole unit is not repartitioned\./g, 'The new point crosses one more gap. The gaps in one whole stay the same.'],
+  [/A denominator change would need a new partition of the unit\. The gaps here keep the same size; only the point moves\./g, 'The bottom number would change only if the gaps changed size. Here the gaps stay the same; only the point moves.'],
+  [/Both unit lengths have the same number of gaps\. Count that fixed unit separately from the longer trip\./g, 'Both lines have the same number of gaps from 0 to 1. Count those gaps for the bottom and the whole trip for the top.'],
+];
 // "1 wholes" → "1 whole" (the number 1 directly before a plural counting word).
 const SINGULAR = /\b1 ((?:equal |colored |selected |plain |complete |whole-size |whole-unit |half-unit |unit |crossed )?)(piece|part|space|whole|object|interval|gap|jump|strip|disk|task|tile)s\b/g;
 
@@ -45,6 +79,7 @@ function fixText(s, { help }) {
   let out = s;
   if (help) for (const [re, to] of COUNT_REWRITES) out = out.replace(re, to);
   for (const [a, b] of WORDING) out = out.split(a).join(b);
+  for (const [re, to] of AUDIT) out = out.replace(re, to);
   out = out.replace(SINGULAR, '1 $1$2');
   // Verb agreement after the singular fix ("1 equal piece are" → "1 equal piece is").
   for (const [a, b] of [['Those 1 gap are', 'That 1 gap is'], ['1 equal interval lead ', '1 equal interval leads '], ['1 equal piece are ', '1 equal piece is '], ['1 interval lead ', '1 interval leads ']]) out = out.split(a).join(b);
@@ -61,6 +96,7 @@ function walk(x, help) {
 }
 
 export function applyChapter7Release(lesson) {
+  if (lesson.id === '7-1') { const l = JSON.parse(JSON.stringify(lesson)); walk(l, false); return l; }
   if (!/^7-[2-7]$/.test(lesson.id)) return lesson;
   const l = JSON.parse(JSON.stringify(lesson));
   // Questions children answer in the teaching and practice stages; the test keeps its own review text.

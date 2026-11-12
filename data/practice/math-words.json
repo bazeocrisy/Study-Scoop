@@ -357,7 +357,7 @@
       "type": "choice",
       "kind": "name",
       "prop": "identity",
-      "prompt": "Which property says: \"Any number multiplied by 1 stays the same.\"",
+      "prompt": "Which property says this? \"Any number multiplied by 1 stays the same.\"",
       "options": [
         {
           "text": "Distributive Property",
@@ -391,7 +391,7 @@
       "type": "choice",
       "kind": "name",
       "prop": "zero",
-      "prompt": "Which property says: \"Any number multiplied by 0 equals 0.\"",
+      "prompt": "Which property says this? \"Any number multiplied by 0 equals 0.\"",
       "options": [
         {
           "text": "Commutative Property",
@@ -425,7 +425,7 @@
       "type": "choice",
       "kind": "name",
       "prop": "commutative",
-      "prompt": "Which property says: \"Changing the order of the factors does not change the product.\"",
+      "prompt": "Which property says this? \"Changing the order of the factors does not change the product.\"",
       "options": [
         {
           "text": "Commutative Property",
@@ -459,7 +459,7 @@
       "type": "choice",
       "kind": "name",
       "prop": "associative",
-      "prompt": "Which property says: \"You can move the ( ) to multiply a different pair first. The answer stays the same.\"",
+      "prompt": "Which property says this? \"You can move the ( ) to multiply a different pair first. The answer stays the same.\"",
       "options": [
         {
           "text": "Zero Property",
@@ -493,7 +493,7 @@
       "type": "choice",
       "kind": "name",
       "prop": "distributive",
-      "prompt": "Which property says: \"You can break apart a factor, multiply the smaller parts, and add their products.\"",
+      "prompt": "Which property says this? \"You can break apart a factor, multiply the smaller parts, and add their products.\"",
       "options": [
         {
           "text": "Associative Property",

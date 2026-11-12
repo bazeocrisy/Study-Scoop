@@ -213,7 +213,7 @@
     "item": {
      "id": "em1",
      "type": "sentence",
-     "prompt": "Why does adding two partial areas give the same result as multiplying the original dimensions? Write your answer in a sentence.",
+     "prompt": "Why do the areas of the two smaller rectangles add up to the area of the whole rectangle? Write your answer in a sentence.",
      "keywords": [
       "partial areas",
       "add",

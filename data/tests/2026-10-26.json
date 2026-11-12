@@ -5,7 +5,7 @@
     "topic": "Chapter 6: Connect Area and Multiplication",
     "coverage": "27 questions from all six Chapter 6 lessons: tiling, counting unit squares, multiplying, composite figures (including a missing side length), splitting a side, and area problems.",
     "instructions": "Answer each question. You can go back before you finish. There are no hints during the test. You will see your score, each lesson's part, and the answers at the end.",
-    "note": "A Study Scoop review of the whole chapter. It is not a teacher test. The class test on Tuesday, Nov 3 is a vocabulary test on Area, Square Unit and Multiply (see the Math Vocabulary Practice Test).",
+    "note": "A Study Scoop review of the whole chapter. It is not a teacher test. The class test on Tuesday, Nov 3 is the Topic 6 Area Test. The teacher listed Area, Square Unit and Multiply to study for it (see the Math Vocabulary Practice Test).",
     "pass": 22,
     "items": [
       {
@@ -556,7 +556,7 @@
         "areaOptions": true,
         "id": "c22",
         "type": "multi",
-        "prompt": "Which find the area of the picture?",
+        "prompt": "Which expressions find the area of the picture? Choose all that apply.",
         "options": [
           {
             "text": "5 × 12",
@@ -1091,7 +1091,7 @@
         "type": "choice",
         "kind": "context",
         "word": "Distracted",
-        "prompt": "Read the sentence: \"I was distracted when the class was interrupted.\" What does \"distracted\" mean?",
+        "prompt": "Read the sentence: \"I was distracted from my reading when a dog barked outside.\" What does \"distracted\" mean?",
         "options": [
           {
             "text": "To anger or bother",
