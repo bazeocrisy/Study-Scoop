@@ -356,18 +356,24 @@ test('teaching rules: specific feedback, We Do help after repeated errors, You D
   assert.match(diagnose(card, checkBuild(card.task, [['t2-4', 'b2-4']])).message, /count the parts/i);
   assert.equal(diagnose(card, checkBuild(card.task, [['t2-4', 'b2-4'], ['l2-4', 'b2-4'], ['t2-4', 'r2-4']])).kind, 'area');
   assert.equal(diagnose(byId('f-fix'), checkBuild(byId('f-fix').task, [['e0', 'e2']])).kind, 'center');
-  // We Do: the second wrong check opens a hint, the third the visual steps.
+  // We Do: the second wrong check opens a hint; the third offers the steps (a button), it does not force them.
   reach('method', idx('method', 'b-fourths-make'));
   const wrong = (stage, lines) => { (journeyState.ui[CARDS[stage][journeyState.at[stage]].id] ||= {}).lines = []; for (const [a, b] of lines) { act(stage, 'point', { id: a }); act(stage, 'point', { id: b }); } return act(stage, 'check'); };
   wrong('method', [['t2-4', 'b2-4']]); assert.equal(journeyState.ui['b-fourths-make'].help?.open, undefined);
   wrong('method', [['t1-4', 'b1-4']]); assert.equal(journeyState.ui['b-fourths-make'].help.level, 1);
-  wrong('method', [['t3-4', 'b3-4']]); assert.equal(journeyState.ui['b-fourths-make'].help.level, 2);
-  assert.equal(outcome(journeyState.records['b-fourths-make']), 'not-yet'); assert.ok(journeyState.records['b-fourths-make'].helpBeforeCorrect >= 2, 'the help it opened is recorded');
-  // You Do: no hints; the second wrong check replays the worked example; the answer is offered after 4 misses.
+  const third = wrong('method', [['t3-4', 'b3-4']]); assert.equal(journeyState.ui['b-fourths-make'].help.level, 1); assert.match(third.say, /Show steps/);
+  assert.match(journeyCard(ctx, 'method', journeyState).s, /data-j="steps"/, 'the steps are offered');
+  assert.equal(outcome(journeyState.records['b-fourths-make']), 'not-yet'); assert.ok(journeyState.records['b-fourths-make'].helpBeforeCorrect >= 1, 'the help it opened is recorded');
+  // You Do: no hints; the first miss explains the mistake; the second adds a short quick fix and offers (not forces)
+  // the whole worked example; the answer is offered after 4 misses.
   reach('method', idx('method', 'b-eighths-you'));
   assert.deepEqual(act('method', 'hint'), { quiet: true }, 'no hints in You Do');
   wrong('method', [['t4-8', 'b4-8']]); assert.equal(journeyState.records['b-eighths-you'].relearn, false);
-  wrong('method', [['t2-8', 'b2-8']]); assert.equal(journeyState.records['b-eighths-you'].relearn, true, 'second miss: learn it again');
+  const second = wrong('method', [['t2-8', 'b2-8']]); assert.equal(journeyState.records['b-eighths-you'].relearn, false, 'the long example is not forced');
+  assert.equal(second.focus, '[data-quick-heading]'); assert.match(journeyCard(ctx, 'method', journeyState).s, /Quick fix/);
+  assert.doesNotMatch(journeyCard(ctx, 'method', journeyState).s, /Let.s learn it again/);
+  assert.equal(journeyState.records['b-eighths-you'].helpBeforeCorrect, 1, 'the quick fix counts as help');
+  act('method', 'relearn-open'); assert.equal(journeyState.records['b-eighths-you'].relearn, true, 'the child chose the whole example');
   assert.match(journeyCard(ctx, 'method', journeyState).s, /Let.s learn it again/);
   assert.doesNotMatch(journeyCard(ctx, 'method', journeyState).s, /Show me the answer/);
   act('method', 'relearn-next'); act('method', 'relearn-done');
@@ -408,7 +414,8 @@ test('views: one card at a time, help only in We Do, and the stepper lists A–I
     const out = journeyCard(ctx, s.id, journeyState).s, c = CARDS[s.id][i];
     assert.equal((out.match(/data-card=/g) || []).length, 1, `${c.id} one card`);
     assert.equal(out.includes('data-j="help"'), ['wedo', 'say'].includes(c.phase) && !['demo', 'concept', 'sizes'].includes(c.type), `${c.id} help button only in We Do`);
-    assert.doesNotMatch(out, /<select|<details/, `${c.id} no dropdown or hidden section`);
+    assert.doesNotMatch(out, /<select/, `${c.id} no dropdown`);
+    assert.deepEqual([...out.matchAll(/<details class="([^"]+)"/g)].map((m) => m.group?.[1] ?? m[1]).filter((k) => !['j-map-all', 'j-drawhelp'].includes(k)), [], `${c.id}: the learning content is never hidden; only the parts list and the drawing guide fold away`);
     assert.doesNotMatch(out, /<img|\.png|\.jpe?g/i, `${c.id} uses only drawn diagrams`);
   }
   assert.equal(stageDone('explore', { records: {} }), false);

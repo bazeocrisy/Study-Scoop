@@ -776,7 +776,7 @@ export function outcome(rec) {
 export const OUTCOME_TEXT = {
   independent: 'Right on the first try, no help',
   'after-retry': 'Right after another try, no help',
-  'after-hint': 'Finished after a hint',
+  'after-hint': 'Finished after a hint or quick fix',
   'after-steps': 'Finished after seeing visual steps',
   'after-relearn': 'Finished after watching the example again',
   'after-answer': 'Finished after the answer was shown',
@@ -784,7 +784,7 @@ export const OUTCOME_TEXT = {
   'help-only': 'Opened help, not checked yet',
   'not-tried': 'Not tried yet',
 };
-const YOU_DO_TEXT = { independent: 'On own, first try', 'after-retry': 'On own, after another try', 'after-relearn': 'After watching the example again', 'after-answer': 'After seeing the answer', 'not-yet': 'Not finished', 'help-only': 'Not finished', 'not-tried': 'Not started' };
+const YOU_DO_TEXT = { independent: 'On own, first try', 'after-retry': 'On own, after another try', 'after-hint': 'After a quick fix', 'after-steps': 'After help steps', 'after-relearn': 'After watching the example again', 'after-answer': 'After seeing the answer', 'not-yet': 'Not finished', 'help-only': 'Not finished', 'not-tried': 'Not started' };
 /** The grown-up readiness report: You Do result per skill, the Final Check score and a short verdict. */
 export function readiness(records) {
   const skills = UNITS.map((u) => {
@@ -823,3 +823,13 @@ export function summarize(records) {
   const written = ALL_CARDS.filter((c) => c.type === 'write').map((c) => ({ card: c, rec: records[c.id] }));
   return { rows, totals, written, ready: readiness(records) };
 }
+
+// Quick fixes for the You Do choice questions (a second miss): one picture and one focused sentence.
+// Drawing and counting questions use the first help step on their own shape instead.
+const QUICK = {
+  'a-flags': { text: 'Fourths need 4 parts that are all the same size. Check one flag at a time. In Flag 1, are all the stripes the same height?', picture: { kind: 'flags' } },
+  'e-you': { text: 'The strips are the same size. Count the parts in each strip. When more parts share the same whole, each part is smaller.', picture: { kind: 'strips', parts: [3, 4, 6], shade: true } },
+  'f-oval': { text: 'Compare the top strip with a middle strip. The oval is widest in the middle. Do they cover the same amount of space?', picture: { kind: 'oval' } },
+  'h-you': { text: 'Look at one half at a time. A line from corner to corner cuts the left half into 2 matching triangles. Each one is half of a half.', picture: cardById('h-you').picture },
+};
+for (const [id, q] of Object.entries(QUICK)) cardById(id).quick = q;

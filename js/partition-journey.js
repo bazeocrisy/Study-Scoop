@@ -5,7 +5,7 @@ import { STORE_KEY, loadProgress, saveProgress, clearProgress } from './lib/jour
 import { journeyCard, journeySummary } from './views/partition-journey.js';
 
 export const journeyState = { stage: null, at: {}, ui: {}, records: {} };
-export function resetJourney() { journeyState.stage = null; journeyState.at = {}; journeyState.ui = {}; journeyState.records = {}; }
+export function resetJourney() { delete journeyState.drawHelp; journeyState.stage = null; journeyState.at = {}; journeyState.ui = {}; journeyState.records = {}; }
 /** Restores saved progress into the journey (pictures of checked constructions are recomputed, not stored). */
 export function restoreJourney(saved = loadProgress()) {
   resetJourney();
@@ -53,7 +53,8 @@ export function act(stageId, action, data = {}, state = journeyState) {
     case 'next': if (!cardDone(card, r)) return { focus: '[data-j="check"], [data-j="demo-next"], #stage-h', say: 'Finish this card first.' }; state.at[stageId] = Math.min(cards.length - 1, at + 1); return { focus: '#stage-h' };
     case 'prev': state.at[stageId] = Math.max(0, at - 1); return { focus: '#stage-h' };
     case 'relearn-next': case 'relearn-back': ui.relearnStep = Math.max(0, (ui.relearnStep || 0) + (action === 'relearn-next' ? 1 : -1)); r.relearn = true; return { focus: `[data-j="${action}"], [data-j="relearn-done"], [data-j="relearn-next"]`, readStep: '.j-relearn [data-step-text]' };
-    case 'relearn-done': r.relearn = true; r.wrongStreak = 0; ui.relearnStep = 0; reset(); return { focus: '[data-j="check"]', say: 'Your turn again. You can do it!' };
+    case 'relearn-open': ui.relearnOpen = true; ui.relearnStep = 0; r.relearn = true; return { focus: '[data-relearn-heading]', scroll: '.j-relearn', readStep: '.j-relearn [data-step-text]' };
+    case 'relearn-done': r.relearn = true; r.wrongStreak = 0; ui.relearnStep = 0; ui.relearnOpen = false; reset(); return { focus: '[data-j="check"]', say: 'Your turn again. You can do it!' };
     case 'point': {
       const id = data.id; ui.cursor = id;
       if (ui.selected && ui.selected !== id) {
@@ -105,11 +106,17 @@ function check(card, ui, r, state) {
     // Teaching rules after a wrong answer: in We Do, a second miss opens a hint and a third the steps;
     // in You Do, a second miss replays the worked example (re-learn), then the child tries again.
     if (!ok && card.phase === 'wedo' && r.wrongStreak >= 2) {
-      const level = Math.min(2, Math.max(ui.help?.level || 0, r.wrongStreak - 1));
-      ui.help = { open: true, level, step: 0 }; noteHelp(r, level);
-      return { focus: '[data-help-heading]', say: `Not yet. ${say} Let's use the help together.` };
+      // The hint opens by itself; the longer step-by-step help is offered (a button), not forced.
+      const level = Math.max(ui.help?.level || 0, 1);
+      ui.help = { open: true, level, step: ui.help?.step || 0 }; noteHelp(r, level);
+      return { focus: '[data-help-heading]', say: `Not yet. ${say} ${level === 1 && r.wrongStreak >= 3 ? 'Still tricky? Press Show steps to see it one step at a time.' : 'Here is a hint.'}` };
     }
-    if (!ok && card.phase === 'youdo' && r.wrongStreak >= 2) { r.relearn = true; ui.relearnStep = 0; return { focus: '[data-relearn-heading]', scroll: '.j-relearn', say: `Not yet. ${say} Let's learn it again.` }; }
+    // You Do: the first miss gets the targeted explanation (and the marked picture); a second miss adds a short
+    // visual quick fix. The whole worked example is offered, never forced.
+    if (!ok && card.phase === 'youdo' && r.wrongStreak >= 2) {
+      const first = !ui.quick; ui.quick = true; noteHelp(r, 1);
+      return { focus: '[data-quick-heading]', scroll: '.j-quick', say: `Not yet. ${say} ${first ? 'Here is a quick fix.' : 'Look at the quick fix again, or watch the whole example.'}` };
+    }
     if (ok && card.phase === 'youdo' && ui.solo) return { focus: '[data-j="next"], [data-j-next-stage], [data-j="check"]', say: `You did it on your own! ${say}` };
     return { focus: card.phase === 'assess' ? '[data-j="next"], [data-j-next-stage], #stage-h' : '[data-j="check"]', say: `${ok ? 'Yes!' : 'Not yet.'} ${say}` };
   };
@@ -159,9 +166,11 @@ export function mountJourney(app, ctx, signal) {
     // A list of places: the first one that exists, in the order given.
     const el = focus.split(/,\s*/).map((f) => root.querySelector(f)).find(Boolean);
     if (el) el.focus({ preventScroll: !focus.startsWith('#stage-h') && !/help|relearn/.test(focus) && focus !== '.j-compare' });
-    if (focus === '#stage-h') root.querySelector('.j-head')?.scrollIntoView({ block: 'start' });
+    if (focus === '#stage-h') root.querySelector('.j-map')?.scrollIntoView({ block: 'start' });
   };
   journeyState.stage = stageId; saveJourney();
+  // "How to draw lines" stays open or closed as the child left it (for this visit only).
+  root.addEventListener('toggle', (e) => { if (e.target.matches?.('.j-drawhelp')) journeyState.drawHelp = e.target.open; }, { signal, capture: true });
   // Another tab changed progress: redraw quietly (no focus move, no scrolling).
   const off = onJourneyChange(() => { if (!root.isConnected) return; journeyState.stage ||= stageId; render(null); });
   signal.addEventListener('abort', off);

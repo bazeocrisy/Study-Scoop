@@ -90,9 +90,9 @@ export function crumbs(ctx, trail) {
 }
 
 /** The title bar of every page below a subject menu: where you are, the title, and Back and Home buttons. */
-export function subBar(ctx, { tone, trail, title, goal, eyebrow, back = [] }) {
+export function subBar(ctx, { tone, trail, title, goal, eyebrow, back = [], compact = false }) {
   return html`
-    <div class="lesson-bar act-bar subject-${tone}">
+    <div class="lesson-bar act-bar subject-${tone}${compact ? ' compact' : ''}">
       <div class="lb-title">
         ${crumbs(ctx, trail)}
         ${eyebrow ? html`<p class="eyebrow">${eyebrow}</p>` : ''}

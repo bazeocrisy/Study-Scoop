@@ -24,7 +24,7 @@ test('save and load round-trip: section, card, drawings, answers, writing, help,
   finishBefore('shapes', 'd-diamond-guide'); draw('shapes', [['v0', 'v2'], ['v1', 'v3']]); act('shapes', 'check'); // We Do: first try
   finishBefore('shapes', 'd-square-guide'); act('shapes', 'help'); act('shapes', 'hint');                         // We Do with a hint
   draw('shapes', [['l2-6', 'r2-6'], ['l4-6', 'r4-6'], ['t1-2', 'b1-2']]); act('shapes', 'check');
-  finishBefore('shapes', 'd-square-myturn'); draw('shapes', [['t1-3', 'b1-3']]); act('shapes', 'check'); draw('shapes', [['t2-3', 'b2-3']]); act('shapes', 'check'); // You Do: 2 misses → re-learn
+  finishBefore('shapes', 'd-square-myturn'); draw('shapes', [['t1-3', 'b1-3']]); act('shapes', 'check'); draw('shapes', [['t2-3', 'b2-3']]); act('shapes', 'check'); act('shapes', 'relearn-open'); // You Do: 2 misses → quick fix, then the child opens the whole example
   finishBefore('sizes', 'e-write'); act('sizes', 'text', { text: 'More parts make each part smaller.' }); act('sizes', 'compare');
   journeyState.stage = 'shapes';
   assert.equal(saveProgress(journeyState, s), true);
@@ -39,7 +39,7 @@ test('save and load round-trip: section, card, drawings, answers, writing, help,
   assert.equal(back.ui['e-write'].text, 'More parts make each part smaller.'); assert.equal(back.ui['e-write'].compared, true);
   assert.equal(outcome(back.records['d-diamond-guide']), 'independent');
   assert.equal(outcome(back.records['d-square-guide']), 'after-hint');
-  assert.equal(back.records['d-square-myturn'].relearn, true); assert.equal(back.records['d-square-myturn'].wrongStreak, 2);
+  assert.equal(back.records['d-square-myturn'].relearn, true); assert.equal(back.ui['d-square-myturn'].quick, true); assert.equal(back.ui['d-square-myturn'].relearnOpen, true); assert.equal(back.records['d-square-myturn'].wrongStreak, 2);
   assert.equal(back.ui['d-square-guide'].help.level, 1); assert.equal(back.ui['d-square-guide'].help.open, false, 'help panel reopens closed');
 });
 

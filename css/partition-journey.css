@@ -202,3 +202,30 @@
 .j-verdict.notyet { border-color: var(--notyet); background: var(--notyet-tint); }
 .j-answer-offer { align-items: center; }
 .j-stepper li.locked { font-style: normal; }
+
+/* Round 5 (owner brief: one primary task). A slim header and one progress line, so the activity is the main thing. */
+.lesson-bar.compact { padding: 8px 16px; gap: 4px 16px; border-left-width: 6px; align-items: center; }
+.lesson-bar.compact h1 { font-size: 1.25rem; }
+.lesson-bar.compact .goal { font-size: .95rem; margin: 0; }
+.lesson-bar.compact .crumbs { font-size: .9rem; }
+@media (min-width: 700px) { .lesson-bar.compact { grid-template-columns: 1fr auto; } }
+.j-map { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px; margin: 10px 0 8px; }
+.j-where { margin: 0; color: var(--berry); }
+.j-where .j-cardnum { color: var(--muted); font-weight: 600; margin-left: 6px; white-space: nowrap; }
+.j-mapbar { grid-column: 1 / -1; grid-row: 2; display: grid; grid-template-columns: repeat(9, 1fr); gap: 3px; }
+.j-mapbar span { height: 6px; border-radius: 3px; background: var(--line); }
+.j-mapbar span.past { background: var(--teal); }
+.j-mapbar span.now { background: var(--berry); }
+.j-map-all { grid-column: 2; grid-row: 1; justify-self: end; }
+.j-map-all > summary { cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; border: 2px solid var(--line-strong); font-weight: 700; font-size: .9rem; color: var(--ink); background: var(--paper); }
+.j-map-all[open] { grid-column: 1 / -1; grid-row: 3; justify-self: stretch; }
+.j-map-all[open] > summary { margin-bottom: 8px; }
+.j-badge-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 0; }
+.j-skill { color: var(--muted); font-weight: 600; font-size: .95rem; }
+.j-drawhelp { border: 2px solid var(--line-strong); border-radius: var(--r-md, 12px); padding: 4px 12px; background: var(--paper); }
+.j-drawhelp > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; }
+.j-drawhelp ol { margin: 4px 0 8px; padding-left: 1.4em; display: grid; gap: 4px; }
+.j-quick { border: 3px solid var(--teal); border-radius: var(--r-lg); background: var(--teal-tint); padding: 14px 16px; display: grid; gap: 10px; }
+.j-quick h3 { margin: 0; }
+.j-quick p { margin: 0; }
+@media print { .j-map, .j-drawhelp { display: none; } }

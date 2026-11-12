@@ -51,12 +51,13 @@ function journeyLessonView(ctx) {
   const { lesson } = ctx;
   const journey = isJourneyStage(lesson.id, ctx.stage), stage = journey ? ctx.stage : stageOf(ctx.stage);
   const jctx = { ...ctx, journeyDone: doneStages(journeyState) };
+  // A slim header: the lesson name and one way back, so the activity is the main thing on the screen.
   const top = subBar(ctx, {
-    tone: 'math', eyebrow: `Lesson ${lesson.id}`, title: lesson.title, goal: stage === 'explore' ? lesson.goal : '',
-    trail: [{ label: 'Math', href: ctx.link('math') }, { label: 'Chapter 7', href: ctx.chapterLink(7) }, { label: 'Chapter 7 Lessons', href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
-    back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }, { href: ctx.chapterLink(7), label: 'Back to Chapter 7' }],
+    tone: 'math', compact: true, title: `Lesson ${lesson.id}: ${lesson.title}`, goal: stage === 'explore' && !(journeyState.at.explore > 0) ? lesson.goal : '',
+    trail: [{ label: 'Chapter 7 Lessons', href: chapterLink(ctx, lesson) }, { label: `Lesson ${lesson.id}` }],
+    back: [{ href: chapterLink(ctx, lesson), label: '‹ Back to Lessons' }],
   });
-  if (journey) return html`${top}${journeyStepper(jctx, stage, journeyState.records)}<div class="stage j-stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${journeyCard(jctx, stage, journeyState)}</div>`;
+  if (journey) return html`${top}<div class="stage j-stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="${stage}">${journeyCard(jctx, stage, journeyState)}</div>`;
   const state = ctx.lessonState || { i: 0, items: {}, steps: {} };
   if (stage === 'parent') return html`${top}${journeyStepper(jctx, 'parent', journeyState.records)}
     <div class="stage" id="lesson-stage" data-lesson="${lesson.id}" data-stage="parent">${journeySummary(jctx, journeyState)}${extraPractice(ctx, lesson)}${stageBody(ctx, lesson, stage, state)}${lessonHistoryPanel(lesson, state)}</div>`;

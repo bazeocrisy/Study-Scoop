@@ -461,14 +461,18 @@ try {
   await b.load(url()); await b.js(`localStorage.removeItem('${KEY}')`); await b.load(url('method'));
   ok(await b.js('return /is locked/.test(document.querySelector("#lesson-stage").textContent) && !document.querySelector("[data-card]")'), 'a later section opened by its address says it is locked and where to go');
   ok(await b.js('return !document.querySelector(".j-stepper li.locked a") && document.querySelectorAll(".j-stepper li.locked").length === 8'), 'later sections in the stepper are not links');
-  // You Do: two misses bring back the worked example; after it, the child tries again and the result says so.
+  // You Do: one miss gets the targeted explanation; a second adds a short visual quick fix and offers the whole
+  // worked example (the child chooses it; it is not forced).
   await openCard('method', meta.cards.method.findIndex((c) => c.id === 'b-eighths-you'));
   await draw([['t2-4', 'b2-4']]); await tap(J('check'));
-  ok(await b.js('return !document.querySelector(".j-relearn")'), 'one miss: targeted feedback only');
+  ok(await b.js('return !document.querySelector(".j-relearn") && !document.querySelector(".j-quick")'), 'one miss: targeted feedback only');
   ok(/Let's count the parts/.test(await feedback()) && await b.js('return document.querySelectorAll(".j-tag").length >= 2'), 'wrong number of parts: the parts are numbered and region counting is explained');
   await tap(J('clear'));
   await draw([['t1-4', 'b1-4'], ['t3-4', 'b3-4']]); await tap(J('check'));
-  ok(await b.js('return !!document.querySelector(".j-relearn") && document.activeElement?.matches("[data-relearn-heading]")'), 'second miss: "Let\'s learn it again" opens with focus on it');
+  ok(await b.js('return !!document.querySelector(".j-quick svg") && document.activeElement?.matches("[data-quick-heading]") && !document.querySelector(".j-relearn")'), 'second miss: a short quick fix with a picture, focus on it, and no forced example');
+  ok(await b.js('return !!document.querySelector("[data-j=relearn-open]")'), 'the whole worked example is offered');
+  await tap(J('relearn-open'));
+  ok(await b.js('return !!document.querySelector(".j-relearn") && document.activeElement?.matches("[data-relearn-heading]")'), 'choosing the example opens "Let\'s learn it again" with focus on it');
   const pic0 = await b.js('return document.querySelector(".j-relearn svg").outerHTML');
   while (await b.js(`return !!document.querySelector('${J('relearn-next')}')`)) await tap(J('relearn-next'));
   ok((await b.js('return document.querySelector(".j-relearn svg").outerHTML')) !== pic0, 'the worked example steps change the picture');
@@ -482,6 +486,24 @@ try {
   ok(await b.js('return !document.querySelector(".j-stage-pic [data-point]")'), 'a locked Final Check drawing is a picture, not buttons');
   ok(await b.js('return !!document.querySelector("fieldset.j-locked-answer[disabled]") && !document.querySelector(".j-nav [data-j=next][disabled]")'), 'a Final Check answer is locked after one try and Next opens');
   await tap(J('next')); ok((await card()) === 'q2', 'the Final Check moves to the next question');
+
+  step('one task in view');
+  // Owner brief (Round 5): the activity is the main thing on the screen; drawing is explained for touch, mouse and keyboard.
+  for (const [w, h] of [[1366, 768], [390, 844], [320, 640]]) {
+    await b.viewport(w, h); await openCard('method', meta.cards.method.findIndex((c) => c.id === 'b-fourths-make'));
+    ok(await b.js('const r=document.querySelector("#stage-h").getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight'), `${w}px: the card title is on the first screen`);
+    ok(await b.js('return document.querySelectorAll(".j-map").length === 1 && !document.querySelector(".j-map-all").open && !document.querySelector(".j-stepper").checkVisibility()'), `${w}px: one progress line; the full list of parts is folded away`);
+    ok(await b.js('const s=document.querySelector(".j-map-all > summary").getBoundingClientRect(); return s.height >= 44 && s.width >= 44'), `${w}px: "See all parts" is a 44px target`);
+  }
+  await b.viewport(1366, 768, false);
+  ok(await b.js('return document.querySelector(".j-drawhelp").open && /Undo last line/.test(document.querySelector(".j-drawhelp").textContent) && /arrow keys/.test(document.querySelector(".j-drawhelp").textContent)'), 'first drawing: "How to draw lines" is open and covers touch, mouse, mistakes and keyboard');
+  await b.js('document.querySelector(".j-drawhelp > summary").click()');
+  const firstDot = await b.js('return document.querySelector(".j-stage-pic [data-point]").dataset.point');
+  await tap(`[data-point="${firstDot}"]`);
+  ok(await b.js('return !document.querySelector(".j-drawhelp").open'), 'closing the drawing guide keeps it closed while drawing');
+  ok(/chosen/.test(await b.js('return document.querySelector("[data-j-status]").textContent')), 'the status line says a dot is chosen and what to do next');
+  await b.js('document.querySelector(".j-map-all > summary").click()');
+  ok(await b.js('return document.querySelector(".j-stepper").checkVisibility() && document.querySelectorAll(".j-stepper li").length === 10'), '"See all parts" shows sections A–I and the report');
 
   step('other pages');
   // Other Study Scoop pages still store nothing.

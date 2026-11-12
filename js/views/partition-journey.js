@@ -2,7 +2,7 @@
 // js/partition-journey.js handles taps, keys and focus.
 import { html, raw } from '../lib/html.js';
 import { speak } from '../lib/arith.js';
-import { JOURNEY, CARDS, UNITS, FIGURES, GRID, TASK_INDEX, RECT_FOURTHS, CROSS, checkBuild, centroid, summarize, partitionKey, cardDone, stageUnlocked, frontier, nextStage, unitOf, cardById, differentAvoidKey, OUTCOME_TEXT, HELP_LABELS, SKILLS, SHAPES } from '../lib/partition-journey.js';
+import { JOURNEY, CARDS, ALL_CARDS, stageComplete, UNITS, FIGURES, GRID, TASK_INDEX, RECT_FOURTHS, CROSS, checkBuild, centroid, summarize, partitionKey, cardDone, stageUnlocked, frontier, nextStage, unitOf, cardById, differentAvoidKey, OUTCOME_TEXT, HELP_LABELS, SKILLS, SHAPES } from '../lib/partition-journey.js';
 import { TASKS, validatePartition } from '../lib/partition-geometry.js';
 
 const n2 = (v) => Math.round(v * 100) / 100;
@@ -265,7 +265,13 @@ function buildCard(card, ui) {
     <p class="sr-only" aria-live="off">${(ui.lines || []).length ? `Lines drawn: ${(ui.lines || []).map(([a, b]) => `${card.task.points.find((p) => p.id === a)?.label} to ${card.task.points.find((p) => p.id === b)?.label}`).join('; ')}.` : 'No lines drawn yet.'}</p>
     <p class="j-preview" data-j-preview aria-hidden="true">&nbsp;</p>
     <p class="j-legend"><span class="key corner"></span> corner${card.task.points.some((p) => !/^[vkce]\d|^c$/.test(p.id)) ? html` <span class="key mark"></span> mark on an edge` : ''}${card.task.points.some((p) => /^e\d/.test(p.id)) ? html` <span class="key mark"></span> point on the edge` : ''}${card.task.points.some((p) => p.id === 'c') ? html` <span class="key center"></span> center` : ''}</p>
-    <p class="j-howto">${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap where the line should end.` : 'Tap a dot, then tap another dot to draw a line between them. Not sure you hit the right dot? Hold your finger still for a moment, then slide: the circled dot is the one you will get when you lift. Tap the same two dots again to erase a line.'}</p>
+    <p class="j-howto" data-j-status>${sel ? html`<strong>${sel.label}</strong> is chosen. Now tap or click the dot where the line should end.` : (ui.lines || []).length ? `${(ui.lines || []).length} line${(ui.lines || []).length === 1 ? '' : 's'} drawn. Add another line, or press Check my parts.` : 'No lines yet. Tap or click a dot to start a line.'}</p>
+    ${ui.locked ? '' : html`<details class="j-drawhelp"${ui.drawHelpOpen ? html` open` : ''}><summary>How to draw lines</summary><ol>
+      <li><strong>Pick a dot:</strong> tap it or click it. It gets a circle.</li>
+      <li><strong>Pick a second dot:</strong> a straight line joins the two dots.</li>
+      <li><strong>Fix a mistake:</strong> press <em>Undo last line</em>, or pick the same two dots again to erase that line. <em>Start over</em> erases every line.</li>
+      <li><strong>Finished?</strong> Press <em>Check my parts</em>.</li>
+    </ol><p class="j-note">On a touch screen, hold your finger still for a moment and slide: the dot with the circle is the one you get when you lift. With a keyboard, press Tab to reach the shape, use the arrow keys to move between dots, and press Enter or Space to pick one.</p></details>`}
     <div class="j-row j-tools">
       <button type="button" class="btn btn-primary" data-j="check">${checkLabel(card, ui, 'Check my parts')}</button>
       <button type="button" class="btn" data-j="undo" ${(ui.lines || []).length ? '' : html`disabled`}>Undo last line</button>
@@ -338,30 +344,54 @@ function unitLine(card) {
   const u = unitOf(card);
   if (!u) return '';
   const k = UNITS.indexOf(u), phases = [...new Set(u.cards.map((c) => c.phase))];
-  return html`<p class="j-phases">Skill ${k + 1} of ${UNITS.length}: <strong>${u.title}</strong> <span class="j-phase-list">${phases.map((p, i) => html`${i ? ' → ' : ''}<span class="${p === card.phase ? 'now' : ''}"${p === card.phase ? html` aria-current="step"` : ''}>${PHASE_SHORT[p]}</span>`)}</span></p>`;
+  return html`<span class="j-skill">Skill ${k + 1} of ${UNITS.length}: ${u.title}<span class="sr-only"> (${phases.map((p) => PHASE_SHORT[p]).join(', then ')})</span></span>`;
 }
 
-/** The lesson stepper: sections A to I, then the grown-up report. Sections that are not open yet are not links. */
-export function journeyStepper(ctx, current, records = {}) {
-  const L = (id) => ctx.lessonLink('7-1', id);
-  return html`<div class="lesson-steps j-steps"><nav class="stepper j-stepper" aria-label="Lesson 7-1 steps"><ol>
-    ${JOURNEY.map((s, i) => { const open = stageUnlocked(s.id, records), done = ctx.journeyDone?.has(s.id) && s.id !== current, label = html`<span class="n">${String.fromCharCode(65 + i)}</span> <span class="name">${s.label}</span>`;
+/**
+ * Where the child is in the lesson, kept small so the activity stays the main thing on the screen:
+ * one line ("Part A of I: Explore equal parts"), a thin bar, and the full list of parts behind "See all parts".
+ * Sections that are not open yet are not links.
+ */
+export function journeyStepper(ctx, current, records = {}, { card } = {}) {
+  const L = (id) => ctx.lessonLink('7-1', id), si = JOURNEY.findIndex((s) => s.id === current), here = JOURNEY[si];
+  const where = here ? html`<strong>Part ${String.fromCharCode(65 + si)} of I:</strong> ${here.title}` : html`<strong>Grown-up report</strong>`;
+  return html`<div class="j-map">
+    <p class="j-where">${where}${card ? html` <span class="j-cardnum">${card}</span>` : ''}</p>
+    <span class="j-mapbar" aria-hidden="true">${JOURNEY.map((s) => html`<span class="${s.id === current ? 'now' : stageComplete(s.id, records) ? 'past' : ''}"></span>`)}</span>
+    <details class="j-map-all"><summary>See all parts</summary>
+    <nav class="stepper j-stepper" aria-label="Lesson 7-1 parts"><ol>
+    ${JOURNEY.map((s, i) => { const open = stageUnlocked(s.id, records), done = stageComplete(s.id, records) && s.id !== current, label = html`<span class="n">${String.fromCharCode(65 + i)}</span> <span class="name">${s.label}</span>`;
       return html`<li class="${done ? 'done' : ''}${open ? '' : ' locked'}">${open ? html`<a href="${L(s.id)}"${s.id === current ? html` aria-current="step"` : ''}>${label}</a>` : html`<span class="j-locked"><span class="n">${String.fromCharCode(65 + i)}</span> <span class="name"><span aria-hidden="true">🔒 </span>${s.label}</span><span class="sr-only"> (locked: finish the earlier parts first)</span></span>`}</li>`; })}
     <li><a href="${L('parent')}"${current === 'parent' ? html` aria-current="step"` : ''}><span class="n">★</span> <span class="name">Grown-up Report</span></a></li>
-  </ol></nav></div>`;
+    </ol></nav></details>
+  </div>`;
 }
 
 /** You Do after a second wrong try: watch the worked example again, then try again. After 4 wrong tries the answer can be shown. */
 function relearnPanel(card, ui, rec) {
   const wrong = rec?.attempts && !rec.correct ? (rec.wrongStreak || 0) : 0, misses = rec?.correct ? 0 : rec?.attempts || 0;
-  if (rec?.correct || wrong < 2) return '';
+  if (rec?.correct || !ui.relearnOpen) return '';
   const demo = card.relearnSteps ? { type: 'demo', task: card.relearnTask, steps: card.relearnSteps } : cardById(card.relearn) || unitOf(card)?.cards.find((c) => c.type === 'demo');
   const k = Math.min(ui.relearnStep || 0, (demo?.steps.length || 1) - 1), st = demo?.steps[k];
   return html`<section class="j-relearn" aria-labelledby="relearn-h-${card.id}">
     <h3 id="relearn-h-${card.id}" tabindex="-1" data-relearn-heading>Let's learn it again</h3>
-    <p>That was tricky. Watch the example one step at a time, then try again. Your ${card.type === 'build' ? 'drawing' : 'answer'} stays where it is.</p>
+    <p>Watch the example one step at a time, then try again. Your ${card.type === 'build' ? 'drawing' : 'answer'} stays where it is.</p>
     ${demo ? html`<div class="j-help-block"><p class="j-help-label">Step ${k + 1} of ${demo.steps.length}</p><p data-step-text>${st.text}</p>${demoPicture(demo, st, k)}</div>
     <div class="j-row">${k > 0 ? html`<button type="button" class="btn" data-j="relearn-back">‹ Previous step</button>` : ''}${k < demo.steps.length - 1 ? html`<button type="button" class="btn btn-primary" data-j="relearn-next">Next step ›</button>` : html`<button type="button" class="btn btn-primary" data-j="relearn-done">I'm ready to try again</button>`}</div>` : ''}
+  </section>`;
+}
+
+/** You Do after a second miss: one short picture that fixes the mistake, then another try. The whole example is offered. */
+function quickPanel(card, ui, rec) {
+  if (!ui.quick || rec?.correct) return '';
+  const q = card.quick ? { text: card.quick.text, svg: picture(card.quick.picture) } : helpSteps(card, ui)[0];
+  if (!q) return '';
+  const tricky = (rec?.wrongStreak || 0) >= 3 || (rec?.attempts || 0) >= 3;
+  return html`<section class="j-quick" aria-labelledby="quick-h-${card.id}">
+    <h3 id="quick-h-${card.id}" tabindex="-1" data-quick-heading>Quick fix</h3>
+    <p>${q.text}</p>${q.svg || ''}
+    <p>${card.type === 'build' ? 'Now fix your drawing and check it again.' : 'Now look again and choose your answer.'}</p>
+    ${ui.relearnOpen ? '' : html`<div class="j-row">${tricky ? html`<p class="j-note">Still tricky? Watching the whole example can help.</p>` : ''}<button type="button" class="btn${tricky ? ' btn-primary' : ''}" data-j="relearn-open">Watch the whole example</button></div>`}
   </section>`;
 }
 
@@ -370,11 +400,11 @@ export function journeyCard(ctx, stageId, state) {
   if (!stageUnlocked(stageId, state.records)) {
     const go = nextStage(state.records), goStage = JOURNEY.find((s) => s.id === go);
     const gi = JOURNEY.findIndex((x) => x.id === go);
-    return html`<article class="card j-card"><h2 id="stage-h" tabindex="-1">🔒 Part ${String.fromCharCode(65 + si)} is locked</h2><p>Finish ${gi >= 0 ? `Part ${String.fromCharCode(65 + gi)}` : 'the lesson'} first. Then this part opens.</p>
+    return html`${journeyStepper(ctx, stageId, state.records)}<article class="card j-card"><h2 id="stage-h" tabindex="-1">🔒 Part ${String.fromCharCode(65 + si)} is locked</h2><p>Finish ${gi >= 0 ? `Part ${String.fromCharCode(65 + gi)}` : 'the lesson'} first. Then this part opens.</p>
       <p><a class="btn btn-primary" href="${ctx.lessonLink('7-1', go)}">Go to ${goStage ? `Part ${String.fromCharCode(65 + gi)}: ${goStage.label}` : 'the Grown-up Report'} ›</a></p></article>`;
   }
   const i = Math.min(state.at[stageId] || 0, cards.length - 1, frontier(stageId, state.records)), card = cards[i], rec = state.records[card.id];
-  const ui = { ...(state.ui[card.id] || {}), avoidKey: card.different ? differentAvoidKey(card, state.ui[card.different]) : undefined, locked: card.phase === 'assess' && (state.records[card.id]?.attempts || 0) > 0 };
+  const ui = { ...(state.ui[card.id] || {}), drawHelpOpen: state.drawHelp ?? !ALL_CARDS.some((c) => c.type === 'build' && state.records[c.id]?.attempts), avoidKey: card.different ? differentAvoidKey(card, state.ui[card.different]) : undefined, locked: card.phase === 'assess' && (state.records[card.id]?.attempts || 0) > 0 };
   const nextSection = JOURNEY[si + 1], prevStage = JOURNEY[si - 1];
   const asks = card.type !== 'concept' && card.type !== 'demo' && card.type !== 'sizes';
   const helps = asks && (card.phase === 'wedo' || card.phase === 'say');
@@ -388,17 +418,16 @@ export function journeyCard(ctx, stageId, state) {
     ? html`<button type="button" class="${nextCls}" data-j="next" ${done ? '' : html`disabled aria-describedby="next-why"`}>Next ›</button>`
     : done ? html`<a class="${nextCls}" data-j-next-stage href="${ctx.lessonLink('7-1', nextSection ? nextSection.id : 'parent')}">${nextSection ? `Next: ${nextSection.label} ›` : 'Finish: see the report ›'}</a>`
       : html`<button type="button" class="btn" disabled aria-describedby="next-why">${nextSection ? `Next: ${nextSection.label} ›` : 'Finish ›'}</button>`;
-  return html`<div class="j-head"><p class="j-eyebrow">Part ${String.fromCharCode(65 + si)} of I · ${stage.title}</p>
-      <p class="progress j-progress"><span class="j-cardnum">${card.phase === 'assess' ? `Question ${i + 1} of ${cards.length}` : `Card ${i + 1} of ${cards.length}`}</span>${cards.length > 10 ? '' : html`<span class="j-bar" aria-hidden="true">${cards.map((c, k) => html`<span class="${k === i ? 'now' : k < i ? 'past' : ''}"></span>`)}</span>`}</p></div>
-    ${unitLine(card)}
+  return html`${journeyStepper(ctx, stageId, state.records, { card: card.phase === 'assess' ? `Question ${i + 1} of ${cards.length}` : `Card ${i + 1} of ${cards.length}` })}
     <article class="card j-card j-${card.type} j-phase-${card.phase}" data-card="${card.id}" data-phase="${card.phase}">
-      <p class="j-badge phase-${card.phase}">${PHASES[card.phase]}</p>
+      <p class="j-badge-row"><span class="j-badge phase-${card.phase}">${PHASES[card.phase]}</span>${unitLine(card)}</p>
       <div class="j-title-row"><h2 id="stage-h" tabindex="-1">${card.title}</h2><div class="j-title-btns">${readButton([card.title, prompt, ...(card.text || [])])}${helps ? helpButton(card, ui) : ''}</div></div>
       ${card.phase === 'youdo' ? html`<p class="j-note">No hints this time. Show what you learned! If you get stuck, the lesson will help you learn it again.</p>` : card.phase === 'assess' ? html`<p class="j-note">One try for each question, no hints. Do your best.</p>` : ''}
       ${prompt ? html`<p class="j-prompt">${prompt}</p>` : ''}
       ${answered ? html`<fieldset class="j-locked-answer" disabled>${body}</fieldset>` : body}
       ${asks ? feedback(ui, card) : ''}
       ${helps ? helpPanel(card, ui) : ''}
+      ${card.phase === 'youdo' ? quickPanel(card, ui, rec) : ''}
       ${card.phase === 'youdo' ? relearnPanel(card, ui, rec) : ''}
       ${card.phase === 'youdo' && !rec?.correct && (rec?.attempts || 0) >= 4 && (ui.help?.level || 0) < 3 ? html`<div class="j-row j-answer-offer"><button type="button" class="btn" data-j="answer">Show me the answer</button><p class="j-note">Seeing the answer is fine. Your grown-up's report will show it.</p></div>` : ''}
       ${card.phase === 'youdo' && (ui.help?.level || 0) >= 3 && !rec?.correct ? (() => { const a = helpAnswer(card, ui); return html`<div class="j-help-block answer"><p class="j-help-label">Answer</p>${a.svg || ''}<p>${a.text}</p><p class="j-note">Now make it yourself.</p></div>`; })() : ''}
