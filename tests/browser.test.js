@@ -141,7 +141,7 @@ async function main() {
         eq(await b.js('return document.getElementById("weekSelect").value;'), OCT26, 'Oct 26 opens by default');
         const cards = await b.js('return [...document.querySelectorAll(".test")].map((c) => c.querySelector(".count").textContent + " | " + c.querySelector("h3").textContent + " | " + c.querySelector(".date").textContent);');
         eq(cards, ['In 4 days | Academic Vocabulary Quiz | Friday, October 30', 'In 4 days | Spelling Test | Friday, October 30',
-          'In 8 days | Math Topic 6 Vocabulary Test | Tuesday, November 3'], 'test cards');
+          'In 8 days | Math Topic 6 Area Test | Tuesday, November 3'], 'test cards');
         eq(await b.js('return [...document.querySelectorAll(".test .action")].map((a) => a.getAttribute("href"));'),
           ['#vocab', '#tests', '#spelling', '#tests', '#math?ch=6', '#tests'], 'study links (the Nov 3 test opens Chapter 6) and practice-test links');
         expect((await b.js('return document.querySelector(".test-vocab").textContent;')).includes('Trustworthy, Constellations, Irritating, Distracted'), 'the quiz names the four green words');
@@ -1672,7 +1672,7 @@ async function main() {
         [['Chapter 6 Practice Test', 'Chapter 6: Connect Area and Multiplication', 'Review of', 'Chapter 6 (all lessons)', '27', true],
           ['Spelling Practice Test', '-er / -or words', 'Class test', 'Friday, October 30', '15', true],
           ['Vocabulary Practice Test', 'Because of Winn-Dixie — Four Green Words', 'Class test', 'Friday, October 30', '16', true],
-          ['Math Vocabulary Practice Test', 'Nov 3 words: Area, Square Unit, Multiply', 'Class test', 'Tuesday, November 3', '12', true]], 'cards');
+          ['Math Vocabulary Practice Test', 'Nov 3 words: Area, Square Unit, Multiply', 'Helps with class test', 'Tuesday, November 3', '12', true]], 'cards');
     });
     const AV = AREA.vocab;
     const avAll = [...AV.choice, ...AV.truefalse, ...AV.fill];

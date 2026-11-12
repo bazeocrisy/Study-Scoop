@@ -427,7 +427,7 @@ export function spellingTest(week, rand = Math.random) {
  *  (from data/practice/math-words.json). Null when there is none. */
 export function testFor(kind, week, tests, rand, mathWords = null, area = null) {
   if (kind === 'spelling') return week.spelling?.words?.length ? spellingTest(week, rand) : null;
-  // In the Area week the Math Vocabulary test is the Nov 3 vocabulary test (Area, Square Unit, Multiply).
+  // In the Area week the Math Vocabulary test covers the teacher's study words for the Nov 3 Area Test (Area, Square Unit, Multiply).
   if (kind === 'mathwords' && isAreaWeek(week)) return area?.vocab ? areaVocabTest(area, rand) : null;
   if (kind === 'mathwords') return mathWords ? mathWordsTest(mathWords, rand) : null;
   const t = tests?.[kind];

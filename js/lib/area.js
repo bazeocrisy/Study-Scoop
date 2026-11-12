@@ -163,8 +163,8 @@ export function areaVocabTest(bank, rand = Math.random) {
   const items = shuffle(picked, rand).map((it, i) => ({ ...it, id: `q${i + 1}`, ...(it.type === 'choice' && it.options.length > 2 ? { options: shuffle(it.options, rand) } : {}) }));
   return {
     kind: 'mathwords', title: 'Math Vocabulary Practice Test', topic: 'Nov 3 words: Area, Square Unit, Multiply', items, pass: Math.ceil(items.length * 0.8), areaVocab: true,
-    coverage: `${items.length} questions about the three words on the Nov 3 vocabulary test, with the teacher's exact definitions.`,
-    note: 'A Study Scoop practice test for the class Topic 6 vocabulary test. It does not cover the six Area lessons.',
+    coverage: `${items.length} questions about the teacher's three study words for the Nov 3 Area Test, with the teacher's exact definitions.`,
+    note: 'A Study Scoop practice test on the vocabulary for the class Topic 6 Area Test. It does not cover the six Area lessons; the Chapter 6 Practice Test does.',
     instructions: 'Answer each question. There are no hints during the test. You will see your score and the answers at the end.',
   };
 }

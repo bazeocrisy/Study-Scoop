@@ -854,7 +854,7 @@
         "areaOptions": true,
         "id": "c22",
         "type": "multi",
-        "prompt": "Which expressions find the area of the picture? Choose all that apply.",
+        "prompt": "Which expressions find the area of the picture?",
         "options": [
           {
             "text": "5 × 12",
