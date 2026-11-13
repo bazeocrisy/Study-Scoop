@@ -108,8 +108,13 @@ try {
     ok(new RegExp(`Lesson ${id} readiness report`).test(report) && /Final Check \(first try\): \d+ of 10/.test(report), `${id}: report shows the first Final Check`);
     ok(await js(`return document.querySelectorAll(".j-ready tbody tr").length===${secs.length}`), `${id}: report lists every skill`);
     ok(/On own, first try|After help steps|On own, after another try/.test(report), `${id}: report separates on own and with help`);
-    // Reset with confirmation.
-    await click('[data-l-reset="ask"]'); await click('[data-l-reset="no"]');
+    // Reset with confirmation. The confirmation is not shown (or announced) until Reset is pressed (forensic audit 2026-11-13).
+    const shown = 'const c=document.querySelector("[data-l-reset-confirm]");return !!c&&c.checkVisibility()';
+    ok(!(await js(shown)), `${id}: the erase confirmation is hidden until Reset is pressed`);
+    await click('[data-l-reset="ask"]');
+    ok(await js(shown), `${id}: Reset shows the erase confirmation`);
+    await click('[data-l-reset="no"]');
+    ok(!(await js(shown)), `${id}: Cancel hides the erase confirmation again`);
     ok(await js(`return !!localStorage.getItem("studyScoop.lesson${id}.progress")`), `${id}: Cancel keeps progress`);
     await click('[data-l-reset="ask"]'); await click('[data-l-reset="yes"]'); await b.wait(200);
     ok(await js(`return !localStorage.getItem("studyScoop.lesson${id}.progress")`), `${id}: Reset erases the lesson's progress`);

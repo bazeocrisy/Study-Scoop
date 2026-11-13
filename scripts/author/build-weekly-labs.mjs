@@ -48,7 +48,8 @@ export function buildWeeklyLabs(id, manifestFile, {root=ROOT, templates=path.joi
       words.push({w,s:entry.syllables,t:record.sentence,...(subject==='vocab'?{d:record.def,note:record.note||''}:{} )});
     }
     const schoolTest=week.tests.find(t=>t.kind===subject);
-    const testNote=schoolTest?`${schoolTest.title}: ${schoolTest.date}. ${schoolTest.detail||''}`:'No school test date was supplied.';
+    const day=(d)=>new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'});
+    const testNote=schoolTest?`${schoolTest.title}: ${day(schoolTest.date)}. ${schoolTest.detail||''}`:'No school test date was supplied.';
     const config={week:id,pattern:week.spelling.pattern,patterns:manifest.patterns||[],vocabTitle:week.vocab.title,parentNote:week.vocab.groupsNote||'',testNote,words,pictures:images,sources};
     if(!Array.isArray(config.patterns)||config.patterns.some(s=>typeof s!=='string'||!/^[a-z]+$/.test(s)))throw Error('Review spelling highlight patterns');
     const filename=`labs/${id}-${subject}.html`;
