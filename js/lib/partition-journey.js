@@ -799,7 +799,7 @@ export function readiness(records) {
   const notChecked = UNITS.filter((u) => !ASSESSMENT.some((q) => q.skill === u.id)).map((u) => u.title);
   const buildsRight = ASSESSMENT.filter((q) => q.type === 'build').every((q) => records[q.id]?.first === 'correct');
   let verdict;
-  if (answered.length < ASSESSMENT.length) verdict = { level: 'unfinished', text: 'Not finished yet. The report is complete after the 10-question Final Check.' };
+  if (answered.length < ASSESSMENT.length) verdict = { level: 'unfinished', text: 'The report is complete after the 10-question Final Check.' };
   else if (right.length >= 8 && buildsRight && !skills.some((k) => k.result === 'after-answer' || k.result === 'not-yet')) verdict = { level: 'ready', text: `Ready for the workbook: ${right.length} of 10 on the Final Check, every drawing right, and every skill finished without being shown the answer.` };
   else if (right.length >= 6) verdict = { level: 'review', text: `Almost ready: ${right.length} of 10 on the Final Check. Review the skills listed below, then try the workbook.` };
   else verdict = { level: 'notyet', text: `Not ready yet: ${right.length} of 10 on the Final Check. Redo the skills listed below before the workbook.` };

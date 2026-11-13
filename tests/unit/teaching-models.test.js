@@ -7,14 +7,14 @@ test('row partitions keep the same whole and represented fraction through the re
  const html=modelFigure({...bar,layout:'rows'}).s;
  assert.match(html, /width="300" height="44"/);
  assert.match(html, /y="56" width="300" height="44"/);
- assert.match(html, /height 1 relative units/);
+ assert.match(html, /size 1/);
  assert.deepEqual(fractionOfModel({...bar,layout:'rows'}),{n:1,d:2});
  assert.ok(fractionModelProblems({...bar,layout:'diagonal'}).length);
 });
 test('count markers survive the figure boundary without changing selection or fraction value',()=>{
  const html=modelFigure({...bar,counted:[1,0]}).s;
  assert.match(html,/data-count-marker="1"/);assert.match(html,/data-count-marker="2"/);
- assert.match(html,/part 2, width 1 relative units: unshaded, count marker 1/);
+ assert.match(html,/part 2, size 1: unshaded, count marker 1/);
  assert.deepEqual(fractionOfModel({...bar,counted:[1,0]}),{n:1,d:2});
  for(const counted of [[2],[0,0],['1'],[-1]]) assert.ok(fractionModelProblems({...bar,counted}).length);
  const countedLine={type:'fraction',kind:'line',parts:2,max:1,point:1,counted:[0]};

@@ -153,7 +153,7 @@ test('late chapter resources replace an unavailable cached run and chapter histo
 test('prior assistance remains visible separately from a clean current-round score, including test miss IDs',()=>{
  const it=pack().test.items[0], run={chapter:7,subject:'math',act:'fmisses',mode:'practice',i:0,items:[{...it,id:`test-${it.id}`}],items_:{},history:{[it.id]:{help:2,revealed:true,checks:3}}};
  const ctx={run,actLink:()=> '#math',link:()=> '#math',week:read('data/2026-11-09.json')};
- let out=activityInner(ctx).s;assert.match(out,/Help history for this visit/);assert.match(out,/1 question used Help; 1 had an answer revealed/);assert.match(out,/current round only/);assert.deepEqual(run.items_,{},'history never manufactures a current answer');
+ let out=activityInner(ctx).s;assert.match(out,/For grown-ups, this visit/);assert.match(out,/1 question used Help, and 1 answer was shown/);assert.match(out,/this round only/);assert.deepEqual(run.items_,{},'history never manufactures a current answer');
  run.finished=true;run.items_[`test-${it.id}`]={first:'correct',status:'correct',resp:solution(it)};
- out=activityInner(ctx).s;assert.match(out,/1 question used Help; 1 had an answer revealed/);assert.match(out,/Every answer was right on the first try/,'current-round score stays separate from earlier assistance');
+ out=activityInner(ctx).s;assert.match(out,/1 question used Help, and 1 answer was shown/);assert.match(out,/Every answer was right on the first try/,'current-round score stays separate from earlier assistance');
 });

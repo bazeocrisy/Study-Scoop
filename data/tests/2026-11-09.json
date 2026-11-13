@@ -3,7 +3,7 @@
   "vocab": {
     "topic": "Because of Winn-Dixie — 6 random words",
     "coverage": "6 questions, one per randomly selected word, from all 12 words.",
-    "instructions": "Choose an answer for each question, then submit. Answers appear after the test.",
+    "instructions": "Choose an answer for each question, then press Finish the test. Answers appear after the test.",
     "note": "Study Scoop practice, not the teacher’s actual quiz. A fresh attempt may repeat some words. The class-sheet definition of Distracted needs teacher confirmation.",
     "sampleSize": 6,
     "pass": 5,
@@ -275,7 +275,7 @@
         "type": "choice",
         "kind": "meaning",
         "word": "Distracted",
-        "prompt": "According to the class sheet, what definition is printed for \"Distracted\"? (Parent: this printed definition needs teacher confirmation.)",
+        "prompt": "What does the word \"Distracted\" mean on the class sheet?",
         "options": [
           {
             "text": "To prevent something from continuing as usual",
@@ -294,7 +294,7 @@
             "why": "That is the teacher’s definition of Employee."
           }
         ],
-        "explain": "Teacher’s words for Distracted: To prevent something from continuing as usual. Parent note: this appears mismatched; distracted ordinarily means having your attention pulled away. Confirm with the teacher."
+        "explain": "Teacher’s words for Distracted: To prevent something from continuing as usual. In other words: your attention gets pulled away from what you are doing."
       }
     ]
   }

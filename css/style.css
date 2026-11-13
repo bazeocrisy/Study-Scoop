@@ -373,6 +373,8 @@ ul.plain, ul.dates, ul.archive, ul.words, ul.checklist { list-style: none; margi
 
 /* UX-3 / A11Y-7: a fact never breaks across lines */
 .term { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+/* On a phone, a long written fact in the Parent Guide (9 × 6 = 5 × 6 + 4 × 6 = …) may wrap rather than run off the card (forensic audit 2026-11-13). */
+@media (max-width: 420px) { .parent-guide .term { display: inline; white-space: normal; } }
 .eqlines .vjoin { width: min(100%, 200px); height: 14px; }
 
 /* UX-2 / A11Y-2: lesson screens put the question on the first screen */

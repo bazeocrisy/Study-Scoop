@@ -31,7 +31,7 @@ function vocabularyTeaching(item, word, words, claim = null) {
     const base = teaching.wrong.find((node) => node.when === 'default' || (!node.when && node.option === undefined)) || teaching.correct;
     return { ...base, option: option.text, when: undefined, revealsAnswer: true,
       ...(claim?.node ? { model: teaching.correct.model, models: teaching.correct.models } : {}),
-      text: claim ? teaching.correct.text : `${selected ? `${selected.word}: ${selected.def}.` : option.why || ''} ${base.text}`.trim(),
+      text: claim ? teaching.correct.text : `${selected ? `${selected.word}: ${selected.def}${/[.!?]$/.test(selected.def) ? '' : '.'}` : option.why || ''} ${base.text}`.trim(),
       ...(claim && teaching.correct.models ? { models: teaching.correct.models } : {}),
       ...(selected?.model && word.model ? { models: [{ ...selected.model, caption: `Picture for ${selected.word}` }, { ...word.model, caption: `Picture for ${word.word}` }] } : {}),
     };
@@ -60,7 +60,7 @@ export function fractionVocabItems(pack, kind, rand = Math.random) {
     }
     const meaning = round === 0;
     const definitionCue = w.def.replace(new RegExp(w.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '___');
-    const prompt = meaning ? `What does "${w.word}" mean?` : round === 1 ? `Which term completes this definition? ${definitionCue}` : `Which term completes this statement? ${context}`;
+    const prompt = meaning ? `What does "${w.word}" mean?` : round === 1 ? (definitionCue.includes('___') ? `Which term completes this definition? ${definitionCue}` : `Which term means "${w.def.charAt(0).toLowerCase()}${w.def.slice(1).replace(/\.$/, '')}"?`) : `Which term completes this statement? ${context}`;
     const others = shuffled(words.filter((v) => v !== w), rand).slice(0, 3);
     const options = shuffled([{ text: meaning ? w.def : w.word, correct: true }, ...others.map((v) => ({ text: meaning ? v.def : v.word, why: `${v.word}: ${v.def}` }))], rand);
     return vocabularyTeaching({ ...base, type: 'choice', prompt, options, yes: `${w.word}: ${w.def}` }, w, words);

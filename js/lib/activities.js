@@ -170,7 +170,8 @@ export function blankSentence(sentence, word) {
 
 // ---------------------------------------------------------------- vocabulary
 
-const means = (w) => `${q(w.word)} means: ${w.def}.${w.note ? ` Parent note: ${w.note}` : ''}`;
+// The child sees the teacher's words and, where they are hard to read (forensic audit 2026-11-13), the everyday meaning.
+const means = (w) => `${q(w.word)} means: ${w.def}.${w.kid ? ` In other words: ${w.kid}` : ''}`;
 
 /**
  * The practice form of a vocabulary question: a hint that points back to the word's sentence (never the answer),

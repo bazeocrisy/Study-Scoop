@@ -64,7 +64,7 @@ export function sectionInner(ctx) {
       ${card.phase === 'youdo' && !(st.tries) ? html`<p class="j-note">On your own. Help opens after your first try, and your grown-up's report shows when help was used.</p>` : ''}
       ${card.phase === 'wedo' && !(st.tries) ? html`<p class="j-note">Let's do it together. Press Help any time to see one step at a time.</p>` : ''}
       ${body}
-      ${stuck && firstIdo >= 0 ? html`<div class="j-quick"><h3>Still tricky?</h3><p>Look at the example again, then come back and try this one.</p><div class="j-row"><button type="button" class="btn" data-act="goto" data-to="${firstIdo}">Look at the example again</button></div></div>` : ''}
+      ${stuck && firstIdo >= 0 ? html`<div class="j-quick"><h3>Still tricky?</h3><p>Look at the example again, then come back and try this one.</p><div class="j-row"><button type="button" class="btn" data-act="goto" data-to="${firstIdo}" data-relearn="1">Look at the example again</button></div></div>` : ''}
     </article>
     <div class="stage-nav j-nav">
       ${i > 0 ? html`<button type="button" class="btn" data-act="back">‹ Back</button>` : si > 0 ? html`<a class="btn" href="${ctx.lessonLink(lesson.id, secs[si - 1].id)}">‹ Part ${letter(si - 1)}</a>` : html`<span></span>`}
@@ -84,8 +84,8 @@ export function skillReport(ctx, lesson, stateOf, history) {
   const verdict = {
     unfinished: ['In progress.', 'The report is complete after the Final Check.'],
     ready: ['Ready for the workbook.', 'Every skill was done on screen and the Final Check was passed. Next, ask your child to do the school workbook page without help.'],
-    review: ['Almost ready.', `Practice the skills listed below, then try the workbook page.`],
-    notyet: ['Not ready yet.', 'Go back through the parts listed below with your child before the workbook page.'],
+    review: ['Almost ready.', r.practise.length ? 'Practice the skills listed below, then try the workbook page.' : 'Go over the missed Final Check questions below, then try the workbook page.'],
+    notyet: ['Not ready yet.', r.practise.length ? 'Go back through the parts listed below with your child before the workbook page.' : 'Go over the missed Final Check questions below with your child before the workbook page.'],
   }[r.level];
   const missed = (r.test?.missed || []).map((id) => lesson.test.items.find((x) => x.id === id)).filter(Boolean);
   const say = sectionsOf(lesson).flatMap((s) => s.cards.filter((c) => c.phase === 'say').map((c) => ({ s, it: cardItem(c) }))).map(({ s, it }) => ({ it, st: stateOf(s.id)?.items?.[it.id] }));
@@ -98,7 +98,7 @@ export function skillReport(ctx, lesson, stateOf, history) {
       ${r.skills.map((k) => html`<tr class="${k.solid ? 'solid' : ''}"><th scope="row">${k.letter}. ${k.section.title}</th><td>${k.results.map((x) => OUTCOME_TEXT[x]).join('; ')}</td></tr>`)}
     </tbody></table>
     ${r.practise.length ? html`<p><strong>Practice more:</strong> ${r.practise.join('; ')}.</p>` : ''}
-    ${missed.length ? html`<details class="j-detail"><summary>Questions missed on the Final Check</summary><ul>${missed.map((x) => html`<li>${x.prompt}</li>`)}</ul></details>` : ''}
+    ${missed.length ? html`<details class="j-detail"${r.practise.length ? '' : ' open'}><summary>Questions missed on the Final Check</summary><ul>${missed.map((x) => html`<li>${x.prompt}</li>`)}</ul></details>` : ''}
     <h3>Written answer</h3>
     ${say.some((x) => x.st?.resp?.text) ? html`<ul>${say.map((x) => html`<li>“${x.st?.resp?.text || ''}” ${x.st?.status === 'correct' ? '(checklist ticked; a grown-up should still read it)' : '(needs a grown-up to read it)'}</li>`)}</ul>` : html`<p>No written answer yet.</p>`}
     <p class="j-note">"On own" means right with no help. Answers shown by Help, and retakes after the answers were shown, never count as on own. On-screen results are not proof of mastery: the workbook page done without help is the real check.</p>

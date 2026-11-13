@@ -42,7 +42,7 @@ const WORDING = [
 const AUDIT = [
   [/A zero denominator cannot name the equal parts in this whole\. Count the visible equal parts for a positive bottom number\./g, "The bottom number can't be 0. Count the equal parts in one whole."],
   [/A denominator of zero cannot describe equal parts of a whole\. Find one complete whole in the picture; it contains a positive number of counting parts\./g, "The bottom number can't be 0. Find one whole in the picture and count its parts."],
-  [/A whole must contain a positive number of parts\. This complete whole contains one part\./g, "The bottom number can't be 0. This whole is not cut, so it is 1 part."],
+  [/A whole must contain a positive number of parts\. This complete whole contains one part\./g, "The bottom number can't be 0. Look at one whole and count its parts."],
   [/That fraction names the same amount, but this question asks for the shown partition\. The picture has (\d+) equal parts in one whole; keep that count on the bottom\./g, 'That fraction is the same amount, but use the parts in the picture. One whole has $1 equal parts, so keep $1 on the bottom.'],
   [/That fraction has the same value, but this question asks for the displayed partition\. Keep (\d+) on the bottom to describe the parts in ONE shown whole; count those displayed parts for the top\./g, 'That fraction is the same amount, but use the parts in the picture. Keep $1 on the bottom: that is how many parts are in one whole.'],
   [/You or a grown-up will compare your response; this is not a computer grade for mathematical meaning\./g, 'Check your answer with the example or a grown-up. The computer does not grade it.'],

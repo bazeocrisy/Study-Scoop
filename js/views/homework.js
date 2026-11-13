@@ -83,7 +83,7 @@ export function homeworkPapersSection(week) {
   const papers = week.homeworkPapers;
   if (!papers?.reviewed || !papers.pages?.length) return html`<section class="card homework-papers" aria-labelledby="h-papers">
     <h2 id="h-papers">Original homework papers</h2>
-    <p>The classroom scans for this week are not yet available here. You can use the Study Scoop homework activities above while the originals are prepared and privacy-reviewed.</p>
+    <p>No original homework papers are shown on this website for this week. Use the Study Scoop homework activities above.</p>
   </section>`;
   return html`<section class="card flyer homework-papers" aria-labelledby="h-papers">
     <div class="instruct-head"><h2 id="h-papers">${papers.recreated ? 'Printable homework papers' : 'Original homework papers'}</h2>

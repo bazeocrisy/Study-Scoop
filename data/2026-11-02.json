@@ -151,7 +151,7 @@
       "cy": "Add -cy to bankrupt to name the legal process"
     },
     "ruleHelp": {
-      "root": "rupt is a root, not a stand-alone English base word. Read and spell the entire word. In abrupt, the last two letters are p and t",
+      "root": "Rupt is a root, not a word on its own. Read and spell the entire word. In abrupt, the last two letters are p and t.",
       "s": "disruption → disruptions; keep the whole base word, then add s",
       "ion": "erupt → eruption; keep erupt, then add ion",
       "cy": "bankrupt → bankruptcy; keep bankrupt, then add cy"
@@ -279,7 +279,7 @@
       },
       {
         "word": "Trustworthy",
-        "def": "The ability to keep promises",
+        "def": "The ability to keep promises", "kid": "Someone you can trust, because they keep their promises.",
         "sentence": "My trustworthy teammate kept his promise to return the ball.",
         "fill": "Because she always keeps her promises, she is ___.",
         "note": "The teacher's definition describes the ability. In everyday words, a trustworthy person is someone you can trust, because they keep their promises."
@@ -292,7 +292,7 @@
       },
       {
         "word": "Irritating",
-        "def": "To anger or bother",
+        "def": "To anger or bother", "kid": "Something annoying that keeps bothering you.",
         "sentence": "The irritating tapping made it hard to enjoy the story.",
         "fill": "The repeated squeak was ___ because it kept bothering us.",
         "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you.",
@@ -300,7 +300,7 @@
       },
       {
         "word": "Distracted",
-        "def": "To prevent something from continuing as usual",
+        "def": "To prevent something from continuing as usual", "kid": "Your attention gets pulled away from what you are doing.",
         "sentence": "I was distracted by a butterfly while I was reading.",
         "fill": "My attention moved away from my book, so I became ___.",
         "note": "The printed definition appears mismatched. In ordinary use, distracted means having your attention pulled away. Confirm the class-sheet definition with the teacher."
@@ -359,7 +359,7 @@
   },
   "mathUpcoming": {
     "title": "Topic 7: Fractions — vocabulary preview",
-    "note": "These four words are on the back of the newsletter. No fractions test date is listed. Topic 7 lessons are not yet available in Study Scoop; Chapter 6 remains available for area review.",
+    "note": "These four words are on the back of the newsletter. No fractions test date is listed. Chapter 7 (fractions) is now in Math: Choose Your Chapter; Chapter 6 stays available for area review.",
     "words": [
       {
         "word": "denominator",

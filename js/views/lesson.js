@@ -113,12 +113,12 @@ function lessonHistoryPanel(lesson, state) {
   if (chapterOf(lesson.id) !== 7 || !state.history) return '';
   const records = Object.entries(state.history.items || {}), current = Object.values(state.items || {});
   const helped = records.reduce((n, [, v]) => n + v.help, 0), revealed = records.reduce((n, [, v]) => n + v.reveals, 0);
-  return html`<details class="card lesson-history"><summary>Parent summary: this visit</summary>
+  return html`<details class="card lesson-history"><summary>${skillJourney(lesson) ? 'Extra practice summary for grown-ups' : 'Extra practice summary for grown-ups (this visit only, not saved)'}</summary>
     ${state.stage === 'parent' ? html`<p>Latest activity rounds are listed separately from earlier assistance below. Written reasoning is self-reviewed or parent-reviewed and is not scored for meaning.</p>` : html`<p>Current round: ${current.filter((v) => v.first === 'correct' && !v.scaffoldAssisted).length} questions right on the first attempt without help or counting assistance; ${current.filter((v) => v.first && v.first !== 'correct').length} needing another attempt. Written reasoning is reviewed separately and is not scored for meaning.</p>`}
     ${state.stage === 'parent' && Object.keys(state.history.currentRounds || {}).length ? html`<ul>${Object.entries(state.history.currentRounds).map(([stage, round]) => html`<li>${stageLabel(stage)}, latest round: ${round.right} right on the first attempt; ${round.retry} needing another attempt.</li>`)}</ul>` : ''}
     <p>Across this visit, including earlier rounds: ${helped} help steps opened; ${revealed} answers revealed; ${state.history.restarts} restarts or retakes; ${state.history.missRounds} missed-question rounds. These earlier events remain after a retry.</p>
     ${records.length ? html`<ul>${records.map(([id, r]) => html`<li>${r.label || 'Question'}: ${r.attempts} checked attempts, ${r.help} help steps, ${r.reveals} answer reveals${r.countScaffold ? ', counting scaffold used' : ''}.</li>`)}</ul>` : ''}
-    <p>Kept only in this open tab. Closing or refreshing clears this summary.</p></details>`;
+    <p>${skillJourney(lesson) ? `This summary is saved in this browser with Lesson ${lesson.id} progress; the grown-up report can erase it.` : 'This summary covers this visit only: closing or refreshing the tab clears it. It is separate from the saved lesson progress.'}</p></details>`;
 }
 
 function lessonBar(ctx, lesson, stage) {
@@ -164,7 +164,7 @@ export function stageBody(ctx, lesson, stage, state) {
       <p class="progress">${what} ${i + 1} of ${cards.length}</p>
     </div>
     ${stage === 'test' && i === 0 ? html`<p class="notice">No hints during the test. Answer every question, then press Finish to see your score.</p>` : ''}
-    ${teachFirst(lesson) && stage === 'together' && i === 0 ? html`<p class="notice">We Do: work through these with the help. Press Help any time to see one step at a time.</p>` : ''}
+    ${teachFirst(lesson) && stage === 'together' && i === 0 ? html`<p class="notice">We Do: work through these together. Press Help any time to see one step at a time.</p>` : ''}
     ${teachFirst(lesson) && stage === 'try' && i === 0 ? html`<p class="notice">You Do: work on your own. Help opens after your first try, and the Parent Guide shows when help was used.</p>` : ''}
     ${stage === 'learn' ? learnCard(lesson, card, state) : stage === 'watch' ? exampleCard(lesson, card, i, state) : itemCard(lesson, card, stage, state)}
     ${stageNav(ctx, lesson, stage, state, i, cards)}`;
@@ -375,7 +375,7 @@ function roundArea(item, resp, st, done) {
   const dis = done ? ' disabled' : '';
   const dirs = [['up', 'Go up'], ['stay', 'Stay the same']];
   return html`<div class="round-work">
-    <p class="round-step" id="q-${item.id}"><span class="sn" aria-hidden="true">1</span><span>Tap the digit in the <strong>${PLACE[item.to]} place</strong> to underline it.</span></p>
+    <p class="round-step"><span class="sn" aria-hidden="true">1</span><span>Tap the digit in the <strong>${PLACE[item.to]} place</strong> to underline it.</span></p>
     <fieldset class="round-digits${marked('place') ? ' is-marked' : ''}" role="radiogroup"${marked('place') ? html` aria-invalid="true"` : ''}>
       <legend class="sr-only">Which digit of ${digits} is in the ${PLACE[item.to]} place?</legend>
       ${[...digits].map((d, k) => html`<input type="radio" class="dg-in" name="place" id="${item.id}-d${k}" value="${k}"${String(resp.place) === String(k) ? ' checked' : ''}${dis}><label class="digit" for="${item.id}-d${k}"><span class="sr-only">Digit ${k + 1} of ${digits.length}: </span>${d}</label>`)}
@@ -681,7 +681,7 @@ function trySummary(ctx, lesson, state) {
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Try It Yourself: your results</h2></div>
     <div class="card results">
       ${scoreLine(first, items.length, answered)}
-      ${scaffolded ? html`<p>${scaffolded} answers were completed with help or a counting scaffold. They are assisted practice, not unassisted first-attempt credit or wrong answers.</p>` : ''}
+      ${scaffolded ? html`<p>${scaffolded === 1 ? '1 answer' : `${scaffolded} answers`} used Help or counting help. That is fine for practice.</p>` : ''}
       <p>${passed ? 'Great work! You are ready for the test.' : `Practice a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
       <p class="next-step"><strong>What next?</strong> ${missed.length ? 'Press Practice My Misses to try the questions you missed again, with Help. Then take Test Your Knowledge.' : 'Take Test Your Knowledge.'}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => reviewItem(it))}</ul>` : ''}
@@ -796,30 +796,9 @@ function keepFacts(text) {
   return String(text).split(/(\d+(?:\s*[×+=−-]\s*\d+)+)/).map((p, k) => (k % 2 ? html`<span class="term">${p}</span>` : p));
 }
 
-/** Lessons 7-2 to 7-7: a short readiness report from this visit (first Try It Yourself round and first test). */
-export function readinessReport(lesson, history, visited) {
-  const t = history?.firstTest, y = history?.firstTry;
-  const level = !t ? 'unfinished' : t.right >= t.pass ? 'ready' : t.right >= t.pass - 2 ? 'review' : 'notyet';
-  const verdict = {
-    unfinished: ['In progress.', `The report is complete after the Test. ${STAGES.filter((s) => s.id !== 'test').map((s) => `${s.label}: ${visited?.has(s.id) ? 'done' : 'not finished'}`).join('; ')}.`],
-    ready: ['Ready for the workbook.', `First test: ${t?.right} of ${t?.total}. Next, ask your child to do the school workbook page without help.`],
-    review: ['Almost ready.', `First test: ${t?.right} of ${t?.total}. Practice the questions below (Practice My Misses), then try the workbook page.`],
-    notyet: ['Not ready yet.', `First test: ${t?.right} of ${t?.total}. Go back to Watch Me and Practice Together with your child before the workbook page.`],
-  }[level];
-  const missed = (t?.missed || []).map((id) => lesson.test.items.find((it) => it.id === id)).filter(Boolean);
-  return html`<section class="card readiness" aria-labelledby="ready-h">
-    <h3 id="ready-h">Readiness report (this visit)</h3>
-    <p class="verdict ${level}"><strong>${verdict[0]}</strong> ${verdict[1]}</p>
-    ${y ? html`<p>Try It Yourself (You Do), first round: <strong>${y.own} of ${y.total}</strong> right on the first try with no help${y.helped ? `; ${y.helped} more right after another try or with help` : ''}.</p>` : ''}
-    ${missed.length ? html`<p>Missed on the first test:</p><ul>${missed.map((it) => html`<li>${it.prompt}</li>`)}</ul>` : ''}
-    <p class="hint">Answers shown by Help, and retakes after the answers were shown, never count as "on own". This report covers this visit only (Lessons 7-2 to 7-7 are not saved), and on-screen results are not proof of mastery: the workbook page done without help is the real check.</p>
-  </section>`;
-}
-
 export function parentGuide(ctx, lesson) {
   return html`
     <div class="stage-title"><h2 id="${skillJourney(lesson) ? 'parent-guide-h' : 'stage-h'}" tabindex="-1">Parent Guide</h2></div>
-    ${teachFirst(lesson) && !skillJourney(lesson) ? readinessReport(lesson, ctx.lessonState?.history, ctx.lessonVisited) : ''}
     <div class="card parent-guide">
       ${lesson.parent.sections.map((s) => html`<section><h3>${s.heading}</h3>
         ${s.text ? html`<p>${keepFacts(s.text)}</p>` : ''}

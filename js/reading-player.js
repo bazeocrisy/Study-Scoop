@@ -282,7 +282,7 @@ export function mountReading(app, ctx, signal) {
     const passed = storyPassed(q.right, q.total);
     const next = index.stories[index.stories.findIndex((s) => s.id === story.id) + 1];
     const myWords = [...new Set(S.tapped)];
-    return html`<h2 id="rd-h" tabindex="-1">${passed ? 'Story complete!' : 'Nice work!'}</h2>
+    return html`<h2 id="rd-h" tabindex="-1">${passed ? 'Story complete!' : 'Keep going!'}</h2>
       <p class="rd-big">${passed ? 'You answered at least 4 of 5 questions right on the first try.' : 'Read the story again and try the questions once more to finish it.'}</p>
       <ul class="rd-sum">
         <li><b>Questions:</b> ${q.right} of ${q.total} right on the first try</li>

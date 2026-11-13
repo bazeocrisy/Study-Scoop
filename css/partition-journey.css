@@ -170,7 +170,7 @@
 .j-point.preview .ring { stroke: var(--berry); stroke-width: 6; stroke-dasharray: none; }
 .j-point.preview .dot { stroke: var(--berry); stroke-width: 3; }
 .j-preview { margin: 0; min-height: 2.6em; text-align: center; font-weight: 700; color: var(--notyet); }
-.j-row[hidden], [data-j-reset-confirm][hidden] { display: none; }
+.j-row[hidden], .j-confirm[hidden], [data-j-reset-confirm][hidden], [data-l-reset-confirm][hidden] { display: none; }
 .j-reset { margin-top: 8px; padding: 12px 14px; border: 2px solid var(--line); border-radius: var(--r); background: var(--sunk); display: grid; gap: 8px; }
 .j-reset h3 { margin: 0; }
 .j-confirm { display: grid; gap: 8px; padding: 10px 12px; border: 2px solid var(--notyet); border-radius: var(--r); background: var(--notyet-tint); }

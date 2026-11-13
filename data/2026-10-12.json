@@ -250,7 +250,7 @@
         "sentence": "The peculiar cat liked to sleep in the bathtub instead of its bed.",
         "fill": "A dog with purple spots would look very ___, because most dogs do not look like that.",
         "group": "green",
-        "alsoFits": ["Melancholy", "Irritating"]
+        "alsoFits": ["Melancholy", "Irritating", "Fortunate", "Ignorant"]
       },
       {
         "word": "Employee",
@@ -279,7 +279,7 @@
       },
       {
         "word": "Trustworthy",
-        "def": "The ability to keep promises",
+        "def": "The ability to keep promises", "kid": "Someone you can trust, because they keep their promises.",
         "sentence": "My best friend is trustworthy because he always keeps his promises.",
         "fill": "My neighbor always does what he says he will do. He is very ___.",
         "note": "The teacher's definition describes the ability. In everyday words, a trustworthy person is someone you can trust, because they keep their promises."
@@ -292,7 +292,7 @@
       },
       {
         "word": "Irritating",
-        "def": "To anger or bother",
+        "def": "To anger or bother", "kid": "Something annoying that keeps bothering you.",
         "sentence": "My little cousin kept tapping the table, and the noise was irritating.",
         "fill": "My little brother kept poking my arm. It was so ___ that I asked him to stop.",
         "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you.",
@@ -300,7 +300,7 @@
       },
       {
         "word": "Distracted",
-        "def": "To prevent something from continuing as usual",
+        "def": "To prevent something from continuing as usual", "kid": "Your attention gets pulled away from what you are doing.",
         "sentence": "The fire drill distracted our class from the spelling lesson.",
         "fill": "The loud music ___ me, and I could not finish my homework.",
         "note": "The printed definition appears mismatched. In ordinary use, distracted means having your attention pulled away. Confirm the class-sheet definition with the teacher."
