@@ -38,7 +38,7 @@ test('the packet is Study Scoop\'s own: no names, story or numbers from the clas
 test('choose-all, number-line blanks and sentence answers each explain what is wrong', () => {
   const r1 = byId('r1');
   assert.equal(check(r1, { multi: '0,1' }).say, '451 rounds to 500. Its tens digit is 5, so the 4 goes up.');
-  assert.match(check(r1, { multi: '0,2' }).say, /^You are close! One more answer is right/);
+  assert.match(check(r1, { multi: '0,2' }).say, /^You are close! Choose one more right answer/);
   assert.equal(check(r1, {}).status, 'empty');
   const r2 = byId('r2');
   assert.equal(check(r2, { a: '50', b: '40', c: '50', d: '40', e: '50' }).status, 'correct', 'either end first');
@@ -104,6 +104,6 @@ test('original homework gallery offers individual image downloads and missing-we
   assert.equal((shown.match(/download>Download worksheet image/g) || []).length, 4);
   for (const page of week.homeworkPapers.pages) assert.ok(shown.includes(page.src), page.src);
   const pending = String(homeworkPapersSection({}));
-  assert.match(pending, /not yet available/);
+  assert.match(pending, /No original homework papers are shown/);
   assert.doesNotMatch(pending, /download>Download worksheet image/);
 });

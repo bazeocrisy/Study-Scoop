@@ -151,7 +151,7 @@
       "cy": "Add -cy to bankrupt to name the legal process"
     },
     "ruleHelp": {
-      "root": "rupt is a root, not a stand-alone English base word. Read and spell the entire word. In abrupt, the last two letters are p and t",
+      "root": "Rupt is a root, not a word on its own. Read and spell the entire word. In abrupt, the last two letters are p and t.",
       "s": "disruption → disruptions; keep the whole base word, then add s",
       "ion": "erupt → eruption; keep erupt, then add ion",
       "cy": "bankrupt → bankruptcy; keep bankrupt, then add cy"
@@ -359,7 +359,7 @@
   },
   "mathUpcoming": {
     "title": "Topic 7: Fractions — vocabulary preview",
-    "note": "These four words are on the back of the newsletter. No fractions test date is listed. Topic 7 lessons are not yet available in Study Scoop; Chapter 6 remains available for area review.",
+    "note": "These four words are on the back of the newsletter. No fractions test date is listed. Chapter 7 (fractions) is now in Math: Choose Your Chapter; Chapter 6 stays available for area review.",
     "words": [
       {
         "word": "denominator",

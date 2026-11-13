@@ -219,7 +219,7 @@ export function activityInner(ctx) {
 
 function emptyRun(ctx, run) {
   if (run.unavailable) {
-    return html`${stageTitle('Not available right now')}<div class="card"><p>The practice questions could not be loaded. Please try again later.</p></div>${endNav(ctx, run, { again: '' })}`;
+    return html`${stageTitle('Not available for this week')}<div class="card"><p>There are no Study Scoop practice questions for this activity this week. Choose another activity.</p></div>${endNav(ctx, run, { again: '' })}`;
   }
   return html`
     ${stageTitle('Nothing to practice yet')}
@@ -235,7 +235,7 @@ function fractionHistory(run, item = null) {
   const rows = (item ? [item] : run.items).map((it) => run.history[it.id.replace(/^test-/, '')]).filter(Boolean);
   const helped = rows.filter((x) => x.help > 0).length, revealed = rows.filter((x) => x.revealed).length;
   if (!helped && !revealed) return '';
-  return html`<aside class="notice fraction-history" aria-label="Help history"><p><strong>Help history for this visit:</strong> ${helped} ${helped === 1 ? 'question used' : 'questions used'} Help; ${revealed} had an answer revealed. This stays after a restart. Scores describe the current round only, separately from earlier help. Closing or refreshing clears this history.</p></aside>`;
+  return html`<aside class="notice fraction-history" aria-label="Help history"><p><strong>For grown-ups, this visit:</strong> ${helped} ${helped === 1 ? 'question' : 'questions'} used Help, and ${revealed} ${revealed === 1 ? 'answer was' : 'answers were'} shown (by Help or on the test results). The score above is for this round only. Closing or refreshing the tab clears this note.</p></aside>`;
 }
 
 function practiceQuestion(ctx, run) {
@@ -336,7 +336,7 @@ function testResults(ctx, run) {
     ${fractionHistory(run)}
     <div class="card results">
       ${scoreLine(s.right, s.total, answered, false)}
-      <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${run.pass} or more right means you passed. Look at the answers below, then practice and try again.`}</p>
+      <p>${s.passed ? 'You passed! Great work.' : `Not yet. ${run.pass} or more right means you pass. Look at the answers below, then practice and try again.`}</p>
       ${run.noSound ? html`<p class="notice">The sound was off for some words, so a grown-up read them. That is fine for practice.</p>` : ''}
       ${skills.length > 1 ? html`<table class="skills"><caption>Your score in each part</caption><tbody>${skills.map(([k, list]) => html`<tr><th scope="row">${SKILL_LABEL[k]}</th><td>${list.filter((it) => run.items_[it.id]?.status === 'correct').length} of ${list.length}</td></tr>`)}</tbody></table>` : ''}
       <p class="print-only">${ctx.week.label} · Study Scoop practice test (not the class test)</p>

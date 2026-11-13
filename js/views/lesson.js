@@ -113,12 +113,12 @@ function lessonHistoryPanel(lesson, state) {
   if (chapterOf(lesson.id) !== 7 || !state.history) return '';
   const records = Object.entries(state.history.items || {}), current = Object.values(state.items || {});
   const helped = records.reduce((n, [, v]) => n + v.help, 0), revealed = records.reduce((n, [, v]) => n + v.reveals, 0);
-  return html`<details class="card lesson-history"><summary>Parent summary: this visit</summary>
+  return html`<details class="card lesson-history"><summary>Extra practice summary for grown-ups (this visit only, not saved)</summary>
     ${state.stage === 'parent' ? html`<p>Latest activity rounds are listed separately from earlier assistance below. Written reasoning is self-reviewed or parent-reviewed and is not scored for meaning.</p>` : html`<p>Current round: ${current.filter((v) => v.first === 'correct' && !v.scaffoldAssisted).length} questions right on the first attempt without help or counting assistance; ${current.filter((v) => v.first && v.first !== 'correct').length} needing another attempt. Written reasoning is reviewed separately and is not scored for meaning.</p>`}
     ${state.stage === 'parent' && Object.keys(state.history.currentRounds || {}).length ? html`<ul>${Object.entries(state.history.currentRounds).map(([stage, round]) => html`<li>${stageLabel(stage)}, latest round: ${round.right} right on the first attempt; ${round.retry} needing another attempt.</li>`)}</ul>` : ''}
     <p>Across this visit, including earlier rounds: ${helped} help steps opened; ${revealed} answers revealed; ${state.history.restarts} restarts or retakes; ${state.history.missRounds} missed-question rounds. These earlier events remain after a retry.</p>
     ${records.length ? html`<ul>${records.map(([id, r]) => html`<li>${r.label || 'Question'}: ${r.attempts} checked attempts, ${r.help} help steps, ${r.reveals} answer reveals${r.countScaffold ? ', counting scaffold used' : ''}.</li>`)}</ul>` : ''}
-    <p>Kept only in this open tab. Closing or refreshing clears this summary.</p></details>`;
+    <p>This summary covers this visit only: closing or refreshing the tab clears it. It is separate from any saved lesson progress.</p></details>`;
 }
 
 function lessonBar(ctx, lesson, stage) {
@@ -164,7 +164,7 @@ export function stageBody(ctx, lesson, stage, state) {
       <p class="progress">${what} ${i + 1} of ${cards.length}</p>
     </div>
     ${stage === 'test' && i === 0 ? html`<p class="notice">No hints during the test. Answer every question, then press Finish to see your score.</p>` : ''}
-    ${teachFirst(lesson) && stage === 'together' && i === 0 ? html`<p class="notice">We Do: work through these with the help. Press Help any time to see one step at a time.</p>` : ''}
+    ${teachFirst(lesson) && stage === 'together' && i === 0 ? html`<p class="notice">We Do: work through these together. Press Help any time to see one step at a time.</p>` : ''}
     ${teachFirst(lesson) && stage === 'try' && i === 0 ? html`<p class="notice">You Do: work on your own. Help opens after your first try, and the Parent Guide shows when help was used.</p>` : ''}
     ${stage === 'learn' ? learnCard(lesson, card, state) : stage === 'watch' ? exampleCard(lesson, card, i, state) : itemCard(lesson, card, stage, state)}
     ${stageNav(ctx, lesson, stage, state, i, cards)}`;
@@ -681,7 +681,7 @@ function trySummary(ctx, lesson, state) {
     <div class="stage-title"><h2 id="stage-h" tabindex="-1">Try It Yourself: your results</h2></div>
     <div class="card results">
       ${scoreLine(first, items.length, answered)}
-      ${scaffolded ? html`<p>${scaffolded} answers were completed with help or a counting scaffold. They are assisted practice, not unassisted first-attempt credit or wrong answers.</p>` : ''}
+      ${scaffolded ? html`<p>${scaffolded === 1 ? '1 answer' : `${scaffolded} answers`} used Help or counting help. That is fine for practice.</p>` : ''}
       <p>${passed ? 'Great work! You are ready for the test.' : `Practice a little more. ${lesson.try.pass} or more right on the first try means you are ready for the test.`}</p>
       <p class="next-step"><strong>What next?</strong> ${missed.length ? 'Press Practice My Misses to try the questions you missed again, with Help. Then take Test Your Knowledge.' : 'Take Test Your Knowledge.'}</p>
       ${missed.length ? html`<h3>Look again at these</h3><ul class="review">${missed.map((it) => reviewItem(it))}</ul>` : ''}

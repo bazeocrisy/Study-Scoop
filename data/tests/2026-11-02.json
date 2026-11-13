@@ -3,7 +3,7 @@
   "vocab": {
     "topic": "Because of Winn-Dixie — 6 random words",
     "coverage": "6 questions, one per randomly selected word, from all 12 words.",
-    "instructions": "Choose an answer for each question, then submit. Answers appear after the test.",
+    "instructions": "Choose an answer for each question, then press Finish the test. Answers appear after the test.",
     "note": "Study Scoop practice, not the teacher’s actual quiz. A fresh attempt may repeat some words. The class-sheet definition of Distracted needs teacher confirmation.",
     "sampleSize": 6,
     "pass": 5,

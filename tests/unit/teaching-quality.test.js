@@ -38,7 +38,7 @@ test('shared modelFigure preserves orientation and count annotations used by the
  const column={type:'fraction',kind:'bar',parts:2,wholes:1,selected:[0]},row={...column,layout:'rows'},counted={...column,counted:[1,0]};
  const rows=modelFigure(row).s,columns=modelFigure(column).s,marked=modelFigure(counted).s;
  assert.notEqual(rows,columns,'top/bottom partition reaches the actual shared renderer');
- assert.match(rows,/height 1 relative units/,'accessible geometry describes horizontal parts');
+ assert.match(rows,/1 unit tall/,'accessible geometry describes horizontal parts');
  assert.match(marked,/data-count-marker="1"/);assert.match(marked,/data-count-marker="2"/);assert.match(marked,/count marker 1/);
 });
 

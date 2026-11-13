@@ -314,7 +314,7 @@ function checkMulti(item, response) {
   const bad = chosen.find((k) => !item.options[k]?.correct);
   if (bad !== undefined) return { status: 'notyet', say: item.options[bad].why || 'One of your choices is not right.' };
   const missing = right.length - chosen.length;
-  return { status: 'notyet', say: `You are close! ${missing === 1 ? 'One more answer is' : `${missing} more answers are`} right. Look at each one again.` };
+  return { status: 'notyet', say: `You are close! Choose ${missing === 1 ? 'one more right answer' : `${missing} more right answers`}. Look at each one again.` };
 }
 
 /**

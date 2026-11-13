@@ -95,7 +95,7 @@
         "wrong": [
           {
             "when": "default",
-            "text": "Look again at the word \"denominator.\" Count the equal parts in one whole. A strip divided into six equal parts has denominator 6. Here the written fraction is 2/6: top 2 counts selected parts; bottom 6 counts parts in one whole.",
+            "text": "Not quite. Read the clue again: Count the equal parts in one whole. A strip divided into six equal parts has ___ 6. Here the written fraction is 2/6: top 2 counts selected parts; bottom 6 counts parts in one whole.",
             "model": {
               "type": "fraction",
               "kind": "bar",
@@ -105,8 +105,7 @@
                 0,
                 1
               ]
-            },
-            "revealsAnswer": true
+            }
           }
         ]
       },
@@ -229,7 +228,7 @@
         "wrong": [
           {
             "when": "default",
-            "text": "Look again at the word \"unit fraction.\" One equal part of a whole; its numerator is 1. One of four equal parts is the unit fraction 1/4. Here the written fraction is 1/4: top 1 counts selected parts; bottom 4 counts parts in one whole.",
+            "text": "Not quite. Read the clue again: One equal part of a whole; its numerator is 1. One of four equal parts is the ___ 1/4. Here the written fraction is 1/4: top 1 counts selected parts; bottom 4 counts parts in one whole.",
             "model": {
               "type": "fraction",
               "kind": "bar",
@@ -238,8 +237,7 @@
               "selected": [
                 0
               ]
-            },
-            "revealsAnswer": true
+            }
           }
         ]
       },
@@ -382,7 +380,7 @@
         "wrong": [
           {
             "when": "default",
-            "text": "Look again at the word \"numerator.\" Count the selected parts. If three of eight equal pieces are highlighted, the numerator is 3. Here the written fraction is 3/8: top 3 counts selected parts; bottom 8 counts parts in one whole.",
+            "text": "Not quite. Read the clue again: Count the selected parts. If three of eight equal pieces are highlighted, the ___ is 3. Here the written fraction is 3/8: top 3 counts selected parts; bottom 8 counts parts in one whole.",
             "model": {
               "type": "fraction",
               "kind": "bar",
@@ -393,8 +391,7 @@
                 1,
                 2
               ]
-            },
-            "revealsAnswer": true
+            }
           }
         ]
       },
@@ -523,7 +520,7 @@
         "wrong": [
           {
             "when": "default",
-            "text": "Look again at the word \"fraction.\" A number that counts equal-sized parts of a whole. Two of three equal parts can be described by the fraction 2/3. Here the written fraction is 2/3: top 2 counts selected parts; bottom 3 counts parts in one whole.",
+            "text": "Not quite. Read the clue again: A number that counts equal-sized parts of a whole. Two of three equal parts can be described by the ___ 2/3. Here the written ___ is 2/3: top 2 counts selected parts; bottom 3 counts parts in one whole.",
             "model": {
               "type": "fraction",
               "kind": "bar",
@@ -533,8 +530,7 @@
                 0,
                 1
               ]
-            },
-            "revealsAnswer": true
+            }
           }
         ]
       },
@@ -656,15 +652,14 @@
         "wrong": [
           {
             "when": "default",
-            "text": "Look again at the word \"partition.\" For fraction models, make parts with equal area. We partition a rectangle into four equal-area pieces to show fourths.",
+            "text": "Not quite. Read the clue again: For fraction models, make parts with equal area. We ___ a rectangle into four equal-area pieces to show fourths.",
             "model": {
               "type": "fraction",
               "kind": "bar",
               "parts": 4,
               "wholes": 1,
               "selected": []
-            },
-            "revealsAnswer": true
+            }
           }
         ]
       },
@@ -819,7 +814,7 @@
         "wrong": [
           {
             "when": "default",
-            "text": "Look again at the word \"fraction tiles.\" Tiles help us see and count the parts of a whole. Three equal fraction tiles can be placed together to make one whole strip.",
+            "text": "Not quite. Read the clue again: Tiles help us see and count the parts of a whole. Three equal ___ can be placed together to make one whole strip.",
             "model": {
               "type": "fraction",
               "kind": "bar",
@@ -830,8 +825,7 @@
                 1,
                 2
               ]
-            },
-            "revealsAnswer": true
+            }
           }
         ]
       },
@@ -8297,8 +8291,8 @@
   },
   "test": {
     "topic": "Chapter 7: Fractions",
-    "coverage": "28 original questions: four for each of Lessons 7-1 through 7-7.",
-    "instructions": "Answer every question, then submit. You can review before submitting. Explanations appear after the test.",
+    "coverage": "28 original questions, four for each of Lessons 7-1 through 7-7.",
+    "instructions": "Answer every question, then press Finish the test. You can review your answers before you finish. Explanations appear after the test.",
     "note": "Study Scoop practice, not the teacher’s actual test. The newsletter announces no Chapter 7 Math test date. Fluency and the optional performance task are separate.",
     "pass": 23,
     "items": [
