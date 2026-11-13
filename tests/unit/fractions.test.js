@@ -43,8 +43,8 @@ test('partition assessment descriptions provide width observations without the e
   const html=modelFigure({...model(2,[]),weights}).s;
   const label=/aria-label="([^"]+)"/.exec(html)[1];
   assert.ok(!/\bequal|unequal/i.test(label));
-  assert.ok(label.includes('1 unit wide'));
-  assert.ok(label.includes(`${weights[1]} ${weights[1] === 1 ? 'unit' : 'units'} wide`));
+  assert.ok(label.includes('size 1'));
+  assert.ok(label.includes(`size ${weights[1]}`));
  }
 });
 

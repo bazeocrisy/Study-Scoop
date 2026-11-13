@@ -408,7 +408,8 @@ async function main() {
         const week = readJSON(`data/${id}.json`);
         await b.load(url(inWeek('#vocab?act=learn', id)));
         const now = await allPics(12);
-        eq(now.map((x) => x[0]), week.vocab.words.map((w) => `images/words/${pictureName(w.word)}.webp`), `${id}: the approved picture of each word`);
+        const listed = readJSON('data/pictures.json');
+        eq(now.map((x) => x[0]), week.vocab.words.map((w) => { const n = pictureName(w.word); return listed.photos.includes(n) ? `images/words/${n}.webp` : `images/words/${n}.svg`; }), `${id}: the approved picture of each word (the drawing where no photo is published)`);
         expect(now.every((x, k) => x[1].startsWith('Picture showing')), `${id}: alt text`);
       }
       await b.load(url('#vocab?week=2026-10-12&act=learn'));

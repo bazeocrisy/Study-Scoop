@@ -113,12 +113,12 @@ function lessonHistoryPanel(lesson, state) {
   if (chapterOf(lesson.id) !== 7 || !state.history) return '';
   const records = Object.entries(state.history.items || {}), current = Object.values(state.items || {});
   const helped = records.reduce((n, [, v]) => n + v.help, 0), revealed = records.reduce((n, [, v]) => n + v.reveals, 0);
-  return html`<details class="card lesson-history"><summary>Extra practice summary for grown-ups (this visit only, not saved)</summary>
+  return html`<details class="card lesson-history"><summary>${skillJourney(lesson) ? 'Extra practice summary for grown-ups' : 'Extra practice summary for grown-ups (this visit only, not saved)'}</summary>
     ${state.stage === 'parent' ? html`<p>Latest activity rounds are listed separately from earlier assistance below. Written reasoning is self-reviewed or parent-reviewed and is not scored for meaning.</p>` : html`<p>Current round: ${current.filter((v) => v.first === 'correct' && !v.scaffoldAssisted).length} questions right on the first attempt without help or counting assistance; ${current.filter((v) => v.first && v.first !== 'correct').length} needing another attempt. Written reasoning is reviewed separately and is not scored for meaning.</p>`}
     ${state.stage === 'parent' && Object.keys(state.history.currentRounds || {}).length ? html`<ul>${Object.entries(state.history.currentRounds).map(([stage, round]) => html`<li>${stageLabel(stage)}, latest round: ${round.right} right on the first attempt; ${round.retry} needing another attempt.</li>`)}</ul>` : ''}
     <p>Across this visit, including earlier rounds: ${helped} help steps opened; ${revealed} answers revealed; ${state.history.restarts} restarts or retakes; ${state.history.missRounds} missed-question rounds. These earlier events remain after a retry.</p>
     ${records.length ? html`<ul>${records.map(([id, r]) => html`<li>${r.label || 'Question'}: ${r.attempts} checked attempts, ${r.help} help steps, ${r.reveals} answer reveals${r.countScaffold ? ', counting scaffold used' : ''}.</li>`)}</ul>` : ''}
-    <p>This summary covers this visit only: closing or refreshing the tab clears it. It is separate from any saved lesson progress.</p></details>`;
+    <p>${skillJourney(lesson) ? `This summary is saved in this browser with Lesson ${lesson.id} progress; the grown-up report can erase it.` : 'This summary covers this visit only: closing or refreshing the tab clears it. It is separate from the saved lesson progress.'}</p></details>`;
 }
 
 function lessonBar(ctx, lesson, stage) {

@@ -4,12 +4,12 @@ export function describeFraction(m) {
   if (fractionModelProblems(m).length) return 'Invalid fraction diagram.';
   // Number lines are described tick by tick, as a sighted child sees them, so a screen-reader user counts the
   // spaces too: the description never states how many spaces there are or how far the point is (forensic audit 2026-11-13).
-  if (m.kind === 'line') return `Number line from zero to ${m.max ?? 1}, with equal spaces between tick marks. Tick marks from left to right: ${Array.from({ length: m.parts * (m.max ?? 1) + 1 }, (_, i) => `${i % m.parts === 0 ? `tick labeled ${i / m.parts}` : 'tick'}${i === m.point ? ' with the point' : ''}`).join(', ')}. A reference bracket from zero to one marks one whole.${m.counted?.length ? ' ' + m.counted.map((index, ordinal) => `Interval from tick ${index} to tick ${index + 1} has a bold stroke and count marker ${ordinal + 1}.`).join(' ') : ''}`;
+  if (m.kind === 'line') return `Number line from zero to ${m.max ?? 1}, with equal spaces between tick marks. Tick marks from left to right: ${Array.from({ length: m.parts * (m.max ?? 1) + 1 }, (_, i) => `${i % m.parts === 0 ? `tick labeled ${i / m.parts}` : 'tick'}${i === m.point ? ' with the point' : ''}`).join(', ')}. A reference bracket from zero to one marks one whole.${m.counted?.length ? ' ' + m.counted.map((index, ordinal) => `Space ${index + 1} from the left has a bold stroke and count marker ${ordinal + 1}.`).join(' ') : ''}`;
   const count = (m.wholes ?? 1) * m.parts;
-  const structure = m.kind === 'set' ? 'One whole collection of objects' : `${(m.wholes ?? 1) === 1 ? 'One whole' : `${m.wholes} same-sized wholes`}: ${(m.wholes ?? 1) === 1 ? (m.kind === 'circle' ? 'a circle' : 'a bar') : (m.kind === 'circle' ? 'circles' : 'bars')}${m.kind === 'circle' ? ' divided into equal parts' : ' divided into parts'}`;
+  const structure = m.kind === 'set' ? 'One whole collection of objects' : `${(m.wholes ?? 1) === 1 ? 'One whole' : `${m.wholes} same-sized wholes`}: ${(m.wholes ?? 1) === 1 ? (m.kind === 'circle' ? 'a circle' : 'a bar') : (m.kind === 'circle' ? 'circles' : 'bars')}${m.parts === 1 ? ' that is not divided (1 part)' : m.kind === 'circle' ? ' divided into equal parts' : ' divided into parts'}`;
   return structure + (m.wholeLayout === 'grid' ? ', arranged in two columns and read left to right across each row' : '') + '. ' + Array.from({ length: count }, (_, i) => {
     const position = m.kind === 'set' ? `Object ${i + 1}` : `Whole ${Math.floor(i / m.parts) + 1}, part ${i % m.parts + 1}`;
-    const geometry = m.kind === 'bar' ? (() => { const u = m.weights?.[i % m.parts] ?? 1; return `, ${u} ${u === 1 ? 'unit' : 'units'} ${m.layout === 'rows' ? 'tall' : 'wide'}`; })() : '';
+    const geometry = m.kind === 'bar' ? (() => { const u = m.weights?.[i % m.parts] ?? 1; return `, size ${u}`; })() : '';
     const counted = m.counted?.indexOf(i) ?? -1;
     return `${position}${geometry}: ${m.selected.includes(i) ? 'shaded and dotted' : 'unshaded'}${counted >= 0 ? `, count marker ${counted + 1}` : ''}`;
   }).join('; ') + '.';

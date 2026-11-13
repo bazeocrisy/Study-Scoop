@@ -60,7 +60,7 @@ export function fractionVocabItems(pack, kind, rand = Math.random) {
     }
     const meaning = round === 0;
     const definitionCue = w.def.replace(new RegExp(w.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '___');
-    const prompt = meaning ? `What does "${w.word}" mean?` : round === 1 ? (definitionCue.includes('___') ? `Which term completes this definition? ${definitionCue}` : `Which term means: ${w.def.replace(/\.$/, '')}?`) : `Which term completes this statement? ${context}`;
+    const prompt = meaning ? `What does "${w.word}" mean?` : round === 1 ? (definitionCue.includes('___') ? `Which term completes this definition? ${definitionCue}` : `Which term means "${w.def.charAt(0).toLowerCase()}${w.def.slice(1).replace(/\.$/, '')}"?`) : `Which term completes this statement? ${context}`;
     const others = shuffled(words.filter((v) => v !== w), rand).slice(0, 3);
     const options = shuffled([{ text: meaning ? w.def : w.word, correct: true }, ...others.map((v) => ({ text: meaning ? v.def : v.word, why: `${v.word}: ${v.def}` }))], rand);
     return vocabularyTeaching({ ...base, type: 'choice', prompt, options, yes: `${w.word}: ${w.def}` }, w, words);

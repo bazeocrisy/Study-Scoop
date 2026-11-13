@@ -85,4 +85,13 @@ test('saved progress: one key per lesson, validated on load, hostile data cleane
   for (const raw of ['', 'not json', '{"v":2}', 'null']) { m.set(lessonKey(L.id), raw); assert.equal(loadLessonProgress(L, stageItems, storage), null, raw); }
   assert.equal(loadLessonProgress(L, stageItems, { getItem() { throw new Error('blocked'); } }), null);
   assert.equal(saveLessonProgress(L, {}, null, { setItem() { throw new Error('full'); } }), false);
+  // "Look at the example again" survives a save and reload, and the report ranks it below help, above retry.
+  m.clear();
+  saveLessonProgress(L, { [A.id]: { i: 0, seen: {}, steps: {}, items: { [it.id]: { status: 'correct', tries: 3, first: 'notyet', relearn: true } } } }, null, storage);
+  const again = loadLessonProgress(L, stageItems, storage);
+  assert.equal(again.stages[A.id].items[it.id].relearn, true, 'relearn is kept');
+  assert.equal(youDoOutcome(again.stages[A.id].items[it.id]), 'relearn');
+  const yd = A.cards.filter((c) => c.phase === 'youdo').map((c) => cardItem(c).id);
+  const r2 = skillReadiness(L, (id) => (id === A.id ? { items: Object.fromEntries(yd.map((x, k) => [x, k === 0 ? { status: 'correct', tries: 3, first: 'notyet', relearn: true } : { status: 'correct', tries: 2, first: 'notyet' }])) } : null), null);
+  assert.equal(r2.skills[0].worst, 'relearn'); assert.equal(r2.skills[0].solid, false, 'watching the example again is not "on own"');
 });

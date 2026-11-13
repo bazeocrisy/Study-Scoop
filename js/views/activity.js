@@ -219,7 +219,7 @@ export function activityInner(ctx) {
 
 function emptyRun(ctx, run) {
   if (run.unavailable) {
-    return html`${stageTitle('Not available for this week')}<div class="card"><p>There are no Study Scoop practice questions for this activity this week. Choose another activity.</p></div>${endNav(ctx, run, { again: '' })}`;
+    return html`${stageTitle('Not available right now')}<div class="card"><p>There are no practice questions to show here right now. Choose another activity, or try again later.</p></div>${endNav(ctx, run, { again: '' })}`;
   }
   return html`
     ${stageTitle('Nothing to practice yet')}
@@ -235,7 +235,7 @@ function fractionHistory(run, item = null) {
   const rows = (item ? [item] : run.items).map((it) => run.history[it.id.replace(/^test-/, '')]).filter(Boolean);
   const helped = rows.filter((x) => x.help > 0).length, revealed = rows.filter((x) => x.revealed).length;
   if (!helped && !revealed) return '';
-  return html`<aside class="notice fraction-history" aria-label="Help history"><p><strong>For grown-ups, this visit:</strong> ${helped} ${helped === 1 ? 'question' : 'questions'} used Help, and ${revealed} ${revealed === 1 ? 'answer was' : 'answers were'} shown (by Help or on the test results). The score above is for this round only. Closing or refreshing the tab clears this note.</p></aside>`;
+  return html`<aside class="notice fraction-history" aria-label="Help history"><p><strong>For grown-ups, this visit:</strong> ${helped} ${helped === 1 ? 'question' : 'questions'} used Help, and ${revealed} ${revealed === 1 ? 'answer was' : 'answers were'} shown (by Help or on the test results). Your score is for this round only. Closing or refreshing the tab clears this note.</p></aside>`;
 }
 
 function practiceQuestion(ctx, run) {

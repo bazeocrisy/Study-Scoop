@@ -84,8 +84,8 @@ export function skillReport(ctx, lesson, stateOf, history) {
   const verdict = {
     unfinished: ['In progress.', 'The report is complete after the Final Check.'],
     ready: ['Ready for the workbook.', 'Every skill was done on screen and the Final Check was passed. Next, ask your child to do the school workbook page without help.'],
-    review: ['Almost ready.', r.practise.length ? 'Practice the skills listed below, then try the workbook page.' : 'Go over the Final Check questions missed (listed below), then try the workbook page.'],
-    notyet: ['Not ready yet.', r.practise.length ? 'Go back through the parts listed below with your child before the workbook page.' : 'Go over the Final Check questions missed (listed below) with your child before the workbook page.'],
+    review: ['Almost ready.', r.practise.length ? 'Practice the skills listed below, then try the workbook page.' : 'Go over the missed Final Check questions below, then try the workbook page.'],
+    notyet: ['Not ready yet.', r.practise.length ? 'Go back through the parts listed below with your child before the workbook page.' : 'Go over the missed Final Check questions below with your child before the workbook page.'],
   }[r.level];
   const missed = (r.test?.missed || []).map((id) => lesson.test.items.find((x) => x.id === id)).filter(Boolean);
   const say = sectionsOf(lesson).flatMap((s) => s.cards.filter((c) => c.phase === 'say').map((c) => ({ s, it: cardItem(c) }))).map(({ s, it }) => ({ it, st: stateOf(s.id)?.items?.[it.id] }));
