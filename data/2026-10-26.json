@@ -265,7 +265,7 @@
         "def": "Strange or unusual",
         "sentence": "The peculiar bird had bright purple feathers.",
         "fill": "The oddly shaped cloud looked ___.",
-        "alsoFits": ["Melancholy", "Irritating"]
+        "alsoFits": ["Melancholy", "Irritating", "Fortunate", "Ignorant"]
       },
       {
         "word": "Employee",

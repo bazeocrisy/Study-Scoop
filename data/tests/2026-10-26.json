@@ -283,7 +283,7 @@
       {
         "id": "c12",
         "type": "choice",
-        "prompt": "Which equation finds the area of a rectangle 8 meters long and 7 meters wide?",
+        "prompt": "Which expression finds the area of a rectangle 8 meters long and 7 meters wide?",
         "options": [
           {
             "text": "8 + 7 + 8 + 7",
@@ -1002,8 +1002,8 @@
             "correct": true
           },
           {
-            "text": "To prevent something from continuing as usual",
-            "why": "That is the definition of Distracted."
+            "text": "Fresh fruits and vegetables",
+            "why": "That is the definition of Produce."
           },
           {
             "text": "The ability to keep promises",
@@ -1094,8 +1094,8 @@
         "prompt": "Read the sentence: \"I was distracted from my reading when a dog barked outside.\" What does \"distracted\" mean?",
         "options": [
           {
-            "text": "To anger or bother",
-            "why": "That is the definition of Irritating."
+            "text": "Someone who works for money",
+            "why": "That is the definition of Employee."
           },
           {
             "text": "The ability to keep promises",

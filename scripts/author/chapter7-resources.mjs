@@ -45,7 +45,7 @@ add(frac('p301','l73','Write the fraction at the practice point.',line(2,1)));
 add(frac('p302','l73','Write the fraction shown by this practice point.',line(6,5)));
 add(number('p303','l73','How many equal intervals are there from 0 to 1?',4,'There are 4 spaces between consecutive marks from 0 to 1. Count spaces, not marks.',line(4,3)));
 add(frac('p304','l73','A practice marker starts at 0 and moves to the point. Write its position.',line(8,3)));
-add(choice('p305','l73','There are five tick marks including 0 and 1, equally spaced. Which denominator describes the intervals?','4',[['5','Five marks enclose four intervals.'],['3','Count each space from zero to one. There are four.']],'Five boundary marks make four equal intervals. The denominator is 4.'));
+add(choice('p305','l73','There are five tick marks including 0 and 1, equally spaced. Which denominator describes the intervals?','4',[['5','That counts the marks. Count the spaces between the marks instead.'],['3','Count each space from zero to one, not the marks.']],'Five boundary marks make four equal intervals. The denominator is 4.'));
 add(frac('p306','l73','Write the fraction at this practice marker, using the intervals shown.',line(3,2)));
 add(frac('p401','l74','All parts of this practice strip are selected. Write the fraction using the partition shown.',bar(6,6)));
 add(frac('p402','l74','All parts of this practice circle are selected. Write the fraction using the partition shown.',circle(3,3)));
@@ -99,7 +99,7 @@ t(number('x303','l73','Each whole unit has six equal spaces. How many equal spac
 t(choice('x304','l73','A robot trail has nine equally spaced marks including 0 and 1. How many equal intervals lie between 0 and 1?','8',[['9','Nine marks enclose eight spaces.'],['10','Count spaces between neighboring marks.']],'There are eight intervals between nine boundary marks.'));
 t(choice('x401','l74','Both number lines use the same whole distance from 0 to 1. Why do both marked points name one whole?', 'Each point includes every interval from 0 to 1.', [['The line with more intervals names a greater amount.','More smaller intervals still fill the same whole distance from 0 to 1.'],['The line with fewer intervals cannot reach one whole.','Two halves fill the entire distance from 0 to 1.']], 'The first point is 2/2 and the second is 8/8. Both include all the intervals in one whole and end at 1.',line(2,2)));
 t(number('x402','l74','Five sixths of this circular collage are highlighted. How many more sixth-size pieces would complete ONE whole?',1,'Six sixth-size pieces fill one whole. Five are highlighted, so one more sixth is needed.',circle(6,5)));
-t(choice('x403','l74','Which fraction can name one complete lantern panel?','6/6',[['5/6','One sixth is missing.'],['1/6','Only one sixth is named.']],'All six sixths make exactly one whole.'));
+t(choice('x403','l74','A lantern panel is cut into 6 equal parts. Which fraction names one complete panel?','6/6',[['5/6','One sixth is missing.'],['1/6','Only one sixth is named.']],'All six sixths make exactly one whole.'));
 t(number('x404','l74','All three equal pieces of a collage are used. How many complete collages do those three thirds make?',1,'All 3 of the 3 equal pieces fill the original one collage.'));
 t(frac('x501','l75','Each stage block is one whole. Write the selected whole blocks as a fraction with denominator 1.',bar(1,5,5)));
 t(frac('x502','l75','Each interval is one whole platform-length. Write the marked position as a fraction with denominator 1.',line(1,2,3)));

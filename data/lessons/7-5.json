@@ -1315,7 +1315,7 @@
           },
           "wrong": [
             {
-              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
+              "text": "The bottom number can't be 0. Look at one whole and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -2227,7 +2227,7 @@
           },
           "wrong": [
             {
-              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
+              "text": "The bottom number can't be 0. Look at one whole and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "circle",
@@ -2513,7 +2513,7 @@
           },
           "wrong": [
             {
-              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
+              "text": "The bottom number can't be 0. Look at one whole and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -2769,7 +2769,7 @@
           },
           "wrong": [
             {
-              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
+              "text": "The bottom number can't be 0. Look at one whole and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4424,7 +4424,7 @@
           },
           "wrong": [
             {
-              "text": "Count every whole jump from 0. 4/1 has 4 of them.",
+              "text": "Too few. Count every whole jump from 0 to the point. Each jump is 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -4441,7 +4441,7 @@
               "when": "tooLow"
             },
             {
-              "text": "4/1 has only 4 wholes. Count the whole jumps from 0 to the point.",
+              "text": "Too many. Count only the whole jumps from 0 to the point.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6691,7 +6691,7 @@
           },
           "wrong": [
             {
-              "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
+              "text": "The bottom number can't be 0. Look at one whole and count its parts.",
               "model": {
                 "type": "fraction",
                 "kind": "bar",
@@ -6824,7 +6824,7 @@
           },
           "wrong": [
             {
-              "text": "Count every whole jump from 0. 5/1 has 5 of them.",
+              "text": "Too few. Count every whole jump from 0 to the point. Each jump is 1 whole.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -6842,7 +6842,7 @@
               "when": "tooLow"
             },
             {
-              "text": "5/1 has only 5 wholes. Count the whole jumps from 0 to the point.",
+              "text": "Too many. Count only the whole jumps from 0 to the point.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -7954,7 +7954,7 @@
                 },
                 "wrong": [
                   {
-                    "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
+                    "text": "The bottom number can't be 0. Look at one whole and count its parts.",
                     "model": {
                       "type": "fraction",
                       "kind": "bar",
@@ -8235,7 +8235,7 @@
                 },
                 "wrong": [
                   {
-                    "text": "The bottom number can't be 0. This whole is not cut, so it is 1 part.",
+                    "text": "The bottom number can't be 0. Look at one whole and count its parts.",
                     "model": {
                       "type": "fraction",
                       "kind": "circle",
@@ -11520,7 +11520,7 @@
                 },
                 "wrong": [
                   {
-                    "text": "Count every whole jump from 0. 3/1 has 3 of them.",
+                    "text": "Too few. Count every whole jump from 0 to the point. Each jump is 1 whole.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
@@ -11536,7 +11536,7 @@
                     "when": "tooLow"
                   },
                   {
-                    "text": "3/1 has only 3 wholes. Count the whole jumps from 0 to the point.",
+                    "text": "Too many. Count only the whole jumps from 0 to the point.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
@@ -11660,7 +11660,7 @@
                 },
                 "wrong": [
                   {
-                    "text": "Count every whole jump from 0. 4/1 has 4 of them.",
+                    "text": "Too few. Count every whole jump from 0 to the point. Each jump is 1 whole.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",
@@ -11677,7 +11677,7 @@
                     "when": "tooLow"
                   },
                   {
-                    "text": "4/1 has only 4 wholes. Count the whole jumps from 0 to the point.",
+                    "text": "Too many. Count only the whole jumps from 0 to the point.",
                     "model": {
                       "type": "fraction",
                       "kind": "line",

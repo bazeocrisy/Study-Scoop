@@ -22,7 +22,7 @@ function cleanItem(st) {
   if (STATUS.includes(st.status)) out.status = st.status;
   if (FIRST.includes(st.first)) out.first = st.first;
   for (const k of ['tries', 'help', 'revision', 'comparedRevision', 'reviewedRevision', 'writingHelp']) if (isInt(st[k], 0, 10000)) out[k] = st[k];
-  for (const k of ['shown', 'scaffoldAssisted', 'reviewOpened', 'feedbackRevealed']) if (typeof st[k] === 'boolean') out[k] = st[k];
+  for (const k of ['shown', 'scaffoldAssisted', 'reviewOpened', 'feedbackRevealed', 'relearn']) if (typeof st[k] === 'boolean') out[k] = st[k];
   if (Array.isArray(st.counted)) out.counted = [...new Set(st.counted.filter((n) => isInt(n, 0, 200)))];
   if (st.reviewChecks && typeof st.reviewChecks === 'object') out.reviewChecks = Object.fromEntries(Object.entries(st.reviewChecks).filter(([k, v]) => /^\w{1,20}$/.test(k) && typeof v === 'boolean'));
   const last = str(st.lastChecked, 2000); if (last !== undefined) out.lastChecked = last;

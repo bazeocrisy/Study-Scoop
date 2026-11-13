@@ -427,7 +427,7 @@
       {
         "id": "g4",
         "type": "choice",
-        "prompt": "Which equation matches this array?",
+        "prompt": "Which expression matches this array?",
         "options": [
           {
             "text": "5 + 4",
@@ -561,7 +561,7 @@
       {
         "id": "t2",
         "type": "choice",
-        "prompt": "Which equation matches this array?",
+        "prompt": "Which expression matches this array?",
         "options": [
           {
             "text": "3 + 8",
@@ -1186,7 +1186,7 @@
       {
         "id": "x2",
         "type": "choice",
-        "prompt": "Which equation matches this array?",
+        "prompt": "Which expression matches this array?",
         "options": [
           {
             "text": "4 + 9",

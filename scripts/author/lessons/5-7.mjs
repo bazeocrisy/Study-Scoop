@@ -141,7 +141,7 @@ export default {
         hints: ['The top part is 5 rows of 6. The bottom part is 4 rows of 6.'],
         yes: 'Yes! 30 + 24 = 54 singers.',
       }),
-      choice('g4', 'Which equation matches this array?', [
+      choice('g4', 'Which expression matches this array?', [
         ['5 + 4', 'This is an array of equal rows, so multiply.'],
         ['5 × 4', true],
         ['4 × 4', 'Count the rows again. There are 5 rows of 4.'],
@@ -174,7 +174,7 @@ export default {
         mistakes: [{ when: { answer: 11 }, say: '5 + 6 is 11. There are 5 equal rows of 6, so multiply.' }, { when: { answer: 5 }, say: '5 is the number of rows. Each row has 6 stickers.' }],
         show: ['There are 5 rows with 6 stickers in each row.', '5 × 6 = 30 stickers.'], yes: 'Yes! 30 stickers.',
       }),
-      choice('t2', 'Which equation matches this array?', [
+      choice('t2', 'Which expression matches this array?', [
         ['3 + 8', 'This is an array of equal rows, so multiply.'],
         ['8 × 8', 'Count the rows again. There are 3 rows.'],
         ['3 × 8', true],
@@ -289,7 +289,7 @@ export default {
     pass: 7,
     items: [
       forTest(story('x1', 'There are 5 rows of trees. Each row has 7 trees. How many trees are there?', 5, 7, { show: ['5 rows of 7 is 5 × 7.', '5 × 7 = 35 trees.'] })),
-      forTest(choice('x2', 'Which equation matches this array?', [
+      forTest(choice('x2', 'Which expression matches this array?', [
         ['4 + 9', 'This is an array of equal rows, so multiply.'],
         ['4 × 9', true],
         ['9 × 9', 'There are 4 rows, not 9.'],

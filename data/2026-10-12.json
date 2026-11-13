@@ -250,7 +250,7 @@
         "sentence": "The peculiar cat liked to sleep in the bathtub instead of its bed.",
         "fill": "A dog with purple spots would look very ___, because most dogs do not look like that.",
         "group": "green",
-        "alsoFits": ["Melancholy", "Irritating"]
+        "alsoFits": ["Melancholy", "Irritating", "Fortunate", "Ignorant"]
       },
       {
         "word": "Employee",

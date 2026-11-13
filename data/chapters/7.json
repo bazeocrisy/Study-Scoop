@@ -3741,11 +3741,11 @@
         "options": [
           {
             "text": "5",
-            "why": "Five marks enclose four intervals."
+            "why": "That counts the marks. Count the spaces between the marks instead."
           },
           {
             "text": "3",
-            "why": "Count each space from zero to one. There are four."
+            "why": "Count each space from zero to one, not the marks."
           },
           {
             "text": "4",
@@ -3815,7 +3815,7 @@
             {
               "option": "5",
               "revealsAnswer": true,
-              "text": "Five marks enclose four intervals.",
+              "text": "That counts the marks. Count the spaces between the marks instead.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -3827,7 +3827,7 @@
             {
               "option": "3",
               "revealsAnswer": true,
-              "text": "Count each space from zero to one. There are four.",
+              "text": "Count each space from zero to one, not the marks.",
               "model": {
                 "type": "fraction",
                 "kind": "line",
@@ -10306,7 +10306,7 @@
         "id": "x403",
         "skill": "l74",
         "type": "choice",
-        "prompt": "Which fraction can name one complete lantern panel?",
+        "prompt": "A lantern panel is cut into 6 equal parts. Which fraction names one complete panel?",
         "options": [
           {
             "text": "1/6",

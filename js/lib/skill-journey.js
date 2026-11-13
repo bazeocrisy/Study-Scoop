@@ -56,9 +56,11 @@ export function youDoOutcome(st) {
   if (st.shown) return 'answer';
   if (st.status !== 'correct') return 'not-yet';
   if (st.scaffoldAssisted || st.help > 0 || st.feedbackRevealed) return 'help';
+  // Went back to the worked example after two misses (as "After watching the example again" in Lesson 7-1).
+  if (st.relearn) return 'relearn';
   return st.first === 'correct' ? 'independent' : 'retry';
 }
-export const OUTCOME_TEXT = { independent: 'On own, first try', retry: 'On own, after another try', help: 'After help steps', answer: 'After seeing the answer', 'not-yet': 'Not finished', 'not-tried': 'Not started' };
+export const OUTCOME_TEXT = { independent: 'On own, first try', retry: 'On own, after another try', help: 'After help steps', relearn: 'After watching the example again', answer: 'After seeing the answer', 'not-yet': 'Not finished', 'not-tried': 'Not started' };
 
 /** The readiness report: each skill's You Do results and the first Final Check (later retakes are practice). */
 export function skillReadiness(lesson, stateOf, history) {
@@ -66,7 +68,7 @@ export function skillReadiness(lesson, stateOf, history) {
     const st = stateOf(s.id);
     const results = s.cards.filter((c) => c.phase === 'youdo').map((c) => youDoOutcome(st?.items?.[cardItem(c).id]));
     const solid = results.length > 0 && results.every((r) => r === 'independent' || r === 'retry');
-    const worst = ['not-tried', 'not-yet', 'answer', 'help', 'retry', 'independent'].find((r) => results.includes(r)) || 'not-tried';
+    const worst = ['not-tried', 'not-yet', 'answer', 'help', 'relearn', 'retry', 'independent'].find((r) => results.includes(r)) || 'not-tried';
     return { section: s, letter: letter(i), results, solid, worst };
   });
   const t = history?.firstTest || null;
