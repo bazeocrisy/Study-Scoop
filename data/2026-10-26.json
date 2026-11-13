@@ -265,7 +265,7 @@
         "def": "Strange or unusual",
         "sentence": "The peculiar bird had bright purple feathers.",
         "fill": "The oddly shaped cloud looked ___.",
-        "alsoFits": ["Melancholy", "Irritating"]
+        "alsoFits": ["Melancholy", "Irritating", "Fortunate", "Ignorant"]
       },
       {
         "word": "Employee",
@@ -294,7 +294,7 @@
       },
       {
         "word": "Trustworthy",
-        "def": "The ability to keep promises",
+        "def": "The ability to keep promises", "kid": "Someone you can trust, because they keep their promises.",
         "group": "green",
         "sentence": "My trustworthy friend returned the book she borrowed.",
         "fill": "He always keeps his promises, so I know he is ___.",
@@ -309,7 +309,7 @@
       },
       {
         "word": "Irritating",
-        "def": "To anger or bother",
+        "def": "To anger or bother", "kid": "Something annoying that keeps bothering you.",
         "group": "green",
         "sentence": "The irritating buzzing noise made it hard to concentrate.",
         "fill": "The constant tapping was ___ while I was reading.",
@@ -318,7 +318,7 @@
       },
       {
         "word": "Distracted",
-        "def": "To prevent something from continuing as usual",
+        "def": "To prevent something from continuing as usual", "kid": "Your attention gets pulled away from what you are doing.",
         "group": "green",
         "sentence": "I was distracted by the loud noise during class.",
         "fill": "The sudden bell ___ me from finishing my sentence.",

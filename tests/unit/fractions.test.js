@@ -35,7 +35,7 @@ test('authored equations use exact rational arithmetic and reject invalid denomi
 test('figures keep full improper fraction, whole circle and accessible observations without computed answers',()=>{
  const m=model(4,[0,1,2,3,4],2),html=modelFigure(m).s;assert.equal((html.match(/fill="#583084"/g)||[]).length,5);assert.ok(!html.includes('5/4'));
  const c=modelFigure({type:'fraction',kind:'circle',parts:1,wholes:1,selected:[0]}).s;assert.ok(c.includes('<circle'));assert.ok(!c.includes('NaN'));
- const line=modelFigure({type:'fraction',kind:'line',parts:4,max:3,point:9}).s;assert.ok(!line.includes('9/4'));assert.ok(line.includes('tick 9'));
+ const line=modelFigure({type:'fraction',kind:'line',parts:4,max:3,point:9}).s;assert.ok(!line.includes('9/4'));/* forensic audit 2026-11-13: ticks are listed one by one (the child counts), never 'tick 9' or 'Each unit has 4' */assert.ok(!/tick 9|Each unit has|9 intervals/.test(line));assert.equal((line.match(/\btick(?! marks)/g)||[]).length,13);assert.ok(line.includes('tick with the point'));assert.ok(['tick labeled 0','tick labeled 1','tick labeled 2','tick labeled 3'].every((t)=>line.includes(t)));
 });
 
 test('partition assessment descriptions provide width observations without the equality judgment',()=>{
@@ -43,8 +43,8 @@ test('partition assessment descriptions provide width observations without the e
   const html=modelFigure({...model(2,[]),weights}).s;
   const label=/aria-label="([^"]+)"/.exec(html)[1];
   assert.ok(!/\bequal|unequal/i.test(label));
-  assert.ok(label.includes('width 1 relative units'));
-  assert.ok(label.includes(`width ${weights[1]} relative units`));
+  assert.ok(label.includes('size 1'));
+  assert.ok(label.includes(`size ${weights[1]}`));
  }
 });
 

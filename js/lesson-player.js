@@ -451,6 +451,8 @@ export function mountLesson(app, ctx, signal) {
     if (act === 'next' || act === 'back' || act === 'goto') {
       saveForm(form);
       const to = act === 'goto' ? Number(btn.dataset.to) : state.i + (act === 'next' ? 1 : -1);
+      // "Look at the example again" from a You Do card: the report shows it, like Lesson 7-1's relearn.
+      if (act === 'goto' && btn.dataset.relearn && section) { const it = cardItem(cards[state.i]); if (it) { state.items[it.id] = { ...(state.items[it.id] || {}), relearn: true }; } }
       // Skill sections: forward only from a finished card (no skipping the teaching); going back is always fine.
       if (section && to > state.i && !cardDone(cards[state.i], state.i, state)) return;
       state.i = Math.max(0, Math.min(stage === 'try' ? cards.length : cards.length - 1, to));

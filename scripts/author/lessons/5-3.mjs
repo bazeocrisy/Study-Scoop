@@ -276,7 +276,7 @@ export default {
       forTest(choice('x8', 'Which fact can you double to find 4 × 10?', [
         ['1 × 10', 'Double 1 × 10 is only 2 × 10.'],
         ['2 × 10', true],
-        ['2 × 5', 'Double 2 × 5 is 2 × 10, not 4 × 10.'],
+        ['2 × 5', 'Double 2 × 5 is 4 × 5, not 4 × 10.'],
         ['4 × 2', 'Double 4 × 2 is 4 × 4.'],
       ], { show: ['4 × 10 = 2 × 10 + 2 × 10.', '20 + 20 = 40.'] })),
     ],

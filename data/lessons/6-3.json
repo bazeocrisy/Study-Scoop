@@ -405,7 +405,7 @@
    {
     "id": "g3",
     "type": "choice",
-    "prompt": "Which equation matches this rectangle?",
+    "prompt": "Which expression matches this rectangle?",
     "options": [
      {
       "text": "6 + 4",
@@ -808,7 +808,7 @@
    {
     "id": "t9",
     "type": "choice",
-    "prompt": "Which equation finds the area of this rectangle?",
+    "prompt": "Which expression finds the area of this rectangle?",
     "options": [
      {
       "text": "3 × 3",
@@ -1204,7 +1204,7 @@
    {
     "id": "x4",
     "type": "choice",
-    "prompt": "Which equation finds the area of this rectangle?",
+    "prompt": "Which expression finds the area of this rectangle?",
     "options": [
      {
       "text": "7 × 2",

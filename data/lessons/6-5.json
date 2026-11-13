@@ -1201,7 +1201,7 @@
    {
     "id": "t10",
     "type": "choice",
-    "prompt": "Which equation can find the area of a rectangle 15 cm long and 5 cm wide?",
+    "prompt": "Which expression can find the area of a rectangle 15 cm long and 5 cm wide?",
     "options": [
      {
       "text": "5 × 1 + 5 × 5",
@@ -1241,7 +1241,7 @@
     "areaOptions": true,
     "id": "t11",
     "type": "multi",
-    "prompt": "Which equations find the area of the picture?",
+    "prompt": "Which expressions find the area of the picture?",
     "options": [
      {
       "text": "4 × 9",
@@ -1815,7 +1815,7 @@
     "areaOptions": true,
     "id": "x7",
     "type": "multi",
-    "prompt": "Which equations find the area of the picture?",
+    "prompt": "Which expressions find the area of the picture?",
     "options": [
      {
       "text": "3 × 9",

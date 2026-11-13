@@ -272,7 +272,7 @@
       },
       {
         "word": "Trustworthy",
-        "def": "The ability to keep promises",
+        "def": "The ability to keep promises", "kid": "Someone you can trust, because they keep their promises.",
         "sentence": "My trustworthy teammate kept his promise to return the ball.",
         "fill": "Because she always keeps her promises, she is ___.",
         "note": "The teacher's definition describes the ability. In everyday words, a trustworthy person is someone you can trust, because they keep their promises."
@@ -285,7 +285,7 @@
       },
       {
         "word": "Irritating",
-        "def": "To anger or bother",
+        "def": "To anger or bother", "kid": "Something annoying that keeps bothering you.",
         "sentence": "The irritating tapping made it hard to enjoy the story.",
         "fill": "The repeated squeak was ___ because it kept bothering us.",
         "note": "The teacher's definition describes what it does. In everyday words, irritating means annoying: something that keeps bothering you.",
@@ -293,7 +293,7 @@
       },
       {
         "word": "Distracted",
-        "def": "To prevent something from continuing as usual",
+        "def": "To prevent something from continuing as usual", "kid": "Your attention gets pulled away from what you are doing.",
         "sentence": "I was distracted by a butterfly while I was reading.",
         "fill": "My attention moved away from my book, so I became ___.",
         "note": "The printed definition appears mismatched. In ordinary use, distracted means having your attention pulled away. Confirm the class-sheet definition with the teacher."

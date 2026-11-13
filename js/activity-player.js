@@ -491,7 +491,7 @@ export function mountActivity(app, ctx, signal) {
       f.flipped = !f.flipped;
       const w = cardWord();
       const rule = run.act === 'avflash' ? '' : ctx.week.spelling.rules?.[w.rule];
-      const backSays = run.act === 'fvflash' ? `Back of the card: ${w.word}. ${w.def}. ${w.example}` : run.act === 'avflash' ? `Back of the card: ${w.word}. ${w.example}` : `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}`;
+      const backSays = run.act === 'fvflash' ? `Back of the card: ${w.word}. ${w.def}${/[.!?]$/.test(w.def) ? '' : '.'} ${w.example}` : run.act === 'avflash' ? `Back of the card: ${w.word}. ${w.example}` : `Back of the card: ${w.word}. ${rule ? `${rule}. ` : ''}${w.sentence}`;
       if (!btn.classList.contains('flashcard')) announce(f.flipped ? backSays : 'Front of the card.');
       // Keep focus where it was: on the card itself, or on the Flip Card button.
       rerender(btn.classList.contains('flashcard') ? '.flashcard' : '.flip-btn');
@@ -501,7 +501,7 @@ export function mountActivity(app, ctx, signal) {
     if (act === 'card-next' || act === 'card-prev') {
       f.i = Math.max(0, Math.min(words.length - 1, f.i + (act === 'card-next' ? 1 : -1)));
       f.flipped = false;
-      announce(`${run.act === 'wreview' || run.act === 'avreview' ? 'Word' : run.act === 'avflash' ? 'Card' : run.subject === 'math' ? 'Property' : 'Card'} ${f.i + 1} of ${words.length}${run.act === 'avflash' ? '' : cardName()}.`);
+      announce(`${run.act === 'wreview' || run.act === 'avreview' ? 'Word' : run.act === 'avflash' ? 'Card' : run.act === 'fvflash' ? 'Word' : run.subject === 'math' ? 'Property' : 'Card'} ${f.i + 1} of ${words.length}${run.act === 'avflash' ? '' : cardName()}.`);
       return rerender(`[data-act="${act}"]:not([disabled]), .stage-nav a.btn-primary, [data-act="card-prev"]:not([disabled]), [data-act="card-next"]:not([disabled]), #stage-h`);
     }
     if (act === 'shuffle') {

@@ -1376,7 +1376,7 @@
           },
           {
             "text": "2 × 5",
-            "why": "Double 2 × 5 is 2 × 10, not 4 × 10."
+            "why": "Double 2 × 5 is 4 × 5, not 4 × 10."
           },
           {
             "text": "4 × 2",

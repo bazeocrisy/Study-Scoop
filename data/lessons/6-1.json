@@ -1133,7 +1133,7 @@
      "Count the squares in each row."
     ],
     "show": [
-     "The rows have 3, 1 and 1 squares.",
+     "The top row has 3 squares. The next two rows have 1 square each.",
      "3 + 1 + 1 = 5.",
      "The area is 5 square units."
     ],

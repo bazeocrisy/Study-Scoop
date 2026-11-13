@@ -46,6 +46,10 @@ const SOURCES = ['index.html', 'css', 'js', 'data', 'images', 'fonts', 'download
 export const REQUIRED = ['index.html', 'css/style.css', 'js/app.js', 'data/weeks.json', 'images/cone.svg'];
 /** Source kept for its audited tests but no longer used by any page (Lesson 7-1 journey replaced the Partition Lab). */
 export const RETIRED = ['js/lib/partition-reasoning.js'];
+/** Word pictures kept in the repository but not published (forensic audit 2026-11-13): the 2026-11-09 spelling
+ *  illustration replaces the first five, and fortunate.webp did not show the meaning clearly (the clover drawing,
+ *  images/words/fortunate.svg, is shown instead). Each is also left out of data/pictures.json "photos". */
+export const WITHHELD = ['extract', 'formed', 'fortunate', 'inform', 'misinform', 'uninformed'].map((w) => `images/words/${w}.webp`);
 /** Named so a check proves they are absent (the allowlist already excludes them). */
 export const FORBIDDEN = [
   'reference', 'reference/vocabulary-prototype.html', 'reference/spelling-test-prototype.html',
@@ -95,6 +99,7 @@ export function buildSite(out, src = REPO) {
     let why = null;
     if (!isAllowed(rel)) why = 'not on the allowlist';
     else if (RETIRED.includes(rel)) why = 'retired: kept in the repository for its tests, not used by the site';
+    else if (WITHHELD.includes(rel)) why = 'withheld: kept in the repository, not used by the site';
     else if (rel.startsWith('labs/') && !labs.has(rel)) why = 'not named by a published week';
     else if (/^data\/\d/.test(rel) && !listed.has(rel)) why = 'not listed in data/weeks.json';
     else if (/^data\/lessons\/(?!index\.json$)/.test(rel) && !lessons.has(rel)) why = 'not listed in data/lessons/index.json';
@@ -124,6 +129,7 @@ export function verifySite(dir) {
 
   for (const rel of files) if (!isAllowed(rel)) problems.push(`${rel} is not on the publishing allowlist`);
   for (const rel of FORBIDDEN) if (has(rel)) problems.push(`${rel} must not be published`);
+  for (const rel of WITHHELD) if (has(rel)) problems.push(`${rel} is withheld and must not be published`);
   for (const rel of REQUIRED) if (!has(rel)) problems.push(`${rel} is required but missing`);
   if (problems.length && !has('index.html')) return problems;
 

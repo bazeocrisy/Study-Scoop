@@ -473,7 +473,7 @@ export function journeySummary(ctx, state) {
     <p>On screen, lines join dots. On paper there are no dots. Before the workbook, ask your child to draw on blank shapes: a diamond, a square, a circle, an octagon and a hexagon. Watch for two things: lines that cross in the middle of the shape, and parts that look the same size. Then use the printed lesson as the final check, with no help.</p>
     <section class="j-reset" aria-labelledby="j-reset-h" data-j-reset-box>
       <h3 id="j-reset-h">Saved progress (for grown-ups)</h3>
-      <p>Lesson 7-1 progress is saved only in this browser on this device, so your child can stop and come back. It holds answers, drawings, written answers and the results above. It holds no name, and nothing is sent anywhere. Other Study Scoop pages are not saved. Erase it when another child will use this device, or to start Lesson 7-1 again.</p>
+      <p>Lesson 7-1 progress is saved only in this browser on this device, so your child can stop and come back. It holds answers, drawings, written answers and the results above. It holds no name, and nothing is sent anywhere. Lessons 7-2 to 7-7 save their own progress in this browser too (each has its own reset), and the Multiplication Mastery 8 game keeps its own scores in this browser. Other Study Scoop activities are not saved. Erase it when another child will use this device, or to start Lesson 7-1 again.</p>
       <div class="j-row" data-j-reset-ask><button type="button" class="btn" data-j-reset="ask">Reset Lesson 7-1 progress…</button></div>
       <div class="j-confirm" data-j-reset-confirm hidden>
         <p role="alert"><strong>Erase all Lesson 7-1 progress on this device?</strong> This cannot be undone.</p>

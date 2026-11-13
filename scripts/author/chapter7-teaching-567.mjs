@@ -35,7 +35,7 @@ export function wholeFraction(id,n,kind='bar',max=n){
 // Release review: from a fraction with denominator 1 back to a whole number (6/1 = 6).
 export function toWhole(id,n,onLine=false){
  const m=line(1,n,n+1),all={...m,counted:seq(n)};
- return numeric(id,onLine?`The point is at ${n}/1. Which whole number names the same point?`:`What whole number is the same as ${n}/1?`,m,n,[node('The bottom 1 says each part is one whole.',{...line(1,1,n+1),counted:[0]}),node('The top says how many wholes. Count whole jumps from 0.',{...m,counted:[0]}),final(node(`${n} whole jumps reach ${n}. So ${n}/1 is the same as ${n}.`,all))],node(`${n}/1 means ${n} wholes, so it is the same as ${n}.`,all),node(`Count every whole jump from 0. ${n}/1 has ${n} of them.`,all),node(`${n}/1 has only ${n} wholes. Count the whole jumps from 0 to the point.`,all));
+ return numeric(id,onLine?`The point is at ${n}/1. Which whole number names the same point?`:`What whole number is the same as ${n}/1?`,m,n,[node('The bottom 1 says each part is one whole.',{...line(1,1,n+1),counted:[0]}),node('The top says how many wholes. Count whole jumps from 0.',{...m,counted:[0]}),final(node(`${n} whole jumps reach ${n}. So ${n}/1 is the same as ${n}.`,all))],node(`${n}/1 means ${n} wholes, so it is the same as ${n}.`,all),node('Too few. Count every whole jump from 0 to the point. Each jump is 1 whole.',all),node('Too many. Count only the whole jumps from 0 to the point.',all));
 }
 function wholeMeaning(id,n,kind='bar'){
  const m=kind==='line'?line(1,n,n+1):shape(kind,1,n,seq(n));
