@@ -2,7 +2,9 @@
 import { fractionModelProblems } from './fractions.js';
 export function describeFraction(m) {
   if (fractionModelProblems(m).length) return 'Invalid fraction diagram.';
-  if (m.kind === 'line') return `Number line from zero to ${m.max ?? 1}. Each unit has ${m.parts} equal ${m.parts === 1 ? 'interval' : 'intervals'}. A point is on tick ${m.point}, counting from zero. Whole-number ticks are labeled. A reference bracket from zero to one marks one whole.${m.counted?.length ? ' ' + m.counted.map((index, ordinal) => `Interval from tick ${index} to tick ${index + 1} has a bold stroke and count marker ${ordinal + 1}.`).join(' ') : ''}`;
+  // Number lines are described tick by tick, as a sighted child sees them, so a screen-reader user counts the
+  // spaces too: the description never states how many spaces there are or how far the point is (forensic audit 2026-11-13).
+  if (m.kind === 'line') return `Number line from zero to ${m.max ?? 1}, with equal spaces between tick marks. Tick marks from left to right: ${Array.from({ length: m.parts * (m.max ?? 1) + 1 }, (_, i) => `${i % m.parts === 0 ? `tick labeled ${i / m.parts}` : 'tick'}${i === m.point ? ' with the point' : ''}`).join(', ')}. A reference bracket from zero to one marks one whole.${m.counted?.length ? ' ' + m.counted.map((index, ordinal) => `Interval from tick ${index} to tick ${index + 1} has a bold stroke and count marker ${ordinal + 1}.`).join(' ') : ''}`;
   const count = (m.wholes ?? 1) * m.parts;
   const structure = m.kind === 'set' ? 'One whole collection of objects' : `${m.wholes ?? 1} same-sized whole ${m.kind === 'circle' ? 'circles' : 'bars'}, divided into parts`;
   return structure + (m.wholeLayout === 'grid' ? ', arranged in two columns and read left to right across each row' : '') + '. ' + Array.from({ length: count }, (_, i) => {

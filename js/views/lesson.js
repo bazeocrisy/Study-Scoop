@@ -796,30 +796,9 @@ function keepFacts(text) {
   return String(text).split(/(\d+(?:\s*[×+=−-]\s*\d+)+)/).map((p, k) => (k % 2 ? html`<span class="term">${p}</span>` : p));
 }
 
-/** Lessons 7-2 to 7-7: a short readiness report from this visit (first Try It Yourself round and first test). */
-export function readinessReport(lesson, history, visited) {
-  const t = history?.firstTest, y = history?.firstTry;
-  const level = !t ? 'unfinished' : t.right >= t.pass ? 'ready' : t.right >= t.pass - 2 ? 'review' : 'notyet';
-  const verdict = {
-    unfinished: ['In progress.', `The report is complete after the Test. ${STAGES.filter((s) => s.id !== 'test').map((s) => `${s.label}: ${visited?.has(s.id) ? 'done' : 'not finished'}`).join('; ')}.`],
-    ready: ['Ready for the workbook.', `First test: ${t?.right} of ${t?.total}. Next, ask your child to do the school workbook page without help.`],
-    review: ['Almost ready.', `First test: ${t?.right} of ${t?.total}. Practice the questions below (Practice My Misses), then try the workbook page.`],
-    notyet: ['Not ready yet.', `First test: ${t?.right} of ${t?.total}. Go back to Watch Me and Practice Together with your child before the workbook page.`],
-  }[level];
-  const missed = (t?.missed || []).map((id) => lesson.test.items.find((it) => it.id === id)).filter(Boolean);
-  return html`<section class="card readiness" aria-labelledby="ready-h">
-    <h3 id="ready-h">Readiness report (this visit)</h3>
-    <p class="verdict ${level}"><strong>${verdict[0]}</strong> ${verdict[1]}</p>
-    ${y ? html`<p>Try It Yourself (You Do), first round: <strong>${y.own} of ${y.total}</strong> right on the first try with no help${y.helped ? `; ${y.helped} more right after another try or with help` : ''}.</p>` : ''}
-    ${missed.length ? html`<p>Missed on the first test:</p><ul>${missed.map((it) => html`<li>${it.prompt}</li>`)}</ul>` : ''}
-    <p class="hint">Answers shown by Help, and retakes after the answers were shown, never count as "on own". This report covers this visit only (Lessons 7-2 to 7-7 are not saved), and on-screen results are not proof of mastery: the workbook page done without help is the real check.</p>
-  </section>`;
-}
-
 export function parentGuide(ctx, lesson) {
   return html`
     <div class="stage-title"><h2 id="${skillJourney(lesson) ? 'parent-guide-h' : 'stage-h'}" tabindex="-1">Parent Guide</h2></div>
-    ${teachFirst(lesson) && !skillJourney(lesson) ? readinessReport(lesson, ctx.lessonState?.history, ctx.lessonVisited) : ''}
     <div class="card parent-guide">
       ${lesson.parent.sections.map((s) => html`<section><h3>${s.heading}</h3>
         ${s.text ? html`<p>${keepFacts(s.text)}</p>` : ''}

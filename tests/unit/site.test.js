@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { FORBIDDEN, REPO, REQUIRED, buildSite, verifySite , RETIRED } from '../../scripts/build-site.js';
+import { FORBIDDEN, REPO, REQUIRED, buildSite, verifySite , RETIRED, WITHHELD } from '../../scripts/build-site.js';
 
 const made = [];
 const tmp = (name) => { const d = fs.mkdtempSync(path.join(os.tmpdir(), `ss-${name}-`)); made.push(d); return d; };
@@ -39,7 +39,8 @@ test('the built site passes verification', () => {
   // and the font licence note are left out.
   // Retired source kept only for its tests (Lesson 7-1 journey) is also left out.
   assert.deepEqual(skipped.sort(), [...repoFiles('images/words').filter((f) => f.endsWith('.png')), 'fonts/README.md']
-    .map((f) => `${f} (not on the allowlist)`).concat(RETIRED.map((f) => `${f} (retired: kept in the repository for its tests, not used by the site)`)).sort());
+    .map((f) => `${f} (not on the allowlist)`).concat(RETIRED.map((f) => `${f} (retired: kept in the repository for its tests, not used by the site)`))
+    .concat(WITHHELD.map((f) => `${f} (withheld: kept in the repository, not used by the site)`)).sort());
   assert.deepEqual([...copied].sort(), PUBLISHED);
 });
 
@@ -51,7 +52,7 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
     // Reading Coach (D27): the library index and every story it lists.
     'data/reading/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/reading/index.json'), 'utf8')).stories.map((r) => `data/reading/${r.id}.json`),
     'data/practice/math.json', 'data/practice/math-words.json', 'data/practice/area.json', 'data/tests/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/tests/index.json'), 'utf8')).weeks.map((id) => `data/tests/${id}.json`),
-    ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2')),
+    ...repoFiles('images/words').filter((f) => /\.(svg|webp)$/.test(f) && !WITHHELD.includes(f)), ...repoFiles('fonts').filter((f) => f.endsWith('.woff2')),
     // Homework packets (D23): Study Scoop's own version of the week's homework and its printed PDF.
     'data/homework/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/homework/index.json'), 'utf8')).weeks.flatMap((id) => { const packet = JSON.parse(fs.readFileSync(path.join(REPO, `data/homework/${id}.json`), 'utf8')); return [`data/homework/${id}.json`, ...(packet.download ? [packet.download] : [])]; }),
     // Original newsletter flyers (D26): only the pages a listed week names in its privacy-reviewed "flyer".

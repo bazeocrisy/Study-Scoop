@@ -460,8 +460,9 @@ function studyCards(ctx, run) {
     <div class="card study-one">
       ${wordPicture(ctx, w.word, `Picture showing what "${w.word}" means`)}
       <div class="study-text">
-        <div class="instruct-head"><h3 class="vocab-word">${w.word}</h3>${readButton([w.word, `${w.word} means: ${w.def}`, w.sentence], 'this card')}</div>
+        <div class="instruct-head"><h3 class="vocab-word">${w.word}</h3>${readButton([w.word, `${w.word} means: ${w.def}`, ...(w.kid ? [`In other words: ${w.kid}`] : []), w.sentence], 'this card')}</div>
         <blockquote class="teacher-words"><span class="label">Teacher's words</span><span class="def">${w.def}</span></blockquote>
+        ${w.kid ? html`<p class="kid-words"><span class="label">In other words</span>${w.kid}</p>` : ''}
         ${w.note ? html`<p class="hint">Parent note: ${w.note}</p>` : ''}
         <p class="example"><span class="tag">In a sentence</span> ${w.sentence}</p>
       </div>
