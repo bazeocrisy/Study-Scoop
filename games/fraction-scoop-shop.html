@@ -196,6 +196,24 @@ button{min-height:44px;padding:7px 16px;border-radius:14px}
 .how.mini{padding:6px 12px;box-shadow:0 3px 0 #7fd0ff;border-width:3px}
 .how.mini ol{flex-direction:row;flex-wrap:wrap;gap:4px 18px}
 .how.mini li{font-size:16px} .how.mini .ht{font-size:16px} .how.mini li .n{width:24px;height:24px;font-size:14px}
+.menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:10px}
+.menu .tile{min-height:120px;padding:14px 16px 14px 70px}
+.menu .tile .big-ico{position:absolute;left:14px;top:16px;font-size:40px}
+.menu .tile .stepn{position:absolute;left:14px;top:66px;width:40px;text-align:center;font-weight:900;font-size:14px;color:var(--fd)}
+.menu .tile .t{font-size:23px}
+.flipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:10px 0}
+.flip{position:relative;text-align:left;background:#fff;border:4px solid #c8dcf5;border-radius:20px;padding:12px 14px;min-height:230px;box-shadow:0 5px 0 #c8dcf5;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+.flip .w{font-family:"Baloo 2",sans-serif;font-size:26px;font-weight:800;color:#0b5fd6;line-height:1.1}
+.flip .star{font-size:13px;font-weight:900;background:#fff6cc;border:2px solid #ffc61a;border-radius:999px;padding:1px 8px;align-self:flex-start}
+.flip .book{font-size:13px;font-weight:900;background:#eef4fb;border:2px solid #c8dcf5;border-radius:999px;padding:1px 8px;align-self:flex-start}
+.flip .d{font-size:18px;font-weight:700}
+.flip .tap{font-size:14px;color:var(--muted);font-weight:800;margin-top:auto}
+.flip.back{background:#f2fbff;border-color:#7fd0ff;box-shadow:0 5px 0 #7fd0ff}
+.flip .pic{display:flex;align-items:center;gap:12px;min-height:90px}
+.results td,.results th{padding:6px 10px;border-bottom:2px solid #e6eef8;text-align:left;font-size:18px}
+.results{border-collapse:collapse;margin:8px 0;width:100%}
+.review{border:3px solid #ffd0d3;background:#fff8f8;border-radius:16px;padding:8px 12px;margin:8px 0;font-size:17px}
+.review .ca{font-weight:900;color:var(--good)}
 @media (max-width:520px){body{font-size:18px}.hwgrid,.vocab{grid-template-columns:1fr}h1{font-size:32px}.banner .cone{font-size:44px}}
 a.btn{border-radius:14px;font-weight:900}
 </style>
@@ -451,14 +469,14 @@ function renderQ(q,opts={}){
   if(q.type==='frac'){
     if(q.visual){vis=q.visual(); visBox.append(vis);} else visBox.remove();
     const fi=fracInput(opts.labels); ans.append(fi,checkBtn);
-    fi.inputs.forEach(i=>i.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const g=fi.get(); if(g.n!=null&&g.d!=null) check(); }}));
+    fi.inputs.forEach(i=>i.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); const g=fi.get(); if(g.n!=null&&g.d!=null) check(); }}));
     evaluate=()=>{const {n,d}=fi.get(); if(n==null||d==null) return null; const r=diagFrac(q,n,d); fi.state(r.ok?'ok':'bad'); return r;};
     lock=()=>fi.lock(); box._focus=()=>fi.inputs[0].focus();
   } else if(q.type==='num'){
     if(q.visual){vis=q.visual(); visBox.append(vis);} else visBox.remove();
     const inp=el('input',{class:'numin',inputmode:'numeric',maxlength:'2','aria-label':'answer'});
     inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,''); inp.className='numin';});
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&inp.value!=='') check();});
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){ e.preventDefault(); if(inp.value!=='') check(); }});
     ans.append(inp,checkBtn);
     evaluate=()=>{ if(inp.value==='') return null; const v=+inp.value; const ok=v===q.answer; inp.className='numin '+(ok?'ok':'bad'); return ok?{ok:true}:{msg:(q.diag&&q.diag(v))||'Not yet — try again or open a hint.'}; };
     lock=()=>{inp.disabled=true;}; box._focus=()=>inp.focus();
@@ -466,11 +484,11 @@ function renderQ(q,opts={}){
     if(q.visual){vis=q.visual(); visBox.append(vis);} else visBox.remove();
     const sel=new Set(); const mc=el('div',{class:'mc'});
     const btns=q.options.map((op,i)=>{ const b=el('button',{onclick:()=>{ if(solved) return;
-        if(q.type==='mc'){ sel.clear(); sel.add(i); btns.forEach((x,j)=>x.className=j===i?'sel':''); check(); }
+        if(q.type==='mc'){ sel.clear(); sel.add(i); btns.forEach((x,j)=>x.className=j===i?'sel':''); if(!opts.test) check(); else fb.className='fb'; }
         else { sel.has(i)?sel.delete(i):sel.add(i); b.className=sel.has(i)?'sel':''; } }});
       if(op.svg) b.append(op.svg()); if(op.html!=null) b.append(el('div',{html:op.html})); if(typeof op==='string') b.innerHTML=op;
       mc.append(b); return b; });
-    ans.append(mc); if(q.type==='multi') ans.append(checkBtn);
+    ans.append(mc); if(q.type==='multi'||opts.test) ans.append(checkBtn);
     evaluate=()=>{ if(!sel.size) return null;
       if(q.type==='mc'){ const i=[...sel][0]; if(i===q.answer){btns[i].className='right'; return {ok:true};} btns[i].className='wrong'; return {msg:(q.why&&q.why[i])||'Not that one — try again.'}; }
       const want=new Set(q.answer); const extra=[...sel].filter(i=>!want.has(i)), miss=[...want].filter(i=>!sel.has(i));
@@ -516,11 +534,15 @@ function renderQ(q,opts={}){
       if(last&&q.showMe&&vis) q.showMe(vis);
       hbtns[j].disabled=true; if(hbtns[j+1]) hbtns[j+1].disabled=false; }
     hintsShown=i+1; }
-  if(hbtns.length) box.append(hb,hintsBox);
+  if(hbtns.length&&!opts.test) box.append(hb,hintsBox);
   function check(){
     if(solved) return; const r=evaluate();
     if(r==null){ setFb('info','Answer first, then press Check.'); return; }
     attempts++;
+    if(opts.test){ solved=true; lock(); checkBtn.disabled=true;
+      box.querySelectorAll('.fin').forEach(f=>f.className='fin'); box.querySelectorAll('.numin').forEach(f=>f.className='numin');
+      box.querySelectorAll('.mc button.right,.mc button.wrong').forEach(b=>b.className='sel');
+      setFb('info','Answer saved ✓'); opts.onResult&&opts.onResult({ok:!!r.ok,firstTry:!!r.ok}); return; }
     if(r.ok){ solved=true; lock(); checkBtn.disabled=true; hbtns.forEach(b=>b.disabled=true);
       setFb('ok',pick(PRAISE)+(q.after?`<div style="font-weight:700;margin-top:4px">${q.after}</div>`:''));
       opts.onResult&&opts.onResult({firstTry:attempts===1&&hintsShown===0});
@@ -683,7 +705,7 @@ const SING={clubs:'club',diamonds:'diamond',stars:'star',moons:'moon',planes:'pl
 const ITEMS=[['clubs','♣️'],['diamonds','♦️'],['stars','⭐'],['moons','🌙'],['planes','✈️'],['doves','🕊️'],['fairies','🧚'],['hearts','❤️'],['cameras','🎥'],['bikes','🚲'],['mice','🐭'],['owls','🦉'],['apples','🍎'],['bananas','🍌'],['cars','🚗'],['balls','⚽'],['fish','🐟'],['ducks','🦆']];
 function setQ(tName,tE,a,oName,oE,b,targetFirst){ const T=range(a).map(()=>({e:tE,name:tName,t:1})), O=range(b).map(()=>({e:oE,name:oName,t:0}));
   const items=targetFirst?[...T,...O]:[...O,...T];
-  return {type:'frac',prompt:`What part of the group is <b>${tName}</b>?`,visual:()=>setView(items),answer:[a,a+b],ctx:{kind:'set',name:tName,other:b,otherName:oName},hints:HINT.set(tName),showMe:v=>v._count(it=>it.t===1),after:`${a} ${a===1?(SING[tName]||tName):tName} out of ${a+b} items → ${fr(a,a+b)}`}; }
+  return {type:'frac',prompt:`What fraction of the group are <b>${tName}</b>?`,visual:()=>setView(items),answer:[a,a+b],ctx:{kind:'set',name:tName,other:b,otherName:oName},hints:HINT.set(tName),showMe:v=>v._count(it=>it.t===1),after:`${a} ${a===1?(SING[tName]||tName):tName} out of ${a+b} items → ${fr(a,a+b)}`}; }
 Gn.setPart=()=>{const i=rnd(0,ITEMS.length/2-1)*2; const pair=shuffle([ITEMS[i],ITEMS[i+1]]); const a=rnd(1,5),b=rnd(1,5); return setQ(pair[0][0],pair[0][1],a,pair[1][0],pair[1][1],b,Math.random()<0.5);};
 Gn.setUnit=()=>{const it=pick(ITEMS),n=rnd(3,8);
   return {type:'frac',prompt:`Each one of these ${it[0]} is what unit fraction of the group?`,visual:()=>setView(range(n).map(()=>({e:it[1],name:it[0]}))),answer:[1,n],ctx:{kind:'unit'},
@@ -948,19 +970,7 @@ const flavStyle=f=>{const [c,l,d]=FLAV[f]; return `--fc:${c};--fl:${l};--fd:${d}
 /* ============ views ============ */
 const app=document.getElementById('app');
 function go(hash){ if(location.hash==='#'+hash) route(); else location.hash=hash; }
-function topbar(extra){ return el('div',{class:'topbar'},el('button',{class:'btn alt small',onclick:()=>go('home')},'🏠 Home'),el('a',{class:'btn alt small',href:'../index.html#math',style:'text-decoration:none;display:inline-flex;align-items:center'},'‹ Back to Study Scoop'),extra); }
-function home(){
-  const p=loadP();
-  const lt=LESSONS.map(L=>{const s=p.lesson&&p.lesson[L.id]; return el('button',{class:'tile'+(s?' done':''),style:flavStyle(LFLAV[L.id][0]),onclick:()=>go(L.id)},el('span',{class:'ico'},LFLAV[L.id][1]),el('span',{class:'tag'},LNAME(L)),el('span',{class:'t'},L.title),el('span',{class:'s'},L.sub),s?el('span',{class:'badge'},`🍦 Best check: ${s.score}/${s.of}`):null);});
-  const ht=HW.map(h=>{const s=p.hw&&p.hw[h.id]; return el('button',{class:'tile'+(s&&s.score===s.of?' done':''),style:flavStyle(HFLAV[h.id][0]),onclick:()=>go(h.id)},el('span',{class:'ico'},HFLAV[h.id][1]),el('span',{class:'tag'},h.pages),el('span',{class:'t'},h.title),el('span',{class:'s'},'Help: '+h.help.map(id=>'Lesson '+LBY[id].num).join(', ')),s?el('span',{class:'badge'},`🍦 Best: ${s.score}/${s.of}`):null);});
-  app.replaceChildren(
-    el('div',{class:'topbar'},el('a',{class:'btn alt small',href:'../index.html#math',style:'text-decoration:none;display:inline-flex;align-items:center'},'‹ Back to Study Scoop')),
-    banner('sky',null,'Fraction Scoop Shop','Chapter 7 • Fractions test prep','🍦'),
-    el('div',{class:'ask',html:'<b class="lbl">For grown-ups — how to use this</b>1. Do <b>Step 1</b> lessons in order. Each lesson teaches, then practice, then a short check.<br>2. Then do <b>Step 2</b>: his real homework pages. These match what’s on the test.<br>3. Wrong answers explain the exact mistake. Hints go from a small nudge to “Show me.” He still has to write the answer himself.'}),
-    el('div',{class:'card'},el('div',{class:'step-label'},'Step 1 · Learn 🍨'),el('h2',{},'Book lessons 7-1 to 7-7'),el('div',{class:'tiles'},...lt)),
-    el('div',{class:'card'},el('div',{class:'step-label'},'Step 2 · Prove it 🍒'),el('h2',{},'Fractions Homework'),P('His actual homework problems. If he gets stuck, tap “Help me” to jump back to the lesson.'),el('div',{class:'tiles'},...ht)),
-    el('div',{class:'card'},el('div',{class:'step-label'},'Practice Questions 🍨'),el('div',{class:'tiles'},(()=>{const s=p.practice&&p.practice.all; return el('button',{class:'tile',style:flavStyle('blue')+';grid-column:1/-1',onclick:()=>go('practice')},el('span',{class:'ico'},'🍨'),el('span',{class:'tag'},'All homework types in one place'),el('span',{class:'t'},'Practice Questions — 50 problems'),el('span',{class:'s'},'Number lines, greater than 1, shapes, sets, number words, vocabulary and test tricks. Hints and “Show me” on every one.'),s?el('span',{class:'badge'},`🍦 Best: ${s.score}/${s.of} first try`):null);})())));
-}
+function topbar(extra){ return el('div',{class:'topbar'},el('button',{class:'btn alt small',onclick:()=>go('home')},'🏠 Chapter 7 menu'),el('a',{class:'btn alt small',href:'../index.html#math',style:'text-decoration:none;display:inline-flex;align-items:center'},'‹ Back to Study Scoop'),extra); }
 function lessonView(L){
   const steps=[...L.teach.map((f,i)=>({label:'Learn '+(i+1),f})),{label:'Practice',practice:true}];
   if(L.check) steps.push({label:'Quick check',check:true});
@@ -975,7 +985,7 @@ function lessonView(L){
       runSet(host,()=>L.practice.map(g=>Gn[g]()),{label:'Practice',onFinish:(a,b,box)=>{ box.append(el('div',{class:'nav'},el('span'),el('button',{class:'btn',onclick:()=>{cur++;draw();}},L.check?'Go to Quick check →':'Done ✓'))); }}); }
     else { card.append(el('h2',{},'Quick check'),P('Try these on your own first. Hints are there if you need them.')); const host=el('div'); card.append(host);
       runSet(host,()=>L.check.map(g=>Gn[g]()),{label:'Quick check',check:true,onFinish:(a,b,box)=>{ record('lesson',L.id,a,b);
-        box.append(el('div',{class:'row',style:'justify-content:center;margin-top:12px'},...hwBtns.map(b=>b.cloneNode(true)).map((b,i)=>{b.onclick=()=>go(L.hw[i]); return b;}),next?el('button',{class:'btn',onclick:()=>go(next.id)},'Next: '+(next.num==='Start'||next.num==='Tricks'?'':'Lesson '+next.num+' ')+next.title+' →'):el('button',{class:'btn',onclick:()=>go('hw-vocab')},'Go to Step 2: Homework →'))); }}); }
+        box.append(el('div',{class:'row',style:'justify-content:center;margin-top:12px'},...hwBtns.map(b=>b.cloneNode(true)).map((b,i)=>{b.onclick=()=>go(L.hw[i]); return b;}),next?el('button',{class:'btn',onclick:()=>go(next.id)},'Next: '+(next.num==='Start'||next.num==='Tricks'?'':'Lesson '+next.num+' ')+next.title+' →'):el('button',{class:'btn',onclick:()=>go('homework')},'Go to Homework →'))); }}); }
     body.replaceChildren(card);
     nav.replaceChildren(cur>0?el('button',{class:'btn alt',onclick:()=>{cur--;draw();window.scrollTo(0,0);}},'← Back'):el('span'),
       cur<steps.length-1?el('button',{class:'btn',onclick:()=>{cur++;draw();window.scrollTo(0,0);}},'Next →'):(next?el('button',{class:'btn alt',onclick:()=>go(next.id)},'Next lesson →'):el('span')));
@@ -997,7 +1007,7 @@ function runSet(host,makeQs,o){
   }
   function finish(){
     const a=res.filter(r=>r&&r.firstTry).length,b=qs.length, ratio=a/b;
-    const msg=ratio>=0.8?'Triple scoop! He’s got this one. 🍒':ratio>=0.6?'Good work. Try a new set to make it solid.':'Let’s go back over the Learn pages, then try a new set.';
+    const msg=ratio>=0.8?'Triple scoop! You’ve got this one. 🍒':ratio>=0.6?'Good work. Try a new set to make it solid.':'Let’s go back over the Learn pages, then try a new set.';
     const box=el('div',{class:'summary'},el('div',{class:'stars'},ratio>=0.8?'🍦🍦🍦':ratio>=0.6?'🍦🍦':'🍦'),el('div',{class:'score'},`${a} of ${b} right on the first try, no hints`),P(msg),
       el('button',{class:'btn alt',onclick:start},'🔄 Try a new set'));
     body.replaceChildren(box); o.onFinish&&o.onFinish(a,b,box);
@@ -1028,6 +1038,111 @@ function hwView(Hp){
     el('div',{class:'hwhead'},el('div',{class:'muted',style:'font-weight:800'},'Packet directions: '+Hp.dir),score),
     grid);
   build();
+}
+
+/* ============ Chapter 7 menu pages ============ */
+const MENU=[
+ {id:'vocab',n:1,icon:'📖',flav:'blue',title:'Vocabulary',sub:'Flip cards with pictures, practice, then a vocabulary test.'},
+ {id:'lessons',n:2,icon:'🍨',flav:'mint',title:'Lessons 7-1 to 7-7',sub:'Start with “What is a whole?”, then each book lesson.'},
+ {id:'homework',n:3,icon:'📝',flav:'orange',title:'Homework',sub:'Your six homework pages, with steps and hints.'},
+ {id:'tricks',n:4,icon:'🎯',flav:'teal',title:'Test Tricks',sub:'Question styles from the book’s Unit Review.'},
+ {id:'practice',n:5,icon:'🍧',flav:'lime',title:'Practice Questions',sub:'50 mixed problems with hints and “Show me.”'},
+ {id:'test',n:6,icon:'✅',flav:'sky',title:'Chapter Test',sub:'25 questions like the real test. One try, no hints.'}];
+function menuTile(m){ const p=loadP(); const s=m.id==='test'?p.test&&p.test.chapter:m.id==='vocab'?p.test&&p.test.vocab:null;
+  return el('button',{class:'tile',style:flavStyle(m.flav),onclick:()=>go(m.id)},el('span',{class:'big-ico'},m.icon),el('span',{class:'stepn'},'Step '+m.n),el('span',{class:'t'},m.title),el('span',{class:'s'},m.sub),s?el('span',{class:'badge'},`🍦 Best test: ${s.score}/${s.of}`):null); }
+function home(){
+  app.replaceChildren(
+    el('div',{class:'topbar'},el('a',{class:'btn alt small',href:'../index.html#math',style:'text-decoration:none;display:inline-flex;align-items:center'},'‹ Back to Study Scoop')),
+    banner('sky','Fraction Scoop Shop','Chapter 7: Fractions','Pick a card. Go in order if you’re not sure where to start.','🍦'),
+    el('div',{class:'menu'},...MENU.map(menuTile)),
+    el('div',{class:'ask',html:'<b class="lbl">For grown-ups — how to use this</b>Go in step order: Vocabulary → Lessons → Homework → Test Tricks → Practice Questions → Chapter Test. Lessons and practice have hints and “Show me.” The Chapter Test has no hints, like the real test. Afterward, tap <b>Practice my misses</b>.'}));
+}
+function listPage(flav,tag,title,sub,icon,tiles){ app.replaceChildren(topbar(null),banner(flav,tag,title,sub,icon),el('div',{class:'tiles'},...tiles)); }
+function lessonsPage(){ const p=loadP();
+  listPage('mint','Step 2','Lessons','Start with “What is a whole?”, then go in order.','🍨',LESSONS.map(L=>{const s=p.lesson&&p.lesson[L.id]; return el('button',{class:'tile'+(s?' done':''),style:flavStyle(LFLAV[L.id][0]),onclick:()=>go(L.id)},el('span',{class:'ico'},LFLAV[L.id][1]),el('span',{class:'tag'},LNAME(L)),el('span',{class:'t'},L.title),el('span',{class:'s'},L.sub),s?el('span',{class:'badge'},`🍦 Best check: ${s.score}/${s.of}`):null);})); }
+function homeworkPage(){ const p=loadP();
+  listPage('orange','Step 3','Homework','Your homework pages. Tap “Help” on any page to go back to the lesson.','📝',HW.map(h=>{const s=p.hw&&p.hw[h.id]; return el('button',{class:'tile'+(s&&s.score===s.of?' done':''),style:flavStyle(HFLAV[h.id][0]),onclick:()=>go(h.id)},el('span',{class:'ico'},HFLAV[h.id][1]),el('span',{class:'tag'},h.pages),el('span',{class:'t'},h.title),el('span',{class:'s'},'Help: '+h.help.map(id=>LNAME(LBY[id])).join(', ')),s?el('span',{class:'badge'},`🍦 Best: ${s.score}/${s.of}`):null);})); }
+
+/* ---------- one-try tests ---------- */
+function correctText(q){
+  if(q.type==='frac') return fr(q.answer[0],q.answer[1]);
+  if(q.type==='num') return String(q.answer);
+  if(q.type==='mc'){ const o=q.options[q.answer]; return typeof o==='string'?o:(o.html!=null&&o.html!==''?o.html:'this picture:'); }
+  if(q.type==='multi') return q.answer.map(i=>q.options[i]).join(', ');
+  if(q.type==='shade'||q.type==='shadeSet') return `shade ${q.target}`;
+  if(q.type==='cut') return `${q.target} equal parts`;
+  if(q.type==='place') return fr(q.answer,q.line.den);
+  return '';
+}
+const plain=h=>{const d=document.createElement('div'); d.innerHTML=h; d.querySelectorAll('.frac').forEach(f=>{f.replaceWith(document.createTextNode(' '+f.children[0].textContent+'/'+f.children[1].textContent+' '));}); d.querySelectorAll('.key').forEach(k=>k.prepend(document.createTextNode(' '))); return d.textContent.replace(/\s+/g,' ').trim();};
+function testRunner(host,plan,o){
+  let items,i,res;
+  function start(){ items=plan().map(x=>({skill:x.skill,make:x.make,q:x.make()})); i=0; res=[]; intro(); }
+  function intro(){ host.replaceChildren(el('div',{class:'card'},el('h2',{},o.title),P(`${items.length} questions. <b>One try</b> each and <b>no hints</b> — just like the real test. Take your time and check your work before you press Check.`),
+      el('button',{class:'btn',onclick:()=>{draw();}},'Start the test →'))); }
+  function draw(){
+    if(i>=items.length) return finish();
+    const dots=el('div',{class:'dots'},el('span',{class:'small muted',style:'font-weight:900;margin-right:6px'},`Question ${i+1} of ${items.length}`),...items.map((_,j)=>el('span',{class:'dot'+(j<i?' done':j===i?' on':'')})));
+    const nb=el('button',{class:'btn good',style:'display:none;margin-top:12px',onclick:()=>{i++;draw();window.scrollTo(0,0);}},i===items.length-1?'See my score ✓':'Next question →');
+    const qe=renderQ(items[i].q,{test:true,onResult:r=>{res[i]=r.ok; nb.style.display='inline-block'; if(pfine()) nb.focus();}});
+    host.replaceChildren(el('div',{class:'card'},dots,qe,nb)); if(pfine()&&qe._focus) qe._focus();
+  }
+  function finish(){
+    const score=res.filter(Boolean).length,of=items.length,ratio=score/of; record('test',o.id,score,of);
+    const skills=[]; items.forEach((it,j)=>{let s=skills.find(x=>x.name===it.skill); if(!s){s={name:it.skill,r:0,n:0};skills.push(s);} s.n++; if(res[j]) s.r++;});
+    const missed=items.map((it,j)=>res[j]?null:{...it,j}).filter(Boolean);
+    const table=el('table',{class:'results'},el('tr',{},el('th',{},'Skill'),el('th',{},'Right'),el('th',{},'')),...skills.map(s=>el('tr',{},el('td',{},s.name),el('td',{},`${s.r} / ${s.n}`),el('td',{html:s.r===s.n?'<span class="good-t">✓ Got it</span>':'<span class="bad-t">Practice this</span>'}))));
+    const review=missed.map(m=>el('div',{class:'review'},el('div',{},el('b',{},`Question ${m.j+1}: `),plain(m.q.prompt)||m.skill),m.q.visual?el('div',{class:'vis',style:'max-width:420px'},m.q.visual()):(m.q.type==='place'?el('div',{class:'vis',style:'max-width:420px'},numberLine(m.q.line)):m.q.type==='shade'?el('div',{class:'vis',style:'max-width:300px'},shapeSVG(m.q.shape)):null),el('div',{html:`Correct answer: <span class="ca">${correctText(m.q)}</span>`}),(m.q.type==='mc'&&m.q.options[m.q.answer]&&m.q.options[m.q.answer].svg)?el('div',{style:'max-width:200px'},m.q.options[m.q.answer].svg()):null,m.q.after?el('div',{class:'small',html:m.q.after}):null));
+    const practiceBox=el('div');
+    host.replaceChildren(el('div',{class:'card summary'},el('div',{class:'stars'},ratio>=0.9?'🍦🍦🍦':ratio>=0.75?'🍦🍦':'🍦'),
+        el('div',{class:'score'},`${score} of ${of} right · ${Math.round(ratio*100)}%`),
+        P(ratio>=0.9?'Test ready! 🍒':ratio>=0.75?'Close! Practice the misses, then take a new test.':'Let’s practice the misses, then go back to the lessons for the skills marked “Practice this.”'),
+        el('div',{class:'row',style:'justify-content:center'},missed.length?el('button',{class:'btn',onclick:()=>{practiceBox.replaceChildren(el('div',{class:'card'},el('h2',{},'🎯 Practice my misses'),P('Same kinds of questions, new numbers. Hints and “Show me” are back on.'),(()=>{const h=el('div'); runSet(h,()=>missed.map(m=>m.make()),{label:'Misses'}); return h;})())); practiceBox.scrollIntoView({behavior:'smooth'});}},`🎯 Practice my misses (${missed.length})`):null,
+          el('button',{class:'btn alt',onclick:start},'🔄 Take a new test'))),
+      el('div',{class:'card'},el('h2',{},'Score by skill'),table),
+      missed.length?el('div',{class:'card'},el('h2',{},'Review the ones you missed'),...review):null,
+      practiceBox);
+    window.scrollTo(0,0);
+  }
+  start();
+}
+const G=(skill,k)=>({skill,make:()=>Gn[k]()});
+const CHAPTER_TEST=()=>[
+ G('Vocabulary','vocabDef'),G('Vocabulary','numDen'),G('Vocabulary','isUnit'),
+ G('Equal parts','equalOrNot'),G('Equal parts','nameParts'),G('Equal parts','triHalves'),
+ G('Name the fraction','nameShaded'),G('Name the fraction','nameShaded'),G('Name the fraction','nameWords'),G('Name the fraction','pickPicture'),
+ G('Unit fractions','unitPart'),G('Unit fractions','setUnit'),
+ G('Fractions of a set','setPart'),G('Fractions of a set','setPart'),
+ G('Number line 0 to 1','nlPoint'),G('Number line 0 to 1','nlMissing'),G('Number line 0 to 1','nlPlace'),G('Number line 0 to 1','letterPoint'),
+ G('Wholes and whole numbers','equalsOneMC'),G('Wholes and whole numbers','missingTop'),G('Wholes and whole numbers','wholesPicture'),
+ G('Greater than 1','gt1Point'),G('Greater than 1','compare1'),G('Greater than 1','between12'),
+ G('Same size, different shape','equalArea')];
+const VOCAB_TEST=()=>[...VOCAB.map((v,i)=>({skill:'Word meanings',make:()=>vocabQ(i)})),G('Numerator and denominator','numDen'),G('Numerator and denominator','numDen'),G('Unit fractions','isUnit'),G('Unit fractions','unitPart')];
+function testPage(){ app.replaceChildren(topbar(null),banner('sky','Step 6','Chapter Test','25 questions across all of Chapter 7. One try, no hints.','✅'),(()=>{const h=el('div'); testRunner(h,CHAPTER_TEST,{id:'chapter',title:'Chapter 7 Test'}); return h;})()); }
+
+/* ---------- vocabulary ---------- */
+function vocabPic(w){
+  const big=(n,d,hi)=>`<span class="frac" style="font-size:44px"><span style="${hi==='top'?'background:#d9fbef;color:#07684f;border-radius:8px':''}">${n}</span><span style="${hi==='bot'?'background:#e0e7ff;color:#2238b8;border-radius:8px':''}">${d}</span></span>`;
+  if(w==='fraction') return el('div',{class:'pic'},shapeSVG({kind:'bar',n:4,w:150,h:54},{shaded:new Set([0,1,2])}),el('span',{html:big(3,4)}));
+  if(w==='numerator') return el('div',{class:'pic'},el('span',{html:big(3,4,'top')}),el('span',{class:'small',html:'← <b>3</b> on top = the parts we are describing'}));
+  if(w==='denominator') return el('div',{class:'pic'},el('span',{html:big(3,4,'bot')}),el('span',{class:'small',html:'← <b>4</b> on the bottom = equal parts in the whole'}));
+  if(w==='unit fraction') return el('div',{class:'pic'},shapeSVG({kind:'circle',n:8,r:40},{shaded:new Set([0])}),el('span',{html:big(1,8)}));
+  if(w==='partition') return el('div',{class:'pic'},shapeSVG({kind:'circle',n:4,r:40}),el('span',{class:'small',html:'A circle partitioned into <b>4 equal parts</b> (fourths)'}));
+  if(w==='fraction tiles'){ const b=el('div'); [1,2,4,8].forEach(d=>{const s=shapeSVG({kind:'bar',n:d,w:170,h:24}); const g=sv('g',{'pointer-events':'none'}); for(let i=0;i<d;i++) g.append(sv('text',{x:4+170*(i+.5)/d,y:21,'text-anchor':'middle','font-size':d===8?10:13,'font-weight':900,fill:INK,'font-family':'Atkinson Hyperlegible,sans-serif'},d===1?'1':'1/'+d)); s.append(g); b.append(s);}); return el('div',{class:'pic'},b); }
+}
+function flipCard(v){ let back=false; const c=el('button',{class:'flip'});
+  const draw=()=>{ c.className='flip'+(back?' back':''); c.replaceChildren(el('span',{class:'w'},v.w),el('span',{class:v.book?'book':'star'},v.book?'Book word':'⭐ On the test'),back?el('span',{class:'d'},v.d):vocabPic(v.w),el('span',{class:'tap'},back?'Tap to see the picture':'Tap to see what it means')); };
+  c.addEventListener('click',()=>{back=!back;draw();}); draw(); return c; }
+function vocabPage(){
+  const steps=['Learn the words','Practice','Vocabulary Test']; let cur=0; const dots=el('div',{class:'stepdots'}),body=el('div');
+  function draw(){ dots.replaceChildren(...steps.map((t,i)=>el('button',{class:i===cur?'on':'',onclick:()=>{cur=i;draw();}},t)));
+    if(cur===0) body.replaceChildren(el('div',{class:'card'},el('h2',{},'Learn the words'),P('Say each word out loud. Look at the picture. Then tap the card to see what it means. The four ⭐ words are the ones your teacher said are on the test — in her exact words.'),
+        el('div',{class:'flipgrid'},...VOCAB.map(flipCard)),ask('Point to a card and ask him to explain the word in his own words before he flips it.'),el('div',{class:'nav',style:'position:static;border:none'},el('span'),el('button',{class:'btn',onclick:()=>{cur=1;draw();}},'Practice →'))));
+    else if(cur===1){ const h=el('div'); body.replaceChildren(el('div',{class:'card'},el('h2',{},'Practice'),P('Hints are on. Every wrong answer tells you what to fix.'),h));
+      runSet(h,()=>['vocabDef','vocabDef','numDen','isUnit','vocabDef','unitPart','numDen','vocabDef'].map(g=>Gn[g]()),{label:'Practice',onFinish:(a,b,box)=>box.append(el('div',{class:'row',style:'justify-content:center;margin-top:10px'},el('button',{class:'btn',onclick:()=>{cur=2;draw();}},'Take the Vocabulary Test →')))}); }
+    else { const h=el('div'); body.replaceChildren(h); testRunner(h,VOCAB_TEST,{id:'vocab',title:'Vocabulary Test'}); }
+    window.scrollTo(0,0); }
+  app.replaceChildren(topbar(null),banner('blue','Step 1','Vocabulary','Learn the words, practice, then take the vocabulary test.','📖'),dots,body); draw();
 }
 
 /* ============ practice questions (50 mixed, all homework types) ============ */
@@ -1079,11 +1194,11 @@ function practiceView(){
     body.replaceChildren(el('div',{class:'card summary'},el('div',{class:'stars'},first/items.length>=0.8?'🍦🍦🍦':first/items.length>=0.6?'🍦🍦':'🍦'),
       el('div',{class:'score'},`${done} of ${items.length} solved · ${first} on the first try`),
       Object.keys(byType).length?el('div',{class:'key',style:'text-align:left',html:'<b>Practice more of these:</b><br>'+Object.entries(byType).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`${t}: ${n} ${n===1?'needed help or was skipped':'needed help or were skipped'}`).join('<br>')}):P('Every one right on the first try! 🍒'),
-      el('div',{class:'row',style:'justify-content:center'},missed.length?el('button',{class:'btn alt',onclick:()=>go2(missed[0])},'Go to the first one he missed'):null,el('button',{class:'btn',onclick:build},'🔄 New set of 50'))));
+      el('div',{class:'row',style:'justify-content:center'},missed.length?el('button',{class:'btn alt',onclick:()=>go2(missed[0])},'Go to the first one you missed'):null,el('button',{class:'btn',onclick:build},'🔄 New set of 50'))));
     nav.replaceChildren(el('button',{class:'btn alt',onclick:()=>go2(items.length-1)},'← Back'),el('span'),el('span'));
     upd(); window.scrollTo(0,0);
   }
-  app.replaceChildren(topbar(null),banner('blue','All homework types','Practice Questions','50 problems: number lines, shapes, sets, words, vocabulary and test tricks','🍨'),
+  app.replaceChildren(topbar(null),banner('lime','Step 5','Practice Questions','50 problems: number lines, shapes, sets, words, vocabulary and test tricks','🍧'),
     el('div',{class:'adult'},el('span',{class:'lbl'},'For grown-ups:'),el('button',{onclick:build},'🔄 New set of 50'),el('button',{onclick:finish},'📊 See results')),
     el('div',{class:'hwhead'},el('div',{class:'small muted',style:'font-weight:800'},'Tap any number to jump. Light green = solved with help. Dark green = right on the first try.'),score),
     dots,body,nav);
@@ -1095,6 +1210,10 @@ function route(){
   if(LBY[h]) return lessonView(LBY[h]);
   if(HWBY[h]) return hwView(HWBY[h]);
   if(h==='practice') return practiceView();
+  if(h==='lessons') return lessonsPage();
+  if(h==='homework') return homeworkPage();
+  if(h==='vocab') return vocabPage();
+  if(h==='test') return testPage();
   home();
 }
 window.addEventListener('hashchange',route);

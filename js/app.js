@@ -9,7 +9,6 @@ import { validateIndex, validateWeek } from './lib/validate.js';
 import { STAGE_IDS, stageLabel, validateLesson, validateLessonIndex } from './lib/lessons.js';
 import { hasPropertyWords } from './lib/mathlearn.js';
 import { validateArea } from './lib/area.js';
-import { validateFractionChapter } from './lib/chapter7.js';
 import { mountLesson, mountReadButtons, stateFor, visitedStages, restoreLesson } from './lesson-player.js';
 import { skillJourney, sectionOf, resumeSkill } from './lib/skill-journey.js';
 import { JOURNEY_LESSON, isJourneyStage, journeyLabel } from './lib/partition-journey.js';
@@ -96,13 +95,7 @@ async function render() {
   // Math is chapter-first (D26): the chapter named by the address (a chapter menu, one of its activities, or one of
   // its lessons) owns the content. Its teacher's words, tests and misses come from the chapter's own week.
   const chapter = route.section === 'math' ? chapterFor(lessons, { ch: route.ch, act: route.act, lesson: lesson?.id || null }) : null;
-  let fractions = null;
-  if (route.section === 'math' && chapter?.id === 7) {
-    try {
-      fractions = await loadJSON('data/chapters/7.json');
-      if (validateFractionChapter(fractions).length) fractions = null;
-    } catch { fractions = null; }
-  }
+  const fractions = null; // Chapter 7 is the stand-alone Fraction Scoop Shop (games/fraction-scoop-shop.html, D34)
   let practice = null;
   if (route.section === 'math' && route.act && chapter?.id === 5) {
     try {

@@ -44,21 +44,22 @@ const clean = (out, label) => {
   assert.doesNotMatch(out, /undefined|\bnull\b|NaN|\[object /, `${label}: no missing values`);
 };
 
-test('Math: choose Chapters 5, 6 or 7; each chapter lists its lessons, each open, each naming its strategy', () => {
-  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6', '7-1', '7-2', '7-3', '7-4', '7-5', '7-6', '7-7']);
+test('Math: choose Chapters 5, 6 or 7; Chapters 5 and 6 list their lessons, Chapter 7 opens the Fraction Scoop Shop', () => {
+  assert.deepEqual(INDEX.lessons.map((l) => l.id), ['5-1', '5-2', '5-3', '5-4', '5-5', '5-6', '5-7', '6-1', '6-2', '6-3', '6-4', '6-5', '6-6']);
   assert.deepEqual(INDEX.chapters.map((c) => c.id), [5, 6, 7]);
   for (const l of INDEX.lessons) assert.ok(l.title && l.summary && l.strategy && l.chapter === Number(l.id[0]), l.id);
   const chooser = mathView(ctxFor({})).s;
   clean(chooser, 'Choose Your Chapter');
-  assert.ok(chooser.includes('href="#math?ch=5"') && chooser.includes('href="#math?ch=6"') && chooser.includes('href="#math?ch=7"'), 'all three chapters');
-  for (const ch of [5, 6, 7]) assert.ok(mathView(ctxFor({ chapterMenu: ch })).s.includes(`href="#math?act=ch${ch}"`), `Chapter ${ch} > Math Lessons`);
+  assert.ok(chooser.includes('href="#math?ch=5"') && chooser.includes('href="#math?ch=6"') && chooser.includes('href="games/fraction-scoop-shop.html"'), 'all three chapters (Chapter 7 is the Fraction Scoop Shop, D34)');
+  for (const ch of [5, 6]) assert.ok(mathView(ctxFor({ chapterMenu: ch })).s.includes(`href="#math?act=ch${ch}"`), `Chapter ${ch} > Math Lessons`);
+  assert.ok(mathView(ctxFor({ chapterMenu: 7 })).s.includes('href="games/fraction-scoop-shop.html"'), 'an old Chapter 7 link points to the Fraction Scoop Shop');
   assert.ok(chooser.includes('Chapter 6: Connect Area and Multiplication'), 'chapter 6 title');
-  for (const ch of [5, 6, 7]) {
+  for (const ch of [5, 6]) {
     const out = mathView(ctxFor({ page: `ch${ch}` })).s;
     clean(out, `chapter ${ch} menu`);
     for (const l of INDEX.lessons) assert.equal(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), l.chapter === ch, `${l.id} listed only in its chapter`);
   }
-  const out = mathView(ctxFor({ page: 'ch5' })).s + mathView(ctxFor({ page: 'ch6' })).s + mathView(ctxFor({ page: 'ch7' })).s;
+  const out = mathView(ctxFor({ page: 'ch5' })).s + mathView(ctxFor({ page: 'ch6' })).s;
   for (const l of INDEX.lessons) {
     assert.ok(out.includes(`Lesson ${l.id}: ${l.title.replace(/'/g, '&#39;')}`), l.id);
     assert.ok(out.includes(`href="#math?lesson=${l.id}&amp;stage=learn"`), `${l.id} can be started`);

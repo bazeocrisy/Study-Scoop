@@ -110,10 +110,10 @@ test('Math menus (D26): every chapter has the same six activities, each with its
   const roles = ['Learn Vocabulary', 'Vocabulary Practice', 'Math Lessons', 'Practice Problems', 'Study Guide', 'Chapter Test'];
   assert.deepEqual(chapterMenu(5).map((r) => [r.label, r.act.id]), roles.map((l, k) => [l, ['learn', 'words', 'ch5', 'practice', 'guide', 'ch5test'][k]]));
   assert.deepEqual(chapterMenu(6).map((r) => [r.label, r.act.id]), roles.map((l, k) => [l, ['arealearn', 'areawords', 'ch6', 'areapractice', 'ch6guide', 'ch6test'][k]]));
-  assert.deepEqual(chapterMenu(7).map((r) => [r.label, r.act.id]), roles.map((l, k) => [l, ['fraclearn', 'fracwords', 'ch7', 'fracpractice', 'ch7guide', 'ch7test'][k]]));
+  assert.deepEqual(chapterMenu(7), [], 'Chapter 7 is the stand-alone Fraction Scoop Shop (D34)');
   // Every Math activity names its chapter, and its sub-menu items are in the same chapter (chapter isolation).
   for (const a of ACTIVITIES.math.filter((x) => !x.alias)) {
-    assert.ok([5, 6, 7].includes(a.chapter), `${a.id} names its chapter`);
+    assert.ok([5, 6].includes(a.chapter), `${a.id} names its chapter`);
     if (a.parent) assert.equal(activityInfo('math', a.parent).chapter, a.chapter, `${a.id} is on a menu of its own chapter`);
   }
   assert.deepEqual(menuItems('math', 'areapractice').map((a) => a.label), ['Mixed Practice', 'Practice My Misses']);

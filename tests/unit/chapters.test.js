@@ -42,11 +42,15 @@ function ctxFor(shownId, { chapterMenu: chMenu = null, page = null } = {}) {
   };
 }
 
-test('the chapter registry: Chapters 5, 6 and 7, each with lessons, a week and all six activities', () => {
+test('the chapter registry: Chapters 5 and 6 with lessons and all six activities; Chapter 7 is the stand-alone Fraction Scoop Shop (D34)', () => {
   assert.deepEqual(validateChapters(INDEX), []);
   assert.deepEqual(chapterList(INDEX).map((c) => [c.id, c.name, chapterLessons(INDEX, c.id).length]),
-    [[5, 'Multiplication Properties and Strategies', 7], [6, 'Connect Area and Multiplication', 6], [7, 'Fractions', 7]]);
-  for (const c of chapterList(INDEX)) assert.deepEqual(chapterMenu(c.id).map((r) => r.role), CHAPTER_ROLES.map((r) => r.role), `Chapter ${c.id}`);
+    [[5, 'Multiplication Properties and Strategies', 7], [6, 'Connect Area and Multiplication', 6], [7, 'Fractions', 0]]);
+  assert.equal(chapterList(INDEX).find((c) => c.id === 7).href, 'games/fraction-scoop-shop.html');
+  assert.deepEqual(chapterMenu(7), [], 'Chapter 7 has no six-role menu');
+  const badHref = clone(INDEX); badHref.chapters.find((c) => c.id === 7).href = 'https://example.com/x.html';
+  assert.ok(validateChapters(badHref).some((e) => /chapter 7: "href" must be a page in games\//.test(e)));
+  for (const c of chapterList(INDEX).filter((x) => !x.href)) assert.deepEqual(chapterMenu(c.id).map((r) => r.role), CHAPTER_ROLES.map((r) => r.role), `Chapter ${c.id}`);
   // The validator catches a chapter with no lessons, a missing activity, and a lesson outside every chapter.
   const bad = clone(INDEX);
   bad.chapters.push({ id: 9, name: 'Next', title: 'Chapter 9: Next', summary: 'Soon.' });

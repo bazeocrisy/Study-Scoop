@@ -28,22 +28,6 @@ export const ACTIVITIES = {
   // Math is chapter-first (D26): Math opens on Choose Your Chapter, and every chapter's menu has the same six roles
   // (CHAPTER_ROLES). Each entry names its chapter; its content comes from that chapter's own data and teacher week.
   math: [
-    {"id": "fraclearn", "label": "Learn Fraction Vocabulary", "about": "Teacher definitions, chapter review words and models.", "icon": "book", "chapter": 7, "role": "vocab", "page": true},
-    {"id": "fracwords", "label": "Vocabulary Practice", "about": "Study cards and twenty questions in each word activity.", "icon": "cards", "chapter": 7, "role": "vocabpractice", "page": true},
-    {"id": "ch7", "label": "Math Lessons", "about": "Seven lessons about equal parts, fraction number lines and sets.", "icon": "steps", "chapter": 7, "role": "lessons", "page": true},
-    {"id": "fracpractice", "label": "Practice Problems", "about": "Fraction models, reasoning and mixed practice.", "icon": "pencil", "chapter": 7, "role": "practice", "page": true},
-    {"id": "ch7guide", "label": "Study Guide", "about": "Printable review, worked examples and self-check answers.", "icon": "book", "chapter": 7, "role": "guide", "page": true},
-    {"id": "ch7test", "label": "Chapter 7 Practice Test", "about": "Twenty-eight fresh questions across seven lessons.", "icon": "choice", "chapter": 7, "role": "test", "test": true, "group": "fractions"},
-    {"id": "fvflash", "label": "Fraction Word Cards", "about": "Practice this chapter with feedback and help.", "icon": "cards", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
-    {"id": "fvchoice", "label": "Choose the Meaning", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
-    {"id": "fvtf", "label": "True or False", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
-    {"id": "fvfill", "label": "Fill in the Blank", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab"},
-    {"id": "fvmisses", "label": "Practice My Misses", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracwords", "group": "fractionvocab", "misses": true},
-    {"id": "fpractice", "label": "Mixed Fraction Practice", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
-    {"id": "fchoice", "label": "Choose and Explain", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
-    {"id": "ftf", "label": "True or False", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
-    {"id": "ffill", "label": "Write the Fraction", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions"},
-    {"id": "fmisses", "label": "Practice My Misses", "about": "Practice this chapter with feedback and help.", "icon": "pencil", "chapter": 7, "parent": "fracpractice", "group": "fractions", "misses": true},
 
     // Chapter 5: Multiplication Properties and Strategies.
     { id: 'learn', chapter: 5, role: 'vocab', label: 'Learn the Properties', about: 'Meet the five multiplication properties, one at a time, with the teacher\'s words.', icon: 'book', start: true },

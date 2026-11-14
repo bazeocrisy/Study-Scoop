@@ -19,8 +19,9 @@
       "id": 7,
       "name": "Fractions",
       "title": "Chapter 7: Fractions",
-      "summary": "Lessons 7-1 to 7-7: equal parts, fraction number lines, whole numbers and sets.",
-      "week": "2026-11-09"
+      "summary": "Fraction Scoop Shop: vocabulary, lessons, homework, test tricks, practice and a chapter test.",
+      "week": "2026-11-09",
+      "href": "games/fraction-scoop-shop.html"
     }
   ],
   "lessons": [
@@ -114,55 +115,6 @@
       "summary": "Solve real-world area problems and label the answer in square units.",
       "strategy": "Read, picture, equation, label",
       "chapter": 6
-    },
-    {
-      "id": "7-1",
-      "chapter": 7,
-      "title": "Partition Shapes into Equal Parts",
-      "summary": "Make and recognize equal-area parts of one whole.",
-      "strategy": "Make and recognize equal-area parts of one whole."
-    },
-    {
-      "id": "7-2",
-      "chapter": 7,
-      "title": "Understand Fractions",
-      "summary": "Name selected equal parts using a numerator and a denominator.",
-      "strategy": "Name selected equal parts using a numerator and a denominator."
-    },
-    {
-      "id": "7-3",
-      "chapter": 7,
-      "title": "Represent Fractions on a Number Line",
-      "summary": "Partition one unit into equal intervals and locate a fraction.",
-      "strategy": "Partition one unit into equal intervals and locate a fraction."
-    },
-    {
-      "id": "7-4",
-      "chapter": 7,
-      "title": "Represent One Whole as a Fraction",
-      "summary": "Explain why selecting every equal part represents one whole.",
-      "strategy": "Explain why selecting every equal part represents one whole."
-    },
-    {
-      "id": "7-5",
-      "chapter": 7,
-      "title": "Represent Whole Numbers as Fractions",
-      "summary": "Write a whole number as a fraction with denominator one.",
-      "strategy": "Write a whole number as a fraction with denominator one."
-    },
-    {
-      "id": "7-6",
-      "chapter": 7,
-      "title": "Represent a Fraction Greater Than One on a Number Line",
-      "summary": "Count fractional units beyond one and compare a fraction with one.",
-      "strategy": "Count fractional units beyond one and compare a fraction with one."
-    },
-    {
-      "id": "7-7",
-      "chapter": 7,
-      "title": "Explore Unit Fractions as Part of a Set",
-      "summary": "Define a set as the whole and name one or more selected objects as a fraction of it.",
-      "strategy": "Define a set as the whole and name one or more selected objects as a fraction of it."
     }
   ]
 }

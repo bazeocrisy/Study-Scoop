@@ -11,7 +11,6 @@ import { lessonView, readButton } from './lesson.js';
 import { AREA_EXAMPLES, AREA_LEARN, AREA_TIPS, AREA_WORDS, CH6_GUIDE, CH6_MISTAKES } from '../lib/area.js';
 import { chapterLessons, chapterList, chapterMenu, chapterStatus, recommendedChapter } from '../lib/chapters.js';
 import { activityView } from './activity.js';
-import { fractionPage } from './fractions.js';
 
 const MATH = (ctx) => ({ label: 'Math', href: ctx.link('math') });
 
@@ -38,8 +37,6 @@ export function mathView(ctx) {
   if (ctx.lesson) return lessonView(ctx);
   if (ctx.run) return activityView(ctx);
   if (ctx.chapterMenu) return chapterPage(ctx, ctx.chapterMenu);
-  const fractions = fractionPage(ctx);
-  if (fractions) return fractions;
   const PAGES = {
     words: wordsMenu, practice: practiceMenu, guide: studyGuide, ch5: lessonsMenu,
     arealearn: areaLearn, areawords: areaWordsMenu, areapractice: areaPracticeMenu, ch6guide: chapter6Guide, ch6: lessonsMenu,
@@ -68,24 +65,33 @@ function chooseChapter(ctx) {
       ${list.length ? html`<ul class="menu-grid chapter-grid subject-math count-${list.length}">
         ${list.map((c) => {
           const status = chapterStatus(c, shown);
-          return html`<li><a class="menu-card chapter-card${now?.id === c.id ? ' current' : ''}" href="${ctx.chapterLink(c.id)}" data-chapter="${c.id}">
+          return html`<li><a class="menu-card chapter-card${now?.id === c.id ? ' current' : ''}" href="${c.href || ctx.chapterLink(c.id)}" data-chapter="${c.id}">
             <span class="mc-icon">${ICONS[c.id === 6 ? 'grid' : 'steps']}</span>
             <span class="mc-text">
               <span class="chapter-status${now?.id === c.id ? ' now' : ''}">${status}</span>
               <span class="mc-title">Chapter ${c.id}: ${c.name}</span>
-              <span class="mc-about">${lessonCount(c.id)} lessons: ${c.summary.replace(/^Lessons [^:]*: /, '')}</span>
+              <span class="mc-about">${c.href ? c.summary : html`${lessonCount(c.id)} lessons: ${c.summary.replace(/^Lessons [^:]*: /, '')}`}</span>
             </span>
             <span class="mc-go" aria-hidden="true">›</span>
           </a></li>`;
         })}
       </ul>` : html`<p class="card">The chapters could not be loaded. Please try again later.</p>`}
     </section>
-    <p class="menu-foot"><a class="btn btn-primary" href="games/multiplication-mastery-8.html">⚾ Play Multiplication Mastery 8</a> <a class="btn btn-primary" href="games/fraction-scoop-shop.html">🍦 Fraction Scoop Shop: Chapter 7 Test Prep</a></p>
+    <p class="menu-foot"><a class="btn btn-primary" href="games/multiplication-mastery-8.html">⚾ Play Multiplication Mastery 8</a></p>
     ${testsNote(ctx, 'Every weekly practice test')}`;
 }
 
 /** Math > Chapter N: the same six activities for every chapter, each with this chapter's own content. */
 function chapterPage(ctx, id) {
+  // A stand-alone chapter (D34): old links to its menu point to its own page.
+  const own = chapterList(ctx.lessons).find((c) => c.id === id);
+  if (own?.href) return html`
+    <div class="page-head section-head menu-head subject-math">
+      ${crumbs(ctx, [MATH(ctx), { label: `Chapter ${own.id}` }])}
+      <h1 tabindex="-1">${own.title}</h1>
+      <p class="intro">${own.summary}</p>
+    </div>
+    <p class="menu-foot"><a class="btn btn-primary" href="${own.href}">Open Chapter ${own.id} ›</a> <a class="btn" href="${ctx.link('math')}">‹ Back to Math</a></p>`;
   const c = chapterList(ctx.lessons).find((x) => x.id === id);
   const shown = ctx.shownWeek || ctx.week;
   const menu = chapterMenu(id);

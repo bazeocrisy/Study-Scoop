@@ -691,7 +691,8 @@ async function main() {
       eq(await b.js('return [document.querySelector("#app h1").textContent, document.querySelector(".menu .ask").textContent, [...document.querySelectorAll(".menu-card .mc-title")].map((t) => t.textContent)];'),
         ['Math', 'Choose Your Chapter', CHAPTER_TITLES], 'Choose Your Chapter');
       eq(await b.js('return [...document.querySelectorAll("#app a")].filter((a) => /[?&](lesson|act)=/.test(a.getAttribute("href") || "")).length;'), 0, 'no lessons or activities before a chapter is chosen');
-      for (const [ch, start] of [[5, '5-6'], [6, '6-3'], [7, '7-4']]) {
+      eq(await b.js("return document.querySelector('.menu-card[data-chapter=\"7\"]').getAttribute('href');"), 'games/fraction-scoop-shop.html', 'Chapter 7 opens the Fraction Scoop Shop (D34)');
+      for (const [ch, start] of [[5, '5-6'], [6, '6-3']]) {
         if (ch !== 5) await b.hash('#math'); // Chapter 5 starts from the Math page already open
         await go(`.menu-card[href="#math?ch=${ch}"]`);
         eq(await b.js('return document.querySelector("#app h1").textContent;'), LESSON_CHAPTERS.find((c) => c.id === ch).title, `Chapter ${ch} menu`);
@@ -1267,6 +1268,7 @@ async function main() {
         expect(!(await b.js('return !!document.querySelector(".words, .vocab-card, .property, .study-card");')), subject + ': no long content on the menu');
         const hrefs = await b.js('return [...document.querySelectorAll(".menu-card")].map((a) => a.getAttribute("href"));');
         for (const [k, href] of hrefs.entries()) {
+          if (!href.startsWith('#')) { eq(href, 'games/fraction-scoop-shop.html', 'the only card that leaves the app is Chapter 7 (D34)'); continue; }
           await b.hash(href);
           eq(await b.js('return document.querySelector("#app h1").textContent;'), labels[k], href + ' title');
           eq(await b.js('return [...document.querySelectorAll(".crumbs li")].map((l) => l.textContent.trim());'), ['Home', NAME[subject], CRUMB(subject, k, labels[k])], href + ' crumbs');
@@ -1280,7 +1282,7 @@ async function main() {
       let before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.back();');
       await b.ready(before);
-      eq(await b.js('return [location.hash, document.activeElement.tagName];'), [`#math?ch=${CHAPTERS.at(-1).id}`, 'H1'], 'browser Back (focus on the heading): the last chapter opened');
+      eq(await b.js('return [location.hash, document.activeElement.tagName];'), [`#math?ch=${CHAPTERS.filter((c) => !c.href).at(-1).id}`, 'H1'], 'browser Back (focus on the heading): the last chapter opened in the app (Chapter 7 is a separate page, D34)');
       before = await b.js('return document.getElementById("app").dataset.ready;');
       await b.js('history.forward();');
       await b.ready(before);
