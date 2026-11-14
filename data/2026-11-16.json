@@ -75,14 +75,14 @@
       "due": "Friday, Nov 20",
       "source": "newsletter",
       "description": "The packet is sent home each Monday and due Friday.",
-      "status": "Listed on the newsletter. No packet pages were supplied for this week."
+      "status": "Listed in the newsletter. No packet pages were supplied for this week."
     },
     {
       "title": "Reading Log",
       "subject": "Reading",
       "due": "Every Monday",
       "source": "newsletter",
-      "status": "Listed on the newsletter. No reading log sheet was supplied."
+      "status": "Listed in the newsletter. No reading log sheet was supplied."
     },
     {
       "title": "3 spelling activities",
@@ -129,11 +129,11 @@
       "es": "Add -es to buzz"
     },
     "ruleHelp": {
-      "whole": "Say the word slowly, notice the tricky letters, and write the whole word",
+      "whole": "Say the word slowly, notice the tricky letters, and write the whole word.",
       "rupt": "The letters rupt stay together in rupture and interrupt.",
       "tract": "In distract, the letters tract come after dis.",
       "form": "Inform and misinform both end in form. Add mis- to inform to mean give wrong information.",
-      "es": "Keep both z letters in buzz and add es"
+      "es": "Keep both z letters in buzz and add es."
     },
     "words": [
       {
@@ -164,7 +164,7 @@
         "word": "distract",
         "rule": "tract",
         "whole": true,
-        "sentence": "A game on the tablet can distract me from writing."
+        "sentence": "A handheld video game can distract me from writing."
       },
       {
         "word": "inform",

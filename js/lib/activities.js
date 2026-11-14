@@ -321,7 +321,7 @@ function spellSteps(entry, sp) {
   const help = sp.ruleHelp?.[entry.rule];
   const w = entry.word.toLowerCase(), b = baseOf(entry);
   // The rule comes before it is used, and an example that is this very word is left out (it would give the word away early).
-  const example = help && !new RegExp(`\\b${w}\\b`, 'i').test(help) ? [`Example: ${help}.`] : [];
+  const example = help && !new RegExp(`\\b${w}\\b`, 'i').test(help) ? [`Example: ${help}${/[.!?]$/.test(help) ? '' : '.'}`] : [];
   if (!b) return ['Study the whole word and look for the spelling pattern.', `${rulePhrase(sp, entry)}.`, ...example, `So the word is ${q(entry.word)}.`];
   const stem = w.slice(0, w.length - suffixOf(sp, entry).length);
   const change = stem === b ? '' : stem === b + b.slice(-1) ? `Double the last letter: ${b} becomes ${stem}.`

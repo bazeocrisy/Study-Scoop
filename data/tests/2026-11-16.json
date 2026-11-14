@@ -83,7 +83,7 @@
             "correct": true
           }
         ],
-        "explain": "One scheduled payment that is part of a larger amount."
+        "explain": "Installment: When money is paid over a length of time. In other words: one scheduled payment that is part of a larger amount."
       },
       {
         "id": "v4",
@@ -239,7 +239,7 @@
             "why": "The class sheet matches Peculiar with \"Strange or unusual\"."
           }
         ],
-        "explain": "Someone you can trust to keep a promise."
+        "explain": "Trustworthy: The ability to keep promises. In other words: someone you can trust to keep a promise."
       },
       {
         "id": "v10",
@@ -291,7 +291,7 @@
             "why": "The class sheet matches Fortunate with \"favored by or involving good luck or fortune\"."
           }
         ],
-        "explain": "Annoying or bothersome."
+        "explain": "Irritating: To anger or bother. In other words: annoying or bothersome."
       },
       {
         "id": "v12",
@@ -317,7 +317,7 @@
             "why": "The class sheet matches Ignorant with \"lacking knowledge or awareness in general\"."
           }
         ],
-        "explain": "Your attention is pulled away from what you are doing."
+        "explain": "Distracted: To prevent something from continuing as usual. In other words: your attention is pulled away from what you are doing."
       }
     ]
   }
