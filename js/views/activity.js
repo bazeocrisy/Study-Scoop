@@ -9,6 +9,7 @@ import { formatLongDate } from '../lib/dates.js';
 import { blanks, itemCard, readButton, soundButton, unanswered, teachingFeedbackFor, coachModels } from './lesson.js';
 import { ICONS, facts, scoreLine, subBar, wordPicture } from './common.js';
 import { packetPage } from './packet.js';
+import { chapterMenu, recommendedChapter } from '../lib/chapters.js';
 
 const NOT_SAVED = 'Your answers are not saved. If you close or refresh this page, this activity starts again.';
 const CHECK = { catchAll: 'Try again.' };
@@ -638,7 +639,7 @@ export function testCenter(ctx, catalog) {
             <div class="test-card-action">
             ${c.available
               ? html`<a class="btn btn-primary" href="${ctx.testLink(c.kind)}">Start test<span class="sr-only">: ${c.title}</span></a>`
-              : html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
+              : chapterTest(ctx, c) || html`<p class="unavailable"><strong>Not available.</strong> ${c.reason}</p>`}
             </div>
             <dl class="facts">
               <div><dt>${c.dateLabel || 'Class test'}</dt><dd>${c.date ? formatLongDate(c.date) : c.review || 'No date given'}</dd></div>
@@ -649,6 +650,14 @@ export function testCenter(ctx, catalog) {
           </li>`)}
       </ul>
     </section>`;
+}
+
+/** A week without its own math practice test uses its chapter's practice test, as This Week does (D26: chapters own Math). */
+function chapterTest(ctx, c) {
+  if (c.kind !== 'math' || !c.classTest || !ctx.lessons) return '';
+  const now = recommendedChapter(ctx.week, ctx.lessons);
+  const entry = now && chapterMenu(now.id).find((e) => e.role === 'test');
+  return entry ? html`<p>Use the Chapter ${now.id} practice test.</p><a class="btn btn-primary" href="${ctx.actLink('math', entry.act.id)}">Start the Chapter ${now.id} test<span class="sr-only">: ${entry.act.label || 'practice test'}</span></a>` : '';
 }
 
 /** Chapter-owned vocabulary cards; these diagrams are for study, not test answers. */
