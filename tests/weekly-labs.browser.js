@@ -40,9 +40,9 @@ try{
   expect(await b.js('return !document.querySelector(".word-picture")&&document.activeElement.matches(".flip");'),'Space flips back and retains focus');
   await b.js('learn(0);window.__speech=[];');
   await b.clickAt(subject==='spelling'?'button[onclick^="sayWord"]':'button[onclick="sayWord(0)"]');
-  expect(await b.js('return window.__speech.length>0&&window.__speech.at(-1)===WORDS[0].w;'),'word audio called');
+  expect(await b.waitFor('window.__speech.length>0&&window.__speech.at(-1)===WORDS[0].w'),'word audio called');
   if(subject==='vocab'){
-   await b.clickAt('button[onclick="sayDef(0)"]');expect(await b.js('return window.__speech.at(-1)===WORDS[0].d;'),'meaning audio called');
+   await b.clickAt('button[onclick="sayDef(0)"]');expect(await b.waitFor('window.__speech.at(-1)===WORDS[0].d'),'meaning audio called');
    for(const kind of ['mc','fill','tf','match']){
     await b.js(`startQuiz('${kind}',ALL);`);
     expect(await b.js('return !document.querySelector(".word-picture");'),kind+' has no test pictures');

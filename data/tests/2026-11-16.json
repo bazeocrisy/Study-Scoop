@@ -1,0 +1,324 @@
+{
+  "id": "2026-11-16",
+  "vocab": {
+    "topic": "Because of Winn-Dixie — all 12 words",
+    "coverage": "12 vocabulary questions, one per word.",
+    "instructions": "Choose the word that matches each class-sheet definition. Then select Finish the test.",
+    "note": "Study Scoop vocabulary practice. Review the whole novel separately for the comprehension portion of the class test.",
+    "pass": 10,
+    "items": [
+      {
+        "id": "v1",
+        "type": "choice",
+        "kind": "word",
+        "word": "Produce",
+        "prompt": "Which word matches this class-sheet definition? \"Fresh fruits and vegetables\"",
+        "options": [
+          {
+            "text": "Exception",
+            "why": "The class sheet matches Exception with \"A case where a rule does not apply\"."
+          },
+          {
+            "text": "Produce",
+            "correct": true
+          },
+          {
+            "text": "Employee",
+            "why": "The class sheet matches Employee with \"Someone who works for money\"."
+          },
+          {
+            "text": "Melancholy",
+            "why": "The class sheet matches Melancholy with \"A sad or gloomy condition\"."
+          }
+        ],
+        "explain": "Produce: Fresh fruits and vegetables."
+      },
+      {
+        "id": "v2",
+        "type": "choice",
+        "kind": "word",
+        "word": "Exception",
+        "prompt": "Which word matches this class-sheet definition? \"A case where a rule does not apply\"",
+        "options": [
+          {
+            "text": "Installment",
+            "why": "The class sheet matches Installment with \"When money is paid over a length of time\"."
+          },
+          {
+            "text": "Fortunate",
+            "why": "The class sheet matches Fortunate with \"favored by or involving good luck or fortune\"."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "The class sheet matches Trustworthy with \"The ability to keep promises\"."
+          },
+          {
+            "text": "Exception",
+            "correct": true
+          }
+        ],
+        "explain": "Exception: A case where a rule does not apply."
+      },
+      {
+        "id": "v3",
+        "type": "choice",
+        "kind": "word",
+        "word": "Installment",
+        "prompt": "Which word matches this class-sheet definition? \"When money is paid over a length of time\"",
+        "options": [
+          {
+            "text": "Peculiar",
+            "why": "The class sheet matches Peculiar with \"Strange or unusual\"."
+          },
+          {
+            "text": "Ignorant",
+            "why": "The class sheet matches Ignorant with \"lacking knowledge or awareness in general\"."
+          },
+          {
+            "text": "Constellations",
+            "why": "The class sheet matches Constellations with \"A group of stars in the night sky that make up a picture or a pattern\"."
+          },
+          {
+            "text": "Installment",
+            "correct": true
+          }
+        ],
+        "explain": "One scheduled payment that is part of a larger amount."
+      },
+      {
+        "id": "v4",
+        "type": "choice",
+        "kind": "word",
+        "word": "Peculiar",
+        "prompt": "Which word matches this class-sheet definition? \"Strange or unusual\"",
+        "options": [
+          {
+            "text": "Peculiar",
+            "correct": true
+          },
+          {
+            "text": "Employee",
+            "why": "The class sheet matches Employee with \"Someone who works for money\"."
+          },
+          {
+            "text": "Melancholy",
+            "why": "The class sheet matches Melancholy with \"A sad or gloomy condition\"."
+          },
+          {
+            "text": "Irritating",
+            "why": "The class sheet matches Irritating with \"To anger or bother\"."
+          }
+        ],
+        "explain": "Peculiar: Strange or unusual."
+      },
+      {
+        "id": "v5",
+        "type": "choice",
+        "kind": "word",
+        "word": "Employee",
+        "prompt": "Which word matches this class-sheet definition? \"Someone who works for money\"",
+        "options": [
+          {
+            "text": "Fortunate",
+            "why": "The class sheet matches Fortunate with \"favored by or involving good luck or fortune\"."
+          },
+          {
+            "text": "Trustworthy",
+            "why": "The class sheet matches Trustworthy with \"The ability to keep promises\"."
+          },
+          {
+            "text": "Employee",
+            "correct": true
+          },
+          {
+            "text": "Distracted",
+            "why": "The class sheet matches Distracted with \"To prevent something from continuing as usual\"."
+          }
+        ],
+        "explain": "Employee: Someone who works for money."
+      },
+      {
+        "id": "v6",
+        "type": "choice",
+        "kind": "word",
+        "word": "Fortunate",
+        "prompt": "Which word matches this class-sheet definition? \"favored by or involving good luck or fortune\"",
+        "options": [
+          {
+            "text": "Fortunate",
+            "correct": true
+          },
+          {
+            "text": "Ignorant",
+            "why": "The class sheet matches Ignorant with \"lacking knowledge or awareness in general\"."
+          },
+          {
+            "text": "Constellations",
+            "why": "The class sheet matches Constellations with \"A group of stars in the night sky that make up a picture or a pattern\"."
+          },
+          {
+            "text": "Produce",
+            "why": "The class sheet matches Produce with \"Fresh fruits and vegetables\"."
+          }
+        ],
+        "explain": "Fortunate: favored by or involving good luck or fortune."
+      },
+      {
+        "id": "v7",
+        "type": "choice",
+        "kind": "word",
+        "word": "Ignorant",
+        "prompt": "Which word matches this class-sheet definition? \"lacking knowledge or awareness in general\"",
+        "options": [
+          {
+            "text": "Melancholy",
+            "why": "The class sheet matches Melancholy with \"A sad or gloomy condition\"."
+          },
+          {
+            "text": "Ignorant",
+            "correct": true
+          },
+          {
+            "text": "Irritating",
+            "why": "The class sheet matches Irritating with \"To anger or bother\"."
+          },
+          {
+            "text": "Exception",
+            "why": "The class sheet matches Exception with \"A case where a rule does not apply\"."
+          }
+        ],
+        "explain": "Ignorant: lacking knowledge or awareness in general."
+      },
+      {
+        "id": "v8",
+        "type": "choice",
+        "kind": "word",
+        "word": "Melancholy",
+        "prompt": "Which word matches this class-sheet definition? \"A sad or gloomy condition\"",
+        "options": [
+          {
+            "text": "Trustworthy",
+            "why": "The class sheet matches Trustworthy with \"The ability to keep promises\"."
+          },
+          {
+            "text": "Distracted",
+            "why": "The class sheet matches Distracted with \"To prevent something from continuing as usual\"."
+          },
+          {
+            "text": "Melancholy",
+            "correct": true
+          },
+          {
+            "text": "Installment",
+            "why": "The class sheet matches Installment with \"When money is paid over a length of time\"."
+          }
+        ],
+        "explain": "Melancholy: A sad or gloomy condition."
+      },
+      {
+        "id": "v9",
+        "type": "choice",
+        "kind": "word",
+        "word": "Trustworthy",
+        "prompt": "Which word matches this class-sheet definition? \"The ability to keep promises\"",
+        "options": [
+          {
+            "text": "Trustworthy",
+            "correct": true
+          },
+          {
+            "text": "Constellations",
+            "why": "The class sheet matches Constellations with \"A group of stars in the night sky that make up a picture or a pattern\"."
+          },
+          {
+            "text": "Produce",
+            "why": "The class sheet matches Produce with \"Fresh fruits and vegetables\"."
+          },
+          {
+            "text": "Peculiar",
+            "why": "The class sheet matches Peculiar with \"Strange or unusual\"."
+          }
+        ],
+        "explain": "Someone you can trust to keep a promise."
+      },
+      {
+        "id": "v10",
+        "type": "choice",
+        "kind": "word",
+        "word": "Constellations",
+        "prompt": "Which word matches this class-sheet definition? \"A group of stars in the night sky that make up a picture or a pattern\"",
+        "options": [
+          {
+            "text": "Irritating",
+            "why": "The class sheet matches Irritating with \"To anger or bother\"."
+          },
+          {
+            "text": "Exception",
+            "why": "The class sheet matches Exception with \"A case where a rule does not apply\"."
+          },
+          {
+            "text": "Employee",
+            "why": "The class sheet matches Employee with \"Someone who works for money\"."
+          },
+          {
+            "text": "Constellations",
+            "correct": true
+          }
+        ],
+        "explain": "Constellations: A group of stars in the night sky that make up a picture or a pattern."
+      },
+      {
+        "id": "v11",
+        "type": "choice",
+        "kind": "word",
+        "word": "Irritating",
+        "prompt": "Which word matches this class-sheet definition? \"To anger or bother\"",
+        "options": [
+          {
+            "text": "Distracted",
+            "why": "The class sheet matches Distracted with \"To prevent something from continuing as usual\"."
+          },
+          {
+            "text": "Installment",
+            "why": "The class sheet matches Installment with \"When money is paid over a length of time\"."
+          },
+          {
+            "text": "Irritating",
+            "correct": true
+          },
+          {
+            "text": "Fortunate",
+            "why": "The class sheet matches Fortunate with \"favored by or involving good luck or fortune\"."
+          }
+        ],
+        "explain": "Annoying or bothersome."
+      },
+      {
+        "id": "v12",
+        "type": "choice",
+        "kind": "word",
+        "word": "Distracted",
+        "prompt": "Which word matches this class-sheet definition? \"To prevent something from continuing as usual\"",
+        "options": [
+          {
+            "text": "Produce",
+            "why": "The class sheet matches Produce with \"Fresh fruits and vegetables\"."
+          },
+          {
+            "text": "Distracted",
+            "correct": true
+          },
+          {
+            "text": "Peculiar",
+            "why": "The class sheet matches Peculiar with \"Strange or unusual\"."
+          },
+          {
+            "text": "Ignorant",
+            "why": "The class sheet matches Ignorant with \"lacking knowledge or awareness in general\"."
+          }
+        ],
+        "explain": "Your attention is pulled away from what you are doing."
+      }
+    ]
+  }
+}
