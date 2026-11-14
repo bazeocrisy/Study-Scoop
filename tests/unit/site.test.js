@@ -57,8 +57,8 @@ test('the built site is exactly the page, styles, modules, fonts, listed weeks, 
     'data/homework/index.json', ...JSON.parse(fs.readFileSync(path.join(REPO, 'data/homework/index.json'), 'utf8')).weeks.flatMap((id) => { const packet = JSON.parse(fs.readFileSync(path.join(REPO, `data/homework/${id}.json`), 'utf8')); return [`data/homework/${id}.json`, ...(packet.download ? [packet.download] : [])]; }),
     // Original newsletter flyers (D26): only the pages a listed week names in its privacy-reviewed "flyer".
     ...weeks.flatMap((f) => { const w = JSON.parse(fs.readFileSync(path.join(REPO, f), 'utf8')); return [...Object.values(w.labs || {}), ...[w.flyer, w.homeworkPapers].flatMap((papers) => papers?.reviewed ? papers.pages.map((pg) => pg.src) : [])]; }),
-    // Stand-alone game (D28).
-    'games/multiplication-mastery-8.html'];
+    // Stand-alone games (D28, D32).
+    'games/multiplication-mastery-8.html', 'games/fraction-scoop-shop.html'];
   assert.deepEqual(PUBLISHED, expected.sort());
   for (const rel of REQUIRED) assert.ok(PUBLISHED.includes(rel), `${rel} is published`);
   assert.deepEqual([...new Set(PUBLISHED.map((f) => f.split('/')[0]))].sort(), ['css', 'data', 'downloads', 'fonts', 'games', 'images', 'index.html', 'js', 'labs']);

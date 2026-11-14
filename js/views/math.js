@@ -80,7 +80,7 @@ function chooseChapter(ctx) {
         })}
       </ul>` : html`<p class="card">The chapters could not be loaded. Please try again later.</p>`}
     </section>
-    <p class="menu-foot"><a class="btn btn-primary" href="games/multiplication-mastery-8.html">⚾ Play Multiplication Mastery 8</a></p>
+    <p class="menu-foot"><a class="btn btn-primary" href="games/multiplication-mastery-8.html">⚾ Play Multiplication Mastery 8</a> <a class="btn btn-primary" href="games/fraction-scoop-shop.html">🍦 Fraction Scoop Shop: Chapter 7 Test Prep</a></p>
     ${testsNote(ctx, 'Every weekly practice test')}`;
 }
 

@@ -21,8 +21,9 @@ export const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 export const ALLOW = [
   /^index\.html$/,
   /^labs\/\d{4}-\d{2}-\d{2}-(?:spelling|vocab)\.html$/,
-  // Stand-alone games (D28).
+  // Stand-alone games (D28, D32).
   /^games\/multiplication-mastery-8\.html$/,
+  /^games\/fraction-scoop-shop\.html$/,
   /^css\/[a-z0-9-]+\.css$/,
   /^js\/(?:(?:lib|views)\/)?[a-z0-9-]+\.js$/,
   /^data\/(?:weeks|pictures|\d{4}-\d{2}-\d{2})\.json$/,
