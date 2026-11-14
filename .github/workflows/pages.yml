@@ -47,21 +47,6 @@ jobs:
         run: node tests/browser.test.js --site _site
       - name: Weekly labs and responsive layout (built site)
         run: node tests/weekly-labs.browser.js --site _site && node tests/layout.browser.js --site _site
-      - name: Chapter 7 fraction journeys (built site)
-        run: node tests/chapter7.browser.js --site _site && node tests/chapter7-assessment.browser.js --site _site
-      - name: Chapter teaching journeys (built site)
-        run: node tests/chapter7-teaching.browser.js --site _site && node tests/chapter7-teaching-access.browser.js --site _site
-      - name: Complete Chapter 7 teaching and resources (built site)
-        run: node tests/chapter7-teaching-all.browser.js --site _site
-      - name: Lesson 7-1 learning journey (built site)
-        run: node tests/partition-journey.browser.js --site _site
-        timeout-minutes: 10
-      - name: Chapter 7 teacher, Lessons 7-2 to 7-7 (built site)
-        run: node tests/chapter7-teacher.browser.js --site _site
-        timeout-minutes: 10
-      - name: Chapter 7 skill journeys (built site)
-        run: node tests/skill-journey.browser.js --site _site
-        timeout-minutes: 15
       - name: November homework journeys (built site)
         run: node tests/homework-nov02.browser.js --site _site
 

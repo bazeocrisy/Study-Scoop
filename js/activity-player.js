@@ -8,14 +8,12 @@ import { PROPERTIES } from './lib/mathlearn.js';
 import { SKILL_SETS, timesFamilyFlash, timesFamilyPractice, timesFamilyFind, findItCorrect } from './lib/skills.js';
 import { AREA_CARDS, AREA_SETS, areaItems, areaVocabWords } from './lib/area.js';
 import { packetItems } from './lib/homework.js';
-import { FRACTION_VOCAB_MODES, FRACTION_PRACTICE_ACTS, fractionVocabItems, fractionPracticeItems } from './lib/chapter7.js';
 import { html } from './lib/html.js';
 import { activityInner, timesFlashView, timesFindView } from './views/activity.js';
 import { skillsView } from './views/skills.js';
 import { unanswered, lessonHelpSteps, teachingFeedbackFor } from './views/lesson.js';
 
 const runs = new Map();    // "week:section:act" -> run
-const fractionHistories = new Map(); // Chapter 7 assistance, held only until this tab reloads.
 const misses = new Map();  // "week:subject" -> Map(key -> { item, fromMark })
 
 const missMap = (weekId, subject) => {
@@ -55,19 +53,6 @@ function newRun(ctx, section, act) {
     return { ...base, ...t, subject: act, group: chapter === 6 ? 'area' : act, act, mode: 'test', chapter, goal: `${t.topic} · ${t.items.length} questions` };
   }
   const info = activityInfo(section, act);
-  if (section === 'math' && info?.chapter === 7) {
-    const run = { ...base, subject: section, chapter: 7, group: missGroup(section, act), act, mode: info.test ? 'test' : 'practice', title: info.label, goal: info.about };
-    const historyKey = `${ctx.weekId}:${run.group}`;
-    if (!fractionHistories.has(historyKey)) fractionHistories.set(historyKey, {});
-    run.history = fractionHistories.get(historyKey);
-    if (!ctx.fractions) return { ...run, unavailable: true };
-    if (info.test) return { ...run, ...ctx.fractions.test, items: ctx.fractions.test.items.map((x) => JSON.parse(JSON.stringify(x))), kind: 'math', chapter: 7 };
-    if (act === 'fvflash') run.flash = { order: ctx.fractions.vocabulary.map((_, i) => i), i: 0, flipped: false, marks: {} };
-    else if (isMissesAct(act)) run.items = [...missMap(ctx.weekId, run.group).values()].map((e) => reshuffle(e.item, rand));
-    else if (FRACTION_VOCAB_MODES[act]) run.items = fractionVocabItems(ctx.fractions, FRACTION_VOCAB_MODES[act], rand);
-    else if (FRACTION_PRACTICE_ACTS.includes(act)) run.items = fractionPracticeItems(ctx.fractions, act, rand);
-    return run;
-  }
   // A Math chapter's practice test (D26): the chapter's own test, taken inside the chapter (no Help until the end).
   if (section === 'math' && info.test) {
     const t = testFor('math', ctx.week, ctx.tests, rand, ctx.mathWords, ctx.area);

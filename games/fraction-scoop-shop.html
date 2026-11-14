@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fraction Scoop Shop — Chapter 7 Test Prep</title>
+
+<style>
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:400;font-display:swap;src:url("../fonts/atkinson-hyperlegible-400.woff2") format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:700;font-display:swap;src:url("../fonts/atkinson-hyperlegible-700.woff2") format("woff2")}
+@font-face{font-family:"Baloo 2";font-weight:600 800;font-display:swap;src:url("../fonts/baloo-2.woff2") format("woff2")}
+:root{--ink:#1d2a44;--shade:#ff8a1f;--shade2:#ffe6cc;--good:#0fae84;--bad:#e5484d;--accent:#4b6bff;--accent2:#e2e8ff;--muted:#5c6b85;--purple:#14b8c4;--pink:#1f7aff}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Atkinson Hyperlegible",system-ui,sans-serif;color:var(--ink);font-size:20px;line-height:1.45;background-color:#fffaf2;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cg opacity='.45'%3E%3Crect x='20' y='30' width='18' height='6' rx='3' fill='%231f9bff' transform='rotate(30 29 33)'/%3E%3Crect x='120' y='20' width='18' height='6' rx='3' fill='%2319c79a' transform='rotate(-25 129 23)'/%3E%3Crect x='210' y='60' width='18' height='6' rx='3' fill='%234b6bff' transform='rotate(60 219 63)'/%3E%3Crect x='70' y='110' width='18' height='6' rx='3' fill='%23ffc61a' transform='rotate(-50 79 113)'/%3E%3Crect x='170' y='140' width='18' height='6' rx='3' fill='%236cc81a' transform='rotate(15 179 143)'/%3E%3Crect x='30' y='200' width='18' height='6' rx='3' fill='%23ff8a1f' transform='rotate(-15 39 203)'/%3E%3Crect x='130' y='220' width='18' height='6' rx='3' fill='%2314b8c4' transform='rotate(45 139 223)'/%3E%3Crect x='225' y='200' width='18' height='6' rx='3' fill='%2319c79a' transform='rotate(-70 234 203)'/%3E%3C/g%3E%3C/svg%3E")}
+.wrap{max-width:960px;margin:0 auto;padding:14px 18px 90px}
+h1,h2,h3,.fun{font-family:"Baloo 2",system-ui,sans-serif}
+h1{font-size:40px;margin:4px 0;line-height:1.1;font-weight:700}
+h2{font-size:30px;margin:2px 0 10px;line-height:1.2;font-weight:700}
+h3{font-size:23px;margin:8px 0 6px;font-weight:600}
+p{margin:8px 0}
+button{font:inherit;cursor:pointer;border:none;border-radius:16px;padding:10px 20px;min-height:52px;font-weight:900;touch-action:manipulation;transition:transform .06s}
+button:active:not(:disabled){transform:translateY(3px)}
+button:disabled{opacity:.45;cursor:default}
+.btn{background:var(--pink);color:#fff;box-shadow:0 5px 0 #0b4fc2}
+.btn:active:not(:disabled){box-shadow:0 2px 0 #0b4fc2}
+.btn.alt{background:#fff;color:#0b5fd6;border:3px solid var(--pink);box-shadow:0 4px 0 #a9cdff}
+.btn.good{background:var(--good);color:#fff;box-shadow:0 5px 0 #0a7a5c}
+.btn.small{min-height:44px;padding:6px 14px;font-size:17px}
+.topbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.banner{position:relative;margin:4px 0 46px;color:#fff}
+.banner .top{border-radius:26px 26px 0 0;padding:20px 24px 6px;background-image:radial-gradient(circle at 12% 30%,rgba(255,255,255,.55) 0 3px,transparent 4px),radial-gradient(circle at 70% 20%,rgba(255,255,255,.55) 0 3px,transparent 4px),radial-gradient(circle at 40% 75%,rgba(255,255,255,.45) 0 3px,transparent 4px),radial-gradient(circle at 88% 65%,rgba(255,255,255,.5) 0 3px,transparent 4px);background-size:120px 90px}
+.banner h1{color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.18)}
+.banner .sub{font-weight:900;font-size:20px;opacity:.95;text-shadow:0 2px 0 rgba(0,0,0,.12)}
+.banner.dark{color:var(--ink)} .banner.dark h1{color:var(--ink);text-shadow:0 3px 0 rgba(255,255,255,.6)}
+.banner svg.drip{position:absolute;left:0;right:0;width:100%;height:56px;top:100%;margin-top:-1px}
+.banner .cone{position:absolute;right:20px;top:8px;font-size:64px;transform:rotate(12deg);filter:drop-shadow(0 4px 0 rgba(0,0,0,.12))}
+.card{background:#fff;border-radius:24px;padding:20px 22px;border:4px solid #cfe6ff;box-shadow:0 6px 0 #cfe6ff;margin:16px 0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:10px}
+.tile{position:relative;text-align:left;border-radius:20px;padding:12px 16px 12px 16px;color:var(--ink);font-weight:700;min-height:104px;display:flex;flex-direction:column;gap:2px;border:4px solid var(--fc);background:var(--fl);box-shadow:0 6px 0 var(--fc)}
+.tile:hover{transform:translateY(-2px)}
+.tile .ico{position:absolute;right:10px;top:8px;font-size:34px}
+.tile .tag{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--fd)}
+.tile .t{font-family:"Baloo 2",sans-serif;font-size:23px;font-weight:700;line-height:1.15;padding-right:36px}
+.tile .s{font-size:16px;color:#4d5b74;font-weight:800}
+.tile .badge{font-size:15px;font-weight:900;color:#fff;background:var(--good);border-radius:999px;padding:1px 10px;align-self:flex-start;margin-top:4px}
+.step-label{font-size:15px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--pink)}
+.ask{background:#fff6cc;border:3px solid #ffc61a;border-radius:18px;padding:10px 14px;margin:14px 0;font-size:18px}
+.ask b.lbl{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:#a06f00}
+.key{background:#e2e8ff;border:3px solid #9fb0ff;border-radius:18px;padding:10px 14px;margin:14px 0}
+.trap{background:#ffe6cc;border:3px solid #ffb066;border-radius:18px;padding:10px 14px;margin:14px 0}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05;font-weight:900;margin:0 3px}
+.frac>span:first-child{border-bottom:3px solid currentColor;padding:0 5px 1px}
+.frac>span:last-child{padding:1px 5px 0}
+.frac.lg{font-size:40px}
+.fin{display:inline-flex;flex-direction:column;align-items:center;gap:5px;vertical-align:middle}
+.fin input,.numin{width:78px;height:60px;font:inherit;font-size:30px;font-weight:900;text-align:center;border:4px solid #a9cdff;border-radius:16px;color:var(--ink);background:#fff}
+.fin input:focus,.numin:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px #c7d2ff}
+.fin .bar{width:90px;height:5px;background:var(--ink);border-radius:3px}
+.fin.ok input,.numin.ok{border-color:var(--good);background:#d9fbef}
+.fin.bad input,.numin.bad{border-color:var(--bad);background:#ffe3e4}
+.answer-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.fb{margin-top:12px;padding:10px 14px;border-radius:16px;font-weight:800;display:none}
+.fb.ok{display:block;background:#d9fbef;color:#07684f;border:3px solid #7fe3c2}
+.fb.bad{display:block;background:#ffe3e4;color:#a3242a;border:3px solid #ffb0b3}
+.fb.info{display:block;background:#eef4fb;color:var(--ink)}
+.hintbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.hintbar button{background:#dff7fa;color:#0b7f8a;border:3px solid #8fe3ea;min-height:44px;padding:6px 14px;font-size:17px;box-shadow:0 3px 0 #8fe3ea}
+.hint{background:#effcfd;border-radius:16px;padding:10px 14px;margin-top:8px;border:3px solid #b5eef3;font-size:19px}
+.hint b.lbl{color:#0b7f8a}
+.mc{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.mc button{background:#fff;border:4px solid #c8dcf5;color:var(--ink);min-width:80px;box-shadow:0 4px 0 #c8dcf5}
+.mc button.sel{border-color:var(--accent);background:var(--accent2)}
+.mc button.right{border-color:var(--good);background:#d9fbef;box-shadow:0 4px 0 #7fe3c2}
+.mc button.wrong{border-color:var(--bad);background:#ffe3e4;box-shadow:0 4px 0 #ffb0b3}
+.mc button svg{display:block;margin:0 auto}
+svg{max-width:100%;height:auto;display:block}
+.vis{margin:12px 0;display:flex;justify-content:flex-start}
+.click .part,.click .hit{cursor:pointer}
+.dots{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 4px;align-items:center}
+.dot{width:22px;height:9px;border-radius:5px;background:#d9e6f5;transform:rotate(-20deg)}
+.dot:nth-child(3n){transform:rotate(25deg)}
+.dot.on{background:var(--pink)}
+.dot.done{background:var(--good)}
+.dot.done:nth-child(4n){background:var(--accent)} .dot.done:nth-child(4n+1){background:#ffb400} .dot.done:nth-child(4n+2){background:var(--purple)}
+.stepdots{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.stepdots button{min-height:40px;padding:4px 14px;font-size:16px;background:#fff;color:var(--ink);border:3px solid #a9cdff;border-radius:999px}
+.stepdots button.on{background:var(--pink);border-color:var(--pink);color:#fff}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}
+.row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.toolbar b{font-size:18px;margin-right:4px}
+.toolbar button{min-height:48px;min-width:54px;padding:4px 14px;background:#fff;border:4px solid #c9f2e4;color:var(--ink);box-shadow:0 4px 0 #c9f2e4}
+.toolbar button.sel{border-color:var(--good);background:#d9fbef;box-shadow:0 4px 0 #7fe3c2}
+.readout{font-size:21px;font-weight:700;margin-top:10px;min-height:60px}
+.readout .win{color:var(--good);font-weight:900;margin-top:6px;font-size:23px}
+.widget{background:#f2fffa;border:4px dashed #7fe3c2;border-radius:22px;padding:14px 18px;margin:14px 0}
+.setitems{font-size:46px;line-height:1.25;display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}
+.setitems span{display:inline-block;border-radius:14px;padding:2px 6px;border:3px solid transparent;position:relative}
+.setitems.click span{cursor:pointer}
+.setitems span.on{background:var(--shade2);border-color:var(--shade)}
+.setitems span .n{position:absolute;top:-6px;right:-6px;background:var(--accent);color:#fff;font-size:15px;font-weight:900;border-radius:999px;min-width:24px;height:24px;line-height:24px;text-align:center;padding:0 4px}
+.setitems span .n.other{background:#97a6bd}
+.hwhead{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.hwgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:16px;margin-top:10px}
+.hwitem{border:4px solid #d3e6fb;border-radius:22px;padding:12px 14px;background:#fff;box-shadow:0 5px 0 #d3e6fb}
+.hwitem.ok{border-color:#7fe3c2;box-shadow:0 5px 0 #7fe3c2;background:#fbfffd}
+.hwitem .num{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:22px;color:#0b5fd6}
+.hwitem .q .big{font-size:20px}
+.example{background:#f4f9ff;border-style:dashed;border-color:#a9cdff;box-shadow:none}
+.pill{display:inline-block;background:#fff;border:3px solid #a9cdff;border-radius:999px;padding:3px 12px;font-size:15px;font-weight:900}
+.pill.green{background:#d9fbef;border-color:#7fe3c2;color:#07684f}
+.big{font-size:24px;font-weight:800}
+.small{font-size:17px}
+.muted{color:var(--muted)}
+.vocab{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:12px;margin:10px 0}
+.vcard{border:4px solid #8fe3ea;border-radius:20px;padding:12px 16px;background:#eef6ff;text-align:left;color:var(--ink);font-weight:700;min-height:120px}
+.vcard .w{font-family:"Baloo 2",sans-serif;font-size:28px;font-weight:700;color:#0b7f8a}
+.vcard .d{font-size:19px;margin-top:4px}
+.score{font-family:"Baloo 2",sans-serif;font-size:24px;font-weight:700;background:#fff;border:4px solid #7fe3c2;border-radius:18px;padding:6px 14px;color:var(--ink)}
+.namecut{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:20px;margin:8px 0}
+.side{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.side>div{text-align:center;font-weight:800}
+.good-t{color:var(--good)} .bad-t{color:var(--bad)}
+.summary{text-align:center}
+.summary .stars{font-size:56px}
+.summary .score{display:inline-block}
+.hwgrid{align-items:start}
+.how{background:#fff;border:4px solid #7fd0ff;border-radius:22px;padding:10px 16px;margin:12px 0;box-shadow:0 5px 0 #7fd0ff}
+.how .ht{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:22px;color:#0b5fb8;margin-bottom:4px}
+.how ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.how li{display:flex;gap:10px;align-items:center;font-size:21px;font-weight:800}
+.how li .n{flex:none;width:34px;height:34px;border-radius:50%;color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:19px}
+.adult{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 6px}
+.adult .lbl{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:#8592a8}
+.adult button{background:#eef3f9;color:#4d5b74;border:2px solid #d3deea;box-shadow:none;min-height:38px;font-size:15px;padding:4px 12px;border-radius:12px}
+.finwrap{display:inline-flex;align-items:stretch;gap:8px}
+.flabels{display:flex;flex-direction:column;justify-content:space-between;font-size:16px;font-weight:900;color:#5c6b85}
+.flabels span{height:60px;display:flex;align-items:center;white-space:nowrap}
+.exsteps{margin-top:8px;font-size:18px;font-weight:800;background:#fff;border-radius:14px;padding:6px 10px;border:2px solid #cfe6ff}
+
+/* ---- compact desktop sizing ---- */
+body{font-size:18px}
+.wrap{max-width:1140px;padding:10px 18px 70px}
+h1{font-size:30px} h2{font-size:24px;margin:0 0 6px} h3{font-size:19px;margin:6px 0 4px}
+p{margin:5px 0}
+button{min-height:44px;padding:7px 16px;border-radius:14px}
+.btn.small{min-height:38px;padding:4px 12px;font-size:16px}
+.topbar{margin-bottom:6px}
+.banner{margin:2px 0 30px}
+.banner .top{padding:10px 20px 2px}
+.banner .sub{font-size:16px}
+.banner svg.drip{height:36px}
+.banner .cone{font-size:42px;top:6px}
+.banner .pill{font-size:13px;padding:1px 10px}
+.card{padding:14px 18px;margin:10px 0;border-radius:20px}
+.ask,.key,.trap{margin:8px 0;padding:7px 12px;font-size:17px;border-radius:14px}
+.tiles{gap:10px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tile{min-height:84px;padding:9px 14px}
+.tile .t{font-size:20px} .tile .ico{font-size:28px} .tile .s{font-size:15px}
+.frac.lg{font-size:32px}
+.fin input,.numin{width:66px;height:50px;font-size:26px;border-radius:12px}
+.fin .bar{width:78px}
+.flabels span{height:50px;font-size:15px}
+.answer-row{margin-top:8px;gap:12px}
+.fb{margin-top:8px;padding:7px 12px}
+.hintbar{margin-top:8px} .hintbar button{min-height:36px;font-size:15px;padding:4px 12px}
+.hint{font-size:17px;padding:7px 12px;margin-top:6px}
+.mc{gap:8px;margin-top:8px} .mc button{min-width:70px}
+.vis{margin:8px 0}
+.big{font-size:21px}
+.readout{font-size:18px;margin-top:6px;min-height:44px} .readout .win{font-size:20px}
+.widget{padding:10px 14px;margin:10px 0}
+.toolbar{margin:5px 0} .toolbar button{min-height:40px;min-width:46px} .toolbar b{font-size:16px}
+.stepdots button{min-height:34px;font-size:15px;padding:2px 12px}
+.hwgrid{grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.hwitem{padding:10px 12px;border-radius:18px}
+.hwitem .num{font-size:19px}
+.how{padding:8px 14px;margin:8px 0} .how .ht{font-size:19px} .how li{font-size:18px} .how li .n{width:28px;height:28px;font-size:16px}
+.score{font-size:19px;padding:4px 12px}
+.vcard{min-height:0;padding:10px 14px} .vcard .w{font-size:23px} .vcard .d{font-size:17px}
+.setitems{font-size:40px}
+.summary .stars{font-size:44px}
+.namecut{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{background:#e0e7ff;border:3px solid #9fb0ff;border-radius:999px;padding:3px 14px;font-weight:800;font-size:18px}
+.lessonbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:0 0 4px}
+.hwitem .vis svg{max-height:140px;width:auto}
+.hwitem .mc svg{max-height:110px;width:auto}
+.nav{position:sticky;bottom:0;z-index:5;background:rgba(255,250,242,.94);padding:8px 0;margin-top:6px;border-top:2px solid #d9e6f5}
+.pqdots{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.pqdots button{min-height:32px;min-width:34px;padding:0 4px;font-size:14px;border-radius:9px;background:#fff;border:2px solid #cfe0f5;color:#4d5b74;box-shadow:none}
+.pqdots button.done{background:var(--good);border-color:var(--good);color:#fff}
+.pqdots button.done1{background:#7fe3c2;border-color:#0fae84;color:#07684f}
+.pqdots button.cur{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.how.mini{padding:6px 12px;box-shadow:0 3px 0 #7fd0ff;border-width:3px}
+.how.mini ol{flex-direction:row;flex-wrap:wrap;gap:4px 18px}
+.how.mini li{font-size:16px} .how.mini .ht{font-size:16px} .how.mini li .n{width:24px;height:24px;font-size:14px}
+.menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:10px}
+.menu .tile{min-height:120px;padding:14px 16px 14px 70px}
+.menu .tile .big-ico{position:absolute;left:14px;top:16px;font-size:40px}
+.menu .tile .stepn{position:absolute;left:14px;top:66px;width:40px;text-align:center;font-weight:900;font-size:14px;color:var(--fd)}
+.menu .tile .t{font-size:23px}
+.flipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:10px 0}
+.flip{position:relative;text-align:left;background:#fff;border:4px solid #c8dcf5;border-radius:20px;padding:12px 14px;min-height:230px;box-shadow:0 5px 0 #c8dcf5;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+.flip .w{font-family:"Baloo 2",sans-serif;font-size:26px;font-weight:800;color:#0b5fd6;line-height:1.1}
+.flip .star{font-size:13px;font-weight:900;background:#fff6cc;border:2px solid #ffc61a;border-radius:999px;padding:1px 8px;align-self:flex-start}
+.flip .book{font-size:13px;font-weight:900;background:#eef4fb;border:2px solid #c8dcf5;border-radius:999px;padding:1px 8px;align-self:flex-start}
+.flip .d{font-size:18px;font-weight:700}
+.flip .tap{font-size:14px;color:var(--muted);font-weight:800;margin-top:auto}
+.flip.back{background:#f2fbff;border-color:#7fd0ff;box-shadow:0 5px 0 #7fd0ff}
+.flip .pic{display:flex;align-items:center;gap:12px;min-height:90px}
+.results td,.results th{padding:6px 10px;border-bottom:2px solid #e6eef8;text-align:left;font-size:18px}
+.results{border-collapse:collapse;margin:8px 0;width:100%}
+.review{border:3px solid #ffd0d3;background:#fff8f8;border-radius:16px;padding:8px 12px;margin:8px 0;font-size:17px}
+.review .ca{font-weight:900;color:var(--good)}
+@media (max-width:520px){body{font-size:18px}.hwgrid,.vocab{grid-template-columns:1fr}h1{font-size:32px}.banner .cone{font-size:44px}}
+a.btn{border-radius:14px;font-weight:900}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+"use strict";
+/* ============ helpers ============ */
+const INK='#1d2a44', SHADE='#ff8a1f', ACCENT='#4b6bff', GOOD='#0fae84';
+function el(tag, attrs, ...kids){
+  const e=document.createElement(tag);
+  for(const [k,v] of Object.entries(attrs||{})){
+    if(v===false||v==null) continue;
+    if(k==='class') e.className=v;
+    else if(k==='html') e.innerHTML=v;
+    else if(k.startsWith('on')) e.addEventListener(k.slice(2),v);
+    else e.setAttribute(k,v);
+  }
+  for(const c of kids.flat()){ if(c==null||c===false) continue; e.append(c.nodeType?c:document.createTextNode(String(c))); }
+  return e;
+}
+const NS='http://www.w3.org/2000/svg';
+function sv(tag, attrs, ...kids){
+  const e=document.createElementNS(NS,tag);
+  for(const [k,v] of Object.entries(attrs||{})){ if(v==null) continue; if(k.startsWith('on')) e.addEventListener(k.slice(2),v); else e.setAttribute(k,v); }
+  for(const c of kids.flat()){ if(c==null) continue; e.append(c.nodeType?c:document.createTextNode(String(c))); }
+  return e;
+}
+const H=s=>el('div',{html:s});
+const fr=(n,d,cls='')=>`<span class="frac ${cls}"><span>${n}</span><span>${d}</span></span>`;
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const range=n=>[...Array(n).keys()];
+const NAMES={1:['whole','wholes'],2:['half','halves'],3:['third','thirds'],4:['fourth','fourths'],5:['fifth','fifths'],6:['sixth','sixths'],7:['seventh','sevenths'],8:['eighth','eighths'],9:['ninth','ninths'],10:['tenth','tenths'],12:['twelfth','twelfths']};
+const NUMW=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
+function fracWords(n,d){ const w2 = d===2 ? (n===1?'half':'halves') : NAMES[d][n===1?0:1]; return NUMW[n]+'-'+w2; }
+const pfine = ()=>{ try{return matchMedia('(pointer:fine)').matches;}catch(e){return true;} };
+
+/* ============ progress (light, per browser) ============ */
+const STORE='chris-fractions-v1';
+const MEM={}; function loadP(){ return MEM; }
+function saveP(p){ /* Study Scoop saves nothing (D4) */ }
+function record(kind,id,score,of){ const p=loadP(); p[kind]=p[kind]||{}; const old=p[kind][id]; if(!old || score/of >= old.score/old.of) p[kind][id]={score,of}; saveP(p); }
+
+/* ============ shapes ============ */
+function sectorPath(cx,cy,R,a0,a1){
+  const P=a=>[cx+R*Math.sin(a*Math.PI/180), cy-R*Math.cos(a*Math.PI/180)];
+  const [x0,y0]=P(a0),[x1,y1]=P(a1); const large=(a1-a0)>180?1:0;
+  return `M${cx} ${cy}L${x0.toFixed(2)} ${y0.toFixed(2)}A${R} ${R} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}Z`;
+}
+const poly=pts=>'M'+pts.map(p=>p.join(' ')).join('L')+'Z';
+const centroid=pts=>[pts.reduce((s,p)=>s+p[0],0)/pts.length, pts.reduce((s,p)=>s+p[1],0)/pts.length];
+function partsFor(s){
+  const k=s.kind;
+  if(k==='bar'){
+    const W=s.w||420,Hh=s.h||96, ws=s.widths||Array(s.n).fill(1), tot=ws.reduce((a,b)=>a+b,0); let x=4;
+    return {w:W+8,h:Hh+8,parts:ws.map(wi=>{const pw=W*wi/tot; const p={d:`M${x} 4h${pw}v${Hh}h${-pw}Z`,cx:x+pw/2,cy:4+Hh/2}; x+=pw; return p;})};
+  }
+  if(k==='circle'){
+    const R=s.r||86,c=R+4; const angs=s.angles||Array(s.n).fill(360/s.n);
+    if(angs.length===1) return {w:2*c,h:2*c,parts:[{d:`M${c-R} ${c}a${R} ${R} 0 1 0 ${2*R} 0a${R} ${R} 0 1 0 ${-2*R} 0`,cx:c,cy:c}]};
+    let a=0; return {w:2*c,h:2*c,parts:angs.map(g=>{const a0=a,a1=a+g; a=a1; const m=(a0+a1)/2*Math.PI/180, rr=R*(angs.length>6?0.68:0.58); return {d:sectorPath(c,c,R,a0,a1),cx:c+rr*Math.sin(m),cy:c-rr*Math.cos(m)};})};
+  }
+  if(k==='grid'){
+    const cs=s.cell||62, W=s.cols*cs*(s.stretch||1), Hh=s.rows*cs; const cw=W/s.cols; const parts=[];
+    for(let r=0;r<s.rows;r++)for(let c=0;c<s.cols;c++) parts.push({d:`M${4+c*cw} ${4+r*cs}h${cw}v${cs}h${-cw}Z`,cx:4+c*cw+cw/2,cy:4+r*cs+cs/2});
+    return {w:W+8,h:Hh+8,parts};
+  }
+  if(k==='tri3'){ // triangle split into 3 equal parts through the centroid
+    const A=[110,6],B=[8,180],C=[212,180]; const G=centroid([A,B,C]); const mAB=[(A[0]+B[0])/2,(A[1]+B[1])/2], mAC=[(A[0]+C[0])/2,(A[1]+C[1])/2], mBC=[(B[0]+C[0])/2,(B[1]+C[1])/2];
+    const P=[[A,mAC,G,mAB],[mAB,G,mBC,B],[mAC,C,mBC,G]];
+    return {w:220,h:186,parts:P.map(p=>{const c=centroid(p);return {d:poly(p),cx:c[0],cy:c[1]};})};
+  }
+  if(k==='tri2'){
+    const A=[96,6],B=[6,156],C=[186,156]; let P;
+    if(s.cut==='v'){const m=[96,156]; P=[[A,B,m],[A,m,C]];}
+    else if(s.cut==='h'){const l=[51,81],r=[141,81]; P=[[A,r,l],[l,r,C,B]];}
+    else {const m=[52,156]; P=[[A,B,m],[A,m,C]];}
+    return {w:192,h:162,parts:P.map(p=>{const c=centroid(p);return {d:poly(p),cx:c[0],cy:c[1]};})};
+  }
+  if(k==='discs'){
+    const R=s.r||30, gap=14; const pos=s.pos||range(s.n).map(i=>[i%4,Math.floor(i/4)]);
+    const cols=Math.max(...pos.map(p=>p[0]))+1, rows=Math.max(...pos.map(p=>p[1]))+1;
+    return {w:cols*(2*R+gap)+4,h:rows*(2*R+gap)+4,parts:pos.map(([c,r])=>{const cx=4+R+c*(2*R+gap),cy=4+R+r*(2*R+gap);return {d:`M${cx-R} ${cy}a${R} ${R} 0 1 0 ${2*R} 0a${R} ${R} 0 1 0 ${-2*R} 0`,cx,cy};})};
+  }
+  if(k==='triRows'){
+    const w=58,h=58,parts=[];
+    for(let r=0;r<s.rows;r++)for(let c=0;c<s.cols;c++){const x=4+c*w,y=4+r*(h+6); parts.push({d:`M${x} ${y+h}L${x+w/2} ${y}L${x+w} ${y+h}Z`,cx:x+w/2,cy:y+h*0.68});}
+    return {w:s.cols*w+8,h:s.rows*(h+6)+4,parts};
+  }
+  if(k==='poly'){ const F=FIGS[s.fig]; return {w:F.w,h:F.h,parts:F.parts.map(p=>{const c=centroid(p);return {d:poly(p),cx:c[0],cy:c[1]};})}; }
+  throw new Error('unknown shape '+k);
+}
+// Figures for "same size, different shape" questions. Every part's area is checked in tests.
+const HEX=[[184,92],[142,164.7],[58,164.7],[16,92],[58,19.3],[142,19.3]], HC=[100,92];
+const FIGS={
+  sqX:{w:168,h:168,parts:[[[4,4],[164,4],[84,84]],[[164,4],[164,164],[84,84]],[[164,164],[4,164],[84,84]],[[4,164],[4,4],[84,84]]]},
+  sqHalfQuarters:{w:168,h:168,parts:[[[4,4],[4,164],[164,164]],[[4,4],[164,4],[84,84]],[[164,4],[164,164],[84,84]]]},
+  rectMix:{w:208,h:128,parts:[[[4,4],[104,4],[104,64],[4,64]],[[4,64],[104,64],[104,124],[4,124]],[[104,4],[154,4],[154,124],[104,124]],[[154,4],[204,4],[204,124],[154,124]]]},
+  rectUneq3:{w:208,h:128,parts:[[[4,4],[54,4],[54,124],[4,124]],[[54,4],[104,4],[104,124],[54,124]],[[104,4],[204,4],[204,124],[104,124]]]},
+  rect8:{w:208,h:128,parts:[[[4,4],[104,4],[104,64]],[[4,4],[104,64],[4,64]],[[104,4],[204,4],[104,64]],[[204,4],[204,64],[104,64]],[[4,64],[104,64],[4,124]],[[104,64],[104,124],[4,124]],[[104,64],[204,64],[204,124]],[[104,64],[204,124],[104,124]]]},
+  hex6:{w:200,h:184,parts:HEX.map((v,i)=>[HC,v,HEX[(i+1)%6]])},
+  hexMix:{w:200,h:184,parts:[[HEX[0],HEX[1],HEX[2],HEX[3]],[HC,HEX[3],HEX[4]],[HC,HEX[4],HEX[5]],[HC,HEX[5],HEX[0]]]},
+  // Like Math Probe #4: bottom half cut in two (1/4 each); top cut into 1/4, 1/12 and 1/6 pieces.
+  hexProbe:{w:200,h:184,parts:[[HEX[3],HEX[2],[100,164.7],HC],[HC,[100,164.7],HEX[1],HEX[0]],[HC,HEX[3],HEX[4],[100,19.3]],[HC,[100,19.3],HEX[5]],[HC,HEX[5],HEX[0]]]},
+};
+function polyArea(p){ let a=0; for(let i=0;i<p.length;i++){const [x1,y1]=p[i],[x2,y2]=p[(i+1)%p.length]; a+=x1*y2-x2*y1;} return Math.abs(a)/2; }
+function partCount(spec){ return partsFor(spec).parts.length; }
+function shapeSVG(spec,o={}){
+  const P=partsFor(spec), shaded=o.shaded||new Set();
+  const svg=sv('svg',{viewBox:`0 0 ${P.w} ${P.h}`,width:o.width||P.w,class:o.click?'click':null,role:'img'});
+  const nodes=P.parts.map((p,i)=>{
+    const path=sv('path',{d:p.d,class:'part',fill:shaded.has(i)?SHADE:'#fff',stroke:INK,'stroke-width':3,'stroke-linejoin':'round'});
+    if(o.click) path.addEventListener('click',()=>{ if(svg._locked) return; shaded.has(i)?shaded.delete(i):shaded.add(i); path.setAttribute('fill',shaded.has(i)?SHADE:'#fff'); o.onChange&&o.onChange(shaded); });
+    svg.append(path); return path;
+  });
+  let lab=null;
+  svg._count=()=>{ // number shaded parts first, then the rest
+    if(lab) lab.remove(); lab=sv('g',{'pointer-events':'none'}); let k=0;
+    const order=[...range(P.parts.length).filter(i=>shaded.has(i)),...range(P.parts.length).filter(i=>!shaded.has(i))];
+    order.forEach(i=>{k++; const p=P.parts[i]; const fs=P.parts.length>9?17:21;
+      lab.append(sv('text',{x:p.cx,y:p.cy+fs*0.36,'text-anchor':'middle','font-size':fs,'font-weight':900,fill:shaded.has(i)?'#fff':'#5b6b8a',stroke:shaded.has(i)?'#9b2f48':'none','stroke-width':shaded.has(i)?0.6:0,'font-family':'Atkinson Hyperlegible,sans-serif'},String(k)));});
+    svg.append(lab);
+  };
+  svg._shaded=shaded; svg._n=P.parts.length;
+  return svg;
+}
+
+/* ============ number line ============ */
+function numberLine(o){
+  const W=o.W||660, L=46, R=W-46, den=o.den, max=o.max||1, extra=o.extra||0;
+  const span=max+extra/den, sc=(R-L)/span, X=i=>L+i/den*sc, total=max*den+extra;
+  const stripH=o.strip?64:0; const y=stripH+52;
+  const fl=o.fracLabels||[]; const both=fl.some(i=>i%den===0)&&o.labels!=='none';
+  const Hh=y+(fl.length||o.missing!=null?(both?96:72):48);
+  const svg=sv('svg',{viewBox:`0 0 ${W} ${Hh}`,width:W,class:o.click?'click':null,role:'img'});
+  const T=(x,yy,s,size,wt,col)=>sv('text',{x,y:yy,'text-anchor':'middle','font-size':size||20,'font-weight':wt||900,fill:col||INK,'font-family':'Atkinson Hyperlegible,sans-serif'},s);
+  if(o.strip){
+    const sy=6; let shadeN=o.stripShade||0;
+    for(let i=0;i<max*den;i++){
+      svg.append(sv('rect',{x:X(i),y:sy,width:X(i+1)-X(i),height:40,fill:i<shadeN?SHADE:(Math.floor(i/den)%2? '#f4f6fa':'#fff'),stroke:INK,'stroke-width':2}));
+      const cx=(X(i)+X(i+1))/2, w=X(i+1)-X(i), fs=w<34?12:15;
+      if(den===1) svg.append(T(cx,sy+26,'1',16));
+      else { svg.append(T(cx,sy+16,'1',fs)); svg.append(sv('line',{x1:cx-6,x2:cx+6,y1:sy+20,y2:sy+20,stroke:INK,'stroke-width':1.5})); svg.append(T(cx,sy+35,String(den),fs)); }
+    }
+    for(let w=0;w<=max;w++) svg.append(sv('line',{x1:X(w*den),x2:X(w*den),y1:sy+40,y2:y,stroke:'#98a3b8','stroke-width':1.5,'stroke-dasharray':'4 4'}));
+  }
+  svg.append(sv('line',{x1:L-28,y1:y,x2:R+28,y2:y,stroke:INK,'stroke-width':3.5}));
+  svg.append(sv('path',{d:`M${L-34} ${y}l12 -8v16z`,fill:INK}));
+  svg.append(sv('path',{d:`M${R+34} ${y}l-12 -8v16z`,fill:INK}));
+  for(let i=0;i<=total;i++){ const big=i%den===0; svg.append(sv('line',{x1:X(i),x2:X(i),y1:y-(big?15:11),y2:y+(big?15:11),stroke:INK,'stroke-width':big?4:3})); }
+  if(o.labels!=='none') for(let w=0;w<=max;w++) svg.append(T(X(w*den),y+40,String(w),24));
+  fl.forEach(i=>{ const off=(i%den===0&&o.labels!=='none')?26:0; const cx=X(i);
+    svg.append(T(cx,y+34+off,String(i),18)); svg.append(sv('line',{x1:cx-9,x2:cx+9,y1:y+40+off,y2:y+40+off,stroke:INK,'stroke-width':2})); svg.append(T(cx,y+58+off,String(den),18)); });
+  if(o.missing!=null){ const cx=X(o.missing), off=(o.missing%den===0&&o.labels!=='none')?26:0; svg.append(sv('rect',{x:cx-17,y:y+20+off,width:34,height:44,rx:4,fill:'#fff',stroke:ACCENT,'stroke-width':3,'stroke-dasharray':'5 3'})); svg.append(T(cx,y+50+off,'?',24,900,ACCENT)); }
+  const jg=sv('g',{'pointer-events':'none'}); svg.append(jg);
+  (o.letters||[]).forEach(([i,L])=>{ svg.append(sv('circle',{cx:X(i),cy:y,r:7,fill:INK})); svg.append(T(X(i),y-20,L,19)); });
+  if(o.point!=null){ svg.append(sv('circle',{cx:X(o.point),cy:y,r:8.5,fill:INK})); if(o.showX!==false) svg.append(T(X(o.point),y-22,'x',20)); }
+  const mk=sv('g',{'pointer-events':'none'}); svg.append(mk);
+  svg._mark=i=>{ mk.replaceChildren(); if(i==null) return; mk.append(sv('circle',{cx:X(i),cy:y,r:11,fill:ACCENT,stroke:'#fff','stroke-width':3})); };
+  svg._jumps=(k,showAll)=>{ jg.replaceChildren(); const upto=showAll?Math.max(k,showAll):k; const step=X(1)-X(0);
+    for(let j=0;j<upto;j++){ const x0=X(j),x1=X(j+1),mid=(x0+x1)/2, on=j<k;
+      jg.append(sv('path',{d:`M${x0+2} ${y-5}Q${mid} ${y-40} ${x1-2} ${y-5}`,fill:'none',stroke:on?ACCENT:'#a7b1c4','stroke-width':on?3:2,'stroke-dasharray':on?null:'5 4'}));
+      if(step>=22) jg.append(T(mid,y-30,String(j+1),step<34?12:15,900,on?ACCENT:'#7a869c'));
+    } };
+  if(o.click){ const hw=(X(1)-X(0))/2;
+    for(let i=(o.clickFrom||0);i<=total;i++){ const r=sv('rect',{class:'hit',x:X(i)-hw,y:y-34,width:2*hw,height:62,fill:'transparent'}); r.addEventListener('click',()=>{ if(svg._locked) return; svg._mark(i); o.onPick&&o.onPick(i); }); svg.append(r); } }
+  return svg;
+}
+
+/* ============ set of items ============ */
+function setView(items,o={}){ // items: [{e,name}], o.click, o.on Set
+  const on=o.on||new Set(); const box=el('div',{class:'setitems'+(o.click?' click':'')});
+  const spans=items.map((it,i)=>{ const s=el('span',{class:on.has(i)?'on':'','aria-label':it.name},it.e); if(o.click) s.addEventListener('click',()=>{ if(box._locked) return; on.has(i)?on.delete(i):on.add(i); s.className=on.has(i)?'on':''; o.onChange&&o.onChange(on); }); box.append(s); return s; });
+  box._on=on;
+  box._count=(match)=>{ spans.forEach(s=>s.querySelector('.n')?.remove()); let a=0,b=0; items.forEach((it,i)=>{ const m=match?match(it,i):on.has(i); spans[i].append(el('span',{class:'n'+(m?'':' other')},String(m?++a:'')))}); let t=a; items.forEach((it,i)=>{ const m=match?match(it,i):on.has(i); if(!m){ spans[i].querySelector('.n').textContent=String(++t);} }); };
+  return box;
+}
+
+/* ============ fraction input ============ */
+function fracInput(labels){
+  const mk=lbl=>{const i=el('input',{inputmode:'numeric',maxlength:'2',autocomplete:'off','aria-label':lbl}); i.addEventListener('input',()=>{i.value=i.value.replace(/\D/g,''); w.state('');}); return i;};
+  const w=el('div',{class:'fin'}); const t=mk('top number'), b=mk('bottom number');
+  w.append(t,el('div',{class:'bar'}),b);
+  w.get=()=>({n:t.value===''?null:+t.value,d:b.value===''?null:+b.value});
+  w.state=s=>{w.className='fin'+(s?' '+s:'');};
+  w.lock=()=>{t.disabled=b.disabled=true;}; w.inputs=[t,b];
+  t.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key==='ArrowDown'){ if(t.value!==''&&b.value===''){e.preventDefault(); b.focus();} } });
+  if(labels){ const wrap=el('div',{class:'finwrap'},w,el('div',{class:'flabels'},el('span',{},'← '+labels[0]),el('span',{},'← '+labels[1])));
+    wrap.get=w.get; wrap.state=w.state; wrap.lock=w.lock; wrap.inputs=w.inputs; return wrap; }
+  return w;
+}
+
+/* ============ mistake diagnosis ============ */
+function diagFrac(q,n,d){
+  const [A,B]=q.answer, c=q.ctx||{};
+  if(n===A&&d===B) return {ok:true};
+  if(d===0) return {msg:'The bottom number can’t be 0. Count the parts again.'};
+  if(c.kind==='one'&&n===1&&d===1) return {msg:'Yes — it IS 1 whole! Now write it as a fraction: count the parts for the bottom, and the shaded parts for the top.'};
+  if(n===B&&d===A&&A!==B) return {msg:'You flipped it! The TOP number counts the parts we’re talking about. The BOTTOM number counts ALL the equal parts in one whole.'};
+  if(n*B===A*d) return {msg:c.kind==='word'?'That’s the same amount, but write the fraction the words say: first word → top, second word → bottom.':'That’s the same amount, but write the fraction the picture shows. Count every equal part you see.'};
+  switch(c.kind){
+    case 'shape':
+      if(c.not&&n===B-A&&d===B) return {msg:'That’s the SHADED part. This one asks for the parts that are NOT shaded (the white ones).'};
+      if(!c.not&&n===B-A&&d===B) return {msg:'You counted the white parts. The top number counts the SHADED (colored) parts.'};
+      if(n===A&&d===B-A) return {msg:'You put shaded over not-shaded. The bottom counts ALL the parts — shaded AND white.'};
+      if(d!==B) return {msg:'Check the bottom number. Count ALL the equal parts in the whole — the shaded ones and the white ones.'};
+      return {msg:'Your bottom number is right! Now count only the '+(c.not?'white (not shaded)':'shaded')+' parts for the top.'};
+    case 'unit':
+      if(n!==1) return {msg:'A unit fraction is ONE part, so the top number is always 1.'};
+      return {msg:'Top is right! Now count how many equal parts are in the whole for the bottom.'};
+    case 'line':
+      if(d===B+1) return {msg:'You counted the tick marks. Count the SPACES (jumps) between 0 and 1 instead — there is always one less space than marks.'};
+      if(c.span&&d===c.span&&d!==B) return {msg:'The bottom number only counts the spaces between 0 and 1 — not the whole line.'};
+      if(d!==B) return {msg:'Check the bottom number: count the equal spaces between 0 and 1.'};
+      if(Math.abs(n-A)===1) return {msg:'Your bottom number is right! Count the jumps from 0 again. Start ON 0 — the 0 mark is not a jump.'};
+      return {msg:`Your bottom number is right! Start at 0 and count every jump to the ${c.box?'? box':c.span?'x':'point'}.`};
+    case 'set':
+      if(n===c.other&&d===B) return {msg:`You counted the ${c.otherName}. The question asks about the ${c.name}.`};
+      if(n===A&&d===c.other) return {msg:`The bottom number is the WHOLE group. Count every item, not just the ${c.otherName}.`};
+      if(d!==B) return {msg:'The whole is the WHOLE group. Count every item for the bottom number.'};
+      return {msg:`Your bottom number is right! Now count only the ${c.name} for the top.`};
+    case 'word':
+      if(d!==B) return {msg:`Look at the second word, “${c.w2}.” It tells how many equal parts make the whole — that’s the bottom number.`};
+      return {msg:`Your bottom number is right! Look at the first word, “${c.w1}.” It tells the top number.`};
+    case 'wholes': { const one=c.item||'bar', many=c.items||'bars';
+      if(d===A) return {msg:`The bottom number is the parts in ONE whole (one ${one}) — not all the ${many} together.`};
+      if(n===c.k) return {msg:'That’s how many wholes. The top number counts all the shaded PARTS.'};
+      if(d!==B) return {msg:`Look at just ONE ${one}. How many equal parts is it cut into? That’s the bottom number.`};
+      return {msg:c.item?`Your bottom number is right! Now count all the ${many}.`:'Your bottom number is right! Now count every shaded part in all the bars.'}; }
+    case 'one':
+      if(d!==B) return {msg:'Count ALL the equal parts for the bottom number.'};
+      return {msg:'Count the shaded parts for the top number. Are they ALL shaded?'};
+  }
+  if(d!==B) return {msg:'Check the bottom number.'};
+  return {msg:'Check the top number.'};
+}
+
+/* ============ question renderer ============ */
+const PRAISE=['Sweet! 🍦','Scoop-tastic! 🍨','Cherry on top! 🍒','Sprinkles for you! ✨','Nailed it! 🍦','Double scoop! 🍨🍨','You’re on a roll! 🍧'];
+function renderQ(q,opts={}){
+  const box=el('div',{class:'q'});
+  box.append(el('div',{class:'big',html:q.prompt}));
+  let vis=null; const visBox=el('div',{class:'vis'}); box.append(visBox);
+  const fb=el('div',{class:'fb'});
+  let attempts=0,hintsShown=0,solved=false;
+  const ans=el('div',{class:'answer-row'});
+  const checkBtn=el('button',{class:'btn',onclick:()=>check()},'Check');
+  let evaluate, lock;
+  const setFb=(cls,html)=>{fb.className='fb '+cls; fb.innerHTML=html;};
+  if(q.type==='frac'){
+    if(q.visual){vis=q.visual(); visBox.append(vis);} else visBox.remove();
+    const fi=fracInput(opts.labels); ans.append(fi,checkBtn);
+    fi.inputs.forEach(i=>i.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); const g=fi.get(); if(g.n!=null&&g.d!=null) check(); }}));
+    evaluate=()=>{const {n,d}=fi.get(); if(n==null||d==null) return null; const r=diagFrac(q,n,d); fi.state(r.ok?'ok':'bad'); return r;};
+    lock=()=>fi.lock(); box._focus=()=>fi.inputs[0].focus();
+  } else if(q.type==='num'){
+    if(q.visual){vis=q.visual(); visBox.append(vis);} else visBox.remove();
+    const inp=el('input',{class:'numin',inputmode:'numeric',maxlength:'2','aria-label':'answer'});
+    inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,''); inp.className='numin';});
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){ e.preventDefault(); if(inp.value!=='') check(); }});
+    ans.append(inp,checkBtn);
+    evaluate=()=>{ if(inp.value==='') return null; const v=+inp.value; const ok=v===q.answer; inp.className='numin '+(ok?'ok':'bad'); return ok?{ok:true}:{msg:(q.diag&&q.diag(v))||'Not yet — try again or open a hint.'}; };
+    lock=()=>{inp.disabled=true;}; box._focus=()=>inp.focus();
+  } else if(q.type==='mc'||q.type==='multi'){
+    if(q.visual){vis=q.visual(); visBox.append(vis);} else visBox.remove();
+    const sel=new Set(); const mc=el('div',{class:'mc'});
+    const btns=q.options.map((op,i)=>{ const b=el('button',{onclick:()=>{ if(solved) return;
+        if(q.type==='mc'){ sel.clear(); sel.add(i); btns.forEach((x,j)=>x.className=j===i?'sel':''); if(!opts.test) check(); else fb.className='fb'; }
+        else { sel.has(i)?sel.delete(i):sel.add(i); b.className=sel.has(i)?'sel':''; } }});
+      if(op.svg) b.append(op.svg()); if(op.html!=null) b.append(el('div',{html:op.html})); if(typeof op==='string') b.innerHTML=op;
+      mc.append(b); return b; });
+    ans.append(mc); if(q.type==='multi'||opts.test) ans.append(checkBtn);
+    evaluate=()=>{ if(!sel.size) return null;
+      if(q.type==='mc'){ const i=[...sel][0]; if(i===q.answer){btns[i].className='right'; return {ok:true};} btns[i].className='wrong'; return {msg:(q.why&&q.why[i])||'Not that one — try again.'}; }
+      const want=new Set(q.answer); const extra=[...sel].filter(i=>!want.has(i)), miss=[...want].filter(i=>!sel.has(i));
+      btns.forEach((b,i)=>b.className=sel.has(i)?(want.has(i)?'right':'wrong'):'');
+      if(!extra.length&&!miss.length) return {ok:true};
+      if(extra.length) return {msg:(q.why&&q.why[extra[0]])||'One you picked doesn’t belong. Tap it again to un-pick it.'};
+      return {msg:`You found some — but there ${miss.length===1?'is 1 more':'are '+miss.length+' more'} to pick.`}; };
+    lock=()=>{};
+  } else if(q.type==='shade'){
+    const shaded=new Set(); vis=shapeSVG(q.shape,{shaded,click:true,width:q.width}); visBox.append(vis);
+    ans.append(checkBtn);
+    evaluate=()=>{ const a=shaded.size; if(a===q.target) return {ok:true}; if(a===0) return {msg:'Tap the parts to shade them first.'};
+      return {msg:a>q.target?`Too many! You shaded ${a}. The top number says shade ${q.target}.`:`You shaded ${a}. The top number says shade ${q.target}.`}; };
+    lock=()=>{vis._locked=true;};
+  } else if(q.type==='shadeSet'){
+    vis=setView(q.items,{click:true}); visBox.append(vis); ans.append(checkBtn);
+    evaluate=()=>{ const a=vis._on.size; if(a===q.target) return {ok:true}; if(a===0) return {msg:'Tap the items to color them first.'};
+      return {msg:a>q.target?`Too many! You colored ${a}. The top number says color ${q.target}.`:`You colored ${a}. The top number says color ${q.target}.`}; };
+    lock=()=>{vis._locked=true;};
+  } else if(q.type==='cut'){
+    let chosen=null; const tb=el('div',{class:'toolbar'}); const pic=el('div');
+    const drawCut=()=>{ pic.replaceChildren(shapeSVG(q.shapeFor(chosen||1),{})); };
+    tb.append(el('b',{},'Cut into:'), ...q.choices.map(c=>{const b=el('button',{onclick:()=>{ if(solved) return; chosen=c; [...tb.querySelectorAll('button')].forEach(x=>x.className=''); b.className='sel'; drawCut(); }},String(c)); return b;}));
+    visBox.append(el('div',{},tb,pic)); drawCut(); ans.append(checkBtn);
+    evaluate=()=>{ if(chosen==null) return null; if(chosen===q.target) return {ok:true};
+      return {msg:`You made ${chosen} equal parts — that’s ${NAMES[chosen][1]}. We need ${NAMES[q.target][1]}: ${q.target} equal parts.`}; };
+    lock=()=>{};
+  } else if(q.type==='place'){
+    let picked=null; vis=numberLine(Object.assign({},q.line,{click:true,onPick:i=>{picked=i; fb.className='fb';}})); visBox.append(vis); ans.append(checkBtn);
+    evaluate=()=>{ if(picked==null) return null; if(picked===q.answer) return {ok:true};
+      const den=q.line.den; if(picked===0) return {msg:'That’s 0. Start at 0 and hop forward.'};
+      if(Math.abs(picked-q.answer)===1) return {msg:'So close! Count the jumps again. Start ON 0 — the 0 mark is not a jump.'};
+      if((q.line.max||1)===1&&picked===den-q.answer) return {msg:'It looks like you counted back from 1. Always start counting jumps at 0.'};
+      return {msg:`You landed on ${fr(picked,den)}. The top number tells how many jumps from 0.`}; };
+    lock=()=>{vis._locked=true;};
+  }
+  box.append(ans,fb);
+  // hints
+  const hintsBox=el('div'); const hb=el('div',{class:'hintbar'});
+  const hbtns=(q.hints||[]).map((h,i)=>{ const last=i===q.hints.length-1&&q.hints.length>1; const b=el('button',{disabled:i>0?'':false,onclick:()=>showHint(i)}, last?'💡 Show me':`💡 Hint ${i+1}`); hb.append(b); return b; });
+  function showHint(i){ if(i<hintsShown) return; for(let j=hintsShown;j<=i;j++){ const last=j===q.hints.length-1&&q.hints.length>1;
+      hintsBox.append(el('div',{class:'hint',html:`<b class="lbl">${last?'Show me:':'Hint '+(j+1)+':'}</b> `+q.hints[j]}));
+      if(last&&q.showMe&&vis) q.showMe(vis);
+      hbtns[j].disabled=true; if(hbtns[j+1]) hbtns[j+1].disabled=false; }
+    hintsShown=i+1; }
+  if(hbtns.length&&!opts.test) box.append(hb,hintsBox);
+  function check(){
+    if(solved) return; const r=evaluate();
+    if(r==null){ setFb('info','Answer first, then press Check.'); return; }
+    attempts++;
+    if(opts.test){ solved=true; lock(); checkBtn.disabled=true;
+      box.querySelectorAll('.fin').forEach(f=>f.className='fin'); box.querySelectorAll('.numin').forEach(f=>f.className='numin');
+      box.querySelectorAll('.mc button.right,.mc button.wrong').forEach(b=>b.className='sel');
+      setFb('info','Answer saved ✓'); opts.onResult&&opts.onResult({ok:!!r.ok,firstTry:!!r.ok}); return; }
+    if(r.ok){ solved=true; lock(); checkBtn.disabled=true; hbtns.forEach(b=>b.disabled=true);
+      setFb('ok',pick(PRAISE)+(q.after?`<div style="font-weight:700;margin-top:4px">${q.after}</div>`:''));
+      opts.onResult&&opts.onResult({firstTry:attempts===1&&hintsShown===0});
+    } else {
+      setFb('bad',r.msg);
+      if(attempts>=2&&hintsShown<Math.min(2,hbtns.length)) showHint(Math.min(attempts-1,Math.min(2,hbtns.length)-1));
+    }
+  }
+  box._solved=()=>solved;
+  return box;
+}
+
+/* ============ hint text builders ============ */
+const HINT={
+  shape:(not)=>[
+    'Start with the bottom number: count <b>ALL</b> the equal parts in the whole.',
+    `Step 1: Touch and count every part — shaded and white. That number goes on the <b>bottom</b>.<br>Step 2: Count only the ${not?'<b>white (not shaded)</b>':'<b>shaded</b>'} parts. That number goes on the <b>top</b>.`,
+    'I numbered the parts. The shaded parts are counted first. The biggest number is ALL the parts — that’s the bottom.'],
+  line:(span,box)=>{ const t=span?'x':box?'? box':'point'; return [
+    'Bottom number first: count the <b>spaces</b> (jumps) between 0 and 1 — not the tick marks.',
+    `Step 1: Put your finger on 0. Hop to 1, counting each jump. That’s the <b>bottom</b> number.<br>Step 2: Go back to 0. Count every jump until you land on the ${span?'x — don’t stop at 1!':t+'.'} That’s the <b>top</b> number.`,
+    `Look at the blue jumps — count them from 0 to the ${t}. Then count the jumps from 0 to 1 for the bottom.`]; },
+  set:(name)=>[
+    'The whole is the <b>whole group</b>. Count every item — that’s the bottom number.',
+    `Step 1: Count ALL the items in the group → <b>bottom</b>.<br>Step 2: Count only the ${name} → <b>top</b>.`,
+    `I numbered them. The ${name} are counted first (blue). The biggest number is ALL the items.`],
+};
+
+/* ============ generators ============ */
+function randShape(n){
+  const opts=[{kind:'bar',n},{kind:'circle',n}];
+  const G={4:[[2,2],[1,4]],6:[[2,3]],8:[[2,4]],9:[[3,3]],10:[[2,5]],12:[[3,4],[2,6]]}[n];
+  if(G){ const [r,c]=pick(G); opts.push({kind:'grid',rows:r,cols:c}); }
+  return pick(opts);
+}
+const randSet=(n,a)=>new Set(shuffle(range(n)).slice(0,a));
+const Gn={};
+Gn.nameShaded=()=>{const n=pick([2,3,4,5,6,8,8,6,10,12]),a=rnd(1,n-1),spec=randShape(n),sh=randSet(n,a);
+  return {type:'frac',prompt:'What fraction of the shape is <b>shaded</b>?',visual:()=>shapeSVG(spec,{shaded:new Set(sh)}),answer:[a,n],ctx:{kind:'shape'},hints:HINT.shape(false),showMe:v=>v._count(),after:`${a} shaded out of ${n} equal parts → ${fr(a,n)}`};};
+Gn.nameUnshaded=()=>{const n=pick([3,4,5,6,8]),a=rnd(1,n-1),spec=randShape(n),sh=randSet(n,a);
+  return {type:'frac',prompt:'What fraction of the shape is <b>NOT shaded</b>?',visual:()=>shapeSVG(spec,{shaded:new Set(sh)}),answer:[n-a,n],ctx:{kind:'shape',not:true},hints:HINT.shape(true),showMe:v=>v._count(),after:`${n-a} white part${n-a>1?'s':''} out of ${n} → ${fr(n-a,n)}. (Shaded is ${fr(a,n)}. Together: ${fr(n,n)} = 1 whole!)`};};
+Gn.unitPart=()=>{const n=pick([2,3,4,5,6,8,10]),spec=randShape(n);
+  return {type:'frac',prompt:'Each part is what <b>unit fraction</b> of the whole?',visual:()=>shapeSVG(spec,{shaded:new Set([0])}),answer:[1,n],ctx:{kind:'unit'},
+   hints:['A unit fraction is ONE part. The top number is always <b>1</b>.','Top = 1 (one part). Bottom = how many equal parts the whole is cut into. Count them!','I numbered every part. The biggest number goes on the bottom.'],showMe:v=>v._count(),after:`One part out of ${n} → ${fr(1,n)}, one ${NAMES[n][0]}.`};};
+Gn.shadeIt=()=>{const n=pick([3,4,5,6,8]),a=rnd(1,n-1),spec=randShape(n);
+  return {type:'shade',prompt:`Shade ${fr(a,n)} of the shape. Tap the parts.`,shape:spec,target:a,
+   hints:[`The bottom number ${n} means the whole has ${n} equal parts. Count to check!`,`The top number ${a} tells how many parts to shade. Tap exactly ${a} part${a>1?'s':''}.`],after:`${a} of ${n} parts shaded = ${fr(a,n)}`};};
+Gn.equalOrNot=()=>{const kind=pick(['bar','circle']); const eq=Math.random()<0.5; let spec,n;
+  if(eq){n=pick([2,3,4]); spec={kind,n};}
+  else if(kind==='bar'){const w=pick([[1,2],[1,1,2],[2,1,1,1],[1,3],[1,2,1]]); n=w.length; spec={kind,widths:shuffle(w)};}
+  else {const a=pick([[90,90,180],[60,120,180],[150,210],[70,110,90,90],[120,90,150]]); n=a.length; spec={kind,angles:shuffle(a)};}
+  const nm=NAMES[n][1]; const said=`Kai cut this shape into ${n} parts and says it shows <b>${nm}</b>. Is Kai right?`;
+  return {type:'mc',prompt:said,visual:()=>shapeSVG(spec),options:['Yes — the parts are equal','No — the parts are NOT equal'],answer:eq?0:1,
+   why:eq?{1:'Look again — every part is the same size. Equal parts, so they ARE '+nm+'.'}:{0:'Look closely — some parts are bigger than others. If the parts are not equal, they are NOT '+nm+'.'},
+   hints:['Fractions only work with EQUAL parts. Compare the sizes of the pieces.','Ask: if I cut these out, would every piece be exactly the same size?'],after:eq?`All ${n} parts are equal, so they are ${nm}.`:`The parts are different sizes, so they are not ${nm}.`};};
+Gn.nameParts=()=>{const n=pick([2,3,4,5,6,8]),spec=randShape(n); const opts=shuffle([2,3,4,5,6,8]).slice(0,4); if(!opts.includes(n)) opts[0]=n; const o=shuffle(opts);
+  return {type:'mc',prompt:'This whole is partitioned into equal parts. What are the parts called?',visual:()=>shapeSVG(spec),options:o.map(k=>NAMES[k][1]),answer:o.indexOf(n),
+   why:Object.fromEntries(o.map((k,i)=>[i,`${NAMES[k][1]} means ${k} equal parts. Count the parts in the picture.`])),
+   hints:['Count the equal parts first.','2 → halves, 3 → thirds, 4 → fourths, 5 → fifths, 6 → sixths, 8 → eighths.'],after:`${n} equal parts → ${NAMES[n][1]}.`};};
+Gn.cutTo=()=>{const n=pick([2,3,4,5,6,8]),kind=pick(['bar','circle']);
+  return {type:'cut',prompt:`<b>Partition</b> the ${kind==='bar'?'rectangle':'circle'} into <b>${NAMES[n][1]}</b>.`,shapeFor:k=>({kind,n:k}),choices:[2,3,4,5,6,7,8],target:n,
+   hints:['To partition means to cut into EQUAL parts. The name tells you how many.','halves = 2, thirds = 3, fourths = 4, fifths = 5, sixths = 6, eighths = 8.'],after:`${n} equal parts = ${NAMES[n][1]}. Each part is ${fr(1,n)}.`};};
+Gn.smallerBigger=()=>{const [a,b]=pick([[2,4],[3,6],[4,8],[2,8],[3,4],[2,3],[4,6],[6,8]]); const ord=shuffle([a,b]);
+  return {type:'mc',prompt:'Same size pizza. Which piece is <b>BIGGER</b>?',options:ord.map(k=>({svg:()=>shapeSVG({kind:'circle',n:k,r:56},{shaded:new Set([0])}),html:fr(1,k)})),answer:ord.indexOf(a),
+   why:{[ord.indexOf(b)]:`Careful! ${b} is a bigger number, but cutting into ${b} parts makes each part SMALLER. More parts → smaller parts.`},
+   hints:['Look at the pictures. Which colored piece takes up more of the pizza?','The more parts you cut a whole into, the smaller each part gets.'],after:`${fr(1,a)} is bigger than ${fr(1,b)} — fewer parts means bigger parts.`};};
+Gn.triHalves=()=>{const o=shuffle(['v','h','off']);
+  return {type:'mc',prompt:'Which triangle is divided to show <b>halves</b>?',options:o.map(c=>({svg:()=>shapeSVG({kind:'tri2',cut:c},{width:150})})),answer:o.indexOf('v'),
+   why:{[o.indexOf('h')]:'The top piece is much smaller than the bottom piece. Not equal → not halves.',[o.indexOf('off')]:'The line isn’t in the middle, so one side is bigger. Not equal → not halves.'},
+   hints:['Halves = 2 EQUAL parts. Look for the two pieces that are exactly the same size.','A line from the top point straight down to the middle of the bottom makes two matching halves.'],after:'A line from the top point to the middle of the bottom makes 2 equal parts — halves!'};};
+const VOCAB=[
+  {w:'fraction',d:'A fraction is a number used when a whole is split into equal parts.'},
+  {w:'numerator',d:'The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction.'},
+  {w:'denominator',d:'The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction.'},
+  {w:'unit fraction',d:'A unit fraction is ONE part of a whole. It always has a numerator of one.'},
+  {w:'partition',d:'To partition a shape is to break it into equal parts.',book:true},
+  {w:'fraction tiles',d:'You can model parts of a whole with fraction tiles: pieces that show equal parts, like halves, fourths and eighths.',book:true}];
+const WORDS=['fraction','numerator','denominator','unit fraction','partition','fraction tiles'];
+function vocabQ(i){const v=VOCAB[i]; const blank=v.d.replace(v.w,'______'); const clash={fraction:['unit fraction','fraction tiles'],'unit fraction':['fraction'],'fraction tiles':['fraction','unit fraction']}[v.w]||[]; const o=shuffle([v.w,...shuffle(WORDS.filter(w=>w!==v.w&&!clash.includes(w))).slice(0,3)]);
+  return {type:'mc',prompt:`Which word fills the blank?<div class="key" style="font-size:21px">${blank}</div>`,options:o,answer:o.indexOf(v.w),
+   why:Object.fromEntries(o.map((w,j)=>[j,'Not quite. '+({fraction:'A fraction is a number like 3/4 that names equal parts of a whole.',numerator:'The numerator is the TOP number.',denominator:'The denominator is the BOTTOM number.','unit fraction':'A unit fraction has 1 on top.',partition:'To partition means to cut into equal parts.','fraction tiles':'Fraction tiles are pieces you use to show parts of a whole.'})[w]])),
+   hints:['Look for clue words: “top,” “bottom,” “ONE part,” “split into equal parts,” “break,” or “model with pieces.”','top → numerator · bottom → denominator · ONE part → unit fraction · split into equal parts → fraction · break into equal parts → partition · model with pieces → fraction tiles'],after:`<b>${v.w}</b>: ${v.d}`};}
+Gn.vocabDef=()=>vocabQ(rnd(0,VOCAB.length-1));
+Gn.numDen=()=>{const d=rnd(3,9),n=rnd(1,d-1),which=pick(['numerator','denominator']); const ans=which==='numerator'?n:d, other=which==='numerator'?d:n;
+  return {type:'num',prompt:`In ${fr(n,d,'lg')} what is the <b>${which}</b>?`,answer:ans,diag:v=>v===other?`That’s the ${which==='numerator'?'denominator':'numerator'}. The ${which} is the ${which==='numerator'?'TOP':'BOTTOM'} number.`:null,
+   hints:[`The ${which} is the ${which==='numerator'?'TOP':'BOTTOM'} number.`,'Numerator = top (parts we count). Denominator = bottom (parts in the whole).'],after:`The ${which} is ${ans}.`};};
+Gn.isUnit=()=>{const d=rnd(3,8); const o=shuffle([[1,d],[2,d],[d,d],[rnd(2,d-1)===2?3:2,d+1]]).map(x=>x); const idx=o.findIndex(x=>x[0]===1);
+  return {type:'mc',prompt:'Which one is a <b>unit fraction</b>?',options:o.map(x=>fr(x[0],x[1])),answer:idx,why:Object.fromEntries(o.map((x,i)=>[i,`${fr(x[0],x[1])} has ${x[0]} on top. A unit fraction always has 1 on top.`])),
+   hints:['A unit fraction is ONE part of a whole.','Look at the top numbers. Find the one with a 1.'],after:`${fr(1,d)} is ONE part — a unit fraction.`};};
+Gn.wordToFrac=()=>{const d=pick([2,3,4,5,6,8,10]),n=rnd(1,d-1); const w=fracWords(n,d),[w1,w2]=w.split('-');
+  return {type:'frac',prompt:`Write the fraction: <b>${w}</b>`,answer:[n,d],ctx:{kind:'word',w1,w2},
+   hints:['The <b>first</b> word tells the TOP number. The <b>second</b> word tells the BOTTOM number.',`The second word is “${w2}.” ${w2} means the whole is cut into ${d} equal parts, so the bottom is ${d}. What number is “${w1}”?`,`“${w1}” → ${n} on top. “${w2}” → ${d} on the bottom.`],after:`${w} = ${fr(n,d)}`};};
+// number lines
+Gn.nlPoint=()=>{const d=pick([2,3,4,5,6,8]),a=rnd(1,d-1);
+  return {type:'frac',prompt:'What fraction is at the point?',visual:()=>numberLine({den:d,point:a,showX:false}),answer:[a,d],ctx:{kind:'line'},hints:HINT.line(false),showMe:v=>v._jumps(a,d),after:`${d} equal spaces from 0 to 1. ${a} jump${a>1?'s':''} from 0 → ${fr(a,d)}`};};
+Gn.nlMissing=()=>{const d=pick([3,4,5,6,8]),m=rnd(1,d-1); const lab=range(d-1).map(i=>i+1).filter(i=>i!==m&&Math.random()<0.7);
+  return {type:'frac',prompt:'Label the missing fraction on the number line.',visual:()=>numberLine({den:d,fracLabels:lab,missing:m}),answer:[m,d],ctx:{kind:'line',box:true},hints:HINT.line(false,true),showMe:v=>v._jumps(m,d),after:`It’s ${m} jump${m>1?'s':''} from 0, and 1 whole has ${d} jumps → ${fr(m,d)}`};};
+Gn.nlPlace=()=>{const d=pick([3,4,6,8]),a=rnd(1,d-1);
+  return {type:'place',prompt:`Tap where ${fr(a,d)} goes on the number line.`,line:{den:d},answer:a,
+   hints:[`The bottom number ${d} means 0 to 1 is cut into ${d} equal spaces. Count them to check!`,`Start at 0 and hop ${a} space${a>1?'s':''}. Tap the mark where you land.`],after:`${a} jump${a>1?'s':''} from 0 → ${fr(a,d)}`};};
+Gn.nlSpaces=()=>{const d=pick([3,4,5,6,8]);
+  return {type:'num',prompt:'How many equal <b>spaces</b> are between 0 and 1?',visual:()=>numberLine({den:d}),answer:d,diag:v=>v===d+1?'You counted the tick marks. Count the SPACES between them — the jumps.':null,
+   hints:['Spaces are the gaps between the marks — like hops.','Put your finger on 0 and hop to each mark until you reach 1. Count the hops.'],after:`${d} spaces, so each space is ${fr(1,d)}.`};};
+// one whole
+Gn.wholeShaded=()=>{const n=pick([2,3,4,6,8]),spec=randShape(n);
+  return {type:'frac',prompt:'What fraction of the shape is shaded?',visual:()=>shapeSVG(spec,{shaded:new Set(range(n))}),answer:[n,n],ctx:{kind:'one'},hints:HINT.shape(false),showMe:v=>v._count(),after:`${fr(n,n)} — all ${n} parts. That’s 1 whole!`};};
+Gn.equalsOneMC=()=>{const d=pick([3,4,6,8]); const o=shuffle([[d,d],[1,d],[d-1,d],[d,d+2]]);
+  return {type:'mc',prompt:'Which fraction is <b>equal to 1 whole</b>?',options:o.map(x=>fr(x[0],x[1])),answer:o.findIndex(x=>x[0]===x[1]),
+   why:Object.fromEntries(o.map((x,i)=>[i,`${fr(x[0],x[1])} counts ${x[0]} of ${x[1]} parts — not ALL of them.`])),
+   hints:['1 whole means you counted ALL the parts.','Look for the fraction where the top and bottom are the SAME.'],after:`${fr(d,d)} = all ${d} parts = 1 whole.`};};
+Gn.oneOnLine=()=>{const d=pick([3,4,5,6]);
+  return {type:'frac',prompt:'The 1 on this number line is also what fraction?',visual:()=>numberLine({den:d,fracLabels:range(d-1).map(i=>i+1),missing:d}),answer:[d,d],ctx:{kind:'line',box:true},hints:HINT.line(false,true),showMe:v=>v._jumps(d,d),after:`${d} jumps of ${fr(1,d)} reach 1. So 1 = ${fr(d,d)}.`};};
+Gn.multiOne=()=>{const ones=shuffle([[2,2],[3,3],[4,4],[6,6],[8,8]]).slice(0,2); const others=shuffle([[1,2],[3,4],[5,6],[2,3],[7,8],[6,4],[4,6]]).slice(0,3); const o=shuffle([...ones,...others]);
+  return {type:'multi',prompt:'Tap <b>ALL</b> the fractions that equal 1. Then press Check.',options:o.map(x=>fr(x[0],x[1])),answer:o.map((x,i)=>x[0]===x[1]?i:-1).filter(i=>i>=0),
+   why:Object.fromEntries(o.map((x,i)=>[i,`${fr(x[0],x[1])} — top and bottom are different, so it is not 1 whole.`])),
+   hints:['A fraction equals 1 when the top and bottom numbers are the SAME.'],after:'Same top and bottom = 1 whole.'};};
+Gn.fillDen=()=>{const n=rnd(2,9);
+  return {type:'num',prompt:`${fr(n,'?','lg')} = 1 whole. What is the missing bottom number?`,answer:n,diag:v=>v===1?'The bottom counts the parts in the whole. If the whole has '+n+' parts…':null,
+   hints:['For a fraction to equal 1, ALL the parts must be counted.','Top and bottom must be the SAME number.'],after:`${fr(n,n)} = 1`};};
+// whole numbers
+function wholesSVG(k,b,partial){ const g=el('div',{class:'row',style:'gap:10px'}); let idx=0; for(let i=0;i<k;i++){ const sh=new Set(range(b).filter(j=>partial==null||idx+j<partial)); idx+=b; g.append(el('div',{style:'text-align:center;font-weight:900;font-size:16px'},shapeSVG({kind:'bar',n:b,w:b===1?120:Math.max(150,b*38),h:60},{shaded:sh}),'1 whole')); }
+  g._count=()=>{ let c=0; g.querySelectorAll('svg').forEach(s=>{ const lab=sv('g',{}); const P=s.querySelectorAll('path'); P.forEach(p=>{ if(p.getAttribute('fill')!==SHADE) return; c++; const bb=p.getBBox(); lab.append(sv('text',{x:bb.x+bb.width/2,y:bb.y+bb.height/2+8,'text-anchor':'middle','font-size':22,'font-weight':900,fill:'#fff','font-family':'Atkinson Hyperlegible,sans-serif'},String(c)));}); s.append(lab);}); };
+  return g; }
+Gn.wholesPicture=()=>{const k=pick([2,3]),b=pick([2,3,4]);
+  return {type:'frac',prompt:'Each bar is <b>1 whole</b>. What fraction shows <b>all</b> the shaded parts?',visual:()=>wholesSVG(k,b),answer:[k*b,b],ctx:{kind:'wholes',k},
+   hints:['Bottom number: how many equal parts are in ONE bar (one whole)?',`Step 1: Look at one bar. Count its parts → bottom.<br>Step 2: Count every shaded part in ALL ${k} bars → top.`,'I numbered every shaded part. The last number is the top. One bar’s parts is the bottom.'],showMe:v=>v._count(),after:`${k*b} shaded parts, ${b} in each whole → ${fr(k*b,b)} = ${k} wholes`};};
+Gn.wholeOver1=()=>{const k=rnd(2,5);
+  return {type:'frac',prompt:`Here are ${k} whole pizzas. Nobody cut them. Write ${k} as a fraction.`,visual:()=>shapeSVG({kind:'discs',n:k,r:34,pos:range(k).map(i=>[i,0])},{shaded:new Set(range(k))}),answer:[k,1],ctx:{kind:'wholes',k:-1,item:'pizza',items:'pizzas'},
+   hints:['Each pizza is not cut, so each pizza is just 1 part — 1 part in each whole.',`Bottom = 1 (each whole has 1 part). Top = how many wholes you have.`],after:`${fr(k,1)} = ${k}. Any whole number can be written over 1!`};};
+Gn.fracToWhole=()=>{const b=pick([2,3,4,6]),k=rnd(2,3);
+  return {type:'num',prompt:`${fr(k*b,b,'lg')} = how many wholes?`,visual:null,answer:k,diag:v=>v===k*b?'That’s the number of parts. How many WHOLES do they make?':null,
+   hints:[`The bottom number says ${b} parts make 1 whole.`,`Count by ${b}s up to ${k*b}: ${range(k).map(i=>(i+1)*b).join(', ')}. How many groups?`],after:`Count by ${b}s: ${range(k).map(i=>(i+1)*b).join(', ')}. That’s ${k} groups of ${b} → ${k} wholes.`};};
+Gn.whichWholeMC=()=>{const b=pick([2,3,4]),k=pick([2,3]); const right=[k*b,b]; const o=shuffle([right,[k*b+1,b],[k*b-1,b],[b,k*b]]);
+  return {type:'mc',prompt:'Which fraction is equal to a <b>whole number</b>?',options:o.map(x=>fr(x[0],x[1])),answer:o.findIndex(x=>x===right),
+   why:Object.fromEntries(o.map((x,i)=>[i,`Count by ${x[1]}s: does ${x[0]} land exactly on a group of ${x[1]}? Not quite.`])),
+   hints:['A fraction is a whole number when the parts fill whole groups with nothing left over.','Count by the bottom number. Does the top number come up exactly?'],after:`${fr(k*b,b)} = ${k} wholes.`};};
+Gn.wholeOver1MC=()=>{const k=rnd(2,6); const cand=[[k,1],[k,3],[1,k],[2,3],[k,k+1],[3,k]]; const seen=new Set(); const o=[];
+  for(const x of cand){const key=x.join('/'); if(!seen.has(key)&&!(x[0]===k&&x[1]===1&&o.length)){seen.add(key);o.push(x);} if(o.length===4)break;}
+  const oo=shuffle(o);
+  return {type:'mc',prompt:`Ryan writes the whole number <b>${k}</b> as a fraction. Which fraction does he write?`,options:oo.map(x=>fr(x[0],x[1])),answer:oo.findIndex(x=>x[0]===k&&x[1]===1),
+   why:Object.fromEntries(oo.map((x,i)=>[i,`${fr(x[0],x[1])} is not ${k} wholes. Write ${k} wholes that are not cut: ${k} on top, 1 on the bottom.`])),
+   hints:['A whole number can be written with 1 on the bottom: each whole is 1 part.',`${k} wholes, 1 part each → ${k} on top, 1 on the bottom.`],after:`${fr(k,1)} = ${k}`};};
+// greater than 1
+Gn.gt1Point=()=>{const d=pick([2,3,4,5,6]),max=d<=3?pick([2,3]):2; let a; do{a=rnd(d+1,max*d-1);}while(a%d===0);
+  return {type:'frac',prompt:'Write the fraction for the point marked x.',visual:()=>numberLine({den:d,max,point:a}),answer:[a,d],ctx:{kind:'line',span:max*d},hints:HINT.line(true),showMe:v=>v._jumps(a,d),after:`${d} spaces in each whole, ${a} jumps from 0 → ${fr(a,d)}. It’s more than 1!`};};
+Gn.gt1Place=()=>{const d=pick([2,3,4]); let a; do{a=rnd(d+1,2*d-1);}while(a%d===0);
+  return {type:'place',prompt:`Tap where ${fr(a,d)} goes.`,line:{den:d,max:2},answer:a,
+   hints:[`The bottom number ${d}: each whole (0 to 1, 1 to 2) has ${d} spaces.`,`Start at 0 and hop ${a} spaces. Keep going past 1!`],after:`${a} jumps from 0 → ${fr(a,d)}`};};
+Gn.compare1=()=>{const d=rnd(2,8); const kind=pick(['gt','lt','eq','gt']); const n=kind==='eq'?d:kind==='gt'?rnd(d+1,2*d-1):rnd(1,d-1);
+  const o=['greater than 1','equal to 1','less than 1']; const ans=kind==='gt'?0:kind==='eq'?1:2;
+  return {type:'mc',prompt:`Is ${fr(n,d,'lg')} greater than 1, equal to 1, or less than 1?`,options:o,answer:ans,
+   why:{0:'Check: is the top number bigger than the bottom number?',1:'Equal to 1 only when the top and bottom are the SAME.',2:'Check: is the top number smaller than the bottom number?'},
+   hints:[`It takes ${d} parts to make 1 whole. Do you have more, the same, or fewer than ${d}?`,'Top bigger than bottom → greater than 1. Same → equal to 1. Top smaller → less than 1.'],after:`${n} ${n>d?'>':n===d?'=':'<'} ${d}, so ${fr(n,d)} is ${o[ans]}.`};};
+Gn.multiGT1=()=>{const pool=shuffle([[5,4],[7,6],[3,2],[9,8],[4,3],[7,4],[5,3],[2,4],[3,6],[5,8],[4,4],[6,6],[1,3],[2,3]]).slice(0,5); if(!pool.some(x=>x[0]>x[1])) pool[0]=[5,4]; if(pool.every(x=>x[0]>x[1])) pool[1]=[3,4];
+  return {type:'multi',prompt:'Tap <b>ALL</b> the fractions <b>greater than 1</b>. Then press Check.',options:pool.map(x=>fr(x[0],x[1])),answer:pool.map((x,i)=>x[0]>x[1]?i:-1).filter(i=>i>=0),
+   why:Object.fromEntries(pool.map((x,i)=>[i,x[0]===x[1]?`${fr(x[0],x[1])} is EQUAL to 1, not greater.`:`${fr(x[0],x[1])}: top is smaller than bottom, so it’s less than 1.`])),
+   hints:['A fraction is greater than 1 when the TOP number is bigger than the BOTTOM number.'],after:'Top bigger than bottom → more than 1 whole.'};};
+// sets
+const SING={clubs:'club',diamonds:'diamond',stars:'star',moons:'moon',planes:'plane',doves:'dove',fairies:'fairy',hearts:'heart',cameras:'camera',bikes:'bike',mice:'mouse',owls:'owl',apples:'apple',bananas:'banana',cars:'car',balls:'ball',fish:'fish',ducks:'duck'};
+const ITEMS=[['clubs','♣️'],['diamonds','♦️'],['stars','⭐'],['moons','🌙'],['planes','✈️'],['doves','🕊️'],['fairies','🧚'],['hearts','❤️'],['cameras','🎥'],['bikes','🚲'],['mice','🐭'],['owls','🦉'],['apples','🍎'],['bananas','🍌'],['cars','🚗'],['balls','⚽'],['fish','🐟'],['ducks','🦆']];
+function setQ(tName,tE,a,oName,oE,b,targetFirst){ const T=range(a).map(()=>({e:tE,name:tName,t:1})), O=range(b).map(()=>({e:oE,name:oName,t:0}));
+  const items=targetFirst?[...T,...O]:[...O,...T];
+  return {type:'frac',prompt:`What fraction of the group are <b>${tName}</b>?`,visual:()=>setView(items),answer:[a,a+b],ctx:{kind:'set',name:tName,other:b,otherName:oName},hints:HINT.set(tName),showMe:v=>v._count(it=>it.t===1),after:`${a} ${a===1?(SING[tName]||tName):tName} out of ${a+b} items → ${fr(a,a+b)}`}; }
+Gn.setPart=()=>{const i=rnd(0,ITEMS.length/2-1)*2; const pair=shuffle([ITEMS[i],ITEMS[i+1]]); const a=rnd(1,5),b=rnd(1,5); return setQ(pair[0][0],pair[0][1],a,pair[1][0],pair[1][1],b,Math.random()<0.5);};
+Gn.setUnit=()=>{const it=pick(ITEMS),n=rnd(3,8);
+  return {type:'frac',prompt:`Each one of these ${it[0]} is what unit fraction of the group?`,visual:()=>setView(range(n).map(()=>({e:it[1],name:it[0]}))),answer:[1,n],ctx:{kind:'unit'},
+   hints:['One item is ONE part of the group, so the top is 1.','Count every item in the group for the bottom number.'],after:`${n} in the group, so each one is ${fr(1,n)}.`};};
+Gn.setShade=()=>{const it=pick([['balloons','🎈'],['cookies','🍪'],['stars','⭐'],['hearts','❤️'],['flowers','🌼']]),n=rnd(4,8),a=rnd(1,n-1);
+  return {type:'shadeSet',prompt:`Color ${fr(a,n)} of the ${it[0]}. Tap them.`,items:range(n).map(()=>({e:it[1],name:it[0]})),target:a,
+   hints:[`Check: are there ${n} ${it[0]}? That matches the bottom number.`,`The top number ${a} tells how many to color.`],after:`${a} of ${n} colored = ${fr(a,n)}`};};
+
+// ----- Test Tricks (Unit Review, Math Probe and Performance Task styles) -----
+const AREA_CASES=[
+ {fig:'sqX',sh:0,d:4,yes:true,why:'4 triangles, all the same size. Each one is 1/4 of the square.',wrong:'Look again: all 4 triangles are the same size, and 4 of them cover the square. So one is 1/4.'},
+ {fig:'sqHalfQuarters',sh:1,d:3,yes:false,why:'There are 3 parts, but they are NOT equal. The big triangle is half the square. The shaded triangle is 1/4.',wrong:'3 parts — but the big triangle is as big as 2 small ones. It takes 4 small triangles to cover the square, so the shaded one is 1/4, not 1/3.'},
+ {fig:'sqHalfQuarters',sh:1,d:4,yes:true,why:'The big triangle is as big as 2 small ones, so 4 small triangles cover the square. The shaded one is 1/4.',wrong:'There are only 3 parts, but count the space: 4 triangles the size of the shaded one would cover the square exactly. So it IS 1/4.'},
+ {fig:'sqHalfQuarters',sh:0,d:2,yes:true,why:'The big triangle covers half of the square, so it is 1/2 — even though the other half is cut in two.',wrong:'The other half is cut in two, but the shaded triangle still covers half the square. 2 pieces that size cover it exactly, so it IS 1/2.'},
+ {fig:'rectMix',sh:0,d:4,yes:true,why:'The parts are different shapes, but each one covers the SAME amount of space. Each is 1/4.',wrong:'The parts are different shapes, but each covers the same amount of space. 4 pieces that size cover the rectangle, so it IS 1/4.'},
+ {fig:'rectUneq3',sh:0,d:3,yes:false,why:'3 parts, but the right part is twice as big. The shaded part is 1/4 of the rectangle.',wrong:'3 parts, but the right part is twice as big. It takes 4 pieces the size of the shaded one to cover the rectangle, so it is 1/4, not 1/3.'},
+ {fig:'rect8',sh:1,d:6,yes:false,why:'Count again: there are 8 equal triangles, so one is 1/8, not 1/6.',wrong:'Count the triangles again — there are 8, not 6. One of 8 equal parts is 1/8.'},
+ {fig:'rect8',sh:2,d:8,yes:true,why:'8 triangles, all the same size. One of them is 1/8.',wrong:'All 8 triangles are the same size, and 8 of them cover the rectangle. So one IS 1/8.'},
+ {fig:'hex6',sh:3,d:6,yes:true,why:'6 equal triangles. One is 1/6 of the hexagon.',wrong:'All 6 triangles are the same size. One of them IS 1/6.'},
+ {fig:'hexMix',sh:2,d:4,yes:false,why:'4 parts, but the bottom piece is as big as 3 triangles. Each small triangle is 1/6 of the hexagon.',wrong:'4 parts — but the bottom piece is as big as 3 triangles. It takes 6 triangles to cover the hexagon, so one is 1/6, not 1/4.'},
+ {fig:'hexMix',sh:0,d:2,yes:true,why:'The bottom piece is the same size as the 3 triangles together. It is half the hexagon: 1/2.',wrong:'The bottom piece is as big as the 3 top triangles together, so it covers half the hexagon. It IS 1/2.'},
+ {fig:'hexProbe',sh:0,d:4,yes:true,why:'The bottom half is cut into 2 equal pieces, so each is half of a half: 1/4. The top pieces are different sizes, but that doesn’t change the shaded piece.',wrong:'The pieces are not all the same, but look at the shaded one: 4 pieces that size would cover the hexagon exactly. So it IS 1/4.'},
+ {fig:'hexProbe',sh:3,d:5,yes:false,why:'There are 5 pieces, but they are not equal. The shaded triangle is tiny: it takes 12 of them to cover the hexagon, so it is 1/12.',wrong:'5 pieces, but they are NOT equal. The shaded triangle is the smallest piece — it is 1/12, not 1/5.'}];
+Gn.equalArea=()=>{const c=pick(AREA_CASES);
+  return {type:'mc',prompt:`Is ${fr(1,c.d)} of the figure shaded?`,visual:()=>shapeSVG({kind:'poly',fig:c.fig},{shaded:new Set([c.sh])}),options:['Yes','No'],answer:c.yes?0:1,
+   why:{[c.yes?1:0]:c.wrong},
+   hints:['Equal parts cover the SAME amount of space. They don’t have to be the same shape.',`Ask: would ${c.d} pieces the same size as the shaded piece cover the whole figure exactly? If yes, it is ${fr(1,c.d)}.`],after:c.why};};
+Gn.pickPicture=()=>{const n=pick([3,4,5,6,8]),a=rnd(1,n-1); const W=170,Hh=48;
+  const right={kind:'bar',n,w:W,h:Hh}, sh=new Set(range(a));
+  const wrongN=n===4?6:n-1; let uneq=shuffle([...Array(n-1).fill(1),2]);
+  const opts=shuffle([
+    {k:'right',svg:()=>shapeSVG(right,{shaded:new Set(sh)})},
+    {k:'comp',svg:()=>shapeSVG(right,{shaded:new Set(range(n-a))}),bad:`That one shows ${fr(n-a,n)} — count the shaded parts.`},
+    {k:'den',svg:()=>shapeSVG({kind:'bar',n:wrongN,w:W,h:Hh},{shaded:new Set(range(Math.min(a,wrongN-1)))}),bad:`Count all the parts: that bar has ${wrongN} parts, not ${n}.`},
+    {k:'uneq',svg:()=>shapeSVG({kind:'bar',widths:uneq,w:W,h:Hh},{shaded:new Set(range(a))}),bad:'Those parts are NOT equal, so they are not '+NAMES[n][1]+'.'}]);
+  if(n-a===a) opts.splice(opts.findIndex(o=>o.k==='comp'),1);
+  return {type:'mc',meta:{a,n},prompt:`Which figure shows ${Math.random()<0.5?fr(a,n,'lg'):'<b>'+fracWords(a,n)+'</b>'}?`,options:opts.map(o=>({svg:o.svg})),answer:opts.findIndex(o=>o.k==='right'),
+   why:Object.fromEntries(opts.map((o,i)=>[i,o.bad||''])),
+   hints:[`Look for a figure with ${n} EQUAL parts.`,`Then check that exactly ${a} part${a>1?'s are':' is'} shaded.`],after:`${n} equal parts with ${a} shaded = ${fr(a,n)}`};};
+Gn.between12=()=>{const d=pick([3,4,6,8]); const nums=new Set([rnd(d+1,2*d-1),rnd(d+1,2*d-1),pick([rnd(1,d-1),d]),pick([2*d,2*d+1,rnd(1,d-1)]),rnd(1,d-1)]); while(nums.size<6){nums.add(rnd(1,2*d+1));}
+  const o=shuffle([...nums]); const who=pick(['Richard','Mia','Leo','Ava']);
+  return {type:'multi',prompt:`${who} wants to walk <b>more than 1 mile</b> and <b>less than 2 miles</b>. Which fractions could ${who} walk? Tap all that are correct, then press Check.`,
+   visual:()=>numberLine({den:d,max:2,fracLabels:[]}),options:o.map(n=>fr(n,d)),answer:o.map((n,i)=>n>d&&n<2*d?i:-1).filter(i=>i>=0),
+   why:Object.fromEntries(o.map((n,i)=>[i,n<d?`${fr(n,d)} is less than 1.`:n===d?`${fr(n,d)} is exactly 1 — not MORE than 1.`:n===2*d?`${fr(n,d)} is exactly 2 — not LESS than 2.`:`${fr(n,d)} is more than 2.`])),
+   hints:[`1 whole = ${fr(d,d)} and 2 wholes = ${fr(2*d,d)}.`,`Pick fractions whose top number is bigger than ${d} and smaller than ${2*d}.`],after:`Between 1 and 2 means the top is between ${d} and ${2*d}.`};};
+Gn.missingTop=()=>{const t=pick(['one','one','whole','two']);
+  if(t==='one'){const b=rnd(2,16); return {type:'num',prompt:`${fr('?',b,'lg')} = 1. What is the missing top number?`,answer:b,diag:v=>v===1?'If the top were 1, that would be just one part. To make 1 WHOLE you need ALL the parts.':null,
+    hints:['To equal 1 whole, you count ALL the parts.','The top number must be the SAME as the bottom number.'],after:`${fr(b,b)} = 1`};}
+  if(t==='whole'){const k=rnd(2,12); return {type:'num',prompt:`${fr('?',1,'lg')} = ${k}. What is the missing top number?`,answer:k,diag:v=>v===1?'The bottom is 1, so each whole is just 1 part. How many wholes do you need?':null,
+    hints:['When the bottom number is 1, each whole is not cut — it is 1 part.',`To make ${k} wholes you need ${k} parts.`],after:`${fr(k,1)} = ${k}`};}
+  const b=rnd(2,6); return {type:'num',prompt:`${fr('?',b,'lg')} = 2. What is the missing top number?`,answer:2*b,diag:v=>v===b?`That makes 1 whole. You need 2 wholes.`:null,
+    hints:[`${b} parts make 1 whole.`,`2 wholes = ${b} + ${b} parts.`],after:`${fr(2*b,b)} = 2 wholes`};};
+Gn.letterPoint=()=>{const d=pick([3,4,5,6,8]); const ticks=shuffle(range(d).map(i=>i+1)).slice(0,4).sort((x,y)=>x-y); const L=['W','X','Y','Z'];
+  const pts=ticks.map((t,i)=>[t,L[i]]); const [ti,tl]=pick(pts);
+  return {type:'mc',prompt:`Which point shows ${fr(ti,d,'lg')}?`,visual:()=>numberLine({den:d,letters:pts}),options:L.slice(0,pts.length),answer:L.indexOf(tl),
+   why:Object.fromEntries(pts.map(([t,l],i)=>[i,`Point ${l} is ${t} jump${t>1?'s':''} from 0, so it shows ${fr(t,d)}.`])),
+   hints:[`The bottom number ${d}: check that 0 to 1 has ${d} equal spaces.`,`Start at 0 and hop ${ti} space${ti>1?'s':''}. Which letter is there?`],after:`${ti} jump${ti>1?'s':''} from 0 → ${fr(ti,d)} is point ${tl}.`};};
+Gn.nameWords=()=>{const n=pick([2,3,4,5,6,8]),a=(n===2||Math.random()<0.7)?1:rnd(2,n-1),spec=randShape(n); const ks=shuffle([2,3,4,5,6,8,10].filter(k=>k!==n&&k>a)).slice(0,3); const o=shuffle([n,...ks]);
+  return {type:'mc',prompt:'How can you name the shaded part?',visual:()=>shapeSVG(spec,{shaded:randSet(n,a)}),options:o.map(k=>fracWords(a,k)),answer:o.indexOf(n),
+   why:Object.fromEntries(o.map((k,i)=>[i,`“${NAMES[k][a===1?0:1]}” means ${k} equal parts. Count the parts in the picture.`])),
+   hints:['Count ALL the equal parts. That tells you the second word.','2 → halves, 3 → thirds, 4 → fourths, 5 → fifths, 6 → sixths, 8 → eighths.'],after:`${a} of ${n} parts = ${fracWords(a,n)}`};};
+Gn.hexName=()=>{const a=rnd(1,6),sh=randSet(6,a);
+  return {type:'frac',prompt:'What fraction of the hexagon is shaded?',visual:()=>shapeSVG({kind:'poly',fig:'hex6'},{shaded:new Set(sh)}),answer:[a,6],ctx:{kind:a===6?'one':'shape'},hints:HINT.shape(false),showMe:v=>v._count(),after:a===6?`${fr(6,6)} — all 6 parts. That’s 1 whole!`:`${a} of 6 equal triangles → ${fr(a,6)}`};};
+
+/* ============ teaching widgets ============ */
+function wholeBuilder({start=1,cuts=[1,2,3,4,5,6,8,10],shape='bar',showShape=true}={}){
+  let n=start,kind=shape,shaded=new Set();
+  const wrap=el('div',{class:'widget'});
+  const tb1=el('div',{class:'toolbar'}),tb2=el('div',{class:'toolbar'}),pic=el('div',{class:'vis'}),out=el('div',{class:'readout'});
+  function draw(){
+    tb1.replaceChildren(el('b',{},'Shape:'),...['bar','circle'].map(k=>el('button',{class:k===kind?'sel':'',onclick:()=>{kind=k;draw();}},k==='bar'?'Bar ▭':'Circle ◯')));
+    tb2.replaceChildren(el('b',{},'Cut into:'),...cuts.map(c=>el('button',{class:c===n?'sel':'',onclick:()=>{n=c;shaded=new Set();draw();}},String(c))));
+    pic.replaceChildren(shapeSVG({kind,n,w:440,h:90,r:82},{shaded,click:true,onChange:readout}));
+    readout();
+  }
+  function readout(){ const a=shaded.size; let s='';
+    if(n===1) s=a?'The whole thing is colored: <b>1 whole</b>.':'This is <b>1 whole</b>. Tap a number to cut it into equal parts.';
+    else { s=`<div class="row">${fr(a,n,'lg')}<div class="small">top <b>${a}</b> = parts colored (<span class="good-t">numerator</span>)<br>bottom <b>${n}</b> = equal parts in the whole (<span style="color:var(--accent)">denominator</span>)</div></div>`;
+      s+=`<div class="small" style="margin-top:6px">${n} equal parts are called <b>${NAMES[n][1]}</b>. Each part is ${fr(1,n)}.</div>`;
+      if(a===n) s+=`<div class="win">All ${n} parts are colored: ${fr(n,n)} = 1 whole! 🎉</div>`;
+      else if(a===1) s+=`<div class="small" style="margin-top:4px">${fr(1,n)} is a <b>unit fraction</b> — just ONE part.</div>`;
+      else if(a===0) s+='<div class="small muted">Tap the parts to color them.</div>'; }
+    out.innerHTML=s; }
+  if(showShape) wrap.append(tb1); wrap.append(tb2,pic,out); draw(); return wrap;
+}
+function lineBuilder({max=1,dens=[2,3,4,5,6,8,10],start=4}={}){
+  let den=start,pk=null; const wrap=el('div',{class:'widget'});
+  const tb=el('div',{class:'toolbar'}),pic=el('div',{class:'vis'}),out=el('div',{class:'readout'});
+  function draw(){ tb.replaceChildren(el('b',{},'Cut each whole into:'),...dens.map(d=>el('button',{class:d===den?'sel':'',onclick:()=>{den=d;pk=null;draw();}},String(d))));
+    const s=numberLine({den,max,strip:true,click:true,stripShade:pk||0,onPick:i=>{pk=i;draw();}}); if(pk!=null){s._mark(pk);s._jumps(pk);} pic.replaceChildren(s); readout(); }
+  function readout(){ if(pk==null){out.innerHTML='<span class="muted">Tap any tick mark on the line.</span>';return;}
+    if(pk===0){out.innerHTML='That’s 0 — no jumps yet.';return;}
+    let s=`${pk} jump${pk>1?'s':''} of ${fr(1,den)} from 0 → ${fr(pk,den,'lg')}`;
+    if(pk===den) s+=' = <b>1 whole</b>! 🎉'; else if(pk%den===0) s+=` = <b>${pk/den} wholes</b>!`; else if(pk>den) s+=' — <b>more than 1 whole!</b>';
+    out.innerHTML=s; }
+  wrap.append(tb,pic,out); draw(); return wrap;
+}
+function setBuilder(){ let n=6,em=['🍎','apples']; const wrap=el('div',{class:'widget'});
+  const tb=el('div',{class:'toolbar'}),pic=el('div'),out=el('div',{class:'readout'});
+  function draw(){ tb.replaceChildren(el('b',{},'How many in the group:'),...[3,4,5,6,8].map(k=>el('button',{class:k===n?'sel':'',onclick:()=>{n=k;draw();}},String(k))));
+    const v=setView(range(n).map(()=>({e:em[0],name:em[1]})),{click:true,onChange:on=>readout(on.size)}); pic.replaceChildren(v); readout(0); }
+  function readout(a){ out.innerHTML=`<div class="row">${fr(a,n,'lg')}<div class="small"><b>${a}</b> colored (top)<br><b>${n}</b> in the whole group (bottom)</div></div>`+(a===n?`<div class="win">The whole group: ${fr(n,n)} = 1 whole!</div>`:a===1?`<div class="small">One apple is ${fr(1,n)} of the group — a unit fraction.</div>`:''); }
+  wrap.append(tb,pic,out); draw(); return wrap; }
+function wholesBuilder(){ let k=2,b=3; const wrap=el('div',{class:'widget'});
+  const t1=el('div',{class:'toolbar'}),t2=el('div',{class:'toolbar'}),pic=el('div',{class:'vis'}),out=el('div',{class:'readout'});
+  function draw(){ t1.replaceChildren(el('b',{},'How many wholes:'),...[1,2,3].map(x=>el('button',{class:x===k?'sel':'',onclick:()=>{k=x;draw();}},String(x))));
+    t2.replaceChildren(el('b',{},'Cut each whole into:'),...[1,2,3,4].map(x=>el('button',{class:x===b?'sel':'',onclick:()=>{b=x;draw();}},String(x))));
+    pic.replaceChildren(wholesSVG(k,b));
+    out.innerHTML=`${k} whole${k>1?'s':''}, each cut into ${b} part${b>1?'s':''} → ${k*b} part${k*b>1?'s':''} in all.<div class="row" style="margin-top:6px">${fr(k*b,b,'lg')} <span class="big">= ${k}</span><span class="small muted">(top = all the parts · bottom = parts in ONE whole)</span></div>`; }
+  wrap.append(t1,t2,pic,out); draw(); return wrap; }
+function fractionWall(){ const box=el('div'); [1,2,3,4,5,6,8,10].forEach(d=>{ const s=shapeSVG({kind:'bar',n:d,w:520,h:44},{}); const lab=sv('g',{'pointer-events':'none'}); for(let i=0;i<d;i++){ const x=4+520*(i+0.5)/d; lab.append(sv('text',{x,y:d===1?33:32,'text-anchor':'middle','font-size':d===1?20:18,'font-weight':900,fill:INK,'font-family':'Atkinson Hyperlegible,sans-serif'},d===1?'1 whole':'1/'+d)); } s.append(lab); box.append(el('div',{class:'row',style:'gap:10px;margin:2px 0'},s,el('span',{class:'small',style:'font-weight:800'},d===1?'':NAMES[d][1]))); }); return box; }
+const LNAME=L=>L.num==='Start'?'Start here':L.num==='Tricks'?'Test Tricks':'Lesson '+L.num;
+const ask=t=>el('div',{class:'ask',html:'<b class="lbl">Grown-up, ask</b>'+t});
+const keyb=t=>el('div',{class:'key',html:t});
+const trap=t=>el('div',{class:'trap',html:'<b>Watch out:</b> '+t});
+const P=t=>el('p',{html:t});
+const sideBySide=(...cols)=>el('div',{class:'side'},...cols.map(([node,cap,good])=>el('div',{},node,el('div',{class:good?'good-t':'bad-t',html:cap}))));
+
+/* ============ lessons ============ */
+const LESSONS=[
+ {id:'whole',num:'Start',title:'What is a whole?',sub:'The big idea behind every fraction',hw:[],
+  teach:[
+   ()=>[el('h2',{},'What is a whole?'),P('A <b>whole</b> is one complete thing: one whole pizza, one whole candy bar, one whole sheet of paper.'),P('When we cut a whole into <b>equal parts</b>, we use <b>fractions</b> to talk about the parts.'),keyb('Try it: tap a number to cut the whole. Then tap the parts to color them.'),wholeBuilder({start:1}),ask('Point to the whole. Now cut it into 4. Is it still one whole? <i>(Yes! Cutting doesn’t change how much there is — it just makes parts.)</i>')],
+   ()=>[el('h2',{},'The parts must be EQUAL'),P('Fractions only work when every part is the <b>same size</b>. Think “fair shares.”'),
+     sideBySide([shapeSVG({kind:'bar',n:2,w:220,h:70}),'✓ 2 equal parts<br>= halves',true],[shapeSVG({kind:'bar',widths:[1,2],w:220,h:70}),'✗ 2 parts, NOT equal<br>= not halves',false]),
+     el('div',{style:'height:14px'}),
+     sideBySide([shapeSVG({kind:'circle',n:4,r:70}),'✓ 4 equal parts<br>= fourths',true],[shapeSVG({kind:'circle',angles:[60,120,90,90],r:70}),'✗ 4 parts, NOT equal<br>= not fourths',false]),
+     ask('If we cut a sandwich in 2 and your piece is way smaller, is that fair? <i>That’s why fraction parts must be equal.</i>')],
+   ()=>[el('h2',{},'All the parts make the whole'),P('Cut the bar into 4. Now color <b>every</b> part.'),wholeBuilder({start:4,showShape:false}),keyb(`When you count ALL the parts, you get the whole thing back: ${fr(4,4)} = 1 whole.`),ask('How many fourths make one whole? <i>(4.)</i> How many halves make one whole? <i>(2.)</i>')]],
+  practice:['equalOrNot','equalOrNot','nameParts','wholeShaded'],check:null},
+ {id:'l1',num:'7-1',title:'Partition Shapes into Equal Parts',sub:'halves, thirds, fourths, fifths, sixths, eighths',hw:['hw-ident'],
+  teach:[
+   ()=>[el('h2',{},'Partition = cut into equal parts'),keyb('To <b>partition</b> a shape is to break it into equal parts.'),
+     el('div',{class:'namecut',html:[[2,'halves'],[3,'thirds'],[4,'fourths'],[5,'fifths'],[6,'sixths'],[8,'eighths'],[10,'tenths']].map(([n,w])=>`<span class="chip">${n} equal parts → ${w}</span>`).join('')}),
+     wholeBuilder({start:2,cuts:[2,3,4,5,6,8,10]}),ask('Cut the circle into sixths. How many parts? Are they all the same size?')],
+   ()=>[el('h2',{},'More parts → smaller parts'),P('Every bar below is the <b>same whole</b>. Watch what happens to each part as we cut more pieces.'),fractionWall(),keyb(`Bars like these are called <b>fraction tiles</b>. The more parts you cut, the <b>smaller</b> each part gets. ${fr(1,8)} is SMALLER than ${fr(1,4)}, even though 8 is bigger than 4!`),ask(`Would you rather have ${fr(1,2)} of a pizza or ${fr(1,8)} of the same pizza? Why?`)],
+   ()=>[el('h2',{},'More than one way to partition'),P('What matters: the parts are <b>equal</b> and you have the <b>right number</b>.'),
+     el('h3',{},'Eighths — two ways'),el('div',{class:'row'},shapeSVG({kind:'bar',n:8,w:300,h:90}),shapeSVG({kind:'grid',rows:2,cols:4,cell:48})),
+     el('h3',{},'Halves of a triangle'),el('div',{class:'row'},shapeSVG({kind:'tri2',cut:'v'},{width:160})),
+     keyb('<b>Homework #10 and #11</b> ask you to do this: divide a triangle into halves and a rectangle into eighths.'),ask('Show me with your finger how you would cut a rectangle into eighths.')]],
+  practice:['equalOrNot','nameParts','cutTo','smallerBigger','triHalves','cutTo'],check:['nameParts','cutTo','equalOrNot','smallerBigger','triHalves']},
+ {id:'l2',num:'7-2',title:'Understand Fractions',sub:'numerator, denominator, unit fraction',hw:['hw-vocab','hw-ident','hw-words'],
+  teach:[
+   ()=>{ const s=shapeSVG({kind:'bar',n:4,w:320,h:80},{shaded:new Set([0,1,2])}); return [el('h2',{},'The two numbers in a fraction'),el('div',{class:'row'},s,el('div',{html:`${fr(3,4,'lg')}`})),
+     el('div',{class:'vocab'},...VOCAB.slice(1,3).map(v=>el('div',{class:'vcard'},el('div',{class:'w'},v.w),el('div',{class:'d'},v.d)))),
+     keyb('<b>3</b> on top → 3 parts are shaded (the parts we’re describing).<br><b>4</b> on the bottom → 4 equal parts in the whole.'),
+     ask('What does the bottom number count? <i>(ALL the equal parts in the whole.)</i> What does the top number count? <i>(The parts we’re talking about.)</i>')]; },
+   ()=>[el('h2',{},'Fraction and unit fraction'),el('div',{class:'vocab'},...[VOCAB[0],VOCAB[3]].map(v=>el('div',{class:'vcard'},el('div',{class:'w'},v.w),el('div',{class:'d'},v.d)))),
+     P('Color just <b>one</b> part to make a unit fraction:'),wholeBuilder({start:6,cuts:[2,3,4,5,6,8,10]}),ask('Is 2/6 a unit fraction? <i>(No — a unit fraction always has 1 on top.)</i>')],
+   ()=>{ const sh=new Set([0,2,5]); return [el('h2',{},'Shaded and not shaded'),shapeSVG({kind:'bar',n:8,w:440,h:80},{shaded:sh}),
+     el('div',{class:'big',style:'margin-top:10px',html:`Shaded: ${fr(3,8)} &nbsp;&nbsp; Not shaded: ${fr(5,8)} &nbsp;&nbsp; Together: ${fr(8,8)} = 1 whole`}),
+     trap('The bottom number counts <b>ALL</b> the parts — shaded AND white. Never just the shaded ones!'),
+     ask('Point to the not-shaded parts. Why is the bottom number 8 for both fractions?')]; },
+   ()=>[el('h2',{},'Fractions in words'),P('First word → <b>top</b> number. Second word → <b>bottom</b> number.'),
+     el('div',{class:'big',html:`three-fourths → ${fr(3,4)} &nbsp;&nbsp; five-eighths → ${fr(5,8)} &nbsp;&nbsp; one-half → ${fr(1,2)}`}),
+     keyb('“fourths” means the whole has 4 equal parts. “eighths” means 8. “tenths” means 10. “sevenths” means 7.'),ask('How do you write four-tenths? <i>(4 on top, 10 on the bottom.)</i>')]],
+  practice:['nameShaded','nameShaded','unitPart','shadeIt','numDen','vocabDef','nameUnshaded','wordToFrac','isUnit'],check:['nameShaded','vocabDef','unitPart','shadeIt','wordToFrac','nameUnshaded']},
+ {id:'l3',num:'7-3',title:'Fractions on a Number Line',sub:'count the spaces from 0 to 1',hw:['hw-line'],
+  teach:[
+   ()=>[el('h2',{},'A number line is like a ruler'),P('On a number line, the <b>whole</b> is the distance from 0 to 1. We cut that distance into <b>equal spaces</b>. The bar on top shows the same parts.'),lineBuilder({start:4}),ask('Tap 4 parts, then 6 parts. Which one has smaller jumps? <i>(6 — more parts, smaller parts.)</i>')],
+   ()=>{ const s=numberLine({den:4}); s._jumps(4,4); return [el('h2',{},'Count SPACES, not marks'),s,trap('This line has <b>5 tick marks</b> but only <b>4 spaces</b>. The denominator is the number of <b>SPACES</b> (jumps) between 0 and 1.'),ask('Count the spaces with your finger, hop by hop. How many? <i>(4 — so each space is 1/4.)</i>')]; },
+   ()=>{ const s=numberLine({den:4,point:3,showX:false}); s._jumps(3,4); return [el('h2',{},'Finding the fraction at a point'),s,
+     keyb(`<b>Step 1:</b> Count the spaces from 0 to 1 → the bottom number (4).<br><b>Step 2:</b> Start at 0. Count the jumps to the point → the top number (3).<br>So the point is ${fr(3,4)}.`),ask('Why don’t we count the 0 mark as a jump? <i>(Because you haven’t moved yet!)</i>')]; }],
+  practice:['nlSpaces','nlPoint','nlPlace','nlMissing','nlPoint','nlPlace'],check:['nlPoint','nlMissing','nlPlace','nlSpaces','nlMissing']},
+ {id:'l4',num:'7-4',title:'One Whole as a Fraction',sub:'4/4 = 1, 6/6 = 1',hw:['hw-line','hw-gt1'],
+  teach:[
+   ()=>[el('h2',{},'All the parts = 1 whole'),P('Color <b>every</b> part. Watch the fraction.'),wholeBuilder({start:6,cuts:[2,3,4,5,6,8,10]}),keyb('When the top and bottom numbers are the <b>same</b>, you have <b>1 whole</b>.')],
+   ()=>{ const box=el('div'); [2,3,4,6,8].forEach(d=>box.append(el('div',{class:'row',style:'margin:4px 0'},shapeSVG({kind:'bar',n:d,w:360,h:44},{shaded:new Set(range(d))}),el('span',{class:'big',html:`${fr(d,d)} = 1`})))); return [el('h2',{},'Fractions that equal 1'),box,ask('Is 5/5 equal to 1? What about 3/4? <i>(5/5 yes. 3/4 no — one part is missing.)</i>')]; },
+   ()=>{ const s=numberLine({den:4,fracLabels:[1,2,3,4]}); return [el('h2',{},'1 on the number line'),s,keyb(`The <b>1</b> on the number line is also ${fr(4,4)} — four jumps of ${fr(1,4)}. That’s why the last mark is 1!`)]; }],
+  practice:['wholeShaded','equalsOneMC','oneOnLine','multiOne','fillDen'],check:['equalsOneMC','wholeShaded','oneOnLine','multiOne','fillDen']},
+ {id:'l5',num:'7-5',title:'Whole Numbers as Fractions',sub:'6/3 = 2, 3/1 = 3',hw:['hw-gt1'],
+  teach:[
+   ()=>[el('h2',{},'More than one whole'),P('Pick how many wholes and how many parts in each.'),wholesBuilder(),keyb('Top = ALL the parts. Bottom = parts in <b>ONE</b> whole.'),ask('3 wholes, cut in halves. How many halves in all? <i>(6 → 6/2 = 3.)</i>')],
+   ()=>[el('h2',{},'Wholes that aren’t cut'),shapeSVG({kind:'discs',n:3,r:40,pos:[[0,0],[1,0],[2,0]]},{shaded:new Set([0,1,2])}),
+     P(`3 pizzas, not cut. Each pizza is 1 part. So 3 = ${fr(3,1)}.`),keyb(`Any whole number can be a fraction with <b>1</b> on the bottom: 2 = ${fr(2,1)}, 5 = ${fr(5,1)}.`)],
+   ()=>[el('h2',{},'Fraction → whole number'),wholesSVG(2,3),P(`${fr(6,3)}: it takes 3 thirds to make 1 whole. Count by 3s: 3, 6. That’s <b>2 groups</b> → ${fr(6,3)} = 2.`),ask('What is 8/4? <i>(Count by 4s: 4, 8 → 2 wholes.)</i>')]],
+  practice:['wholesPicture','wholeOver1','fracToWhole','whichWholeMC','wholeOver1MC','wholesPicture'],check:['wholesPicture','wholeOver1','fracToWhole','whichWholeMC','wholeOver1MC']},
+ {id:'l6',num:'7-6',title:'Fractions Greater Than 1',sub:'keep counting past 1 on the number line',hw:['hw-gt1'],
+  teach:[
+   ()=>[el('h2',{},'Keep counting past 1'),P('This line goes to 2. Tap marks past 1 and watch the fraction.'),lineBuilder({max:2,dens:[2,3,4,5,6,8],start:3})],
+   ()=>{ const s=numberLine({den:3,max:2,point:4}); s._jumps(4,6); return [el('h2',{},'The homework example: 4/3'),s,
+     keyb(`<b>Step 1:</b> Count the spaces between <b>0 and 1 only</b> → 3. That’s the bottom.<br><b>Step 2:</b> Start at 0. Count every jump to the x → 4. Don’t stop at 1!<br>So x = ${fr(4,3)}.`),
+     trap('Don’t use the spaces on the <b>whole line</b> (6) for the bottom. The bottom is always the spaces in <b>ONE whole</b>.'),ask('Why is 4/3 bigger than 1? <i>(3 thirds make 1 whole, and we have one more third.)</i>')]; },
+   ()=>[el('h2',{},'Greater than, equal to, or less than 1?'),
+     el('div',{class:'big',html:`Top <b>bigger</b> than bottom → <span class="good-t">greater than 1</span> &nbsp; ${fr(5,4)}<br>Top and bottom the <b>same</b> → <span style="color:var(--accent)">equal to 1</span> &nbsp; ${fr(4,4)}<br>Top <b>smaller</b> than bottom → <span class="bad-t">less than 1</span> &nbsp; ${fr(3,4)}`}),ask('Is 7/6 more or less than 1 whole? How do you know?')]],
+  practice:['gt1Point','compare1','gt1Point','multiGT1','gt1Place'],check:['gt1Point','gt1Point','compare1','multiGT1','gt1Place']},
+ {id:'l7',num:'7-7',title:'Fractions of a Set',sub:'when the whole is a group',hw:['hw-sets'],
+  teach:[
+   ()=>{ const items=[{e:'♣️',name:'clubs',t:1},{e:'♣️',name:'clubs',t:1},{e:'♦️',name:'diamonds'},{e:'♦️',name:'diamonds'},{e:'♦️',name:'diamonds'}]; const v=setView(items); v._count(it=>it.t===1);
+     return [el('h2',{},'A whole can be a group'),P('Here the whole is the whole <b>group</b> of 5 things.'),v,keyb(`<b>Bottom:</b> count ALL the items → 5.<br><b>Top:</b> count only the clubs → 2.<br>Clubs are ${fr(2,5)} of the group. (This is homework example #1!)`),ask('What part is diamonds? <i>(3/5.)</i>')]; },
+   ()=>[el('h2',{},'Try it'),P('Tap apples to color them.'),setBuilder(),ask('Color 1 apple. What fraction is it? Now make it the whole group.')],
+   ()=>[el('h2',{},'Watch out'),trap('The bottom is the <b>whole group</b> — every item. Not just the “other” items!'),
+     P(`4 stars and 1 moon: stars are ${fr(4,5)}, <b>not</b> ${fr(4,1)}.`),keyb(`Each single item in a group of 5 is ${fr(1,5)} — a unit fraction of the set.`)]],
+  practice:['setPart','setPart','setUnit','setShade','setPart'],check:['setPart','setPart','setUnit','setShade','setPart']},
+ {id:'tricks',num:'Tricks',title:'Test Tricks',sub:'question styles from the book’s Unit Review',hw:[],
+  teach:[
+   ()=>[el('h2',{},'Same size, different shape'),keyb('Equal parts must cover the <b>same amount of space</b>. They do NOT have to be the same shape.'),
+     sideBySide([shapeSVG({kind:'poly',fig:'rectMix'},{shaded:new Set([0])}),`✓ Different shapes,<br>same size → ${fr(1,4)}`,true],[shapeSVG({kind:'poly',fig:'sqHalfQuarters'},{shaded:new Set([1])}),`✗ 3 parts, NOT equal<br>→ not ${fr(1,3)}`,false]),
+     P(`Left: the two blocks and the two strips each cover one quarter of the rectangle. Right: the big triangle is half the square, so the small shaded triangle is ${fr(1,4)}, not ${fr(1,3)}.`),
+     ask('Point to the big triangle on the right. How many small triangles would fit inside it? <i>(2.)</i>')],
+   ()=>[el('h2',{},'Hexagons'),el('div',{class:'row'},shapeSVG({kind:'poly',fig:'hex6'},{shaded:new Set([0])}),shapeSVG({kind:'poly',fig:'hexMix'},{shaded:new Set([0])})),
+     keyb(`A hexagon can be cut into <b>6 equal triangles</b>: each is ${fr(1,6)}.<br>The big bottom piece is the same size as 3 triangles, so it is <b>half</b>: ${fr(1,2)}. The picture on the right has 4 parts, but they are NOT fourths.`),
+     ask('If all 6 triangles are shaded, what fraction is that? <i>(6/6 = 1 whole.)</i>')],
+   ()=>{ const s=numberLine({den:4,max:2,letters:[[2,'W'],[5,'X'],[7,'Y'],[8,'Z']]}); return [el('h2',{},'Test question styles'),
+     el('div',{class:'namecut',html:['<b>Pick the picture:</b> “Which figure shows 3/4?” Check for EQUAL parts first.','<b>Between 1 and 2:</b> the top number is bigger than the bottom, but less than double it.','<b>Missing top number:</b> ?/16 = 1 → 16. ?/1 = 10 → 10.','<b>Fraction words:</b> 1 of 6 parts = one-sixth.'].map(t=>`<span class="chip" style="border-radius:14px">${t}</span>`).join('')}),
+     el('h3',{},'Lettered points'),s,P(`Which point shows ${fr(5,4)}? Count 5 jumps from 0 → point <b>X</b>. Point Z is ${fr(8,4)} = 2.`)]; },
+   ()=>[el('h2',{},'Explain it'),P('Some questions say “Explain how you know.” Use a sentence starter:'),
+     el('div',{class:'namecut',html:['“<b>Yes</b>, because the parts are all the same size and 1 of 4 is shaded.”','“<b>No</b>, because the parts are not equal.”','“The bottom number is __ because the whole has __ equal parts.”','“I counted __ jumps from 0, so the point is __.”'].map(t=>`<span class="chip" style="border-radius:14px">${t}</span>`).join('')}),
+     keyb('<b>Two ways to show a fraction</b> (the Performance Task asks this): a <b>picture</b> (shape or set) and a <b>number line</b>.'),
+     ask('Have him say one of these sentences out loud for a problem he just solved. Then have him draw a circle cut into fourths and a 0–1 number line cut into fourths on paper.')]],
+  practice:['equalArea','pickPicture','between12','missingTop','letterPoint','nameWords','hexName','equalArea','wholeOver1MC','equalArea'],check:['equalArea','pickPicture','between12','missingTop','letterPoint','nameWords']},
+];
+
+/* ============ homework pages ============ */
+const HW=[
+ {id:'hw-vocab',title:'Fraction Vocabulary',pages:'Packet pages 2, 7, 8',dir:'The 4 vocabulary words — in your teacher’s exact wording.',help:['l2'],labels:['parts counted','all parts'],how:['Read each sentence out loud.','Tap the word that fits, or type the number.','Press Check.'],
+  items:()=>[vocabQ(2),vocabQ(1),vocabQ(3),vocabQ(0),
+    {type:'num',prompt:`In ${fr(3,5,'lg')} what is the <b>numerator</b>?`,answer:3,diag:v=>v===5?'That’s the denominator. The numerator is the TOP number.':null,hints:['The numerator is the TOP number.']},
+    {type:'num',prompt:`In ${fr(3,5,'lg')} what is the <b>denominator</b>?`,answer:5,diag:v=>v===3?'That’s the numerator. The denominator is the BOTTOM number.':null,hints:['The denominator is the BOTTOM number.']},
+    {type:'frac',prompt:'One of seven equal parts is shaded. Write the <b>unit fraction</b>.',visual:()=>shapeSVG({kind:'bar',n:7,w:380,h:64},{shaded:new Set([0])}),answer:[1,7],ctx:{kind:'unit'},hints:['A unit fraction has 1 on top.','The bottom is how many equal parts in the whole: 7.']}],
+  gen:()=>[Gn.vocabDef(),Gn.vocabDef(),Gn.vocabDef(),Gn.numDen(),Gn.numDen(),Gn.isUnit(),Gn.unitPart()]},
+ {id:'hw-ident',title:'Identifying Fractions',pages:'Packet page 5',dir:'Write a fraction for the shaded part of each shape below.',help:['l2','l1'],labels:['orange parts','all parts'],how:['Count ALL the parts → bottom box.','Count the ORANGE parts → top box.','Press Check.'],
+  example:{num:1,node:()=>el('div',{},el('div',{class:'row'},shapeSVG({kind:'circle',n:3,r:62},{shaded:new Set([2])}),el('span',{class:'big',html:fr(1,3)})),el('div',{class:'exsteps',html:'3 parts in all → bottom <b>3</b><br>1 orange part → top <b>1</b>'}))},
+  items:()=>{ const f=(spec,sh,a,n)=>({type:'frac',prompt:'',visual:()=>shapeSVG(spec,{shaded:new Set(sh)}),answer:[a,n],ctx:{kind:'shape'},hints:HINT.shape(false),showMe:v=>v._count()});
+    return [f({kind:'circle',n:4,r:70},[0,1,3],3,4), f({kind:'tri3'},[0],1,3), f({kind:'grid',rows:3,cols:4,cell:44},[8,9,10,11],4,12), f({kind:'grid',rows:2,cols:4,cell:52},[0,1],2,8),
+      f({kind:'circle',n:2,r:70},[0],1,2), f({kind:'discs',n:3,r:30,pos:[[0,0],[1,0],[0,1]]},[0,2],2,3), f({kind:'circle',n:8,r:70},[2,3,4,5,6],5,8), f({kind:'triRows',rows:2,cols:4},[1,2,5],3,8),
+      Object.assign(Gn.triHalves(),{prompt:'<b>#10.</b> Draw a triangle. Divide it to show <b>halves</b>. Which one is right?'}),
+      {type:'cut',prompt:'<b>#11.</b> Draw a rectangle. Divide it to show <b>eighths</b>.',shapeFor:k=>({kind:'bar',n:k,w:340,h:90}),choices:[2,3,4,5,6,7,8,9,10],target:8,hints:['Eighths means 8 equal parts.'],after:`8 equal parts = eighths. (You could also draw 2 rows of 4!)`}]; },
+  gen:()=>[Gn.nameShaded(),Gn.nameShaded(),Gn.nameShaded(),Gn.nameShaded(),Gn.wholeShaded(),Gn.nameShaded(),Gn.nameShaded(),Gn.nameShaded(),Gn.triHalves(),Gn.cutTo()]},
+ {id:'hw-sets',title:'Recognizing the Parts',pages:'Packet page 6 (top)',dir:'Write the correct fraction for each set of items. The first one is done for you.',help:['l7'],labels:['ones asked about','all items'],how:['Count ALL the items in the row → bottom box.','Count only the ones the question asks about → top box.','Press Check.'],
+  example:{num:1,node:()=>el('div',{},setView([{e:'♣️'},{e:'♣️'},{e:'♦️'},{e:'♦️'},{e:'♦️'}]),el('div',{class:'big',html:`What part is clubs? ${fr(2,5)}`}),el('div',{class:'exsteps',html:'5 items in all → bottom <b>5</b><br>2 clubs → top <b>2</b>'}))},
+  items:()=>[setQ('stars','⭐',4,'moons','🌙',1,true),setQ('doves','🕊️',3,'planes','✈️',5,false),setQ('fairies','🧚',4,'hearts','❤️',4,true),setQ('bikes','🚲',2,'cameras','🎥',4,false),setQ('mice','🐭',6,'owls','🦉',3,true)],
+  gen:()=>range(5).map(()=>Gn.setPart())},
+ {id:'hw-words',title:'Write the Fraction',pages:'Packet page 6 (bottom)',dir:'Write a fraction for each number word.',help:['l2'],labels:['first word','second word'],how:['The FIRST word → top box (three = 3).','The SECOND word → bottom box (fourths = 4).','Press Check.'],
+  example:{num:7,node:()=>el('div',{},el('div',{class:'big',html:`three-fourths → ${fr(3,4)}`}),el('div',{class:'exsteps',html:'“three” → top <b>3</b><br>“fourths” = 4 equal parts → bottom <b>4</b>'}))},
+  items:()=>[[1,2],[2,3],[5,8],[3,6],[4,5],[2,6],[1,4],[4,10],[6,8],[3,5],[5,7]].map(([n,d])=>{const w=fracWords(n,d),[w1,w2]=w.split('-'); return {type:'frac',prompt:`<b>${w}</b>`,answer:[n,d],ctx:{kind:'word',w1,w2},hints:['First word → TOP. Second word → BOTTOM.',`“${w2}” means ${d} equal parts → bottom ${d}.`]};}),
+  startNum:8, gen:()=>range(11).map(()=>Gn.wordToFrac())},
+ {id:'hw-line',title:'Number Line',pages:'Packet page 4',dir:'Label the missing fraction on the number line.',help:['l3','l4'],labels:['jumps from 0','spaces 0 to 1'],how:['Count the SPACES from 0 to 1 → bottom box.','Start at 0. Count jumps to the ? box → top box.','Press Check.'],
+  items:()=>[[3,[1],2],[6,[1,3,4,5],2],[2,[],1],[5,[1,2,3],4],[4,[2,3],1],[8,[1,2,3,4,6,7],5]].map(([d,lab,m])=>({type:'frac',prompt:'',visual:()=>numberLine({den:d,fracLabels:lab,missing:m,W:560}),answer:[m,d],ctx:{kind:'line',box:true},hints:HINT.line(false,true),showMe:v=>v._jumps(m,d)})),
+  gen:()=>range(6).map(()=>Gn.nlMissing())},
+ {id:'hw-gt1',title:'Number Line — Greater Than 1',pages:'Packet page 3',dir:'Identify the improper fraction that goes with each number line.',help:['l6','l5'],labels:['jumps from 0','spaces 0 to 1'],how:['Count the SPACES from 0 to 1 only → bottom box.','Start at 0. Count EVERY jump to the x (don’t stop at 1!) → top box.','Press Check.'],
+  example:{num:1,node:()=>{const s=numberLine({den:3,max:2,point:4,fracLabels:[1,2,3,4,5,6],W:560,stripShade:0}); s._jumps(4,0); return el('div',{},s,el('div',{class:'big',html:`x = ${fr(4,3)}`}),el('div',{class:'exsteps',html:'3 spaces from 0 to 1 → bottom <b>3</b><br>4 jumps from 0 to the x → top <b>4</b>'}));}},
+  items:()=>[[4,2,6,1],[2,3,5,0],[5,2,8,0],[5,2,9,0],[3,2,5,0]].map(([d,max,a,extra])=>({type:'frac',prompt:'',visual:()=>numberLine({den:d,max,point:a,extra,W:560}),answer:[a,d],ctx:{kind:'line',span:max*d+extra},hints:HINT.line(true),showMe:v=>v._jumps(a,d)})),
+  gen:()=>range(5).map(()=>Gn.gt1Point())},
+];
+const HWBY=Object.fromEntries(HW.map(h=>[h.id,h])), LBY=Object.fromEntries(LESSONS.map(l=>[l.id,l]));
+
+
+/* ============ ice cream theme ============ */
+const FLAV={sky:['#1f9bff','#ddf0ff','#0b5fb8'],mint:['#12bf8e','#d6f9ec','#07684f'],blue:['#3d63ff','#e0e7ff','#2238b8'],orange:['#ff8a1f','#ffe9d2','#a34d00'],lime:['#5cbf12','#e6f8d4','#3a7a08'],teal:['#0fb3c0','#d7f6f8','#0a6f78'],lemon:['#ffc61a','#fff6cc','#946800']};
+const LFLAV={whole:['sky','🍦'],l1:['mint','🍨'],l2:['blue','🫐'],l3:['orange','🍊'],l4:['teal','🍧'],l5:['lime','🍏'],l6:['lemon','🍋'],l7:['sky','🍫'],tricks:['orange','🎯']};
+const HFLAV={'hw-vocab':['blue','🍦'],'hw-ident':['orange','🍪'],'hw-sets':['mint','🍨'],'hw-words':['teal','🥤'],'hw-line':['lime','🍧'],'hw-gt1':['sky','🍫'],tricks:['orange','🎯']};
+function dripPath(){ const drops=[[1140,40],[1050,22],[960,56],[850,26],[740,44],[640,20],[540,60],[430,30],[330,46],[220,22],[120,52],[40,28]]; let d='M0 0H1200V14';
+  for(const [cx,len] of drops){ const r=13; d+=`L${cx+r+12} 14Q${cx+r} 14 ${cx+r} ${14+len-r}A${r} ${r} 0 0 1 ${cx-r} ${14+len-r}Q${cx-r} 14 ${cx-r-12} 14`; } return d+'L0 14Z'; }
+function banner(flav,tag,title,sub,cone){ const [c]=FLAV[flav]; const dark=flav==='lemon';
+  const b=el('div',{class:'banner'+(dark?' dark':'')});
+  const top=el('div',{class:'top',style:`background-color:${c}`},tag?el('span',{class:'pill',style:'border-color:#fff;color:'+INK},tag):null,el('h1',{},title),sub?el('div',{class:'sub'},sub):null,el('div',{class:'cone'},cone||'🍦'));
+  const svg=sv('svg',{class:'drip',viewBox:'0 0 1200 76',preserveAspectRatio:'none'},sv('path',{d:dripPath(),fill:c}));
+  b.append(top,svg); return b; }
+const flavStyle=f=>{const [c,l,d]=FLAV[f]; return `--fc:${c};--fl:${l};--fd:${d}`;};
+
+/* ============ views ============ */
+const app=document.getElementById('app');
+function go(hash){ if(location.hash==='#'+hash) route(); else location.hash=hash; }
+function topbar(extra){ return el('div',{class:'topbar'},el('button',{class:'btn alt small',onclick:()=>go('home')},'🏠 Chapter 7 menu'),el('a',{class:'btn alt small',href:'../index.html#math',style:'text-decoration:none;display:inline-flex;align-items:center'},'‹ Back to Study Scoop'),extra); }
+function lessonView(L){
+  const steps=[...L.teach.map((f,i)=>({label:'Learn '+(i+1),f})),{label:'Practice',practice:true}];
+  if(L.check) steps.push({label:'Quick check',check:true});
+  let cur=0; const body=el('div'); const dots=el('div',{class:'stepdots'}); const nav=el('div',{class:'nav'});
+  const hwBtns=L.hw.map(id=>el('button',{class:'btn alt small',onclick:()=>go(id)},'📄 Homework: '+HWBY[id].title));
+  const idx=LESSONS.indexOf(L), next=LESSONS[idx+1];
+  function draw(){
+    dots.replaceChildren(...steps.map((s,i)=>el('button',{class:i===cur?'on':'',onclick:()=>{cur=i;draw();}},s.label)));
+    const s=steps[cur]; const card=el('div',{class:'card'});
+    if(s.f) card.append(...s.f());
+    else if(s.practice){ card.append(el('h2',{},'Practice'),P('Use the hints! Every wrong answer tells you what to fix.')); const host=el('div'); card.append(host);
+      runSet(host,()=>L.practice.map(g=>Gn[g]()),{label:'Practice',onFinish:(a,b,box)=>{ box.append(el('div',{class:'nav'},el('span'),el('button',{class:'btn',onclick:()=>{cur++;draw();}},L.check?'Go to Quick check →':'Done ✓'))); }}); }
+    else { card.append(el('h2',{},'Quick check'),P('Try these on your own first. Hints are there if you need them.')); const host=el('div'); card.append(host);
+      runSet(host,()=>L.check.map(g=>Gn[g]()),{label:'Quick check',check:true,onFinish:(a,b,box)=>{ record('lesson',L.id,a,b);
+        box.append(el('div',{class:'row',style:'justify-content:center;margin-top:12px'},...hwBtns.map(b=>b.cloneNode(true)).map((b,i)=>{b.onclick=()=>go(L.hw[i]); return b;}),next?el('button',{class:'btn',onclick:()=>go(next.id)},'Next: '+(next.num==='Start'||next.num==='Tricks'?'':'Lesson '+next.num+' ')+next.title+' →'):el('button',{class:'btn',onclick:()=>go('homework')},'Go to Homework →'))); }}); }
+    body.replaceChildren(card);
+    nav.replaceChildren(cur>0?el('button',{class:'btn alt',onclick:()=>{cur--;draw();window.scrollTo(0,0);}},'← Back'):el('span'),
+      cur<steps.length-1?el('button',{class:'btn',onclick:()=>{cur++;draw();window.scrollTo(0,0);}},'Next →'):(next?el('button',{class:'btn alt',onclick:()=>go(next.id)},'Next lesson →'):el('span')));
+  }
+  app.replaceChildren(...[topbar(null),banner(LFLAV[L.id][0],LNAME(L),L.title,L.sub,LFLAV[L.id][1]),
+    el('div',{class:'lessonbar'},dots,hwBtns.length?el('div',{class:'row',style:'gap:8px'},el('span',{class:'small muted',style:'font-weight:800'},'Gets you ready for:'),...hwBtns):null),body,nav].filter(Boolean));
+  draw();
+}
+function runSet(host,makeQs,o){
+  let qs,i,res; const dots=el('div',{class:'dots'}),body=el('div');
+  host.replaceChildren(dots,body);
+  function start(){ qs=makeQs(); i=0; res=[]; draw(); }
+  function draw(){
+    dots.replaceChildren(el('span',{class:'small muted',style:'font-weight:900;margin-right:6px'},i<qs.length?`${o.label} ${i+1} of ${qs.length}`:o.label),...qs.map((_,j)=>el('span',{class:'dot'+(j<i?' done':j===i?' on':'')})));
+    if(i>=qs.length) return finish();
+    const nb=el('button',{class:'btn good',style:'display:none;margin-top:14px',onclick:()=>{i++;draw();}},i===qs.length-1?'Finish ✓':'Next question →');
+    const qe=renderQ(qs[i],{onResult:r=>{res[i]=r; nb.style.display='inline-block'; if(pfine()) nb.focus();}});
+    body.replaceChildren(qe,nb); if(pfine()&&qe._focus) qe._focus();
+  }
+  function finish(){
+    const a=res.filter(r=>r&&r.firstTry).length,b=qs.length, ratio=a/b;
+    const msg=ratio>=0.8?'Triple scoop! You’ve got this one. 🍒':ratio>=0.6?'Good work. Try a new set to make it solid.':'Let’s go back over the Learn pages, then try a new set.';
+    const box=el('div',{class:'summary'},el('div',{class:'stars'},ratio>=0.8?'🍦🍦🍦':ratio>=0.6?'🍦🍦':'🍦'),el('div',{class:'score'},`${a} of ${b} right on the first try, no hints`),P(msg),
+      el('button',{class:'btn alt',onclick:start},'🔄 Try a new set'));
+    body.replaceChildren(box); o.onFinish&&o.onFinish(a,b,box);
+  }
+  start();
+}
+function hwView(Hp){
+  let mode='real'; const grid=el('div',{class:'hwgrid'}); const score=el('div',{class:'score'});
+  let total=0,right=0,firstRight=0;
+  function build(){
+    const qs=mode==='real'?Hp.items():Hp.gen(); total=qs.length; right=0; firstRight=0; upd();
+    const cards=[];
+    if(mode==='real'&&Hp.example){ cards.push(el('div',{class:'hwitem example'},el('div',{class:'num'},`${Hp.example.num}. Example`),Hp.example.node())); }
+    const startNum=Hp.startNum||(Hp.example?Hp.example.num+1:1);
+    qs.forEach((q,k)=>{ const c=el('div',{class:'hwitem'}); const label=mode==='real'?`${startNum+k}.`:`New ${k+1}.`;
+      if(q.prompt&&q.prompt.startsWith('<b>#')) { q=Object.assign({},q,{prompt:q.prompt.replace(/^<b>#\d+\.<\/b>\s*/,'')}); }
+      c.append(el('div',{class:'num'},label),renderQ(q,{labels:Hp.labels,onResult:r=>{right++; if(r.firstTry) firstRight++; c.classList.add('ok'); upd();}})); cards.push(c); });
+    grid.replaceChildren(...cards);
+  }
+  function upd(){ score.innerHTML=`Solved: ${right} / ${total} <span class="small muted">(${firstRight} on the first try)</span>`; if(mode==='real'&&right===total&&total) record('hw',Hp.id,firstRight,total); }
+  const help=Hp.help.map(id=>el('button',{onclick:()=>go(id)},`Help: ${LNAME(LBY[id])}`));
+  const modeBtn=el('button',{onclick:()=>{mode=mode==='real'?'new':'real'; modeBtn.textContent=mode==='real'?'🔄 New problems':'📄 Back to real homework'; build();}},'🔄 New problems');
+  const colors=['#1f9bff','#12bf8e','#ff8a1f'];
+  const how=el('div',{class:'how'},el('div',{class:'ht'},'📝 How to do this page'),el('ol',{},...Hp.how.map((t,i)=>el('li',{},el('span',{class:'n',style:'background:'+colors[i]},String(i+1)),el('span',{html:t.replace(/(ALL|ORANGE|SPACES|EVERY|FIRST|SECOND)/g,'<u>$1</u>')})))));
+  app.replaceChildren(topbar(null),banner(HFLAV[Hp.id][0],Hp.pages,Hp.title,null,HFLAV[Hp.id][1]),
+    el('div',{class:'adult'},el('span',{class:'lbl'},'For grown-ups:'),modeBtn,el('button',{onclick:build},'↺ Start over'),...help),
+    how,
+    el('div',{class:'hwhead'},el('div',{class:'muted',style:'font-weight:800'},'Packet directions: '+Hp.dir),score),
+    grid);
+  build();
+}
+
+/* ============ Chapter 7 menu pages ============ */
+const MENU=[
+ {id:'vocab',n:1,icon:'📖',flav:'blue',title:'Vocabulary',sub:'Flip cards with pictures, practice, then a vocabulary test.'},
+ {id:'lessons',n:2,icon:'🍨',flav:'mint',title:'Lessons 7-1 to 7-7',sub:'Start with “What is a whole?”, then each book lesson.'},
+ {id:'homework',n:3,icon:'📝',flav:'orange',title:'Homework',sub:'Your six homework pages, with steps and hints.'},
+ {id:'tricks',n:4,icon:'🎯',flav:'teal',title:'Test Tricks',sub:'Question styles from the book’s Unit Review.'},
+ {id:'practice',n:5,icon:'🍧',flav:'lime',title:'Practice Questions',sub:'50 mixed problems with hints and “Show me.”'},
+ {id:'test',n:6,icon:'✅',flav:'sky',title:'Chapter Test',sub:'25 questions like the real test. One try, no hints.'}];
+function menuTile(m){ const p=loadP(); const s=m.id==='test'?p.test&&p.test.chapter:m.id==='vocab'?p.test&&p.test.vocab:null;
+  return el('button',{class:'tile',style:flavStyle(m.flav),onclick:()=>go(m.id)},el('span',{class:'big-ico'},m.icon),el('span',{class:'stepn'},'Step '+m.n),el('span',{class:'t'},m.title),el('span',{class:'s'},m.sub),s?el('span',{class:'badge'},`🍦 Best test: ${s.score}/${s.of}`):null); }
+function home(){
+  app.replaceChildren(
+    el('div',{class:'topbar'},el('a',{class:'btn alt small',href:'../index.html#math',style:'text-decoration:none;display:inline-flex;align-items:center'},'‹ Back to Study Scoop')),
+    banner('sky','Fraction Scoop Shop','Chapter 7: Fractions','Pick a card. Go in order if you’re not sure where to start.','🍦'),
+    el('div',{class:'menu'},...MENU.map(menuTile)),
+    el('div',{class:'ask',html:'<b class="lbl">For grown-ups — how to use this</b>Go in step order: Vocabulary → Lessons → Homework → Test Tricks → Practice Questions → Chapter Test. Lessons and practice have hints and “Show me.” The Chapter Test has no hints, like the real test. Afterward, tap <b>Practice my misses</b>.'}));
+}
+function listPage(flav,tag,title,sub,icon,tiles){ app.replaceChildren(topbar(null),banner(flav,tag,title,sub,icon),el('div',{class:'tiles'},...tiles)); }
+function lessonsPage(){ const p=loadP();
+  listPage('mint','Step 2','Lessons','Start with “What is a whole?”, then go in order.','🍨',LESSONS.map(L=>{const s=p.lesson&&p.lesson[L.id]; return el('button',{class:'tile'+(s?' done':''),style:flavStyle(LFLAV[L.id][0]),onclick:()=>go(L.id)},el('span',{class:'ico'},LFLAV[L.id][1]),el('span',{class:'tag'},LNAME(L)),el('span',{class:'t'},L.title),el('span',{class:'s'},L.sub),s?el('span',{class:'badge'},`🍦 Best check: ${s.score}/${s.of}`):null);})); }
+function homeworkPage(){ const p=loadP();
+  listPage('orange','Step 3','Homework','Your homework pages. Tap “Help” on any page to go back to the lesson.','📝',HW.map(h=>{const s=p.hw&&p.hw[h.id]; return el('button',{class:'tile'+(s&&s.score===s.of?' done':''),style:flavStyle(HFLAV[h.id][0]),onclick:()=>go(h.id)},el('span',{class:'ico'},HFLAV[h.id][1]),el('span',{class:'tag'},h.pages),el('span',{class:'t'},h.title),el('span',{class:'s'},'Help: '+h.help.map(id=>LNAME(LBY[id])).join(', ')),s?el('span',{class:'badge'},`🍦 Best: ${s.score}/${s.of}`):null);})); }
+
+/* ---------- one-try tests ---------- */
+function correctText(q){
+  if(q.type==='frac') return fr(q.answer[0],q.answer[1]);
+  if(q.type==='num') return String(q.answer);
+  if(q.type==='mc'){ const o=q.options[q.answer]; return typeof o==='string'?o:(o.html!=null&&o.html!==''?o.html:'this picture:'); }
+  if(q.type==='multi') return q.answer.map(i=>q.options[i]).join(', ');
+  if(q.type==='shade'||q.type==='shadeSet') return `shade ${q.target}`;
+  if(q.type==='cut') return `${q.target} equal parts`;
+  if(q.type==='place') return fr(q.answer,q.line.den);
+  return '';
+}
+const plain=h=>{const d=document.createElement('div'); d.innerHTML=h; d.querySelectorAll('.frac').forEach(f=>{f.replaceWith(document.createTextNode(' '+f.children[0].textContent+'/'+f.children[1].textContent+' '));}); d.querySelectorAll('.key').forEach(k=>k.prepend(document.createTextNode(' '))); return d.textContent.replace(/\s+/g,' ').trim();};
+function testRunner(host,plan,o){
+  let items,i,res;
+  function start(){ items=plan().map(x=>({skill:x.skill,make:x.make,q:x.make()})); i=0; res=[]; intro(); }
+  function intro(){ host.replaceChildren(el('div',{class:'card'},el('h2',{},o.title),P(`${items.length} questions. <b>One try</b> each and <b>no hints</b> — just like the real test. Take your time and check your work before you press Check.`),
+      el('button',{class:'btn',onclick:()=>{draw();}},'Start the test →'))); }
+  function draw(){
+    if(i>=items.length) return finish();
+    const dots=el('div',{class:'dots'},el('span',{class:'small muted',style:'font-weight:900;margin-right:6px'},`Question ${i+1} of ${items.length}`),...items.map((_,j)=>el('span',{class:'dot'+(j<i?' done':j===i?' on':'')})));
+    const nb=el('button',{class:'btn good',style:'display:none;margin-top:12px',onclick:()=>{i++;draw();window.scrollTo(0,0);}},i===items.length-1?'See my score ✓':'Next question →');
+    const qe=renderQ(items[i].q,{test:true,onResult:r=>{res[i]=r.ok; nb.style.display='inline-block'; if(pfine()) nb.focus();}});
+    host.replaceChildren(el('div',{class:'card'},dots,qe,nb)); if(pfine()&&qe._focus) qe._focus();
+  }
+  function finish(){
+    const score=res.filter(Boolean).length,of=items.length,ratio=score/of; record('test',o.id,score,of);
+    const skills=[]; items.forEach((it,j)=>{let s=skills.find(x=>x.name===it.skill); if(!s){s={name:it.skill,r:0,n:0};skills.push(s);} s.n++; if(res[j]) s.r++;});
+    const missed=items.map((it,j)=>res[j]?null:{...it,j}).filter(Boolean);
+    const table=el('table',{class:'results'},el('tr',{},el('th',{},'Skill'),el('th',{},'Right'),el('th',{},'')),...skills.map(s=>el('tr',{},el('td',{},s.name),el('td',{},`${s.r} / ${s.n}`),el('td',{html:s.r===s.n?'<span class="good-t">✓ Got it</span>':'<span class="bad-t">Practice this</span>'}))));
+    const review=missed.map(m=>el('div',{class:'review'},el('div',{},el('b',{},`Question ${m.j+1}: `),plain(m.q.prompt)||m.skill),m.q.visual?el('div',{class:'vis',style:'max-width:420px'},m.q.visual()):(m.q.type==='place'?el('div',{class:'vis',style:'max-width:420px'},numberLine(m.q.line)):m.q.type==='shade'?el('div',{class:'vis',style:'max-width:300px'},shapeSVG(m.q.shape)):null),el('div',{html:`Correct answer: <span class="ca">${correctText(m.q)}</span>`}),(m.q.type==='mc'&&m.q.options[m.q.answer]&&m.q.options[m.q.answer].svg)?el('div',{style:'max-width:200px'},m.q.options[m.q.answer].svg()):null,m.q.after?el('div',{class:'small',html:m.q.after}):null));
+    const practiceBox=el('div');
+    host.replaceChildren(el('div',{class:'card summary'},el('div',{class:'stars'},ratio>=0.9?'🍦🍦🍦':ratio>=0.75?'🍦🍦':'🍦'),
+        el('div',{class:'score'},`${score} of ${of} right · ${Math.round(ratio*100)}%`),
+        P(ratio>=0.9?'Test ready! 🍒':ratio>=0.75?'Close! Practice the misses, then take a new test.':'Let’s practice the misses, then go back to the lessons for the skills marked “Practice this.”'),
+        el('div',{class:'row',style:'justify-content:center'},missed.length?el('button',{class:'btn',onclick:()=>{practiceBox.replaceChildren(el('div',{class:'card'},el('h2',{},'🎯 Practice my misses'),P('Same kinds of questions, new numbers. Hints and “Show me” are back on.'),(()=>{const h=el('div'); runSet(h,()=>missed.map(m=>m.make()),{label:'Misses'}); return h;})())); practiceBox.scrollIntoView({behavior:'smooth'});}},`🎯 Practice my misses (${missed.length})`):null,
+          el('button',{class:'btn alt',onclick:start},'🔄 Take a new test'))),
+      el('div',{class:'card'},el('h2',{},'Score by skill'),table),
+      missed.length?el('div',{class:'card'},el('h2',{},'Review the ones you missed'),...review):null,
+      practiceBox);
+    window.scrollTo(0,0);
+  }
+  start();
+}
+const G=(skill,k)=>({skill,make:()=>Gn[k]()});
+const CHAPTER_TEST=()=>[
+ G('Vocabulary','vocabDef'),G('Vocabulary','numDen'),G('Vocabulary','isUnit'),
+ G('Equal parts','equalOrNot'),G('Equal parts','nameParts'),G('Equal parts','triHalves'),
+ G('Name the fraction','nameShaded'),G('Name the fraction','nameShaded'),G('Name the fraction','nameWords'),G('Name the fraction','pickPicture'),
+ G('Unit fractions','unitPart'),G('Unit fractions','setUnit'),
+ G('Fractions of a set','setPart'),G('Fractions of a set','setPart'),
+ G('Number line 0 to 1','nlPoint'),G('Number line 0 to 1','nlMissing'),G('Number line 0 to 1','nlPlace'),G('Number line 0 to 1','letterPoint'),
+ G('Wholes and whole numbers','equalsOneMC'),G('Wholes and whole numbers','missingTop'),G('Wholes and whole numbers','wholesPicture'),
+ G('Greater than 1','gt1Point'),G('Greater than 1','compare1'),G('Greater than 1','between12'),
+ G('Same size, different shape','equalArea')];
+const VOCAB_TEST=()=>[...VOCAB.map((v,i)=>({skill:'Word meanings',make:()=>vocabQ(i)})),G('Numerator and denominator','numDen'),G('Numerator and denominator','numDen'),G('Unit fractions','isUnit'),G('Unit fractions','unitPart')];
+function testPage(){ app.replaceChildren(topbar(null),banner('sky','Step 6','Chapter Test','25 questions across all of Chapter 7. One try, no hints.','✅'),(()=>{const h=el('div'); testRunner(h,CHAPTER_TEST,{id:'chapter',title:'Chapter 7 Test'}); return h;})()); }
+
+/* ---------- vocabulary ---------- */
+function vocabPic(w){
+  const big=(n,d,hi)=>`<span class="frac" style="font-size:44px"><span style="${hi==='top'?'background:#d9fbef;color:#07684f;border-radius:8px':''}">${n}</span><span style="${hi==='bot'?'background:#e0e7ff;color:#2238b8;border-radius:8px':''}">${d}</span></span>`;
+  if(w==='fraction') return el('div',{class:'pic'},shapeSVG({kind:'bar',n:4,w:150,h:54},{shaded:new Set([0,1,2])}),el('span',{html:big(3,4)}));
+  if(w==='numerator') return el('div',{class:'pic'},el('span',{html:big(3,4,'top')}),el('span',{class:'small',html:'← <b>3</b> on top = the parts we are describing'}));
+  if(w==='denominator') return el('div',{class:'pic'},el('span',{html:big(3,4,'bot')}),el('span',{class:'small',html:'← <b>4</b> on the bottom = equal parts in the whole'}));
+  if(w==='unit fraction') return el('div',{class:'pic'},shapeSVG({kind:'circle',n:8,r:40},{shaded:new Set([0])}),el('span',{html:big(1,8)}));
+  if(w==='partition') return el('div',{class:'pic'},shapeSVG({kind:'circle',n:4,r:40}),el('span',{class:'small',html:'A circle partitioned into <b>4 equal parts</b> (fourths)'}));
+  if(w==='fraction tiles'){ const b=el('div'); [1,2,4,8].forEach(d=>{const s=shapeSVG({kind:'bar',n:d,w:170,h:24}); const g=sv('g',{'pointer-events':'none'}); for(let i=0;i<d;i++) g.append(sv('text',{x:4+170*(i+.5)/d,y:21,'text-anchor':'middle','font-size':d===8?10:13,'font-weight':900,fill:INK,'font-family':'Atkinson Hyperlegible,sans-serif'},d===1?'1':'1/'+d)); s.append(g); b.append(s);}); return el('div',{class:'pic'},b); }
+}
+function flipCard(v){ let back=false; const c=el('button',{class:'flip'});
+  const draw=()=>{ c.className='flip'+(back?' back':''); c.replaceChildren(el('span',{class:'w'},v.w),el('span',{class:v.book?'book':'star'},v.book?'Book word':'⭐ On the test'),back?el('span',{class:'d'},v.d):vocabPic(v.w),el('span',{class:'tap'},back?'Tap to see the picture':'Tap to see what it means')); };
+  c.addEventListener('click',()=>{back=!back;draw();}); draw(); return c; }
+function vocabPage(){
+  const steps=['Learn the words','Practice','Vocabulary Test']; let cur=0; const dots=el('div',{class:'stepdots'}),body=el('div');
+  function draw(){ dots.replaceChildren(...steps.map((t,i)=>el('button',{class:i===cur?'on':'',onclick:()=>{cur=i;draw();}},t)));
+    if(cur===0) body.replaceChildren(el('div',{class:'card'},el('h2',{},'Learn the words'),P('Say each word out loud. Look at the picture. Then tap the card to see what it means. The four ⭐ words are the ones your teacher said are on the test — in her exact words.'),
+        el('div',{class:'flipgrid'},...VOCAB.map(flipCard)),ask('Point to a card and ask him to explain the word in his own words before he flips it.'),el('div',{class:'nav',style:'position:static;border:none'},el('span'),el('button',{class:'btn',onclick:()=>{cur=1;draw();}},'Practice →'))));
+    else if(cur===1){ const h=el('div'); body.replaceChildren(el('div',{class:'card'},el('h2',{},'Practice'),P('Hints are on. Every wrong answer tells you what to fix.'),h));
+      runSet(h,()=>['vocabDef','vocabDef','numDen','isUnit','vocabDef','unitPart','numDen','vocabDef'].map(g=>Gn[g]()),{label:'Practice',onFinish:(a,b,box)=>box.append(el('div',{class:'row',style:'justify-content:center;margin-top:10px'},el('button',{class:'btn',onclick:()=>{cur=2;draw();}},'Take the Vocabulary Test →')))}); }
+    else { const h=el('div'); body.replaceChildren(h); testRunner(h,VOCAB_TEST,{id:'vocab',title:'Vocabulary Test'}); }
+    window.scrollTo(0,0); }
+  app.replaceChildren(topbar(null),banner('blue','Step 1','Vocabulary','Learn the words, practice, then take the vocabulary test.','📖'),dots,body); draw();
+}
+
+/* ============ practice questions (50 mixed, all homework types) ============ */
+const PQ_PLAN=[
+ ['hw-vocab',['vocabDef','vocabDef','vocabDef','numDen','unitPart']],
+ ['hw-ident',['nameShaded','nameShaded','nameShaded','nameShaded','nameShaded','nameShaded','triHalves','cutTo']],
+ ['hw-sets',Array(6).fill('setPart')],
+ ['hw-words',Array(6).fill('wordToFrac')],
+ ['hw-line',['nlMissing','nlMissing','nlMissing','nlMissing','nlMissing','nlPoint','nlPoint']],
+ ['hw-gt1',Array(8).fill('gt1Point')],
+ ['tricks',['equalArea','equalArea','equalArea','pickPicture','between12','missingTop','wholeOver1MC','letterPoint','nameWords','hexName']]];
+const EXTRA_META={tricks:{id:'tricks',title:'Test Tricks',labels:['shaded parts','all parts'],help:['tricks'],how:['Read the question carefully.','Check: are the parts EQUAL in size?','Answer, then press Check.']}};
+const META=id=>HWBY[id]||EXTRA_META[id];
+function makePQ(){ const list=[]; PQ_PLAN.forEach(([hid,gens])=>gens.forEach(g=>list.push({hid,q:Gn[g]()}))); return shuffle(list); }
+function practiceView(){
+  let items,state,idx=0;
+  const score=el('div',{class:'score'}), dots=el('div',{class:'pqdots'}), body=el('div'), nav=el('div',{class:'nav'});
+  function build(){ items=makePQ(); state=items.map(()=>({solved:false,first:false,el:null})); idx=0; draw(); }
+  function card(i){
+    if(state[i].el) return state[i].el;
+    const it=items[i], Hp=META(it.hid), [fc]=FLAV[HFLAV[it.hid][0]];
+    const nextBtn=el('button',{class:'btn good',style:'display:none;margin-top:10px',onclick:()=>go2(i+1)},i===items.length-1?'Finish ✓':'Next problem →');
+    const how=el('div',{class:'how mini'},el('div',{class:'ht'},'📝 How to do it'),el('ol',{},...Hp.how.map((t,k)=>el('li',{},el('span',{class:'n',style:'background:'+['#1f9bff','#12bf8e','#ff8a1f'][k]},String(k+1)),el('span',{html:t})))));
+    const c=el('div',{class:'card'},
+      el('div',{class:'row',style:'justify-content:space-between;gap:8px'},
+        el('div',{class:'row',style:'gap:8px'},el('span',{class:'fun',style:'font-size:24px;font-weight:700;color:#0b5fd6'},`Problem ${i+1}`),el('span',{class:'pill',style:`border-color:${fc}`},HFLAV[it.hid][1]+' Like homework: '+Hp.title)),
+        el('div',{class:'adult',style:'margin:0'},...Hp.help.slice(0,1).map(id=>el('button',{onclick:()=>go(id)},`Help: ${LNAME(LBY[id])}`)))),
+      how,
+      renderQ(it.q,{labels:Hp.labels,onResult:r=>{state[i].solved=true; state[i].first=r.firstTry; nextBtn.style.display='inline-block'; upd();}}),
+      nextBtn);
+    state[i].el=c; return c;
+  }
+  function go2(i){ if(i>=items.length){ finish(); return; } idx=Math.max(0,i); draw(); window.scrollTo(0,0); }
+  function upd(){
+    const done=state.filter(x=>x.solved).length, first=state.filter(x=>x.first).length;
+    score.innerHTML=`Solved: ${done} / ${items.length} <span class="small muted">(${first} on the first try, no hints)</span>`;
+    dots.replaceChildren(...items.map((_,j)=>el('button',{class:(state[j].solved?(state[j].first?'done':'done1'):'')+(j===idx?' cur':''),title:META(items[j].hid).title,onclick:()=>go2(j)},String(j+1))));
+    if(done===items.length) record('practice','all',first,items.length);
+  }
+  function draw(){ body.replaceChildren(card(idx)); upd();
+    nav.replaceChildren(idx>0?el('button',{class:'btn alt',onclick:()=>go2(idx-1)},'← Back'):el('span'),
+      el('span',{class:'small muted',style:'align-self:center;font-weight:800'},`${idx+1} of ${items.length}`),
+      el('button',{class:'btn',onclick:()=>go2(idx+1)},idx<items.length-1?'Next →':'Finish ✓'));
+    const f=body.querySelector('input'); if(f&&pfine()) f.focus(); }
+  function finish(){
+    const done=state.filter(x=>x.solved).length, first=state.filter(x=>x.first).length;
+    const missed=items.map((it,j)=>(!state[j].first)?j:-1).filter(j=>j>=0);
+    const byType={}; missed.forEach(j=>{const t=META(items[j].hid).title; byType[t]=(byType[t]||0)+1;});
+    body.replaceChildren(el('div',{class:'card summary'},el('div',{class:'stars'},first/items.length>=0.8?'🍦🍦🍦':first/items.length>=0.6?'🍦🍦':'🍦'),
+      el('div',{class:'score'},`${done} of ${items.length} solved · ${first} on the first try`),
+      Object.keys(byType).length?el('div',{class:'key',style:'text-align:left',html:'<b>Practice more of these:</b><br>'+Object.entries(byType).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`${t}: ${n} ${n===1?'needed help or was skipped':'needed help or were skipped'}`).join('<br>')}):P('Every one right on the first try! 🍒'),
+      el('div',{class:'row',style:'justify-content:center'},missed.length?el('button',{class:'btn alt',onclick:()=>go2(missed[0])},'Go to the first one you missed'):null,el('button',{class:'btn',onclick:build},'🔄 New set of 50'))));
+    nav.replaceChildren(el('button',{class:'btn alt',onclick:()=>go2(items.length-1)},'← Back'),el('span'),el('span'));
+    upd(); window.scrollTo(0,0);
+  }
+  app.replaceChildren(topbar(null),banner('lime','Step 5','Practice Questions','50 problems: number lines, shapes, sets, words, vocabulary and test tricks','🍧'),
+    el('div',{class:'adult'},el('span',{class:'lbl'},'For grown-ups:'),el('button',{onclick:build},'🔄 New set of 50'),el('button',{onclick:finish},'📊 See results')),
+    el('div',{class:'hwhead'},el('div',{class:'small muted',style:'font-weight:800'},'Tap any number to jump. Light green = solved with help. Dark green = right on the first try.'),score),
+    dots,body,nav);
+  build();
+}
+
+function route(){
+  const h=(location.hash||'#home').slice(1); window.scrollTo(0,0);
+  if(LBY[h]) return lessonView(LBY[h]);
+  if(HWBY[h]) return hwView(HWBY[h]);
+  if(h==='practice') return practiceView();
+  if(h==='lessons') return lessonsPage();
+  if(h==='homework') return homeworkPage();
+  if(h==='vocab') return vocabPage();
+  if(h==='test') return testPage();
+  home();
+}
+window.addEventListener('hashchange',route);
+route();
+</script>
+</body>
+</html>

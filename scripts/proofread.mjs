@@ -10,7 +10,7 @@ import path from 'node:path';
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const FILES = [
   ...fs.readdirSync(path.join(ROOT, 'data')).filter((f) => /^\d{4}-\d\d-\d\d\.json$/.test(f)).map((f) => `data/${f}`),
-  ...['lessons', 'practice', 'chapters', 'tests', 'homework', 'reading'].flatMap((d) => fs.readdirSync(path.join(ROOT, 'data', d)).filter((f) => f.endsWith('.json')).map((f) => `data/${d}/${f}`)),
+  ...['lessons', 'practice', 'chapters', 'tests', 'homework', 'reading'].filter((d) => fs.existsSync(path.join(ROOT, 'data', d))).flatMap((d) => fs.readdirSync(path.join(ROOT, 'data', d)).filter((f) => f.endsWith('.json')).map((f) => `data/${d}/${f}`)),
   'data/pictures.json', 'data/weeks.json',
 ];
 // Keys that are not prose (ids, file names, answers, enum values).

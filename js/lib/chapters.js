@@ -59,6 +59,8 @@ export function validateChapters(lessons) {
     ids.add(c.id);
     for (const k of ['title', 'name', 'summary']) if (typeof c[k] !== 'string' || !c[k].trim()) errors.push(`${at}: "${k}" is missing`);
     if (c.week !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(c.week)) errors.push(`${at}: "week" must be a week id`);
+    // A stand-alone chapter (D34) opens its own page instead of the six-role menu.
+    if (c.href !== undefined) { if (!/^games\/[a-z0-9-]+\.html$/.test(c.href)) errors.push(`${at}: "href" must be a page in games/`); continue; }
     if (!chapterLessons(lessons, c.id).length) errors.push(`${at}: has no lessons`);
     const roles = chapterMenu(c.id).map((r) => r.role);
     for (const r of CHAPTER_ROLES) if (!roles.includes(r.role)) errors.push(`${at}: its menu has no "${r.label}"`);

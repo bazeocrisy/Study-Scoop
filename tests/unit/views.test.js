@@ -190,12 +190,12 @@ test('spelling study cards keep every sentence when illustrations are unavailabl
   assert.doesNotMatch(out, /<img/);
 });
 
-test('Nov 16–20 Tests page: the Topic 7 math test card opens the Chapter 7 practice test, never "Not available"', () => {
+test('Nov 16–20 Tests page: the Topic 7 math test card opens the Fraction Scoop Shop Chapter Test (D34), never "Not available"', () => {
   const id = '2026-11-16', week = readJSON(`data/${id}.json`);
   const ctx = { ...ctxFor(realIndex, id, 'tests', week), tests: readJSON(`data/tests/${id}.json`) };
   const out = testsView(ctx).s;
   const math = out.slice(out.indexOf('test-card test-math'), out.indexOf('</li>', out.indexOf('test-card test-math')));
   assert.match(math, /Start the Chapter 7 test/);
-  assert.ok(math.includes(esc(buildHash('math', id, realIndex.current, { act: 'ch7test' }))), 'links the chapter test');
+  assert.ok(math.includes('href="games/fraction-scoop-shop.html#test"'), 'links the Scoop Shop Chapter Test');
   assert.doesNotMatch(math, /Not available/);
 });

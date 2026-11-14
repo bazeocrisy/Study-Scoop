@@ -656,6 +656,7 @@ export function testCenter(ctx, catalog) {
 function chapterTest(ctx, c) {
   if (c.kind !== 'math' || !c.classTest || !ctx.lessons) return '';
   const now = recommendedChapter(ctx.week, ctx.lessons);
+  if (now?.href) return html`<p>Use the Chapter ${now.id} Chapter Test in the Fraction Scoop Shop.</p><a class="btn btn-primary" href="${now.href}#test">Start the Chapter ${now.id} test</a>`;
   const entry = now && chapterMenu(now.id).find((e) => e.role === 'test');
   return entry ? html`<p>Use the Chapter ${now.id} practice test.</p><a class="btn btn-primary" href="${ctx.actLink('math', entry.act.id)}">Start the Chapter ${now.id} test<span class="sr-only">: ${entry.act.label || 'practice test'}</span></a>` : '';
 }
