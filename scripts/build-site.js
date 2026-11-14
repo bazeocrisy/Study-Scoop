@@ -283,9 +283,12 @@ export function verifySite(dir) {
   if (has('data/pictures.json')) {
     const list = readJSON(path.join(dir, 'data/pictures.json'));
     const atlases = new Set(Object.values(list.illustrations || {}).flatMap((subjects) => Object.values(subjects).flatMap((words) => Object.values(words))).filter(isWordIllustration).map((p) => p.src));
-    const names = (ext) => files.filter((f) => f.startsWith('images/words/') && f.endsWith(ext) && !atlases.has(f))
-      .map((f) => f.slice('images/words/'.length, -ext.length)).sort();
-    if (JSON.stringify(list.photos) !== JSON.stringify(names('.webp'))) problems.push('data/pictures.json: "photos" does not match the published .webp pictures');
+    const names = (ext, listed = []) => files
+      .filter((f) => f.startsWith('images/words/') && f.endsWith(ext))
+      .map((f) => ({ file: f, name: f.slice('images/words/'.length, -ext.length) }))
+      .filter(({ file, name }) => !atlases.has(file) || listed.includes(name))
+      .map(({ name }) => name).sort();
+    if (JSON.stringify(list.photos) !== JSON.stringify(names('.webp', list.photos))) problems.push('data/pictures.json: "photos" does not match the published .webp pictures');
     if (JSON.stringify(list.drawings) !== JSON.stringify(names('.svg'))) problems.push('data/pictures.json: "drawings" does not match the published .svg pictures');
   }
 

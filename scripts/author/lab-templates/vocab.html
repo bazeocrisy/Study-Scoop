@@ -81,9 +81,9 @@ const defText=i=>esc(WORDS[i].d);
 const defQuote=i=>esc(WORDS[i].d.replace(/\.$/,''));
 const wrapRe=i=>new RegExp('\\b('+WORDS[i].w+')\\b','i');
 const sentBold=i=>esc(WORDS[i].t).replace(wrapRe(i),'<b>$1</b>');
-const sentBlank=i=>esc(WORDS[i].t).replace(wrapRe(i),'<span class="blank"></span>');
-const sentSpeakBlank=i=>WORDS[i].t.replace(wrapRe(i),'blank');
-const sentFilled=i=>sentBold(i);
+const sentBlank=i=>esc(WORDS[i].fill).replace('___','<span class="blank"></span>');
+const sentSpeakBlank=i=>WORDS[i].fill.replace('___','blank');
+const sentFilled=i=>esc(WORDS[i].fill).replace('___',()=>'<b>'+esc(WORDS[i].w)+'</b>');
 const TEST_NAMES={mc:'Multiple Choice',fill:'Fill in the Blank',match:'Matching',tf:'True or False'};
 
 /* ---------- speech ---------- */
@@ -195,24 +195,24 @@ function showQ(){
   if(Q.type==='mc'){
     const opts=shuffle([id,...shuffle(ALL.filter(x=>x!==id)).slice(0,3)]);
     Q.speak=()=>say(WORDS[id].w,0.75);
-    body=`<div class="lab">WHAT DOES THIS WORD MEAN?</div><div class="word">${WORDS[id].w}</div>
+    body=`<div class="lab">WHICH DEFINITION IS ON THE CLASS SHEET?</div><div class="word">${WORDS[id].w}</div>
       <div class="row"><button class="btn o" onclick="Q.speak()">🔊 Say it</button></div>
       <div class="opts">${opts.map(o=>`<button class="opt" data-id="${o}" onclick="pick(${o})">${defText(o)}</button>`).join('')}</div>`;
   }else if(Q.type==='fill'){
-    const opts=shuffle([id,...shuffle(ALL.filter(x=>x!==id)).slice(0,3)]);
+    const others=ALL.filter(x=>x!==id&&!WORDS[id].alsoFits.some(word=>word.toLowerCase()===WORDS[x].w));
+    const opts=shuffle([id,...shuffle(others).slice(0,3)]);
     Q.speak=()=>say(sentSpeakBlank(id),0.85);
     body=`<div class="lab">WHICH WORD FITS THE BLANK?</div><div class="sent" style="font-size:clamp(21px,5.5vw,28px);margin:14px 4px">${sentBlank(id)}</div>
       <div class="row"><button class="btn o" onclick="Q.speak()">🔊 Read it to me</button></div>
       <div class="opts">${opts.map(o=>`<button class="opt center" data-id="${o}" onclick="pick(${o})" style="font-size:clamp(22px,6vw,28px);font-weight:900">${WORDS[o].w}</button>`).join('')}</div>`;
   }else{
     const shown=Q.tf[id]?id:Q.other[id];
-    const text=`${WORDS[id].w} means "${defQuote(shown)}."`;
-    Q.speak=()=>say(`${WORDS[id].w} means ${WORDS[shown].d}.`,0.85);
-    body=`<div class="lab">TRUE OR FALSE?</div><div class="def" style="font-size:clamp(22px,6vw,30px);margin:16px 4px"><span style="color:var(--orange);font-weight:900">${WORDS[id].w}</span> means <span>"${defQuote(shown)}."</span></div>
+    Q.speak=()=>say(`The class sheet matches ${WORDS[id].w} with ${WORDS[shown].d}.`,0.85);
+    body=`<div class="lab">TRUE OR FALSE?</div><div class="def" style="font-size:clamp(22px,6vw,30px);margin:16px 4px">The class sheet matches <span style="color:var(--orange);font-weight:900">${WORDS[id].w}</span> with <span>"${defQuote(shown)}."</span></div>
       <div class="row"><button class="btn o" onclick="Q.speak()">🔊 Read it to me</button></div>
       <div class="row"><button class="btn g" data-tf="1" onclick="pickTF(true)">👍 True</button><button class="btn r" data-tf="0" onclick="pickTF(false)">👎 False</button></div>`;
   }
-  app.innerHTML=topbar(TEST_NAMES[Q.type],`${Q.i+1} of ${Q.total}`)+bar(Q.i,Q.total)+`<div class="card">${body}<div class="msg" id="fb"></div><div class="row" id="nx"></div></div>`;
+  app.innerHTML=topbar(TEST_NAMES[Q.type],`${Q.i+1} of ${Q.total}`)+bar(Q.i,Q.total)+`<div class="card">${body}<div class="msg" id="fb" role="status"></div><div class="row" id="nx"></div></div>`;
   if(Q.type==='mc')setTimeout(()=>Q.speak(),250);
 }
 function nextBtn(){
@@ -226,7 +226,7 @@ function pick(optId){
   const fb=document.getElementById('fb');
   if(good){Q.right++;fb.className='msg good';fb.textContent='✅ Yes! That is right.'}
   else{Q.missed.push(id);fb.className='msg bad';
-    fb.innerHTML=Q.type==='mc'?`❌ Not quite. <b>${WORDS[id].w}</b> means: ${defText(id)}`:`❌ Not quite. The answer is <b>${WORDS[id].w}</b>.<div class="sent" style="color:#fff;font-weight:500">${sentFilled(id)}</div>`}
+    fb.innerHTML=Q.type==='mc'?`❌ Not quite. <b>${WORDS[id].w}</b> is matched with: ${defText(id)}`:`❌ Not quite. The answer is <b>${WORDS[id].w}</b>.<div class="sent" style="color:#fff;font-weight:500">${sentFilled(id)}</div>`}
   if(good&&Q.type==='fill'){fb.innerHTML=`✅ Yes!<div class="sent" style="color:#fff;font-weight:500">${sentFilled(id)}</div>`}
   nextBtn();
 }
@@ -236,7 +236,7 @@ function pickTF(val){
   document.querySelectorAll('[data-tf]').forEach(b=>{const isTrueBtn=b.dataset.tf==='1';if(isTrueBtn===truth)b.style.outline='4px solid #fff';else b.classList.add('off'),b.style.opacity='.5'});
   const fb=document.getElementById('fb');
   if(good){Q.right++;fb.className='msg good';fb.textContent=truth?'✅ Right! That is true.':'✅ Right! That is false.'}
-  else{Q.missed.push(id);fb.className='msg bad';fb.innerHTML=`❌ Not quite. <b>${WORDS[id].w}</b> really means: ${defText(id)}`}
+  else{Q.missed.push(id);fb.className='msg bad';fb.innerHTML=`❌ Not quite. <b>${WORDS[id].w}</b> is matched with: ${defText(id)}`}
   nextBtn();
 }
 
@@ -256,7 +256,7 @@ function matchRound(){
     <div class="big" style="font-size:22px">Tap a word, then tap its meaning</div>
     <div class="mgrid"><div class="mcol w">${shuffle(ids).map(i=>`<button class="opt" id="mw${i}" onclick="mWord(${i})">${WORDS[i].w}</button>`).join('')}</div>
     <div class="mcol">${defs.map(i=>`<button class="opt" id="md${i}" onclick="mDef(${i})">${defText(i)}</button>`).join('')}</div></div>
-    <div class="msg" id="fb"></div><div class="row" id="nx"></div></div>`;
+    <div class="msg" id="fb" role="status"></div><div class="row" id="nx"></div></div>`;
 }
 function mWord(i){
   if(M.matched.has(i))return;

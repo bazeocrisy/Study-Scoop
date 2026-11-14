@@ -1,0 +1,330 @@
+{
+  "id": "2026-11-16",
+  "label": "Week of November 16–20",
+  "learning": [
+    [
+      "Math",
+      "Fractions"
+    ],
+    [
+      "Reading",
+      "Novel Study: Because of Winn-Dixie"
+    ],
+    [
+      "Writing",
+      "Narrative and Opinion"
+    ],
+    [
+      "Spelling",
+      "Review List"
+    ],
+    [
+      "ELA",
+      "Noun, Verb, Adjective, Adverb"
+    ],
+    [
+      "Social Studies",
+      "American Indians"
+    ]
+  ],
+  "tests": [
+    {
+      "date": "2026-11-17",
+      "kind": "math",
+      "title": "Topic 7 Math Test",
+      "detail": "Review Chapter 7 fractions and the four vocabulary words on the class sheet."
+    },
+    {
+      "date": "2026-11-17",
+      "kind": "vocab",
+      "title": "Because of Winn-Dixie Vocabulary and Comprehension Test",
+      "detail": "Study all 12 vocabulary words and review comprehension for the entire novel."
+    },
+    {
+      "date": "2026-11-20",
+      "kind": "spelling",
+      "title": "Review Spelling Test",
+      "detail": "Study all 10 words on the review list."
+    }
+  ],
+  "events": [
+    {
+      "date": "Nov 2–16",
+      "text": "Socksgiving"
+    },
+    {
+      "date": "Nov 18",
+      "text": "Field Trip (black polo with khaki bottoms and tennis shoes)"
+    },
+    {
+      "date": "Nov 20, noon",
+      "text": "Early Release"
+    },
+    {
+      "date": "Dec 4",
+      "text": "Holiday Extravaganza"
+    },
+    {
+      "date": "Dec 9",
+      "text": "Habitat Project DUE!"
+    }
+  ],
+  "homework": [
+    {
+      "title": "Weekly homework packet",
+      "due": "Friday, Nov 20",
+      "source": "newsletter",
+      "description": "The packet is sent home each Monday and due Friday.",
+      "status": "Listed in the newsletter. No packet pages were supplied for this week."
+    },
+    {
+      "title": "Reading Log",
+      "subject": "Reading",
+      "due": "Every Monday",
+      "source": "newsletter",
+      "status": "Listed in the newsletter. No reading log sheet was supplied."
+    },
+    {
+      "title": "3 spelling activities",
+      "subject": "Spelling",
+      "due": "With the weekly homework packet, Friday, Nov 20",
+      "source": "newsletter",
+      "description": "Complete three spelling activities along with the packet.",
+      "practice": {
+        "section": "spelling",
+        "label": "Practice this week’s spelling"
+      }
+    }
+  ],
+  "mathChapter": 7,
+  "mathUpcoming": {
+    "title": "Topic 7: Fractions — class vocabulary",
+    "note": "The class sheet lists these four words for the Tuesday, Nov 17 test. A unit fraction is one of the equal parts of a whole. In Math, Chapter 7 opens the Fraction Scoop Shop: vocabulary, lessons, homework, practice questions and a chapter test.",
+    "words": [
+      {
+        "word": "denominator",
+        "def": "The denominator of a fraction tells how many equal parts are in the whole. It is the bottom part of the fraction"
+      },
+      {
+        "word": "unit fraction",
+        "def": "A unit fraction is ONE part of a whole. It always has a numerator of one."
+      },
+      {
+        "word": "numerator",
+        "def": "The numerator of a fraction tells how many equal parts are being described. It is the top part of the fraction."
+      },
+      {
+        "word": "fraction",
+        "def": "A fraction is a number used when a whole is split into equal parts."
+      }
+    ]
+  },
+  "spelling": {
+    "pattern": "Review List",
+    "rules": {
+      "whole": "Read and spell the whole word",
+      "rupt": "Look for the letters rupt",
+      "tract": "Look for the letters tract",
+      "form": "Look for the letters form",
+      "es": "Add -es to buzz"
+    },
+    "ruleHelp": {
+      "whole": "Say the word slowly, notice the tricky letters, and write the whole word.",
+      "rupt": "The letters rupt stay together in rupture and interrupt.",
+      "tract": "In distract, the letters tract come after dis.",
+      "form": "Inform and misinform both end in form. Add mis- to inform to mean give wrong information.",
+      "es": "Keep both z letters in buzz and add es."
+    },
+    "words": [
+      {
+        "word": "conductor",
+        "rule": "whole",
+        "whole": true,
+        "sentence": "The conductor lifted a baton to start the music."
+      },
+      {
+        "word": "rupture",
+        "rule": "rupt",
+        "whole": true,
+        "sentence": "Too much pressure can rupture a hose and send water spraying."
+      },
+      {
+        "word": "appoint",
+        "rule": "whole",
+        "whole": true,
+        "sentence": "The teacher will appoint a student to lead the garden club."
+      },
+      {
+        "word": "interrupt",
+        "rule": "rupt",
+        "whole": true,
+        "sentence": "Please wait for your turn so you do not interrupt someone who is speaking."
+      },
+      {
+        "word": "distract",
+        "rule": "tract",
+        "whole": true,
+        "sentence": "A handheld video game can distract me from writing."
+      },
+      {
+        "word": "inform",
+        "rule": "form",
+        "whole": true,
+        "sentence": "Please inform the teacher when the game time changes."
+      },
+      {
+        "word": "crawl",
+        "rule": "whole",
+        "whole": true,
+        "sentence": "The baby can crawl toward the ball on hands and knees."
+      },
+      {
+        "word": "buzzes",
+        "rule": "es",
+        "base": "buzz",
+        "suffix": "es",
+        "sentence": "A bee buzzes as it flies from flower to flower."
+      },
+      {
+        "word": "misinform",
+        "rule": "form",
+        "whole": true,
+        "sentence": "A sign with the wrong time can misinform people about when the park opens."
+      },
+      {
+        "word": "thanks",
+        "rule": "whole",
+        "whole": true,
+        "sentence": "I said thanks when my friend returned my pencil."
+      }
+    ]
+  },
+  "vocab": {
+    "title": "Because of Winn-Dixie",
+    "quiz": "Tuesday, Nov 17 — all 12 words and comprehension",
+    "groupsNote": "The class sheet covers all 12 words and comprehension for the entire novel. The activities here practice the vocabulary. The class definitions are shown as printed. See the everyday meanings on the cards for extra help.",
+    "words": [
+      {
+        "word": "Produce",
+        "sentence": "The produce stand had baskets of peaches and green beans.",
+        "fill": "Fresh fruits and vegetables, like apples and carrots, are called ___.",
+        "def": "Fresh fruits and vegetables"
+      },
+      {
+        "word": "Exception",
+        "sentence": "We usually wear sneakers in the gym, but my teacher made an exception for my walking boot.",
+        "fill": "A special case in which a rule does not apply is called an ___.",
+        "def": "A case where a rule does not apply"
+      },
+      {
+        "word": "Installment",
+        "sentence": "Dad paid the first installment for the bike and planned to make the next payment in June.",
+        "fill": "One scheduled payment that covers part of a total price is an ___.",
+        "def": "When money is paid over a length of time",
+        "kid": "One scheduled payment that is part of a larger amount.",
+        "note": "The class sheet describes paying over time. An installment is one of those payments."
+      },
+      {
+        "word": "Peculiar",
+        "sentence": "The cloud looked peculiar, or unusual, because it was shaped like a pair of boots.",
+        "fill": "The purple carrot looked ___, which means strange or unusual.",
+        "def": "Strange or unusual",
+        "alsoFits": [
+          "Irritating"
+        ]
+      },
+      {
+        "word": "Employee",
+        "sentence": "The bakery employee gets paid to pack bread and serve customers.",
+        "fill": "A person hired and paid to work for a store is an ___.",
+        "def": "Someone who works for money"
+      },
+      {
+        "word": "Fortunate",
+        "sentence": "We were fortunate to find my lost glove before it started to snow.",
+        "fill": "We were ___, or lucky, that the rain stopped just before our picnic.",
+        "def": "favored by or involving good luck or fortune"
+      },
+      {
+        "word": "Ignorant",
+        "sentence": "I was ignorant about bird calls, which means I had not learned to recognize them yet.",
+        "fill": "Until we learned the rules, we were ___ about how the game worked.",
+        "def": "lacking knowledge or awareness in general"
+      },
+      {
+        "word": "Melancholy",
+        "sentence": "A feeling of melancholy came over him when he heard the slow, sad song.",
+        "fill": "The deep sadness that stayed with us after the story ended was ___.",
+        "def": "A sad or gloomy condition"
+      },
+      {
+        "word": "Trustworthy",
+        "sentence": "My trustworthy neighbor kept her promise to water our plants while we were away.",
+        "fill": "Someone who keeps promises and can be trusted is ___.",
+        "def": "The ability to keep promises",
+        "kid": "Someone you can trust to keep a promise.",
+        "note": "The class sheet describes keeping promises. Trustworthy describes a person you can trust."
+      },
+      {
+        "word": "Constellations",
+        "sentence": "We used a star chart to find constellations in the night sky.",
+        "fill": "The groups of stars that appear to form patterns are called ___.",
+        "def": "A group of stars in the night sky that make up a picture or a pattern"
+      },
+      {
+        "word": "Irritating",
+        "sentence": "The irritating squeak bothered everyone in the room.",
+        "fill": "The repeated tapping was ___ because it annoyed us.",
+        "def": "To anger or bother",
+        "kid": "Annoying or bothersome.",
+        "note": "The class sheet describes the action of bothering someone. Irritating means annoying."
+      },
+      {
+        "word": "Distracted",
+        "sentence": "I got distracted when I looked away from my homework to watch a bird.",
+        "fill": "My attention shifted away from my book and toward the noise, so I was ___.",
+        "def": "To prevent something from continuing as usual",
+        "kid": "Your attention is pulled away from what you are doing.",
+        "note": "The class sheet describes an interruption. Distracted means your attention was pulled away."
+      }
+    ],
+    "quizWords": [
+      "Produce",
+      "Exception",
+      "Installment",
+      "Peculiar",
+      "Employee",
+      "Fortunate",
+      "Ignorant",
+      "Melancholy",
+      "Trustworthy",
+      "Constellations",
+      "Irritating",
+      "Distracted"
+    ]
+  },
+  "labs": {
+    "spelling": "labs/2026-11-16-spelling.html",
+    "vocab": "labs/2026-11-16-vocab.html"
+  },
+  "flyer": {
+    "reviewed": "2026-11-13",
+    "note": "Rebuilt from both class pages. Page-only copy. The name on the field trip polo was removed.",
+    "pages": [
+      {
+        "src": "images/flyers/2026-11-16-front.webp",
+        "label": "Front: newsletter",
+        "alt": "November 16–20 class newsletter with learning topics, ten spelling words, November 17 and 20 tests, announcements and homework.",
+        "width": 1275,
+        "height": 1650
+      },
+      {
+        "src": "images/flyers/2026-11-16-back.webp",
+        "label": "Back: vocabulary",
+        "alt": "All twelve Winn-Dixie vocabulary words and four Topic 7 fraction definitions, with both tests listed for November 17.",
+        "width": 1275,
+        "height": 1650
+      }
+    ]
+  }
+}

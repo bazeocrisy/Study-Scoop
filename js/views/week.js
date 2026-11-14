@@ -21,7 +21,10 @@ export function weekView(ctx) {
             const days = daysUntil(t.date, ctx.today);
             const section = TEST_SECTION[t.kind];
             // A math test's "Study" opens the week's chapter (D26).
-            const study = t.kind === 'math' && now ? ctx.chapterLink(now.id) : section ? ctx.link(section) : null;
+            const study = t.kind === 'math' && now ? (now.href || ctx.chapterLink(now.id)) : section ? ctx.link(section) : null;
+            const chapterTest = t.kind === 'math' && now?.id === 7 && chapterMenu(now.id).find((entry) => entry.role === 'test');
+            // A stand-alone chapter (D34) has its own Chapter Test page.
+            const practice = t.kind === 'math' && now?.href ? `${now.href}#test` : chapterTest ? ctx.actLink('math', chapterTest.act.id) : ctx.link('tests');
             return html`
               <li class="card test test-${t.kind}">
                 <p class="count${days !== null && days < 0 ? ' past' : ''}">${countdownLabel(days)}</p>
@@ -29,7 +32,7 @@ export function weekView(ctx) {
                 <p class="date">${formatLongDate(t.date)}</p>
                 ${t.detail ? html`<p>${t.detail}</p>` : ''}
                 <p class="links">${section ? html`<a class="action" href="${study}">Study in ${sectionLabel(section)}</a>` : ''}
-                  <a class="action" href="${ctx.link('tests')}">Practice test</a></p>
+                  <a class="action" href="${practice}">Practice test</a></p>
               </li>`;
           })}
         </ul>` : html`<p class="card">No quizzes or tests are listed for this week.</p>`}
@@ -64,6 +67,16 @@ function mathCard(ctx, c) {
   // The chapter's own activities (from the chapter registry), so a new chapter needs no change here.
   const SHORT = { vocab: 'Vocabulary', lessons: 'Lessons', practice: 'Practice', guide: 'Study Guide' };
   const list = chapterMenu(c.id).filter((r) => SHORT[r.role]).map((r) => [r.act.id, `Chapter ${c.id} ${SHORT[r.role]}`, r.act.icon]);
+  // A stand-alone chapter (D34) links straight into its own page.
+  if (c.href) {
+    const OWN = [['vocab', 'Vocabulary', 'book'], ['lessons', 'Lessons', 'steps'], ['practice', 'Practice Questions', 'pencil'], ['test', 'Test', 'list']];
+    return html`<section class="card math-week" aria-labelledby="h-math-week">
+    <h2 id="h-math-week">Math this week: Chapter ${c.id}: ${c.name}</h2>
+    <p class="hint">${c.summary}</p>
+    <ul class="shortcut-list">${OWN.map(([hash, label, icon]) => html`<li><a class="action shortcut" href="${c.href}#${hash}">${ICONS[icon]}<span>Chapter ${c.id} ${label}</span></a></li>`)}
+      <li><a class="action shortcut" href="${c.href}">${ICONS.steps}<span>All of Chapter ${c.id}</span></a></li></ul>
+  </section>`;
+  }
   return html`<section class="card math-week" aria-labelledby="h-math-week">
     <h2 id="h-math-week">Math this week: Chapter ${c.id}: ${c.name}</h2>
     <p class="hint">${c.summary}</p>

@@ -4,7 +4,8 @@ import path from 'node:path';
 import { ROOT, BASE, startBrowser, startServer } from './lib/harness.js';
 const flag=process.argv.indexOf('--site');
 const server=await startServer({root:flag<0?ROOT:path.resolve(process.argv[flag+1])});
-const base=server.origin+BASE,id='2026-11-09';
+// Every published week that has illustrated labs (Nov 9 and Nov 16 so far).
+const base=server.origin+BASE,WEEK_IDS=['2026-11-09','2026-11-16'];let id;
 const b=await startBrowser();let checks=0;
 const expect=(v,m)=>{assert.ok(v,m);checks++};
 await b.initScript(`window.__speech=[];Object.defineProperty(window,'speechSynthesis',{value:{getVoices:()=>[],cancel(){},speak(u){window.__speech.push(u.text)}}});window.SpeechSynthesisUtterance=function(text){this.text=text};`);
@@ -14,6 +15,7 @@ async function open(subject){
   await b.waitFor("typeof LAB_CONFIG !== 'undefined' && !!document.querySelector('#app .menu')");
 }
 try{
+ for(id of WEEK_IDS){
  for(const subject of ['spelling','vocab']){
   await b.load(base+`#${subject}?week=${id}`);
   const link=`a[href="labs/${id}-${subject}.html"]`;
@@ -27,7 +29,8 @@ try{
    expect(await b.js('const r=document.querySelector(".word-picture").getBoundingClientRect();return r.width>100&&Math.abs(r.width-r.height)<1;'),subject+' square picture '+width);
    if(process.env.SS_LAB_SHOTS && [390,1366].includes(width))await b.shot(path.join(process.env.SS_LAB_SHOTS,`${subject}-${width}.png`));
   }
-  for(let i=0;i<12;i++){
+  const n=await b.js('return WORDS.length;');
+  for(let i=0;i<n;i++){
    await b.js(`learn(${i});`);
    expect(await b.js(`return document.querySelector('.word-picture').getAttribute('aria-label')===LAB_CONFIG.pictures[${i}].alt;`),'word/image mapping '+subject+i);
   }
@@ -40,9 +43,9 @@ try{
   expect(await b.js('return !document.querySelector(".word-picture")&&document.activeElement.matches(".flip");'),'Space flips back and retains focus');
   await b.js('learn(0);window.__speech=[];');
   await b.clickAt(subject==='spelling'?'button[onclick^="sayWord"]':'button[onclick="sayWord(0)"]');
-  expect(await b.js('return window.__speech.length>0&&window.__speech.at(-1)===WORDS[0].w;'),'word audio called');
+  expect(await b.waitFor('window.__speech.length>0&&window.__speech.at(-1)===WORDS[0].w'),'word audio called');
   if(subject==='vocab'){
-   await b.clickAt('button[onclick="sayDef(0)"]');expect(await b.js('return window.__speech.at(-1)===WORDS[0].d;'),'meaning audio called');
+   await b.clickAt('button[onclick="sayDef(0)"]');expect(await b.waitFor('window.__speech.at(-1)===WORDS[0].d'),'meaning audio called');
    for(const kind of ['mc','fill','tf','match']){
     await b.js(`startQuiz('${kind}',ALL);`);
     expect(await b.js('return !document.querySelector(".word-picture");'),kind+' has no test pictures');
@@ -75,6 +78,7 @@ try{
  // The canonical Learn My Words view uses the same week-scoped picture registry.
  await b.load(base+`#spelling?week=${id}&act=learn`);
  expect(await b.js('return !!document.querySelector(".word-atlas image");'),'native cards show reviewed atlas');
+ }
  expect(!server.missing.length,'no missing resources');
  expect(!b.errors.length,'no browser errors: '+b.errors.join('; '));
  console.log(`${checks} illustrated weekly lab browser checks passed`);
