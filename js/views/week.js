@@ -22,6 +22,8 @@ export function weekView(ctx) {
             const section = TEST_SECTION[t.kind];
             // A math test's "Study" opens the week's chapter (D26).
             const study = t.kind === 'math' && now ? ctx.chapterLink(now.id) : section ? ctx.link(section) : null;
+            const chapterTest = t.kind === 'math' && now?.id === 7 && chapterMenu(now.id).find((entry) => entry.role === 'test');
+            const practice = chapterTest ? ctx.actLink('math', chapterTest.act.id) : ctx.link('tests');
             return html`
               <li class="card test test-${t.kind}">
                 <p class="count${days !== null && days < 0 ? ' past' : ''}">${countdownLabel(days)}</p>
@@ -29,7 +31,7 @@ export function weekView(ctx) {
                 <p class="date">${formatLongDate(t.date)}</p>
                 ${t.detail ? html`<p>${t.detail}</p>` : ''}
                 <p class="links">${section ? html`<a class="action" href="${study}">Study in ${sectionLabel(section)}</a>` : ''}
-                  <a class="action" href="${ctx.link('tests')}">Practice test</a></p>
+                  <a class="action" href="${practice}">Practice test</a></p>
               </li>`;
           })}
         </ul>` : html`<p class="card">No quizzes or tests are listed for this week.</p>`}
