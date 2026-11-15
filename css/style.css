@@ -1052,9 +1052,15 @@ textarea.sentence { width: 100%; font: inherit; font-size: 1.1rem; line-height: 
 .flyer-page figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 6px; font-weight: 700; }
 .flyer-missing { border-left: 5px solid var(--line-strong); }
 @media print {
-  body[data-section="newsletter"] .flyer-scroll { max-height: none; overflow: visible; border: 0; }
-  body[data-section="newsletter"] .flyer-page { break-inside: avoid; page-break-after: always; }
-  body[data-section="newsletter"] .flyer.zoomed .flyer-scroll img { width: 100%; }
+  body[data-section="newsletter"]:has(#flyer .flyer-pages) #app > :not(#flyer),
+  body[data-section="newsletter"]:has(#flyer .flyer-pages) .top,
+  body[data-section="newsletter"] #flyer :is(.instruct-head, figcaption) { display: none !important; }
+  body[data-section="newsletter"] #flyer:has(.flyer-pages) { break-inside: auto; border: 0; padding: 0; margin: 0; }
+  body[data-section="newsletter"] #flyer .flyer-pages { display: block; margin: 0; }
+  body[data-section="newsletter"] #flyer .flyer-scroll { max-height: none; overflow: visible; border: 0; }
+  body[data-section="newsletter"] #flyer .flyer-page { break-inside: avoid; break-after: page; }
+  body[data-section="newsletter"] #flyer .flyer-page:last-child { break-after: auto; }
+  body[data-section="newsletter"] #flyer .flyer-scroll img { width: auto; max-width: 100%; max-height: 8.8in; margin: auto; }
   .shortcut-list { display: none; }
 }
 

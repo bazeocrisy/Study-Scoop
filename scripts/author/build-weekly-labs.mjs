@@ -45,7 +45,7 @@ export function buildWeeklyLabs(id, manifestFile, {root=ROOT, templates=path.joi
       let source=sources.indexOf(data);if(source<0){source=sources.length;sources.push(data)}
       images.push({source,alt:p.alt,columns,rows,index});
       pictures.illustrations[id][subject][w]={src:p.file,alt:p.alt,columns,rows,index};
-      words.push({w,s:entry.syllables,t:record.sentence,...(subject==='vocab'?{d:record.def,note:record.note||''}:{} )});
+      words.push({w,s:entry.syllables,t:record.sentence,...(subject==='vocab'?{d:record.def,note:record.note||'',fill:record.fill,alsoFits:record.alsoFits||[]}:{} )});
     }
     const schoolTest=week.tests.find(t=>t.kind===subject);
     const day=(d)=>new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',timeZone:'UTC'});

@@ -278,7 +278,7 @@ async function render() {
     const { signal } = mounted;
     app.addEventListener('click', async (e) => {
       if (e.target.closest('[data-act="print"]')) {
-        const sheets = [...app.querySelectorAll('.homework-papers img')];
+        const sheets = [...app.querySelectorAll('.homework-papers img, #flyer img')];
         await Promise.allSettled(sheets.map((img) => {
           img.loading = 'eager';
           return img.decode();
