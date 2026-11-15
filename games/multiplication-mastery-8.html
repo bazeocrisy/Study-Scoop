@@ -190,6 +190,14 @@ body{font-size:17px}
 'use strict';
 var STORE='chris21-multiplication-mastery-v1';
 var FACTS=[];for(var A=0;A<=11;A++)for(var B=0;B<=12;B++)FACTS.push({a:A,b:B,p:A*B,id:A+'x'+B});
+var GROUP_NAMES=['A','B','C','D','E','F'];
+var GROUPS=(function(){var seed=21,g=GROUP_NAMES.map(function(){return []}),i=0;
+  function rnd(){seed=(seed*1103515245+12345)%2147483648;return seed/2147483648}
+  for(var a=0;a<=11;a++){var row=[];for(var b=0;b<=12;b++)row.push(a+'x'+b);
+    for(var k=row.length-1;k>0;k--){var j=Math.floor(rnd()*(k+1)),t=row[k];row[k]=row[j];row[j]=t}
+    row.forEach(function(id){g[i%g.length].push(id);i++})}
+  return g})();
+var quizGroup=null;
 function $(s){return document.querySelector(s)}
 function initialData(){return {sessions:[],reviews:{},active:null}}
 var data=initialData();
@@ -240,16 +248,18 @@ function showHome(){var latest=last(data.sessions);
 
 /* ---------- quiz setup ---------- */
 function chip(group,value,label,on){return '<button type="button" class="chip'+(on?' on':'')+'" data-chip="'+group+'" data-value="'+value+'">'+label+'</button>'}
-function setupTest(mode){currentMode=mode;var title=mode==='facts'?'✖️ Times Quiz':'🔍 Missing Number';
+function groupBest(mode,k){var best=null;data.sessions.forEach(function(s){if(s.type===mode&&s.group===k&&!s.partial&&(!best||s.correct>best.correct))best=s});return best}
+function nextGroup(mode){for(var k=0;k<GROUPS.length;k++)if(!groupBest(mode,k))return k;return 0}
+function setupTest(mode){currentMode=mode;if(quizGroup===null)quizGroup=nextGroup(mode);var title=mode==='facts'?'✖️ Times Quiz':'🔍 Missing Number';
   html('<h2 class="page-title">'+title+'</h2><p class="lead">'+(mode==='facts'?'Solve each problem. Your score shows at the end.':'Find the number that is hiding in the box.')+'</p>'+
-  '<h3 class="subhead">How many questions?</h3><div class="chips" id="lenChips">'+
-  chip('len',13,'⚡ Quick<small>13</small>',testLength===13)+chip('len',26,'Medium<small>26</small>',testLength===26)+chip('len',39,'Long<small>39</small>',testLength===39)+chip('len',FACTS.length,'🏆 All of them<small>'+FACTS.length+'</small>',testLength===FACTS.length)+'</div>'+
+  '<h3 class="subhead">Pick a group</h3><p class="lead" style="margin-top:0">Each group has '+GROUPS[0].length+' facts mixed from every table, 0s through 11s. Do all '+GROUPS.length+' groups to cover all '+FACTS.length+' facts.</p><div class="chips" id="grpChips">'+
+  GROUP_NAMES.map(function(n,k){var b=groupBest(mode,k);return chip('grp',k,'Group '+n+'<small>'+(b?'✓ Best '+b.correct+'/'+b.total:GROUPS[k].length+' facts')+'</small>',quizGroup===k)}).join('')+'</div>'+
   (mode==='answer'?'<h3 class="subhead">What kind?</h3><div class="chips" id="styleChips">'+chip('style','missing','4 × ☐ = 12<small>One box</small>',answerStyle==='missing')+chip('style','both','☐ × ☐ = 12<small>Two boxes (harder)</small>',answerStyle==='both')+'</div>':'')+
   '<div class="actions center" style="margin-top:26px">'+button('Play Ball! ⚾','beginTest','primary huge')+'</div><div class="actions center" style="margin-top:12px">'+button('← Back','home','light')+'</div>')}
-function pickChip(el){var g=el.getAttribute('data-chip'),v=el.getAttribute('data-value');if(g==='len')testLength=Number(v);else answerStyle=v;
+function pickChip(el){var g=el.getAttribute('data-chip'),v=el.getAttribute('data-value');if(g==='grp')quizGroup=Number(v);else if(g==='len')testLength=Number(v);else answerStyle=v;
   var sib=document.querySelectorAll('[data-chip="'+g+'"]');for(var i=0;i<sib.length;i++)sib[i].classList.toggle('on',sib[i]===el)}
 function beginTest(){if(data.active&&!confirm('You already have a quiz going. Start a new one instead?'))return;
-  data.active={type:currentMode,style:currentMode==='answer'?answerStyle:'vertical',questions:shuffle(FACTS).slice(0,testLength),answers:[],startedAt:new Date().toISOString()};save();renderQuestion()}
+  data.active={type:currentMode,style:currentMode==='answer'?answerStyle:'vertical',group:quizGroup,questions:shuffle(FACTS.filter(function(f){return GROUPS[quizGroup].indexOf(f.id)>=0})),answers:[],startedAt:new Date().toISOString()};save();renderQuestion()}
 function resume(){if(!data.active)return nav('home');currentMode=data.active.type;renderQuestion()}
 
 /* ---------- quiz ---------- */
@@ -272,8 +282,8 @@ function submitAnswer(e){e.preventDefault();var s=data.active;if(!s)return;var f
 function earlyFinish(){if(!data.active)return;if(!data.active.answers.length){if(confirm('Stop this quiz?')){data.active=null;save();nav('home')}return}
   if(confirm('All done? We will score the questions you answered.'))finishTest(true)}
 function finishTest(partial){var s=data.active;if(!s)return;var c=0;s.answers.forEach(function(x){if(x.correct)c++});
-  var record={type:s.type,style:s.style,startedAt:s.startedAt,finishedAt:new Date().toISOString(),total:s.answers.length,planned:s.questions.length,partial:!!partial,correct:c,answers:s.answers};
-  data.sessions.push(record);data.active=null;save();renderResults(record)}
+  var record={type:s.type,style:s.style,group:s.group,startedAt:s.startedAt,finishedAt:new Date().toISOString(),total:s.answers.length,planned:s.questions.length,partial:!!partial,correct:c,answers:s.answers};
+  data.sessions.push(record);data.active=null;quizGroup=null;save();renderResults(record)}
 function recentMistakes(){var byId={},order=[];data.sessions.forEach(function(session){session.answers.forEach(function(a){if(!a.correct){if(!byId[a.id])order.push(a.id);byId[a.id]=a}else delete byId[a.id]})});
   var out=[];order.forEach(function(id){if(byId[id]&&out.indexOf(byId[id])<0)out.push(byId[id])});return out}
 function factCard(x){var g=Array.isArray(x.given)?x.given.join(' × '):x.given;return '<div class="miss"><b>'+x.a+' × '+x.b+' = '+x.p+'</b><small>You said <s>'+g+'</s></small></div>'}
@@ -319,7 +329,7 @@ function buildRetest(){var missed=recentMistakes();if(!missed.length){nav('repor
 function showReport(){currentMode='report';var fs=data.sessions.filter(function(s){return s.type==='facts'}),as=data.sessions.filter(function(s){return s.type==='answer'}),lf=last(fs),la=last(as),misses=recentMistakes();
   var meters='';for(var a=0;a<=11;a++){var att=[];fs.forEach(function(s){s.answers.forEach(function(r){if(r.a===a)att.push(r)})});var c=att.filter(function(r){return r.correct}).length,p=att.length?Math.round(c/att.length*100):null;
     meters+='<div class="meter"><b>'+a+'s</b><div class="bar"><i class="'+(p===null?'':p>=90?'good':p>=60?'ok':'low')+'" style="width:'+(p===null?0:Math.max(p,4))+'%"></i></div><span>'+(p===null?'—':p>=90?'⭐ '+p+'%':p+'%')+'</span></div>'}
-  var hist=data.sessions.slice().reverse().slice(0,20).map(function(s){return '<tr><td>'+new Date(s.finishedAt).toLocaleDateString()+'</td><td>'+(s.type==='facts'?'Times Quiz':'Missing Number')+(s.partial?' (stopped early)':'')+'</td><td>'+s.correct+'/'+s.total+'</td></tr>'}).join('')||'<tr><td colspan="3">No games yet.</td></tr>';
+  var hist=data.sessions.slice().reverse().slice(0,20).map(function(s){return '<tr><td>'+new Date(s.finishedAt).toLocaleDateString()+'</td><td>'+(s.type==='facts'?'Times Quiz':'Missing Number')+(typeof s.group==='number'?' · Group '+GROUP_NAMES[s.group]:'')+(s.partial?' (stopped early)':'')+'</td><td>'+s.correct+'/'+s.total+'</td></tr>'}).join('')||'<tr><td colspan="3">No games yet.</td></tr>';
   function st(s){return s?s.correct+'/'+s.total+' ('+pctOf(s)+'%)':'Not played yet'}
   html('<h2 class="page-title">⭐ My Scores</h2><div class="stats"><div class="stat">'+(lf?stars(pctOf(lf)):'<b>—</b>')+'<small>Last Times Quiz</small></div><div class="stat">'+(la?stars(pctOf(la)):'<b>—</b>')+'<small>Last Missing Number</small></div><div class="stat"><b>'+misses.length+'</b><small>Facts to practice</small></div></div>'+
   (misses.length?'<div class="actions center" style="margin-top:16px">'+button('🃏 Practice them','reviewMissed','gold')+button('🔁 Try them again','retest','primary')+'</div>':'')+
