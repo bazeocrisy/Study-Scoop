@@ -29,3 +29,12 @@ Chromium checks covered six widths, both labs' menus, pictures and flash-card re
 ## Release
 
 The week is selectable through its dated link. The Nov 9–13 default is retained before November 16. Review the preview release separately, including both flyers, the lab links, school dates and the pending worksheet status. Require owner approval before any production merge.
+
+## Homework follow-up, November 17
+
+Two supplied six-page restored PDFs render identically. Five nonblank pages are published in the packet's order. The blank back is omitted from the web gallery.
+
+- Division Facts – Fours and 3-Digit Subtraction: checked headings, all 30 division facts and all 15 subtraction problems, answer lines, and borders.
+- All About Turkeys: checked the parent and student headings, passage, the parent copy's counts through 190 and scoring table, and the two comprehension questions. The source student copy ends at “spectacular tail.” The Homework page directs learners to the full parent copy.
+- The name, date and scoring fields are blank. No student names, school identifiers or contact information appear on the published pages. The generic handwritten instruction and worksheet credits are preserved.
+- The worksheets were added to the November 16–20 week. The newsletter supplies the Friday due date. The separately listed reading log was not included in the upload.

@@ -75,7 +75,7 @@
       "due": "Friday, Nov 20",
       "source": "newsletter",
       "description": "The packet is sent home each Monday and due Friday.",
-      "status": "Listed in the newsletter. No packet pages were supplied for this week."
+      "status": "Five worksheet pages are available below."
     },
     {
       "title": "Reading Log",
@@ -94,6 +94,28 @@
         "section": "spelling",
         "label": "Practice this week’s spelling"
       }
+    },
+    {
+      "title": "Division Facts – Fours",
+      "subject": "Math",
+      "due": "Friday, Nov 20",
+      "source": "received",
+      "description": "Thirty division facts with a divisor of 4."
+    },
+    {
+      "title": "3-Digit Subtraction",
+      "subject": "Math",
+      "due": "Friday, Nov 20",
+      "source": "received",
+      "description": "Fifteen three-digit subtraction problems arranged in columns."
+    },
+    {
+      "title": "All About Turkeys",
+      "subject": "Reading",
+      "due": "Friday, Nov 20",
+      "source": "received",
+      "description": "Read the passage and answer the two comprehension questions.",
+      "status": "The student copy ends mid-sentence in the supplied packet. The parent copy has the full passage."
     }
   ],
   "mathChapter": 7,
@@ -324,6 +346,47 @@
         "alt": "All twelve Winn-Dixie vocabulary words and four Topic 7 fraction definitions, with both tests listed for November 17.",
         "width": 1275,
         "height": 1650
+      }
+    ]
+  },
+  "homeworkPapers": {
+    "reviewed": "2026-11-17",
+    "recreated": true,
+    "pages": [
+      {
+        "src": "images/homework/2026-11-16-division-fours.webp",
+        "label": "Division Facts – Fours",
+        "alt": "Thirty division facts with a divisor of 4.",
+        "width": 1408,
+        "height": 1822
+      },
+      {
+        "src": "images/homework/2026-11-16-turkeys-parent.webp",
+        "label": "All About Turkeys — Parent Copy",
+        "alt": "Reading passage with running word counts and a chart for three reads.",
+        "width": 1408,
+        "height": 1822
+      },
+      {
+        "src": "images/homework/2026-11-16-turkeys-questions.webp",
+        "label": "All About Turkeys — Comprehension Questions",
+        "alt": "Two questions with ruled space for complete-sentence answers.",
+        "width": 1408,
+        "height": 1822
+      },
+      {
+        "src": "images/homework/2026-11-16-turkeys-student.webp",
+        "label": "All About Turkeys — Student Copy",
+        "alt": "Reading passage for students. The supplied page ends mid-sentence.",
+        "width": 1408,
+        "height": 1822
+      },
+      {
+        "src": "images/homework/2026-11-16-subtraction.webp",
+        "label": "3-Digit Subtraction",
+        "alt": "Fifteen three-digit subtraction problems arranged in columns.",
+        "width": 1408,
+        "height": 1822
       }
     ]
   }
