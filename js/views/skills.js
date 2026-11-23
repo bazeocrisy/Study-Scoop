@@ -6,7 +6,7 @@ import { menuItems, activityInfo } from '../lib/activities.js';
 import { roundItem, roundParts, timesItem } from '../lib/skills.js';
 import { PLACE } from '../lib/rounding.js';
 import { menuPage, subBar, subjectMenu, ICONS } from './common.js';
-import { activityView, activityInner, timesFlashView, timesFindView } from './activity.js';
+import { activityView, activityInner, timesFlashView, timesFindView, timesTreeView } from './activity.js';
 import { readButton } from './lesson.js';
 
 const HOME = (ctx) => ({ label: 'Skill Builders', href: ctx.link('skills') });
@@ -26,7 +26,7 @@ export function skillsView(ctx) {
 
 // ---------------------------------------------------------------- Times Tables App
 
-/** Times Tables App: fact-family selector + three-tab practice experience. */
+/** Times Tables App: fact-family selector + four-tab practice experience (Flash, Practice, Find It, Fact Tree). */
 function timesAppView(ctx) {
   const info = activityInfo('skills', 'timesapp');
   const timesCard = activityInfo('skills', 'times');
@@ -59,8 +59,8 @@ function timesAppView(ctx) {
       </section>
 
       <div class="times-tabs" role="tablist" aria-label="Practice mode">
-        ${['flash', 'practice', 'find'].map((t) => {
-          const labels = { flash: 'Flash', practice: 'Practice', find: 'Find It' };
+        ${['flash', 'practice', 'find', 'tree'].map((t) => {
+          const labels = { flash: 'Flash', practice: 'Practice', find: 'Find It', tree: 'Fact Tree' };
           return html`<button type="button" role="tab"
             class="times-tab${tab === t ? ' is-active' : ''}"
             data-act="times-tab"
@@ -76,6 +76,7 @@ function timesAppView(ctx) {
           ? html`<div class="card times-empty"><p>Pick a fact family above to begin.</p></div>`
           : tab === 'flash' ? timesFlashView(ctx)
           : tab === 'practice' ? timesFlashView(ctx, 'practice')
+          : tab === 'tree' ? timesTreeView(ctx)
           : timeFindPanel(ctx)}
       </div>
     </div>`;

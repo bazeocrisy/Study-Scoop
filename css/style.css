@@ -1174,12 +1174,31 @@ button.times-flashcard.is-flipped .times-product { color: var(--berry); }
 .times-find-times, .times-find-eq { color: var(--muted); }
 .fb-nudge { color: var(--berry); font-weight: 600; margin: 8px 0 0; }
 
+/* Fact Tree mode: product on top, two lines down to the factor boxes */
+.times-tree-card { padding: 24px 20px; text-align: center; }
+.times-tree {
+  position: relative; display: flex; flex-direction: column; align-items: center;
+  gap: 4px; max-width: 260px; margin: 0 auto 16px;
+}
+.times-tree-top {
+  position: relative; z-index: 1; font-family: var(--display); font-size: 2.2rem; font-weight: 800;
+  color: var(--teal); background: var(--card); border: 3px solid var(--teal); border-radius: var(--r);
+  min-width: 84px; padding: 6px 14px; line-height: 1.1;
+}
+.times-tree-lines { width: 100%; height: 48px; margin: -4px 0; }
+.times-tree-lines line { stroke: var(--line-strong); stroke-width: 2; }
+.times-tree-row {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--display); font-size: 1.6rem; font-weight: 700; flex-wrap: nowrap;
+}
+
 @media (max-width: 440px) {
   .times-tab { padding: 9px 12px; font-size: .9rem; }
   .times-family-grid { gap: 6px; }
   .times-family-btn { min-width: 44px; font-size: .88rem; }
   button.times-flashcard { min-height: 220px; }
   .times-vert-eq { font-size: clamp(2rem, 10vw, 3rem); }
+  .times-tree-top { font-size: 1.8rem; min-width: 64px; padding: 5px 10px; }
 }
 
 /* Original homework papers use the newsletter viewer and print one paper per page. */

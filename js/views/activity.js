@@ -203,6 +203,50 @@ export function timesFindView(ctx) {
     </div>`;
 }
 
+/** Fact Tree view: same data and checking as Find It, drawn as a fact-family triangle. */
+export function timesTreeView(ctx) {
+  const run = ctx.timesRun;
+  if (!run || !run.findItems || run.findItems.length === 0) {
+    return html`<div class="card times-empty"><p>No facts to practice. Pick a fact family above.</p></div>`;
+  }
+  const i = run.findI || 0;
+  const item = run.findItems[i];
+  const total = run.findItems.length;
+  const st = run.findState_[item.id] || {};
+  const product = item.answer.a * item.answer.b;
+  const wrongFamily = st.wrongFamily;
+
+  return html`
+    <p class="times-card-count" aria-live="polite">Fact ${i + 1} of ${total}</p>
+    <div class="card times-tree-card">
+      <p class="times-find-ask">What two numbers multiply to make this?</p>
+      <div class="times-tree">
+        <div class="times-tree-top">${product}</div>
+        <svg class="times-tree-lines" viewBox="0 0 100 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <line x1="50" y1="2" x2="18" y2="46"></line>
+          <line x1="50" y1="2" x2="82" y2="46"></line>
+        </svg>
+        <div class="times-tree-row" role="group" aria-label="Enter the two factors">
+          <label class="sr-only" for="find-a">First factor</label>
+          <input id="find-a" class="times-box" type="number" inputmode="numeric" min="0" max="12"
+            data-find="a" aria-label="First number" autocomplete="off" value="${st.va || ''}" ${st.correct ? 'disabled' : ''}>
+          <span class="times-find-times" aria-hidden="true">×</span>
+          <label class="sr-only" for="find-b">Second factor</label>
+          <input id="find-b" class="times-box" type="number" inputmode="numeric" min="0" max="12"
+            data-find="b" aria-label="Second number" autocomplete="off" value="${st.vb || ''}" ${st.correct ? 'disabled' : ''}>
+        </div>
+      </div>
+      ${!st.correct ? html`<button type="button" class="btn btn-primary" data-act="find-check" data-id="${item.id}">Check</button>` : ''}
+      ${st.correct ? html`<p class="fb-yes" role="alert">Yes! ${st.va} × ${st.vb} = ${st.va * st.vb}.</p>` : ''}
+      ${wrongFamily ? html`<p class="fb-nudge" role="alert">${wrongFamily}</p>` : ''}
+      ${st.wrong ? html`<p class="fb-no" role="alert">Try again! Think about the facts you picked.</p>` : ''}
+    </div>
+    <div class="stage-nav">
+      <button type="button" class="btn" data-act="find-prev"${i === 0 ? ' disabled' : ''}>‹ Previous</button>
+      <button type="button" class="btn btn-primary" data-act="find-next">${i === total - 1 ? 'Start over' : 'Next ›'}</button>
+    </div>`;
+}
+
 /** Just the area below the title bar (redrawn in place after each action). */
 export function activityInner(ctx) {
   const run = ctx.run;

@@ -2024,6 +2024,28 @@ async function main() {
       expect(await b.js('return document.querySelectorAll("input[data-find]").length === 2;'), 'Find It has two factor boxes');
     });
 
+    await check('Times Tables > Practice Facts > Fact Tree: shows every fact for the picked families as a triangle, no repeats, and checks answers like Find It', async () => {
+      await b.load(url('#skills?act=timesapp'));
+      await b.js('document.querySelector(".times-family-btn[data-n=\\"4\\"]").click();');
+      await b.js('document.querySelector(".times-family-btn[data-n=\\"12\\"]").click();');
+      await b.js('document.querySelector(".times-tab[data-tab=\\"tree\\"]").click();');
+      expect(await b.js('return !!document.querySelector(".times-tree-top");'), 'tree product box renders');
+      expect(await b.js('return document.querySelectorAll(".times-tree-lines line").length === 2;'), 'two lines down to the factor boxes');
+      expect(await b.js('return document.querySelectorAll("input[data-find]").length === 2;'), 'Fact Tree has two factor boxes');
+      // 4s (0-12) and 12s (0-12) overlap at 4x12, so every fact appears exactly once: 13 + 12 = 25.
+      eq(await b.js('return document.querySelector(".times-card-count").textContent.trim();'), 'Fact 1 of 25', 'every fact for both families, counted once');
+      const product = Number(await b.js('return document.querySelector(".times-tree-top").textContent.trim();'));
+      // Use the same checking as Find It: type the two factors (either order works), then Check.
+      const other4 = product / 4;
+      const factors = Number.isInteger(other4) && other4 >= 0 && other4 <= 12 ? [4, other4] : [12, product / 12];
+      await b.js(`document.querySelector('#find-a').value = '${factors[1]}'; document.querySelector('#find-a').dispatchEvent(new Event('input'));`);
+      await b.js(`document.querySelector('#find-b').value = '${factors[0]}'; document.querySelector('#find-b').dispatchEvent(new Event('input'));`);
+      await b.js('document.querySelector("[data-act=\\"find-check\\"]").click();');
+      expect(await b.js('return !!document.querySelector(".fb-yes");'), 'typing the factors in reverse order is accepted');
+      await b.js('document.querySelector("[data-act=\\"find-next\\"]").click();');
+      eq(await b.js('return document.querySelector(".times-card-count").textContent.trim();'), 'Fact 2 of 25', 'Next moves to the next fact');
+    });
+
     await check('Rounding > Nearest 10: tap a digit to underline it, the arrow appears, each wrong step says why, Help step by step, 20 questions, results and misses', async () => {
       await b.load(url('#skills?act=roundten'));
       for (let k = 0; k < 20; k++) {
