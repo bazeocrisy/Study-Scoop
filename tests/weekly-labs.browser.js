@@ -1,11 +1,15 @@
 // Real-browser checks for weekly illustrated labs, both repository and allowlisted build.
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import fs from 'node:fs';
 import { ROOT, BASE, startBrowser, startServer } from './lib/harness.js';
 const flag=process.argv.indexOf('--site');
 const server=await startServer({root:flag<0?ROOT:path.resolve(process.argv[flag+1])});
-// Every published week that has illustrated labs (Nov 9 and Nov 16 so far).
-const base=server.origin+BASE,WEEK_IDS=['2026-11-09','2026-11-16'];let id;
+// Exercise every allowlisted week with illustrated labs, using its actual word count.
+const testedRoot=flag<0?ROOT:path.resolve(process.argv[flag+1]);
+const index=JSON.parse(fs.readFileSync(path.join(testedRoot,'data/weeks.json'),'utf8'));
+const WEEK_IDS=index.weeks.map(w=>w.id).filter(id=>JSON.parse(fs.readFileSync(path.join(testedRoot,`data/${id}.json`),'utf8')).labs);
+const base=server.origin+BASE;let id;
 const b=await startBrowser();let checks=0;
 const expect=(v,m)=>{assert.ok(v,m);checks++};
 await b.initScript(`window.__speech=[];Object.defineProperty(window,'speechSynthesis',{value:{getVoices:()=>[],cancel(){},speak(u){window.__speech.push(u.text)}}});window.SpeechSynthesisUtterance=function(text){this.text=text};`);
@@ -27,7 +31,7 @@ try{
    await b.js('learn(0);');
    expect(await b.js('return document.documentElement.scrollWidth<=document.documentElement.clientWidth;'),subject+' no overflow '+width);
    expect(await b.js('const r=document.querySelector(".word-picture").getBoundingClientRect();return r.width>100&&Math.abs(r.width-r.height)<1;'),subject+' square picture '+width);
-   if(process.env.SS_LAB_SHOTS && [390,1366].includes(width))await b.shot(path.join(process.env.SS_LAB_SHOTS,`${subject}-${width}.png`));
+   if(process.env.SS_LAB_SHOTS && [390,1366].includes(width))await b.shot(path.join(process.env.SS_LAB_SHOTS,`${id}-${subject}-${width}.png`));
   }
   const n=await b.js('return WORDS.length;');
   for(let i=0;i<n;i++){
@@ -50,19 +54,19 @@ try{
     await b.js(`startQuiz('${kind}',ALL);`);
     expect(await b.js('return !document.querySelector(".word-picture");'),kind+' has no test pictures');
     if(kind==='match'){
-     for(let round=0;round<2;round++){
+     for(let round=0;round<Math.ceil(n/6);round++){
       const ids=await b.js('return M.rounds[M.r];');
       for(const i of ids){await b.clickAt('#mw'+i);await b.clickAt('#md'+i)}
       await b.clickAt('#nx button');
      }
     }else{
-     for(let i=0;i<12;i++){
+     for(let i=0;i<n;i++){
       const answer=await b.js(kind==='tf'?'return Number(Q.tf[Q.queue[Q.i]]);':'return Q.queue[Q.i];');
       await b.clickAt(kind==='tf'?`[data-tf="${answer}"]`:`[data-id="${answer}"]`);
       await b.clickAt('#nx button');
      }
     }
-    expect(await b.js('return document.querySelector(".big").textContent.includes("12 out of 12");'),kind+' completes with correct score');
+    expect(await b.js(`return document.querySelector(".big").textContent.includes("${n} out of ${n}");`),kind+' completes with correct score');
    }
   }else{
    for(const test of [false,true]){

@@ -12,6 +12,7 @@ export function weekView(ctx) {
   return html`
     ${pageHead('This Week', ctx, null, week.flyer?.reviewed ? html`<a class="btn" href="${ctx.link('newsletter')}" data-flyer>View Original Newsletter</a>` : '')}
     ${now ? mathCard(ctx, now) : ''}
+    ${week.mathStudyNote ? html`<p class="card" role="note">${week.mathStudyNote}</p>` : ''}
 
     <section aria-labelledby="h-tests">
       <h2 id="h-tests">Quizzes and tests</h2>
@@ -31,8 +32,8 @@ export function weekView(ctx) {
                 <h3>${t.title}</h3>
                 <p class="date">${formatLongDate(t.date)}</p>
                 ${t.detail ? html`<p>${t.detail}</p>` : ''}
-                <p class="links">${section ? html`<a class="action" href="${study}">Study in ${sectionLabel(section)}</a>` : ''}
-                  <a class="action" href="${practice}">Practice test</a></p>
+                <p class="links">${section && t.study !== false ? html`<a class="action" href="${study}">Study in ${sectionLabel(section)}</a>` : ''}
+                  ${t.practice !== false ? html`<a class="action" href="${practice}">Practice test</a>` : ''}</p>
               </li>`;
           })}
         </ul>` : html`<p class="card">No quizzes or tests are listed for this week.</p>`}

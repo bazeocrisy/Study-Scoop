@@ -20,7 +20,7 @@ h1 span{color:var(--orange)}
 .btn.o:active{box-shadow:0 2px 0 #7c3a06}
 .btn.g{background:#14804b;box-shadow:0 6px 0 #0d5a34}
 .btn.g:active{box-shadow:0 2px 0 #0d5a34}
-.btn.r{background:#e24d4d;box-shadow:0 6px 0 #a02f2f}
+.btn.r{background:#c13737;box-shadow:0 6px 0 #a02f2f}
 .btn.r:active{box-shadow:0 2px 0 #a02f2f}
 .btn.ghost{background:transparent;box-shadow:none;border:2px solid var(--soft);color:var(--soft);font-size:17px;padding:10px 14px;min-height:44px}
 .btn small{display:block;font-weight:600;font-size:15px;opacity:.9;margin-top:2px}
@@ -104,11 +104,12 @@ function home(){
   app.innerHTML=`
   <h1>📘 <span>${esc(LAB_CONFIG.pattern)}</span> Spelling Lab</h1>
   <p class="sub">${WORDS.length} words. ${esc(LAB_CONFIG.testNote)}</p>
+  ${!('speechSynthesis' in window)?'<p role="status">Audio is unavailable in this browser. You can use Learn and Flash Cards. For Listen &amp; Spell and Practice Test, open this lab in a browser with speech support.</p>':''}
   <div class="menu">
     <button class="btn" onclick="learn(0)">📘 1. Learn<small>See it, hear it, read the sentence</small></button>
     <button class="btn o" onclick="flash()">🃏 2. Flash Cards<small>Flip the card. Missed words come back.</small></button>
-    <button class="btn g" onclick="spell(false)">🎧 3. Listen &amp; Spell<small>Hear the word, type it. One hint to help.</small></button>
-    <button class="btn r" onclick="spell(true)">🏆 4. Practice Test<small>No hints. One try per word.</small></button>
+    <button class="btn g" onclick="spell(false)" ${!('speechSynthesis' in window)?'disabled':''}>🎧 3. Listen &amp; Spell<small>Hear the word, type it. One hint to help.</small></button>
+    <button class="btn r" onclick="spell(true)" ${!('speechSynthesis' in window)?'disabled':''}>🏆 4. Practice Test<small>No hints. One try per word.</small></button>
   </div>
   <p class="sub" style="margin-top:20px">Tip: turn the volume up. Tap a speaker button to hear the word.</p>`;
 }
@@ -168,6 +169,7 @@ function awardFlash(){
 /* ---------- 3 & 4. LISTEN & SPELL / FRIDAY TEST ---------- */
 let sq=[],sTest=false,sTotal=12,sStars=0,sTries=0,sMissed=[],sAttempt=0,sFirstTry=Object.create(null),sResults=[];
 function spell(test){
+  if(!('speechSynthesis' in window)){home();return;}
   sTest=test;sq=shuffle(WORDS);sTotal=sq.length;sStars=0;sMissed=[];sAttempt=0;sFirstTry=Object.create(null);sResults=[];
   spellShow('');
 }

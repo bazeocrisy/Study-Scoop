@@ -40,9 +40,10 @@ test('every generated practice question in every week is valid and accepts its o
     }
     for (const kind of ['choice', 'truefalse', 'fill']) {
       const items = vocabItems(week, kind, rng(2));
-      assert.equal(items.length, 20, `${week.id} ${kind}`);
-      assert.equal(new Set(items.map((i) => i.id)).size, 20, `${week.id} ${kind}: no question twice`);
-      assert.equal(new Set(items.map((i) => i.prompt)).size, 20, `${week.id} ${kind}: no prompt twice`);
+      const expected = Math.min(20, week.vocab.words.length * 2);
+      assert.equal(items.length, expected, `${week.id} ${kind}`);
+      assert.equal(new Set(items.map((i) => i.id)).size, expected, `${week.id} ${kind}: no question twice`);
+      assert.equal(new Set(items.map((i) => i.prompt)).size, expected, `${week.id} ${kind}: no prompt twice`);
       for (const it of items) assert.ok(it.hints?.length && it.show?.length, `${it.id} has hints and Show me how`);
     }
   }

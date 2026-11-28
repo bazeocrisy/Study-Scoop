@@ -1,0 +1,267 @@
+{
+  "id": "2026-11-30",
+  "label": "Week of November 30–December 4",
+  "learning": [
+    [
+      "Math",
+      "Equivalent Fractions"
+    ],
+    [
+      "Reading",
+      "Elements of Poetry, Point of View, Character Traits"
+    ],
+    [
+      "Writing",
+      "Narrative"
+    ],
+    [
+      "Spelling",
+      "port"
+    ],
+    [
+      "ELA",
+      "Dialogue"
+    ],
+    [
+      "Social Studies",
+      "American Indians"
+    ]
+  ],
+  "tests": [
+    {
+      "date": "2026-12-03",
+      "kind": "math",
+      "title": "Division Review Quiz",
+      "detail": "10 questions. The newsletter does not specify the facts or question format. Use your class division materials to review. A Study Scoop division review quiz is not available yet.",
+      "study": false,
+      "practice": false
+    },
+    {
+      "date": "2026-12-04",
+      "kind": "vocab",
+      "title": "Vocabulary Quiz",
+      "detail": "The six purple-outlined words on the back: demolition, projects, precious, assigned, mosaics, retains. The school question count and format are not stated."
+    },
+    {
+      "date": "2026-12-04",
+      "kind": "spelling",
+      "title": "port Spelling Test",
+      "detail": "Study the 12 words on the newsletter."
+    }
+  ],
+  "events": [
+    {
+      "date": "Dec 4, 6–8 PM",
+      "text": "Holiday Extravaganza"
+    },
+    {
+      "date": "Dec 7",
+      "text": "Wesley Woods Field Trip"
+    },
+    {
+      "date": "Dec 9",
+      "text": "Habitat Project DUE!"
+    }
+  ],
+  "homework": [
+    {
+      "title": "Weekly homework packet",
+      "due": "Friday, Dec 4",
+      "source": "newsletter",
+      "description": "The homework packet is sent home each Monday and is due on Friday.",
+      "status": "Listed in the newsletter. This week’s packet has not been supplied."
+    },
+    {
+      "title": "Reading Log",
+      "subject": "Reading",
+      "due": "Every Monday",
+      "source": "newsletter",
+      "status": "Listed in the newsletter. No reading log sheet was supplied."
+    },
+    {
+      "title": "3 spelling activities",
+      "subject": "Spelling",
+      "due": "With the weekly homework packet, Friday, Dec 4",
+      "source": "newsletter",
+      "description": "Complete three spelling activities along with the packet.",
+      "practice": {
+        "section": "spelling",
+        "label": "Practice this week’s spelling"
+      }
+    }
+  ],
+  "mathChapter": 7,
+  "spelling": {
+    "pattern": "port",
+    "rules": {
+      "port": "Look for the letters port"
+    },
+    "ruleHelp": {
+      "port": "All 12 words contain port. Find those four letters, then read and spell the whole word. Sharing these letters does not mean every word has the same meaning."
+    },
+    "words": [
+      {
+        "word": "report",
+        "rule": "port",
+        "whole": true,
+        "sentence": "I wrote a report about how butterflies grow."
+      },
+      {
+        "word": "support",
+        "rule": "port",
+        "whole": true,
+        "sentence": "I will support my friend by helping her walk safely."
+      },
+      {
+        "word": "important",
+        "rule": "port",
+        "whole": true,
+        "sentence": "It is important to wear a helmet when riding a bicycle."
+      },
+      {
+        "word": "passport",
+        "rule": "port",
+        "whole": true,
+        "sentence": "Dad packed his passport before our trip to another country."
+      },
+      {
+        "word": "carport",
+        "rule": "port",
+        "whole": true,
+        "sentence": "Our car stays dry under the roof of the carport."
+      },
+      {
+        "word": "export",
+        "rule": "port",
+        "whole": true,
+        "sentence": "Farmers export peaches to sell them in another country."
+      },
+      {
+        "word": "airport",
+        "rule": "port",
+        "whole": true,
+        "sentence": "We watched an airplane land at the airport."
+      },
+      {
+        "word": "reporter",
+        "rule": "port",
+        "whole": true,
+        "sentence": "The reporter asked questions and shared the news."
+      },
+      {
+        "word": "portal",
+        "rule": "port",
+        "whole": true,
+        "sentence": "We stepped through the stone portal into the garden."
+      },
+      {
+        "word": "seaport",
+        "rule": "port",
+        "whole": true,
+        "sentence": "The cargo ship stopped at the seaport to unload its containers."
+      },
+      {
+        "word": "porter",
+        "rule": "port",
+        "whole": true,
+        "sentence": "The porter helped travelers carry their heavy suitcases."
+      },
+      {
+        "word": "portable",
+        "rule": "port",
+        "whole": true,
+        "sentence": "My portable radio is small enough to carry to the park."
+      }
+    ]
+  },
+  "vocab": {
+    "title": "Weekly Vocabulary",
+    "quiz": "Friday, Dec 4 — six purple-outlined words",
+    "groupsNote": "Study all six purple-outlined words for Friday’s vocabulary quiz. The teacher’s definitions are kept as printed. Extra notes explain demolition, precious, assigned, and retains. Poetry and point of view are reading topics on the sheet; they are not listed among the six quiz words.",
+    "words": [
+      {
+        "word": "demolition",
+        "def": "to tear down and destroy",
+        "sentence": "We watched the demolition of an empty building from a safe distance.",
+        "fill": "The tearing down of an old building is called ___.",
+        "group": "purple",
+        "kid": "The act of tearing down or destroying something.",
+        "note": "The class sheet gives an action. Demolition is the name of that action."
+      },
+      {
+        "word": "projects",
+        "def": "tasks that take time and effort to complete",
+        "sentence": "Our science projects took several days of planning and building.",
+        "fill": "Tasks that need time and effort to finish are called ___.",
+        "group": "purple"
+      },
+      {
+        "word": "precious",
+        "def": "something that is important or valuable",
+        "sentence": "The old family photograph is precious to me.",
+        "fill": "The necklace is ___ to me because it belonged to Grandma.",
+        "group": "purple",
+        "kid": "Very important or valuable.",
+        "note": "The class sheet describes something valuable. Precious describes how important or valuable it is."
+      },
+      {
+        "word": "assigned",
+        "def": "a task given to you for someone to complete",
+        "sentence": "Our teacher assigned me the job of watering the class plant.",
+        "fill": "The teacher ___ each student a job to complete.",
+        "group": "purple",
+        "kid": "Gave someone a task to do.",
+        "note": "The class sheet describes a task. Assigned tells what someone did when giving the task."
+      },
+      {
+        "word": "mosaics",
+        "def": "pictures or patterns made from small pieces of glass, stone, or other materials",
+        "sentence": "We made colorful mosaics by arranging small pieces of tile.",
+        "fill": "Pictures made by fitting many small pieces of glass or stone together are ___.",
+        "group": "purple"
+      },
+      {
+        "word": "retains",
+        "def": "something that you have and keep it",
+        "sentence": "She retains her favorite teddy bear even when she gives other toys away.",
+        "fill": "He ___ his old baseball glove, which means he keeps it.",
+        "group": "purple",
+        "kid": "Keeps or continues to have something.",
+        "note": "The class sheet describes something kept. Retains means keeps or continues to have."
+      }
+    ],
+    "quizWords": [
+      "demolition",
+      "projects",
+      "precious",
+      "assigned",
+      "mosaics",
+      "retains"
+    ]
+  },
+  "flyer": {
+    "reviewed": "2026-11-28",
+    "note": "Page-only crops from the owner’s screenshots. Teacher wording and original artwork are unchanged.",
+    "pages": [
+      {
+        "src": "images/flyers/2026-11-30-front.webp",
+        "label": "Front: newsletter",
+        "alt": "November 30–December 4 learning topics, twelve spelling words, quizzes, announcements and homework.",
+        "width": 1290,
+        "height": 1668
+      },
+      {
+        "src": "images/flyers/2026-11-30-back.webp",
+        "label": "Back: vocabulary and reading topics",
+        "alt": "Six vocabulary quiz words and teacher definitions, point of view and poetry reminders, and a fraction comparison example.",
+        "width": 1290,
+        "height": 1668
+      }
+    ]
+  },
+  "labs": {
+    "spelling": "labs/2026-11-30-spelling.html",
+    "vocab": "labs/2026-11-30-vocab.html"
+  },
+  "mathStudyNote": "Chapter 7 is available for general fractions review. Equivalent fractions and comparing fractions with different denominators are class topics not yet taught in this chapter."
+}

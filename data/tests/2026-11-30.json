@@ -1,0 +1,168 @@
+{
+  "id": "2026-11-30",
+  "vocab": {
+    "topic": "Weekly Vocabulary — six quiz words",
+    "coverage": "Six Study Scoop practice questions, one per quiz word. The school quiz length is not stated.",
+    "instructions": "Choose the word that matches each class-sheet definition. Select Finish the test when you are done.",
+    "note": "Study Scoop practice for the December 4 vocabulary quiz.",
+    "pass": 5,
+    "items": [
+      {
+        "id": "v1",
+        "type": "choice",
+        "kind": "word",
+        "word": "demolition",
+        "prompt": "Which word matches this class-sheet definition? \"to tear down and destroy\"",
+        "options": [
+          {
+            "text": "demolition",
+            "correct": true
+          },
+          {
+            "text": "projects",
+            "why": "Projects: tasks that take time and effort to complete"
+          },
+          {
+            "text": "precious",
+            "why": "Precious: something that is important or valuable"
+          },
+          {
+            "text": "assigned",
+            "why": "Assigned: Gave someone a task to do."
+          }
+        ],
+        "explain": "Demolition: to tear down and destroy. In everyday words: The act of tearing down or destroying something."
+      },
+      {
+        "id": "v2",
+        "type": "choice",
+        "kind": "word",
+        "word": "projects",
+        "prompt": "Which word matches this class-sheet definition? \"tasks that take time and effort to complete\"",
+        "options": [
+          {
+            "text": "mosaics",
+            "why": "Mosaics: pictures or patterns made from small pieces of glass, stone, or other materials"
+          },
+          {
+            "text": "projects",
+            "correct": true
+          },
+          {
+            "text": "precious",
+            "why": "Precious: something that is important or valuable"
+          },
+          {
+            "text": "assigned",
+            "why": "Assigned: Gave someone a task to do."
+          }
+        ],
+        "explain": "Projects: tasks that take time and effort to complete."
+      },
+      {
+        "id": "v3",
+        "type": "choice",
+        "kind": "word",
+        "word": "precious",
+        "prompt": "Which word matches this class-sheet definition? \"something that is important or valuable\"",
+        "options": [
+          {
+            "text": "mosaics",
+            "why": "Mosaics: pictures or patterns made from small pieces of glass, stone, or other materials"
+          },
+          {
+            "text": "retains",
+            "why": "Retains: Keeps or continues to have something."
+          },
+          {
+            "text": "precious",
+            "correct": true
+          },
+          {
+            "text": "assigned",
+            "why": "Assigned: Gave someone a task to do."
+          }
+        ],
+        "explain": "Precious: something that is important or valuable."
+      },
+      {
+        "id": "v4",
+        "type": "choice",
+        "kind": "word",
+        "word": "assigned",
+        "prompt": "Which word matches this class-sheet definition? \"a task given to you for someone to complete\"",
+        "options": [
+          {
+            "text": "mosaics",
+            "why": "Mosaics: pictures or patterns made from small pieces of glass, stone, or other materials"
+          },
+          {
+            "text": "retains",
+            "why": "Retains: Keeps or continues to have something."
+          },
+          {
+            "text": "demolition",
+            "why": "Demolition: The act of tearing down or destroying something."
+          },
+          {
+            "text": "assigned",
+            "correct": true
+          }
+        ],
+        "explain": "Assigned: a task given to you for someone to complete. In everyday words: Gave someone a task to do."
+      },
+      {
+        "id": "v5",
+        "type": "choice",
+        "kind": "word",
+        "word": "mosaics",
+        "prompt": "Which word matches this class-sheet definition? \"pictures or patterns made from small pieces of glass, stone, or other materials\"",
+        "options": [
+          {
+            "text": "mosaics",
+            "correct": true
+          },
+          {
+            "text": "retains",
+            "why": "Retains: Keeps or continues to have something."
+          },
+          {
+            "text": "demolition",
+            "why": "Demolition: The act of tearing down or destroying something."
+          },
+          {
+            "text": "projects",
+            "why": "Projects: tasks that take time and effort to complete"
+          }
+        ],
+        "explain": "Mosaics: pictures or patterns made from small pieces of glass, stone, or other materials."
+      },
+      {
+        "id": "v6",
+        "type": "choice",
+        "kind": "word",
+        "word": "retains",
+        "prompt": "Which word matches this class-sheet definition? \"something that you have and keep it\"",
+        "options": [
+          {
+            "text": "precious",
+            "why": "Precious: something that is important or valuable"
+          },
+          {
+            "text": "retains",
+            "correct": true
+          },
+          {
+            "text": "demolition",
+            "why": "Demolition: The act of tearing down or destroying something."
+          },
+          {
+            "text": "projects",
+            "why": "Projects: tasks that take time and effort to complete"
+          }
+        ],
+        "explain": "Retains: something that you have and keep it. In everyday words: Keeps or continues to have something."
+      }
+    ]
+  }
+}
