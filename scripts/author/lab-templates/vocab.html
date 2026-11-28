@@ -19,8 +19,8 @@ h2{font-size:18px;color:var(--soft);margin:14px 0 2px;letter-spacing:1px}
 .btn:active{transform:translateY(4px);box-shadow:0 2px 0 #08508a}
 .btn.o{background:#b45309;box-shadow:0 6px 0 #7c3a06}
 .btn.g{background:#14804b;box-shadow:0 6px 0 #0d5a34}
-.btn.r{background:#e24d4d;box-shadow:0 6px 0 #a02f2f}
-.btn.p{background:#8b5cf6;box-shadow:0 6px 0 #5b36b8}
+.btn.r{background:#c13737;box-shadow:0 6px 0 #a02f2f}
+.btn.p{background:#7042cf;box-shadow:0 6px 0 #5b36b8}
 .btn.ghost{background:transparent;box-shadow:none;border:2px solid var(--soft);color:var(--soft);font-size:17px;padding:10px 14px;min-height:44px}
 .btn small{display:block;font-weight:600;font-size:15px;opacity:.9;margin-top:2px}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
@@ -254,15 +254,15 @@ function matchRound(){
   const defs=shuffle(ids);
   app.innerHTML=topbar('Matching',`Round ${M.r+1} of ${M.rounds.length}`)+bar(M.r,M.rounds.length)+`<div class="card">
     <div class="big" style="font-size:22px">Tap a word, then tap its meaning</div>
-    <div class="mgrid"><div class="mcol w">${shuffle(ids).map(i=>`<button class="opt" id="mw${i}" onclick="mWord(${i})">${WORDS[i].w}</button>`).join('')}</div>
+    <div class="mgrid"><div class="mcol w">${shuffle(ids).map(i=>`<button class="opt" id="mw${i}" aria-pressed="false" onclick="mWord(${i})">${WORDS[i].w}</button>`).join('')}</div>
     <div class="mcol">${defs.map(i=>`<button class="opt" id="md${i}" onclick="mDef(${i})">${defText(i)}</button>`).join('')}</div></div>
     <div class="msg" id="fb" role="status"></div><div class="row" id="nx"></div></div>`;
 }
 function mWord(i){
   if(M.matched.has(i))return;
   sayWord(i);
-  document.querySelectorAll('.mcol.w .opt').forEach(b=>b.classList.remove('sel'));
-  M.sel=i;document.getElementById('mw'+i).classList.add('sel');
+  document.querySelectorAll('.mcol.w .opt').forEach(b=>{b.classList.remove('sel');b.setAttribute('aria-pressed','false')});
+  M.sel=i;document.getElementById('mw'+i).classList.add('sel');document.getElementById('mw'+i).setAttribute('aria-pressed','true');
   const fb=document.getElementById('fb');fb.className='msg';fb.textContent='';
 }
 function mDef(i){
@@ -272,6 +272,7 @@ function mDef(i){
   if(M.sel===i){
     M.matched.add(i);
     document.getElementById('mw'+i).className='opt done';document.getElementById('md'+i).className='opt done';
+    document.getElementById('mw'+i).disabled=true;document.getElementById('md'+i).disabled=true;
     M.sel=null;fb.className='msg good';fb.textContent='✅ Match!';
     if(M.matched.size===M.rounds[M.r].length){
       const more=M.r+1<M.rounds.length;
@@ -280,7 +281,7 @@ function mDef(i){
   }else{
     M.missed.add(M.sel);
     const b=document.getElementById('md'+i);b.classList.add('no');setTimeout(()=>b.classList.remove('no'),700);
-    document.getElementById('mw'+M.sel).classList.remove('sel');M.sel=null;
+    document.getElementById('mw'+M.sel).classList.remove('sel');document.getElementById('mw'+M.sel).setAttribute('aria-pressed','false');M.sel=null;
     fb.className='msg bad';fb.textContent='❌ Not that one. Try again.';
   }
 }

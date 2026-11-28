@@ -43,6 +43,7 @@ export function validateWeek(week, expectedId) {
   if (week.flyer !== undefined) validateFlyer(week.flyer, week.id, err);
   if (week.homeworkPapers !== undefined) validateFlyer(week.homeworkPapers, week.id, err, 'homeworkPapers', 'homework');
 
+  if (week.mathStudyNote !== undefined && !isText(week.mathStudyNote)) err('mathStudyNote must be nonempty text');
   if (!Array.isArray(week.learning)) err('"learning" must be a list');
   else week.learning.forEach((row, i) => {
     if (!Array.isArray(row) || row.length !== 2 || !isText(row[0]) || !isText(row[1])) err(`learning[${i}] must be ["Subject", "Topic"]`);
@@ -55,6 +56,7 @@ export function validateWeek(week, expectedId) {
     if (!TEST_KINDS.includes(t.kind)) err(`tests[${i}].kind must be one of ${TEST_KINDS.join(', ')}`);
     if (!isText(t.title)) err(`tests[${i}].title is missing`);
     if (t.detail !== undefined && typeof t.detail !== 'string') err(`tests[${i}].detail must be text`);
+    for (const k of ['study', 'practice']) if (t[k] !== undefined && typeof t[k] !== 'boolean') err(`tests[${i}].${k} must be a boolean`);
   });
 
   if (!Array.isArray(week.events)) err('"events" must be a list');

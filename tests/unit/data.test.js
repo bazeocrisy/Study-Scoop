@@ -45,7 +45,8 @@ test('every vocabulary word in the real weeks has a picture', (t) => {
   // Pictures are optional (the page hides a missing one), but the current data has them all.
   for (const { id } of readJSON('data/weeks.json').weeks) {
     for (const w of readJSON(`data/${id}.json`).vocab.words) {
-      assert.ok(pictures.has(pictureName(w.word)), `${id}: no picture for vocabulary word "${w.word}"`);
+      const reviewed = readJSON('data/pictures.json').illustrations?.[id]?.vocab?.[w.word.toLowerCase()];
+      assert.ok(pictures.has(pictureName(w.word)) || (reviewed && fs.existsSync(path.join(ROOT, reviewed.src))), `${id}: no picture for vocabulary word "${w.word}"`);
     }
   }
   t.diagnostic(`${pictures.size} word pictures available`);

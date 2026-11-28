@@ -1,0 +1,70 @@
+{
+  "week": "2026-11-30",
+  "source": "Owner-supplied front and back newsletter screenshots, November 28, 2026",
+  "confidence": "High: visible words and dates manually transcribed; illustration review pending.",
+  "spellingOrder": [
+    "report",
+    "support",
+    "important",
+    "passport",
+    "carport",
+    "export",
+    "airport",
+    "reporter",
+    "portal",
+    "seaport",
+    "porter",
+    "portable"
+  ],
+  "vocabularyReadingOrder": [
+    "demolition",
+    "projects",
+    "precious",
+    "assigned",
+    "mosaics",
+    "retains"
+  ],
+  "teacherDefinitions": {
+    "demolition": "to tear down and destroy",
+    "projects": "tasks that take time and effort to complete",
+    "precious": "something that is important or valuable",
+    "assigned": "a task given to you for someone to complete",
+    "mosaics": "pictures or patterns made from small pieces of glass, stone, or other materials",
+    "retains": "something that you have and keep it"
+  },
+  "schoolQuizScope": {
+    "vocab": "Six purple-outlined words; count and format unspecified",
+    "spelling": "port list, twelve words; format unspecified",
+    "division": "Ten-question review, facts and format unspecified"
+  },
+  "readingTitle": null,
+  "comprehensionAssessment": "Not listed",
+  "homeworkReceived": false,
+  "math": "Equivalent Fractions on front; comparing fractions butterfly method on back. No new chapter authorized.",
+  "sourceDiscrepancies": [
+    {
+      "word": "demolition",
+      "source": "to tear down and destroy",
+      "clarification": "The act of tearing down or destroying something.",
+      "action": "Keep teacher definition and add separate child-facing note"
+    },
+    {
+      "word": "precious",
+      "source": "something that is important or valuable",
+      "clarification": "Very important or valuable.",
+      "action": "Keep teacher definition and add separate child-facing note"
+    },
+    {
+      "word": "assigned",
+      "source": "a task given to you for someone to complete",
+      "clarification": "Gave someone a task to do.",
+      "action": "Keep teacher definition and add separate child-facing note"
+    },
+    {
+      "word": "retains",
+      "source": "something that you have and keep it",
+      "clarification": "Keeps or continues to have something.",
+      "action": "Keep teacher definition and add separate child-facing note"
+    }
+  ]
+}
